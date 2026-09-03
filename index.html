@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Tracker — Prototype</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#efeaf6,#e6e0f0 55%,#ece6f4);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 22px;color:#3a332e;
+    -webkit-font-smoothing:antialiased;}
+  .logo{width:74px;height:74px;border-radius:24px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);
+    display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 16px 34px -12px rgba(140,116,181,.7);margin-bottom:20px;}
+  h1{font-size:30px;font-weight:800;letter-spacing:-.6px;}
+  p.sub{font-size:14.5px;color:#8a8296;font-weight:500;margin-top:8px;text-align:center;max-width:340px;line-height:1.5;}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px;width:100%;max-width:440px;}
+  a.card{display:flex;flex-direction:column;gap:10px;background:#fff;border-radius:22px;padding:20px;text-decoration:none;color:inherit;
+    box-shadow:0 18px 40px -14px rgba(120,80,95,.22),inset 0 0 0 1px rgba(255,255,255,.65);transition:transform .15s;}
+  a.card:active{transform:scale(.98);}
+  .card .ic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+  .card .t{font-size:15.5px;font-weight:800;letter-spacing:-.2px;}
+  .card .d{font-size:12px;color:#a99c92;font-weight:500;line-height:1.4;}
+  .foot{margin-top:30px;font-size:12px;color:#a89fbb;font-weight:600;}
+  @media (max-width:420px){ .grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+  <div class="logo">👶</div>
+  <h1>Baby Tracker</h1>
+  <p class="sub">An interactive prototype. Tap a screen to explore — the screens link to each other, so start with Home.</p>
+  <div class="grid">
+    <a class="card" href="home3.html">
+      <span class="ic" style="background:linear-gradient(150deg,#e3daf6,#d5c8ef)">🏠</span>
+      <span class="t">Home</span>
+      <span class="d">Child overview, milestones, activities & featured memory</span>
+    </a>
+    <a class="card" href="memories.html">
+      <span class="ic" style="background:linear-gradient(150deg,#ffe0ea,#ffc9db)">📸</span>
+      <span class="t">All Memories</span>
+      <span class="d">Timeline of memories with milestones to capture</span>
+    </a>
+    <a class="card" href="memory.html">
+      <span class="ic" style="background:linear-gradient(150deg,#d5e6ff,#c3daff)">🖼️</span>
+      <span class="t">Memory Detail</span>
+      <span class="d">Photo slider, likes & comments</span>
+    </a>
+    <a class="card" href="community.html">
+      <span class="ic" style="background:linear-gradient(150deg,#d3efdf,#bfe8d0)">👥</span>
+      <span class="t">Community</span>
+      <span class="d">Groups, chat, feeds & member profiles</span>
+    </a>
+  </div>
+  <div class="foot">Prototype · built as self-contained HTML</div>
+</body>
+</html>
