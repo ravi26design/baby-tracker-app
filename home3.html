@@ -990,15 +990,17 @@
       'Story Time':'Snuggle up and read aloud together. Hearing your voice, naming pictures and turning pages nurtures language, listening and bonding.',
       'Mirror Play':'Sit baby in front of a safe mirror and point to faces. Exploring their own reflection sparks social awareness and self-recognition.',
       'Block Play':'Offer soft stacking blocks to grasp, bang and topple. Simple building supports problem-solving, focus and hand-eye coordination.',
-      'Sand Play':'Let little hands scoop and sift kinetic sand. This sensory play develops touch, fine-motor skills and calm, curious exploration.'
+      'Sand Play':'Let little hands scoop and sift kinetic sand. This sensory play develops touch, fine-motor skills and calm, curious exploration.',
+      'Puzzle Time':'Work through simple shape and peg puzzles together. Matching and fitting pieces builds problem-solving, focus and hand-eye coordination.'
     };
+    var ACT_DESC_FALLBACK = 'A fun, age-appropriate activity to enjoy together — great for play, bonding and supporting your little one’s development.';
     function openActivityVideo(el){
       var title = el ? (el.querySelector('.title')||{}).textContent : 'Floor Play';
       var meta  = el ? (el.querySelector('.meta')||{}).textContent : '';
       var tag   = meta && meta.indexOf('·')>-1 ? meta.split('·')[1].trim() : (meta||'Activity');
       document.getElementById('vidTitle').textContent = title;
       document.getElementById('vidTag').textContent = tag;
-      document.getElementById('vidDesc').textContent = ACT_DESC[title] || '';
+      document.getElementById('vidDesc').textContent = (el && el.getAttribute('data-desc')) || ACT_DESC[title] || ACT_DESC_FALLBACK;
       CURRENT_ACT = title;
       setDoneBtn(!!DONE[title]);
       var v=document.getElementById('actVideo');
