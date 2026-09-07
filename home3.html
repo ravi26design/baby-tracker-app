@@ -101,7 +101,7 @@
   /* child cards — horizontal scroll */
   .child-scroll{display:block;margin:0;padding:2px 0;}
   .child-scroll::-webkit-scrollbar{display:none;}
-  .child-card{flex:0 0 100%;scroll-snap-align:start;padding:18px;background:linear-gradient(180deg,#ffffff,#fdfcfc);box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .child-card{flex:0 0 100%;scroll-snap-align:start;padding:18px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#fbf9fd);box-shadow:0 18px 38px -18px rgba(120,95,150,.28),inset 0 0 0 1px rgba(139,116,181,.08);}
   .child-dots{display:flex;justify-content:center;gap:6px;margin-top:14px;}
   .child-dots:empty{display:none;}
   .child-dots .dot{width:6px;height:6px;border-radius:50%;background:#d8d2e4;transition:.2s;}
@@ -153,14 +153,16 @@
   .cc-mile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
   .cc-mile-title{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .cc-mile-explore{display:inline-flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700;color:#8574b5;cursor:pointer;}
-  .cc-mile-grid{display:flex;padding:4px 0;}
+  .cc-mile-grid{display:flex;padding:10px 2px 4px;margin-top:4px;border-top:1px solid #f2eef7;}
   .cc-mile-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
-  .cc-mile-item .mi-ico{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -7px rgba(90,80,90,.30);}
-  .cc-mile-item .mi-ico svg{width:25px;height:25px;}
-  .m-motor .mi-ico{background:#ec9a4e;color:#fff;}
-  .m-idea .mi-ico{background:#4f96e6;color:#fff;}
-  .m-lang .mi-ico{background:#9c85d4;color:#fff;}
-  .m-social .mi-ico{background:#3fbe80;color:#fff;}
+  .cc-mile-item .mi-ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;position:relative;
+    box-shadow:0 11px 18px -7px var(--gl,rgba(90,80,90,.3)),inset 0 1.5px 1px rgba(255,255,255,.42),inset 0 -4px 7px rgba(0,0,0,.09);}
+  .cc-mile-item .mi-ico::after{content:'';position:absolute;top:5px;left:10px;right:10px;height:42%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0));pointer-events:none;}
+  .cc-mile-item .mi-ico svg{width:25px;height:25px;position:relative;filter:drop-shadow(0 1px 1px rgba(0,0,0,.14));}
+  .m-motor .mi-ico{background:linear-gradient(155deg,#f2ac63,#e78a34);--gl:rgba(231,138,52,.55);}
+  .m-idea .mi-ico{background:linear-gradient(155deg,#5ea0ec,#3f86dd);--gl:rgba(63,134,221,.5);}
+  .m-lang .mi-ico{background:linear-gradient(155deg,#a892dd,#8e77c9);--gl:rgba(142,119,201,.5);}
+  .m-social .mi-ico{background:linear-gradient(155deg,#54c78d,#33ab72);--gl:rgba(51,171,114,.5);}
   .cc-mile-item .mi-name{font-size:11px;font-weight:700;color:#8a8790;letter-spacing:.2px;margin-top:1px;}
   .cc-mile-item .mi-bar{width:82%;height:6px;border-radius:4px;background:rgba(0,0,0,.06);overflow:hidden;margin-top:1px;}
   .cc-mile-item .mi-bar i{display:block;height:100%;border-radius:4px;}
