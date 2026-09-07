@@ -697,10 +697,11 @@
   .pd-input input::placeholder{color:#b3adae;}
   .pd-send{width:44px;height:44px;flex-shrink:0;border:none;border-radius:50%;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;}
 
-  .ph-grid{display:flex;flex-wrap:wrap;gap:10px;}
-  .ph-add{width:80px;height:80px;border-radius:15px;border:2px dashed #d8cfe8;background:#faf8fc;color:#8574b5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:transform .12s;}
-  .ph-add:active{transform:scale(.96);}
-  .ph-add span{font-size:10.5px;font-weight:800;}
+  .ph-add{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:2px dashed #d8cfe8;border-radius:16px;background:#faf8fc;color:#8574b5;cursor:pointer;padding:16px;transition:transform .12s;}
+  .ph-add:active{transform:scale(.99);}
+  .ph-add span{font-size:13.5px;font-weight:800;}
+  .ph-strip{display:flex;flex-wrap:wrap;gap:10px;}
+  .ph-strip:not(:empty){margin-top:12px;}
   .ph-thumb{position:relative;width:80px;height:80px;border-radius:15px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.07);}
   .ph-thumb .ph-x{position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-radius:50%;background:#3a332e;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;line-height:1;}
 </style>
@@ -809,7 +810,7 @@
           <div class="ps-body">
             <div class="ps-user"><span class="fc-av">🧑</span><div><div class="ps-name">You</div><div class="ps-in">Posting to <b>Newborn Parents</b></div></div></div>
             <textarea id="postText" placeholder="What's on your mind?"></textarea>
-            <div class="ph-grid" id="pPhotos" style="margin-top:10px"><label class="ph-add" for="pFile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add</span></label></div><input type="file" id="pFile" accept="image/*" multiple hidden onchange="addPhotos(this,'pPhotos')" />
+            <label class="ph-add" for="pFile" style="margin-top:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add photos</span></label><div class="ph-strip" id="pPhotos"></div><input type="file" id="pFile" accept="image/*" multiple hidden onchange="addPhotos(this,'pPhotos')" />
           </div>
         </div>
       </div>
@@ -907,7 +908,7 @@
   <script>
 
     function addPhotos(input, gridId){
-      var grid=document.getElementById(gridId), addTile=grid.querySelector('.ph-add');
+      var grid=document.getElementById(gridId);
       Array.prototype.forEach.call(input.files, function(file){
         if(!/^image\//.test(file.type)) return;
         var r=new FileReader();
@@ -916,7 +917,7 @@
           t.style.backgroundImage="url('"+e.target.result+"')";
           var x=document.createElement('span'); x.className='ph-x'; x.textContent='\u00d7';
           x.onclick=function(ev){ ev.stopPropagation(); t.remove(); };
-          t.appendChild(x); grid.insertBefore(t, addTile);
+          t.appendChild(x); grid.appendChild(t);
         };
         r.readAsDataURL(file);
       });
