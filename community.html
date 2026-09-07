@@ -1055,6 +1055,7 @@
     function joinGroup(btn){ if(btn.classList.contains('joined'))return; btn.classList.add('joined'); btn.textContent='Joined ✓'; }
     document.getElementById('chatInput').addEventListener('keydown',function(e){ if(e.key==='Enter') sendMsg(); });
     if(location.hash==='#feeds'){ setTimeout(function(){ if(typeof switchTab==='function') switchTab('feeds'); },50); }
+    if(location.hash==='#post'){ setTimeout(function(){ if(typeof switchTab==='function') switchTab('feeds'); if(typeof openPost==='function') openPost(); },60); }
   </script>
 
 </body>
