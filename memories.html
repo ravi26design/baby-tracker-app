@@ -568,6 +568,13 @@
   .mc-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);}
   .mc-name{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .mc-when{font-size:10.5px;color:var(--muted);font-weight:500;margin-top:1px;}
+
+  .ph-grid{display:flex;flex-wrap:wrap;gap:10px;}
+  .ph-add{width:80px;height:80px;border-radius:15px;border:2px dashed #d8cfe8;background:#faf8fc;color:#8574b5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:transform .12s;}
+  .ph-add:active{transform:scale(.96);}
+  .ph-add span{font-size:10.5px;font-weight:800;}
+  .ph-thumb{position:relative;width:80px;height:80px;border-radius:15px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.07);}
+  .ph-thumb .ph-x{position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-radius:50%;background:#3a332e;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;line-height:1;}
 </style>
 </head>
 <body>
@@ -711,7 +718,7 @@
           <div class="msheet-title" id="addSheetTitle">Add Memory</div>
           <div class="msheet-body">
             <div class="add-form">
-              <div class="up-area"><span class="up-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span class="up-t">Tap to add a photo or video</span><span class="up-s">JPG, PNG or MP4</span></div>
+              <div class="ph-grid" id="mPhotos"><label class="ph-add" for="mFile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add</span></label></div><input type="file" id="mFile" accept="image/*" multiple hidden onchange="addPhotos(this,'mPhotos')" />
               <div class="fld"><label>Title</label><input id="afTitle" type="text" placeholder="e.g. First Smile" /></div>
               <div class="fld"><label>Date</label><input id="afDate" type="date" /></div>
               <div class="fld"><label>Description</label><textarea id="afDesc" placeholder="Write a little note about this moment..."></textarea></div>
@@ -744,6 +751,23 @@
   </div>
 
   <script>
+
+    function addPhotos(input, gridId){
+      var grid=document.getElementById(gridId), addTile=grid.querySelector('.ph-add');
+      Array.prototype.forEach.call(input.files, function(file){
+        if(!/^image\//.test(file.type)) return;
+        var r=new FileReader();
+        r.onload=function(e){
+          var t=document.createElement('div'); t.className='ph-thumb';
+          t.style.backgroundImage="url('"+e.target.result+"')";
+          var x=document.createElement('span'); x.className='ph-x'; x.textContent='\u00d7';
+          x.onclick=function(ev){ ev.stopPropagation(); t.remove(); };
+          t.appendChild(x); grid.insertBefore(t, addTile);
+        };
+        r.readAsDataURL(file);
+      });
+      input.value='';
+    }
 
     var CUR_CHILD='mark';
     function openAdd(title){
