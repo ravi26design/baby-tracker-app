@@ -843,6 +843,7 @@
       grab.addEventListener('pointerup',function(e){if(!drag)return;drag=false;var dy=e.clientY-sY;if(dy<-22)expand();else if(dy>22)stepDown();});
     })();
     switchChild('mark');
+    if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); }
   </script>
 
 </body>

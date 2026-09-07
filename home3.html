@@ -498,6 +498,27 @@
   .vid-tag{display:inline-block;font-size:11.5px;font-weight:700;color:#8574b5;background:#efeaf7;padding:5px 12px;border-radius:20px;margin-bottom:12px;}
   .vid-title{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.1;}
   .vid-desc{font-size:14px;font-weight:500;color:#6a645f;line-height:1.6;margin-top:12px;}
+
+  /* create (add) menu */
+  .addmenu{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:55;visibility:hidden;pointer-events:none;}
+  .addmenu.open{visibility:visible;pointer-events:auto;}
+  .addmenu-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
+  .addmenu.open .addmenu-bd{opacity:1;}
+  .addmenu-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:12px 16px 30px;
+    transform:translateY(110%);transition:transform .36s cubic-bezier(.32,.72,0,1);box-shadow:0 -12px 40px -12px rgba(80,55,80,.3);}
+  .addmenu.open .addmenu-sheet{transform:translateY(0);}
+  .as-grab{padding:2px 0 10px;} .as-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
+  .as-title{font-size:12px;font-weight:800;color:#9a8fb3;text-transform:uppercase;letter-spacing:.5px;text-align:center;padding:0 0 14px;}
+  .as-opt{display:flex;align-items:center;gap:14px;width:100%;border:none;background:#faf8fc;border-radius:20px;padding:15px;margin-bottom:12px;cursor:pointer;font-family:inherit;text-align:left;box-shadow:inset 0 0 0 1px rgba(0,0,0,.045);transition:transform .12s;}
+  .as-opt:last-child{margin-bottom:0;}
+  .as-opt:active{transform:scale(.99);}
+  .as-ic{width:50px;height:50px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 8px 15px -7px var(--asg);}
+  .as-ic.mem{background:linear-gradient(155deg,#f3a9bd,#e87fa0);--asg:rgba(232,127,160,.6);}
+  .as-ic.feed{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);--asg:rgba(140,116,181,.6);}
+  .as-tx{flex:1;min-width:0;}
+  .as-t{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .as-d{font-size:12px;color:var(--muted);font-weight:500;margin-top:3px;}
+  .as-chev{color:#ccc4d8;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -656,10 +677,27 @@
         <span class="lbl">Story</span>
       </div>
     </div>
-    <div class="nav-add">
+    <div class="nav-add" onclick="openAddMenu()">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
     </div>
     <div class="home-indicator"></div>
+    <div class="addmenu" id="addMenu">
+      <div class="addmenu-bd" onclick="closeAddMenu()"></div>
+      <div class="addmenu-sheet">
+        <div class="as-grab"><span></span></div>
+        <div class="as-title">Create New</div>
+        <button class="as-opt" onclick="location.href='memories.html#add'">
+          <span class="as-ic mem"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+          <div class="as-tx"><div class="as-t">Add Memory</div><div class="as-d">Save a photo, video or milestone</div></div>
+          <span class="as-chev"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+        <button class="as-opt" onclick="location.href='community.html#feeds'">
+          <span class="as-ic feed"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M2.5 20c0-3.1 2.9-5 6.5-5s6.5 1.9 6.5 5"/><path d="M16 3.3a3.2 3.2 0 0 1 0 6.2M22 20c0-2.3-1.4-4-3.4-4.7"/></svg></span>
+          <div class="as-tx"><div class="as-t">Add Feed</div><div class="as-d">Share a post with the community</div></div>
+          <span class="as-chev"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+      </div>
+    </div>
     </div>
 
     <!-- switch-child bottom sheet -->
@@ -735,6 +773,9 @@
   </div>
 
   <script>
+
+    function openAddMenu(){ document.getElementById('addMenu').classList.add('open'); }
+    function closeAddMenu(){ document.getElementById('addMenu').classList.remove('open'); }
     /* ---- per-child data ---- */
     var CHILDREN = {
       mark: {
