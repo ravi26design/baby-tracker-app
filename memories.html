@@ -860,7 +860,7 @@
       var grp=document.querySelector('.tgroup[data-group="Today"]');
       var lbl=document.querySelector('.tgroup-label[data-group="Today"]');
       if(grp){ grp.classList.remove('collapsed'); grp.style.maxHeight=''; if(lbl) lbl.classList.remove('collapsed'); }
-      var nodeEmo = MS_ICON[t] || '❤️';
+      var nodeEmo = '❤️';
       var it=document.createElement('div');
       it.className='titem'; it.setAttribute('data-child',CUR_CHILD); it.setAttribute('data-group','Today');
       it.innerHTML='<span class="tnode" style="background:radial-gradient(circle at 45% 35%,#e3daf6,#c9b8ef)">❤️</span>'+
