@@ -666,7 +666,7 @@
   .ps-head .ps-t{font-size:16px;font-weight:800;color:var(--ink);}
   .ps-post{border:none;cursor:pointer;font-family:inherit;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:13.5px;font-weight:800;padding:9px 22px;border-radius:20px;box-shadow:0 8px 16px -7px rgba(140,116,181,.7);}
   .ps-body{padding:16px 20px 24px;overflow-y:auto;}
-  .ps-user{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+  .ps-user{display:flex;align-items:center;gap:11px;margin-bottom:16px;}
   .ps-name{font-size:14px;font-weight:800;color:var(--ink);}
   .ps-in{font-size:11.5px;color:var(--muted);font-weight:500;margin-top:1px;}
   .ps-in b{color:#8574b5;font-weight:700;}
@@ -783,6 +783,13 @@
   #rpMsg{width:100%;border:none;outline:none;background:#f3eef0;border-radius:14px;padding:13px 15px;font-family:inherit;font-size:14px;color:var(--ink);resize:none;min-height:80px;line-height:1.5;}
   #rpMsg::placeholder{color:#b3adae;}
   .rp-send{width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(155deg,#e0567a,#d13f66);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:18px;margin-top:18px;box-shadow:0 12px 22px -10px rgba(209,63,102,.6);}
+
+  .ps-cat{margin-bottom:16px;}
+  .ps-cat-label{font-size:11.5px;font-weight:800;color:#9a8fb3;text-transform:uppercase;letter-spacing:.3px;margin-bottom:9px;}
+  .ps-cat-chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .ps-chip{border:none;cursor:pointer;font-family:inherit;background:#f4f1f8;color:#8574b5;font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:18px;transition:.12s;}
+  .ps-chip:active{transform:scale(.96);}
+  .ps-chip.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 6px 14px -6px rgba(140,116,181,.6);}
 </style>
 </head>
 <body>
@@ -887,7 +894,8 @@
           <div class="ps-grab"><span></span></div>
           <div class="ps-head"><span class="ps-t">New Post</span><button class="ps-post" onclick="submitPost()">Post</button></div>
           <div class="ps-body">
-            <div class="ps-user"><span class="fc-av">🧑</span><div><div class="ps-name">You</div><div class="ps-in">Posting to <b>Newborn Parents</b></div></div></div>
+            <div class="ps-user"><span class="fc-av">🧑</span><div class="ps-name">You</div></div>
+            <div class="ps-cat"><div class="ps-cat-label">Category</div><div class="ps-cat-chips"><button class="ps-chip" onclick="pickCat(this)">Sleep</button><button class="ps-chip" onclick="pickCat(this)">Feeding</button><button class="ps-chip" onclick="pickCat(this)">Health</button><button class="ps-chip" onclick="pickCat(this)">Play</button><button class="ps-chip" onclick="pickCat(this)">Milestones</button><button class="ps-chip" onclick="pickCat(this)">General</button></div></div>
             <textarea id="postText" placeholder="What's on your mind?"></textarea>
             <label class="ph-add" for="pFile" style="margin-top:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add photos</span></label><div class="ph-strip" id="pPhotos"></div><input type="file" id="pFile" accept="image/*" multiple hidden onchange="addPhotos(this,'pPhotos')" />
           </div>
@@ -1027,6 +1035,9 @@
 
   <script>
 
+    var POST_CAT=null;
+    function pickCat(b){ document.querySelectorAll('.ps-chip').forEach(function(x){x.classList.remove('sel');}); b.classList.add('sel'); POST_CAT=b.textContent.trim(); }
+
     var RP_REASON=null;
     function openReport(){ RP_REASON=null; document.querySelectorAll('.rp-reason').forEach(function(b){b.classList.remove('sel');}); document.getElementById('rpMsg').value=''; document.getElementById('reportSheet').classList.add('open'); }
     function closeReport(){ document.getElementById('reportSheet').classList.remove('open'); }
@@ -1151,7 +1162,7 @@
       d.scrollIntoView({behavior:"smooth",block:"center"});
     }
 
-    function openPost(){ document.getElementById("postSheet").classList.add("open"); setTimeout(function(){ var e=document.getElementById("postText"); if(e) e.focus(); },320); }
+    function openPost(){ POST_CAT=null; document.querySelectorAll('.ps-chip').forEach(function(x){x.classList.remove('sel');}); document.getElementById("postSheet").classList.add("open"); setTimeout(function(){ var e=document.getElementById("postText"); if(e) e.focus(); },320); }
     function closePost(){ document.getElementById("postSheet").classList.remove("open"); }
     function submitPost(){
       var t=(document.getElementById("postText").value||"").trim(); if(!t){ closePost(); return; }

@@ -593,6 +593,11 @@
   .cm-opt .cm-ic{width:40px;height:40px;border-radius:12px;background:#f2eef8;color:#8574b5;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .cm-opt .cm-ic svg{width:20px;height:20px;}
   .cm-opt.danger{color:#e0567a;} .cm-opt.danger .cm-ic{background:#fdecec;color:#e0567a;}
+
+  .am-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 20px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;}
+  .am-t{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .am-save{border:none;cursor:pointer;font-family:inherit;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:13.5px;font-weight:800;padding:9px 22px;border-radius:20px;box-shadow:0 8px 16px -7px rgba(140,116,181,.7);flex-shrink:0;transition:transform .12s;}
+  .am-save:active{transform:scale(.97);}
 </style>
 </head>
 <body>
@@ -733,14 +738,13 @@
         <div class="msheet-backdrop" onclick="closeAdd()"></div>
         <div class="msheet tall">
           <div class="msheet-grab"><span></span></div>
-          <div class="msheet-title" id="addSheetTitle">Add Memory</div>
+          <div class="am-head"><span class="am-t" id="addSheetTitle">Add Custom Memory</span><button class="am-save" onclick="saveMemory()">Save</button></div>
           <div class="msheet-body">
             <div class="add-form">
               <label class="ph-add" for="mFile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Add photos</span></label><div class="ph-strip" id="mPhotos"></div><input type="file" id="mFile" accept="image/*" multiple hidden onchange="addPhotos(this,'mPhotos')" />
               <div class="fld"><label>Title</label><input id="afTitle" type="text" placeholder="e.g. First Smile" /></div>
               <div class="fld"><label>Date</label><input id="afDate" type="date" /></div>
               <div class="fld"><label>Description</label><textarea id="afDesc" placeholder="Write a little note about this moment..."></textarea></div>
-              <button class="save-btn" onclick="saveMemory()">Save Memory</button>
             </div>
           </div>
         </div>
@@ -796,7 +800,7 @@
         }
       }
       document.getElementById('addSheetTitle').textContent='Edit Memory';
-      var sb=document.querySelector('.save-btn'); if(sb) sb.textContent='Update Memory';
+      var sb=document.querySelector('.am-save'); if(sb) sb.textContent='Update';
       EDIT_CARD=c; closeCardMenu();
       document.getElementById('addSheet').classList.add('open');
     }
@@ -826,7 +830,7 @@
 
     var CUR_CHILD='mark';
     function openAdd(title){
-      EDIT_CARD=null; var _sb0=document.querySelector('.save-btn'); if(_sb0) _sb0.textContent='Save Memory';
+      EDIT_CARD=null; var _sb0=document.querySelector('.am-save'); if(_sb0) _sb0.textContent='Save';
       var _sp0=document.getElementById('mPhotos'); if(_sp0) _sp0.innerHTML='';
       document.getElementById('afTitle').value = title || '';
       document.getElementById('addSheetTitle').textContent = title ? ('Add · '+title) : 'Add Custom Memory';
@@ -843,7 +847,7 @@
         if(edv){ var ew=new Date(edv+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}); var ewl=EDIT_CARD.querySelector('.mc-when'); if(ewl) ewl.textContent=ew; }
         var _th=document.querySelector('#mPhotos .ph-thumb');
         if(_th){ var _im=EDIT_CARD.querySelector('.mc-img'); if(_im){ _im.textContent=''; _im.style.background=''; _im.style.backgroundImage=_th.style.backgroundImage; _im.style.backgroundSize='cover'; _im.style.backgroundPosition='center'; _im.style.display=''; _im.style.alignItems=''; _im.style.justifyContent=''; _im.style.fontSize=''; } }
-        EDIT_CARD=null; var _sb=document.querySelector('.save-btn'); if(_sb) _sb.textContent='Save Memory';
+        EDIT_CARD=null; var _sb=document.querySelector('.am-save'); if(_sb) _sb.textContent='Save';
         document.getElementById('afTitle').value=''; document.getElementById('afDesc').value=''; document.getElementById('afDate').value='';
         var _sp=document.getElementById('mPhotos'); if(_sp) _sp.innerHTML='';
         closeAdd(); return;
