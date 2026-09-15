@@ -585,7 +585,7 @@
   .pn-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 22px 22px;}
   .pn-av{width:96px;height:96px;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:50px;box-shadow:0 16px 30px -12px rgba(120,90,140,.4);}
   .pn-av.round{border-radius:50%;position:relative;}
-  .pn-av.round.on::after{content:'';position:absolute;right:5px;bottom:5px;width:18px;height:18px;border-radius:50%;background:#3fbe80;box-shadow:0 0 0 4px #f6f4fa;}
+  .pn-av.round.on::after{content:'';position:absolute;left:5px;bottom:5px;width:18px;height:18px;border-radius:50%;background:#3fbe80;box-shadow:0 0 0 4px #f6f4fa;}
   .pn-name{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.4px;margin-top:14px;}
   .pn-sub{font-size:13px;color:var(--muted);font-weight:500;margin-top:4px;}
   .pn-sub.on{color:#22995f;font-weight:700;}
@@ -617,7 +617,7 @@
   .reward-card .rc-lvl{font-size:12px;font-weight:600;opacity:.92;margin-top:2px;}
   .reward-card .rc-medal{margin-left:auto;font-size:26px;}
 
-  .pr-role{font-size:14px;font-weight:800;color:#8574b5;margin-top:7px;letter-spacing:-.1px;}
+  .pr-role{font-size:13px;font-weight:700;color:#a99fbe;margin-top:10px;letter-spacing:.1px;}
   .pr-cert{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:4px;}
   .pr-stats{display:flex;gap:11px;padding:18px 18px 2px;}
   .pr-stat{flex:1;background:#fff;border-radius:18px;padding:14px 6px;text-align:center;box-shadow:var(--shadow-card),var(--ring);}
@@ -628,12 +628,12 @@
   .pr-pill{font-size:12.5px;font-weight:700;color:#8574b5;background:#efeaf7;padding:8px 15px;border-radius:20px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
   .pr-badges{display:flex;gap:12px;overflow-x:auto;padding:12px 20px 4px;}
   .pr-badges::-webkit-scrollbar{display:none;}
-  .pr-badge{flex:0 0 102px;border-radius:20px;padding:18px 10px 15px;display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center;position:relative;overflow:hidden;
-    box-shadow:0 10px 20px -12px rgba(120,90,140,.32),inset 0 0 0 1px rgba(255,255,255,.45);}
-  .pr-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 58%);pointer-events:none;}
-  .pr-badge .pb-ic{position:relative;width:52px;height:52px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 7px 14px -6px rgba(90,70,110,.3),inset 0 0 0 1px rgba(0,0,0,.03);}
+  .pr-badge{flex:0 0 102px;border-radius:20px;padding:18px 10px 15px;display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center;position:relative;background:#fff;
+    box-shadow:0 10px 22px -12px rgba(120,90,140,.26),inset 0 0 0 1px rgba(0,0,0,.045);}
+  .pr-badge .pb-ic{position:relative;width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .pr-badge .pb-ic svg{width:26px;height:26px;}
   .pr-badge .pb-l{position:relative;font-size:10.5px;font-weight:800;line-height:1.25;letter-spacing:-.1px;}
-  .pr-about{font-size:13.5px;color:#6a645f;line-height:1.6;padding:12px 20px 0;font-weight:400;}
+  .pr-about{font-size:13px;color:#6a645f;line-height:1.55;margin-top:12px;font-weight:400;max-width:300px;}
 
   .tabs{display:flex;gap:10px;margin:16px 0 8px;}
   .tab{flex:1;text-align:center;padding:15px;border-radius:20px;font-size:15px;font-weight:800;color:#8a8788;background:#fff;box-shadow:var(--shadow-card),var(--ring);cursor:pointer;transition:.2s;}
@@ -713,8 +713,13 @@
   .leave-btn:active{transform:scale(.99);}
   .leave-btn svg{width:19px;height:19px;}
 
-  .pr-tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;padding:4px 13px;border-radius:12px;margin-top:9px;}
-  .pr-tag svg{width:12px;height:12px;}
+  .pr-tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;padding:6px 15px;border-radius:20px;margin-top:12px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);}
+  .pr-tag svg{width:13px;height:13px;}
+
+  .pr-av-wrap{position:relative;display:inline-block;}
+  .pr-av-cam{position:absolute;right:0;bottom:2px;width:34px;height:34px;border-radius:50%;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #f6f4fa;box-shadow:0 5px 12px -4px rgba(140,116,181,.7);z-index:2;}
+  .pr-av-cam:active{transform:scale(.94);}
+  .pr-av-cam svg{width:16px;height:16px;}
 </style>
 </head>
 <body>
@@ -895,11 +900,11 @@
         <div class="pn-bar"><button class="pn-back" onclick="closePanel('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button></div>
         <div class="pn-body">
           <div class="pn-hero">
-            <div class="pn-av round" id="prAv"></div>
+            <div class="pr-av-wrap"><div class="pn-av round" id="prAv"></div><label class="pr-av-cam" for="prAvFile" aria-label="Upload photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.2"/></svg></label><input type="file" id="prAvFile" accept="image/*" hidden onchange="uploadAvatar(this)"></div>
             <div class="pn-name" id="prName"></div>
             <span class="pr-tag" id="prTag"></span>
             <div class="pr-role" id="prRoleTitle"></div>
-            <div class="pr-cert" id="prCert"></div>
+            <div class="pr-about" id="prBio"></div>
           </div>
           <div class="pr-stats">
             <div class="pr-stat"><div class="ps-k">Answers</div><div class="ps-v" id="prAnswers"></div></div>
@@ -910,8 +915,6 @@
           <div class="pr-pills" id="prTopics"></div>
           <div class="pr-sec">Recent Badges</div>
           <div class="pr-badges" id="prBadges"></div>
-          <div class="pr-sec">About</div>
-          <div class="pr-about" id="prBio"></div>
           <div style="height:26px"></div>
         </div>
       </div>
@@ -919,6 +922,28 @@
   </div>
 
   <script>
+
+    function uploadAvatar(input){
+      var f=input.files&&input.files[0]; if(!f||!/^image\//.test(f.type)) return;
+      var r=new FileReader();
+      r.onload=function(e){ var a=document.getElementById('prAv'); a.textContent=''; a.style.backgroundImage="url('"+e.target.result+"')"; a.style.backgroundSize='cover'; a.style.backgroundPosition='center'; };
+      r.readAsDataURL(f); input.value='';
+    }
+    var BADGE_ICONS={
+      'Top Helper':'<circle cx="12" cy="8" r="5"/><path d="M8.5 12.3 7 21l5-2.7L17 21l-1.5-8.7"/>',
+      'Group Admin':'<path d="M12 22s7.5-3.6 7.5-9.6V5.6L12 2.9 4.5 5.6v6.8C4.5 18.4 12 22 12 22z"/><path d="m9 12 2 2 4-4"/>',
+      'Fast Replier':'<path d="M13 2 4 13h6l-1 9 9-11h-6z"/>',
+      '500+ Likes':'<path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/>',
+      'Kind Soul':'<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/>',
+      'Early Member':'<path d="M12 21V9"/><path d="M12 13C9 13 6 11 6 7c3.2 0 6 1.2 6 5"/><path d="M12 11c0-3 3-5 6-5 0 3.4-3 5-6 5"/>',
+      'Wisdom Keeper':'<path d="M4 4.6A2.6 2.6 0 0 1 6.6 2H20v17H6.6A2.6 2.6 0 0 0 4 21.6z"/><path d="M4 19.4A2.6 2.6 0 0 1 6.6 17H20"/>',
+      'Pediatrician':'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M6 3H4.5M14 3h1.5"/><path d="M10 15v1a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="12.5" r="2"/>',
+      'Doctor':'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M6 3H4.5M14 3h1.5"/><path d="M10 15v1a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="12.5" r="2"/>',
+      'Verified Expert':'<path d="M12 22s7.5-3.6 7.5-9.6V5.6L12 2.9 4.5 5.6v6.8C4.5 18.4 12 22 12 22z"/><path d="m9 12 2 2 4-4"/>',
+      'Verified':'<path d="M12 22s7.5-3.6 7.5-9.6V5.6L12 2.9 4.5 5.6v6.8C4.5 18.4 12 22 12 22z"/><path d="m9 12 2 2 4-4"/>',
+      'Expert':'<path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/>',
+      '_default':'<path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/>'
+    };
 
     function leaveGroup(){
       closePanel('details'); closePanel('chat');
@@ -1089,7 +1114,6 @@
       a.className='pn-av round'+(m.on?' on':'');
       document.getElementById('prName').innerHTML=m.n+(m.verified?"<span class='vf'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg></span>":"");
       document.getElementById('prRoleTitle').textContent=m.level;
-      document.getElementById('prCert').textContent=m.verified?'Verified Community Member':'Community Member';
       var _tg=document.getElementById('prTag');
       if(m.tag){ _tg.style.display='inline-flex'; _tg.style.background=m.tagBg||'#efeaf7'; _tg.style.color=m.tagFg||'#8574b5'; _tg.innerHTML=(m.tagKind==='expert'?EXPERT_IC:'')+m.tag; }
       else { _tg.style.display='none'; }
@@ -1097,7 +1121,7 @@
       document.getElementById('prHelpful').innerHTML=m.helpful+' <span style="color:#f5b301;font-size:15px">★</span>';
       document.getElementById('prPts2').textContent=(m.points||0).toLocaleString();
       document.getElementById('prTopics').innerHTML=m.topics.map(function(t){return '<span class="pr-pill">'+t+'</span>';}).join('');
-      document.getElementById('prBadges').innerHTML=m.badges.map(function(b){return '<div class="pr-badge" style="background:'+b[2]+'"><span class="pb-ic">'+b[0]+'</span><span class="pb-l" style="color:'+b[3]+'">'+b[1]+'</span></div>';}).join('');
+      document.getElementById('prBadges').innerHTML=m.badges.map(function(b){var ic=BADGE_ICONS[b[1]]||BADGE_ICONS._default;return '<div class="pr-badge"><span class="pb-ic" style="background:'+b[2]+';color:'+b[3]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span><span class="pb-l" style="color:'+b[3]+'">'+b[1]+'</span></div>';}).join('');
       document.getElementById('prBio').textContent=m.bio;
       document.getElementById('profile').classList.add('open');
     }
