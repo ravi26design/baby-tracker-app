@@ -1002,7 +1002,7 @@
       body.innerHTML=html;
       // seen by on last own message
       var sb=document.getElementById('seenBy');
-      sb.textContent='Seen by Emma, Daniel +2'; sb.classList.add('show');
+      sb.textContent='Seen by +20 people'; sb.classList.add('show');
       body.scrollTop=body.scrollHeight;
     }
     function openGroup(gid){
@@ -1042,7 +1042,7 @@
       body.scrollTop=body.scrollHeight;
       // sent -> delivered -> read
       setTimeout(function(){ setTick(node,'delivered'); },700);
-      setTimeout(function(){ setTick(node,'read'); sb.textContent='Seen by Emma, Daniel'; sb.classList.add('show'); body.scrollTop=body.scrollHeight; },1900);
+      setTimeout(function(){ setTick(node,'read'); sb.textContent='Seen by +20 people'; sb.classList.add('show'); body.scrollTop=body.scrollHeight; },1900);
       // a reply after you send
       setTimeout(function(){ showTyping(MEMBERS[1]); },2600);
       setTimeout(function(){ hideTyping(); addIncoming(MEMBERS[1],'Great — let us know how it goes! 🙌'); },4600);
