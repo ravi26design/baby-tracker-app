@@ -498,6 +498,14 @@
   .vid-tag{display:inline-block;font-size:11.5px;font-weight:700;color:#8574b5;background:#efeaf7;padding:5px 12px;border-radius:20px;margin-bottom:12px;}
   .vid-title{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.1;}
   .vid-desc{font-size:14px;font-weight:500;color:#6a645f;line-height:1.6;margin-top:12px;}
+  .vid-fb{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid #f1eded;}
+  .vid-fb-q{font-size:13.5px;font-weight:700;color:#8a8394;}
+  .vid-fb-btns{display:flex;gap:10px;}
+  .fb-btn{width:46px;height:46px;border-radius:14px;border:none;cursor:pointer;background:#f4f1f8;color:#8a8394;display:flex;align-items:center;justify-content:center;transition:transform .12s,background .15s,color .15s;}
+  .fb-btn svg{width:22px;height:22px;}
+  .fb-btn:active{transform:scale(.92);}
+  .fb-btn.up.on{background:#e3f4ea;color:#22995f;}
+  .fb-btn.down.on{background:#fdecec;color:#e0567a;}
 
   /* create (add) menu */
   .addmenu{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:55;visibility:hidden;pointer-events:none;}
@@ -762,6 +770,13 @@
         <span class="vid-tag" id="vidTag">Motor</span>
         <div class="vid-title" id="vidTitle">Floor Play</div>
         <div class="vid-desc" id="vidDesc"></div>
+        <div class="vid-fb">
+          <span class="vid-fb-q">Was this helpful?</span>
+          <div class="vid-fb-btns">
+            <button class="fb-btn up" id="fbUp" onclick="rateActivity('up')" aria-label="Thumbs up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88z"/></svg></button>
+            <button class="fb-btn down" id="fbDown" onclick="rateActivity('down')" aria-label="Thumbs down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88z"/></svg></button>
+          </div>
+        </div>
       </div>
       <div class="vid-cta">
         <button class="done-btn" id="doneBtn" onclick="toggleDone()">
@@ -1003,11 +1018,21 @@
       document.getElementById('vidDesc').textContent = (el && el.getAttribute('data-desc')) || ACT_DESC[title] || ACT_DESC_FALLBACK;
       CURRENT_ACT = title;
       setDoneBtn(!!DONE[title]);
+      setFb(FB[title]||null);
       var v=document.getElementById('actVideo');
       document.getElementById('vidOverlay').classList.add('open');
       try{ v.currentTime=0; v.play(); }catch(e){}
     }
-    var DONE = {}, CURRENT_ACT = null;
+    var DONE = {}, FB = {}, CURRENT_ACT = null;
+    function setFb(v){
+      document.getElementById('fbUp').classList.toggle('on', v==='up');
+      document.getElementById('fbDown').classList.toggle('on', v==='down');
+    }
+    function rateActivity(v){
+      if(!CURRENT_ACT) return;
+      FB[CURRENT_ACT] = (FB[CURRENT_ACT]===v) ? null : v;
+      setFb(FB[CURRENT_ACT]);
+    }
     function setDoneBtn(done){
       var b=document.getElementById('doneBtn');
       b.classList.toggle('done', done);
