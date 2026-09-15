@@ -747,6 +747,34 @@
   .mm-opt.danger{color:#e0567a;} .mm-opt.danger .mm-ic{background:#fdecec;color:#e0567a;}
   .toast{position:absolute;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:70;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .starred-bar{flex-shrink:0;background:#faf7ff;border-bottom:1px solid #ece7f2;padding:9px 14px;max-height:110px;overflow-y:auto;}
+  .sb-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#8574b5;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+  .sb-head svg{width:13px;height:13px;color:#e6b93f;}
+  .sb-list{display:flex;flex-direction:column;gap:6px;}
+  .sb-item{display:flex;align-items:baseline;gap:8px;cursor:pointer;font-size:12.5px;}
+  .sb-who{font-weight:800;color:#6a5fb0;flex-shrink:0;}
+  .sb-msg{color:#7d7770;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .bub.flash{animation:bubflash 1.2s ease;}
+  @keyframes bubflash{30%{box-shadow:0 0 0 3px rgba(139,116,181,.55);}}
+
+  .report-layer{position:absolute;inset:0;z-index:62;visibility:hidden;pointer-events:none;}
+  .report-layer.open{visibility:visible;pointer-events:auto;}
+  .rp-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
+  .report-layer.open .rp-bd{opacity:1;}
+  .rp-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;transform:translateY(110%);transition:transform .34s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;max-height:90%;}
+  .report-layer.open .rp-sheet{transform:translateY(0);}
+  .rp-grab{padding:11px 0 6px;flex-shrink:0;} .rp-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
+  .rp-title{padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;font-size:16px;font-weight:800;color:var(--ink);text-align:center;}
+  .rp-body{padding:16px 20px 26px;overflow-y:auto;}
+  .rp-sec{font-size:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#9a8fb3;margin:2px 2px 11px;}
+  .rp-reason{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;border:none;cursor:pointer;font-family:inherit;text-align:left;background:#f6f3fa;border-radius:14px;padding:14px 15px;margin-bottom:9px;font-size:14px;font-weight:700;color:var(--ink);box-shadow:inset 0 0 0 1.5px transparent;transition:.12s;}
+  .rp-reason::after{content:'';width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 2px #d8cfe8;flex-shrink:0;}
+  .rp-reason.sel{box-shadow:inset 0 0 0 1.5px #9b8bc4;background:#efeaf7;color:#6a5fb0;}
+  .rp-reason.sel::after{box-shadow:inset 0 0 0 2px #9b8bc4;background:radial-gradient(circle,#9b8bc4 42%,transparent 46%);}
+  #rpMsg{width:100%;border:none;outline:none;background:#f3eef0;border-radius:14px;padding:13px 15px;font-family:inherit;font-size:14px;color:var(--ink);resize:none;min-height:80px;line-height:1.5;}
+  #rpMsg::placeholder{color:#b3adae;}
+  .rp-send{width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(155deg,#e0567a,#d13f66);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:18px;margin-top:18px;box-shadow:0 12px 22px -10px rgba(209,63,102,.6);}
 </style>
 </head>
 <body>
@@ -889,6 +917,24 @@
         </div>
       </div>
       <div class="toast" id="toast"></div>
+      <div class="report-layer" id="reportSheet">
+        <div class="rp-bd" onclick="closeReport()"></div>
+        <div class="rp-sheet">
+          <div class="rp-grab"><span></span></div>
+          <div class="rp-title">Report Message</div>
+          <div class="rp-body">
+            <div class="rp-sec">Why are you reporting this?</div>
+            <button class="rp-reason" onclick="pickReason(this)">Spam or scam</button>
+            <button class="rp-reason" onclick="pickReason(this)">Harassment or bullying</button>
+            <button class="rp-reason" onclick="pickReason(this)">Misinformation or false claims</button>
+            <button class="rp-reason" onclick="pickReason(this)">Inappropriate content</button>
+            <button class="rp-reason" onclick="pickReason(this)">Something else</button>
+            <div class="rp-sec" style="margin-top:18px">Add a message (optional)</div>
+            <textarea id="rpMsg" placeholder="Tell us a bit more..."></textarea>
+            <button class="rp-send" onclick="sendReport()">Send Report</button>
+          </div>
+        </div>
+      </div>
 
       <div class="panel" id="chat">
         <div class="statusbar" style="background:#fff"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
@@ -901,6 +947,10 @@
           <span class="chat-av" id="chatAv"></span>
           <div class="chat-id"><div class="chat-name" id="chatName"></div><div class="chat-pres" id="chatPres"></div></div>
           <button class="chat-mem" onclick="event.stopPropagation();openDetails()" aria-label="Info"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M2.5 20c0-3.1 2.9-5 6.5-5s6.5 1.9 6.5 5"/><path d="M16 3.3a3.2 3.2 0 0 1 0 6.2M22 20c0-2.3-1.4-4-3.4-4.7"/></svg></button>
+        </div>
+        <div class="starred-bar" id="starredBar" style="display:none">
+          <div class="sb-head"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg> Starred</div>
+          <div class="sb-list" id="sbList"></div>
         </div>
         <div class="chat-body" id="chatBody"></div>
         <div class="reply-bar" id="replyBar" style="display:none">
@@ -969,12 +1019,40 @@
 
   <script>
 
+    var RP_REASON=null;
+    function openReport(){ RP_REASON=null; document.querySelectorAll('.rp-reason').forEach(function(b){b.classList.remove('sel');}); document.getElementById('rpMsg').value=''; document.getElementById('reportSheet').classList.add('open'); }
+    function closeReport(){ document.getElementById('reportSheet').classList.remove('open'); }
+    function pickReason(b){ document.querySelectorAll('.rp-reason').forEach(function(x){x.classList.remove('sel');}); b.classList.add('sel'); RP_REASON=b.textContent.trim(); }
+    function sendReport(){ if(!RP_REASON){ showToast('Please select a reason'); return; } closeReport(); showToast('Report sent — thank you \u2713'); }
+
     var MM_TARGET=null, STARRED=(window.WeakSet?new WeakSet():{has:function(){return false},add:function(){},delete:function(){}});
     function openMsgMenu(el){ MM_TARGET=el; document.getElementById('mmStarLabel').textContent=STARRED.has(el)?'Unstar Message':'Star Message'; document.getElementById('msgMenu').classList.add('open'); }
     function closeMsgMenu(){ document.getElementById('msgMenu').classList.remove('open'); }
     function addReaction(bub,emo){ var r=bub.querySelector('.bub-react'); if(!r){ r=document.createElement('span'); r.className='bub-react'; bub.appendChild(r);} r.textContent=emo; }
     function msgReact(emo){ if(MM_TARGET) addReaction(MM_TARGET,emo); closeMsgMenu(); }
-    function toggleStar(bub){ var s=bub.querySelector('.bub-star'); if(STARRED.has(bub)){ STARRED.delete(bub); if(s)s.remove(); } else { STARRED.add(bub); if(!s){ s=document.createElement('span'); s.className='bub-star'; s.textContent='⭐'; bub.appendChild(s);} } }
+    var STAR_ID=0;
+    function toggleStar(bub){
+      var list=document.getElementById('sbList'), barEl=document.getElementById('starredBar');
+      if(STARRED.has(bub)){
+        STARRED.delete(bub);
+        var s=bub.querySelector('.bub-star'); if(s) s.remove();
+        var sid=bub.getAttribute('data-star');
+        var pin=sid&&list.querySelector('.sb-item[data-star="'+sid+'"]'); if(pin) pin.remove();
+      } else {
+        STARRED.add(bub);
+        if(!bub.getAttribute('data-star')) bub.setAttribute('data-star', ++STAR_ID);
+        var sid=bub.getAttribute('data-star');
+        var st=document.createElement('span'); st.className='bub-star'; st.textContent='⭐'; bub.appendChild(st);
+        var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You';
+        var tx=bub.querySelector('.txt'); var text=tx?tx.textContent:'';
+        var item=document.createElement('div'); item.className='sb-item'; item.setAttribute('data-star',sid);
+        item.innerHTML='<span class="sb-who"></span><span class="sb-msg"></span>';
+        item.querySelector('.sb-who').textContent=name; item.querySelector('.sb-msg').textContent=text;
+        item.onclick=function(){ bub.scrollIntoView({behavior:'smooth',block:'center'}); bub.classList.add('flash'); setTimeout(function(){bub.classList.remove('flash');},1200); };
+        list.appendChild(item);
+      }
+      barEl.style.display = list.children.length ? 'block' : 'none';
+    }
     var _toastT=null;
     function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(function(){ t.classList.remove('show'); },1800); }
     function showReply(bub){ var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You'; var tx=bub.querySelector('.txt'); document.getElementById('rbTo').textContent='Replying to '+name; document.getElementById('rbMsg').textContent=tx?tx.textContent:''; document.getElementById('replyBar').style.display='flex'; var ci=document.getElementById('chatInput'); if(ci) ci.focus(); }
@@ -983,7 +1061,7 @@
       if(type==='reply') showReply(MM_TARGET);
       else if(type==='react') addReaction(MM_TARGET,'❤️');
       else if(type==='star') toggleStar(MM_TARGET);
-      else if(type==='report') showToast('Message reported ✓');
+      else if(type==='report') openReport();
       closeMsgMenu();
     }
 
@@ -1105,6 +1183,7 @@
       });
       html+='<div class="seenby" id="seenBy"></div>';
       body.innerHTML=html;
+      var _sl=document.getElementById('sbList'); if(_sl){ _sl.innerHTML=''; document.getElementById('starredBar').style.display='none'; }
       // seen by on last own message
       var sb=document.getElementById('seenBy');
       sb.textContent='Seen by +20 people'; sb.classList.add('show');
