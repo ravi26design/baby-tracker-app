@@ -720,6 +720,33 @@
   .pr-av-cam{position:absolute;right:0;bottom:2px;width:34px;height:34px;border-radius:50%;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #f6f4fa;box-shadow:0 5px 12px -4px rgba(140,116,181,.7);z-index:2;}
   .pr-av-cam:active{transform:scale(.94);}
   .pr-av-cam svg{width:16px;height:16px;}
+
+  .bub{position:relative;}
+  .bub-react{position:absolute;bottom:-11px;left:10px;background:#fff;border-radius:12px;padding:1px 7px;font-size:13px;box-shadow:0 2px 7px rgba(90,70,110,.28);z-index:2;}
+  .msg.me .bub-react{left:auto;right:10px;}
+  .bub-star{position:absolute;top:-8px;right:-5px;font-size:14px;z-index:2;}
+  .reply-bar{display:flex;align-items:center;gap:11px;padding:10px 16px;background:#f6f3fa;border-top:1px solid #ece7f2;}
+  .rb-line{width:3px;align-self:stretch;border-radius:2px;background:#9b8bc4;}
+  .rb-txt{flex:1;min-width:0;}
+  .rb-to{display:block;font-size:11.5px;font-weight:800;color:#8574b5;}
+  .rb-msg{display:block;font-size:12.5px;color:#7d7770;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rb-x{width:28px;height:28px;border:none;background:none;color:#a99fbb;font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;}
+  .msgmenu-layer{position:absolute;inset:0;z-index:58;visibility:hidden;pointer-events:none;}
+  .msgmenu-layer.open{visibility:visible;pointer-events:auto;}
+  .mm-bd{position:absolute;inset:0;background:rgba(35,22,12,.4);opacity:0;transition:opacity .28s;}
+  .msgmenu-layer.open .mm-bd{opacity:1;}
+  .mm-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:26px 26px 46px 46px;padding:10px 14px 28px;transform:translateY(110%);transition:transform .34s cubic-bezier(.32,.72,0,1);}
+  .msgmenu-layer.open .mm-sheet{transform:translateY(0);}
+  .mm-react{display:flex;justify-content:space-around;padding:8px 4px 12px;border-bottom:1px solid #f1eded;margin-bottom:6px;}
+  .mm-react span{font-size:26px;cursor:pointer;transition:transform .12s;}
+  .mm-react span:active{transform:scale(1.3);}
+  .mm-opt{display:flex;align-items:center;gap:14px;width:100%;border:none;background:none;cursor:pointer;font-family:inherit;text-align:left;padding:12px 8px;font-size:15px;font-weight:700;color:var(--ink);border-radius:12px;}
+  .mm-opt:active{background:#f6f3fa;}
+  .mm-opt .mm-ic{width:38px;height:38px;border-radius:12px;background:#f2eef8;color:#8574b5;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .mm-opt .mm-ic svg{width:19px;height:19px;}
+  .mm-opt.danger{color:#e0567a;} .mm-opt.danger .mm-ic{background:#fdecec;color:#e0567a;}
+  .toast{position:absolute;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:70;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
@@ -849,6 +876,20 @@
       </div>
 
       <!-- chat panel -->
+      <div class="msgmenu-layer" id="msgMenu">
+        <div class="mm-bd" onclick="closeMsgMenu()"></div>
+        <div class="mm-sheet">
+          <div class="mm-react">
+            <span onclick="msgReact('❤️')">❤️</span><span onclick="msgReact('👍')">👍</span><span onclick="msgReact('🙏')">🙏</span><span onclick="msgReact('😊')">😊</span><span onclick="msgReact('🎉')">🎉</span><span onclick="msgReact('😢')">😢</span>
+          </div>
+          <button class="mm-opt" onclick="msgAction('reply')"><span class="mm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17 4 12l5-5"/><path d="M4 12h11a5 5 0 0 1 5 5v1"/></svg></span>Reply</button>
+          <button class="mm-opt" onclick="msgAction('react')"><span class="mm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>React</button>
+          <button class="mm-opt" onclick="msgAction('star')"><span class="mm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg></span><span id="mmStarLabel">Star Message</span></button>
+          <button class="mm-opt danger" onclick="msgAction('report')"><span class="mm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>Report</button>
+        </div>
+      </div>
+      <div class="toast" id="toast"></div>
+
       <div class="panel" id="chat">
         <div class="statusbar" style="background:#fff"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
             <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
@@ -862,6 +903,11 @@
           <button class="chat-mem" onclick="event.stopPropagation();openDetails()" aria-label="Info"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M2.5 20c0-3.1 2.9-5 6.5-5s6.5 1.9 6.5 5"/><path d="M16 3.3a3.2 3.2 0 0 1 0 6.2M22 20c0-2.3-1.4-4-3.4-4.7"/></svg></button>
         </div>
         <div class="chat-body" id="chatBody"></div>
+        <div class="reply-bar" id="replyBar" style="display:none">
+          <div class="rb-line"></div>
+          <div class="rb-txt"><span class="rb-to" id="rbTo"></span><span class="rb-msg" id="rbMsg"></span></div>
+          <button class="rb-x" onclick="cancelReply()" aria-label="Cancel">&times;</button>
+        </div>
         <div class="chat-input">
           <input type="text" id="chatInput" placeholder="Message..." />
           <button class="chat-send" onclick="sendMsg()" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button>
@@ -922,6 +968,24 @@
   </div>
 
   <script>
+
+    var MM_TARGET=null, STARRED=(window.WeakSet?new WeakSet():{has:function(){return false},add:function(){},delete:function(){}});
+    function openMsgMenu(el){ MM_TARGET=el; document.getElementById('mmStarLabel').textContent=STARRED.has(el)?'Unstar Message':'Star Message'; document.getElementById('msgMenu').classList.add('open'); }
+    function closeMsgMenu(){ document.getElementById('msgMenu').classList.remove('open'); }
+    function addReaction(bub,emo){ var r=bub.querySelector('.bub-react'); if(!r){ r=document.createElement('span'); r.className='bub-react'; bub.appendChild(r);} r.textContent=emo; }
+    function msgReact(emo){ if(MM_TARGET) addReaction(MM_TARGET,emo); closeMsgMenu(); }
+    function toggleStar(bub){ var s=bub.querySelector('.bub-star'); if(STARRED.has(bub)){ STARRED.delete(bub); if(s)s.remove(); } else { STARRED.add(bub); if(!s){ s=document.createElement('span'); s.className='bub-star'; s.textContent='⭐'; bub.appendChild(s);} } }
+    var _toastT=null;
+    function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(function(){ t.classList.remove('show'); },1800); }
+    function showReply(bub){ var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You'; var tx=bub.querySelector('.txt'); document.getElementById('rbTo').textContent='Replying to '+name; document.getElementById('rbMsg').textContent=tx?tx.textContent:''; document.getElementById('replyBar').style.display='flex'; var ci=document.getElementById('chatInput'); if(ci) ci.focus(); }
+    function cancelReply(){ document.getElementById('replyBar').style.display='none'; }
+    function msgAction(type){ if(!MM_TARGET){ closeMsgMenu(); return; }
+      if(type==='reply') showReply(MM_TARGET);
+      else if(type==='react') addReaction(MM_TARGET,'❤️');
+      else if(type==='star') toggleStar(MM_TARGET);
+      else if(type==='report') showToast('Message reported ✓');
+      closeMsgMenu();
+    }
 
     function uploadAvatar(input){
       var f=input.files&&input.files[0]; if(!f||!/^image\//.test(f.type)) return;
@@ -1027,11 +1091,11 @@
     function incoming(m,text,kind){
       var q=kind==='q'?' q':'';
       var tag = m.tag ? '<span class="who-tag'+(m.tagKind==='expert'?' expert':'')+'" style="background:'+(m.tagBg||'#efeaf7')+';color:'+(m.tagFg||'#8574b5')+'">'+(m.tagKind==='expert'?EXPERT_IC:'')+esc(m.tag)+'</span>' : '';
-      return '<div class="msg'+q+'">'+av(m)+'<div class="bub"><div class="who">'+esc(m.n)+tag+'</div><div class="txt">'+esc(text)+'</div></div></div>';
+      return '<div class="msg'+q+'">'+av(m)+'<div class="bub" onclick="openMsgMenu(this)"><div class="who">'+esc(m.n)+tag+'</div><div class="txt">'+esc(text)+'</div></div></div>';
     }
     function mine(text,tm,state){
       var tk = state==='read' ? TK_D.replace('class="tk"','class="tk read"') : (state==='delivered'?TK_D:TK_S);
-      return '<div class="msg me"><div class="bub"><div class="txt">'+esc(text)+'</div><div class="foot"><span class="tm">'+tm+'</span>'+tk+'</div></div></div>';
+      return '<div class="msg me"><div class="bub" onclick="openMsgMenu(this)"><div class="txt">'+esc(text)+'</div><div class="foot"><span class="tm">'+tm+'</span>'+tk+'</div></div></div>';
     }
     function renderChat(gid){
       var body=document.getElementById('chatBody'), html='<div class="chat-day">Today</div>';
@@ -1075,7 +1139,7 @@
     }
     function sendMsg(){
       var inp=document.getElementById('chatInput'), t=(inp.value||'').trim(); if(!t) return;
-      inp.value='';
+      inp.value=''; cancelReply();
       var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy');
       var wrap=document.createElement('div'); wrap.innerHTML=mine(t,'now','sent');
       var node=wrap.firstChild; body.insertBefore(node, sb);
