@@ -708,6 +708,13 @@
   .ph-strip:not(:empty){margin-top:12px;}
   .ph-thumb{position:relative;width:80px;height:80px;border-radius:15px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.07);}
   .ph-thumb .ph-x{position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-radius:50%;background:#3a332e;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;line-height:1;}
+
+  .leave-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:calc(100% - 40px);margin:24px 20px 0;border:none;cursor:pointer;font-family:inherit;background:#fdecec;color:#e0567a;font-size:14.5px;font-weight:800;padding:15px;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(224,86,122,.2);transition:transform .12s;}
+  .leave-btn:active{transform:scale(.99);}
+  .leave-btn svg{width:19px;height:19px;}
+
+  .pr-tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;padding:4px 13px;border-radius:12px;margin-top:9px;}
+  .pr-tag svg{width:12px;height:12px;}
 </style>
 </head>
 <body>
@@ -873,6 +880,7 @@
           </div>
           <div class="pn-sec" id="dtMemCount"></div>
           <div id="dtMembers"></div>
+          <button class="leave-btn" onclick="leaveGroup()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Leave Group</button>
           <div style="height:26px"></div>
         </div>
       </div>
@@ -889,6 +897,7 @@
           <div class="pn-hero">
             <div class="pn-av round" id="prAv"></div>
             <div class="pn-name" id="prName"></div>
+            <span class="pr-tag" id="prTag"></span>
             <div class="pr-role" id="prRoleTitle"></div>
             <div class="pr-cert" id="prCert"></div>
           </div>
@@ -910,6 +919,13 @@
   </div>
 
   <script>
+
+    function leaveGroup(){
+      closePanel('details'); closePanel('chat');
+      document.querySelectorAll('#tabGroups .grp').forEach(function(c){
+        if(c.getAttribute('onclick')==="openGroup('"+curGid+"')") c.remove();
+      });
+    }
 
     function addPhotos(input, gridId){
       var grid=document.getElementById(gridId);
@@ -980,7 +996,7 @@
     var TK_S='<svg class="tk" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5 7 10.5 15 2"/></svg>', TK_D='<svg class="tk" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6.5 5 10.5 12.5 2.5"/><path d="M8 10.5 15.5 2.5"/></svg>';
     var curGid=null, typingTimer=null, lastMe=null;
     function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-    function av(m,cls){return '<span class="'+(cls||'msg-av')+'" style="background:radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')">'+m.e+'</span>';}
+    function av(m,cls){var i=MEMBERS.indexOf(m);var oc=i>-1?' onclick="event.stopPropagation();openProfile('+i+')"':'';return '<span class="'+(cls||'msg-av')+'"'+oc+' style="cursor:pointer;background:radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')">'+m.e+'</span>';}
 
     var EXPERT_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
     function incoming(m,text,kind){
@@ -1074,6 +1090,9 @@
       document.getElementById('prName').innerHTML=m.n+(m.verified?"<span class='vf'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg></span>":"");
       document.getElementById('prRoleTitle').textContent=m.level;
       document.getElementById('prCert').textContent=m.verified?'Verified Community Member':'Community Member';
+      var _tg=document.getElementById('prTag');
+      if(m.tag){ _tg.style.display='inline-flex'; _tg.style.background=m.tagBg||'#efeaf7'; _tg.style.color=m.tagFg||'#8574b5'; _tg.innerHTML=(m.tagKind==='expert'?EXPERT_IC:'')+m.tag; }
+      else { _tg.style.display='none'; }
       document.getElementById('prAnswers').textContent=m.answers;
       document.getElementById('prHelpful').innerHTML=m.helpful+' <span style="color:#f5b301;font-size:15px">★</span>';
       document.getElementById('prPts2').textContent=(m.points||0).toLocaleString();
