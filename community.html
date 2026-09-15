@@ -748,13 +748,21 @@
   .toast{position:absolute;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:70;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  .starred-bar{flex-shrink:0;background:#faf7ff;border-bottom:1px solid #ece7f2;padding:9px 14px;max-height:110px;overflow-y:auto;}
-  .sb-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#8574b5;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+  .starred-bar{flex-shrink:0;background:linear-gradient(180deg,#f7f3ff,#f2ecfb);border-bottom:1px solid #e7dff5;padding:11px 14px;max-height:132px;overflow-y:auto;}
+  .starred-bar::-webkit-scrollbar{display:none;}
+  .sb-head{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;color:#8574b5;text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;}
   .sb-head svg{width:13px;height:13px;color:#e6b93f;}
-  .sb-list{display:flex;flex-direction:column;gap:6px;}
-  .sb-item{display:flex;align-items:baseline;gap:8px;cursor:pointer;font-size:12.5px;}
-  .sb-who{font-weight:800;color:#6a5fb0;flex-shrink:0;}
-  .sb-msg{color:#7d7770;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sb-count{min-width:16px;height:16px;padding:0 5px;border-radius:8px;background:#e3daf6;color:#7a67ad;font-size:10px;display:inline-flex;align-items:center;justify-content:center;}
+  .sb-list{display:flex;flex-direction:column;gap:8px;}
+  .sb-item{display:flex;align-items:center;gap:10px;background:#fff;border-radius:13px;padding:9px 10px 9px 12px;cursor:pointer;box-shadow:0 4px 10px -6px rgba(120,90,140,.35),inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .12s;}
+  .sb-item:active{transform:scale(.99);}
+  .sb-ic{color:#e6b93f;flex-shrink:0;display:flex;}
+  .sb-ic svg{width:15px;height:15px;}
+  .sb-body{flex:1;min-width:0;display:flex;align-items:baseline;gap:7px;}
+  .sb-who{font-size:12.5px;font-weight:800;color:#6a5fb0;flex-shrink:0;}
+  .sb-msg{font-size:12.5px;color:#7d7770;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sb-x{width:24px;height:24px;border:none;background:#f4f1f8;border-radius:50%;color:#a99fbb;cursor:pointer;flex-shrink:0;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;}
+  .sb-x:active{background:#ebe6f3;}
   .bub.flash{animation:bubflash 1.2s ease;}
   @keyframes bubflash{30%{box-shadow:0 0 0 3px rgba(139,116,181,.55);}}
 
@@ -949,7 +957,7 @@
           <button class="chat-mem" onclick="event.stopPropagation();openDetails()" aria-label="Info"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M2.5 20c0-3.1 2.9-5 6.5-5s6.5 1.9 6.5 5"/><path d="M16 3.3a3.2 3.2 0 0 1 0 6.2M22 20c0-2.3-1.4-4-3.4-4.7"/></svg></button>
         </div>
         <div class="starred-bar" id="starredBar" style="display:none">
-          <div class="sb-head"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg> Starred</div>
+          <div class="sb-head"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg> Starred <span class="sb-count" id="sbCount"></span></div>
           <div class="sb-list" id="sbList"></div>
         </div>
         <div class="chat-body" id="chatBody"></div>
@@ -1046,12 +1054,14 @@
         var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You';
         var tx=bub.querySelector('.txt'); var text=tx?tx.textContent:'';
         var item=document.createElement('div'); item.className='sb-item'; item.setAttribute('data-star',sid);
-        item.innerHTML='<span class="sb-who"></span><span class="sb-msg"></span>';
+        item.innerHTML='<span class="sb-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg></span><div class="sb-body"><span class="sb-who"></span><span class="sb-msg"></span></div><button class="sb-x" aria-label="Unstar">&times;</button>';
         item.querySelector('.sb-who').textContent=name; item.querySelector('.sb-msg').textContent=text;
         item.onclick=function(){ bub.scrollIntoView({behavior:'smooth',block:'center'}); bub.classList.add('flash'); setTimeout(function(){bub.classList.remove('flash');},1200); };
+        item.querySelector('.sb-x').onclick=function(ev){ ev.stopPropagation(); toggleStar(bub); };
         list.appendChild(item);
       }
       barEl.style.display = list.children.length ? 'block' : 'none';
+      document.getElementById('sbCount').textContent = list.children.length;
     }
     var _toastT=null;
     function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(function(){ t.classList.remove('show'); },1800); }
