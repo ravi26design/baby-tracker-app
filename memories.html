@@ -786,6 +786,15 @@
       document.getElementById('afTitle').value=(c.querySelector('.mc-title')||{}).textContent||'';
       document.getElementById('afDesc').value=(c.querySelector('.mc-desc')||{}).textContent||'';
       document.getElementById('afDate').value='';
+      var _strip=document.getElementById('mPhotos');
+      if(_strip){ _strip.innerHTML='';
+        var _mi=c.querySelector('.mc-img'); var _bg=_mi?_mi.style.backgroundImage:'';
+        if(_bg && _bg.indexOf('url(')>-1){
+          var _t=document.createElement('div'); _t.className='ph-thumb'; _t.style.backgroundImage=_bg;
+          var _x=document.createElement('span'); _x.className='ph-x'; _x.textContent='\u00d7'; _x.onclick=function(ev){ev.stopPropagation(); _t.remove();}; _t.appendChild(_x);
+          _strip.appendChild(_t);
+        }
+      }
       document.getElementById('addSheetTitle').textContent='Edit Memory';
       var sb=document.querySelector('.save-btn'); if(sb) sb.textContent='Update Memory';
       EDIT_CARD=c; closeCardMenu();
@@ -818,6 +827,7 @@
     var CUR_CHILD='mark';
     function openAdd(title){
       EDIT_CARD=null; var _sb0=document.querySelector('.save-btn'); if(_sb0) _sb0.textContent='Save Memory';
+      var _sp0=document.getElementById('mPhotos'); if(_sp0) _sp0.innerHTML='';
       document.getElementById('afTitle').value = title || '';
       document.getElementById('addSheetTitle').textContent = title ? ('Add · '+title) : 'Add Custom Memory';
       document.getElementById('addSheet').classList.add('open');
@@ -831,8 +841,11 @@
         var edl=EDIT_CARD.querySelector('.mc-desc'); if(edl) edl.textContent=ed;
         var edv=document.getElementById('afDate').value;
         if(edv){ var ew=new Date(edv+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}); var ewl=EDIT_CARD.querySelector('.mc-when'); if(ewl) ewl.textContent=ew; }
+        var _th=document.querySelector('#mPhotos .ph-thumb');
+        if(_th){ var _im=EDIT_CARD.querySelector('.mc-img'); if(_im){ _im.textContent=''; _im.style.background=''; _im.style.backgroundImage=_th.style.backgroundImage; _im.style.backgroundSize='cover'; _im.style.backgroundPosition='center'; _im.style.display=''; _im.style.alignItems=''; _im.style.justifyContent=''; _im.style.fontSize=''; } }
         EDIT_CARD=null; var _sb=document.querySelector('.save-btn'); if(_sb) _sb.textContent='Save Memory';
         document.getElementById('afTitle').value=''; document.getElementById('afDesc').value=''; document.getElementById('afDate').value='';
+        var _sp=document.getElementById('mPhotos'); if(_sp) _sp.innerHTML='';
         closeAdd(); return;
       }
       var t=(document.getElementById('afTitle').value||'').trim()||'New Memory';
@@ -855,6 +868,7 @@
       grp.insertBefore(it, grp.firstChild);
       document.getElementById('afTitle').value=''; document.getElementById('afDesc').value=''; document.getElementById('afDate').value='';
       var msc=document.querySelector('.ms-card[data-ms="'+t+'"]'); if(msc){ msc.remove(); }
+      var _sp2=document.getElementById('mPhotos'); if(_sp2) _sp2.innerHTML='';
       refreshCounts(); closeAdd();
       it.scrollIntoView({behavior:'smooth',block:'center'});
     }
