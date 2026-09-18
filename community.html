@@ -614,6 +614,17 @@
   .st-msg{font-size:13.5px;color:#4a443f;line-height:1.5;}
   .st-empty{text-align:center;color:#9a8fb3;font-size:13.5px;padding:64px 34px;line-height:1.7;}
   .st-empty .se-ic{font-size:42px;display:block;margin-bottom:14px;}
+  .mem-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 22px 8px;}
+  .mem-head .pn-sec{margin:0;}
+  .mem-filter{display:flex;gap:6px;}
+  .mem-chip{border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;padding:6px 13px;border-radius:13px;background:#efeaf7;color:#8574b5;transition:.12s;}
+  .mem-chip.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 5px 12px -6px rgba(140,116,181,.6);}
+  .mem-chip:active{transform:scale(.96);}
+  .mem-more{display:flex;align-items:center;justify-content:center;gap:9px;width:calc(100% - 44px);margin:10px 22px 4px;padding:13px;border:none;border-radius:16px;background:#fff;color:#7a68ad;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px -12px rgba(120,90,140,.45),inset 0 0 0 1px rgba(139,116,181,.18);transition:.15s;}
+  .mem-more:active{transform:scale(.99);}
+  .mem-more .mm-ic{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#e3daf6,#d5c8ef);flex-shrink:0;}
+  .mem-more .mm-ic svg{width:13px;height:13px;stroke:#6f5aa6;}
+  .mem-more .mm-n{font-size:11px;font-weight:800;color:#8574b5;background:#efe9f7;padding:2px 9px;border-radius:9px;}
   .pn-av{width:96px;height:96px;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:50px;box-shadow:0 16px 30px -12px rgba(120,90,140,.4);}
   .pn-av.round{border-radius:50%;position:relative;}
   .pn-av.round.on::after{content:'';position:absolute;left:5px;bottom:5px;width:18px;height:18px;border-radius:50%;background:#3fbe80;box-shadow:0 0 0 4px #f6f4fa;}
@@ -743,6 +754,8 @@
   .leave-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:calc(100% - 40px);margin:24px 20px 0;border:none;cursor:pointer;font-family:inherit;background:#fdecec;color:#e0567a;font-size:14.5px;font-weight:800;padding:15px;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(224,86,122,.2);transition:transform .12s;}
   .leave-btn:active{transform:scale(.99);}
   .leave-btn svg{width:19px;height:19px;}
+  .pn-leave{margin-left:auto;width:38px;height:38px;flex-shrink:0;border:none;background:#fdecec;border-radius:50%;color:#e0567a;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;}
+  .pn-leave:active{transform:scale(.94);}
 
   .pr-tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;padding:6px 15px;border-radius:20px;margin-top:12px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);}
   .pr-tag svg{width:13px;height:13px;}
@@ -1023,7 +1036,7 @@
             <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
             <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
           </div></div>
-        <div class="pn-bar"><button class="pn-back" onclick="closePanel('details')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button></div>
+        <div class="pn-bar"><button class="pn-back" onclick="closePanel('details')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><button class="pn-leave" onclick="leaveGroup()" aria-label="Leave Group"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button></div>
         <div class="pn-body">
           <div class="pn-hero">
             <div class="pn-av" id="dtAv"></div>
@@ -1037,9 +1050,9 @@
             <span class="dtr-n" id="dtStarCount">0</span>
             <span class="dtr-chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
           </div>
-          <div class="pn-sec" id="dtMemCount"></div>
+          <div class="mem-head"><span class="pn-sec" id="dtMemCount"></span><div class="mem-filter" id="memFilter"><button class="mem-chip sel" data-f="all" onclick="setMemFilter('all')">All</button><button class="mem-chip" data-f="online" onclick="setMemFilter('online')">Online</button></div></div>
           <div id="dtMembers"></div>
-          <button class="leave-btn" onclick="leaveGroup()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Leave Group</button>
+          <div id="memMore"></div>
           <div style="height:26px"></div>
         </div>
       </div>
@@ -1363,16 +1376,34 @@
       document.getElementById('dtSub').textContent=g.members+' members · '+g.online+' online';
       document.getElementById('dtDesc').textContent=g.desc;
       updateStarCount();
-      document.getElementById('dtMemCount').textContent=MEMBERS.length+' Members';
-      document.getElementById('dtMembers').innerHTML=MEMBERS.map(function(m,i){
-        return '<div class="mem'+(m.on?' on':'')+'" onclick="openProfile('+i+')">'+av(m,'mem-av')+
+      MEM_LIST=MEMBERS.slice();
+      var _extra=['Olivia Brown','Ethan Clark','Ava Lewis','Mason Hall','Isla Young','Leo Walker','Mia Turner','Noah Green','Zoe Adams','Kai Nelson','Ruby Carter','Finn Baker'];
+      var _k=0; while(MEM_LIST.length<26){ var _b=MEMBERS[_k%MEMBERS.length]; var _c=Object.assign({},_b); _c.n=_extra[_k%_extra.length]; _c.role='Member'; _c.on=(_k%3!==0); _c.seen=_c.on?'online':'last seen recently'; MEM_LIST.push(_c); _k++; }
+      MEM_FILTER='all'; MEM_SHOWN=MEM_PAGE;
+      renderMembers();
+      document.getElementById('details').classList.add('open');
+    }
+    var MEM_LIST=[], MEM_SHOWN=20, MEM_PAGE=20, MEM_FILTER='all';
+    function renderMembers(){
+      var filtered = MEM_FILTER==='online' ? MEM_LIST.filter(function(m){return m.on;}) : MEM_LIST;
+      document.querySelectorAll('#memFilter .mem-chip').forEach(function(c){ c.classList.toggle('sel', c.getAttribute('data-f')===MEM_FILTER); });
+      document.getElementById('dtMemCount').textContent = filtered.length+' Members';
+      var shown = filtered.slice(0, MEM_SHOWN);
+      document.getElementById('dtMembers').innerHTML = shown.map(function(m){
+        var i = MEM_LIST.indexOf(m);
+        return '<div class="mem'+(m.on?' on':'')+'" onclick="openMemberAt('+i+')">'+av(m,'mem-av')+
           '<div class="mem-info"><div class="mem-n">'+m.n+(m.role==='Admin'?'<span class="mem-role">Admin</span>':'')+'</div>'+
           '<div class="mem-s">'+(m.on?'Online':m.seen)+'</div></div></div>';
       }).join('');
-      document.getElementById('details').classList.add('open');
+      var wrap=document.getElementById('memMore'), remaining=filtered.length-MEM_SHOWN;
+      if(remaining>0){ wrap.innerHTML='<button class="mem-more" onclick="loadMoreMembers()"><span class="mm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>Load more members<span class="mm-n">'+remaining+'</span></button>'; }
+      else { wrap.innerHTML=''; }
     }
-    function openProfile(i){
-      var m=MEMBERS[i];
+    function loadMoreMembers(){ MEM_SHOWN+=MEM_PAGE; renderMembers(); }
+    function setMemFilter(f){ MEM_FILTER=f; MEM_SHOWN=MEM_PAGE; renderMembers(); }
+    function openMemberAt(i){ showProfile(MEM_LIST[i]); }
+    function openProfile(i){ showProfile(MEMBERS[i]); }
+    function showProfile(m){
       var a=document.getElementById('prAv'); a.textContent=m.e; a.style.background='radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')';
       a.className='pn-av round'+(m.on?' on':'');
       document.getElementById('prName').innerHTML=m.n+(m.verified?"<span class='vf'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg></span>":"");
