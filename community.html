@@ -615,16 +615,19 @@
   .st-empty{text-align:center;color:#9a8fb3;font-size:13.5px;padding:64px 34px;line-height:1.7;}
   .st-empty .se-ic{font-size:42px;display:block;margin-bottom:14px;}
   .mem-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 22px 8px;}
-  .mem-head .pn-sec{margin:0;}
+  .mem-head .pn-sec{margin:0;line-height:1;display:flex;align-items:center;}
   .mem-filter{display:flex;gap:6px;}
   .mem-chip{border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;padding:6px 13px;border-radius:13px;background:#efeaf7;color:#8574b5;transition:.12s;}
   .mem-chip.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 5px 12px -6px rgba(140,116,181,.6);}
   .mem-chip:active{transform:scale(.96);}
-  .mem-more{display:flex;align-items:center;justify-content:center;gap:9px;width:calc(100% - 44px);margin:10px 22px 4px;padding:13px;border:none;border-radius:16px;background:#fff;color:#7a68ad;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px -12px rgba(120,90,140,.45),inset 0 0 0 1px rgba(139,116,181,.18);transition:.15s;}
-  .mem-more:active{transform:scale(.99);}
-  .mem-more .mm-ic{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#e3daf6,#d5c8ef);flex-shrink:0;}
-  .mem-more .mm-ic svg{width:13px;height:13px;stroke:#6f5aa6;}
-  .mem-more .mm-n{font-size:11px;font-weight:800;color:#8574b5;background:#efe9f7;padding:2px 9px;border-radius:9px;}
+  .mem-more{display:flex;align-items:center;gap:12px;width:calc(100% - 44px);margin:12px 22px 4px;padding:11px 14px;border:none;border-radius:17px;background:#fff;color:#7a68ad;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 10px 22px -13px rgba(120,90,140,.5),inset 0 0 0 1px rgba(139,116,181,.16);transition:.15s;}
+  .mem-more:active{transform:scale(.99);box-shadow:0 5px 14px -11px rgba(120,90,140,.5),inset 0 0 0 1px rgba(139,116,181,.26);}
+  .mem-more .mm-stack{display:flex;flex-shrink:0;padding-left:8px;}
+  .mem-more .mm-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:2.5px solid #fff;margin-left:-8px;box-shadow:0 2px 5px -1px rgba(90,70,110,.28);}
+  .mem-more .mm-txt{flex:1;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;text-align:left;}
+  .mem-more .mm-sub{font-size:11.5px;font-weight:700;color:#a99fbb;}
+  .mem-more .mm-chev{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#e3daf6,#d5c8ef);}
+  .mem-more .mm-chev svg{width:14px;height:14px;stroke:#6f5aa6;}
   .pn-av{width:96px;height:96px;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:50px;box-shadow:0 16px 30px -12px rgba(120,90,140,.4);}
   .pn-av.round{border-radius:50%;position:relative;}
   .pn-av.round.on::after{content:'';position:absolute;left:5px;bottom:5px;width:18px;height:18px;border-radius:50%;background:#3fbe80;box-shadow:0 0 0 4px #f6f4fa;}
@@ -1379,6 +1382,7 @@
       MEM_LIST=MEMBERS.slice();
       var _extra=['Olivia Brown','Ethan Clark','Ava Lewis','Mason Hall','Isla Young','Leo Walker','Mia Turner','Noah Green','Zoe Adams','Kai Nelson','Ruby Carter','Finn Baker'];
       var _k=0; while(MEM_LIST.length<26){ var _b=MEMBERS[_k%MEMBERS.length]; var _c=Object.assign({},_b); _c.n=_extra[_k%_extra.length]; _c.role='Member'; _c.on=(_k%3!==0); _c.seen=_c.on?'online':'last seen recently'; MEM_LIST.push(_c); _k++; }
+      MEM_LIST.sort(function(a,b){ return (b.on?1:0)-(a.on?1:0); });
       MEM_FILTER='all'; MEM_SHOWN=MEM_PAGE;
       renderMembers();
       document.getElementById('details').classList.add('open');
@@ -1396,7 +1400,11 @@
           '<div class="mem-s">'+(m.on?'Online':m.seen)+'</div></div></div>';
       }).join('');
       var wrap=document.getElementById('memMore'), remaining=filtered.length-MEM_SHOWN;
-      if(remaining>0){ wrap.innerHTML='<button class="mem-more" onclick="loadMoreMembers()"><span class="mm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>Load more members<span class="mm-n">'+remaining+'</span></button>'; }
+      if(remaining>0){
+        var preview=filtered.slice(MEM_SHOWN, MEM_SHOWN+3);
+        var stack=preview.map(function(m){ return '<span class="mm-av" style="background:radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')">'+m.e+'</span>'; }).join('');
+        wrap.innerHTML='<button class="mem-more" onclick="loadMoreMembers()"><span class="mm-stack">'+stack+'</span><span class="mm-txt">Load more members<span class="mm-sub">'+remaining+' more</span></span><span class="mm-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>';
+      }
       else { wrap.innerHTML=''; }
     }
     function loadMoreMembers(){ MEM_SHOWN+=MEM_PAGE; renderMembers(); }
