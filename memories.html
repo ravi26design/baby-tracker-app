@@ -866,7 +866,11 @@
       var grp=document.querySelector('.tgroup[data-group="First Year"]');
       var lbl=document.querySelector('.tgroup-label[data-group="First Year"]');
       if(grp){ grp.classList.remove('collapsed'); grp.style.maxHeight=''; if(lbl) lbl.classList.remove('collapsed'); }
-      var nodeEmo = '❤️';
+      var MS_LOOKUP={}; Object.keys(MS_YEARS).forEach(function(y){ MS_YEARS[y].forEach(function(mm){ MS_LOOKUP[mm[0]]=[mm[1],mm[2],mm[3]]; }); });
+      var _ms=MS_LOOKUP[t];
+      var _hc=[['#ffd9e2','#f3a9bd'],['#cfe0ff','#a9c3f3'],['#e7d9ff','#c3a9f3'],['#ffe0c0','#f3b481'],['#d6f3e0','#9cd9b4']][Math.floor(Math.random()*5)];
+      var nodeEmo = _ms ? _ms[0] : '❤️';
+      var nodeBg = _ms ? ('linear-gradient(150deg,'+_ms[1]+','+_ms[2]+')') : ('radial-gradient(circle at 45% 35%,'+_hc[0]+','+_hc[1]+')');
       var it=document.createElement('div');
       it.className='titem'; it.setAttribute('data-child',CUR_CHILD); it.setAttribute('data-group','Today');
       it.innerHTML='<span class="tnode" style="background:radial-gradient(circle at 45% 35%,#e3daf6,#c9b8ef)">❤️</span>'+
