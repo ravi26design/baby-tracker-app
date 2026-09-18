@@ -501,9 +501,10 @@
   .done-btn .db-ic{display:none;}
   .done-btn.done{background:#e9f7f0;color:#1c9b62;box-shadow:inset 0 0 0 1.6px rgba(34,181,115,.45);}
   .done-btn.done .db-ic{display:flex;align-items:center;}
-  .vid-titlerow{display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .vid-tag{flex-shrink:0;font-size:11.5px;font-weight:700;color:#8574b5;background:#efeaf7;padding:5px 12px;border-radius:20px;}
-  .vid-title{flex:1;min-width:0;font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.1;}
+  .vid-title{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.1;}
+  .vid-tags{display:flex;gap:7px;margin-top:12px;}
+  .vid-tag{font-size:11.5px;font-weight:700;color:#8574b5;background:#efeaf7;padding:5px 12px;border-radius:20px;}
+  .vid-tag.alt{color:#3f8fe0;background:#e3effb;}
   .vid-desc{font-size:14px;font-weight:500;color:#6a645f;line-height:1.6;margin-top:12px;}
   .vid-fb{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid #f1eded;}
   .vid-fb-q{font-size:13.5px;font-weight:700;color:#8a8394;}
@@ -763,7 +764,8 @@
         </video>
       </div>
       <div class="vid-body">
-        <div class="vid-titlerow"><div class="vid-title" id="vidTitle">Floor Play</div><span class="vid-tag" id="vidTag">Motor</span></div>
+        <div class="vid-title" id="vidTitle">Floor Play</div>
+        <div class="vid-tags" id="vidTags"></div>
         <div class="vid-desc" id="vidDesc"></div>
         <div class="vid-fb">
           <span class="vid-fb-q">Was this helpful?</span>
@@ -1012,7 +1014,8 @@
       var meta  = el ? (el.querySelector('.meta')||{}).textContent : '';
       var tag   = meta && meta.indexOf('·')>-1 ? meta.split('·')[1].trim() : (meta||'Activity');
       document.getElementById('vidTitle').textContent = title;
-      document.getElementById('vidTag').textContent = tag;
+      var dur = meta && meta.indexOf('·')>-1 ? meta.split('·')[0].trim() : '';
+      document.getElementById('vidTags').innerHTML = '<span class="vid-tag">'+tag+'</span>' + (dur ? '<span class="vid-tag alt">'+dur+'</span>' : '');
       document.getElementById('vidDesc').textContent = (el && el.getAttribute('data-desc')) || ACT_DESC[title] || ACT_DESC_FALLBACK;
       CURRENT_ACT = title;
       setDoneBtn(!!DONE[title]);
