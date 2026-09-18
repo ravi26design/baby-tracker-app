@@ -1014,8 +1014,9 @@
       var meta  = el ? (el.querySelector('.meta')||{}).textContent : '';
       var tag   = meta && meta.indexOf('·')>-1 ? meta.split('·')[1].trim() : (meta||'Activity');
       document.getElementById('vidTitle').textContent = title;
-      var dur = meta && meta.indexOf('·')>-1 ? meta.split('·')[0].trim() : '';
-      document.getElementById('vidTags').innerHTML = '<span class="vid-tag">'+tag+'</span>' + (dur ? '<span class="vid-tag alt">'+dur+'</span>' : '');
+      var TAG2={'Motor':'Active Play','Language':'Bonding','Social':'Interaction','Cognitive':'Problem Solving','Sensory':'Exploration'};
+      var tag2 = TAG2[tag] || 'Play';
+      document.getElementById('vidTags').innerHTML = '<span class="vid-tag">'+tag+'</span><span class="vid-tag alt">'+tag2+'</span>';
       document.getElementById('vidDesc').textContent = (el && el.getAttribute('data-desc')) || ACT_DESC[title] || ACT_DESC_FALLBACK;
       CURRENT_ACT = title;
       setDoneBtn(!!DONE[title]);
