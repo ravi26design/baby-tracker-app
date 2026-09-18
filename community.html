@@ -576,7 +576,7 @@
   .msg.me .bub .tm{color:rgba(255,255,255,.75);}
   .tk{width:17px;height:11px;color:rgba(255,255,255,.7);flex-shrink:0;}
   .tk.read{color:#5fd0ff;}
-  .seenby{align-self:flex-end;font-size:10.5px;color:#9a8fb3;font-weight:600;margin:-4px 4px 2px;display:none;}
+  .seenby{align-self:center;text-align:center;font-size:10.5px;color:#9a8fb3;font-weight:600;margin:-4px 4px 2px;display:none;}
   .seenby.show{display:block;}
   .typing{display:flex;gap:9px;align-items:flex-end;}
   .typing .bub{display:flex;align-items:center;gap:4px;padding:11px 13px;}
@@ -1283,9 +1283,10 @@
     function av(m,cls){var i=MEMBERS.indexOf(m);var oc=i>-1?' onclick="event.stopPropagation();openProfile('+i+')"':'';return '<span class="'+(cls||'msg-av')+'"'+oc+' style="cursor:pointer;background:radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')">'+m.e+'</span>';}
 
     var EXPERT_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    function chatTagLabel(m){ if(m.tagKind!=='expert') return m.tag; if(m.tag==='Doctor') return 'Doctor'; if(m.tag==='Verified') return 'Verified'; return 'Expert'; }
     function incoming(m,text,kind){
       var q=kind==='q'?' q':'';
-      var tag = m.tag ? '<span class="who-tag'+(m.tagKind==='expert'?' expert':'')+'" style="background:'+(m.tagBg||'#efeaf7')+';color:'+(m.tagFg||'#8574b5')+'">'+(m.tagKind==='expert'?EXPERT_IC:'')+esc(m.tag)+'</span>' : '';
+      var tag = m.tag ? '<span class="who-tag'+(m.tagKind==='expert'?' expert':'')+'" style="background:'+(m.tagBg||'#efeaf7')+';color:'+(m.tagFg||'#8574b5')+'">'+(m.tagKind==='expert'?EXPERT_IC:'')+esc(chatTagLabel(m))+'</span>' : '';
       return '<div class="msg'+q+'">'+av(m)+'<div class="bub" onclick="openMsgMenu(this)"><div class="who">'+esc(m.n)+tag+'</div><div class="txt">'+esc(text)+'</div></div></div>';
     }
     function mine(text,tm,state){
