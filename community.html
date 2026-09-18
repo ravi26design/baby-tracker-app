@@ -593,7 +593,26 @@
   .pn-back{width:38px;height:38px;flex-shrink:0;border:none;background:rgba(255,255,255,.7);border-radius:50%;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-soft);}
   .pn-body{flex:1;overflow-y:auto;}
   .pn-body::-webkit-scrollbar{display:none;}
+  .pn-bar-title{font-size:16px;font-weight:800;color:#3a332e;letter-spacing:-.2px;}
   .pn-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 22px 22px;}
+  .dt-row{display:flex;align-items:center;gap:13px;margin:2px 20px 8px;padding:13px 15px;background:#fff;border-radius:17px;cursor:pointer;box-shadow:0 6px 16px -11px rgba(120,90,140,.4),inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
+  .dt-row:active{transform:scale(.99);}
+  .dt-row .dtr-ic{width:38px;height:38px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#fdeecb,#f8dd9c);}
+  .dt-row .dtr-ic svg{width:19px;height:19px;fill:#e0a52b;}
+  .dt-row .dtr-info{flex:1;min-width:0;}
+  .dt-row .dtr-t{font-size:14.5px;font-weight:800;color:#3a332e;}
+  .dt-row .dtr-s{font-size:12px;color:#9a8fb3;font-weight:600;margin-top:1px;}
+  .dt-row .dtr-n{font-size:12.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:2px 9px;border-radius:9px;flex-shrink:0;}
+  .dt-row .dtr-chev{color:#c9c0d8;display:flex;flex-shrink:0;}
+  .st-list{padding:8px 18px 24px;display:flex;flex-direction:column;gap:11px;}
+  .st-item{background:#fff;border-radius:16px;padding:13px 15px;cursor:pointer;box-shadow:0 6px 16px -11px rgba(120,90,140,.4),inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
+  .st-item:active{transform:scale(.99);}
+  .st-top{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+  .st-star{color:#f5b301;font-size:13px;line-height:1;}
+  .st-who{font-size:13px;font-weight:800;color:#6a5fb0;}
+  .st-msg{font-size:13.5px;color:#4a443f;line-height:1.5;}
+  .st-empty{text-align:center;color:#9a8fb3;font-size:13.5px;padding:64px 34px;line-height:1.7;}
+  .st-empty .se-ic{font-size:42px;display:block;margin-bottom:14px;}
   .pn-av{width:96px;height:96px;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:50px;box-shadow:0 16px 30px -12px rgba(120,90,140,.4);}
   .pn-av.round{border-radius:50%;position:relative;}
   .pn-av.round.on::after{content:'';position:absolute;left:5px;bottom:5px;width:18px;height:18px;border-radius:50%;background:#3fbe80;box-shadow:0 0 0 4px #f6f4fa;}
@@ -983,10 +1002,7 @@
           </div>
           <button class="search-close" onclick="closeSearch()">Cancel</button>
         </div>
-        <div class="starred-bar" id="starredBar" style="display:none">
-          <div class="sb-head"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg> Starred <span class="sb-count" id="sbCount"></span></div>
-          <div class="sb-list" id="sbList"></div>
-        </div>
+        <div id="sbList" style="display:none"></div>
         <div class="chat-body" id="chatBody"></div>
         <div class="reply-bar" id="replyBar" style="display:none">
           <div class="rb-line"></div>
@@ -1014,11 +1030,28 @@
             <div class="pn-sub" id="dtSub"></div>
             <div class="pn-desc" id="dtDesc"></div>
           </div>
+          <div class="dt-row" onclick="openStarred()">
+            <span class="dtr-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg></span>
+            <div class="dtr-info"><div class="dtr-t">Starred Messages</div><div class="dtr-s">Saved from this chat</div></div>
+            <span class="dtr-n" id="dtStarCount">0</span>
+            <span class="dtr-chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+          </div>
           <div class="pn-sec" id="dtMemCount"></div>
           <div id="dtMembers"></div>
           <button class="leave-btn" onclick="leaveGroup()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Leave Group</button>
           <div style="height:26px"></div>
         </div>
+      </div>
+
+      <!-- starred messages panel -->
+      <div class="panel" id="starred">
+        <div class="statusbar"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
+          </div></div>
+        <div class="pn-bar"><button class="pn-back" onclick="closePanel('starred')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><span class="pn-bar-title">Starred Messages</span></div>
+        <div class="pn-body"><div class="st-list" id="dtStarList"></div></div>
       </div>
 
       <!-- member profile panel -->
@@ -1070,7 +1103,7 @@
     function msgReact(emo){ if(MM_TARGET) addReaction(MM_TARGET,emo); closeMsgMenu(); }
     var STAR_ID=0;
     function toggleStar(bub){
-      var list=document.getElementById('sbList'), barEl=document.getElementById('starredBar');
+      var list=document.getElementById('sbList');
       if(STARRED.has(bub)){
         STARRED.delete(bub);
         var s=bub.querySelector('.bub-star'); if(s) s.remove();
@@ -1090,8 +1123,35 @@
         item.querySelector('.sb-x').onclick=function(ev){ ev.stopPropagation(); toggleStar(bub); };
         list.appendChild(item);
       }
-      barEl.style.display = list.children.length ? 'block' : 'none';
-      document.getElementById('sbCount').textContent = list.children.length;
+      updateStarCount();
+    }
+    function updateStarCount(){
+      var list=document.getElementById('sbList');
+      var n=list?list.children.length:0;
+      var badge=document.getElementById('dtStarCount'); if(badge) badge.textContent=n;
+    }
+    function openStarred(){
+      var src=document.getElementById('sbList'), wrap=document.getElementById('dtStarList');
+      var items=src?src.querySelectorAll('.sb-item'):[];
+      if(!items.length){
+        wrap.innerHTML='<div class="st-empty"><span class="se-ic">⭐</span>No starred messages yet.<br>Tap a message and choose “Star” to save it here.</div>';
+      } else {
+        wrap.innerHTML='';
+        Array.prototype.forEach.call(items, function(it){
+          var sid=it.getAttribute('data-star');
+          var who=it.querySelector('.sb-who').textContent, msg=it.querySelector('.sb-msg').textContent;
+          var row=document.createElement('div'); row.className='st-item';
+          row.innerHTML='<div class="st-top"><span class="st-star">★</span><span class="st-who"></span></div><div class="st-msg"></div>';
+          row.querySelector('.st-who').textContent=who; row.querySelector('.st-msg').textContent=msg;
+          row.onclick=function(){
+            closePanel('starred'); closePanel('details');
+            var bub=document.querySelector('#chatBody .bub[data-star="'+sid+'"]');
+            if(bub){ setTimeout(function(){ bub.scrollIntoView({behavior:'smooth',block:'center'}); bub.classList.add('flash'); setTimeout(function(){bub.classList.remove('flash');},1200); },340); }
+          };
+          wrap.appendChild(row);
+        });
+      }
+      document.getElementById('starred').classList.add('open');
     }
     function openSearch(){ var b=document.getElementById('searchBar'); b.classList.add('open'); var i=document.getElementById('searchInput'); i.value=''; runSearch(); setTimeout(function(){ i.focus(); },90); }
     function closeSearch(){ document.getElementById('searchBar').classList.remove('open'); document.getElementById('searchInput').value=''; runSearch(); }
@@ -1239,7 +1299,7 @@
       });
       html+='<div class="seenby" id="seenBy"></div>';
       body.innerHTML=html;
-      var _sl=document.getElementById('sbList'); if(_sl){ _sl.innerHTML=''; document.getElementById('starredBar').style.display='none'; }
+      var _sl=document.getElementById('sbList'); if(_sl){ _sl.innerHTML=''; }
       var _sb=document.getElementById('searchBar'); if(_sb){ _sb.classList.remove('open'); document.getElementById('searchInput').value=''; }
       // seen by on last own message
       var sb=document.getElementById('seenBy');
@@ -1300,6 +1360,7 @@
       document.getElementById('dtName').textContent=g.name;
       document.getElementById('dtSub').textContent=g.members+' members · '+g.online+' online';
       document.getElementById('dtDesc').textContent=g.desc;
+      updateStarCount();
       document.getElementById('dtMemCount').textContent=MEMBERS.length+' Members';
       document.getElementById('dtMembers').innerHTML=MEMBERS.map(function(m,i){
         return '<div class="mem'+(m.on?' on':'')+'" onclick="openProfile('+i+')">'+av(m,'mem-av')+
