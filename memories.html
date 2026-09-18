@@ -604,9 +604,9 @@
   .ms-year:active{transform:scale(.96);}
   .ms-year.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 6px 14px -6px rgba(140,116,181,.6);}
 
-  .ms-next{cursor:pointer;}
-  .ms-next .ms-ic{background:linear-gradient(150deg,#b0a2d8,#9b8bc4)!important;color:#fff;}
-  .ms-next .ms-add{color:#8574b5;}
+  .ms-nav{cursor:pointer;}
+  .ms-nav .ms-ic{background:linear-gradient(150deg,#b0a2d8,#9b8bc4)!important;color:#fff;}
+  .ms-nav .ms-add{color:#8574b5;}
 </style>
 </head>
 <body>
@@ -784,12 +784,17 @@
       var plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
       var list=MS_YEARS[year]||[];
       var order=['Year 1','Year 2','Year 3'];
-      var next=order[(order.indexOf(year)+1)%order.length];
-      var arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-      var html=list.map(function(m){
+      var idx=order.indexOf(year);
+      var prev = idx>0 ? order[idx-1] : null;
+      var next = idx<order.length-1 ? order[idx+1] : null;
+      var rArrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      var lArrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+      function navCard(y,ic){ return '<div class="ms-card ms-nav" onclick="setMsYear(\''+y+'\')"><span class="ms-ic">'+ic+'</span><span class="ms-name">'+y+'</span><span class="ms-add">View list</span></div>'; }
+      var html = prev ? navCard(prev,lArrow) : '';
+      html += list.map(function(m){
         return '<div class="ms-card" data-ms="'+m[0]+'" onclick="openAdd(\''+m[0]+'\')"><span class="ms-ic" style="background:linear-gradient(150deg,'+m[2]+','+m[3]+')">'+m[1]+'</span><span class="ms-name">'+m[0]+'</span><span class="ms-add">'+plus+' Add</span></div>';
       }).join('');
-      html+='<div class="ms-card ms-next" onclick="setMsYear(\''+next+'\')"><span class="ms-ic">'+arrow+'</span><span class="ms-name">'+next+'</span><span class="ms-add">View list</span></div>';
+      if(next) html += navCard(next,rArrow);
       document.getElementById('msStrip').innerHTML=html;
     }
     function setMsYear(year){
