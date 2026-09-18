@@ -502,8 +502,10 @@
   .mp-back{width:42px;height:42px;border-radius:50%;flex-shrink:0;background:#fff;box-shadow:var(--shadow-soft),var(--ring);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);}
   .mp-back:active{transform:scale(.96);}
   .mp-title{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
-  .tgroup-label.hide,.titem.hide,.tgroup.hide{display:none;}
+  .tgroup-label.hide,.titem.hide,.tgroup.hide,.titem.pagehide{display:none;}
   .tgroup{position:relative;}
+  .load-more{display:block;width:100%;margin:2px 0 22px;padding:13px;border:none;border-radius:16px;background:#f4f1f8;color:#8574b5;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:.12s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+  .load-more:active{transform:scale(.99);background:#ece7f2;}
   .titem{position:relative;display:flex;gap:15px;padding-bottom:24px;}
   .titem::before{content:'';position:absolute;left:20px;top:46px;bottom:-6px;width:2px;background:linear-gradient(#e4def0,#ece7f4);}
   .titem:last-child::before,.titem.last-visible::before{display:none;}
@@ -898,7 +900,8 @@
       document.getElementById('afTitle').value=''; document.getElementById('afDesc').value=''; document.getElementById('afDate').value='';
       var msc=document.querySelector('.ms-card[data-ms="'+t+'"]'); if(msc){ msc.remove(); }
       var _sp2=document.getElementById('mPhotos'); if(_sp2) _sp2.innerHTML='';
-      refreshCounts(); closeAdd();
+      if(MS_SHOWN['First Year']!=null) MS_SHOWN['First Year']+=1;
+      paginate('First Year'); refreshCounts(); closeAdd();
       it.scrollIntoView({behavior:'smooth',block:'center'});
     }
 
@@ -910,6 +913,26 @@
         if(c) c.textContent=n;
       });
     }
+    var MS_PAGE=10, MS_SHOWN={};
+    function paginate(grp){
+      var g=document.querySelector('.tgroup[data-group="'+grp+'"]');
+      if(!g) return;
+      if(MS_SHOWN[grp]==null) MS_SHOWN[grp]=MS_PAGE;
+      var items=g.querySelectorAll('.titem:not(.hide)');
+      items.forEach(function(it,i){ it.classList.toggle('pagehide', i>=MS_SHOWN[grp]); });
+      var remaining=items.length-MS_SHOWN[grp];
+      var btn=g.querySelector('.load-more');
+      if(remaining>0){
+        if(!btn){
+          btn=document.createElement('button'); btn.className='load-more'; btn.setAttribute('data-group',grp);
+          btn.onclick=function(e){ e.stopPropagation(); MS_SHOWN[grp]+=MS_PAGE; paginate(grp); if(!g.classList.contains('collapsed')) g.style.maxHeight=''; };
+          g.appendChild(btn);
+        }
+        btn.textContent='Load more memories ('+remaining+')';
+        btn.style.display='';
+      } else if(btn){ btn.style.display='none'; }
+    }
+    function paginateAll(){ document.querySelectorAll('#mtimeline .tgroup').forEach(function(g){ paginate(g.getAttribute('data-group')); }); }
     function toggleGroup(grp){
       var g=document.querySelector('.tgroup[data-group="'+grp+'"]');
       var lbl=document.querySelector('.tgroup-label[data-group="'+grp+'"]');
@@ -921,6 +944,7 @@
     }
     function switchChild(key){
       CUR_CHILD=key;
+      MS_SHOWN={};
       document.querySelectorAll('#childTabs .child-tab').forEach(function(t){
         t.classList.toggle('active', t.getAttribute('data-key')===key);
       });
@@ -937,6 +961,7 @@
       });
       var all=Array.prototype.filter.call(document.querySelectorAll('#mtimeline .titem'),function(it){return !it.classList.contains('hide');});
       if(all.length) all[all.length-1].classList.add('last-visible');
+      paginateAll();
       refreshCounts();
     }
 
@@ -964,6 +989,21 @@
       body.addEventListener('touchend',function(e){var dy=e.changedTouches[0].clientY-ty;if(!isFull()){if(dy<-45)expand();else if(dy>45)closeMemSheet();}else if(body.scrollTop<=0&&dy>45){toHalf();}},{passive:true});
       var sY=0,drag=false;grab.addEventListener('pointerdown',function(e){drag=true;sY=e.clientY;grab.setPointerCapture(e.pointerId);});
       grab.addEventListener('pointerup',function(e){if(!drag)return;drag=false;var dy=e.clientY-sY;if(dy<-22)expand();else if(dy>22)stepDown();});
+    })();
+    (function seedThird(){
+      var g=document.querySelector('.tgroup[data-group="Third Year"]');
+      if(!g) return;
+      var base=Array.prototype.slice.call(g.querySelectorAll('.titem'));
+      if(!base.length) return;
+      var names=['Emma','Noah','Ava','Oliver','Sophia','Mia','Lucas'];
+      var whens=['3 hours ago','Yesterday','2 days ago','4 days ago','Last week','6 days ago','Last Sunday'];
+      var need=12-base.length,i=0;
+      while(need-->0){
+        var cl=base[i%base.length].cloneNode(true);
+        var nm=cl.querySelector('.mc-name'); if(nm) nm.textContent=names[i%names.length];
+        var wh=cl.querySelector('.mc-when'); if(wh) wh.textContent=whens[i%whens.length];
+        g.appendChild(cl); i++;
+      }
     })();
     switchChild('mark');
     if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); }
