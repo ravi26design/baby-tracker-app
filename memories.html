@@ -603,6 +603,10 @@
   .ms-year{border:none;cursor:pointer;font-family:inherit;background:#f4f1f8;color:#8574b5;font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:18px;transition:.12s;}
   .ms-year:active{transform:scale(.96);}
   .ms-year.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 6px 14px -6px rgba(140,116,181,.6);}
+
+  .ms-next{cursor:pointer;}
+  .ms-next .ms-ic{background:linear-gradient(150deg,#b0a2d8,#9b8bc4)!important;color:#fff;}
+  .ms-next .ms-add{color:#8574b5;}
 </style>
 </head>
 <body>
@@ -779,9 +783,14 @@
     function renderMilestones(year){
       var plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
       var list=MS_YEARS[year]||[];
-      document.getElementById('msStrip').innerHTML=list.map(function(m){
+      var order=['Year 1','Year 2','Year 3'];
+      var next=order[(order.indexOf(year)+1)%order.length];
+      var arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      var html=list.map(function(m){
         return '<div class="ms-card" data-ms="'+m[0]+'" onclick="openAdd(\''+m[0]+'\')"><span class="ms-ic" style="background:linear-gradient(150deg,'+m[2]+','+m[3]+')">'+m[1]+'</span><span class="ms-name">'+m[0]+'</span><span class="ms-add">'+plus+' Add</span></div>';
       }).join('');
+      html+='<div class="ms-card ms-next" onclick="setMsYear(\''+next+'\')"><span class="ms-ic">'+arrow+'</span><span class="ms-name">'+next+'</span><span class="ms-add">View list</span></div>';
+      document.getElementById('msStrip').innerHTML=html;
     }
     function setMsYear(year){
       document.querySelectorAll('.ms-year').forEach(function(b){ b.classList.toggle('sel', b.getAttribute('data-y')===year); });
@@ -873,7 +882,7 @@
       var nodeBg = _ms ? ('linear-gradient(150deg,'+_ms[1]+','+_ms[2]+')') : ('radial-gradient(circle at 45% 35%,'+_hc[0]+','+_hc[1]+')');
       var it=document.createElement('div');
       it.className='titem'; it.setAttribute('data-child',CUR_CHILD); it.setAttribute('data-group','Today');
-      it.innerHTML='<span class="tnode" style="background:radial-gradient(circle at 45% 35%,#e3daf6,#c9b8ef)">❤️</span>'+
+      it.innerHTML='<span class="tnode" style="background:'+nodeBg+'">'+nodeEmo+'</span>'+
         '<div class="tcontent">'+
         '<div class="mcard" onclick="location.href=\'memory.html\'" style="cursor:pointer">'+'<button class="mc-menu" onclick="event.stopPropagation();openCardMenu(this)" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>'+
           '<div class="mc-user"><div class="mc-meta"><div class="mc-name">You</div><div class="mc-when">'+when+'</div></div></div>'+
