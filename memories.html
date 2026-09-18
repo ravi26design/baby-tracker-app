@@ -598,6 +598,11 @@
   .am-t{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .am-save{border:none;cursor:pointer;font-family:inherit;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:13.5px;font-weight:800;padding:9px 22px;border-radius:20px;box-shadow:0 8px 16px -7px rgba(140,116,181,.7);flex-shrink:0;transition:transform .12s;}
   .am-save:active{transform:scale(.97);}
+
+  .ms-years{display:flex;gap:8px;margin:14px 0 2px;}
+  .ms-year{border:none;cursor:pointer;font-family:inherit;background:#f4f1f8;color:#8574b5;font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:18px;transition:.12s;}
+  .ms-year:active{transform:scale(.96);}
+  .ms-year.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 6px 14px -6px rgba(140,116,181,.6);}
 </style>
 </head>
 <body>
@@ -627,7 +632,8 @@
             <button class="child-tab" data-key="lily" onclick="switchChild('lily')"><span class="ct-name">Lily</span></button>
           </div>
 
-          <div class="ms-strip"><div class="ms-card" data-ms="First Walk" onclick="openAdd('First Walk')"><span class="ms-ic" style="background:linear-gradient(150deg,#d5e6ff,#c3daff)">👣</span><span class="ms-name">First Walk</span><span class="ms-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add</span></div><div class="ms-card" data-ms="First Word" onclick="openAdd('First Word')"><span class="ms-ic" style="background:linear-gradient(150deg,#e3daf6,#d5c8ef)">💬</span><span class="ms-name">First Word</span><span class="ms-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add</span></div><div class="ms-card" data-ms="First Tooth" onclick="openAdd('First Tooth')"><span class="ms-ic" style="background:linear-gradient(150deg,#d3efdf,#bfe8d0)">🦷</span><span class="ms-name">First Tooth</span><span class="ms-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add</span></div><div class="ms-card" data-ms="First Birthday" onclick="openAdd('First Birthday')"><span class="ms-ic" style="background:linear-gradient(150deg,#ffe0ea,#ffc9db)">🎂</span><span class="ms-name">First Birthday</span><span class="ms-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add</span></div><div class="ms-card" data-ms="First Haircut" onclick="openAdd('First Haircut')"><span class="ms-ic" style="background:linear-gradient(150deg,#fff0d0,#ffe0a8)">✂️</span><span class="ms-name">First Haircut</span><span class="ms-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add</span></div></div>
+          <div class="ms-years" id="msYears"><button class="ms-year sel" data-y="Year 1" onclick="setMsYear('Year 1')">Year 1</button><button class="ms-year" data-y="Year 2" onclick="setMsYear('Year 2')">Year 2</button><button class="ms-year" data-y="Year 3" onclick="setMsYear('Year 3')">Year 3</button></div>
+          <div class="ms-strip" id="msStrip"></div>
 
           <button class="add-mem-btn" onclick="openAdd('')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add Custom Memory</button>
 
@@ -764,6 +770,23 @@
   </div>
 
   <script>
+
+    var MS_YEARS={
+      'Year 1':[['First Walk','👣','#d5e6ff','#c3daff'],['First Word','💬','#e3daf6','#d5c8ef'],['First Tooth','🦷','#d3efdf','#bfe8d0'],['First Birthday','🎂','#ffe0ea','#ffc9db'],['First Haircut','✂️','#fff0d0','#ffe0a8']],
+      'Year 2':[['First Sentence','🗣️','#e3daf6','#d5c8ef'],['First Run','🏃','#d5e6ff','#c3daff'],['Potty Training','🚽','#d3efdf','#bfe8d0'],['Second Birthday','🎂','#ffe0ea','#ffc9db'],['First Scribble','🖍️','#fff0d0','#ffe0a8']],
+      'Year 3':[['First Friend','🧒','#d5e6ff','#c3daff'],['First Puzzle','🧩','#e3daf6','#d5c8ef'],['Counting 1-10','🔢','#d3efdf','#bfe8d0'],['Third Birthday','🎂','#ffe0ea','#ffc9db'],['First Song','🎵','#fff0d0','#ffe0a8']]
+    };
+    function renderMilestones(year){
+      var plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
+      var list=MS_YEARS[year]||[];
+      document.getElementById('msStrip').innerHTML=list.map(function(m){
+        return '<div class="ms-card" data-ms="'+m[0]+'" onclick="openAdd(\''+m[0]+'\')"><span class="ms-ic" style="background:linear-gradient(150deg,'+m[2]+','+m[3]+')">'+m[1]+'</span><span class="ms-name">'+m[0]+'</span><span class="ms-add">'+plus+' Add</span></div>';
+      }).join('');
+    }
+    function setMsYear(year){
+      document.querySelectorAll('.ms-year').forEach(function(b){ b.classList.toggle('sel', b.getAttribute('data-y')===year); });
+      renderMilestones(year);
+    }
 
     var CARD_TARGET=null, EDIT_CARD=null;
     function openCardMenu(btn){ CARD_TARGET=btn.closest('.mcard'); document.getElementById('cardMenu').classList.add('open'); }
@@ -927,6 +950,7 @@
     })();
     switchChild('mark');
     if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); }
+    renderMilestones('Year 1');
   </script>
 
 </body>
