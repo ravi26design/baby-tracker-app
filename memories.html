@@ -993,13 +993,14 @@
     (function seedThird(){
       var g=document.querySelector('.tgroup[data-group="Third Year"]');
       if(!g) return;
-      var base=Array.prototype.slice.call(g.querySelectorAll('.titem'));
+      var base=Array.prototype.slice.call(g.querySelectorAll('.titem[data-child="mark"]'));
       if(!base.length) return;
       var names=['Emma','Noah','Ava','Oliver','Sophia','Mia','Lucas'];
       var whens=['3 hours ago','Yesterday','2 days ago','4 days ago','Last week','6 days ago','Last Sunday'];
       var need=12-base.length,i=0;
       while(need-->0){
         var cl=base[i%base.length].cloneNode(true);
+        cl.setAttribute('data-child','mark');
         var nm=cl.querySelector('.mc-name'); if(nm) nm.textContent=names[i%names.length];
         var wh=cl.querySelector('.mc-when'); if(wh) wh.textContent=whens[i%whens.length];
         g.appendChild(cl); i++;
