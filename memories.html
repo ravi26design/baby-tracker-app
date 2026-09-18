@@ -504,8 +504,12 @@
   .mp-title{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
   .tgroup-label.hide,.titem.hide,.tgroup.hide,.titem.pagehide{display:none;}
   .tgroup{position:relative;}
-  .load-more{display:block;width:100%;margin:2px 0 22px;padding:13px;border:none;border-radius:16px;background:#f4f1f8;color:#8574b5;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:.12s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
-  .load-more:active{transform:scale(.99);background:#ece7f2;}
+  .load-more{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin:4px 0 24px;padding:14px;border:none;border-radius:17px;background:#fff;color:#7a68ad;font-family:inherit;font-size:13.5px;font-weight:800;letter-spacing:-.1px;cursor:pointer;transition:.15s;box-shadow:0 8px 20px -12px rgba(120,90,140,.45),inset 0 0 0 1px rgba(139,116,181,.18);}
+  .load-more:active{transform:scale(.985);box-shadow:0 4px 12px -10px rgba(120,90,140,.45),inset 0 0 0 1px rgba(139,116,181,.3);}
+  .load-more .lm-ic{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#e3daf6,#d5c8ef);flex-shrink:0;}
+  .load-more .lm-ic svg{width:13px;height:13px;stroke:#6f5aa6;stroke-width:2.8;}
+  .load-more .lm-count{font-size:11px;font-weight:800;color:#8574b5;background:#efe9f7;padding:2px 9px;border-radius:9px;}
+  .titem.grp-last::before{display:none;}
   .titem{position:relative;display:flex;gap:15px;padding-bottom:24px;}
   .titem::before{content:'';position:absolute;left:20px;top:46px;bottom:-6px;width:2px;background:linear-gradient(#e4def0,#ece7f4);}
   .titem:last-child::before,.titem.last-visible::before{display:none;}
@@ -919,16 +923,17 @@
       if(!g) return;
       if(MS_SHOWN[grp]==null) MS_SHOWN[grp]=MS_PAGE;
       var items=g.querySelectorAll('.titem:not(.hide)');
-      items.forEach(function(it,i){ it.classList.toggle('pagehide', i>=MS_SHOWN[grp]); });
+      items.forEach(function(it,i){ it.classList.toggle('pagehide', i>=MS_SHOWN[grp]); it.classList.remove('grp-last'); });
       var remaining=items.length-MS_SHOWN[grp];
       var btn=g.querySelector('.load-more');
       if(remaining>0){
+        var lastShown=items[MS_SHOWN[grp]-1]; if(lastShown) lastShown.classList.add('grp-last');
         if(!btn){
           btn=document.createElement('button'); btn.className='load-more'; btn.setAttribute('data-group',grp);
           btn.onclick=function(e){ e.stopPropagation(); MS_SHOWN[grp]+=MS_PAGE; paginate(grp); if(!g.classList.contains('collapsed')) g.style.maxHeight=''; };
           g.appendChild(btn);
         }
-        btn.textContent='Load more memories ('+remaining+')';
+        btn.innerHTML='<span class="lm-ic"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>Load more memories<span class="lm-count">'+remaining+'</span>';
         btn.style.display='';
       } else if(btn){ btn.style.display='none'; }
     }
