@@ -884,8 +884,9 @@
 
   .ps-cat{margin-bottom:16px;}
   .ps-cat-label{font-size:11.5px;font-weight:800;color:#9a8fb3;text-transform:uppercase;letter-spacing:.3px;margin-bottom:9px;}
-  .ps-cat-chips{display:flex;flex-wrap:wrap;gap:8px;}
-  .ps-chip{border:none;cursor:pointer;font-family:inherit;background:#f4f1f8;color:#8574b5;font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:18px;transition:.12s;}
+  .ps-cat-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .ps-cat-chips::-webkit-scrollbar{display:none;}
+  .ps-chip{flex:0 0 auto;white-space:nowrap;border:none;cursor:pointer;font-family:inherit;background:#f4f1f8;color:#8574b5;font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:18px;transition:.12s;}
   .ps-chip:active{transform:scale(.96);}
   .ps-chip.sel{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 6px 14px -6px rgba(140,116,181,.6);}
 </style>
@@ -993,7 +994,7 @@
           <div class="ps-head"><span class="ps-t">New Post</span></div>
           <div class="ps-body">
             <div class="pp-row" id="pPhotos"></div>
-            <div class="ps-cat"><div class="ps-cat-label">Category</div><div class="ps-cat-chips"><button class="ps-chip" onclick="pickCat(this)">Sleep</button><button class="ps-chip" onclick="pickCat(this)">Feeding</button><button class="ps-chip" onclick="pickCat(this)">Health</button><button class="ps-chip" onclick="pickCat(this)">Play</button><button class="ps-chip" onclick="pickCat(this)">Milestones</button><button class="ps-chip" onclick="pickCat(this)">General</button></div></div>
+            <div class="ps-cat"><div class="ps-cat-label">Category</div><div class="ps-cat-chips"><button class="ps-chip" onclick="pickCat(this)">Sleep</button><button class="ps-chip" onclick="pickCat(this)">Feeding</button><button class="ps-chip" onclick="pickCat(this)">Health</button><button class="ps-chip" onclick="pickCat(this)">Play</button><button class="ps-chip" onclick="pickCat(this)">Milestones</button><button class="ps-chip" onclick="pickCat(this)">General</button><button class="ps-chip" onclick="pickCat(this)">Teething</button><button class="ps-chip" onclick="pickCat(this)">Bath Time</button><button class="ps-chip" onclick="pickCat(this)">Naps</button><button class="ps-chip" onclick="pickCat(this)">Weaning</button><button class="ps-chip" onclick="pickCat(this)">Diapers</button><button class="ps-chip" onclick="pickCat(this)">Development</button><button class="ps-chip" onclick="pickCat(this)">Safety</button><button class="ps-chip" onclick="pickCat(this)">Products</button><button class="ps-chip" onclick="pickCat(this)">Illness</button><button class="ps-chip" onclick="pickCat(this)">Vaccines</button><button class="ps-chip" onclick="pickCat(this)">Routines</button><button class="ps-chip" onclick="pickCat(this)">Bonding</button><button class="ps-chip" onclick="pickCat(this)">Activities</button><button class="ps-chip" onclick="pickCat(this)">Mental Health</button><button class="ps-chip" onclick="pickCat(this)">Postpartum</button></div></div>
             <textarea id="postText" placeholder="What's on your mind?"></textarea>
           </div>
           <div class="ps-foot"><button class="ps-post-btn" onclick="submitPost()">Post</button></div>
