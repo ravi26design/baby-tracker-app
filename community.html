@@ -532,8 +532,13 @@
   .panel{position:absolute;inset:0;border-radius:46px;overflow:hidden;z-index:45;background:#f4f1f8;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
   .panel.open{transform:translateX(0);}
   #details{z-index:46;background:#f6f4fa;}
-  #profile{z-index:47;background:#f6f4fa;}
   #starred{z-index:48;background:#f6f4fa;}
+  .prof-bd{position:absolute;inset:0;z-index:48;background:rgba(35,22,12,.44);opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s;}
+  .prof-bd.open{opacity:1;visibility:visible;}
+  #profile.sheet{z-index:49;top:auto;bottom:0;height:93%;border-radius:30px 30px 46px 46px;background:#f6f4fa;transform:translateY(100%);box-shadow:0 -14px 44px -12px rgba(60,40,70,.4);}
+  #profile.sheet.open{transform:translateY(0);}
+  .pn-grab{flex-shrink:0;padding:11px 0 5px;}
+  .pn-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e0d8ec;margin:0 auto;}
 
   /* chat */
   .chat-bar{flex-shrink:0;display:flex;align-items:center;gap:11px;padding:8px 14px 12px;background:#fff;box-shadow:0 2px 12px rgba(90,70,110,.08);cursor:pointer;}
@@ -565,6 +570,8 @@
   .who-tag.mom{background:#efeaf7;color:#8574b5;}
   .who-tag.expert{background:#e2f0f7;color:#1f86a8;}
   .who-tag svg{width:10px;height:10px;}
+  .who-tag.icon-only{padding:0;width:18px;height:18px;border-radius:50%;justify-content:center;gap:0;}
+  .who-tag.icon-only svg{width:11px;height:11px;}
   .bub .txt{font-size:13.5px;color:#413b36;line-height:1.4;}
   .bub .foot{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:4px;}
   .bub .tm{font-size:9.5px;color:#b3adae;font-weight:600;}
@@ -1096,14 +1103,10 @@
         <div class="pn-body"><div class="st-list" id="dtStarList"></div></div>
       </div>
 
-      <!-- member profile panel -->
-      <div class="panel" id="profile">
-        <div class="statusbar"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
-            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
-            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
-            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
-          </div></div>
-        <div class="pn-bar"><button class="pn-back" onclick="closePanel('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button></div>
+      <!-- member profile bottom sheet -->
+      <div class="prof-bd" id="profBd" onclick="closePanel('profile')"></div>
+      <div class="panel sheet" id="profile">
+        <div class="pn-grab"><span></span></div>
         <div class="pn-body">
           <div class="pn-hero">
             <div class="pr-av-wrap"><div class="pn-av round" id="prAv"></div></div>
@@ -1330,10 +1333,18 @@
     function av(m,cls){var i=MEMBERS.indexOf(m);var oc=i>-1?' onclick="event.stopPropagation();openProfile('+i+')"':'';return '<span class="'+(cls||'msg-av')+'"'+oc+' style="cursor:pointer;background:radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')">'+m.e+'</span>';}
 
     var EXPERT_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    var IC_STETHO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M6 3H4.5M14 3h1.5"/><path d="M10 15v1a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="12.5" r="2"/></svg>';
+    var IC_STAR='<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z"/></svg>';
+    var IC_SHIELD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7.5-3.6 7.5-9.6V5.6L12 2.9 4.5 5.6v6.8C4.5 18.4 12 22 12 22z"/><path d="m9 12 2 2 4-4"/></svg>';
     function chatTagLabel(m){ if(m.tagKind!=='expert') return m.tag; if(m.tag==='Doctor') return 'Doctor'; if(m.tag==='Verified') return 'Verified'; return 'Expert'; }
+    function chatTagIcon(m){ var l=chatTagLabel(m); if(l==='Doctor') return IC_STETHO; if(l==='Verified') return IC_SHIELD; return IC_STAR; }
     function incoming(m,text,kind){
       var q=kind==='q'?' q':'';
-      var tag = m.tag ? '<span class="who-tag'+(m.tagKind==='expert'?' expert':'')+'" style="background:'+(m.tagBg||'#efeaf7')+';color:'+(m.tagFg||'#8574b5')+'">'+(m.tagKind==='expert'?EXPERT_IC:'')+esc(chatTagLabel(m))+'</span>' : '';
+      var tag='';
+      if(m.tag){
+        if(m.tagKind==='expert') tag='<span class="who-tag icon-only expert" title="'+esc(chatTagLabel(m))+'" style="background:'+(m.tagBg||'#efeaf7')+';color:'+(m.tagFg||'#8574b5')+'">'+chatTagIcon(m)+'</span>';
+        else tag='<span class="who-tag" style="background:'+(m.tagBg||'#efeaf7')+';color:'+(m.tagFg||'#8574b5')+'">'+esc(m.tag)+'</span>';
+      }
       return '<div class="msg'+q+'">'+av(m)+'<div class="bub" onclick="openMsgMenu(this)"><div class="who">'+esc(m.n)+tag+'</div><div class="txt">'+esc(text)+'</div></div></div>';
     }
     function mine(text,tm,state){
@@ -1456,9 +1467,10 @@
       document.getElementById('prTopics').innerHTML=m.topics.map(function(t){return '<span class="pr-pill">'+t+'</span>';}).join('');
       document.getElementById('prBadges').innerHTML=m.badges.map(function(b){var ic=BADGE_ICONS[b[1]]||BADGE_ICONS._default;return '<div class="pr-badge"><span class="pb-ic" style="background:'+b[2]+';color:'+b[3]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span><span class="pb-l" style="color:'+b[3]+'">'+b[1]+'</span></div>';}).join('');
       document.getElementById('prBio').textContent=m.bio;
+      document.getElementById('profBd').classList.add('open');
       document.getElementById('profile').classList.add('open');
     }
-    function closePanel(id){ document.getElementById(id).classList.remove('open'); if(id==='chat'){clearTimeout(typingTimer); hideTyping();} }
+    function closePanel(id){ document.getElementById(id).classList.remove('open'); if(id==='profile'){ var b=document.getElementById('profBd'); if(b) b.classList.remove('open'); } if(id==='chat'){clearTimeout(typingTimer); hideTyping();} }
     function joinGroup(btn){ if(btn.classList.contains('joined'))return; btn.classList.add('joined'); btn.textContent='Joined ✓'; }
     document.getElementById('chatInput').addEventListener('keydown',function(e){ if(e.key==='Enter') sendMsg(); });
     if(location.hash==='#feeds'){ setTimeout(function(){ if(typeof switchTab==='function') switchTab('feeds'); },50); }
