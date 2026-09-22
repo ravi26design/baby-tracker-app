@@ -105,9 +105,11 @@
   .ob-track{display:flex;height:100%;transition:transform .4s cubic-bezier(.4,0,.2,1);}
   .ostep{flex:0 0 100%;padding:6px 26px 0;overflow-y:auto;}
   .ostep::-webkit-scrollbar{display:none;}
-  .ob-emoji{font-size:44px;}
-  .ob-h{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.2;margin-top:12px;}
+  .ob-emoji{width:60px;height:60px;border-radius:19px;display:flex;align-items:center;justify-content:center;font-size:32px;
+    background:linear-gradient(150deg,#efeaf7,#e3daf6);box-shadow:0 12px 26px -12px rgba(140,116,181,.55),inset 0 0 0 1px rgba(255,255,255,.6);}
+  .ob-h{font-size:23px;font-weight:800;letter-spacing:-.4px;line-height:1.2;margin-top:16px;}
   .ob-sub{font-size:13.5px;color:#8a8296;font-weight:500;margin-top:8px;line-height:1.5;}
+  .lbl-opt{font-weight:700;font-size:10px;color:#c0b6d2;margin-left:6px;text-transform:none;letter-spacing:0;}
   .ob-body{margin-top:26px;}
   .lbl{display:block;font-size:12px;font-weight:800;color:#8a8394;margin-bottom:8px;letter-spacing:.2px;}
   .field{width:100%;border:none;outline:none;background:var(--field);border-radius:14px;padding:15px 16px;font-family:inherit;font-size:15px;color:var(--ink);}
@@ -166,17 +168,17 @@
         <div class="intro-body">
           <div class="intro-track" id="introTrack">
             <div class="slide">
-              <div class="slide-art" style="background:linear-gradient(150deg,#ffe0ea,#ffc9db)">📸</div>
+              <div class="slide-art" style="background:linear-gradient(150deg,#ffe0ea,#ffc9db)"><svg width="118" height="118" viewBox="0 0 120 120" fill="none"><rect x="22" y="34" width="76" height="58" rx="15" fill="#fff6f9" stroke="#e07a97" stroke-width="4.5"/><circle cx="44" cy="54" r="8" fill="#ffcdb0"/><path d="M26 85l22-25 13 13 9-9 24 23" stroke="#e07a97" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 20c-3.2-4-9.6-3-9.6 2.3 0 3.9 5.2 7 9.6 9.4 4.4-2.4 9.6-5.5 9.6-9.4 0-5.3-6.4-6.3-9.6-2.3z" fill="#e07a97"/></svg></div>
               <h2>Capture precious memories</h2>
               <p>Save photos and little notes for every moment as your baby grows.</p>
             </div>
             <div class="slide">
-              <div class="slide-art" style="background:linear-gradient(150deg,#e3daf6,#d5c8ef)">🎯</div>
+              <div class="slide-art" style="background:linear-gradient(150deg,#e3daf6,#d5c8ef)"><svg width="118" height="118" viewBox="0 0 120 120" fill="none"><path d="M46 60l-9 34 23-13 23 13-9-34z" fill="#c9b8ef" stroke="#8a74c8" stroke-width="4.5" stroke-linejoin="round"/><circle cx="60" cy="46" r="28" fill="#f3eefb" stroke="#8a74c8" stroke-width="4.5"/><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.8 6.1 20.5l1.3-6.5-4.9-4.6 6.6-.8z" fill="#8a74c8" transform="translate(36 22) scale(2)"/></svg></div>
               <h2>Celebrate every milestone</h2>
               <p>First smile, first steps, first words — we'll help you remember them all.</p>
             </div>
             <div class="slide">
-              <div class="slide-art" style="background:linear-gradient(150deg,#d3efdf,#bfe8d0)">👨‍👩‍👧</div>
+              <div class="slide-art" style="background:linear-gradient(150deg,#d3efdf,#bfe8d0)"><svg width="118" height="118" viewBox="0 0 120 120" fill="none"><circle cx="43" cy="53" r="13" fill="#e6f7ee" stroke="#3f9b73" stroke-width="4.5"/><path d="M20 90c0-13 10-21 23-21s23 8 23 21" fill="#e6f7ee" stroke="#3f9b73" stroke-width="4.5" stroke-linejoin="round"/><circle cx="82" cy="57" r="12" fill="#c6ebd6" stroke="#3f9b73" stroke-width="4.5"/><path d="M62 92c0-12 9-19 20-19s20 7 20 19" fill="#c6ebd6" stroke="#3f9b73" stroke-width="4.5" stroke-linejoin="round"/><path d="M60 20c-3.4-4-9.6-3-9.6 2.3 0 3.9 5.2 7 9.6 9.4 4.4-2.4 9.6-5.5 9.6-9.4 0-5.3-6.2-6.3-9.6-2.3z" fill="#3f9b73"/></svg></div>
               <h2>A caring community</h2>
               <p>Connect with parents and trusted experts who've been right where you are.</p>
             </div>
@@ -221,15 +223,15 @@
         <div class="ob-window">
           <div class="ob-track" id="obTrack">
 
-            <!-- step 1: baby profile -->
+            <!-- step 1: baby profile (name, avatar, dob, gender) -->
             <div class="ostep">
               <div class="ob-emoji">👶</div>
-              <div class="ob-h">Let's set up your baby's profile</div>
-              <div class="ob-sub">This helps us personalize your little one's journey.</div>
+              <div class="ob-h">Set up your baby's profile</div>
+              <div class="ob-sub">A few quick details to personalize your little one's journey.</div>
               <div class="ob-body">
                 <label class="lbl">Baby's name</label>
                 <input class="field" id="babyName" type="text" placeholder="e.g. Mark" oninput="checkStep()" autocomplete="off">
-                <label class="lbl" style="margin-top:20px">Choose an avatar</label>
+                <label class="lbl" style="margin-top:22px">Choose an avatar</label>
                 <div class="ava-row" id="avaRow">
                   <div class="ava sel" onclick="pickAva(this,'👶')">👶</div>
                   <div class="ava" onclick="pickAva(this,'👶🏻')">👶🏻</div>
@@ -237,28 +239,10 @@
                   <div class="ava" onclick="pickAva(this,'👶🏾')">👶🏾</div>
                   <div class="ava" onclick="pickAva(this,'🍼')">🍼</div>
                 </div>
-              </div>
-            </div>
-
-            <!-- step 2: birthday -->
-            <div class="ostep">
-              <div class="ob-emoji">🎂</div>
-              <div class="ob-h">When were they born?</div>
-              <div class="ob-sub">We'll track age and surface the right milestones.</div>
-              <div class="ob-body">
-                <label class="lbl">Date of birth</label>
+                <label class="lbl" style="margin-top:22px">Date of birth</label>
                 <input class="field" id="babyDob" type="date" onchange="onDob()">
                 <div id="ageWrap"></div>
-              </div>
-            </div>
-
-            <!-- step 3: gender -->
-            <div class="ostep">
-              <div class="ob-emoji">🌸</div>
-              <div class="ob-h">A little more detail</div>
-              <div class="ob-sub">Optional — you can always change this later.</div>
-              <div class="ob-body">
-                <label class="lbl">Gender</label>
+                <label class="lbl" style="margin-top:22px">Gender <span class="lbl-opt">Optional</span></label>
                 <div class="seg" id="genderSeg">
                   <button onclick="pickSeg(this,'genderSeg')">👧 Girl</button>
                   <button onclick="pickSeg(this,'genderSeg')">👦 Boy</button>
@@ -358,7 +342,7 @@
   function googleAuth(){ goOnb(); }
 
   /* onboarding */
-  var step=0, SMAX=5, DATA={ava:'👶'};
+  var step=0, SMAX=3, DATA={ava:'👶'};
   function goOnb(){ show('onb'); step=0; renderStep(); }
   function renderStep(){
     document.getElementById('obTrack').style.transform='translateX(-'+(step*100)+'%)';
@@ -373,8 +357,7 @@
   }
   function checkStep(){
     var ok=true;
-    if(step===0) ok = (document.getElementById('babyName').value||'').trim().length>0;
-    if(step===1) ok = !!document.getElementById('babyDob').value;
+    if(step===0) ok = (document.getElementById('babyName').value||'').trim().length>0 && !!document.getElementById('babyDob').value;
     document.getElementById('obBtn').disabled = !ok;
   }
   function obBack(){ if(step>0){ step--; renderStep(); } else { openAuth('signup'); } }
