@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Tracker — Checklist</title>
+<style>
+  :root{
+    --ink:#3a332e; --muted:#a99c92;
+    --lav-1:#b0a2d8; --lav-2:#9b8bc4; --lav-3:#8574b5;
+    --field:#f3eef0; --chip:#f4f1f8;
+    --shadow-card:0 18px 40px -14px rgba(120,80,95,.22);
+    --shadow-soft:0 8px 22px -8px rgba(120,80,95,.18);
+    --btn-shadow:0 12px 22px -10px rgba(140,116,181,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#efeaf6,#e6e0f0 55%,#ece6f4);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px 0;
+    -webkit-font-smoothing:antialiased;color:var(--ink);}
+  .phone{position:relative;width:390px;height:844px;border-radius:56px;background:#0c0c0c;
+    box-shadow:0 50px 90px -30px rgba(40,20,30,.6),0 12px 30px rgba(40,20,30,.25),inset 0 0 0 2px #2a2a2a;overflow:hidden;}
+  .screen{position:absolute;inset:11px;border-radius:46px;overflow:hidden;background:linear-gradient(180deg,#f6f3fa,#efebf5);}
+  .scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding-bottom:120px;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  .statusbar{position:relative;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font-weight:700;color:var(--ink);z-index:3;}
+  .statusbar .time{font-size:16px;letter-spacing:.3px;}
+  .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:20px;}
+  .status-icons{display:flex;align-items:center;gap:7px;}
+
+  .content{padding:4px 22px 20px;}
+  .head{display:flex;align-items:flex-start;justify-content:space-between;margin-top:6px;}
+  .head h1{font-size:27px;font-weight:800;letter-spacing:-.5px;}
+  .head p{font-size:13px;color:var(--muted);font-weight:500;margin-top:3px;}
+  .kid-chip{display:flex;align-items:center;gap:8px;background:#fff;border-radius:16px;padding:7px 12px 7px 8px;box-shadow:var(--shadow-soft);}
+  .kid-chip .kf{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 45% 35%,#e7d9ff,#c3a9f3);display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .kid-chip .kn{font-size:13px;font-weight:800;}
+  .kid-chip .ka{font-size:10.5px;color:var(--muted);font-weight:600;}
+
+  /* progress card */
+  .prog-card{display:flex;align-items:center;gap:16px;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);color:#fff;border-radius:24px;padding:18px 20px;margin-top:18px;box-shadow:0 20px 38px -16px rgba(140,116,181,.75);}
+  .ring{position:relative;width:64px;height:64px;flex-shrink:0;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .rt{font-size:15px;font-weight:800;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+  .prog-card .pt{font-size:16px;font-weight:800;}
+  .prog-card .ps{font-size:12.5px;opacity:.85;font-weight:500;margin-top:3px;line-height:1.4;}
+
+  /* mode toggle */
+  .seg-tabs{display:flex;background:#ece5f4;border-radius:16px;padding:4px;margin-top:20px;}
+  .seg-tabs button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;padding:11px;border-radius:13px;background:none;color:#8574b5;transition:.15s;}
+  .seg-tabs button.on{background:#fff;color:var(--ink);box-shadow:0 6px 14px -8px rgba(120,90,140,.5);}
+
+  .sec-label{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#9a8fb3;margin:22px 4px 12px;}
+
+  /* age stage chips */
+  .stage-row{display:flex;gap:9px;overflow-x:auto;padding-bottom:2px;margin-top:16px;scrollbar-width:none;}
+  .stage-row::-webkit-scrollbar{display:none;}
+  .stage-chip{flex:0 0 auto;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:9px 15px;border-radius:15px;background:#fff;color:#8574b5;box-shadow:var(--shadow-soft);transition:.14s;}
+  .stage-chip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:var(--btn-shadow);}
+  .stage-chip .cur{font-size:9px;display:block;opacity:.8;font-weight:700;margin-top:1px;}
+
+  /* category cards */
+  .cat{background:#fff;border-radius:22px;padding:6px 8px 8px;margin-bottom:14px;box-shadow:var(--shadow-soft);}
+  .cat-head{display:flex;align-items:center;gap:12px;padding:12px 12px;cursor:pointer;}
+  .cat-ic{width:40px;height:40px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;}
+  .cat-t{flex:1;}
+  .cat-n{font-size:15.5px;font-weight:800;letter-spacing:-.2px;}
+  .cat-c{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .cat-chev{color:#c3bad4;transition:transform .25s;}
+  .cat.collapsed .cat-chev{transform:rotate(-90deg);}
+  .cat-body{overflow:hidden;transition:max-height .3s ease;}
+  .cat.collapsed .cat-body{max-height:0!important;}
+  .ci-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;cursor:pointer;transition:background .12s;}
+  .ci-row:active{background:#f7f4fb;}
+  .cbox{width:24px;height:24px;border-radius:8px;flex-shrink:0;box-shadow:inset 0 0 0 2px #dcd3ea;display:flex;align-items:center;justify-content:center;color:#fff;transition:.14s;}
+  .cbox svg{width:14px;height:14px;opacity:0;transition:.14s;}
+  .ci-row.done .cbox{background:linear-gradient(150deg,#a58fd8,#8f78c4);box-shadow:none;}
+  .ci-row.done .cbox svg{opacity:1;}
+  .ci-n{flex:1;font-size:14px;font-weight:600;color:var(--ink);transition:.14s;}
+  .ci-row.done .ci-n{color:#b8b0c4;text-decoration:line-through;}
+  .ess{font-size:9px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:2px 7px;border-radius:7px;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;}
+  .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
+  .shop-btn{width:30px;height:30px;border-radius:10px;flex-shrink:0;border:none;cursor:pointer;background:#f1ecf9;color:#8574b5;display:flex;align-items:center;justify-content:center;transition:.12s;}
+  .shop-btn:active{transform:scale(.9);}
+  .shop-btn svg{width:16px;height:16px;}
+
+  /* travel planner */
+  .planner{background:#fff;border-radius:24px;padding:18px;box-shadow:var(--shadow-soft);margin-top:16px;}
+  .p-lbl{font-size:12px;font-weight:800;color:#8a8394;margin-bottom:9px;letter-spacing:.2px;}
+  .dur-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .dur{flex:1 1 calc(50% - 4px);border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:12px;border-radius:14px;background:var(--chip);color:#8574b5;transition:.14s;border:2px solid transparent;}
+  .dur.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:var(--btn-shadow);}
+  .type-row{display:flex;gap:8px;margin-top:16px;}
+  .ttype{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;padding:12px 4px;border-radius:14px;background:var(--chip);color:#8574b5;transition:.14s;border:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .ttype .te{font-size:20px;}
+  .ttype.on{background:linear-gradient(150deg,#f2ecfb,#e6ddf7);border-color:var(--lav-2);color:var(--lav-3);}
+  .trip-sum{display:flex;align-items:center;gap:13px;background:linear-gradient(150deg,#efeaf7,#e3daf6);border-radius:20px;padding:15px 17px;margin-top:18px;}
+  .trip-sum .tse{width:44px;height:44px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;box-shadow:var(--shadow-soft);}
+  .trip-sum .tst{font-size:14.5px;font-weight:800;}
+  .trip-sum .tsp{font-size:12px;color:#7d7770;font-weight:600;margin-top:2px;}
+
+  /* product cards (buy) */
+  .buy-card{display:flex;align-items:center;gap:13px;background:#fff;border-radius:18px;padding:11px;margin-bottom:11px;box-shadow:var(--shadow-soft);}
+  .buy-thumb{width:60px;height:60px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:30px;}
+  .buy-info{flex:1;min-width:0;}
+  .buy-brand{font-size:11px;font-weight:800;color:#8574b5;text-transform:uppercase;letter-spacing:.3px;}
+  .buy-name{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;margin-top:2px;}
+  .buy-meta{display:flex;align-items:center;gap:9px;margin-top:5px;}
+  .buy-price{font-size:14px;font-weight:800;color:var(--ink);}
+  .buy-rate{font-size:11.5px;font-weight:700;color:#c8901f;}
+  .buy-go{border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);padding:9px 15px;border-radius:13px;flex-shrink:0;box-shadow:var(--btn-shadow);transition:transform .12s;}
+  .buy-go:active{transform:scale(.95);}
+  .spons{font-size:10px;color:#b6acc4;font-weight:700;text-align:center;margin:4px 0 16px;}
+
+  /* bottom nav */
+  .bottom-nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:#fff;border-radius:30px 30px 0 0;display:flex;align-items:center;justify-content:space-around;padding:16px 26px 24px;z-index:6;
+    -webkit-mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);
+    filter:drop-shadow(0 -12px 30px rgba(70,48,80,.26)) drop-shadow(0 -4px 12px rgba(70,48,80,.16));}
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#bcb2a8;width:46px;cursor:pointer;}
+  .nav-item .lbl{font-size:9.5px;font-weight:700;}
+  .nav-item .tab-ic{display:flex;align-items:center;justify-content:center;height:24px;}
+  .nav-item .ic-fill{display:none;}
+  .nav-item.active{color:#9b8bc4;}
+  .nav-item.active .ic-line{display:none;}
+  .nav-item.active .ic-fill{display:block;}
+  .nav-slot{width:56px;flex-shrink:0;}
+  .nav-add{position:absolute;left:50%;bottom:61px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 22px -6px rgba(140,116,181,.55);z-index:8;cursor:pointer;}
+  .home-indicator{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;opacity:.85;z-index:7;}
+
+  /* product sheet */
+  .sheet-layer{position:absolute;inset:0;z-index:40;visibility:hidden;pointer-events:none;}
+  .sheet-layer.open{visibility:visible;pointer-events:auto;}
+  .sheet-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
+  .sheet-layer.open .sheet-bd{opacity:1;}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;transform:translateY(110%);transition:transform .34s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;max-height:82%;}
+  .sheet-layer.open .sheet{transform:none;}
+  .sh-grab{padding:11px 0 6px;flex-shrink:0;} .sh-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
+  .sh-head{padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;}
+  .sh-title{font-size:17px;font-weight:800;letter-spacing:-.2px;}
+  .sh-sub{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:3px;}
+  .sh-body{padding:14px 20px 26px;overflow-y:auto;}
+  .sh-body::-webkit-scrollbar{display:none;}
+
+  .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:20px;z-index:70;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="screen">
+      <div class="scroll">
+        <div class="statusbar"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
+        </div></div>
+
+        <div class="content">
+          <div class="head">
+            <div><h1>Checklist</h1><p>Everything Mark needs, sorted for you</p></div>
+            <div class="kid-chip"><span class="kf">👦🏻</span><div><div class="kn">Mark</div><div class="ka">6 months</div></div></div>
+          </div>
+
+          <div class="prog-card">
+            <div class="ring">
+              <svg width="64" height="64"><circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="7"/><circle id="ringFg" cx="32" cy="32" r="27" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="170" stroke-dashoffset="170"/></svg>
+              <div class="rt" id="ringPct">0%</div>
+            </div>
+            <div><div class="pt" id="progTitle">Let's get you ready</div><div class="ps" id="progSub">Tick off what you already have.</div></div>
+          </div>
+
+          <div class="seg-tabs">
+            <button class="on" id="tabAge" onclick="setMode('age')">By Age</button>
+            <button id="tabTravel" onclick="setMode('travel')">Travel</button>
+          </div>
+
+          <!-- BY AGE -->
+          <div id="ageView">
+            <div class="stage-row" id="stageRow"></div>
+            <div id="ageList"></div>
+          </div>
+
+          <!-- TRAVEL -->
+          <div id="travelView" style="display:none">
+            <div class="planner">
+              <div class="p-lbl">How long is the trip?</div>
+              <div class="dur-row" id="durRow"></div>
+              <div class="p-lbl" style="margin-top:18px">Trip type</div>
+              <div class="type-row" id="typeRow"></div>
+            </div>
+            <div class="trip-sum" id="tripSum"></div>
+            <div class="sec-label">Pack &amp; carry</div>
+            <div class="cat" id="packCat"><div class="cat-body" id="packList" style="max-height:none"></div></div>
+            <div class="sec-label">Buy before you go</div>
+            <div id="buyList"></div>
+            <div class="spons">Sponsored · Baby Tracker may earn a small commission</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- bottom nav -->
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="location.href='home3.html'">
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg></span>
+          <span class="lbl">Home</span>
+        </div>
+        <div class="nav-item" onclick="location.href='community.html'">
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.4"/><path d="M2.5 20c0-3.2 2.9-5 6.5-5s6.5 1.8 6.5 5"/><path d="M16 3.3a3.4 3.4 0 0 1 0 6.4"/><path d="M22 20c0-2.5-1.5-4.3-3.6-4.9"/></svg></span>
+          <span class="lbl">Community</span>
+        </div>
+        <div class="nav-slot"></div>
+        <div class="nav-item active">
+          <span class="tab-ic">
+            <svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+            <svg class="ic-fill" width="23" height="23" viewBox="0 0 24 24"><path fill="currentColor" d="M6 3.5h2V3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.5h2A1.5 1.5 0 0 1 19.5 5v15A1.5 1.5 0 0 1 18 21.5H6A1.5 1.5 0 0 1 4.5 20V5A1.5 1.5 0 0 1 6 3.5zM10 4v1.5h4V4z"/><path fill="#fff" d="m10.6 16.9-2.7-2.7 1.2-1.2 1.5 1.5 3.6-3.6 1.2 1.2z"/></svg>
+          </span>
+          <span class="lbl">Checklist</span>
+        </div>
+        <div class="nav-item" onclick="location.href='home3.html'">
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2H2z"/><path d="M22 4h-6a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2H22z"/></svg></span>
+          <span class="lbl">Story</span>
+        </div>
+      </div>
+      <div class="nav-add" onclick="location.href='home3.html'">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <div class="home-indicator"></div>
+
+      <!-- product sheet -->
+      <div class="sheet-layer" id="shopSheet">
+        <div class="sheet-bd" onclick="closeShop()"></div>
+        <div class="sheet">
+          <div class="sh-grab"><span></span></div>
+          <div class="sh-head"><div class="sh-title" id="shTitle">Recommended products</div><div class="sh-sub" id="shSub">Top-rated picks from trusted brands</div></div>
+          <div class="sh-body" id="shBody"></div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+
+<script>
+  /* ---------- data ---------- */
+  var CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  var CART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.3 12.4a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 7H5.2"/></svg>';
+
+  var STAGES=[['0–3m','0–3 months'],['3–6m','3–6 months'],['6–9m','6–9 months'],['9–12m','9–12 months'],['1–2y','1–2 years']];
+  var CUR_STAGE='6–9m';
+
+  var AGE_DATA={
+   '0–3m':[
+    {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',items:[{n:'Bottles (4–6)',ess:1,shop:'bottles'},{n:'Formula or breast pump',shop:'pump'},{n:'Burp cloths',ess:1},{n:'Bottle sterilizer',shop:'sterilizer'},{n:'Nursing pillow'}]},
+    {cat:'Sleep',ic:'🌙',tint:'#d5e6ff',items:[{n:'Bassinet or crib',ess:1,shop:'crib'},{n:'Swaddle blankets',ess:1,shop:'swaddle'},{n:'Fitted crib sheets'},{n:'White-noise machine',shop:'noise'}]},
+    {cat:'Diapering',ic:'🧷',tint:'#e7d9ff',items:[{n:'Newborn diapers',ess:1,shop:'diapers'},{n:'Baby wipes',ess:1,shop:'wipes'},{n:'Changing pad'},{n:'Diaper-rash cream',shop:'cream'}]},
+    {cat:'Clothing',ic:'👕',tint:'#d6f3e0',items:[{n:'Onesies (7+)',ess:1},{n:'Footed sleepers'},{n:'Mittens & socks'},{n:'Soft cotton hats'}]},
+    {cat:'Health',ic:'🩺',tint:'#ffd9e2',items:[{n:'Digital thermometer',ess:1,shop:'thermo'},{n:'Baby nail clippers'},{n:'Nasal aspirator',shop:'aspirator'},{n:'Baby wash & lotion'}]},
+    {cat:'Gear',ic:'🚗',tint:'#fff0d0',items:[{n:'Infant car seat',ess:1,shop:'carseat'},{n:'Stroller',shop:'stroller'},{n:'Baby carrier',shop:'carrier'}]}
+   ],
+   '3–6m':[
+    {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',items:[{n:'Larger bottles',shop:'bottles'},{n:'Bottle brush'},{n:'Silicone bibs',shop:'bibs'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Play gym / mat',shop:'toys'},{n:'Teething toys',ess:1,shop:'teether'},{n:'Soft rattles'},{n:'Crinkle books',shop:'books'}]},
+    {cat:'Sleep',ic:'🌙',tint:'#d5e6ff',items:[{n:'Sleep sack (next size)'},{n:'Blackout curtains'}]},
+    {cat:'Clothing',ic:'👕',tint:'#d6f3e0',items:[{n:'3–6m onesies',ess:1},{n:'Rompers'},{n:'Warm layers'}]},
+    {cat:'Health',ic:'🩺',tint:'#ffd9e2',items:[{n:'Teething gel'},{n:'Gripe water'}]}
+   ],
+   '6–9m':[
+    {cat:'Feeding solids',ic:'🥣',tint:'#ffe6c8',items:[{n:'High chair',ess:1,shop:'highchair'},{n:'Weaning spoons',ess:1,shop:'spoons'},{n:'Suction bowls & plates',shop:'bowls'},{n:'Sippy / straw cup',shop:'sippy'},{n:'Silicone bibs',shop:'bibs'},{n:'First-food purées',shop:'food'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Stacking & nesting toys',shop:'toys'},{n:'Teething toys',ess:1,shop:'teether'},{n:'Board books',shop:'books'},{n:'Activity table'}]},
+    {cat:'Safety',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Cabinet & drawer locks',ess:1,shop:'locks'},{n:'Outlet covers',ess:1},{n:'Safety gates',shop:'gate'},{n:'Corner guards'},{n:'Baby monitor',shop:'monitor'}]},
+    {cat:'Diapering',ic:'🧷',tint:'#e7d9ff',items:[{n:'Size 3 diapers',ess:1,shop:'diapers'},{n:'Baby wipes',ess:1,shop:'wipes'}]},
+    {cat:'Clothing',ic:'👕',tint:'#d6f3e0',items:[{n:'6–9m outfits',ess:1},{n:'Anti-slip socks'},{n:'Soft-sole shoes',shop:'shoes'}]}
+   ],
+   '9–12m':[
+    {cat:'Feeding',ic:'🥣',tint:'#ffe6c8',items:[{n:'Toddler utensils',shop:'spoons'},{n:'Snack cups'},{n:'Straw cups',shop:'sippy'},{n:'Finger-food guide'}]},
+    {cat:'On the move',ic:'🚶',tint:'#d5e6ff',items:[{n:'Push walker',shop:'toys'},{n:'First walking shoes',ess:1,shop:'shoes'},{n:'Soft knee pads'}]},
+    {cat:'Safety',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Stair safety gates',ess:1,shop:'gate'},{n:'Furniture anchors',ess:1},{n:'Door pinch guards'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Shape sorter',shop:'toys'},{n:'Ball pit & balls'},{n:'Musical toys'}]}
+   ],
+   '1–2y':[
+    {cat:'Feeding',ic:'🍽️',tint:'#ffe6c8',items:[{n:'Toddler plate set',shop:'bowls'},{n:'Open-cup training'},{n:'Booster seat',shop:'highchair'}]},
+    {cat:'Potty',ic:'🚽',tint:'#d5e6ff',items:[{n:'Potty training seat',ess:1,shop:'potty'},{n:'Training pants'},{n:'Step stool'}]},
+    {cat:'Clothing',ic:'👟',tint:'#d6f3e0',items:[{n:'Toddler shoes',ess:1,shop:'shoes'},{n:'Weather layers'},{n:'Sun hat'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Ride-on toy',shop:'toys'},{n:'Crayons & paper'},{n:'Picture books',shop:'books'},{n:'Building blocks',shop:'toys'}]}
+   ]
+  };
+
+  var PRODUCTS={
+   bottles:[['Philips Avent','Natural Response Bottle 3-pack','$24.99','4.8','🍼','#ffe6c8'],['Dr. Brown’s','Anti-Colic Options+ 4-pack','$29.99','4.7','🍼','#d5e6ff'],['Comotomo','Silicone Baby Bottle 2-pack','$25.99','4.6','🍼','#ffd9e2']],
+   diapers:[['Pampers','Swaddlers Size 3 · 168 ct','$44.99','4.9','🧷','#e7d9ff'],['Huggies','Little Snugglers · 156 ct','$42.99','4.8','🧷','#d5e6ff'],['Kirkland','Supreme Diapers · 192 ct','$39.99','4.7','🧷','#d6f3e0']],
+   wipes:[['WaterWipes','Sensitive Wipes · 540 ct','$26.99','4.9','🧻','#d5e6ff'],['Pampers','Aqua Pure Wipes · 10 pk','$22.99','4.8','🧻','#e7d9ff']],
+   highchair:[['Stokke','Tripp Trapp High Chair','$259.00','4.9','🪑','#ffe6c8'],['IKEA','ANTILOP High Chair','$24.99','4.7','🪑','#d6f3e0'],['Graco','Table2Table 7-in-1','$149.99','4.8','🪑','#d5e6ff']],
+   spoons:[['NumNum','GOOtensils Pre-Spoon 2-pk','$10.99','4.8','🥄','#ffe6c8'],['Munchkin','Soft-Tip Infant Spoons','$5.99','4.7','🥄','#d6f3e0']],
+   bowls:[['ezpz','Tiny Bowl Suction Set','$19.99','4.8','🥣','#e7d9ff'],['Bumkins','Silicone Grip Dish','$14.99','4.7','🥣','#d5e6ff']],
+   sippy:[['Munchkin','Miracle 360 Cup 2-pk','$11.99','4.7','🥤','#d6f3e0'],['Philips Avent','My Bendy Straw Cup','$8.99','4.6','🥤','#ffe6c8']],
+   bibs:[['BabyBjörn','Soft Bib 2-pack','$14.99','4.9','🦺','#ffd9e2'],['Bumkins','Silicone Bib','$9.99','4.7','🦺','#d6f3e0']],
+   food:[['Serenity Kids','Organic Purée Variety','$29.99','4.8','🍎','#ffe6c8'],['Once Upon a Farm','Cold-Pressed Blends','$26.99','4.7','🍓','#ffd9e2']],
+   carseat:[['Chicco','KeyFit 35 Infant Car Seat','$249.99','4.9','🚗','#ffd9e2'],['Graco','SnugRide SnugFit 35','$179.99','4.8','🚗','#fff0d0'],['Nuna','PIPA urbn Car Seat','$399.00','4.9','🚗','#e7d9ff']],
+   stroller:[['UPPAbaby','VISTA V2 Stroller','$999.00','4.9','🛒','#e7d9ff'],['Chicco','Bravo Trio Travel System','$379.99','4.7','🛒','#d5e6ff']],
+   carrier:[['Ergobaby','Omni 360 Carrier','$179.00','4.8','👶','#ffe6c8'],['BabyBjörn','Carrier Mini','$99.99','4.7','👶','#d6f3e0']],
+   crib:[['Babyletto','Hudson 3-in-1 Crib','$419.00','4.8','🛏️','#d5e6ff'],['Graco','Benton 4-in-1 Crib','$179.99','4.7','🛏️','#e7d9ff']],
+   swaddle:[['Love To Dream','Swaddle Up 3-pk','$59.90','4.8','🍥','#ffd9e2'],['aden + anais','Muslin Swaddle 4-pk','$49.95','4.9','🍥','#d6f3e0']],
+   noise:[['Hatch','Rest 2nd Gen Sound Machine','$69.99','4.7','🔊','#d5e6ff'],['LectroFan','Micro2 Portable','$34.95','4.6','🔊','#e7d9ff']],
+   thermo:[['Braun','ThermoScan 7 Ear','$59.99','4.8','🌡️','#ffd9e2'],['Frida Baby','3-in-1 Thermometer','$29.99','4.6','🌡️','#d6f3e0']],
+   monitor:[['Nanit','Pro Smart Baby Monitor','$299.00','4.7','📹','#e7d9ff'],['Infant Optics','DXR-8 PRO Monitor','$199.99','4.8','📹','#d5e6ff']],
+   gate:[['Regalo','Extra Wide Safety Gate','$59.99','4.7','🚧','#d6f3e0'],['Cumbor','Auto-Close Baby Gate','$45.99','4.8','🚧','#ffe6c8']],
+   teether:[['Sophie','Sophie la Girafe Teether','$25.00','4.7','🦒','#d6f3e0'],['Nuby','Silicone Teething Keys','$6.99','4.6','🔑','#ffe6c8']],
+   toys:[['Fisher-Price','Rock-a-Stack Classic','$8.99','4.8','🧸','#e7d9ff'],['Melissa & Doug','Wooden Shape Sorter','$16.99','4.8','🧩','#d6f3e0']],
+   books:[['Indestructibles','Chew-Proof Book Set','$21.99','4.9','📚','#ffe6c8'],['Sassy','Crinkle Soft Book','$7.99','4.7','📚','#d5e6ff']],
+   shoes:[['Stride Rite','Soft Motion First Walkers','$44.00','4.7','👟','#d6f3e0'],['Robeez','Soft Sole Shoes','$32.00','4.8','👟','#ffe6c8']],
+   potty:[['BabyBjörn','Smart Potty','$24.99','4.8','🚽','#d5e6ff'],['OXO Tot','2-in-1 Go Potty','$19.99','4.7','🚽','#e7d9ff']],
+   locks:[['Safety 1st','Cabinet & Drawer Locks 14-pk','$12.99','4.6','🔒','#d6f3e0'],['Jool Baby','Magnetic Cabinet Locks','$24.99','4.8','🧲','#ffe6c8']],
+   pump:[['Spectra','S1 Plus Breast Pump','$189.00','4.8','🍼','#ffe6c8'],['Willow','Go Wearable Pump','$329.99','4.6','🍼','#ffd9e2']],
+   sterilizer:[['Philips Avent','Electric Steam Sterilizer','$79.99','4.8','♨️','#d5e6ff'],['Baby Brezza','One-Step Sterilizer Dryer','$119.99','4.7','♨️','#e7d9ff']],
+   cream:[['Boudreaux’s','Butt Paste Max Strength','$8.99','4.8','🧴','#d6f3e0'],['Aquaphor','Baby Healing Ointment','$13.99','4.9','🧴','#ffe6c8']],
+   aspirator:[['Frida Baby','NoseFrida Aspirator','$15.99','4.8','👃','#ffd9e2'],['Braun','Electric Nasal Aspirator','$44.99','4.5','👃','#d5e6ff']],
+   /* travel */
+   travelstroller:[['Babyzen','YOYO2 Travel Stroller','$499.00','4.9','🛒','#e7d9ff'],['GB','Pockit+ All-City','$249.99','4.7','🛒','#d5e6ff']],
+   travelcrib:[['Guava Family','Lotus Travel Crib','$229.00','4.8','⛺','#d6f3e0'],['BabyBjörn','Travel Crib Light','$319.99','4.9','⛺','#e7d9ff']],
+   bottlewarmer:[['Tommee Tippee','Portable Bottle Warmer','$39.99','4.5','🍼','#ffe6c8'],['Baby Brezza','Travel Warmer','$34.99','4.4','🍼','#ffd9e2']],
+   diaperbag:[['Skip Hop','Forma Backpack Diaper Bag','$70.00','4.8','🎒','#d5e6ff'],['Ruvalino','Multifunction Backpack','$39.99','4.7','🎒','#e7d9ff']],
+   portablechair:[['Inglesina','Fast Table Chair','$89.00','4.7','🪑','#ffe6c8'],['hiccapop','Omniboost Travel Booster','$49.99','4.6','🪑','#d6f3e0']],
+   beachtent:[['Schylling','UPF 50+ Pop-up Beach Tent','$34.99','4.6','⛱️','#d5e6ff'],['Monobeach','Baby Beach Tent','$29.99','4.5','⛱️','#ffe6c8']],
+   sunscreen:[['Thinkbaby','SPF 50+ Baby Sunscreen','$12.99','4.8','🧴','#fff0d0'],['Blue Lizard','Baby Mineral SPF 50+','$14.99','4.7','🧴','#ffe6c8']],
+   warmsuit:[['Columbia','Snuggly Bunny Bunting','$60.00','4.8','🧥','#d5e6ff'],['JAN & JUL','Cozy Fleece Suit','$49.00','4.7','🧥','#e7d9ff']],
+   earprotect:[['Alpine','Muffy Baby Ear Protection','$29.95','4.8','🎧','#e7d9ff']]
+  };
+  function getProducts(key){ return PRODUCTS[key] || [['Baby Tracker Picks','Top-rated essential','$—','4.7','🛍️','#e7d9ff'],['Baby Tracker Picks','Parent favourite','$—','4.6','🛍️','#d6f3e0']]; }
+
+  /* ---------- state ---------- */
+  var MODE='age', CHECKED={};
+  function key(id){ return id; }
+
+  /* ---------- progress ---------- */
+  function currentIds(){
+    var ids=[];
+    if(MODE==='age'){ AGE_DATA[CUR_STAGE].forEach(function(c,ci){ c.items.forEach(function(it,ii){ ids.push('a|'+CUR_STAGE+'|'+ci+'|'+ii); }); }); }
+    else { PACK.forEach(function(p,i){ ids.push('p|'+i); }); }
+    return ids;
+  }
+  function updateProgress(){
+    var ids=currentIds(), total=ids.length, done=0;
+    ids.forEach(function(id){ if(CHECKED[id]) done++; });
+    var pct= total? Math.round(done/total*100):0;
+    document.getElementById('ringPct').textContent=pct+'%';
+    var C=2*Math.PI*27; document.getElementById('ringFg').setAttribute('stroke-dasharray',C);
+    document.getElementById('ringFg').setAttribute('stroke-dashoffset', C*(1-pct/100));
+    var t=document.getElementById('progTitle'), s=document.getElementById('progSub');
+    if(MODE==='age'){ t.textContent = pct===100?'All set for this stage! 🎉':(done+' of '+total+' ready'); s.textContent = pct===100?'Mark has everything he needs.':'Tick off what you already have.'; }
+    else { t.textContent = pct===100?'Bags packed! 🧳':(done+' of '+total+' packed'); s.textContent='Check items as you pack them.'; }
+  }
+
+  /* ---------- render age ---------- */
+  function renderStages(){
+    document.getElementById('stageRow').innerHTML=STAGES.map(function(s){
+      var on=s[0]===CUR_STAGE, cur=s[0]==='6–9m';
+      return '<button class="stage-chip'+(on?' on':'')+'" onclick="setStage(\''+s[0]+'\')">'+s[0]+(cur?'<span class="cur">Mark is here</span>':'')+'</button>';
+    }).join('');
+  }
+  function setStage(st){ CUR_STAGE=st; renderStages(); renderAge(); updateProgress(); }
+  function renderAge(){
+    var html='';
+    AGE_DATA[CUR_STAGE].forEach(function(c,ci){
+      var done=0; c.items.forEach(function(it,ii){ if(CHECKED['a|'+CUR_STAGE+'|'+ci+'|'+ii]) done++; });
+      html+='<div class="cat" id="cat'+ci+'">'+
+        '<div class="cat-head" onclick="toggleCat('+ci+')"><span class="cat-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
+        '<div class="cat-t"><div class="cat-n">'+c.cat+'</div><div class="cat-c">'+done+' of '+c.items.length+' ready</div></div>'+
+        '<span class="cat-chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>'+
+        '<div class="cat-body">';
+      c.items.forEach(function(it,ii){
+        var id='a|'+CUR_STAGE+'|'+ci+'|'+ii, on=CHECKED[id];
+        html+='<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+
+          '<span class="ci-n">'+it.n+'</span>'+
+          (it.ess?'<span class="ess">Must</span>':'')+
+          (it.shop?'<button class="shop-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\')">'+CART_SVG+'</button>':'')+
+        '</div>';
+      });
+      html+='</div></div>';
+    });
+    document.getElementById('ageList').innerHTML=html;
+    document.querySelectorAll('#ageList .cat-body').forEach(function(b){ b.style.maxHeight=b.scrollHeight+'px'; });
+  }
+  function toggleCat(ci){
+    var el=document.getElementById('cat'+ci); el.classList.toggle('collapsed');
+    var b=el.querySelector('.cat-body'); if(!el.classList.contains('collapsed')) b.style.maxHeight=b.scrollHeight+'px';
+  }
+  function toggleCheck(id,row){
+    CHECKED[id]=!CHECKED[id]; row.classList.toggle('done', !!CHECKED[id]);
+    updateProgress();
+    if(MODE==='age'){ var ci=id.split('|')[2]; var c=AGE_DATA[CUR_STAGE][ci]; var done=0; c.items.forEach(function(it,ii){ if(CHECKED['a|'+CUR_STAGE+'|'+ci+'|'+ii]) done++; });
+      var cc=document.querySelector('#cat'+ci+' .cat-c'); if(cc) cc.textContent=done+' of '+c.items.length+' ready'; }
+  }
+
+  /* ---------- travel ---------- */
+  var DURS=[['Weekend',3],['1 Week',7],['2 Weeks',14],['1 Month',30]];
+  var TYPES=[['Flight','✈️'],['Road trip','🚗'],['Beach','🏖️'],['Cold','❄️']];
+  var T_DUR='1 Month', T_DAYS=30, T_TYPE='Flight', PACK=[];
+
+  function buildPack(){
+    var d=T_DAYS;
+    PACK=[
+      {n:'Diapers', q:(d*6)+' pcs'},
+      {n:'Baby wipes', q:Math.ceil(d/3)+' packs'},
+      {n:'Outfits & bodysuits', q:Math.min(d,12)+'+'},
+      {n:'Pajamas / sleepwear', q:Math.min(d,8)},
+      {n:'Muslin cloths & bibs', q:Math.min(d,10)},
+      {n:'Bottles & formula', q:''},
+      {n:'Snacks & purées', q:''},
+      {n:'Comfort blanket & toy', q:''},
+      {n:'Baby toiletries kit', q:''},
+      {n:'First-aid & medicines', q:''},
+      {n:'Thermometer', q:''}
+    ];
+    if(T_TYPE==='Flight'){ PACK.push({n:'Travel documents & ID',q:''},{n:'Baby ear protection',q:'',shop:'earprotect'},{n:'Compact stroller',q:'',shop:'travelstroller'}); }
+    if(T_TYPE==='Road trip'){ PACK.push({n:'Car seat & window shades',q:'',shop:'carseat'},{n:'Travel potty',q:'',shop:'potty'},{n:'Backseat organizer',q:''}); }
+    if(T_TYPE==='Beach'){ PACK.push({n:'Swim diapers',q:Math.min(d*2,24)},{n:'UV swimsuit & sun hat',q:''},{n:'Baby sunscreen SPF50',q:'',shop:'sunscreen'},{n:'Pop-up beach tent',q:'',shop:'beachtent'}); }
+    if(T_TYPE==='Cold'){ PACK.push({n:'Warm snowsuit / bunting',q:'',shop:'warmsuit'},{n:'Thermal layers',q:Math.min(d,8)},{n:'Mittens & wool socks',q:''},{n:'Extra blankets',q:''}); }
+  }
+  function buyKeys(){
+    var base=['travelstroller','travelcrib','diaperbag','bottlewarmer'];
+    if(T_TYPE==='Beach') base=base.concat(['beachtent','sunscreen']);
+    if(T_TYPE==='Cold') base=base.concat(['warmsuit']);
+    if(T_TYPE==='Road trip') base=base.concat(['portablechair','carseat']);
+    if(T_TYPE==='Flight') base=base.concat(['earprotect','portablechair']);
+    var seen={},out=[]; base.forEach(function(k){ if(!seen[k]){ seen[k]=1; out.push(k); } });
+    return out;
+  }
+  function renderTravel(){
+    document.getElementById('durRow').innerHTML=DURS.map(function(d){ return '<button class="dur'+(d[0]===T_DUR?' on':'')+'" onclick="setDur(\''+d[0]+'\','+d[1]+')">'+d[0]+'</button>'; }).join('');
+    document.getElementById('typeRow').innerHTML=TYPES.map(function(t){ return '<button class="ttype'+(t[0]===T_TYPE?' on':'')+'" onclick="setType(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>'; }).join('');
+    var emo=(TYPES.filter(function(t){return t[0]===T_TYPE;})[0]||['','🧳'])[1];
+    document.getElementById('tripSum').innerHTML='<span class="tse">'+emo+'</span><div><div class="tst">Packing for a '+T_DUR.toLowerCase()+' '+T_TYPE.toLowerCase()+' trip</div><div class="tsp">'+PACK.length+' things to carry · '+buyKeys().length+' to buy</div></div>';
+    // pack list
+    document.getElementById('packList').innerHTML=PACK.map(function(p,i){
+      var id='p|'+i, on=CHECKED[id];
+      return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span><span class="ci-n">'+p.n+'</span>'+
+        (p.q?'<span class="qty">'+p.q+'</span>':'')+
+        (p.shop?'<button class="shop-btn" onclick="event.stopPropagation();openShop(\''+p.shop+'\',\''+p.n.replace(/'/g,'')+'\')">'+CART_SVG+'</button>':'')+'</div>';
+    }).join('');
+    // buy list
+    document.getElementById('buyList').innerHTML=buyKeys().map(function(k){
+      var p=getProducts(k)[0];
+      return '<div class="buy-card"><span class="buy-thumb" style="background:'+p[5]+'">'+p[4]+'</span>'+
+        '<div class="buy-info"><div class="buy-brand">'+p[0]+'</div><div class="buy-name">'+p[1]+'</div>'+
+        '<div class="buy-meta"><span class="buy-price">'+p[2]+'</span><span class="buy-rate">★ '+p[3]+'</span></div></div>'+
+        '<button class="buy-go" onclick="openShop(\''+k+'\',\''+p[1].replace(/'/g,'')+'\')">Shop</button></div>';
+    }).join('');
+  }
+  function setDur(name,days){ T_DUR=name; T_DAYS=days; CHECKED={}; buildPack(); renderTravel(); updateProgress(); }
+  function setType(t){ T_TYPE=t; CHECKED={}; buildPack(); renderTravel(); updateProgress(); }
+
+  /* ---------- mode ---------- */
+  function setMode(m){
+    MODE=m;
+    document.getElementById('tabAge').classList.toggle('on', m==='age');
+    document.getElementById('tabTravel').classList.toggle('on', m==='travel');
+    document.getElementById('ageView').style.display = m==='age'?'block':'none';
+    document.getElementById('travelView').style.display = m==='travel'?'block':'none';
+    if(m==='travel'){ buildPack(); renderTravel(); }
+    updateProgress();
+  }
+
+  /* ---------- product sheet ---------- */
+  function openShop(keyName,itemName){
+    var list=getProducts(keyName);
+    document.getElementById('shTitle').textContent=itemName||'Recommended products';
+    document.getElementById('shSub').textContent='Top-rated picks from trusted brands';
+    document.getElementById('shBody').innerHTML=list.map(function(p){
+      return '<div class="buy-card"><span class="buy-thumb" style="background:'+p[5]+'">'+p[4]+'</span>'+
+        '<div class="buy-info"><div class="buy-brand">'+p[0]+'</div><div class="buy-name">'+p[1]+'</div>'+
+        '<div class="buy-meta"><span class="buy-price">'+p[2]+'</span><span class="buy-rate">★ '+p[3]+'</span></div></div>'+
+        '<button class="buy-go" onclick="buyNow(\''+p[0].replace(/'/g,'')+'\')">Buy</button></div>';
+    }).join('')+'<div class="spons">Sponsored · Baby Tracker may earn a commission</div>';
+    document.getElementById('shopSheet').classList.add('open');
+  }
+  function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
+  var _tt;
+  function buyNow(brand){ var t=document.getElementById('toast'); t.textContent='Opening '+brand+' store…'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
+
+  /* ---------- init ---------- */
+  renderStages(); renderAge(); updateProgress();
+</script>
+</body>
+</html>
