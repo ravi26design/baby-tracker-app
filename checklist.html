@@ -169,7 +169,7 @@
   .sheet-layer.open{visibility:visible;pointer-events:auto;}
   .sheet-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
   .sheet-layer.open .sheet-bd{opacity:1;}
-  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;transform:translateY(110%);height:56%;
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;transform:translateY(110%);height:62%;
     transition:transform .34s cubic-bezier(.32,.72,0,1),height .34s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;}
   .sheet.full{height:93%;}
   .sheet-layer.open .sheet{transform:none;}
@@ -177,7 +177,14 @@
   .sh-head{padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;}
   .sh-title{font-size:17px;font-weight:800;letter-spacing:-.2px;}
   .sh-sub{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:3px;}
-  .sh-body{padding:14px 20px 26px;overflow-y:auto;flex:1;min-height:0;}
+  .sh-body{padding:14px 20px 22px;overflow-y:auto;flex:1;min-height:0;}
+  .sh-foot{flex-shrink:0;padding:12px 20px 22px;border-top:1px solid #f1eded;}
+  .have-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;padding:15px;border-radius:16px;
+    background:#eef1f5;color:#3a332e;box-shadow:inset 0 0 0 1.5px rgba(120,90,140,.14);transition:.14s;}
+  .have-btn::before{content:'';width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 2px #cfc6dd;flex-shrink:0;background-position:center;background-repeat:no-repeat;background-size:13px;transition:.14s;}
+  .have-btn.owned{background:linear-gradient(155deg,#7fce9f,#5fb884);color:#fff;box-shadow:0 12px 22px -10px rgba(60,150,100,.6);}
+  .have-btn.owned::before{background-color:#fff;box-shadow:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235fb884' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");}
+  .have-btn:active{transform:scale(.99);}
   .sh-body::-webkit-scrollbar{display:none;}
 
   .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:20px;z-index:70;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
@@ -269,6 +276,7 @@
           <div class="sh-grab"><span></span></div>
           <div class="sh-head"><div class="sh-title" id="shTitle">Recommended</div><div class="sh-sub" id="shSub">Premium & budget picks from trusted brands</div></div>
           <div class="sh-body" id="shBody"></div>
+          <div class="sh-foot" id="shFoot"><button class="have-btn" id="haveBtn" onclick="markOwned()">I already have this</button></div>
         </div>
       </div>
 
@@ -426,7 +434,7 @@
         html+='<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+
           '<span class="ci-n">'+it.n+'</span>'+
           (it.ess?'<span class="ess">Must</span>':'')+
-          (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\')">View</button>':'')+
+          (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+
         '</div>';
       });
       html+='</div></div>';
@@ -486,7 +494,7 @@
       return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+
         '<span class="pk-ic">'+(p.ic||'🎒')+'</span><span class="ci-n">'+p.n+'</span>'+
         (p.q?'<span class="qty">'+p.q+'</span>':'')+
-        (p.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+p.shop+'\',\''+p.n.replace(/'/g,'')+'\')">View</button>':'')+'</div>';
+        (p.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+p.shop+'\',\''+p.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
     }).join('');
     document.getElementById('buyList').innerHTML=buyKeys().map(function(k){
       var b=getBrand(k), nm=BUY_NAME[k]||k;
@@ -536,7 +544,7 @@
     return out;
   }
 
-  var PV_KEY=null, PV_ITEM='', PV_FILTER='All';
+  var PV_KEY=null, PV_ITEM='', PV_FILTER='All', PV_ITEM_ID=null;
   function makeProducts(key){
     var b=getBrand(key), pr=getPrice(key), rnd=function(x){ return Math.round(x/50)*50; };
     var eco=[b[3]].concat(pickN(EXTRA_ECO,2,key+'e',b[3]));
@@ -549,14 +557,30 @@
     }
     return out;
   }
-  function openShop(key,itemName){
-    PV_KEY=key; PV_ITEM=itemName||'Recommended'; PV_FILTER='All';
+  function openShop(key,itemName,itemId){
+    PV_KEY=key; PV_ITEM=itemName||'Recommended'; PV_FILTER='All'; PV_ITEM_ID=itemId||null;
     document.getElementById('shTitle').textContent=PV_ITEM;
     document.getElementById('shSub').textContent='Budget & premium picks · prices in ₹';
-    renderPV();
+    renderPV(); updateHaveBtn();
     var sheet=document.querySelector('#shopSheet .sheet'); sheet.classList.remove('full');
     document.getElementById('shBody').scrollTop=0;
     document.getElementById('shopSheet').classList.add('open');
+  }
+  function updateHaveBtn(){
+    var foot=document.getElementById('shFoot'), btn=document.getElementById('haveBtn');
+    if(!PV_ITEM_ID){ foot.style.display='none'; return; }
+    foot.style.display='block';
+    var owned=!!CHECKED[PV_ITEM_ID];
+    btn.classList.toggle('owned', owned);
+    btn.textContent = owned ? 'You have this' : 'I already have this';
+  }
+  function markOwned(){
+    if(!PV_ITEM_ID) return;
+    CHECKED[PV_ITEM_ID]=!CHECKED[PV_ITEM_ID];
+    updateHaveBtn();
+    if(MODE==='age') renderAge(); else renderTravel();
+    updateProgress();
+    toast(CHECKED[PV_ITEM_ID]?'Marked as owned ✓':'Removed from your list');
   }
   function setPVFilter(f){ PV_FILTER=f; renderPV(); }
   function renderPV(){
@@ -575,7 +599,8 @@
   }
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt;
-  function buyNow(brand){ var t=document.getElementById('toast'); t.textContent='Opening '+brand+' store…'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function buyNow(brand){ toast('Opening '+brand+' store…'); }
 
   /* two-state product sheet: half (2 products) -> expand to full on scroll/drag */
   (function(){
