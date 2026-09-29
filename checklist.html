@@ -158,13 +158,15 @@
   .sheet-layer.open{visibility:visible;pointer-events:auto;}
   .sheet-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
   .sheet-layer.open .sheet-bd{opacity:1;}
-  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;transform:translateY(110%);transition:transform .34s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;max-height:82%;}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;transform:translateY(110%);height:56%;
+    transition:transform .34s cubic-bezier(.32,.72,0,1),height .34s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;}
+  .sheet.full{height:93%;}
   .sheet-layer.open .sheet{transform:none;}
-  .sh-grab{padding:11px 0 6px;flex-shrink:0;} .sh-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
+  .sh-grab{padding:11px 0 6px;flex-shrink:0;cursor:grab;touch-action:none;} .sh-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
   .sh-head{padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;}
   .sh-title{font-size:17px;font-weight:800;letter-spacing:-.2px;}
   .sh-sub{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:3px;}
-  .sh-body{padding:14px 20px 26px;overflow-y:auto;}
+  .sh-body{padding:14px 20px 26px;overflow-y:auto;flex:1;min-height:0;}
   .sh-body::-webkit-scrollbar{display:none;}
 
   .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:20px;z-index:70;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
@@ -538,6 +540,8 @@
     document.getElementById('shTitle').textContent=PV_ITEM;
     document.getElementById('shSub').textContent='Budget & premium picks · prices in ₹';
     renderPV();
+    var sheet=document.querySelector('#shopSheet .sheet'); sheet.classList.remove('full');
+    document.getElementById('shBody').scrollTop=0;
     document.getElementById('shopSheet').classList.add('open');
   }
   function setPVFilter(f){ PV_FILTER=f; renderPV(); }
@@ -558,6 +562,31 @@
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt;
   function buyNow(brand){ var t=document.getElementById('toast'); t.textContent='Opening '+brand+' store…'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
+
+  /* two-state product sheet: half (2 products) -> expand to full on scroll/drag */
+  (function(){
+    var panel=document.querySelector('#shopSheet .sheet'), grab=document.querySelector('#shopSheet .sh-grab'), body=document.getElementById('shBody');
+    if(!panel) return;
+    var cooling=false; function cool(){cooling=true;setTimeout(function(){cooling=false;},320);}
+    var isFull=function(){return panel.classList.contains('full');};
+    function expand(){panel.classList.add('full');}
+    function half(){panel.classList.remove('full');body.scrollTop=0;}
+    body.addEventListener('wheel',function(e){
+      if(!isFull()){ e.preventDefault(); if(cooling)return; cool(); if(e.deltaY>0) expand(); }
+      else if(body.scrollTop<=0 && e.deltaY<0){ e.preventDefault(); if(cooling)return; cool(); half(); }
+    },{passive:false});
+    var ty=0;
+    body.addEventListener('touchstart',function(e){ ty=e.touches[0].clientY; },{passive:true});
+    body.addEventListener('touchmove',function(e){
+      var dy=e.touches[0].clientY-ty;
+      if(!isFull() && dy<-22){ expand(); }
+      else if(isFull() && body.scrollTop<=0 && dy>42){ half(); }
+    },{passive:true});
+    var sY=0,drag=false;
+    grab.addEventListener('pointerdown',function(e){ drag=true; sY=e.clientY; grab.setPointerCapture(e.pointerId); });
+    grab.addEventListener('pointerup',function(e){ if(!drag)return; drag=false; var dy=e.clientY-sY; if(dy<-22) expand(); else if(dy>22){ if(isFull()) half(); else closeShop(); } });
+    grab.addEventListener('pointercancel',function(){ drag=false; });
+  })();
 
   renderChildTabs(); renderStages(); renderAge(); updateProgress();
 </script>
