@@ -38,8 +38,11 @@
   .kid-chip .kn{font-size:13px;font-weight:800;}
   .kid-chip .ka{font-size:10.5px;color:var(--muted);font-weight:600;}
 
-  .prog-card{display:flex;align-items:center;gap:16px;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);color:#fff;border-radius:24px;padding:18px 20px;margin-top:18px;box-shadow:0 20px 38px -16px rgba(140,116,181,.75);}
-  .ring{position:relative;width:64px;height:64px;flex-shrink:0;}
+  .prog-card{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;background:linear-gradient(145deg,#b6a7de,#9784c3 60%,#8672bb);color:#fff;border-radius:26px;padding:19px 21px;margin-top:18px;box-shadow:0 22px 40px -16px rgba(140,116,181,.8);}
+  .prog-card::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;right:-46px;top:-58px;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 70%);pointer-events:none;}
+  .prog-card::after{content:'';position:absolute;width:120px;height:120px;border-radius:50%;left:20px;bottom:-70px;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%);pointer-events:none;}
+  .prog-card>*{position:relative;z-index:1;}
+  .ring{position:relative;width:64px;height:64px;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(60,40,80,.25));}
   .ring svg{transform:rotate(-90deg);}
   .ring .rt{font-size:15px;font-weight:800;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
   .prog-card .pt{font-size:16px;font-weight:800;}
@@ -57,27 +60,29 @@
   .stage-chip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:var(--btn-shadow);}
   .stage-chip .cur{font-size:9px;display:block;opacity:.85;font-weight:700;margin-top:1px;}
 
-  .cat{background:#fff;border-radius:22px;padding:6px 8px 8px;margin-bottom:14px;box-shadow:var(--shadow-soft);}
-  .cat-head{display:flex;align-items:center;gap:12px;padding:12px 12px;cursor:pointer;}
-  .cat-ic{width:40px;height:40px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;}
+  .cat{position:relative;background:#fff;border-radius:22px;padding:6px 8px 8px;margin-bottom:14px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);overflow:hidden;}
+  .cat::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:0 4px 4px 0;background:var(--tint,#e7d9ff);}
+  .cat-head{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 14px;cursor:pointer;}
+  .cat-ic{width:42px;height:42px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 16px -9px rgba(120,90,140,.5);}
   .cat-t{flex:1;}
   .cat-n{font-size:15.5px;font-weight:800;letter-spacing:-.2px;}
   .cat-c{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px;}
-  .cat-chev{color:#c3bad4;transition:transform .25s;}
+  .cat-chev{width:27px;height:27px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .25s;}
   .cat.collapsed .cat-chev{transform:rotate(-90deg);}
   .cat-body{overflow:hidden;transition:max-height .3s ease;}
   .cat.collapsed .cat-body{max-height:0!important;}
-  .ci-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;cursor:pointer;transition:background .12s;}
+  .ci-row{position:relative;display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;cursor:pointer;transition:background .12s;}
   .ci-row:active{background:#f7f4fb;}
-  .cbox{width:24px;height:24px;border-radius:8px;flex-shrink:0;box-shadow:inset 0 0 0 2px #dcd3ea;display:flex;align-items:center;justify-content:center;color:#fff;transition:.14s;}
-  .cbox svg{width:14px;height:14px;opacity:0;transition:.14s;}
-  .ci-row.done .cbox{background:linear-gradient(150deg,#a58fd8,#8f78c4);box-shadow:none;}
-  .ci-row.done .cbox svg{opacity:1;}
+  .ci-row+.ci-row::before{content:'';position:absolute;left:12px;right:12px;top:0;height:1px;background:#f4eef9;}
+  .cbox{width:24px;height:24px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 2px #ddd4ea;display:flex;align-items:center;justify-content:center;color:#fff;transition:.16s;}
+  .cbox svg{width:13px;height:13px;opacity:0;transform:scale(.5);transition:.16s;}
+  .ci-row.done .cbox{background:linear-gradient(150deg,#a58fd8,#8f78c4);box-shadow:0 6px 12px -5px rgba(140,116,181,.6);}
+  .ci-row.done .cbox svg{opacity:1;transform:scale(1);}
   .ci-n{flex:1;font-size:14px;font-weight:600;color:var(--ink);transition:.14s;}
   .ci-row.done .ci-n{color:#b8b0c4;text-decoration:line-through;}
   .ess{font-size:9px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:2px 7px;border-radius:7px;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;}
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
-  .shop-btn{width:30px;height:30px;border-radius:10px;flex-shrink:0;border:none;cursor:pointer;background:#f1ecf9;color:#8574b5;display:flex;align-items:center;justify-content:center;transition:.12s;}
+  .shop-btn{width:31px;height:31px;border-radius:11px;flex-shrink:0;border:none;cursor:pointer;background:#f1ecf9;color:#6a5a8f;display:flex;align-items:center;justify-content:center;transition:.12s;box-shadow:0 5px 11px -6px rgba(120,90,140,.45),inset 0 0 0 1px rgba(255,255,255,.5);}
   .shop-btn:active{transform:scale(.9);}
   .shop-btn svg{width:16px;height:16px;}
 
@@ -238,7 +243,7 @@
   var CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
   var CART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.3 12.4a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 7H5.2"/></svg>';
 
-  var STAGES=[['0–3m','Newborn'],['3–6m',''],['6–9m',''],['9–12m',''],['12–18m',''],['18–24m',''],['24–36m','']];
+  var STAGES=[['0–3m','Newborn'],['3–6m','Grasping'],['6–9m','Sitting'],['9–12m','Crawling'],['12–18m','First steps'],['18–24m','Toddler'],['24–36m','Preschool']];
   var CUR_STAGE='6–9m';
 
   /* products by age — structured from the "New Mum's Ultimate Guide" (age-wise essentials + toys) */
@@ -357,7 +362,7 @@
     var html='';
     AGE_DATA[CUR_STAGE].forEach(function(c,ci){
       var done=0; c.items.forEach(function(it,ii){ if(CHECKED['a|'+CUR_STAGE+'|'+ci+'|'+ii]) done++; });
-      html+='<div class="cat" id="cat'+ci+'">'+
+      html+='<div class="cat" id="cat'+ci+'" style="--tint:'+c.tint+'">'+
         '<div class="cat-head" onclick="toggleCat('+ci+')"><span class="cat-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
         '<div class="cat-t"><div class="cat-n">'+c.cat+'</div><div class="cat-c">'+done+' of '+c.items.length+' ready</div></div>'+
         '<span class="cat-chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>'+
@@ -367,7 +372,7 @@
         html+='<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+
           '<span class="ci-n">'+it.n+'</span>'+
           (it.ess?'<span class="ess">Must</span>':'')+
-          (it.shop?'<button class="shop-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\')">'+CART_SVG+'</button>':'')+
+          (it.shop?'<button class="shop-btn" style="background:'+c.tint+'" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\')">'+CART_SVG+'</button>':'')+
         '</div>';
       });
       html+='</div></div>';
