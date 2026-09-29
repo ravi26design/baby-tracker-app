@@ -33,10 +33,18 @@
   .head{display:flex;align-items:flex-start;justify-content:space-between;margin-top:6px;}
   .head h1{font-size:27px;font-weight:800;letter-spacing:-.5px;}
   .head p{font-size:13px;color:var(--muted);font-weight:500;margin-top:3px;}
-  .kid-chip{display:flex;align-items:center;gap:8px;background:#fff;border-radius:16px;padding:7px 12px 7px 8px;box-shadow:var(--shadow-soft);}
-  .kid-chip .kf{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 45% 35%,#e7d9ff,#c3a9f3);display:flex;align-items:center;justify-content:center;font-size:16px;}
-  .kid-chip .kn{font-size:13px;font-weight:800;}
-  .kid-chip .ka{font-size:10.5px;color:var(--muted);font-weight:600;}
+  .child-tabs{display:flex;gap:9px;margin:16px 0 2px;}
+  .child-tab{flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 14px;border-radius:19px;border:none;cursor:pointer;
+    font-family:inherit;background:#fff;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .15s,box-shadow .2s;}
+  .child-tab:active{transform:scale(.98);}
+  .child-tab .ct-face{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .child-tab .ct-name{font-size:14px;font-weight:800;color:#8a8788;letter-spacing:-.2px;}
+  .child-tab .ct-age{font-size:10.5px;font-weight:700;color:#b3aab8;margin-top:1px;}
+  .child-tab .ct-t{text-align:left;line-height:1.1;}
+  .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
+  .child-tab.active .ct-name{color:#fff;}
+  .child-tab.active .ct-age{color:rgba(255,255,255,.8);}
+  .child-tab.active .ct-face{box-shadow:inset 0 0 0 2px rgba(255,255,255,.9);}
 
   .prog-card{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;background:linear-gradient(145deg,#b6a7de,#9784c3 60%,#8672bb);color:#fff;border-radius:26px;padding:19px 21px;margin-top:18px;box-shadow:0 22px 40px -16px rgba(140,116,181,.8);}
   .prog-card::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;right:-46px;top:-58px;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 70%);pointer-events:none;}
@@ -158,9 +166,9 @@
 
         <div class="content">
           <div class="head">
-            <div><h1>Checklist</h1><p>Everything Mark needs, by age</p></div>
-            <div class="kid-chip"><span class="kf">👦🏻</span><div><div class="kn">Mark</div><div class="ka">6 months</div></div></div>
+            <div><h1>Checklist</h1><p id="clSub">Everything Mark needs, by age</p></div>
           </div>
+          <div class="child-tabs" id="childTabs"></div>
 
           <div class="prog-card">
             <div class="ring">
@@ -244,7 +252,23 @@
   var CART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.3 12.4a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 7H5.2"/></svg>';
 
   var STAGES=[['0–3m','Newborn'],['3–6m','Grasping'],['6–9m','Sitting'],['9–12m','Crawling'],['12–18m','First steps'],['18–24m','Toddler'],['24–36m','Preschool']];
-  var CUR_STAGE='6–9m';
+  var CHILDREN={
+    mark:{name:'Mark',face:'👦🏻',age:'6 months',stage:'6–9m',bg:'radial-gradient(circle at 45% 35%,#cfe0ff,#a9c3f3)'},
+    lily:{name:'Lily',face:'👧🏻',age:'2 years',stage:'24–36m',bg:'radial-gradient(circle at 45% 35%,#ffd9e2,#f3a9bd)'}
+  };
+  var CUR_CHILD='mark';
+  var CUR_STAGE=CHILDREN[CUR_CHILD].stage;
+  function renderChildTabs(){
+    document.getElementById('childTabs').innerHTML=Object.keys(CHILDREN).map(function(k){
+      var c=CHILDREN[k];
+      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span><span class="ct-t"><span class="ct-name">'+c.name+'</span><span class="ct-age">'+c.age+'</span></span></button>';
+    }).join('');
+  }
+  function switchChild(k){
+    CUR_CHILD=k; CUR_STAGE=CHILDREN[k].stage;
+    document.getElementById('clSub').textContent='Everything '+CHILDREN[k].name+' needs, by age';
+    renderChildTabs(); renderStages(); renderAge(); updateProgress();
+  }
 
   /* products by age — structured from the "New Mum's Ultimate Guide" (age-wise essentials + toys) */
   var AGE_DATA={
@@ -353,8 +377,8 @@
 
   function renderStages(){
     document.getElementById('stageRow').innerHTML=STAGES.map(function(s){
-      var on=s[0]===CUR_STAGE, cur=s[0]==='6–9m';
-      return '<button class="stage-chip'+(on?' on':'')+'" onclick="setStage(\''+s[0]+'\')">'+s[0]+(cur?'<span class="cur">Mark is here</span>':(s[1]?'<span class="cur">'+s[1]+'</span>':''))+'</button>';
+      var on=s[0]===CUR_STAGE, cur=s[0]===CHILDREN[CUR_CHILD].stage;
+      return '<button class="stage-chip'+(on?' on':'')+'" onclick="setStage(\''+s[0]+'\')">'+s[0]+(cur?'<span class="cur">'+CHILDREN[CUR_CHILD].name+' is here</span>':(s[1]?'<span class="cur">'+s[1]+'</span>':''))+'</button>';
     }).join('');
   }
   function setStage(st){ CUR_STAGE=st; renderStages(); renderAge(); updateProgress(); }
@@ -473,7 +497,7 @@
   var _tt;
   function buyNow(brand){ var t=document.getElementById('toast'); t.textContent='Opening '+brand+' store…'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
 
-  renderStages(); renderAge(); updateProgress();
+  renderChildTabs(); renderStages(); renderAge(); updateProgress();
 </script>
 </body>
 </html>
