@@ -61,6 +61,7 @@
   .seg-tabs button.on{background:#fff;color:var(--ink);box-shadow:0 6px 14px -8px rgba(120,90,140,.5);}
 
   .sec-label{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#9a8fb3;margin:22px 4px 12px;}
+  #ageList{margin-top:18px;}
 
   .stage-row{display:flex;gap:9px;overflow-x:auto;padding-bottom:2px;margin-top:16px;scrollbar-width:none;}
   .stage-row::-webkit-scrollbar{display:none;}
@@ -184,7 +185,6 @@
           </div>
 
           <div id="ageView">
-            <div class="stage-row" id="stageRow"></div>
             <div id="ageList"></div>
             <div class="credit">Product picks curated from the <b>New Mum's Ultimate Guide</b> by @alphabetamumma 💜</div>
           </div>
@@ -376,7 +376,8 @@
   }
 
   function renderStages(){
-    document.getElementById('stageRow').innerHTML=STAGES.map(function(s){
+    var sr=document.getElementById('stageRow'); if(!sr) return;
+    sr.innerHTML=STAGES.map(function(s){
       var on=s[0]===CUR_STAGE, cur=s[0]===CHILDREN[CUR_CHILD].stage;
       return '<button class="stage-chip'+(on?' on':'')+'" onclick="setStage(\''+s[0]+'\')">'+s[0]+(cur?'<span class="cur">'+CHILDREN[CUR_CHILD].name+' is here</span>':(s[1]?'<span class="cur">'+s[1]+'</span>':''))+'</button>';
     }).join('');
