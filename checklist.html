@@ -117,13 +117,22 @@
   .dur{flex:1 1 calc(50% - 4px);border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:12px;border-radius:14px;background:var(--chip);color:#8574b5;transition:.14s;border:2px solid transparent;}
   .dur.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:var(--btn-shadow);}
   .type-row{display:flex;gap:8px;margin-top:16px;}
-  .ttype{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;padding:12px 4px;border-radius:14px;background:var(--chip);color:#8574b5;transition:.14s;border:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:5px;}
-  .ttype .te{font-size:20px;}
-  .ttype.on{background:linear-gradient(150deg,#f2ecfb,#e6ddf7);border-color:var(--lav-2);color:var(--lav-3);}
-  .trip-sum{display:flex;align-items:center;gap:13px;background:linear-gradient(150deg,#efeaf7,#e3daf6);border-radius:20px;padding:15px 17px;margin-top:18px;}
-  .trip-sum .tse{width:44px;height:44px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;box-shadow:var(--shadow-soft);}
-  .trip-sum .tst{font-size:14.5px;font-weight:800;}
-  .trip-sum .tsp{font-size:12px;color:#7d7770;font-weight:600;margin-top:2px;}
+  .ttype{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;padding:14px 4px;border-radius:16px;background:var(--chip);color:#8574b5;transition:.15s;border:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .ttype .te{font-size:22px;transition:transform .15s;}
+  .ttype.on{background:linear-gradient(150deg,#efe7fb,#e2d6f6);border-color:var(--lav-2);color:var(--lav-3);box-shadow:0 10px 20px -10px rgba(140,116,181,.6);transform:translateY(-2px);}
+  .ttype.on .te{transform:scale(1.12);}
+  .trip-sum{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;background:linear-gradient(145deg,#b6a7de,#9784c3);color:#fff;border-radius:22px;padding:16px 18px;margin-top:18px;box-shadow:0 18px 34px -16px rgba(140,116,181,.75);}
+  .trip-sum::before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;right:-46px;top:-56px;background:radial-gradient(circle,rgba(255,255,255,.24),transparent 70%);}
+  .trip-sum>*{position:relative;z-index:1;}
+  .trip-sum .tse{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0;box-shadow:0 10px 20px -8px rgba(60,40,80,.4);}
+  .trip-sum .tsw{flex:1;min-width:0;}
+  .trip-sum .tst{font-size:15.5px;font-weight:800;letter-spacing:-.2px;text-transform:capitalize;}
+  .trip-sum .tstats{display:flex;gap:8px;margin-top:8px;}
+  .trip-sum .tstat{font-size:11.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.2);padding:4px 11px;border-radius:11px;}
+  .trip-sum .tstat b{font-weight:800;}
+  .trip-sum .tstat.buy{background:rgba(255,255,255,.32);}
+  .pk-ic{width:33px;height:33px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f4f0fa;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .ci-row.done .pk-ic{opacity:.5;}
 
   .buy-card{display:flex;align-items:center;gap:13px;background:#fff;border-radius:18px;padding:11px;margin-bottom:11px;box-shadow:var(--shadow-soft);}
   .buy-thumb{width:56px;height:56px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;}
@@ -442,16 +451,16 @@
   function buildPack(){
     var d=T_DAYS;
     PACK=[
-      {n:'Diapers', q:(d*6)+' pcs'},{n:'Baby wipes', q:Math.ceil(d/3)+' packs'},
-      {n:'Outfits & bodysuits', q:Math.min(d,12)+'+'},{n:'Pajamas / sleepwear', q:Math.min(d,8)},
-      {n:'Muslin cloths & bibs', q:Math.min(d,10)},{n:'Bottles & formula', q:''},
-      {n:'Snacks & purées', q:''},{n:'Comfort blanket & toy', q:''},
-      {n:'Baby toiletries kit', q:''},{n:'First-aid & medicines', q:''},{n:'Thermometer', q:''}
+      {n:'Diapers', ic:'🧷', q:(d*6)+' pcs'},{n:'Baby wipes', ic:'🧻', q:Math.ceil(d/3)+' packs'},
+      {n:'Outfits & bodysuits', ic:'👕', q:Math.min(d,12)+'+'},{n:'Pajamas / sleepwear', ic:'🌙', q:Math.min(d,8)},
+      {n:'Muslin cloths & bibs', ic:'🧣', q:Math.min(d,10)},{n:'Bottles & formula', ic:'🍼', q:''},
+      {n:'Snacks & purées', ic:'🍎', q:''},{n:'Comfort blanket & toy', ic:'🧸', q:''},
+      {n:'Baby toiletries kit', ic:'🧴', q:''},{n:'First-aid & medicines', ic:'🩹', q:''},{n:'Thermometer', ic:'🌡️', q:''}
     ];
-    if(T_TYPE==='Flight'){ PACK.push({n:'Travel documents & ID',q:''},{n:'Baby ear protection',q:'',shop:'earprotect'},{n:'Compact stroller',q:'',shop:'travelstroller'}); }
-    if(T_TYPE==='Road trip'){ PACK.push({n:'Car seat & window shades',q:'',shop:'carseat'},{n:'Travel potty',q:'',shop:'potty'},{n:'Backseat organizer',q:''}); }
-    if(T_TYPE==='Beach'){ PACK.push({n:'Swim diapers',q:Math.min(d*2,24),shop:'swimdiaper'},{n:'UV swimsuit & sun hat',q:''},{n:'Baby sunscreen SPF50',q:'',shop:'sunscreen'},{n:'Pop-up beach tent',q:'',shop:'beachtent'}); }
-    if(T_TYPE==='Cold'){ PACK.push({n:'Warm snowsuit / bunting',q:'',shop:'warmsuit'},{n:'Thermal layers',q:Math.min(d,8)},{n:'Mittens & wool socks',q:''},{n:'Extra blankets',q:''}); }
+    if(T_TYPE==='Flight'){ PACK.push({n:'Travel documents & ID',ic:'🛂',q:''},{n:'Baby ear protection',ic:'🎧',q:'',shop:'earprotect'},{n:'Compact stroller',ic:'🛒',q:'',shop:'travelstroller'}); }
+    if(T_TYPE==='Road trip'){ PACK.push({n:'Car seat & window shades',ic:'🚗',q:'',shop:'carseat'},{n:'Travel potty',ic:'🚽',q:'',shop:'potty'},{n:'Backseat organizer',ic:'🎒',q:''}); }
+    if(T_TYPE==='Beach'){ PACK.push({n:'Swim diapers',ic:'🩱',q:Math.min(d*2,24),shop:'swimdiaper'},{n:'UV swimsuit & sun hat',ic:'🩳',q:''},{n:'Baby sunscreen SPF50',ic:'🧴',q:'',shop:'sunscreen'},{n:'Pop-up beach tent',ic:'⛱️',q:'',shop:'beachtent'}); }
+    if(T_TYPE==='Cold'){ PACK.push({n:'Warm snowsuit / bunting',ic:'🧥',q:'',shop:'warmsuit'},{n:'Thermal layers',ic:'🧦',q:Math.min(d,8)},{n:'Mittens & wool socks',ic:'🧤',q:''},{n:'Extra blankets',ic:'🛏️',q:''}); }
   }
   function buyKeys(){
     var base=['travelstroller','travelcrib','diaperbag','bottlewarmer'];
@@ -467,10 +476,13 @@
     document.getElementById('durRow').innerHTML=DURS.map(function(d){ return '<button class="dur'+(d[0]===T_DUR?' on':'')+'" onclick="setDur(\''+d[0]+'\','+d[1]+')">'+d[0]+'</button>'; }).join('');
     document.getElementById('typeRow').innerHTML=TYPES.map(function(t){ return '<button class="ttype'+(t[0]===T_TYPE?' on':'')+'" onclick="setType(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>'; }).join('');
     var emo=(TYPES.filter(function(t){return t[0]===T_TYPE;})[0]||['','🧳'])[1];
-    document.getElementById('tripSum').innerHTML='<span class="tse">'+emo+'</span><div><div class="tst">Packing for a '+T_DUR.toLowerCase()+' '+T_TYPE.toLowerCase()+' trip</div><div class="tsp">'+PACK.length+' things to carry · '+buyKeys().length+' to buy</div></div>';
+    document.getElementById('tripSum').innerHTML='<span class="tse">'+emo+'</span>'+
+      '<div class="tsw"><div class="tst">'+T_DUR+' '+T_TYPE.toLowerCase()+' trip</div>'+
+      '<div class="tstats"><span class="tstat"><b>'+PACK.length+'</b> to carry</span><span class="tstat buy"><b>'+buyKeys().length+'</b> to buy</span></div></div>';
     document.getElementById('packList').innerHTML=PACK.map(function(p,i){
       var id='p|'+i, on=CHECKED[id];
-      return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span><span class="ci-n">'+p.n+'</span>'+
+      return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+
+        '<span class="pk-ic">'+(p.ic||'🎒')+'</span><span class="ci-n">'+p.n+'</span>'+
         (p.q?'<span class="qty">'+p.q+'</span>':'')+
         (p.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+p.shop+'\',\''+p.n.replace(/'/g,'')+'\')">View</button>':'')+'</div>';
     }).join('');
