@@ -38,7 +38,6 @@
   .kid-chip .kn{font-size:13px;font-weight:800;}
   .kid-chip .ka{font-size:10.5px;color:var(--muted);font-weight:600;}
 
-  /* progress card */
   .prog-card{display:flex;align-items:center;gap:16px;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);color:#fff;border-radius:24px;padding:18px 20px;margin-top:18px;box-shadow:0 20px 38px -16px rgba(140,116,181,.75);}
   .ring{position:relative;width:64px;height:64px;flex-shrink:0;}
   .ring svg{transform:rotate(-90deg);}
@@ -46,21 +45,18 @@
   .prog-card .pt{font-size:16px;font-weight:800;}
   .prog-card .ps{font-size:12.5px;opacity:.85;font-weight:500;margin-top:3px;line-height:1.4;}
 
-  /* mode toggle */
   .seg-tabs{display:flex;background:#ece5f4;border-radius:16px;padding:4px;margin-top:20px;}
   .seg-tabs button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;padding:11px;border-radius:13px;background:none;color:#8574b5;transition:.15s;}
   .seg-tabs button.on{background:#fff;color:var(--ink);box-shadow:0 6px 14px -8px rgba(120,90,140,.5);}
 
   .sec-label{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#9a8fb3;margin:22px 4px 12px;}
 
-  /* age stage chips */
   .stage-row{display:flex;gap:9px;overflow-x:auto;padding-bottom:2px;margin-top:16px;scrollbar-width:none;}
   .stage-row::-webkit-scrollbar{display:none;}
-  .stage-chip{flex:0 0 auto;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:9px 15px;border-radius:15px;background:#fff;color:#8574b5;box-shadow:var(--shadow-soft);transition:.14s;}
+  .stage-chip{flex:0 0 auto;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:9px 15px;border-radius:15px;background:#fff;color:#8574b5;box-shadow:var(--shadow-soft);transition:.14s;text-align:center;}
   .stage-chip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:var(--btn-shadow);}
-  .stage-chip .cur{font-size:9px;display:block;opacity:.8;font-weight:700;margin-top:1px;}
+  .stage-chip .cur{font-size:9px;display:block;opacity:.85;font-weight:700;margin-top:1px;}
 
-  /* category cards */
   .cat{background:#fff;border-radius:22px;padding:6px 8px 8px;margin-bottom:14px;box-shadow:var(--shadow-soft);}
   .cat-head{display:flex;align-items:center;gap:12px;padding:12px 12px;cursor:pointer;}
   .cat-ic{width:40px;height:40px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;}
@@ -85,7 +81,6 @@
   .shop-btn:active{transform:scale(.9);}
   .shop-btn svg{width:16px;height:16px;}
 
-  /* travel planner */
   .planner{background:#fff;border-radius:24px;padding:18px;box-shadow:var(--shadow-soft);margin-top:16px;}
   .p-lbl{font-size:12px;font-weight:800;color:#8a8394;margin-bottom:9px;letter-spacing:.2px;}
   .dur-row{display:flex;gap:8px;flex-wrap:wrap;}
@@ -100,20 +95,21 @@
   .trip-sum .tst{font-size:14.5px;font-weight:800;}
   .trip-sum .tsp{font-size:12px;color:#7d7770;font-weight:600;margin-top:2px;}
 
-  /* product cards (buy) */
   .buy-card{display:flex;align-items:center;gap:13px;background:#fff;border-radius:18px;padding:11px;margin-bottom:11px;box-shadow:var(--shadow-soft);}
-  .buy-thumb{width:60px;height:60px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:30px;}
+  .buy-thumb{width:56px;height:56px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;}
   .buy-info{flex:1;min-width:0;}
-  .buy-brand{font-size:11px;font-weight:800;color:#8574b5;text-transform:uppercase;letter-spacing:.3px;}
-  .buy-name{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;margin-top:2px;}
-  .buy-meta{display:flex;align-items:center;gap:9px;margin-top:5px;}
-  .buy-price{font-size:14px;font-weight:800;color:var(--ink);}
-  .buy-rate{font-size:11.5px;font-weight:700;color:#c8901f;}
+  .buy-kicker{font-size:10px;font-weight:800;color:#a99fbb;text-transform:uppercase;letter-spacing:.4px;}
+  .buy-name{font-size:15px;font-weight:800;color:var(--ink);line-height:1.25;margin-top:2px;}
+  .buy-meta{display:flex;align-items:center;gap:7px;margin-top:6px;}
+  .tier-chip{font-size:10px;font-weight:800;padding:3px 9px;border-radius:8px;letter-spacing:.2px;}
+  .tier-chip.prem{background:#efe6ff;color:#7a5fd0;}
+  .tier-chip.eco{background:#e2f0f7;color:#1f86a8;}
   .buy-go{border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);padding:9px 15px;border-radius:13px;flex-shrink:0;box-shadow:var(--btn-shadow);transition:transform .12s;}
   .buy-go:active{transform:scale(.95);}
-  .spons{font-size:10px;color:#b6acc4;font-weight:700;text-align:center;margin:4px 0 16px;}
+  .spons{font-size:10px;color:#b6acc4;font-weight:700;text-align:center;margin:4px 0 6px;}
+  .credit{font-size:10.5px;color:#a99fbb;font-weight:600;text-align:center;margin:16px 6px 2px;line-height:1.5;}
+  .credit b{color:#8574b5;font-weight:800;}
 
-  /* bottom nav */
   .bottom-nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:#fff;border-radius:30px 30px 0 0;display:flex;align-items:center;justify-content:space-around;padding:16px 26px 24px;z-index:6;
     -webkit-mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);
     filter:drop-shadow(0 -12px 30px rgba(70,48,80,.26)) drop-shadow(0 -4px 12px rgba(70,48,80,.16));}
@@ -128,7 +124,6 @@
   .nav-add{position:absolute;left:50%;bottom:61px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 22px -6px rgba(140,116,181,.55);z-index:8;cursor:pointer;}
   .home-indicator{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;opacity:.85;z-index:7;}
 
-  /* product sheet */
   .sheet-layer{position:absolute;inset:0;z-index:40;visibility:hidden;pointer-events:none;}
   .sheet-layer.open{visibility:visible;pointer-events:auto;}
   .sheet-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
@@ -158,7 +153,7 @@
 
         <div class="content">
           <div class="head">
-            <div><h1>Checklist</h1><p>Everything Mark needs, sorted for you</p></div>
+            <div><h1>Checklist</h1><p>Everything Mark needs, by age</p></div>
             <div class="kid-chip"><span class="kf">👦🏻</span><div><div class="kn">Mark</div><div class="ka">6 months</div></div></div>
           </div>
 
@@ -175,13 +170,12 @@
             <button id="tabTravel" onclick="setMode('travel')">Travel</button>
           </div>
 
-          <!-- BY AGE -->
           <div id="ageView">
             <div class="stage-row" id="stageRow"></div>
             <div id="ageList"></div>
+            <div class="credit">Product picks curated from the <b>New Mum's Ultimate Guide</b> by @alphabetamumma 💜</div>
           </div>
 
-          <!-- TRAVEL -->
           <div id="travelView" style="display:none">
             <div class="planner">
               <div class="p-lbl">How long is the trip?</div>
@@ -200,7 +194,6 @@
         </div>
       </div>
 
-      <!-- bottom nav -->
       <div class="bottom-nav">
         <div class="nav-item" onclick="location.href='home3.html'">
           <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg></span>
@@ -228,12 +221,11 @@
       </div>
       <div class="home-indicator"></div>
 
-      <!-- product sheet -->
       <div class="sheet-layer" id="shopSheet">
         <div class="sheet-bd" onclick="closeShop()"></div>
         <div class="sheet">
           <div class="sh-grab"><span></span></div>
-          <div class="sh-head"><div class="sh-title" id="shTitle">Recommended products</div><div class="sh-sub" id="shSub">Top-rated picks from trusted brands</div></div>
+          <div class="sh-head"><div class="sh-title" id="shTitle">Recommended</div><div class="sh-sub" id="shSub">Premium & budget picks from trusted brands</div></div>
           <div class="sh-body" id="shBody"></div>
         </div>
       </div>
@@ -243,97 +235,99 @@
   </div>
 
 <script>
-  /* ---------- data ---------- */
   var CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
   var CART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.3 12.4a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 7H5.2"/></svg>';
 
-  var STAGES=[['0–3m','0–3 months'],['3–6m','3–6 months'],['6–9m','6–9 months'],['9–12m','9–12 months'],['1–2y','1–2 years']];
+  var STAGES=[['0–3m','Newborn'],['3–6m',''],['6–9m',''],['9–12m',''],['12–18m',''],['18–24m',''],['24–36m','']];
   var CUR_STAGE='6–9m';
 
+  /* products by age — structured from the "New Mum's Ultimate Guide" (age-wise essentials + toys) */
   var AGE_DATA={
    '0–3m':[
-    {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',items:[{n:'Bottles (4–6)',ess:1,shop:'bottles'},{n:'Formula or breast pump',shop:'pump'},{n:'Burp cloths',ess:1},{n:'Bottle sterilizer',shop:'sterilizer'},{n:'Nursing pillow'}]},
-    {cat:'Sleep',ic:'🌙',tint:'#d5e6ff',items:[{n:'Bassinet or crib',ess:1,shop:'crib'},{n:'Swaddle blankets',ess:1,shop:'swaddle'},{n:'Fitted crib sheets'},{n:'White-noise machine',shop:'noise'}]},
-    {cat:'Diapering',ic:'🧷',tint:'#e7d9ff',items:[{n:'Newborn diapers',ess:1,shop:'diapers'},{n:'Baby wipes',ess:1,shop:'wipes'},{n:'Changing pad'},{n:'Diaper-rash cream',shop:'cream'}]},
-    {cat:'Clothing',ic:'👕',tint:'#d6f3e0',items:[{n:'Onesies (7+)',ess:1},{n:'Footed sleepers'},{n:'Mittens & socks'},{n:'Soft cotton hats'}]},
-    {cat:'Health',ic:'🩺',tint:'#ffd9e2',items:[{n:'Digital thermometer',ess:1,shop:'thermo'},{n:'Baby nail clippers'},{n:'Nasal aspirator',shop:'aspirator'},{n:'Baby wash & lotion'}]},
-    {cat:'Gear',ic:'🚗',tint:'#fff0d0',items:[{n:'Infant car seat',ess:1,shop:'carseat'},{n:'Stroller',shop:'stroller'},{n:'Baby carrier',shop:'carrier'}]}
+    {cat:'Baby care',ic:'🧴',tint:'#ffd9e2',items:[{n:'Diapers',ess:1,shop:'diapers'},{n:'Body wash',shop:'bodywash'},{n:'Lotion',shop:'lotion'},{n:'Baby shampoo',shop:'shampoo'},{n:'Rash cream',ess:1,shop:'rashcream'},{n:'Wet wipes',ess:1,shop:'wipes'},{n:'Baby hair oil',shop:'hairoil'},{n:'Massage oil',shop:'massageoil'}]},
+    {cat:'Clothing & sleep',ic:'🌙',tint:'#d5e6ff',items:[{n:'Swaddles',ess:1,shop:'swaddle'},{n:'Burp cloths',ess:1,shop:'burpcloth'},{n:'Muslin towels',shop:'towel'},{n:'Onesies & mittens'},{n:'Rai pillow',shop:'raipillow'},{n:'Dry sheet',shop:'drysheet'}]},
+    {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',items:[{n:'Feeding bottles',ess:1,shop:'bottle'},{n:'Bottle sterilizer',shop:'sterilizer'},{n:'Feeding pillow',shop:'feedpillow'},{n:'Bottle cleaner',shop:'bottlecleaner'}]},
+    {cat:'Bath & hygiene',ic:'🛁',tint:'#d6f3e0',items:[{n:'Bath tub',shop:'bathtub'},{n:'Bath seat',shop:'bathseat'},{n:'Washcloths',shop:'washcloth'},{n:'Baby laundry detergent',shop:'detergent'}]},
+    {cat:'Gear',ic:'🚗',tint:'#fff0d0',items:[{n:'Infant car seat',ess:1,shop:'carseat'},{n:'Stroller',shop:'stroller'},{n:'Baby carrier',shop:'carrier'},{n:'Diaper bag',shop:'diaperbag'}]},
+    {cat:'First toys',ic:'🧸',tint:'#e7d9ff',items:[{n:'Black & white mobile',shop:'toysbw'},{n:'High-contrast plush',shop:'toysplush'},{n:'Soft sensory balls',shop:'toysball'}]}
    ],
    '3–6m':[
-    {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',items:[{n:'Larger bottles',shop:'bottles'},{n:'Bottle brush'},{n:'Silicone bibs',shop:'bibs'}]},
-    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Play gym / mat',shop:'toys'},{n:'Teething toys',ess:1,shop:'teether'},{n:'Soft rattles'},{n:'Crinkle books',shop:'books'}]},
-    {cat:'Sleep',ic:'🌙',tint:'#d5e6ff',items:[{n:'Sleep sack (next size)'},{n:'Blackout curtains'}]},
-    {cat:'Clothing',ic:'👕',tint:'#d6f3e0',items:[{n:'3–6m onesies',ess:1},{n:'Rompers'},{n:'Warm layers'}]},
-    {cat:'Health',ic:'🩺',tint:'#ffd9e2',items:[{n:'Teething gel'},{n:'Gripe water'}]}
+    {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',items:[{n:'Silicone teether',ess:1,shop:'teether'},{n:'Cotton bibs',shop:'bibs'},{n:'Sipper bottle',shop:'sipper'}]},
+    {cat:'Health',ic:'🩺',tint:'#ffd9e2',items:[{n:'Vapour roll-on (cold)',shop:'vapour'},{n:'Tummy roll (colic)',shop:'colic'},{n:'Mosquito repellent patch',shop:'mosquito'}]},
+    {cat:'Sleep',ic:'🌙',tint:'#d5e6ff',items:[{n:'Sleep sack',shop:'sleepsack'},{n:'Mosquito net',shop:'mosnet'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Clutching toys',shop:'toysclutch'},{n:'Wooden rattles',shop:'toysrattle'},{n:'Wooden teether',shop:'woodteether'},{n:'Textured play mat',shop:'playmat'}]}
    ],
    '6–9m':[
-    {cat:'Feeding solids',ic:'🥣',tint:'#ffe6c8',items:[{n:'High chair',ess:1,shop:'highchair'},{n:'Weaning spoons',ess:1,shop:'spoons'},{n:'Suction bowls & plates',shop:'bowls'},{n:'Sippy / straw cup',shop:'sippy'},{n:'Silicone bibs',shop:'bibs'},{n:'First-food purées',shop:'food'}]},
-    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Stacking & nesting toys',shop:'toys'},{n:'Teething toys',ess:1,shop:'teether'},{n:'Board books',shop:'books'},{n:'Activity table'}]},
-    {cat:'Safety',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Cabinet & drawer locks',ess:1,shop:'locks'},{n:'Outlet covers',ess:1},{n:'Safety gates',shop:'gate'},{n:'Corner guards'},{n:'Baby monitor',shop:'monitor'}]},
-    {cat:'Diapering',ic:'🧷',tint:'#e7d9ff',items:[{n:'Size 3 diapers',ess:1,shop:'diapers'},{n:'Baby wipes',ess:1,shop:'wipes'}]},
-    {cat:'Clothing',ic:'👕',tint:'#d6f3e0',items:[{n:'6–9m outfits',ess:1},{n:'Anti-slip socks'},{n:'Soft-sole shoes',shop:'shoes'}]}
+    {cat:'Feeding solids',ic:'🥣',tint:'#ffe6c8',items:[{n:'High chair',ess:1,shop:'highchair'},{n:'Weaning spoons',ess:1,shop:'spoons'},{n:'Feeding kit',shop:'feedingkit'},{n:'Open cup',shop:'opencup'},{n:'Snack box',shop:'snackbox'},{n:'Food processor',shop:'processor'}]},
+    {cat:'First tooth',ic:'🦷',tint:'#d5e6ff',items:[{n:'Baby toothbrush',ess:1,shop:'toothbrush'},{n:'Baby toothpaste',shop:'toothpaste'},{n:'Wooden teether',shop:'woodteether'}]},
+    {cat:'Safety',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Socket plug covers',ess:1,shop:'socketcovers'},{n:'Edge guards',ess:1,shop:'edgeguards'},{n:'Drawer lockers',shop:'drawerlock'},{n:'Bed railings',shop:'bedrail'},{n:'Baby monitor',shop:'monitor'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Object permanence box',shop:'toysperm'},{n:'Stacking rings',shop:'toysstack'},{n:'Shape sorter',shop:'toyssort'},{n:'Activity center',shop:'toysactivity'}]}
    ],
    '9–12m':[
-    {cat:'Feeding',ic:'🥣',tint:'#ffe6c8',items:[{n:'Toddler utensils',shop:'spoons'},{n:'Snack cups'},{n:'Straw cups',shop:'sippy'},{n:'Finger-food guide'}]},
-    {cat:'On the move',ic:'🚶',tint:'#d5e6ff',items:[{n:'Push walker',shop:'toys'},{n:'First walking shoes',ess:1,shop:'shoes'},{n:'Soft knee pads'}]},
-    {cat:'Safety',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Stair safety gates',ess:1,shop:'gate'},{n:'Furniture anchors',ess:1},{n:'Door pinch guards'}]},
-    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Shape sorter',shop:'toys'},{n:'Ball pit & balls'},{n:'Musical toys'}]}
+    {cat:'On the move',ic:'🚶',tint:'#d5e6ff',items:[{n:'Baby walker',shop:'walker'},{n:'Anti-skid socks',ess:1,shop:'antiskid'},{n:'Knee protectors',shop:'kneepad'}]},
+    {cat:'Feeding',ic:'🥄',tint:'#ffe6c8',items:[{n:'Steel sipper bottle',shop:'steelsipper'},{n:'Waterproof bibs',shop:'wbibs'},{n:'Toddler spoons',shop:'spoons'}]},
+    {cat:'Safety',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Door stoppers',shop:'doorstop'},{n:'Baby sunscreen',ess:1,shop:'sunscreen'},{n:'Baby handwash',shop:'handwash'}]},
+    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Nesting & stacking cups',shop:'toysnest'},{n:'Push-pull toys',shop:'toyspush'},{n:'Musical instruments',shop:'toysmusic'}]}
    ],
-   '1–2y':[
-    {cat:'Feeding',ic:'🍽️',tint:'#ffe6c8',items:[{n:'Toddler plate set',shop:'bowls'},{n:'Open-cup training'},{n:'Booster seat',shop:'highchair'}]},
-    {cat:'Potty',ic:'🚽',tint:'#d5e6ff',items:[{n:'Potty training seat',ess:1,shop:'potty'},{n:'Training pants'},{n:'Step stool'}]},
-    {cat:'Clothing',ic:'👟',tint:'#d6f3e0',items:[{n:'Toddler shoes',ess:1,shop:'shoes'},{n:'Weather layers'},{n:'Sun hat'}]},
-    {cat:'Play & learn',ic:'🧸',tint:'#e7d9ff',items:[{n:'Ride-on toy',shop:'toys'},{n:'Crayons & paper'},{n:'Picture books',shop:'books'},{n:'Building blocks',shop:'toys'}]}
+   '12–18m':[
+    {cat:'Explorer add-ons',ic:'🧭',tint:'#d6f3e0',items:[{n:'Swim diapers',shop:'swimdiaper'},{n:'First walking shoes',ess:1,shop:'shoes'},{n:'Playpen',shop:'playpen'}]},
+    {cat:'Potty',ic:'🚽',tint:'#d5e6ff',items:[{n:'Potty training seat',ess:1,shop:'pottyseat'},{n:'Training underwear',shop:'trainpants'}]},
+    {cat:'Play & learn',ic:'🧩',tint:'#e7d9ff',items:[{n:'Wooden peg puzzles',shop:'toyspuzzle'},{n:'Role-play kitchen set',shop:'toysrole'},{n:'Ride-on toy',shop:'toysride'}]},
+    {cat:'Outdoor',ic:'🛝',tint:'#ffe6c8',items:[{n:'Slide',shop:'slide'},{n:'Swing',shop:'swing'}]}
+   ],
+   '18–24m':[
+    {cat:'Play & learn',ic:'🧱',tint:'#e7d9ff',items:[{n:'Building blocks',shop:'toysblocks'},{n:'Sensory bins',shop:'toyssensory'},{n:'Wooden puzzles',shop:'toyspuzzle'},{n:'Interactive storybooks',shop:'books'}]},
+    {cat:'Clothing',ic:'👟',tint:'#d6f3e0',items:[{n:'Toddler shoes',ess:1,shop:'shoes'},{n:'Sleep sack (bigger)',shop:'sleepsack'}]},
+    {cat:'Self-care',ic:'🪥',tint:'#d5e6ff',items:[{n:'Toothbrush & paste',shop:'toothbrush'},{n:'Toddler open cup',shop:'opencup'}]}
+   ],
+   '24–36m':[
+    {cat:'Play & learn',ic:'🎨',tint:'#e7d9ff',items:[{n:'Construction sets',shop:'toysconstruct'},{n:'Pretend playsets',shop:'toyspretend'},{n:'DIY art kits',shop:'toysart'},{n:'Clay & crayons',shop:'toysclay'}]},
+    {cat:'Learning',ic:'📚',tint:'#ffe6c8',items:[{n:'Picture books',shop:'books'},{n:'Dressing frames',shop:'toysdress'}]},
+    {cat:'Potty',ic:'🚽',tint:'#d5e6ff',items:[{n:'Training underwear',shop:'trainpants'},{n:'Step stool'}]}
    ]
   };
 
-  var PRODUCTS={
-   bottles:[['Philips Avent','Natural Response Bottle 3-pack','$24.99','4.8','🍼','#ffe6c8'],['Dr. Brown’s','Anti-Colic Options+ 4-pack','$29.99','4.7','🍼','#d5e6ff'],['Comotomo','Silicone Baby Bottle 2-pack','$25.99','4.6','🍼','#ffd9e2']],
-   diapers:[['Pampers','Swaddlers Size 3 · 168 ct','$44.99','4.9','🧷','#e7d9ff'],['Huggies','Little Snugglers · 156 ct','$42.99','4.8','🧷','#d5e6ff'],['Kirkland','Supreme Diapers · 192 ct','$39.99','4.7','🧷','#d6f3e0']],
-   wipes:[['WaterWipes','Sensitive Wipes · 540 ct','$26.99','4.9','🧻','#d5e6ff'],['Pampers','Aqua Pure Wipes · 10 pk','$22.99','4.8','🧻','#e7d9ff']],
-   highchair:[['Stokke','Tripp Trapp High Chair','$259.00','4.9','🪑','#ffe6c8'],['IKEA','ANTILOP High Chair','$24.99','4.7','🪑','#d6f3e0'],['Graco','Table2Table 7-in-1','$149.99','4.8','🪑','#d5e6ff']],
-   spoons:[['NumNum','GOOtensils Pre-Spoon 2-pk','$10.99','4.8','🥄','#ffe6c8'],['Munchkin','Soft-Tip Infant Spoons','$5.99','4.7','🥄','#d6f3e0']],
-   bowls:[['ezpz','Tiny Bowl Suction Set','$19.99','4.8','🥣','#e7d9ff'],['Bumkins','Silicone Grip Dish','$14.99','4.7','🥣','#d5e6ff']],
-   sippy:[['Munchkin','Miracle 360 Cup 2-pk','$11.99','4.7','🥤','#d6f3e0'],['Philips Avent','My Bendy Straw Cup','$8.99','4.6','🥤','#ffe6c8']],
-   bibs:[['BabyBjörn','Soft Bib 2-pack','$14.99','4.9','🦺','#ffd9e2'],['Bumkins','Silicone Bib','$9.99','4.7','🦺','#d6f3e0']],
-   food:[['Serenity Kids','Organic Purée Variety','$29.99','4.8','🍎','#ffe6c8'],['Once Upon a Farm','Cold-Pressed Blends','$26.99','4.7','🍓','#ffd9e2']],
-   carseat:[['Chicco','KeyFit 35 Infant Car Seat','$249.99','4.9','🚗','#ffd9e2'],['Graco','SnugRide SnugFit 35','$179.99','4.8','🚗','#fff0d0'],['Nuna','PIPA urbn Car Seat','$399.00','4.9','🚗','#e7d9ff']],
-   stroller:[['UPPAbaby','VISTA V2 Stroller','$999.00','4.9','🛒','#e7d9ff'],['Chicco','Bravo Trio Travel System','$379.99','4.7','🛒','#d5e6ff']],
-   carrier:[['Ergobaby','Omni 360 Carrier','$179.00','4.8','👶','#ffe6c8'],['BabyBjörn','Carrier Mini','$99.99','4.7','👶','#d6f3e0']],
-   crib:[['Babyletto','Hudson 3-in-1 Crib','$419.00','4.8','🛏️','#d5e6ff'],['Graco','Benton 4-in-1 Crib','$179.99','4.7','🛏️','#e7d9ff']],
-   swaddle:[['Love To Dream','Swaddle Up 3-pk','$59.90','4.8','🍥','#ffd9e2'],['aden + anais','Muslin Swaddle 4-pk','$49.95','4.9','🍥','#d6f3e0']],
-   noise:[['Hatch','Rest 2nd Gen Sound Machine','$69.99','4.7','🔊','#d5e6ff'],['LectroFan','Micro2 Portable','$34.95','4.6','🔊','#e7d9ff']],
-   thermo:[['Braun','ThermoScan 7 Ear','$59.99','4.8','🌡️','#ffd9e2'],['Frida Baby','3-in-1 Thermometer','$29.99','4.6','🌡️','#d6f3e0']],
-   monitor:[['Nanit','Pro Smart Baby Monitor','$299.00','4.7','📹','#e7d9ff'],['Infant Optics','DXR-8 PRO Monitor','$199.99','4.8','📹','#d5e6ff']],
-   gate:[['Regalo','Extra Wide Safety Gate','$59.99','4.7','🚧','#d6f3e0'],['Cumbor','Auto-Close Baby Gate','$45.99','4.8','🚧','#ffe6c8']],
-   teether:[['Sophie','Sophie la Girafe Teether','$25.00','4.7','🦒','#d6f3e0'],['Nuby','Silicone Teething Keys','$6.99','4.6','🔑','#ffe6c8']],
-   toys:[['Fisher-Price','Rock-a-Stack Classic','$8.99','4.8','🧸','#e7d9ff'],['Melissa & Doug','Wooden Shape Sorter','$16.99','4.8','🧩','#d6f3e0']],
-   books:[['Indestructibles','Chew-Proof Book Set','$21.99','4.9','📚','#ffe6c8'],['Sassy','Crinkle Soft Book','$7.99','4.7','📚','#d5e6ff']],
-   shoes:[['Stride Rite','Soft Motion First Walkers','$44.00','4.7','👟','#d6f3e0'],['Robeez','Soft Sole Shoes','$32.00','4.8','👟','#ffe6c8']],
-   potty:[['BabyBjörn','Smart Potty','$24.99','4.8','🚽','#d5e6ff'],['OXO Tot','2-in-1 Go Potty','$19.99','4.7','🚽','#e7d9ff']],
-   locks:[['Safety 1st','Cabinet & Drawer Locks 14-pk','$12.99','4.6','🔒','#d6f3e0'],['Jool Baby','Magnetic Cabinet Locks','$24.99','4.8','🧲','#ffe6c8']],
-   pump:[['Spectra','S1 Plus Breast Pump','$189.00','4.8','🍼','#ffe6c8'],['Willow','Go Wearable Pump','$329.99','4.6','🍼','#ffd9e2']],
-   sterilizer:[['Philips Avent','Electric Steam Sterilizer','$79.99','4.8','♨️','#d5e6ff'],['Baby Brezza','One-Step Sterilizer Dryer','$119.99','4.7','♨️','#e7d9ff']],
-   cream:[['Boudreaux’s','Butt Paste Max Strength','$8.99','4.8','🧴','#d6f3e0'],['Aquaphor','Baby Healing Ointment','$13.99','4.9','🧴','#ffe6c8']],
-   aspirator:[['Frida Baby','NoseFrida Aspirator','$15.99','4.8','👃','#ffd9e2'],['Braun','Electric Nasal Aspirator','$44.99','4.5','👃','#d5e6ff']],
+  /* brand recommendations from the guide: [icon, tile, Premium pick, Budget pick] */
+  var BRANDS={
+   diapers:['🧷','#e7d9ff','Allter','Huggies'], bodywash:['🧴','#ffd9e2','Aveeno','Mother Sparsh'], lotion:['🧴','#ffe6c8','Aveeno','Mother Sparsh'],
+   shampoo:['🧴','#d5e6ff','Aveeno','Mother Sparsh'], rashcream:['🧴','#d6f3e0','Sudocrem','Chicco'], wipes:['🧻','#d5e6ff','Omumsie','Mee Mee'],
+   hairoil:['💧','#ffe6c8','Baby Forest','Mother Sparsh'], massageoil:['💆','#ffd9e2','Little Rituals','Mother Sparsh'], swaddle:['🍥','#d6f3e0','Masilo','Haus & Kinder'],
+   burpcloth:['🧣','#e7d9ff','Haus & Kinder','Mom Care'], towel:['🧻','#d5e6ff','Snowie Soft','Mee Mee'], raipillow:['🛏️','#ffe6c8','Novo Baby','Snylark'],
+   drysheet:['🟦','#d6f3e0','Superbottoms','Luvlap'], bottle:['🍼','#ffe6c8','Philips Avent','Luvlap'], sterilizer:['♨️','#d5e6ff','Philips Avent','Luvlap'],
+   feedpillow:['🛏️','#ffd9e2','Kradyl Kroft','Mom & Son'], bottlecleaner:['🧽','#d6f3e0','Adore','SYGA'], bathtub:['🛁','#d5e6ff','Skip Hop','R for Rabbit'],
+   bathseat:['🪑','#e7d9ff','Mee Mee','Luvlap'], washcloth:['🧺','#d6f3e0','Mom Care','Luvlap'], detergent:['🧴','#e7d9ff','Windmill','Mee Mee'],
+   carseat:['🚗','#ffd9e2','R for Rabbit','Luvlap'], stroller:['🛒','#e7d9ff','Joie','Luvlap'], carrier:['👶','#ffe6c8','Joie','R for Rabbit'],
+   diaperbag:['🎒','#d5e6ff','R for Rabbit','Motherly'], teether:['🦒','#d6f3e0','Sophie','Luvlap'], woodteether:['🪵','#ffe6c8','Shumee','Natural Toys'],
+   bibs:['🦺','#ffd9e2','Nintara','Tidy Sleep'], wbibs:['🦺','#d6f3e0','Snowie Soft','SYGA'], sipper:['🥤','#d6f3e0','Philips Avent','Luvlap'],
+   steelsipper:['🥤','#d5e6ff','Skip Hop','Luvlap'], opencup:['🥛','#e7d9ff','Ezpz','Munchkin'], sleepsack:['😴','#d5e6ff','Snowie Soft','Haus & Kinder'],
+   vapour:['🌿','#d6f3e0','Baby Organo','Mother Sparsh'], colic:['🌀','#ffe6c8','Mama Earth','Mother Sparsh'], mosquito:['🦟','#d6f3e0','Allter','Odomos'],
+   mosnet:['🕸️','#d5e6ff','Lifekrafts','Kolar'], highchair:['🪑','#ffe6c8','Joie','R for Rabbit'], spoons:['🥄','#d6f3e0','Beaba','Luvlap'],
+   feedingkit:['🍽️','#e7d9ff','Beaba','Luvlap'], snackbox:['🍱','#ffe6c8','Skip Hop','Mee Mee'], processor:['⚙️','#d5e6ff','Bubsie','Baybee'],
+   toothbrush:['🪥','#d6f3e0','Chicco','Colgate'], toothpaste:['🧴','#e7d9ff','Chicco','Colgate'], monitor:['📹','#e7d9ff','Nooie','Tapo'],
+   socketcovers:['🔌','#d6f3e0','Sifamo','Protoware'], edgeguards:['🛡️','#ffe6c8','BabySafeHouse','BabyPro'], drawerlock:['🔒','#d5e6ff','KidDough','Kitsch'],
+   bedrail:['🚧','#ffd9e2','Kids Station','Baybee'], walker:['🚼','#d5e6ff','Fisher Price','Baybee'], antiskid:['🧦','#d6f3e0','Trendy Dukaan','SYGA'],
+   kneepad:['🦵','#ffe6c8','BabySafeHouse','Epeskey'], doorstop:['🚪','#e7d9ff','LivYu','SYGA'], sunscreen:['🧴','#fff0d0','Aveeno','Little Rituals'],
+   handwash:['🧼','#d6f3e0','Windmill','Baby Organo'], pottyseat:['🚽','#d5e6ff','Luvlap','R for Rabbit'], trainpants:['🩲','#e7d9ff','Super Bottoms','Snugkins'],
+   swimdiaper:['🩱','#d5e6ff','Pampers','Bambo Nature'], playmat:['🧩','#d6f3e0','Supples','Tarkan'], playpen:['⛺','#ffe6c8','Metreno','Star & Daisy'],
+   slide:['🛝','#ffe6c8','Baybee','Solimo'], swing:['🪑','#e7d9ff','Beetot','Shopflux'], shoes:['👟','#d6f3e0','R for Rabbit','Luvlap'],
+   books:['📚','#ffe6c8','Indestructibles','Sassy'],
+   /* toys (types from the guide's age-wise tab) */
+   toysbw:['⚫','#e7d9ff','Shumee','Fisher Price'], toysplush:['🧸','#ffd9e2','Shumee','Baybee'], toysball:['🔴','#d6f3e0','Shumee','Baybee'],
+   toysclutch:['🤲','#e7d9ff','Shumee','Fisher Price'], toysrattle:['🪇','#ffe6c8','Shumee','Fisher Price'], toysperm:['📦','#d5e6ff','Shumee','Melissa & Doug'],
+   toysstack:['🗼','#e7d9ff','Shumee','Fisher Price'], toyssort:['🔷','#d6f3e0','Shumee','Fisher Price'], toysactivity:['🎛️','#ffe6c8','Fisher Price','Baybee'],
+   toysnest:['🥤','#e7d9ff','Shumee','Fisher Price'], toyspush:['🛒','#d5e6ff','Fisher Price','Baybee'], toysmusic:['🎵','#ffd9e2','Shumee','Baybee'],
+   toyspuzzle:['🧩','#d6f3e0','Shumee','Melissa & Doug'], toysrole:['🍳','#ffe6c8','Shumee','Baybee'], toysride:['🛴','#d5e6ff','Fisher Price','Baybee'],
+   toysblocks:['🧱','#e7d9ff','Shumee','Fisher Price'], toyssensory:['🪣','#d6f3e0','Shumee','Baybee'], toysconstruct:['🏗️','#ffe6c8','Shumee','Fisher Price'],
+   toyspretend:['🩺','#ffd9e2','Shumee','Baybee'], toysart:['🎨','#e7d9ff','Shumee','Baybee'], toysclay:['🖍️','#ffe6c8','Shumee','Baybee'], toysdress:['🧷','#d6f3e0','Shumee','Baybee'],
    /* travel */
-   travelstroller:[['Babyzen','YOYO2 Travel Stroller','$499.00','4.9','🛒','#e7d9ff'],['GB','Pockit+ All-City','$249.99','4.7','🛒','#d5e6ff']],
-   travelcrib:[['Guava Family','Lotus Travel Crib','$229.00','4.8','⛺','#d6f3e0'],['BabyBjörn','Travel Crib Light','$319.99','4.9','⛺','#e7d9ff']],
-   bottlewarmer:[['Tommee Tippee','Portable Bottle Warmer','$39.99','4.5','🍼','#ffe6c8'],['Baby Brezza','Travel Warmer','$34.99','4.4','🍼','#ffd9e2']],
-   diaperbag:[['Skip Hop','Forma Backpack Diaper Bag','$70.00','4.8','🎒','#d5e6ff'],['Ruvalino','Multifunction Backpack','$39.99','4.7','🎒','#e7d9ff']],
-   portablechair:[['Inglesina','Fast Table Chair','$89.00','4.7','🪑','#ffe6c8'],['hiccapop','Omniboost Travel Booster','$49.99','4.6','🪑','#d6f3e0']],
-   beachtent:[['Schylling','UPF 50+ Pop-up Beach Tent','$34.99','4.6','⛱️','#d5e6ff'],['Monobeach','Baby Beach Tent','$29.99','4.5','⛱️','#ffe6c8']],
-   sunscreen:[['Thinkbaby','SPF 50+ Baby Sunscreen','$12.99','4.8','🧴','#fff0d0'],['Blue Lizard','Baby Mineral SPF 50+','$14.99','4.7','🧴','#ffe6c8']],
-   warmsuit:[['Columbia','Snuggly Bunny Bunting','$60.00','4.8','🧥','#d5e6ff'],['JAN & JUL','Cozy Fleece Suit','$49.00','4.7','🧥','#e7d9ff']],
-   earprotect:[['Alpine','Muffy Baby Ear Protection','$29.95','4.8','🎧','#e7d9ff']]
+   travelstroller:['🛒','#e7d9ff','Joie','Luvlap'], travelcrib:['⛺','#d6f3e0','R for Rabbit','Luvlap'], bottlewarmer:['🍼','#ffe6c8','Philips Avent','Luvlap'],
+   portablechair:['🪑','#ffe6c8','hiccapop','Baybee'], beachtent:['⛱️','#d5e6ff','Schylling','Monobeach'], warmsuit:['🧥','#d5e6ff','Columbia','JAN & JUL'],
+   earprotect:['🎧','#e7d9ff','Alpine','Baby Banz'], potty:['🚽','#d5e6ff','Luvlap','R for Rabbit']
   };
-  function getProducts(key){ return PRODUCTS[key] || [['Baby Tracker Picks','Top-rated essential','$—','4.7','🛍️','#e7d9ff'],['Baby Tracker Picks','Parent favourite','$—','4.6','🛍️','#d6f3e0']]; }
+  function getBrand(key){ return BRANDS[key] || ['🛍️','#e7d9ff','Baby Tracker Pick','Value Pick']; }
 
-  /* ---------- state ---------- */
   var MODE='age', CHECKED={};
-  function key(id){ return id; }
 
-  /* ---------- progress ---------- */
   function currentIds(){
     var ids=[];
     if(MODE==='age'){ AGE_DATA[CUR_STAGE].forEach(function(c,ci){ c.items.forEach(function(it,ii){ ids.push('a|'+CUR_STAGE+'|'+ci+'|'+ii); }); }); }
@@ -352,11 +346,10 @@
     else { t.textContent = pct===100?'Bags packed! 🧳':(done+' of '+total+' packed'); s.textContent='Check items as you pack them.'; }
   }
 
-  /* ---------- render age ---------- */
   function renderStages(){
     document.getElementById('stageRow').innerHTML=STAGES.map(function(s){
       var on=s[0]===CUR_STAGE, cur=s[0]==='6–9m';
-      return '<button class="stage-chip'+(on?' on':'')+'" onclick="setStage(\''+s[0]+'\')">'+s[0]+(cur?'<span class="cur">Mark is here</span>':'')+'</button>';
+      return '<button class="stage-chip'+(on?' on':'')+'" onclick="setStage(\''+s[0]+'\')">'+s[0]+(cur?'<span class="cur">Mark is here</span>':(s[1]?'<span class="cur">'+s[1]+'</span>':''))+'</button>';
     }).join('');
   }
   function setStage(st){ CUR_STAGE=st; renderStages(); renderAge(); updateProgress(); }
@@ -393,7 +386,7 @@
       var cc=document.querySelector('#cat'+ci+' .cat-c'); if(cc) cc.textContent=done+' of '+c.items.length+' ready'; }
   }
 
-  /* ---------- travel ---------- */
+  /* travel */
   var DURS=[['Weekend',3],['1 Week',7],['2 Weeks',14],['1 Month',30]];
   var TYPES=[['Flight','✈️'],['Road trip','🚗'],['Beach','🏖️'],['Cold','❄️']];
   var T_DUR='1 Month', T_DAYS=30, T_TYPE='Flight', PACK=[];
@@ -401,21 +394,15 @@
   function buildPack(){
     var d=T_DAYS;
     PACK=[
-      {n:'Diapers', q:(d*6)+' pcs'},
-      {n:'Baby wipes', q:Math.ceil(d/3)+' packs'},
-      {n:'Outfits & bodysuits', q:Math.min(d,12)+'+'},
-      {n:'Pajamas / sleepwear', q:Math.min(d,8)},
-      {n:'Muslin cloths & bibs', q:Math.min(d,10)},
-      {n:'Bottles & formula', q:''},
-      {n:'Snacks & purées', q:''},
-      {n:'Comfort blanket & toy', q:''},
-      {n:'Baby toiletries kit', q:''},
-      {n:'First-aid & medicines', q:''},
-      {n:'Thermometer', q:''}
+      {n:'Diapers', q:(d*6)+' pcs'},{n:'Baby wipes', q:Math.ceil(d/3)+' packs'},
+      {n:'Outfits & bodysuits', q:Math.min(d,12)+'+'},{n:'Pajamas / sleepwear', q:Math.min(d,8)},
+      {n:'Muslin cloths & bibs', q:Math.min(d,10)},{n:'Bottles & formula', q:''},
+      {n:'Snacks & purées', q:''},{n:'Comfort blanket & toy', q:''},
+      {n:'Baby toiletries kit', q:''},{n:'First-aid & medicines', q:''},{n:'Thermometer', q:''}
     ];
     if(T_TYPE==='Flight'){ PACK.push({n:'Travel documents & ID',q:''},{n:'Baby ear protection',q:'',shop:'earprotect'},{n:'Compact stroller',q:'',shop:'travelstroller'}); }
     if(T_TYPE==='Road trip'){ PACK.push({n:'Car seat & window shades',q:'',shop:'carseat'},{n:'Travel potty',q:'',shop:'potty'},{n:'Backseat organizer',q:''}); }
-    if(T_TYPE==='Beach'){ PACK.push({n:'Swim diapers',q:Math.min(d*2,24)},{n:'UV swimsuit & sun hat',q:''},{n:'Baby sunscreen SPF50',q:'',shop:'sunscreen'},{n:'Pop-up beach tent',q:'',shop:'beachtent'}); }
+    if(T_TYPE==='Beach'){ PACK.push({n:'Swim diapers',q:Math.min(d*2,24),shop:'swimdiaper'},{n:'UV swimsuit & sun hat',q:''},{n:'Baby sunscreen SPF50',q:'',shop:'sunscreen'},{n:'Pop-up beach tent',q:'',shop:'beachtent'}); }
     if(T_TYPE==='Cold'){ PACK.push({n:'Warm snowsuit / bunting',q:'',shop:'warmsuit'},{n:'Thermal layers',q:Math.min(d,8)},{n:'Mittens & wool socks',q:''},{n:'Extra blankets',q:''}); }
   }
   function buyKeys(){
@@ -427,31 +414,29 @@
     var seen={},out=[]; base.forEach(function(k){ if(!seen[k]){ seen[k]=1; out.push(k); } });
     return out;
   }
+  var BUY_NAME={travelstroller:'Compact travel stroller',travelcrib:'Travel crib / bassinet',diaperbag:'Diaper backpack',bottlewarmer:'Portable bottle warmer',portablechair:'Portable high chair',beachtent:'Pop-up beach tent',sunscreen:'Baby sunscreen SPF50',warmsuit:'Warm snowsuit',earprotect:'Baby ear protection',carseat:'Travel car seat'};
   function renderTravel(){
     document.getElementById('durRow').innerHTML=DURS.map(function(d){ return '<button class="dur'+(d[0]===T_DUR?' on':'')+'" onclick="setDur(\''+d[0]+'\','+d[1]+')">'+d[0]+'</button>'; }).join('');
     document.getElementById('typeRow').innerHTML=TYPES.map(function(t){ return '<button class="ttype'+(t[0]===T_TYPE?' on':'')+'" onclick="setType(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>'; }).join('');
     var emo=(TYPES.filter(function(t){return t[0]===T_TYPE;})[0]||['','🧳'])[1];
     document.getElementById('tripSum').innerHTML='<span class="tse">'+emo+'</span><div><div class="tst">Packing for a '+T_DUR.toLowerCase()+' '+T_TYPE.toLowerCase()+' trip</div><div class="tsp">'+PACK.length+' things to carry · '+buyKeys().length+' to buy</div></div>';
-    // pack list
     document.getElementById('packList').innerHTML=PACK.map(function(p,i){
       var id='p|'+i, on=CHECKED[id];
       return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span><span class="ci-n">'+p.n+'</span>'+
         (p.q?'<span class="qty">'+p.q+'</span>':'')+
         (p.shop?'<button class="shop-btn" onclick="event.stopPropagation();openShop(\''+p.shop+'\',\''+p.n.replace(/'/g,'')+'\')">'+CART_SVG+'</button>':'')+'</div>';
     }).join('');
-    // buy list
     document.getElementById('buyList').innerHTML=buyKeys().map(function(k){
-      var p=getProducts(k)[0];
-      return '<div class="buy-card"><span class="buy-thumb" style="background:'+p[5]+'">'+p[4]+'</span>'+
-        '<div class="buy-info"><div class="buy-brand">'+p[0]+'</div><div class="buy-name">'+p[1]+'</div>'+
-        '<div class="buy-meta"><span class="buy-price">'+p[2]+'</span><span class="buy-rate">★ '+p[3]+'</span></div></div>'+
-        '<button class="buy-go" onclick="openShop(\''+k+'\',\''+p[1].replace(/'/g,'')+'\')">Shop</button></div>';
+      var b=getBrand(k), nm=BUY_NAME[k]||k;
+      return '<div class="buy-card"><span class="buy-thumb" style="background:'+b[1]+'">'+b[0]+'</span>'+
+        '<div class="buy-info"><div class="buy-kicker">Recommended</div><div class="buy-name">'+nm+'</div>'+
+        '<div class="buy-meta"><span class="tier-chip prem">'+b[2]+'</span><span class="tier-chip eco">'+b[3]+'</span></div></div>'+
+        '<button class="buy-go" onclick="openShop(\''+k+'\',\''+nm.replace(/'/g,'')+'\')">Shop</button></div>';
     }).join('');
   }
   function setDur(name,days){ T_DUR=name; T_DAYS=days; CHECKED={}; buildPack(); renderTravel(); updateProgress(); }
   function setType(t){ T_TYPE=t; CHECKED={}; buildPack(); renderTravel(); updateProgress(); }
 
-  /* ---------- mode ---------- */
   function setMode(m){
     MODE=m;
     document.getElementById('tabAge').classList.toggle('on', m==='age');
@@ -462,24 +447,27 @@
     updateProgress();
   }
 
-  /* ---------- product sheet ---------- */
-  function openShop(keyName,itemName){
-    var list=getProducts(keyName);
-    document.getElementById('shTitle').textContent=itemName||'Recommended products';
-    document.getElementById('shSub').textContent='Top-rated picks from trusted brands';
-    document.getElementById('shBody').innerHTML=list.map(function(p){
-      return '<div class="buy-card"><span class="buy-thumb" style="background:'+p[5]+'">'+p[4]+'</span>'+
-        '<div class="buy-info"><div class="buy-brand">'+p[0]+'</div><div class="buy-name">'+p[1]+'</div>'+
-        '<div class="buy-meta"><span class="buy-price">'+p[2]+'</span><span class="buy-rate">★ '+p[3]+'</span></div></div>'+
-        '<button class="buy-go" onclick="buyNow(\''+p[0].replace(/'/g,'')+'\')">Buy</button></div>';
-    }).join('')+'<div class="spons">Sponsored · Baby Tracker may earn a commission</div>';
+  /* product sheet — premium & budget picks */
+  function tierCard(kicker,tierClass,tierLabel,ic,bg,brand){
+    return '<div class="buy-card"><span class="buy-thumb" style="background:'+bg+'">'+ic+'</span>'+
+      '<div class="buy-info"><div class="buy-kicker">'+kicker+'</div><div class="buy-name">'+brand+'</div>'+
+      '<div class="buy-meta"><span class="tier-chip '+tierClass+'">'+tierLabel+'</span></div></div>'+
+      '<button class="buy-go" onclick="buyNow(\''+brand.replace(/'/g,'')+'\')">Buy</button></div>';
+  }
+  function openShop(key,itemName){
+    var b=getBrand(key);
+    document.getElementById('shTitle').textContent=itemName||'Recommended';
+    document.getElementById('shSub').textContent='Premium & budget picks from the guide';
+    document.getElementById('shBody').innerHTML=
+      tierCard('Premium pick','prem','Premium',b[0],b[1],b[2])+
+      tierCard('Budget pick','eco','Value',b[0],b[1],b[3])+
+      '<div class="spons">Curated from New Mum’s Ultimate Guide · Baby Tracker may earn a commission</div>';
     document.getElementById('shopSheet').classList.add('open');
   }
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt;
   function buyNow(brand){ var t=document.getElementById('toast'); t.textContent='Opening '+brand+' store…'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
 
-  /* ---------- init ---------- */
   renderStages(); renderAge(); updateProgress();
 </script>
 </body>
