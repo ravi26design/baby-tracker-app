@@ -507,17 +507,31 @@
   };
   function getPrice(key){ return PRICES[key] || [500,1500]; }
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
-  var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Does the job, easy on the wallet.'];
-  var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.'];
+  var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Does the job, easy on the wallet.','Solid basics without the price tag.','Parent-favourite budget buy.'];
+  var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Thoughtful design & top materials.','Feature-rich, grows with your baby.'];
+  var EXTRA_PREM=['Chicco','Philips Avent','BabyBjörn','Skip Hop','R for Rabbit','Nuna','Beaba','Pigeon'];
+  var EXTRA_ECO=['Luvlap','Mee Mee','Baybee','Sunbaby','Star & Daisy','SYGA','Supples','Tarkan'];
   function hashPick(s,arr){ var h=0; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return arr[h%arr.length]; }
+  function pickN(pool,n,seed,avoid){
+    var out=[],used={}; if(avoid) used[avoid.toLowerCase()]=1;
+    var h=0; for(var i=0;i<seed.length;i++) h=(h*31+seed.charCodeAt(i))>>>0;
+    var idx=h%pool.length,guard=0;
+    while(out.length<n && guard++<pool.length*2+6){ var c=pool[idx%pool.length]; idx++; if(!used[c.toLowerCase()]){ used[c.toLowerCase()]=1; out.push(c); } }
+    return out;
+  }
 
   var PV_KEY=null, PV_ITEM='', PV_FILTER='All';
   function makeProducts(key){
-    var b=getBrand(key), pr=getPrice(key);
-    return [
-      {tier:'Budget', name:b[3], price:pr[0], desc:hashPick(b[3]+key,BUDGET_DESC), ic:b[0], bg:b[1]},
-      {tier:'Premium', name:b[2], price:pr[1], desc:hashPick(b[2]+key,PREM_DESC), ic:b[0], bg:b[1]}
-    ];
+    var b=getBrand(key), pr=getPrice(key), rnd=function(x){ return Math.round(x/50)*50; };
+    var eco=[b[3]].concat(pickN(EXTRA_ECO,2,key+'e',b[3]));
+    var prem=[b[2]].concat(pickN(EXTRA_PREM,2,key+'p',b[2]));
+    var ecoP=[pr[0], rnd(pr[0]*1.2), rnd(pr[0]*0.85)], premP=[pr[1], rnd(pr[1]*0.85), rnd(pr[1]*1.25)];
+    var out=[];
+    for(var i=0;i<3;i++){
+      out.push({tier:'Budget', name:eco[i], price:ecoP[i], desc:hashPick(eco[i]+key,BUDGET_DESC), ic:b[0], bg:b[1]});
+      out.push({tier:'Premium', name:prem[i], price:premP[i], desc:hashPick(prem[i]+key,PREM_DESC), ic:b[0], bg:b[1]});
+    }
+    return out;
   }
   function openShop(key,itemName){
     PV_KEY=key; PV_ITEM=itemName||'Recommended'; PV_FILTER='All';
