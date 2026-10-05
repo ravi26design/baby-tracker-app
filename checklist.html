@@ -286,7 +286,7 @@
     </div>
   </div>
 
-<script src="checklist-data.js?v=3"></script>
+<script src="checklist-data.js?v=4"></script>
 <script>
   var CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
   var CHEV='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
@@ -369,13 +369,15 @@
   };
 
   RENDER.books=function(c){
-    document.getElementById('cpBody').innerHTML = stageRow('setBookStage') +
-      '<div class="tip"><span class="tip-ic">📖</span><div>Reading daily builds language, bonding & focus. Picks for <b>'+CUR_STAGE+'</b>:</div></div>'+
-      (c.data[CUR_STAGE]||[]).map(function(b){
-        return '<div class="bk-card"><span class="bk-cover" style="background:'+b[3]+'">📕</span><div><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div></div>';
-      }).join('');
+    var books=(c.data[CUR_STAGE]||[]).map(function(b){
+      return '<div class="bk-card"><span class="bk-cover" style="background:'+b[3]+'">📕</span><div><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div></div>';
+    }).join('');
+    var chips=function(arr){ return '<div class="bg-chips" style="margin:0 2px 4px">'+arr.map(function(x){return '<span class="bg-chip">'+x+'</span>';}).join('')+'</div>'; };
+    document.getElementById('cpBody').innerHTML =
+      '<div class="sec-label" style="margin-top:4px">Best reads · '+CUR_STAGE+'</div>'+books+
+      '<div class="sec-label">Interesting buys for DIY</div>'+chips(FINDS.diy)+
+      '<div class="sec-label">Memory keepsakes</div>'+chips(FINDS.keepsakes);
   };
-  function setBookStage(s){ CUR_STAGE=s; RENDER.books(CATS.filter(function(x){return x.key===CUR_CAT;})[0]); }
 
   RENDER.diy=function(c){
     document.getElementById('cpBody').innerHTML='<div class="tip"><span class="tip-ic">🎨</span><div>Simple materials, endless play. Tap a material for <b>5 activity ideas</b>.</div></div>'+
