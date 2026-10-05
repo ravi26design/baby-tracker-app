@@ -436,6 +436,13 @@
   var PRICES={ diapers:[600,1200],bodywash:[250,650],lotion:[250,650],shampoo:[250,650],rashcream:[250,600],wipes:[200,450],hairoil:[250,600],massageoil:[300,700],swaddle:[700,1600],burpcloth:[300,700],towel:[400,900],raipillow:[500,1100],drysheet:[300,600],bottle:[350,900],sterilizer:[2500,6500],feedpillow:[900,2200],bottlecleaner:[200,450],bathtub:[1200,3500],bathseat:[600,1500],washcloth:[250,500],detergent:[300,650],carseat:[6000,18000],stroller:[5000,20000],carrier:[2500,7000],diaperbag:[1500,4500],teether:[300,900],woodteether:[400,1000],bibs:[300,700],wbibs:[350,800],sipper:[400,900],steelsipper:[600,1400],opencup:[500,1200],sleepsack:[800,1800],vapour:[200,500],colic:[250,550],mosquito:[200,450],mosnet:[400,1000],highchair:[4500,12000],spoons:[300,900],feedingkit:[1500,4000],snackbox:[500,1300],processor:[2000,6000],toothbrush:[150,400],toothpaste:[180,450],monitor:[3000,12000],socketcovers:[200,500],edgeguards:[300,700],drawerlock:[400,900],bedrail:[2000,5000],walker:[1500,4500],antiskid:[300,600],kneepad:[300,700],doorstop:[200,450],sunscreen:[300,750],handwash:[200,450],pottyseat:[800,2200],trainpants:[600,1400],swimdiaper:[500,1200],playmat:[1500,4500],playpen:[4000,12000],slide:[2500,6000],swing:[3000,8000],shoes:[700,2000],books:[500,1500],travelstroller:[6000,22000],travelcrib:[4000,12000],bottlewarmer:[1500,3500],portablechair:[1200,3500],beachtent:[1500,3500],warmsuit:[2000,5000],earprotect:[1500,3000],potty:[800,2200],toys:[400,1500] };
   Object.assign(PRICES,{ cradle:[3000,10000],cot:[5000,15000],rocker:[2000,6000],humidifier:[1500,4000],electricpump:[4000,12000],manualpump:[800,2500],playmat12:[2500,6000],mattressp:[800,2500],belt:[500,1500],glassbottle:[400,1000],steelbottle:[500,1200],kettle:[1500,4000],thermometer:[500,1500],lactation:[400,1200],storagebags:[300,900],coolerbags:[800,2500],grooming:[500,1500],bedding:[1200,3500],toyorg:[600,1800],formuladisp:[400,1200],nursingbra:[600,1800],breastpads:[300,900] });
   function getPrice(key){ return PRICES[key] || [500,1500]; }
+  function px(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=420&h=320&fit=crop'; }
+  var SK=px('34233828');
+  var PHOTOS={ diapers:px('41165'),clothdiaper:px('41165'),swimdiaper:px('41165'),swimdiaperr:px('41165'),
+    bottle:px('20387764'),glassbottle:px('20387764'),steelbottle:px('20387764'),
+    highchair:px('26337021'),stroller:px('36530858'),carseat:px('36552331'),shoes:px('15844910'),
+    toys:px('38404947'),teether:px('31137017'),woodteether:px('31137017'),
+    bodywash:SK,lotion:SK,shampoo:SK,facewash:SK,facecream:SK,rashcream:SK,cradlecap:SK,sunscreen:SK,hairoil:SK,massageoilw:SK,massageoils:SK };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
   var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Feature-rich, grows with your baby.'];
@@ -461,8 +468,11 @@
   function setPVFilter(f){ PV_FILTER=f; renderPV(); }
   function renderPV(){ var prods=makeProducts(PV_KEY); var shown=PV_FILTER==='All'?prods:prods.filter(function(p){return p.tier===PV_FILTER;});
     var tabs=['All','Budget','Premium'].map(function(f){return '<button class="pv-fbtn'+(f===PV_FILTER?' on':'')+'" onclick="setPVFilter(\''+f+'\')">'+f+'</button>';}).join('');
+    var photo=PHOTOS[PV_KEY];
     var grid=shown.map(function(p){ var badge=p.tier==='Premium'?'<span class="pv-badge prem">⭐ Premium</span>':'<span class="pv-badge eco">Budget</span>';
-      return '<div class="pv-card" onclick="buyNow(\''+p.name.replace(/'/g,'')+'\')"><div class="pv-img" style="background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),'+p.bg+')"><span class="pv-emoji">'+p.ic+'</span>'+badge+'<span class="pv-price">'+inr(p.price)+'</span></div><div class="pv-name">'+p.name+'</div><div class="pv-desc">'+p.desc+'</div></div>';
+      var imgStyle=photo?"background:#f1ecf6 url('"+photo+"') center/cover":"background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),"+p.bg+")";
+      var emoji=photo?'':'<span class="pv-emoji">'+p.ic+'</span>';
+      return '<div class="pv-card" onclick="buyNow(\''+p.name.replace(/'/g,'')+'\')"><div class="pv-img" style="'+imgStyle+'">'+emoji+badge+'<span class="pv-price">'+inr(p.price)+'</span></div><div class="pv-name">'+p.name+'</div><div class="pv-desc">'+p.desc+'</div></div>';
     }).join('');
     document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+grid+'</div><div class="spons">Curated from New Mum’s Ultimate Guide · Baby Tracker may earn a commission</div>';
   }
