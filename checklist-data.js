@@ -29,6 +29,25 @@ var BRANDS={
  portablechair:['🪑','#ffe6c8','hiccapop','Baybee'], beachtent:['⛱️','#d5e6ff','Schylling','Monobeach'], warmsuit:['🧥','#d5e6ff','Columbia','JAN & JUL'],
  earprotect:['🎧','#e7d9ff','Alpine','Baby Banz'], potty:['🚽','#d5e6ff','Luvlap','R for Rabbit']
 };
+Object.assign(BRANDS,{
+ bedrail:['🚧','#ffd9e2','Kids Station','Baybee'], walker:['🚼','#d5e6ff','Fisher Price','Traditional'], feedpillow:['🛏️','#ffd9e2','Kradyl Kroft','Mom and Son'],
+ kajal:['👁️','#e7d9ff','Root and Soil','Organic Netra'], facewash:['🧼','#d5e6ff','Maate','SebaMed'], cradlecap:['🧴','#d6f3e0','Dentinox','Mustela'],
+ facecream:['🧴','#ffe6c8','SebaMed','Little Rituals'], grooming:['✂️','#e7d9ff','R for Rabbit','Luvlap'], lipbalm:['💄','#ffd9e2','Baby Organo','Ghee / Coconut oil'],
+ langoti:['👶','#fff0d0','Superbottoms','Tinchuk'], clothdiaper:['🧷','#d6f3e0','Super Bottoms','Kids Need'], massageoilw:['💆','#ffe6c8','Little Rituals','Nat Habitat'],
+ massageoils:['💆','#ffd9e2','Little Rituals','Mother Sparsh'], mosbite:['🦟','#d6f3e0','Mama Earth','Mother Sparsh'], mosspray:['🦟','#d5e6ff','Phool','Mama Earth'],
+ mospatch:['🦟','#ffe6c8','Allter','Alokah'], mosfabric:['🦟','#d6f3e0','Chicco','Odomos'], vapourpatch:['🌿','#d5e6ff','Mother Sparsh','Mama Earth'], oralwipes:['🦷','#d5e6ff','Mokoala','Tekme'],
+ pacifier:['🍼','#d5e6ff','Philips Avent','R for Rabbit'], glassbottle:['🍼','#d6f3e0','Dr Brown','R for Rabbit'], steelbottle:['🍼','#d5e6ff','Pigeon','Mee Mee'], dispbibs:['🦺','#ffd9e2','Luvlap','The Little Lookers'],
+ dishwasher:['🧴','#d5e6ff','Windmill','Himalaya'], toycleaner:['🧴','#e7d9ff','Windmill','Awenest'],
+ humidifier:['💨','#d5e6ff','Reffair','Rosekm'], swimdiaperr:['🩱','#d6f3e0','Super Bottoms','Babygoal'],
+ cradle:['🛏️','#d5e6ff','Infantso','Supples'], rocker:['🪑','#ffe6c8','Baybee','Infantso'], cot:['🛏️','#e7d9ff','Baby Teddy','Luvlap'], toyorg:['🧺','#d6f3e0','Homesmiths','Kuber'],
+ playmat12:['🧩','#ffe6c8','Lil Toes','Solimo'], bedding:['🛏️','#ffd9e2','R for Rabbit','Infantbond'], mattressp:['🟦','#d5e6ff','Wakefit','Gadda'], bottlecover:['🍼','#ffe6c8','Abracadabra','The Little Lookers'],
+ dryingstand:['🧺','#d6f3e0','Dr. Brown’s','SYGA'], formuladisp:['🥛','#e7d9ff','R for Rabbit','Mee Mee'], thermometer:['🌡️','#ffd9e2','Dr. Trust','Dr. Vaku'], kettle:['♨️','#d5e6ff','GoodsCity','InstaCuppa'],
+ belt:['🎽','#ffd9e2','Doltas','Kossto'], matpads:['🩸','#ffe6c8','Abena','Azah'], stretch:['🧴','#d6f3e0','Bio Oil','Pokonut'], niftycup:['🥛','#e7d9ff','Imafeed','Profiklen'],
+ hairfall:['💆','#d5e6ff','Avimee','Root and Soil'], hairgummies:['💊','#ffd9e2','Be Bodywise','Dabur'], matpanty:['🩲','#e7d9ff','Pregawear','Nua'], perispray:['🧴','#d6f3e0','Syga','Docat'],
+ peripads:['❄️','#d5e6ff','Tucks','B-Arm'], nursingcover:['🧣','#ffe6c8','Feather Hug','Kowsi'], lactation:['💊','#d6f3e0','Himalaya','Emcure'], nipplecream:['🧴','#ffd9e2','Lansinoh','Nipcare'],
+ nippleshield:['🛡️','#d5e6ff','Pigeon','Luvlap'], manualpump:['🍼','#ffe6c8','Philips Avent','Luvlap'], electricpump:['🍼','#e7d9ff','Spectra','Promom'], storagebags:['🧊','#d6f3e0','Lansinoh','Luvlap'],
+ breastpads:['⚪','#ffd9e2','Organic Bamboo','Luvlap'], coolerbags:['🧊','#d5e6ff','NCVI','Zibuyu'], therapypack:['🔥','#ffe6c8','Omved','Luvlap'], nursingbra:['👙','#ffd9e2','Marks & Spencer','MomToBe'], milkcaps:['🥛','#d6f3e0','CMbear','Snowie Soft']
+});
 
 /* ---- essentials (age-wise) ---- */
 var ESS={
@@ -155,9 +174,21 @@ var FOOD={
  }
 };
 
+/* ---- essentials: full list by sub-category ---- */
+var ESS_SECTIONS=[
+ {cat:'Baby Care Products',ic:'🧴',tint:'#ffd9e2',items:[{n:'Diapers',ess:1,shop:'diapers'},{n:'Body wash',shop:'bodywash'},{n:'Lotion',shop:'lotion'},{n:'Shampoo',shop:'shampoo'},{n:'Rash cream',ess:1,shop:'rashcream'},{n:'Wet wipes',ess:1,shop:'wipes'},{n:'Kajal (nazar tikka)',shop:'kajal'},{n:'Hair oil',shop:'hairoil'},{n:'Face wash',shop:'facewash'},{n:'Cradle cap care',shop:'cradlecap'},{n:'Baby face cream',shop:'facecream'},{n:'Grooming kit',shop:'grooming'},{n:'Lip balm',shop:'lipbalm'},{n:'Langotis',shop:'langoti'},{n:'Cloth diaper',shop:'clothdiaper'},{n:'Massage oil (winters)',shop:'massageoilw'},{n:'Massage oil (summers)',shop:'massageoils'},{n:'Mosquito bite roll-on',shop:'mosbite'},{n:'Mosquito repellent spray',shop:'mosspray'},{n:'Mosquito patch',shop:'mospatch'},{n:'Mosquito fabric roll-on',shop:'mosfabric'},{n:'Vapour patches (cold)',shop:'vapourpatch'},{n:'Vapour roll-on (cold)',shop:'vapour'},{n:'Tummy roll (colic)',shop:'colic'},{n:'Oral wipes / swabs',shop:'oralwipes'}]},
+ {cat:'Other Essentials',ic:'🧺',tint:'#d5e6ff',items:[{n:'Rai pillow',shop:'raipillow'},{n:'Towel',shop:'towel'},{n:'Dry sheet',shop:'drysheet'},{n:'Cotton bibs',shop:'bibs'},{n:'Washcloths',shop:'washcloth'},{n:'Swaddles',ess:1,shop:'swaddle'},{n:'Burp cloth',ess:1,shop:'burpcloth'},{n:'Pacifier',shop:'pacifier'},{n:'Bath tub',shop:'bathtub'},{n:'Bath seat',shop:'bathseat'},{n:'Baby car seat',ess:1,shop:'carseat'},{n:'Stroller',shop:'stroller'},{n:'Baby carrier',shop:'carrier'},{n:'Diaper bag',shop:'diaperbag'},{n:'Plastic feeding bottle',shop:'bottle'},{n:'Glass feeding bottle',shop:'glassbottle'},{n:'Steel feeding bottle',shop:'steelbottle'},{n:'Silicon teether',shop:'teether'},{n:'Wooden teether',shop:'woodteether'},{n:'Disposable bibs',shop:'dispbibs'}]},
+ {cat:'Hygiene Products',ic:'🧼',tint:'#d6f3e0',items:[{n:'Laundry detergent',shop:'detergent'},{n:'Bottle & dish washer',shop:'dishwasher'},{n:'Bottle sterilizer',shop:'sterilizer'},{n:'Toy cleaner',shop:'toycleaner'},{n:'Bottle cleaner',shop:'bottlecleaner'}]},
+ {cat:'Safety Products',ic:'🛡️',tint:'#fff0d0',items:[{n:'Bed railings',shop:'bedrail'},{n:'Baby monitor',shop:'monitor'},{n:'Humidifier',shop:'humidifier'},{n:'Knee protectors',shop:'kneepad'},{n:'Anti-skid socks',shop:'antiskid'},{n:'Socket plug covers',ess:1,shop:'socketcovers'},{n:'Edge guards',ess:1,shop:'edgeguards'},{n:'Drawer lockers',shop:'drawerlock'},{n:'Door stoppers',shop:'doorstop'},{n:'Sunscreen',shop:'sunscreen'},{n:'Baby handwash',shop:'handwash'}]},
+ {cat:'First Tooth + Feeding Essentials',ic:'🦷',tint:'#ffe6c8',items:[{n:'Toothbrush',ess:1,shop:'toothbrush'},{n:'Toothpaste',shop:'toothpaste'},{n:'High chair',ess:1,shop:'highchair'},{n:'Spoons',shop:'spoons'},{n:'Feeding kit',shop:'feedingkit'},{n:'Snack box',shop:'snackbox'},{n:'Plastic sipper bottle',shop:'sipper'},{n:'Steel sipper bottle',shop:'steelsipper'},{n:'Open cup',shop:'opencup'},{n:'Food processor',shop:'processor'},{n:'Waterproof bibs',shop:'wbibs'}]},
+ {cat:'Other Products',ic:'🩱',tint:'#e7d9ff',items:[{n:'Swim diapers',shop:'swimdiaper'},{n:'Swim diapers (reusable)',shop:'swimdiaperr'},{n:'Potty training seat',shop:'pottyseat'},{n:'Potty training underwear',shop:'trainpants'}]},
+ {cat:'Other Accessories (Non-Essentials)',ic:'🪑',tint:'#d5e6ff',items:[{n:'Cradle',shop:'cradle'},{n:'Baby walker',shop:'walker'},{n:'Rocker',shop:'rocker'},{n:'Cot',shop:'cot'},{n:'Toy organizer',shop:'toyorg'},{n:'Playpen',shop:'playpen'},{n:'Playmat (6 mm)',shop:'playmat'},{n:'Thick playmat (12 mm)',shop:'playmat12'},{n:'Swing',shop:'swing'},{n:'Slide',shop:'slide'},{n:'Bedding set',shop:'bedding'},{n:'Mosquito net',shop:'mosnet'},{n:'Sleep sack',shop:'sleepsack'},{n:'Mattress protector',shop:'mattressp'},{n:'Feeding bottle cover',shop:'bottlecover'},{n:'Bottle drying stand',shop:'dryingstand'},{n:'Formula dispenser',shop:'formuladisp'},{n:'Baby thermometer',shop:'thermometer'},{n:'Portable kettle & steamer',shop:'kettle'}]},
+ {cat:'Mother Care',ic:'🤱',tint:'#ffd9e2',items:[{n:'Post-pregnancy belt',shop:'belt'},{n:'Maternity pads',shop:'matpads'},{n:'Stretch marks solution',shop:'stretch'},{n:'Feeding / nifty cup',shop:'niftycup'},{n:'Postpartum hairfall care',shop:'hairfall'},{n:'Hairfall gummies',shop:'hairgummies'},{n:'Maternity panty',shop:'matpanty'},{n:'Perineal spray',shop:'perispray'},{n:'Perineal cooling pads',shop:'peripads'},{n:'Feeding pillow',shop:'feedpillow'},{n:'Nursing cover',shop:'nursingcover'},{n:'Lactation supplement',shop:'lactation'},{n:'Nipple cream',shop:'nipplecream'},{n:'Nipple shield',shop:'nippleshield'},{n:'Manual breast pump',shop:'manualpump'},{n:'Electric breast pump',shop:'electricpump'},{n:'Breastmilk storage bags',shop:'storagebags'},{n:'Breast pads',shop:'breastpads'},{n:'Breastmilk cooler bags',shop:'coolerbags'},{n:'Breast therapy pack',shop:'therapypack'},{n:'Nursing bra',shop:'nursingbra'},{n:'Milk collection caps',shop:'milkcaps'}]}
+];
+
 /* ---- category hub ---- */
 var CATS=[
- {key:'essentials',name:'Baby & Mumma Essentials',ic:'🍼',tint:'#ffe6c8',desc:'Age-wise must-haves + brand picks',type:'age',data:ESS,tip:'The complete must-have list, tailored to your baby’s current age.'},
+ {key:'essentials',name:'Baby & Mumma Essentials',ic:'🍼',tint:'#ffe6c8',desc:'Full list by category + brand picks',type:'sections',data:ESS_SECTIONS},
  {key:'toys',name:'Toys (age-wise)',ic:'🧸',tint:'#e7d9ff',desc:'Right toys for each stage',type:'age',data:TOYS,tip:'<b>Montessori</b> · <b>Reggio</b> · <b>Waldorf</b> · <b>Play-based</b> — pick toys that match your style. Age-right picks below.'},
  {key:'brands',name:'Brand Guide',ic:'🏷️',tint:'#d5e6ff',desc:'Premium → economical by category',type:'brands',data:BRAND_GUIDE},
  {key:'books',name:'Books & Finds',ic:'📚',tint:'#ffd9e2',desc:'Best reads by age, with summaries',type:'books',data:BOOKS},
