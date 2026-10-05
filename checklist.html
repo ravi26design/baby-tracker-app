@@ -258,7 +258,6 @@
         </div></div>
         <div class="cp-bar">
           <button class="cp-back" onclick="closeCat()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-          <span class="cp-ic" id="cpIc"></span>
           <div><div class="cp-title" id="cpTitle"></div><div class="cp-sub" id="cpSub"></div></div>
         </div>
         <div class="cp-body" id="cpBody"></div>
@@ -319,7 +318,6 @@
   function openCat(key){
     var c=CATS.filter(function(x){return x.key===key;})[0]; if(!c) return;
     CUR_CAT=key; CUR_STAGE=CHILDREN[CUR_CHILD].stage;
-    document.getElementById('cpIc').textContent=c.ic; document.getElementById('cpIc').style.background=c.tint;
     document.getElementById('cpTitle').textContent=c.name; document.getElementById('cpSub').textContent=c.desc;
     RENDER[c.type](c);
     document.getElementById('cpBody').scrollTop=0;
@@ -354,8 +352,7 @@
   function toggleCheck(id,row){ CHECKED[id]=!CHECKED[id]; row.classList.toggle('done', !!CHECKED[id]); }
 
   RENDER.age=function(c){
-    var tip = c.tip ? '<div class="tip"><span class="tip-ic">💡</span><div>'+c.tip+'</div></div>' : '';
-    document.getElementById('cpBody').innerHTML = stageRow('setAgeStage') + tip + catCardsHTML(c.data[CUR_STAGE]||[], 'x|'+c.key+'|'+CUR_STAGE);
+    document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(c.data[CUR_STAGE]||[], 'x|'+c.key+'|'+CUR_STAGE);
     fixHeights();
   };
   function setAgeStage(s){ CUR_STAGE=s; RENDER.age(CATS.filter(function(x){return x.key===CUR_CAT;})[0]); }
