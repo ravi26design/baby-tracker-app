@@ -331,7 +331,7 @@
 
   /* ---- renderers ---- */
   var RENDER={};
-  function catCardsHTML(groups, idPfx){
+  function catCardsHTML(groups, idPfx, collapsed){
     return groups.map(function(c,ci){
       var rows=c.items.map(function(it,ii){
         var id=idPfx+'|'+ci+'|'+ii, on=CHECKED[id];
@@ -342,7 +342,7 @@
           (it.brand&&!it.shop?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
       }).join('');
-      return '<div class="cat" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
+      return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
         '<div class="cat-t"><div class="cat-n">'+c.cat+'</div><div class="cat-c">'+c.items.length+' items</div></div><span class="cat-chev">'+CHEVD+'</span></div>'+
         '<div class="cat-body">'+rows+'</div></div>';
     }).join('');
@@ -358,8 +358,7 @@
   function setAgeStage(s){ CUR_STAGE=s; RENDER.age(CATS.filter(function(x){return x.key===CUR_CAT;})[0]); }
 
   RENDER.sections=function(c){
-    document.getElementById('cpBody').innerHTML = catCardsHTML(c.data, 's|'+c.key);
-    fixHeights();
+    document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(c.data, 's|'+c.key, true);
   };
 
   RENDER.brands=function(c){
