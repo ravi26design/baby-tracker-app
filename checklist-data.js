@@ -87,24 +87,24 @@ var ESS={
  ]
 };
 
-/* ---- toys (age-wise) ---- */
-function _toy(items){ return [{cat:'Age-right toys',ic:'🧸',tint:'#e7d9ff',items:items}]; }
+/* ---- toys (age-wise, by education method) ---- */
+function _m(mont,reg,wal,play){ function it(a){return a.map(function(n){return {n:n,shop:'toys'};});}
+ return [{cat:'Montessori',ic:'🧩',tint:'#e7d9ff',items:it(mont)},{cat:'Reggio Emilia',ic:'🎨',tint:'#ffd9e2',items:it(reg)},{cat:'Waldorf',ic:'🌿',tint:'#d6f3e0',items:it(wal)},{cat:'Play-Based',ic:'🎈',tint:'#fff0d0',items:it(play)}];
+}
 var TOYS={
- '0–3m':_toy([{n:'Black & white mobile',shop:'toys'},{n:'High-contrast plush',shop:'toys'},{n:'Soft fabric rattles',shop:'toys'},{n:'Sensory balls',shop:'toys'}]),
- '3–6m':_toy([{n:'Clutching toys',shop:'toys'},{n:'Wooden rattles',shop:'woodteether'},{n:'Teething rings',shop:'teether'},{n:'Textured play mat',shop:'playmat'}]),
- '6–9m':_toy([{n:'Object permanence box',shop:'toys'},{n:'Stacking rings',shop:'toys'},{n:'Shape sorter',shop:'toys'},{n:'Discovery bottles',shop:'toys'},{n:'Board books',shop:'books'}]),
- '9–12m':_toy([{n:'Nesting & stacking cups',shop:'toys'},{n:'Push-pull toys',shop:'toys'},{n:'Simple musical instruments',shop:'toys'},{n:'Wooden peg puzzle',shop:'toys'}]),
- '12–18m':_toy([{n:'Role-play kitchen set',shop:'toys'},{n:'Ride-on toy',shop:'toys'},{n:'Large crayons & paper',shop:'toys'},{n:'Simple puzzles',shop:'toys'}]),
- '18–24m':_toy([{n:'Building blocks',shop:'toys'},{n:'Sensory bins',shop:'toys'},{n:'Wooden puzzles',shop:'toys'},{n:'Interactive storybooks',shop:'books'}]),
- '24–36m':_toy([{n:'Construction sets',shop:'toys'},{n:'Pretend playsets (doctor/kitchen)',shop:'toys'},{n:'DIY art kits',shop:'toys'},{n:'Play dough',shop:'toys'}])
+ '0–3m':_m(['Black & white mobiles','Soft fabric balls','Wooden grasping toys'],['Soft high-contrast plush toys','Soft fabric rattles','Textured fabric books'],['Hand-knitted wool animals','Natural wood rattles','Woolen mobile'],['Crib mobiles with gentle sounds','Sensory balls (squishy)','Soft plush toys, varied textures']),
+ '3–6m':_m(['Simple clutching toys','Simple wooden rattles','Wooden teething rings'],['Sensory balls, varied textures','Simple stacking cups','Fabric books with patterns'],['Natural wooden teething rings','Soft natural fabric toys','Organic cotton play mats'],['Tummy-time play mats (textured)','Interactive fabric books','Soft stacking rings']),
+ '6–9m':_m(['Object permanence box','Stackable wooden rings','Rolling wooden cylinders'],['Wooden building blocks','Discovery bottles','Soft sensory balls'],['Felted animals','Natural rubber toys','Handcrafted wooden blocks'],['Activity centers (lights & sounds)','Colorful shape sorters','Sensory play sets (water table)']),
+ '9–12m':_m(['Nesting & stacking cups','Wooden shape sorters','Push-and-pull wooden toys'],['Wooden blocks (natural textures)','Simple musical instruments','Art supplies (large crayons)'],['Wooden push toys','Felted building blocks','Simple wooden puzzles'],['Simple musical instruments','Vibrant building blocks','Push-pull toys with sounds']),
+ '12–18m':_m(['Wooden peg puzzles','Wooden animal figurines','Sorting trays or baskets'],['Role-play toys (kitchen sets)','Large open-ended art materials','Simple puzzles (natural textures)'],['Wooden push-pull toys','Watercolor art supplies','Felted dolls & animals'],['Ride-on toys (interactive)','Puzzles with big pieces','Large colorful stacking cups']),
+ '18–24m':_m(['Practical-life tools (mini broom)','Wooden jigsaw puzzles','Bead stringing sets'],['Sensory bins (natural materials)','Wooden role-play sets','Multi-use building blocks'],['Felt play mats with scenes','Handcrafted musical instruments','Wooden stacking toys'],['Large colorful building blocks','Creative art sets (chalk & easel)','Interactive storybooks']),
+ '24–36m':_m(['Dressing frames','DIY art kits','Wooden building blocks'],['Open-ended construction sets','Nature exploration kits','Creative art supplies (clay)'],['Imaginative play sets (fairy tales)','Natural playdough kits','Simple wooden puzzles'],['Pretend playsets (doctor/kitchen)','Large construction blocks','Building & construction sets'])
 };
 
 /* ---- brand guide ---- */
 var BRAND_GUIDE=[
- {cat:'Skin Care',ic:'🧴',tint:'#ffd9e2',prem:['Aveeno','Sebamed','Mustela','Cetaphil','Little Rituals'],mid:['Chicco','Mama Earth','Mother Sparsh','Mee Mee'],eco:['Himalaya','LuvLap','Johnson’s','The Moms Co']},
- {cat:'Baby Gear',ic:'🚗',tint:'#d5e6ff',prem:['Stokke','Skip Hop','BabyZen','Joie','Beaba'],mid:['Infantino','Graco','Chicco','R for Rabbit'],eco:['Baby Hug','Luvlap','Mee Mee','Mother Care']},
- {cat:'Feeding',ic:'🍼',tint:'#ffe6c8',prem:['Philips Avent','Dr. Brown’s','Beaba','Ezpz'],mid:['Pigeon','Chicco','Munchkin'],eco:['Luvlap','Mee Mee','SYGA']},
- {cat:'Diapering',ic:'🧷',tint:'#e7d9ff',prem:['Allter','Bambo Nature','Pampers Premium'],mid:['Huggies','Pampers','Super Bottoms'],eco:['Mamy Poko','Snugkins','Bey Bee']}
+ {cat:'Skin Care',ic:'🧴',tint:'#ffd9e2',prem:['Aveeno','Sebamed','Mustela','Cetaphil','Little Rituals'],mid:['Chicco','Mama Earth','Mother Sparsh','Mee Mee','Tots and Bubbles'],eco:['Himalaya','LuvLap','Johnson’s Baby','The Moms Co','Baby Chakra']},
+ {cat:'Baby Gear',ic:'🚗',tint:'#d5e6ff',prem:['Stokke','Skip Hop','BabyZen','Joie','Beaba'],mid:['Infantino','Graco','Chicco','R for Rabbit','Star and Daisy'],eco:['Baby Hug','Luvlap','Mee Mee','Mother Care','Bay Bee']}
 ];
 
 /* ---- books (age-wise) ---- */
