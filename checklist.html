@@ -241,6 +241,7 @@
   .pv-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pv-badge.prem{background:#fff0cf;color:#b6871f;} .pv-badge.mid{background:#efe6ff;color:#6a4fc0;}
   /* product detail */
   .pd-back{border:none;background:none;font-family:inherit;font-size:13.5px;font-weight:800;color:#7a5fd0;cursor:pointer;padding:2px 0 10px;}
+  .pd-backhd{color:#7a5fd0;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:-.2px;}
   .pd-gallery{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;border-radius:18px;}
   .pd-gallery::-webkit-scrollbar{display:none;}
   .pd-photo{flex:0 0 100%;aspect-ratio:1/1;border-radius:18px;background-color:#f6f2fb;background-size:contain;background-position:center;background-repeat:no-repeat;scroll-snap-align:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
@@ -628,7 +629,8 @@
     var c=CATS.filter(function(x){return x.key===CUR_CAT;})[0]; if(c&&RENDER[c.type]) RENDER[c.type](c);
     toast(CHECKED[PV_ITEM_ID]?'Marked as owned ✓':'Removed from your list'); }
   function setPVFilter(f){ PV_FILTER=f; renderPV(); }
-  function renderPV(){ var prods=makeProducts(PV_KEY); var shown=PV_FILTER==='All'?prods:prods.filter(function(p){return p.tier===PV_FILTER;});
+  function renderPV(){ document.getElementById('shTitle').textContent=PV_ITEM; document.getElementById('shSub').style.display='none';
+    var prods=makeProducts(PV_KEY); var shown=PV_FILTER==='All'?prods:prods.filter(function(p){return p.tier===PV_FILTER;});
     var tabs=['All','Budget','Premium'].map(function(f){return '<button class="pv-fbtn'+(f===PV_FILTER?' on':'')+'" onclick="setPVFilter(\''+f+'\')">'+f+'</button>';}).join('');
     var photo=PHOTOS[PV_KEY];
     var grid=shown.map(function(p){ var badge=p.tier==='Premium'?'<span class="pv-badge prem">Premium</span>':'<span class="pv-badge eco">Budget</span>';
@@ -653,8 +655,8 @@
       : '<div class="pd-photo" style="background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),'+p.bg+');display:flex;align-items:center;justify-content:center;font-size:72px">'+p.ic+'</div>';
     var dots=imgs.length>1?'<div class="pd-dots">'+imgs.map(function(_,i){return '<span class="pd-dot'+(i===0?' on':'')+'"></span>';}).join('')+'</div>':'';
     var long=p.desc+' A well-loved pick from the '+PV_ITEM.toLowerCase()+' category — chosen by parents for quality, comfort and value for money.';
+    document.getElementById('shTitle').innerHTML='<span class="pd-backhd" onclick="renderPV()">‹ Back</span>';
     document.getElementById('shBody').innerHTML=
-      '<button class="pd-back" onclick="renderPV()">‹ Back</button>'+
       '<div class="pd-gallery" id="pdGal">'+gallery+'</div>'+dots+
       '<span class="pd-badge '+cls+'">'+p.tier+' pick</span>'+
       '<div class="pd-name">'+p.name+'</div>'+
