@@ -442,7 +442,8 @@
     bottle:px('20387764'),glassbottle:px('20387764'),steelbottle:px('20387764'),
     highchair:px('26337021'),stroller:px('36530858'),carseat:px('36552331'),shoes:px('15844910'),
     toys:px('38404947'),teether:px('31137017'),woodteether:px('31137017'),
-    bodywash:SK,lotion:SK,shampoo:SK,facewash:SK,facecream:SK,rashcream:SK,cradlecap:SK,sunscreen:SK,hairoil:SK,massageoilw:SK,massageoils:SK };
+    bodywash:px('19717724'),lotion:px('10853729'),shampoo:px('8167172'),
+    facewash:SK,facecream:SK,rashcream:SK,cradlecap:SK,sunscreen:SK,hairoil:SK,massageoilw:SK,massageoils:SK };
   /* real product-pack images per (shop key · brand) */
   var BRAND_IMG={ 'diapers|Allter':'assets/diaper-allter.jpg','diapers|Huggies':'assets/diaper-huggies.jpg' };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
@@ -455,14 +456,9 @@
   function getBrand(key){ return BRANDS[key] || ['🛍️','#e7d9ff','Baby Tracker Pick','Value Pick']; }
   var PV_KEY=null, PV_ITEM='', PV_FILTER='All', PV_ITEM_ID=null;
   function makeProducts(key){ var b=getBrand(key);
-    /* if we have real pack images for this product's brands, show just those real picks */
-    if(BRAND_IMG[key+'|'+b[2]] || BRAND_IMG[key+'|'+b[3]]){
-      return [{tier:'Budget',name:b[3],desc:hashPick(b[3]+key,BUDGET_DESC),ic:b[0],bg:b[1]},
-              {tier:'Premium',name:b[2],desc:hashPick(b[2]+key,PREM_DESC),ic:b[0],bg:b[1]}];
-    }
-    var eco=[b[3]].concat(pickN(EXTRA_ECO,2,key+'e',b[3])), prem=[b[2]].concat(pickN(EXTRA_PREM,2,key+'p',b[2])), out=[];
-    for(var i=0;i<3;i++){ out.push({tier:'Budget',name:eco[i],desc:hashPick(eco[i]+key,BUDGET_DESC),ic:b[0],bg:b[1]}); out.push({tier:'Premium',name:prem[i],desc:hashPick(prem[i]+key,PREM_DESC),ic:b[0],bg:b[1]}); }
-    return out;
+    /* show the guide's two real picks only — budget + premium */
+    return [{tier:'Budget',name:b[3],desc:hashPick(b[3]+key,BUDGET_DESC),ic:b[0],bg:b[1]},
+            {tier:'Premium',name:b[2],desc:hashPick(b[2]+key,PREM_DESC),ic:b[0],bg:b[1]}];
   }
   function openShop(key,itemName,itemId){ PV_KEY=key; PV_ITEM=itemName||'Recommended'; PV_FILTER='All'; PV_ITEM_ID=itemId||null;
     document.getElementById('shTitle').textContent=PV_ITEM; document.getElementById('shSub').textContent='Budget & premium picks from trusted brands';
