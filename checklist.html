@@ -389,7 +389,9 @@
     var rows=function(arr,ic){ return arr.map(function(x){
       var tap=x[1]?' style="cursor:pointer" onclick="openBrand(\''+x[1]+'\')"':'';
       var btn=x[1]?'<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+x[1]+'\')">Shop ↗</button>':'';
-      return '<div class="ci-row"'+tap+'><span class="pk-ic">'+ic+'</span><span class="ci-n">'+x[0]+'</span>'+btn+'</div>';
+      var img=FINDS_IMG[x[0]];
+      var icHtml=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+ic+'</span>';
+      return '<div class="ci-row"'+tap+'>'+icHtml+'<span class="ci-n">'+x[0]+'</span>'+btn+'</div>';
     }).join(''); };
     function card(ic,tint,name,count,body,open){
       return '<div class="cat'+(open?'':' collapsed')+'" style="--tint:'+tint+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+tint+'">'+ic+'</span>'+
@@ -505,6 +507,11 @@
     monitor:MON,humidifier:MON };
   /* real product-pack images per (shop key · brand) */
   var BRAND_IMG={ 'diapers|Allter':'assets/diaper-allter.jpg','diapers|Huggies':'assets/diaper-huggies.jpg' };
+  /* real product photos for DIY buys & memory keepsakes (keyed by item name) */
+  var FINDS_IMG={
+    'Pom poms':px('5380155'),'Pipe cleaners':px('8378732'),'Ice-cream sticks':px('14929938'),'Foam stickers':px('14602294'),'Magnetic sheet':px('5099795'),'Finger paints':px('7898416'),'Crayons':px('284082'),'Dot stickers':px('36438612'),'Play dough':px('8422171'),'Sensory rice':px('13163095'),'Kinetic sand':px('27048649'),'Sensory bin tools':px('3933051'),'Fine motor tool set':px('8108204'),'Pop tubes':px('13417045'),'Suction cups':px('8617550'),
+    'Hand and footprint ink':px('29544803'),'Hand and foot casting':px('20217542'),'Hand and foot imprint':px('5936281'),'Breastmilk jewelry':px('37376167'),'Baby record book':px('32985618'),'New born photoshoot':px('28529086')
+  };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
   var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Feature-rich, grows with your baby.'];
