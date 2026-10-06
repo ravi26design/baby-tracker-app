@@ -411,7 +411,10 @@
   };
   var PD_NAME='', PD_LINK='';
   function sendWhatsAppLink(url,name){
-    var link=url||PD_LINK||''; if(!link) return; var nm=name||PD_NAME||'';
+    var link, nm;
+    if(url){ link=url; nm=name||''; }        /* explicit link (View/openBrand) — no stale name */
+    else { link=PD_LINK; nm=PD_NAME; }        /* product-detail CTA */
+    if(!link) return;
     var msg=(nm?('Check out '+nm+' on Baby Tracker 🍼\n'):('Here’s a shopping link from Baby Tracker 🍼\n'))+link;
     window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener');
     toast('Opening WhatsApp to share the link…');
