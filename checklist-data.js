@@ -138,7 +138,7 @@ var HOSPITAL=[
 
 /* ---- diaper bag & safety ---- */
 var DIAPERBAG=[
- {cat:'Diaper bag essentials',ic:'🎒',tint:'#fff0d0',items:[{n:'Diapers',brand:'Huggies'},{n:'Wipes',brand:'Mee Mee'},{n:'Changing pad',brand:'Tidy Sleep'},{n:'Hand sanitizer',brand:'Windmill'},{n:'Snacks',brand:'Slurrp Farm'},{n:'Burp cloths',brand:'Mom Care'},{n:'Blanket'},{n:'Diaper cream',brand:'Sudocrem'},{n:'Sunscreen',brand:'Little Rituals'},{n:'Nursing cover',brand:'Feather Hug'},{n:'Bib & sippy cup',brand:'Luvlap'},{n:'Wet bag',brand:'Amso'},{n:'Nail clippers',brand:'Luvlap'},{n:'Extra clothes'},{n:'Baby bottles'},{n:'Favourite toy'},{n:'First-aid kit'},{n:'Emergency contact card'}]},
+ {cat:'Diaper bag essentials',ic:'🎒',tint:'#fff0d0',items:[{n:'Diapers',shop:'diapers'},{n:'Wipes',shop:'wipes'},{n:'Changing pad',shop:'drysheet'},{n:'Hand sanitizer',shop:'handwash'},{n:'Snacks',shop:'snackbox'},{n:'Burp cloths',shop:'burpcloth'},{n:'Blanket'},{n:'Diaper cream',shop:'rashcream'},{n:'Sunscreen',shop:'sunscreen'},{n:'Nursing cover',shop:'nursingcover'},{n:'Bib & sippy cup',shop:'sipper'},{n:'Wet bag',shop:'diaperbag'},{n:'Nail clippers',shop:'grooming'},{n:'Extra clothes'},{n:'Baby bottles',shop:'bottle'},{n:'Favourite toy',shop:'toys'},{n:'First-aid kit'},{n:'Emergency contact card'}]},
  {cat:'Safety / babyproofing',ic:'🛡️',tint:'#d6f3e0',items:[{n:'Bed railings',shop:'bedrail'},{n:'Baby monitor',shop:'monitor'},{n:'Knee protectors',shop:'kneepad'},{n:'Anti-skid socks',shop:'antiskid'},{n:'Socket plug covers',ess:1,shop:'socketcovers'},{n:'Edge guards',ess:1,shop:'edgeguards'},{n:'Drawer lockers',shop:'drawerlock'},{n:'Door stoppers',shop:'doorstop'},{n:'Sunscreen',shop:'sunscreen'},{n:'Baby handwash',shop:'handwash'}]}
 ];
 
