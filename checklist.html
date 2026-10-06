@@ -385,7 +385,9 @@
   RENDER.books=function(c){
     var list=c.data[CUR_STAGE]||[];
     var books=list.map(function(b){
-      return '<div class="bk-row" style="cursor:pointer" onclick="openBrand(\''+b[4]+'\')"><span class="bk-cover" style="background:'+b[3]+'">📕</span><div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[4]+'\')">Shop ↗</button></div>';
+      var cv=BOOK_COVER[b[0]];
+      var cover=cv?'<span class="bk-cover" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="bk-cover" style="background:'+b[3]+'">📕</span>';
+      return '<div class="bk-row" style="cursor:pointer" onclick="openBrand(\''+b[4]+'\')">'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[4]+'\')">Shop ↗</button></div>';
     }).join('');
     var rows=function(arr,ic){ return arr.map(function(x){
       var tap=x[1]?' style="cursor:pointer" onclick="openBrand(\''+x[1]+'\')"':'';
@@ -407,7 +409,7 @@
   };
 
   RENDER.diy=function(c){
-    document.getElementById('cpBody').innerHTML='<div class="tip"><span class="tip-ic">🎨</span><div>Simple materials, endless play. Tap a material for <b>5 activity ideas</b>.</div></div>'+
+    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+
       c.data.map(function(d,i){
         var acts=d.acts.map(function(a,ai){ var p=a.split(' – '); return '<div class="diy-act"><span class="da-n">'+(ai+1)+'</span><div>'+(p.length>1?'<b>'+p[0]+'</b> — '+p.slice(1).join(' – '):a)+'</div></div>'; }).join('');
         return '<div class="diy-card" id="diy'+i+'"><div class="diy-head" onclick="toggleDiy('+i+')"><span class="diy-ic" style="background:'+d.tint+'">'+d.ic+'</span><span class="diy-n">'+d.mat+'</span><span class="diy-meta">5 ideas</span><span class="diy-chev">'+CHEVD+'</span></div><div class="diy-body" id="diyb'+i+'">'+acts+'</div></div>';
@@ -513,6 +515,16 @@
     'Pom poms':px('5380155'),'Pipe cleaners':px('8378732'),'Ice-cream sticks':px('14929938'),'Foam stickers':px('14602294'),'Magnetic sheet':px('5099795'),'Finger paints':px('7898416'),'Crayons':px('284082'),'Dot stickers':px('36438612'),'Play dough':px('8422171'),'Sensory rice':px('13163095'),'Kinetic sand':px('27048649'),'Sensory bin tools':px('3933051'),'Fine motor tool set':px('8108204'),'Pop tubes':px('13417045'),'Suction cups':px('8617550'),
     'Hand and footprint ink':px('29544803'),'Hand and foot casting':px('20217542'),'Hand and foot imprint':px('5936281'),'Breastmilk jewelry':px('37376167'),'Baby record book':px('32985618'),'New born photoshoot':px('28529086')
   };
+  /* real book-cover images (Open Library cover id, keyed by title) */
+  var BOOK_COVER={
+    'Goodnight Moon':35556,'Guess How Much I Love You':13282906,'Where Is Baby’s Belly Button?':12954864,'Brown Bear, Brown Bear':12624136,'The Very Hungry Caterpillar':7835968,
+    'Peek-a-Who?':6814949,'Dear Zoo':10577107,'Pat the Bunny':166000,'Moo, Baa, La La La!':437901,
+    'Chicka Chicka Boom Boom':1320266,'We’re Going on a Bear Hunt':433694,'Llama Llama Red Pajama':6532260,
+    'Press Here':6934884,'Duck & Goose':6805823,'Ten Little Fingers and Ten Little Toes':10978432,
+    'The Wheels on the Bus':360837,'The Gruffalo':8561698,'Dragons Love Tacos':8085856,'Where the Wild Things Are':50842,'I Am a Bunny':6982495,
+    'Goodnight, Goodnight, Construction Site':7351895,'Room on the Broom':10839950,'The Lion Inside':8074402,'The Wonderful Things You Will Be':8314249
+  };
+  function bookCover(id){ return 'https://covers.openlibrary.org/b/id/'+id+'-M.jpg'; }
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
   var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Feature-rich, grows with your baby.'];
