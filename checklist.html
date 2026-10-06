@@ -386,7 +386,11 @@
     var books=list.map(function(b){
       return '<div class="bk-row" style="cursor:pointer" onclick="openBrand(\''+b[4]+'\')"><span class="bk-cover" style="background:'+b[3]+'">📕</span><div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[4]+'\')">Shop ↗</button></div>';
     }).join('');
-    var chips=function(arr){ return '<div class="bg-chips" style="margin:4px 10px 10px">'+arr.map(function(x){ var tap=x[1]?' style="cursor:pointer" onclick="openBrand(\''+x[1]+'\')"':''; return '<span class="bg-chip"'+tap+'>'+x[0]+(x[1]?' ↗':'')+'</span>';}).join('')+'</div>'; };
+    var rows=function(arr,ic){ return arr.map(function(x){
+      var tap=x[1]?' style="cursor:pointer" onclick="openBrand(\''+x[1]+'\')"':'';
+      var btn=x[1]?'<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+x[1]+'\')">Shop ↗</button>':'';
+      return '<div class="ci-row"'+tap+'><span class="pk-ic">'+ic+'</span><span class="ci-n">'+x[0]+'</span>'+btn+'</div>';
+    }).join(''); };
     function card(ic,tint,name,count,body,open){
       return '<div class="cat'+(open?'':' collapsed')+'" style="--tint:'+tint+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+tint+'">'+ic+'</span>'+
         '<div class="cat-t"><div class="cat-n">'+name+'</div><div class="cat-c">'+count+'</div></div><span class="cat-chev">'+CHEVD+'</span></div>'+
@@ -395,8 +399,8 @@
     document.getElementById('cpBody').innerHTML =
       '<div style="height:6px"></div>'+
       card('📚','#ffd9e2','Best reads',list.length+' books for this age',books,true)+
-      card('🎨','#e7d9ff','Interesting buys for DIY',FINDS.diy.length+' ideas',chips(FINDS.diy),false)+
-      card('🎀','#d6f3e0','Memory keepsakes',FINDS.keepsakes.length+' ideas',chips(FINDS.keepsakes),false);
+      card('🎨','#e7d9ff','Interesting buys for DIY',FINDS.diy.length+' products',rows(FINDS.diy,'🎨'),false)+
+      card('🎀','#d6f3e0','Memory keepsakes',FINDS.keepsakes.length+' products',rows(FINDS.keepsakes,'🎀'),false);
   };
 
   RENDER.diy=function(c){
