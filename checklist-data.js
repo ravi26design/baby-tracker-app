@@ -214,6 +214,7 @@ var CATS=[
  {key:'hospital',name:'Hospital Bag',ic:'🏥',tint:'#d6f3e0',desc:'Baby + mumma packing checklist',type:'sections',data:HOSPITAL},
  {key:'diaperbag',name:'Diaper Bag & Safety',ic:'🎒',tint:'#fff0d0',desc:'On-the-go kit + babyproofing',type:'sections',data:DIAPERBAG},
  {key:'diy',name:'DIY Activities',ic:'🎨',tint:'#e7d9ff',desc:'Play ideas by material',type:'diy',data:DIY},
+ {key:'travel',name:'Travel',ic:'✈️',tint:'#d5e6ff',desc:'',type:'travel'},
  {key:'food',name:'Food Brands',ic:'🥣',tint:'#d6f3e0',desc:'',type:'food',data:FOOD}
 ];
 
