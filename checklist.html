@@ -249,10 +249,11 @@
   /* product detail */
   .pd-back{border:none;background:none;font-family:inherit;font-size:13.5px;font-weight:800;color:#7a5fd0;cursor:pointer;padding:2px 0 10px;}
   .pd-backhd{color:#7a5fd0;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:-.2px;}
-  .pd-gallery{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;border-radius:18px;}
+  .pd-gallery{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;border-radius:24px;margin-top:4px;}
   .pd-gallery::-webkit-scrollbar{display:none;}
-  .pd-photo{flex:0 0 100%;aspect-ratio:1/1;border-radius:18px;background-color:#f6f2fb;background-size:contain;background-position:center;background-repeat:no-repeat;scroll-snap-align:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
-  .pd-dots{display:flex;gap:6px;justify-content:center;margin-top:10px;}
+  .pd-photo{flex:0 0 100%;aspect-ratio:1/1;border-radius:24px;background:linear-gradient(160deg,#f6f1fb,#efe9f7);background-size:cover;background-position:center;background-repeat:no-repeat;scroll-snap-align:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.07),0 18px 38px -18px rgba(120,90,140,.45);}
+  .pd-photo.contain{background:#fff;background-size:contain;background-position:center;background-repeat:no-repeat;}
+  .pd-dots{display:flex;gap:6px;justify-content:center;margin-top:12px;}
   .pd-dot{width:7px;height:7px;border-radius:50%;background:#ddd4ea;transition:.2s;}
   .pd-dot.on{background:#8f78c4;width:18px;border-radius:4px;}
   .pd-badge{display:inline-block;font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:9px;margin-top:16px;background:#efe9f7;color:#8574b5;}
@@ -427,7 +428,8 @@
     var imgs=(o.imgs&&o.imgs.length)?o.imgs:null;
     var h=0,s=(o.name||'')+(o.key||o.link||''); for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0;
     var bought=(1500+h%8200).toLocaleString('en-IN'); var rating=(4.2+(h%7)/10).toFixed(1);
-    var gallery=imgs?imgs.map(function(u){return '<div class="pd-photo" style="background-image:url(\''+u+'\')"></div>';}).join('')
+    var fitc=o.fit==='contain'?' contain':'';
+    var gallery=imgs?imgs.map(function(u){return '<div class="pd-photo'+fitc+'" style="background-image:url(\''+u+'\')"></div>';}).join('')
       :'<div class="pd-photo" style="background:'+(o.bg||'#f1ecf6')+';display:flex;align-items:center;justify-content:center;font-size:72px">'+(o.emoji||'🛍️')+'</div>';
     var dots=(imgs&&imgs.length>1)?'<div class="pd-dots">'+imgs.map(function(_,i){return '<span class="pd-dot'+(i===0?' on':'')+'"></span>';}).join('')+'</div>':'';
     PD_NAME=o.name||''; PD_LINK=o.link||''; DETAIL_BACK=o.back||null;
@@ -450,7 +452,7 @@
 
   /* context detail openers (look up by index/key — safe from quote escaping) */
   function openItemDetail(name,badge,badgecls){ renderDetail({name:name,badge:badge,badgecls:badgecls,emoji:'🛍️'}); }
-  function openBookDetail(i){ var b=(BOOKS[CUR_STAGE]||[])[i]; if(!b) return; var cv=BOOK_COVER[b[0]]; renderDetail({name:b[0],imgs:cv?[bookCover(cv)]:null,desc:b[2]+' Written by '+b[1]+'.',badge:'Best read',badgecls:'eco',emoji:'📚',bg:b[3],link:b[4]}); }
+  function openBookDetail(i){ var b=(BOOKS[CUR_STAGE]||[])[i]; if(!b) return; var cv=BOOK_COVER[b[0]]; renderDetail({name:b[0],imgs:cv?[bookCover(cv)]:null,fit:'contain',desc:b[2]+' Written by '+b[1]+'.',badge:'Best read',badgecls:'eco',emoji:'📚',bg:b[3],link:b[4]}); }
   function openFindDetail(kind,i){ var arr=kind==='diy'?FINDS.diy:FINDS.keepsakes; var x=arr[i]; if(!x) return; var img=FINDS_IMG[x[0]]; renderDetail({name:x[0],imgs:img?[img]:null,badge:kind==='diy'?'DIY buy':'Keepsake',emoji:kind==='diy'?'🎨':'🎀',link:x[1]}); }
   function openFoodDetail(i){ var b=FOOD.brands[i]; if(!b) return; renderDetail({name:b[0],desc:b[1]+'.',badge:b[3]+' range',emoji:b[5],bg:b[4],meta:'Suitable age: '+b[2],link:b[6]}); }
   function openDiyMatDetail(i){ var d=DIY[i]; if(!d) return; var lk=''; FINDS.diy.forEach(function(x){if(x[0]===d.mat)lk=x[1];}); var img=FINDS_IMG[d.mat]; renderDetail({name:d.mat,imgs:img?[img]:null,badge:'DIY material',emoji:d.ic,bg:d.tint,link:lk}); }
@@ -700,7 +702,7 @@
     var p=makeProducts(PV_KEY).filter(function(x){return x.name.replace(/'/g,'')===name;})[0]; if(!p) return;
     var imgs=[]; var pack=BRAND_IMG[PV_KEY+'|'+p.name]; if(pack) imgs.push(pack);
     var photo=PHOTOS[PV_KEY]; if(photo&&imgs.indexOf(photo)<0) imgs.push(photo);
-    renderDetail({name:p.name, imgs:imgs.length?imgs:null, emoji:p.ic, bg:'radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),'+p.bg+')',
+    renderDetail({name:p.name, imgs:imgs.length?imgs:null, fit:'contain', emoji:p.ic, bg:'radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),'+p.bg+')',
       badge:p.tier+' pick', badgecls:(p.tier==='Premium'?'prem':'eco'),
       desc:p.desc+' A well-loved pick from the '+PV_ITEM.toLowerCase()+' category — chosen by parents for quality, comfort and value for money.',
       key:PV_KEY, back:renderPV});
