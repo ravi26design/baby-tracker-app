@@ -128,6 +128,8 @@
 
   /* books */
   .bk-card{display:flex;gap:13px;background:#fff;border-radius:18px;padding:13px 14px;margin-bottom:11px;box-shadow:var(--shadow-soft);}
+  .bk-row{position:relative;display:flex;gap:13px;padding:12px;}
+  .bk-row+.bk-row::before{content:'';position:absolute;left:12px;right:12px;top:0;height:1px;background:#f4eef9;}
   .bk-cover{width:46px;height:60px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 8px 14px -8px rgba(120,90,140,.5);}
   .bk-t{font-size:14px;font-weight:800;letter-spacing:-.2px;line-height:1.25;}
   .bk-a{font-size:11.5px;color:#8574b5;font-weight:700;margin-top:2px;}
@@ -381,14 +383,21 @@
   function openBrand(u){ if(u) window.open(u,'_blank','noopener'); }
 
   RENDER.books=function(c){
-    var books=(c.data[CUR_STAGE]||[]).map(function(b){
-      return '<div class="bk-card"><span class="bk-cover" style="background:'+b[3]+'">📕</span><div><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div></div>';
+    var list=c.data[CUR_STAGE]||[];
+    var books=list.map(function(b){
+      return '<div class="bk-row"><span class="bk-cover" style="background:'+b[3]+'">📕</span><div><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div></div>';
     }).join('');
-    var chips=function(arr){ return '<div class="bg-chips" style="margin:0 2px 4px">'+arr.map(function(x){return '<span class="bg-chip">'+x+'</span>';}).join('')+'</div>'; };
+    var chips=function(arr){ return '<div class="bg-chips" style="margin:4px 10px 10px">'+arr.map(function(x){return '<span class="bg-chip">'+x+'</span>';}).join('')+'</div>'; };
+    function card(ic,tint,name,count,body,open){
+      return '<div class="cat'+(open?'':' collapsed')+'" style="--tint:'+tint+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+tint+'">'+ic+'</span>'+
+        '<div class="cat-t"><div class="cat-n">'+name+'</div><div class="cat-c">'+count+'</div></div><span class="cat-chev">'+CHEVD+'</span></div>'+
+        '<div class="cat-body">'+body+'</div></div>';
+    }
     document.getElementById('cpBody').innerHTML =
-      '<div class="sec-label" style="margin-top:4px">Best reads · '+CUR_STAGE+'</div>'+books+
-      '<div class="sec-label">Interesting buys for DIY</div>'+chips(FINDS.diy)+
-      '<div class="sec-label">Memory keepsakes</div>'+chips(FINDS.keepsakes);
+      '<div style="height:6px"></div>'+
+      card('📚','#ffd9e2','Best reads',list.length+' books for this age',books,true)+
+      card('🎨','#e7d9ff','Interesting buys for DIY',FINDS.diy.length+' ideas',chips(FINDS.diy),false)+
+      card('🎀','#d6f3e0','Memory keepsakes',FINDS.keepsakes.length+' ideas',chips(FINDS.keepsakes),false);
   };
 
   RENDER.diy=function(c){
