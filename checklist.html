@@ -164,6 +164,8 @@
   .avoid-item{display:flex;gap:11px;padding:11px 0;font-size:12.5px;color:#5a544f;font-weight:500;line-height:1.45;border-top:1px solid #f7f1f4;align-items:flex-start;}
   .avoid-item:first-child{border-top:none;}
   .avoid-item .av-x{width:19px;height:19px;border-radius:50%;background:#ffe0e6;color:#e0567a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;}
+  .avoid-item .av-ok{width:19px;height:19px;border-radius:50%;background:#dff3e7;color:#2b9d63;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;}
+  .food-grp+.avoid-item{border-top:none;}
   .avoid-item b{color:var(--ink);font-weight:800;}
   .food-grp{font-size:13px;font-weight:800;color:#8574b5;margin:16px 4px 9px;}
 
@@ -433,7 +435,7 @@
     }).join('')
       : '<div class="avoid-card" style="text-align:center;font-size:13px;color:#8a8296;font-weight:600;line-height:1.5">🥄 Solids usually begin around <b>6 months</b>.<br>Food brand picks appear once '+CHILDREN[CUR_CHILD].name+' is ready to start.</div>';
     var avoid='<div class="avoid-card"><div class="ac-head"><span class="ac-ic">🚫</span><div><div class="ac-title">Avoid under 2 years</div><div class="ac-sub">Keep these out of baby’s food & drinks</div></div></div>'+c.data.avoid.map(function(a){return '<div class="avoid-item"><span class="av-x">✕</span><div><b>'+a[0]+'</b> — '+a[1]+'</div></div>';}).join('')+'</div>';
-    var foods='<div class="avoid-card"><div class="ac-head"><span class="ac-ic" style="background:linear-gradient(150deg,#dff3e7,#c3ecd4)">🥗</span><div><div class="ac-title">Healthy foods to introduce</div><div class="ac-sub">Nutrient-rich, age-appropriate picks</div></div></div>'+Object.keys(c.data.foods).map(function(g){ return '<div class="food-grp">'+g+'</div><div class="bg-chips" style="margin:0 2px 10px">'+c.data.foods[g].map(function(f){return '<span class="bg-chip">'+f+'</span>';}).join('')+'</div>'; }).join('')+'</div>';
+    var foods='<div class="avoid-card"><div class="ac-head"><span class="ac-ic" style="background:linear-gradient(150deg,#dff3e7,#c3ecd4)">🥗</span><div><div class="ac-title">Healthy foods to introduce</div><div class="ac-sub">Nutrient-rich, age-appropriate picks</div></div></div>'+Object.keys(c.data.foods).map(function(g){ return '<div class="food-grp">'+g+'</div>'+c.data.foods[g].map(function(f){return '<div class="avoid-item"><span class="av-ok">✓</span><div>'+f+'</div></div>';}).join(''); }).join('')+'</div>';
     document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+brands+avoid+foods;
   };
 
