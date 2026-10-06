@@ -400,7 +400,7 @@
         cards.push('<div class="pv-card" onclick="openBrand(\''+b[1]+'\')"><div class="pv-img" style="background:'+grads[t.cls]+'"><span class="pv-emoji">'+g.ic+'</span><span class="pv-badge '+t.cls+'">'+t.tier+'</span></div><div class="pv-name">'+b[0]+'</div><div class="pv-desc">Tap to shop ↗</div></div>');
       });
     });
-    document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+cards.join('')+'</div><div class="spons">Curated from New Mum’s Ultimate Guide · Baby Tracker may earn a commission</div>';
+    document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+cards.join('')+'</div>';
   }
 
   RENDER.books=function(c){
@@ -595,7 +595,7 @@
       var emoji=(pack||photo)?'':'<span class="pv-emoji">'+p.ic+'</span>';
       return '<div class="pv-card" onclick="buyNow(\''+p.name.replace(/'/g,'')+'\')"><div class="pv-img" style="'+imgStyle+'">'+emoji+badge+'</div><div class="pv-name">'+p.name+'</div><div class="pv-desc">'+p.desc+'</div></div>';
     }).join('');
-    document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+grid+'</div><div class="spons">Curated from New Mum’s Ultimate Guide · Baby Tracker may earn a commission</div>';
+    document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+grid+'</div>';
   }
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt; function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove('show');},1800); }
