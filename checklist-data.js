@@ -103,8 +103,16 @@ var TOYS={
 
 /* ---- brand guide ---- */
 var BRAND_GUIDE=[
- {cat:'Skin Care',ic:'🧴',tint:'#ffd9e2',prem:['Aveeno','Sebamed','Mustela','Cetaphil','Little Rituals'],mid:['Chicco','Mama Earth','Mother Sparsh','Mee Mee','Tots and Bubbles'],eco:['Himalaya','LuvLap','Johnson’s Baby','The Moms Co','Baby Chakra']},
- {cat:'Baby Gear',ic:'🚗',tint:'#d5e6ff',prem:['Stokke','Skip Hop','BabyZen','Joie','Beaba'],mid:['Infantino','Graco','Chicco','R for Rabbit','Star and Daisy'],eco:['Baby Hug','Luvlap','Mee Mee','Mother Care','Bay Bee']}
+ {cat:'Skin Care',ic:'🧴',tint:'#ffd9e2',tiers:[
+   {tier:'Premium',cls:'prem',brands:[['Aveeno','https://amzn.to/4cShNTr'],['Sebamed','https://amzn.to/3JmcT3m'],['Mustela','https://amzn.to/3VWngCP'],['Cetaphil','https://amzn.to/3Q1PgRt'],['Little Rituals','https://amzn.to/3TQJraK']]},
+   {tier:'Mid Range',cls:'mid',brands:[['Chicco','https://amzn.to/4cUoSTo'],['Mama Earth','https://amzn.to/4ao4Mzn'],['Mother Sparsh','https://amzn.to/3xz6Bel'],['Mee Mee','https://amzn.to/3TWEsoX'],['Tots and Bubbles','https://amzn.to/3vMPl4P']]},
+   {tier:'Economical',cls:'eco',brands:[['Himalaya','https://amzn.to/3Jjjig2'],['LuvLap','https://amzn.to/3UjdSbe'],['Johnson’s Baby','https://amzn.to/4ayJTBw'],['The Moms Co','https://amzn.to/4aUPDoT'],['Baby Chakra','https://amzn.to/49ue2AI']]}
+ ]},
+ {cat:'Baby Gear',ic:'🚗',tint:'#d5e6ff',tiers:[
+   {tier:'Premium',cls:'prem',brands:[['Stokke','https://amzn.to/3MaTP9U'],['Skip Hop','https://amzn.to/3SRw9LB'],['BabyZen','https://amzn.to/4ctlWvx'],['Joie','https://amzn.to/3WQ6aoR'],['Beaba','https://amzn.to/4fLAzgK']]},
+   {tier:'Mid Range',cls:'mid',brands:[['Infantino','https://amzn.to/3Apj3yx'],['Graco','https://amzn.to/3XhO1Sx'],['Chicco','https://amzn.to/3ABjDJC'],['R for Rabbit','https://amzn.to/3SToegK'],['Star and Daisy','https://amzn.to/46O581c']]},
+   {tier:'Economical',cls:'eco',brands:[['Baby Hug','https://amzn.to/3ABk0Uw'],['Luvlap','https://amzn.to/3X8iBxu'],['Mee Mee','https://amzn.to/3YNcyQb'],['Mother Care','https://amzn.to/3yLHOof'],['Bay Bee','https://amzn.to/4fMp7By']]}
+ ]}
 ];
 
 /* ---- books (age-wise) ---- */

@@ -122,6 +122,9 @@
   .bg-chips{display:flex;flex-wrap:wrap;gap:7px;}
   .bg-chip{font-size:12px;font-weight:700;padding:6px 12px;border-radius:12px;background:#f5f1fa;color:#4a443f;}
   .bg-chip.prem{background:#fff3d9;color:#9c7418;} .bg-chip.mid{background:#efe6ff;color:#6a4fc0;} .bg-chip.eco{background:#dff3e7;color:#2b7d54;}
+  .bg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-left:5px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .bg-dot.prem{background:#e3b23c;} .bg-dot.mid{background:#9a83d6;} .bg-dot.eco{background:#45b67e;}
+  .ci-row.brow{cursor:pointer;}
 
   /* books */
   .bk-card{display:flex;gap:13px;background:#fff;border-radius:18px;padding:13px 14px;margin-bottom:11px;box-shadow:var(--shadow-soft);}
@@ -286,7 +289,7 @@
     </div>
   </div>
 
-<script src="checklist-data.js?v=4"></script>
+<script src="checklist-data.js?v=5"></script>
 <script>
   var CHECK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
   var CHEV='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
@@ -360,13 +363,22 @@
   };
 
   RENDER.brands=function(c){
-    document.getElementById('cpBody').innerHTML='<div class="tip"><span class="tip-ic">🏷️</span><div>Trusted brands across every budget — from <b>premium</b> to <b>economical</b>.</div></div>'+
-      c.data.map(function(g){
-        function tier(cls,label,list){ return '<div class="bg-tier"><div class="bg-tl '+cls+'">'+label+'</div><div class="bg-chips">'+list.map(function(b){return '<span class="bg-chip '+cls+'">'+b+'</span>';}).join('')+'</div></div>'; }
-        return '<div class="bg-cat"><div class="bg-head"><span class="bg-ic" style="background:'+g.tint+'">'+g.ic+'</span><span class="bg-n">'+g.cat+'</span></div>'+
-          tier('prem','Premium',g.prem)+tier('mid','Mid-range',g.mid)+tier('eco','Economical',g.eco)+'</div>';
+    var head='<div class="tip"><span class="tip-ic">🏷️</span><div>Trusted brands by category — <b>premium → economical</b>. Tap <b>Shop</b> to view on Amazon.</div></div>';
+    var cards=c.data.map(function(g){
+      var n=g.tiers.reduce(function(a,t){return a+t.brands.length;},0);
+      var body=g.tiers.map(function(t){
+        var rows=t.brands.map(function(b){
+          return '<div class="ci-row brow" onclick="openBrand(\''+b[1]+'\')"><span class="bg-dot '+t.cls+'"></span><span class="ci-n">'+b[0]+'</span><span class="view-btn">Shop ↗</span></div>';
+        }).join('');
+        return '<div class="bg-tl '+t.cls+'" style="padding:11px 12px 3px">'+t.tier+'</div>'+rows;
       }).join('');
+      return '<div class="cat collapsed" style="--tint:'+g.tint+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+g.tint+'">'+g.ic+'</span>'+
+        '<div class="cat-t"><div class="cat-n">'+g.cat+'</div><div class="cat-c">'+n+' brands · premium → economical</div></div><span class="cat-chev">'+CHEVD+'</span></div>'+
+        '<div class="cat-body">'+body+'</div></div>';
+    }).join('');
+    document.getElementById('cpBody').innerHTML = head + cards;
   };
+  function openBrand(u){ if(u) window.open(u,'_blank','noopener'); }
 
   RENDER.books=function(c){
     var books=(c.data[CUR_STAGE]||[]).map(function(b){
