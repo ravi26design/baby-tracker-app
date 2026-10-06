@@ -185,9 +185,11 @@ var FOOD={
   ['High allergens','introduce peanuts, tree nuts, egg, wheat, soy, dairy, sesame carefully']
  ],
  foods:{
-  'Seeds (finely ground)':['Chia','Flax','Sesame','Pumpkin','Sunflower','Watermelon','Sabja (basil)','Poppy','Hemp'],
-  'Oils':['Ghee','Coconut','Olive','Sesame','Mustard (small)','Almond','Avocado','Rice bran'],
-  'Premixes':['Instant ragi porridge','Khichdi mix','Multigrain porridge','Sprouted dal mix']
+  'Seeds':['Chia Seeds (finely ground)','Flaxseeds (finely ground)','Sesame Seeds','Pumpkin Seeds (finely ground)','Sunflower Seeds (finely ground)','Watermelon Seeds (finely ground)','Basil Seeds (Sabja)','Poppy Seeds (finely ground)','Hemp Seeds (finely ground)','Melon Seeds (finely ground)'],
+  'Oils':['Ghee (Clarified Butter)','Coconut Oil','Olive Oil','Sesame Oil','Mustard Oil (in small quantities)','Almond Oil (for cooking)','Avocado Oil','Rice Bran Oil','Flaxseed Oil (in small quantities)','Walnut Oil (in small quantities)'],
+  'Premixes':['Instant Ragi Porridge Mix','Khichdi Mix','Multigrain Porridge Mix','Oats and Almond Mix','Wheat and Moong Dal Mix','Barley and Lentil Mix','Rice and Dal Mix','Ragi and Banana Mix','Sattu and Jaggery Mix','Bajra and Almond Mix'],
+  'Dry Fruits':['Almonds (powdered)','Cashews (powdered)','Raisins (soaked and mashed)','Figs (mashed)','Dates (mashed)','Apricots (finely chopped)','Walnuts (finely chopped)','Pistachios (powdered)','Prunes (mashed)','Dried Apples (finely chopped)'],
+  'Powders':['Dry Fruit Powder (Almonds, Cashews, etc.)','Sprouted Ragi Powder','Moringa Leaf Powder','Turmeric Powder','Sattu (Roasted Gram Flour) Powder','Beetroot Powder','Spinach Powder','Carrot Powder','Ginger Powder (in small quantities)','Almond Milk Powder']
  }
 };
 
