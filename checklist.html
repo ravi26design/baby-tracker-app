@@ -436,14 +436,49 @@
   Object.assign(PRICES,{ cradle:[3000,10000],cot:[5000,15000],rocker:[2000,6000],humidifier:[1500,4000],electricpump:[4000,12000],manualpump:[800,2500],playmat12:[2500,6000],mattressp:[800,2500],belt:[500,1500],glassbottle:[400,1000],steelbottle:[500,1200],kettle:[1500,4000],thermometer:[500,1500],lactation:[400,1200],storagebags:[300,900],coolerbags:[800,2500],grooming:[500,1500],bedding:[1200,3500],toyorg:[600,1800],formuladisp:[400,1200],nursingbra:[600,1800],breastpads:[300,900] });
   function getPrice(key){ return PRICES[key] || [500,1500]; }
   function px(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=420&h=320&fit=crop'; }
-  var SK=px('34233828');
+  var SK=px('34233828');       // skincare tube/cream
   var DIA='https://images.pexels.com/photos/41165/baby-cloth-clothing-color-41165.jpeg?auto=compress&cs=tinysrgb&w=420&h=320&fit=crop';
-  var PHOTOS={ diapers:DIA,clothdiaper:DIA,swimdiaper:DIA,swimdiaperr:DIA,
-    bottle:px('20387764'),glassbottle:px('20387764'),steelbottle:px('20387764'),
+  var OIL=px('6671008'),       // baby massage oil
+      CLOTH=px('7973582'),     // swaddle / towel / cloth
+      BED=px('7937990'),       // crib / bedding
+      FEED=px('4669020'),      // feeding spoon / utensils
+      NURSE=px('32830547'),    // breastfeeding / pump / nursing
+      MOM=px('35308506'),      // postpartum mother care
+      PLAY=px('3875227'),      // activity / play mat
+      CLEAN=px('10558186'),    // cleaning supplies
+      MOSQ=px('35738983'),     // mosquito repellent
+      HEALTH=px('7946798'),    // thermometer / health
+      BATH=px('28353844'),     // bathtub
+      CARRY=px('17528939'),    // baby carrier / bag
+      SAFE=px('8101107'),      // socket cover / baby-proofing
+      MON=px('33104382'),      // monitor / camera
+      BOTL=px('20387764'),     // feeding bottles
+      TEETH=px('7491107'),     // toothbrush
+      WIPE=px('8430159');      // wipes
+  var PHOTOS={
+    diapers:DIA,clothdiaper:DIA,swimdiaper:DIA,swimdiaperr:DIA,pottyseat:DIA,trainpants:DIA,
+    bottle:BOTL,glassbottle:BOTL,steelbottle:BOTL,sterilizer:BOTL,bottlecleaner:BOTL,bottlecover:BOTL,dryingstand:BOTL,formuladisp:BOTL,kettle:BOTL,
     highchair:px('26337021'),stroller:px('36530858'),carseat:px('36552331'),shoes:px('15844910'),
     toys:px('38404947'),teether:px('31137017'),woodteether:px('31137017'),
-    bodywash:px('19717724'),lotion:px('10853729'),shampoo:px('8167172'),
-    facewash:SK,facecream:SK,rashcream:SK,cradlecap:SK,sunscreen:SK,hairoil:SK,massageoilw:SK,massageoils:SK };
+    bodywash:px('19717724'),lotion:px('10853729'),shampoo:px('8167172'),sunscreen:px('16378486'),
+    facewash:SK,facecream:SK,rashcream:SK,cradlecap:SK,grooming:SK,kajal:SK,lipbalm:SK,
+    hairoil:OIL,massageoil:OIL,massageoils:OIL,massageoilw:OIL,
+    wipes:WIPE,oralwipes:WIPE,
+    bathtub:BATH,bathseat:BATH,
+    mosbite:MOSQ,mosspray:MOSQ,mospatch:MOSQ,mosfabric:MOSQ,mosquito:MOSQ,mosnet:MOSQ,
+    swaddle:CLOTH,sleepsack:CLOTH,towel:CLOTH,washcloth:CLOTH,burpcloth:CLOTH,langoti:CLOTH,drysheet:CLOTH,raipillow:CLOTH,
+    carrier:CARRY,diaperbag:CARRY,
+    pacifier:px('7566224'),
+    cradle:BED,cot:BED,bedding:BED,mattressp:BED,bedrail:BED,
+    thermometer:HEALTH,vapour:HEALTH,vapourpatch:HEALTH,colic:HEALTH,
+    spoons:FEED,feedingkit:FEED,snackbox:FEED,opencup:FEED,sipper:FEED,steelsipper:FEED,processor:FEED,bibs:FEED,dispbibs:FEED,wbibs:FEED,
+    manualpump:NURSE,electricpump:NURSE,nursingcover:NURSE,nipplecream:NURSE,nippleshield:NURSE,breastpads:NURSE,storagebags:NURSE,coolerbags:NURSE,milkcaps:NURSE,feedpillow:NURSE,therapypack:NURSE,niftycup:NURSE,lactation:NURSE,nursingbra:NURSE,
+    toothbrush:TEETH,toothpaste:TEETH,
+    playmat:PLAY,playpen:PLAY,rocker:PLAY,swing:PLAY,slide:PLAY,toyorg:PLAY,walker:PLAY,kneepad:PLAY,antiskid:PLAY,
+    detergent:CLEAN,dishwasher:CLEAN,toycleaner:CLEAN,handwash:CLEAN,
+    belt:MOM,matpads:MOM,matpanty:MOM,stretch:MOM,hairfall:MOM,hairgummies:MOM,perispray:MOM,peripads:MOM,
+    socketcovers:SAFE,edgeguards:SAFE,drawerlock:SAFE,doorstop:SAFE,
+    monitor:MON,humidifier:MON };
   /* real product-pack images per (shop key · brand) */
   var BRAND_IMG={ 'diapers|Allter':'assets/diaper-allter.jpg','diapers|Huggies':'assets/diaper-huggies.jpg' };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
