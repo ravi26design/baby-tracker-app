@@ -527,9 +527,20 @@
     'Chicka Chicka Boom Boom':1320266,'We’re Going on a Bear Hunt':433694,'Llama Llama Red Pajama':6532260,
     'Press Here':6934884,'Duck & Goose':6805823,'Ten Little Fingers and Ten Little Toes':10978432,
     'The Wheels on the Bus':360837,'The Gruffalo':8561698,'Dragons Love Tacos':8085856,'Where the Wild Things Are':50842,'I Am a Bunny':6982495,
-    'Goodnight, Goodnight, Construction Site':7351895,'Room on the Broom':10839950,'The Lion Inside':8074402,'The Wonderful Things You Will Be':8314249
+    'Goodnight, Goodnight, Construction Site':7351895,'Room on the Broom':10839950,'The Lion Inside':8074402,'The Wonderful Things You Will Be':8314249,
+    'I Love You to the Moon and Back':'https://is1-ssl.mzstatic.com/image/thumb/Publication116/v4/5d/d6/b0/5dd6b078-ed1e-f578-81ba-7a554ae3aaa0/9781664390003.d.jpg/400x400bb.jpg',
+    'The Very Busy Spider':'https://is1-ssl.mzstatic.com/image/thumb/Publication124/v4/2f/50/69/2f506906-19b9-7ee6-b25d-c6899fc7bf08/9780593382806.d.jpg/400x400bb.jpg',
+    'Little Blue Truck':'https://is1-ssl.mzstatic.com/image/thumb/Publication116/v4/a1/79/6a/a1796a3d-16e8-611b-724f-155728c9c108/9781328466679.jpg/400x400bb.jpg',
+    'Goodnight, Gorilla':'https://is1-ssl.mzstatic.com/image/thumb/Publication6/v4/b1/0f/2d/b10f2dc5-e24b-20a8-6050-dd3637ca0201/9780698152236.jpg/400x400bb.jpg',
+    'Where’s Spot?':'https://is1-ssl.mzstatic.com/image/thumb/Publication221/v4/5c/ac/c8/5cacc87c-de96-19b7-dfe5-2e1a0d886953/9780723281542.jpg/400x400bb.jpg',
+    'Giraffes Can’t Dance':'https://is1-ssl.mzstatic.com/image/thumb/Publication112/v4/cb/ad/56/cbad5615-83dc-b72d-b327-d221fd2006a9/9781338257267.jpg/400x400bb.jpg',
+    'The Pout-Pout Fish':'https://is1-ssl.mzstatic.com/image/thumb/Publication6/v4/cc/bd/e7/ccbde7f4-9004-0c65-afe2-eb336d3dcbf8/9781466823525.jpg/400x400bb.jpg',
+    'If You Give a Mouse a Cookie':'https://is1-ssl.mzstatic.com/image/thumb/Publication122/v4/83/82/18/83821843-35dd-6f19-2885-483fca653deb/9780063229631.jpg/400x400bb.jpg',
+    'The Snowy Day':'https://is1-ssl.mzstatic.com/image/thumb/Publication126/v4/8a/aa/dc/8aaadc69-1aff-acc4-8fc5-4f7c0816e3e9/9780698139138.d.jpg/400x400bb.jpg',
+    'Pete the Cat: I Love My White Shoes':'https://is1-ssl.mzstatic.com/image/thumb/Publication/fe/98/d4/mzi.bteoswqg.jpg/400x400bb.jpg',
+    'The Day the Crayons Quit':'https://is1-ssl.mzstatic.com/image/thumb/Publication1/v4/5e/03/72/5e03722c-fbd6-0df1-e85f-7095242a9245/9781101628126.jpg/400x400bb.jpg'
   };
-  function bookCover(id){ return 'https://covers.openlibrary.org/b/id/'+id+'-M.jpg'; }
+  function bookCover(id){ return typeof id==='number' ? 'https://covers.openlibrary.org/b/id/'+id+'-M.jpg' : id; }
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
   var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Feature-rich, grows with your baby.'];
