@@ -255,9 +255,10 @@
   .pd-dots{display:flex;gap:6px;justify-content:center;margin-top:10px;}
   .pd-dot{width:7px;height:7px;border-radius:50%;background:#ddd4ea;transition:.2s;}
   .pd-dot.on{background:#8f78c4;width:18px;border-radius:4px;}
-  .pd-badge{display:inline-block;font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:9px;margin-top:16px;}
-  .pd-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pd-badge.prem{background:#fff0cf;color:#b6871f;}
+  .pd-badge{display:inline-block;font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:9px;margin-top:16px;background:#efe9f7;color:#8574b5;}
+  .pd-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pd-badge.prem{background:#fff0cf;color:#b6871f;} .pd-badge.mid{background:#efe6ff;color:#6a4fc0;}
   .pd-name{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-top:9px;}
+  .pd-meta2{font-size:12px;font-weight:700;color:#9a8fb3;margin-top:6px;}
   .pd-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
   .pd-stat{font-size:12px;font-weight:700;color:#6a6472;background:#f6f2fb;padding:7px 12px;border-radius:12px;}
   .pd-stat b{color:var(--ink);}
@@ -387,7 +388,7 @@
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
           (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.tag?'<span class="brand-tag '+(it.tagcls||'')+'">'+it.tag+'</span>':'')+
-          (it.link?'<button class="view-btn" onclick="event.stopPropagation();openBrand(\''+it.link+'\')">View</button>':'')+
+          (it.link?'<button class="view-btn" onclick="event.stopPropagation();openItemDetail(\''+it.n.replace(/'/g,'')+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')">View</button>':'')+
           (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
       }).join('');
       return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
@@ -417,16 +418,43 @@
     document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(groups,'bg',true,true);
   };
   var PD_NAME='', PD_LINK='';
-  function sendWhatsAppLink(url,name){
-    var link, nm;
-    if(url){ link=url; nm=name||''; }        /* explicit link (View/openBrand) — no stale name */
-    else { link=PD_LINK; nm=PD_NAME; }        /* product-detail CTA */
-    if(!link) return;
-    var msg=(nm?('Check out '+nm+' on Baby Tracker 🍼\n'):('Here’s a shopping link from Baby Tracker 🍼\n'))+link;
-    window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener');
-    toast('Opening WhatsApp to share the link…');
+  /* in-app only — never redirect to another app; just confirm */
+  function sendWhatsAppLink(){ toast('We’ll send '+(PD_NAME?PD_NAME+'’s link':'the link')+' to your WhatsApp 📲'); }
+
+  /* generic in-app product-detail view (inside the sheet) */
+  var DETAIL_BACK=null;
+  function renderDetail(o){
+    var imgs=(o.imgs&&o.imgs.length)?o.imgs:null;
+    var h=0,s=(o.name||'')+(o.key||o.link||''); for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0;
+    var bought=(1500+h%8200).toLocaleString('en-IN'); var rating=(4.2+(h%7)/10).toFixed(1);
+    var gallery=imgs?imgs.map(function(u){return '<div class="pd-photo" style="background-image:url(\''+u+'\')"></div>';}).join('')
+      :'<div class="pd-photo" style="background:'+(o.bg||'#f1ecf6')+';display:flex;align-items:center;justify-content:center;font-size:72px">'+(o.emoji||'🛍️')+'</div>';
+    var dots=(imgs&&imgs.length>1)?'<div class="pd-dots">'+imgs.map(function(_,i){return '<span class="pd-dot'+(i===0?' on':'')+'"></span>';}).join('')+'</div>':'';
+    PD_NAME=o.name||''; PD_LINK=o.link||''; DETAIL_BACK=o.back||null;
+    document.getElementById('shTitle').innerHTML='<span class="pd-backhd" onclick="detailBack()">‹ Back</span>';
+    document.getElementById('shSub').style.display='none';
+    document.getElementById('shBody').innerHTML=
+      '<div class="pd-gallery" id="pdGal">'+gallery+'</div>'+dots+
+      (o.badge?'<span class="pd-badge '+(o.badgecls||'')+'">'+o.badge+'</span>':'')+
+      '<div class="pd-name">'+o.name+'</div>'+
+      (o.meta?'<div class="pd-meta2">'+o.meta+'</div>':'')+
+      '<div class="pd-stats"><span class="pd-stat">⭐ <b>'+rating+'</b> rating</span><span class="pd-stat">🛍️ <b>'+bought+'</b> parents bought this</span></div>'+
+      '<div class="pd-desc">'+(o.desc||'A parent-loved pick — chosen for quality, comfort and everyday value.')+'</div>'+
+      '<button class="pd-buy" onclick="sendWhatsAppLink()"><span class="wa-ic">'+WA_SVG+'</span>Send me the link</button>';
+    document.querySelector('#shopSheet .sheet').classList.add('full');
+    document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
+    var gal=document.getElementById('pdGal');
+    if(gal&&imgs&&imgs.length>1){ gal.addEventListener('scroll',function(){ var idx=Math.round(gal.scrollLeft/gal.clientWidth); document.querySelectorAll('.pd-dot').forEach(function(d,i){d.classList.toggle('on',i===idx);}); }); }
   }
-  function openBrand(u){ if(u) sendWhatsAppLink(u); }
+  function detailBack(){ if(typeof DETAIL_BACK==='function') DETAIL_BACK(); else closeShop(); }
+
+  /* context detail openers (look up by index/key — safe from quote escaping) */
+  function openItemDetail(name,badge,badgecls){ renderDetail({name:name,badge:badge,badgecls:badgecls,emoji:'🛍️'}); }
+  function openBookDetail(i){ var b=(BOOKS[CUR_STAGE]||[])[i]; if(!b) return; var cv=BOOK_COVER[b[0]]; renderDetail({name:b[0],imgs:cv?[bookCover(cv)]:null,desc:b[2]+' Written by '+b[1]+'.',badge:'Best read',badgecls:'eco',emoji:'📚',bg:b[3],link:b[4]}); }
+  function openFindDetail(kind,i){ var arr=kind==='diy'?FINDS.diy:FINDS.keepsakes; var x=arr[i]; if(!x) return; var img=FINDS_IMG[x[0]]; renderDetail({name:x[0],imgs:img?[img]:null,badge:kind==='diy'?'DIY buy':'Keepsake',emoji:kind==='diy'?'🎨':'🎀',link:x[1]}); }
+  function openFoodDetail(i){ var b=FOOD.brands[i]; if(!b) return; renderDetail({name:b[0],desc:b[1]+'.',badge:b[3]+' range',emoji:b[5],bg:b[4],meta:'Suitable age: '+b[2],link:b[6]}); }
+  function openDiyMatDetail(i){ var d=DIY[i]; if(!d) return; var lk=''; FINDS.diy.forEach(function(x){if(x[0]===d.mat)lk=x[1];}); var img=FINDS_IMG[d.mat]; renderDetail({name:d.mat,imgs:img?[img]:null,badge:'DIY material',emoji:d.ic,bg:d.tint,link:lk}); }
+  function openBrand(u){ renderDetail({name:'This product',link:u,emoji:'🛍️'}); }
 
   /* Avoid-under-2 info → bottom sheet */
   function openAvoidSheet(){
@@ -464,11 +492,12 @@
       var bid='bk|'+CUR_STAGE+'|'+i, done=!!CHECKED[bid];
       var cv=BOOK_COVER[b[0]];
       var cover=cv?'<span class="bk-cover" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="bk-cover" style="background:'+b[3]+'">📕</span>';
-      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer" onclick="toggleCheck(\''+bid+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[4]+'\')">View</button></div>';
+      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer" onclick="toggleCheck(\''+bid+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBookDetail('+i+')">View</button></div>';
     }).join('');
     var rows=function(arr,ic,prefix){ return arr.map(function(x,i){
       var fid=prefix+'|'+i, done=!!CHECKED[fid];
-      var btn=x[1]?'<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+x[1]+'\')">View</button>':'';
+      var kind=prefix==='fdiy'?'diy':'keep';
+      var btn='<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openFindDetail(\''+kind+'\','+i+')">View</button>';
       var img=FINDS_IMG[x[0]];
       var icHtml=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+ic+'</span>';
       return '<div class="ci-row'+(done?' done':'')+'" onclick="toggleCheck(\''+fid+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+icHtml+'<span class="ci-n">'+x[0]+'</span>'+btn+'</div>';
@@ -498,7 +527,7 @@
         return '<div class="diy-card'+(done?' done':'')+'" id="diy'+i+'"><div class="diy-head" onclick="toggleDiy('+i+')">'+
           '<span class="cbox" onclick="event.stopPropagation();toggleDiyDone(\''+did+'\',this)">'+CHECK_SVG+'</span>'+
           '<span class="diy-ic" style="'+icStyle+'">'+icInner+'</span><span class="diy-n">'+d.mat+'</span>'+
-          (lk?'<button class="view-btn" onclick="event.stopPropagation();openBrand(\''+lk+'\')">View</button>':'')+
+          '<button class="view-btn" onclick="event.stopPropagation();openDiyMatDetail('+i+')">View</button>'+
           '<span class="diy-chev">'+CHEVD+'</span></div><div class="diy-body" id="diyb'+i+'">'+acts+'</div></div>';
       }).join('');
   };
@@ -512,8 +541,8 @@
     function endM(s){ if(/adult/i.test(s)) return Infinity; var y=s.match(/(\d+)\s*y/i); if(y) return parseInt(y[1],10)*12; var m=s.match(/(\d+)\s*m/i); return m?parseInt(m[1],10):Infinity; }
     // cap-at-upper-age: brand must start by the child's age AND still cover the child's stage top
     var shown=c.data.brands.filter(function(b){ var p=b[2].split(/[–-]/); return sL>=startM(p[0]) && sU<=endM(p[1]||p[0]); });
-    var brands = shown.length ? shown.map(function(b){
-      return '<div class="food-card" style="cursor:pointer" onclick="openBrand(\''+b[6]+'\')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[6]+'\')">View</button></div>';
+    var brands = shown.length ? shown.map(function(b){ var fi=c.data.brands.indexOf(b);
+      return '<div class="food-card" style="cursor:pointer" onclick="openFoodDetail('+fi+')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openFoodDetail('+fi+')">View</button></div>';
     }).join('')
       : '<div class="avoid-card" style="text-align:center;font-size:13px;color:#8a8296;font-weight:600;line-height:1.5">🥄 Solids usually begin around <b>6 months</b>.<br>Food brand picks appear once '+CHILDREN[CUR_CHILD].name+' is ready to start.</div>';
     var avoid='<div class="hub-cat" style="margin-bottom:14px" onclick="openAvoidSheet()"><span class="hc-ic" style="background:linear-gradient(150deg,#ffe3ea,#ffd0db)">🚫</span><div class="hc-t"><div class="hc-n">Avoid under 2 years</div><div class="hc-d">Keep these out of baby’s food &amp; drinks</div></div><span class="hc-chev">'+CHEV+'</span></div>';
@@ -666,32 +695,15 @@
     document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+grid+'</div>';
     document.getElementById('shBody').scrollTop=0;
   }
-  /* product detail view (inside the product sheet) */
+  /* product detail (from product sheet) → shared renderer, Back returns to the list */
   function openProductDetail(name){
     var p=makeProducts(PV_KEY).filter(function(x){return x.name.replace(/'/g,'')===name;})[0]; if(!p) return;
     var imgs=[]; var pack=BRAND_IMG[PV_KEY+'|'+p.name]; if(pack) imgs.push(pack);
     var photo=PHOTOS[PV_KEY]; if(photo&&imgs.indexOf(photo)<0) imgs.push(photo);
-    var h=0,s=p.name+PV_KEY; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0;
-    var bought=(1500+h%8200).toLocaleString('en-IN');
-    var rating=(4.3+(h%6)/10).toFixed(1);
-    var cls=p.tier==='Premium'?'prem':'eco';
-    var gallery=imgs.length?imgs.map(function(u){return '<div class="pd-photo" style="background-image:url(\''+u+'\')"></div>';}).join('')
-      : '<div class="pd-photo" style="background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),'+p.bg+');display:flex;align-items:center;justify-content:center;font-size:72px">'+p.ic+'</div>';
-    var dots=imgs.length>1?'<div class="pd-dots">'+imgs.map(function(_,i){return '<span class="pd-dot'+(i===0?' on':'')+'"></span>';}).join('')+'</div>':'';
-    var long=p.desc+' A well-loved pick from the '+PV_ITEM.toLowerCase()+' category — chosen by parents for quality, comfort and value for money.';
-    document.getElementById('shTitle').innerHTML='<span class="pd-backhd" onclick="renderPV()">‹ Back</span>';
-    document.getElementById('shBody').innerHTML=
-      '<div class="pd-gallery" id="pdGal">'+gallery+'</div>'+dots+
-      '<span class="pd-badge '+cls+'">'+p.tier+' pick</span>'+
-      '<div class="pd-name">'+p.name+'</div>'+
-      '<div class="pd-stats"><span class="pd-stat">⭐ <b>'+rating+'</b> rating</span><span class="pd-stat">🛍️ <b>'+bought+'</b> parents bought this</span></div>'+
-      '<div class="pd-desc">'+long+'</div>'+
-      '<button class="pd-buy" onclick="sendWhatsAppLink()"><span class="wa-ic">'+WA_SVG+'</span>Send me the link</button>';
-    PD_NAME=p.name; PD_LINK='https://www.amazon.in/s?k='+encodeURIComponent(p.name+' '+PV_ITEM);
-    document.querySelector('#shopSheet .sheet').classList.add('full');
-    document.getElementById('shBody').scrollTop=0;
-    var gal=document.getElementById('pdGal');
-    if(gal&&imgs.length>1){ gal.addEventListener('scroll',function(){ var idx=Math.round(gal.scrollLeft/gal.clientWidth); document.querySelectorAll('.pd-dot').forEach(function(d,i){d.classList.toggle('on',i===idx);}); }); }
+    renderDetail({name:p.name, imgs:imgs.length?imgs:null, emoji:p.ic, bg:'radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),'+p.bg+')',
+      badge:p.tier+' pick', badgecls:(p.tier==='Premium'?'prem':'eco'),
+      desc:p.desc+' A well-loved pick from the '+PV_ITEM.toLowerCase()+' category — chosen by parents for quality, comfort and value for money.',
+      key:PV_KEY, back:renderPV});
   }
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt; function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove('show');},1800); }
