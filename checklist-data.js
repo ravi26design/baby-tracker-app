@@ -127,7 +127,7 @@ var BOOKS={
 };
 var FINDS={
  diy:[['Pom poms','https://amzn.to/3U9iZJF'],['Pipe cleaners','https://amzn.to/3JqVTcA'],['Ice-cream sticks','https://amzn.to/3UovfqN'],['Foam stickers','https://amzn.to/3WdcAQ2'],['Magnetic sheet','https://amzn.to/4aJhZmw'],['Finger paints','https://amzn.to/4cWA3Lo'],['Crayons','https://amzn.to/4aGCnVo'],['Dot stickers','https://amzn.to/3Qc7i3z'],['Play dough','https://amzn.to/4b1th5b'],['Sensory rice','https://amzn.to/3Q7Du8s'],['Kinetic sand','https://amzn.to/49NwODo'],['Sensory bin tools','https://amzn.to/3UmM31v'],['Fine motor tool set','https://amzn.to/49Nx0T8'],['Pop tubes','https://amzn.to/3UpU6KV'],['Suction cups','https://amzn.to/3ULmM07']],
- keepsakes:[['Hand & footprint ink','https://amzn.to/3U6lU5N'],['Hand & foot casting','https://amzn.to/3UnPyom'],['Hand & foot imprint','https://amzn.to/3Ut4UrX'],['Breastmilk jewelry','https://amzn.to/3Jq62pE'],['Baby record book','https://amzn.to/4b5TX4L'],['Newborn photoshoot','']]
+ keepsakes:[['Hand and footprint ink','https://amzn.to/3U6lU5N'],['Hand and foot casting','https://amzn.to/3UnPyom'],['Hand and foot imprint','https://amzn.to/3Ut4UrX'],['Breastmilk jewelry','https://amzn.to/3Jq62pE'],['Baby record book','https://amzn.to/4b5TX4L'],['New born photoshoot','']]
 };
 
 /* ---- hospital bag ---- */
