@@ -279,8 +279,7 @@
         <div class="content">
           <div class="head"><h1>Checklist</h1><p id="clSub" style="display:none"></p></div>
           <div class="child-tabs" id="childTabs"></div>
-          <div class="sec-label">Guides &amp; checklists</div>
-          <div class="hub" id="hub"></div>
+          <div class="hub" id="hub" style="margin-top:18px"></div>
         </div>
       </div>
 
@@ -526,7 +525,7 @@
     var buy='<div class="sec-label">Buy before you go</div>'+buyKeys().map(function(k){ var b=getBrand(k),nm=BUY_NAME[k]||k;
       return '<div class="food-card"><span class="food-ic" style="background:'+b[1]+'">'+b[0]+'</span><div style="flex:1"><div class="food-n">'+nm+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+'</span></div></div><button class="view-btn" onclick="openShop(\''+k+'\',\''+nm.replace(/'/g,'')+'\')">View</button></div>';
     }).join('');
-    document.getElementById('cpBody').innerHTML=dur+sum+pack+buy;
+    document.getElementById('cpBody').innerHTML=dur+pack+buy;
   }
   function setDur(n,d){ T_DUR=n; T_DAYS=d; CHECKED={}; buildPack(); renderTravel(); }
   function setType(t){ T_TYPE=t; CHECKED={}; buildPack(); renderTravel(); }
