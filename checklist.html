@@ -350,8 +350,8 @@
           (it.ic?'<span class="pk-ic">'+it.ic+'</span>':'')+'<span class="ci-n">'+it.n+'</span>'+
           (it.ess?'<span class="ess">Must</span>':'')+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
-          (it.brand&&!it.shop?'<span class="brand-tag">'+it.brand+'</span>':'')+
-          (it.link?'<button class="view-btn" onclick="event.stopPropagation();openBrand(\''+it.link+'\')">Shop ↗</button>':'')+
+          (it.brand&&!it.shop&&!it.link?'<span class="brand-tag">'+it.brand+'</span>':'')+
+          (it.link?'<button class="view-btn" onclick="event.stopPropagation();openBrand(\''+it.link+'\')">View</button>':'')+
           (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
       }).join('');
       return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
