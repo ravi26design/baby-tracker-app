@@ -439,7 +439,7 @@
     var books=list.map(function(b){
       var cv=BOOK_COVER[b[0]];
       var cover=cv?'<span class="bk-cover" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="bk-cover" style="background:'+b[3]+'">📕</span>';
-      return '<div class="bk-row" style="cursor:pointer" onclick="openBrand(\''+b[4]+'\')">'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[4]+'\')">Shop ↗</button></div>';
+      return '<div class="bk-row" style="cursor:pointer" onclick="openBrand(\''+b[4]+'\')">'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[4]+'\')">View</button></div>';
     }).join('');
     var rows=function(arr,ic){ return arr.map(function(x){
       var tap=x[1]?' style="cursor:pointer" onclick="openBrand(\''+x[1]+'\')"':'';
