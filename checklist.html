@@ -443,6 +443,8 @@
     highchair:px('26337021'),stroller:px('36530858'),carseat:px('36552331'),shoes:px('15844910'),
     toys:px('38404947'),teether:px('31137017'),woodteether:px('31137017'),
     bodywash:SK,lotion:SK,shampoo:SK,facewash:SK,facecream:SK,rashcream:SK,cradlecap:SK,sunscreen:SK,hairoil:SK,massageoilw:SK,massageoils:SK };
+  /* real product-pack images per (shop key · brand) */
+  var BRAND_IMG={ 'diapers|Allter':'assets/diaper-allter.jpg','diapers|Huggies':'assets/diaper-huggies.jpg' };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
   var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Feature-rich, grows with your baby.'];
@@ -470,8 +472,9 @@
     var tabs=['All','Budget','Premium'].map(function(f){return '<button class="pv-fbtn'+(f===PV_FILTER?' on':'')+'" onclick="setPVFilter(\''+f+'\')">'+f+'</button>';}).join('');
     var photo=PHOTOS[PV_KEY];
     var grid=shown.map(function(p){ var badge=p.tier==='Premium'?'<span class="pv-badge prem">⭐ Premium</span>':'<span class="pv-badge eco">Budget</span>';
-      var imgStyle=photo?"background:#f1ecf6 url('"+photo+"') center/cover":"background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),"+p.bg+")";
-      var emoji=photo?'':'<span class="pv-emoji">'+p.ic+'</span>';
+      var pack=BRAND_IMG[PV_KEY+'|'+p.name];
+      var imgStyle=pack?"background:#fff url('"+pack+"') center/contain no-repeat":(photo?"background:#f1ecf6 url('"+photo+"') center/cover":"background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),"+p.bg+")");
+      var emoji=(pack||photo)?'':'<span class="pv-emoji">'+p.ic+'</span>';
       return '<div class="pv-card" onclick="buyNow(\''+p.name.replace(/'/g,'')+'\')"><div class="pv-img" style="'+imgStyle+'">'+emoji+badge+'</div><div class="pv-name">'+p.name+'</div><div class="pv-desc">'+p.desc+'</div></div>';
     }).join('');
     document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+grid+'</div><div class="spons">Curated from New Mum’s Ultimate Guide · Baby Tracker may earn a commission</div>';
