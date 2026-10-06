@@ -341,7 +341,7 @@
   function renderHub(){
     document.getElementById('hub').innerHTML=CATS.map(function(c){
       return '<div class="hub-cat" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
-        '<div class="hc-t"><div class="hc-n">'+c.name+'</div><div class="hc-d">'+c.desc+'</div></div>'+
+        '<div class="hc-t"><div class="hc-n">'+c.name+'</div></div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
   }
@@ -428,7 +428,7 @@
     var cards=[];
     g.tiers.forEach(function(t){ if(BS_FILTER!=='All'&&BS_FILTER!==t.tier) return;
       t.brands.forEach(function(b){
-        cards.push('<div class="pv-card" onclick="openBrand(\''+b[1]+'\')"><div class="pv-img" style="background:'+grads[t.cls]+'"><span class="pv-emoji">'+g.ic+'</span><span class="pv-badge '+t.cls+'">'+t.tier+'</span></div><div class="pv-name">'+b[0]+'</div><div class="pv-desc">Tap to shop ↗</div></div>');
+        cards.push('<div class="pv-card" onclick="openBrand(\''+b[1]+'\')"><div class="pv-img" style="background:'+grads[t.cls]+'"><span class="pv-emoji">'+g.ic+'</span><span class="pv-badge '+t.cls+'">'+t.tier+'</span></div><div class="pv-name">'+b[0]+'</div><div class="pv-desc">Tap to view ↗</div></div>');
       });
     });
     document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+cards.join('')+'</div>';
@@ -443,7 +443,7 @@
     }).join('');
     var rows=function(arr,ic){ return arr.map(function(x){
       var tap=x[1]?' style="cursor:pointer" onclick="openBrand(\''+x[1]+'\')"':'';
-      var btn=x[1]?'<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+x[1]+'\')">Shop ↗</button>':'';
+      var btn=x[1]?'<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+x[1]+'\')">View</button>':'';
       var img=FINDS_IMG[x[0]];
       var icHtml=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+ic+'</span>';
       return '<div class="ci-row"'+tap+'>'+icHtml+'<span class="ci-n">'+x[0]+'</span>'+btn+'</div>';
