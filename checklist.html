@@ -404,6 +404,15 @@
   };
   function openBrand(u){ if(u) window.open(u,'_blank','noopener'); }
 
+  /* Avoid-under-2 info → bottom sheet */
+  function openAvoidSheet(){
+    var c=CATS.filter(function(x){return x.key==='food';})[0]; if(!c) return;
+    document.getElementById('shTitle').textContent='Avoid under 2 years';
+    var ss=document.getElementById('shSub'); ss.textContent='Keep these out of baby’s food & drinks'; ss.style.display='';
+    document.getElementById('shBody').innerHTML='<div style="height:2px"></div>'+c.data.avoid.map(function(a){return '<div class="avoid-item"><span class="av-x">✕</span><div><b>'+a[0]+'</b> — '+a[1]+'</div></div>';}).join('');
+    document.querySelector('#shopSheet .sheet').classList.remove('full'); document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
+  }
+
   /* Brand Guide → product-style bottom sheet */
   var BS_CAT=null, BS_FILTER='All';
   function openBrandSheet(gi){ var bc=CATS.filter(function(x){return x.key==='brands';})[0]; BS_CAT=bc.data[gi]; BS_FILTER='All';
@@ -482,7 +491,7 @@
       return '<div class="food-card" style="cursor:pointer" onclick="openBrand(\''+b[6]+'\')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[6]+'\')">View</button></div>';
     }).join('')
       : '<div class="avoid-card" style="text-align:center;font-size:13px;color:#8a8296;font-weight:600;line-height:1.5">🥄 Solids usually begin around <b>6 months</b>.<br>Food brand picks appear once '+CHILDREN[CUR_CHILD].name+' is ready to start.</div>';
-    var avoid='<div class="avoid-card"><div class="ac-head"><span class="ac-ic">🚫</span><div><div class="ac-title">Avoid under 2 years</div><div class="ac-sub">Keep these out of baby’s food & drinks</div></div></div>'+c.data.avoid.map(function(a){return '<div class="avoid-item"><span class="av-x">✕</span><div><b>'+a[0]+'</b> — '+a[1]+'</div></div>';}).join('')+'</div>';
+    var avoid='<div class="hub-cat" style="margin-bottom:14px" onclick="openAvoidSheet()"><span class="hc-ic" style="background:linear-gradient(150deg,#ffe3ea,#ffd0db)">🚫</span><div class="hc-t"><div class="hc-n">Avoid under 2 years</div><div class="hc-d">Keep these out of baby’s food &amp; drinks</div></div><span class="hc-chev">'+CHEV+'</span></div>';
     var foods='<div class="avoid-card"><div class="ac-head"><span class="ac-ic" style="background:linear-gradient(150deg,#dff3e7,#c3ecd4)">🥗</span><div><div class="ac-title">Healthy foods to introduce</div><div class="ac-sub">Nutrient-rich, age-appropriate picks</div></div></div>'+Object.keys(c.data.foods).map(function(g){ return '<div class="food-grp">'+g+'</div>'+c.data.foods[g].map(function(f){return '<div class="avoid-item"><span class="av-ok">✓</span><div>'+f+'</div></div>';}).join(''); }).join('')+'</div>';
     document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+brands+avoid+foods;
   };
