@@ -159,14 +159,19 @@ var DIY=[
 /* ---- food brands ---- */
 var FOOD={
  brands:[
-  ['Slurrp Farm','Porridge mixes, cereals, pasta, noodles, snacks, dosas','6m–Adult','Very High','#ffe6c8','🌾'],
-  ['My Little Moppet','Porridge mixes, teething sticks, pancakes, cookies, laddoos','6m–Adult','Very High','#ffd9e2','🍪'],
-  ['Happa Organic','Porridge mixes, purées & puffs','6m–2y+','Low','#d6f3e0','🍎'],
-  ['Early Foods','Porridge mixes, laddoos, teething sticks, cookies, rusk','6m–Adult','Medium','#e7d9ff','🥣'],
-  ['Timios','Porridge, teething sticks, melts, pancakes, nut butters','6m–Adult','High','#d5e6ff','🥜'],
-  ['Little Joys','Porridge mixes, cookies, drink mixes','6m–2y+','Medium','#fff0d0','🧃'],
-  ['Tots and Moms','Protein bars, drink mixes, porridges, teething sticks','6m–2y+','High','#ffd9e2','🍫'],
-  ['Bebe Burp','Porridge mixes, cookies, puffs','6m–2y+','Low','#d6f3e0','🍘']
+  ['Happa Organic','Porridge mixes, purées and puffs','6m–2y+','Low','#d6f3e0','🍎','https://amzn.to/3X0bqY9'],
+  ['Slurrp Farm','Porridge mixes, cereals, pasta, noodles, snacks, dosas','6m–Adult','Very High','#ffe6c8','🌾','https://amzn.to/3YGYDer'],
+  ['My Little Moppet','Porridge mixes, teething sticks, pancakes, cookies, laddoos, crackers','6m–Adult','Very High','#ffd9e2','🍪','https://amzn.to/3yMPzu1'],
+  ['Bebe Burp','Porridge mixes, cookies, puffs','6m–2y+','Low','#d6f3e0','🍘','https://amzn.to/4fKLSWG'],
+  ['Early Foods','Porridge mixes, laddoos, teething sticks, cookies, rusk','6m–Adult','Medium','#e7d9ff','🥣','https://amzn.to/3yp6gfa'],
+  ['Timios','Porridge mixes, teething sticks, melts, pancakes, peanut butter, almond butter','6m–Adult','High','#d5e6ff','🥜','https://amzn.to/3YLdGnx'],
+  ['Little Cherry Mom','Millets, dosa, pancakes, snacks, amlaprash','6m–Adult','Medium','#ffd9e2','🍒','https://amzn.to/3yxZT9l'],
+  ['Tummy Friendly','Porridge mixes, pancakes, cereals, cookies','6m–2y+','Low','#fff0d0','🥞','https://amzn.to/3yxOYfP'],
+  ['Hungry Koala','Cereal, khichidi, peanut butter','6m–2y+','Low','#d5e6ff','🐨','https://amzn.to/3yFD6ID'],
+  ['Tots and Moms','Protein bars, drink mixes, porridges, dry fruit mixes, teething sticks, lactation cookies','6m–2y+','High','#ffd9e2','🍫','https://amzn.to/45giSTK'],
+  ['Little Joys','Porridge mixes, cookies, drink mixes','6m–2y+','Medium','#fff0d0','🧃','https://amzn.to/4mUuAtL'],
+  ['One Little Farm','Purées','6m–2y+','Low','#d6f3e0','🍏','https://amzn.to/45Ubu0t'],
+  ['Troovy','Sauces, chips, drink mixes','6m–Adult','Low','#ffe6c8','🍅','https://amzn.to/3HBp27f']
  ],
  avoid:[
   ['Added sugar','sucrose, corn syrup, HFCS, glucose, jaggery syrups, maple & agave'],
@@ -200,10 +205,10 @@ var ESS_SECTIONS=[
 
 /* ---- category hub ---- */
 var CATS=[
- {key:'essentials',name:'Baby & Mumma Essentials',ic:'🍼',tint:'#ffe6c8',desc:'Full list by category + brand picks',type:'sections',data:ESS_SECTIONS},
- {key:'toys',name:'Toys (age-wise)',ic:'🧸',tint:'#e7d9ff',desc:'Right toys for each stage',type:'age',data:TOYS,tip:'<b>Montessori</b> · <b>Reggio</b> · <b>Waldorf</b> · <b>Play-based</b> — pick toys that match your style. Age-right picks below.'},
- {key:'brands',name:'Brand Guide',ic:'🏷️',tint:'#d5e6ff',desc:'Premium → economical by category',type:'brands',data:BRAND_GUIDE},
- {key:'books',name:'Books and Interesting Finds',ic:'📚',tint:'#ffd9e2',desc:'Reads by age + DIY buys & keepsakes',type:'books',data:BOOKS},
+ {key:'essentials',name:'Baby & Mumma Essentials',ic:'🍼',tint:'#ffe6c8',desc:'',type:'sections',data:ESS_SECTIONS},
+ {key:'toys',name:'Toys (age-wise)',ic:'🧸',tint:'#e7d9ff',desc:'',type:'age',data:TOYS,tip:'<b>Montessori</b> · <b>Reggio</b> · <b>Waldorf</b> · <b>Play-based</b> — pick toys that match your style. Age-right picks below.'},
+ {key:'brands',name:'Brand Guide',ic:'🏷️',tint:'#d5e6ff',desc:'',type:'brands',data:BRAND_GUIDE},
+ {key:'books',name:'Books and Interesting Finds',ic:'📚',tint:'#ffd9e2',desc:'',type:'books',data:BOOKS},
  {key:'hospital',name:'Hospital Bag',ic:'🏥',tint:'#d6f3e0',desc:'Baby + mumma packing checklist',type:'sections',data:HOSPITAL},
  {key:'diaperbag',name:'Diaper Bag & Safety',ic:'🎒',tint:'#fff0d0',desc:'On-the-go kit + babyproofing',type:'sections',data:DIAPERBAG},
  {key:'diy',name:'DIY Activities',ic:'🎨',tint:'#e7d9ff',desc:'Play ideas by material',type:'diy',data:DIY},
