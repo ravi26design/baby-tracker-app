@@ -34,7 +34,7 @@
   .head p{font-size:13px;color:var(--muted);font-weight:500;margin-top:3px;}
 
   /* child tabs */
-  .child-tabs{display:flex;gap:9px;margin:16px 0 2px;overflow-x:auto;scrollbar-width:none;}
+  .child-tabs{display:flex;gap:9px;margin:16px -22px 2px;padding:0 22px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
   .child-tabs::-webkit-scrollbar{display:none;}
   .child-tab{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 16px;border-radius:19px;border:none;cursor:pointer;
     font-family:inherit;background:#fff;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .15s,box-shadow .2s;}
