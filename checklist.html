@@ -156,10 +156,14 @@
   .food-meta{display:flex;gap:7px;margin-top:7px;}
   .food-pill{font-size:10px;font-weight:800;padding:3px 9px;border-radius:9px;background:#efe9f7;color:#8574b5;}
   .food-pill.lvl{background:#dff3e7;color:#2b7d54;}
-  .avoid-card{background:#fff;border-radius:18px;padding:15px 16px;margin-bottom:12px;box-shadow:var(--shadow-soft);}
-  .avoid-item{display:flex;gap:10px;padding:9px 0;font-size:12.5px;color:#5a544f;font-weight:500;line-height:1.4;border-top:1px solid #f4eef9;}
+  .avoid-card{background:#fff;border-radius:20px;padding:6px 16px 10px;margin-bottom:12px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(224,86,122,.08);overflow:hidden;}
+  .ac-head{display:flex;align-items:center;gap:12px;padding:14px 2px 13px;border-bottom:1px solid #f4eef9;margin-bottom:4px;}
+  .ac-ic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;background:linear-gradient(150deg,#ffe3ea,#ffd0db);box-shadow:inset 0 0 0 1px rgba(224,86,122,.12);}
+  .ac-title{font-size:15.5px;font-weight:800;letter-spacing:-.2px;color:var(--ink);}
+  .ac-sub{font-size:11.5px;font-weight:600;color:#b79aa4;margin-top:2px;}
+  .avoid-item{display:flex;gap:11px;padding:11px 0;font-size:12.5px;color:#5a544f;font-weight:500;line-height:1.45;border-top:1px solid #f7f1f4;align-items:flex-start;}
   .avoid-item:first-child{border-top:none;}
-  .avoid-item .av-x{color:#e0567a;font-weight:800;flex-shrink:0;}
+  .avoid-item .av-x{width:19px;height:19px;border-radius:50%;background:#ffe0e6;color:#e0567a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;}
   .avoid-item b{color:var(--ink);font-weight:800;}
   .food-grp{font-size:13px;font-weight:800;color:#8574b5;margin:16px 4px 9px;}
 
@@ -418,15 +422,17 @@
   function toggleDiy(i){ var card=document.getElementById('diy'+i), b=document.getElementById('diyb'+i); card.classList.toggle('open'); b.style.maxHeight=card.classList.contains('open')?b.scrollHeight+'px':'0'; }
 
   RENDER.food=function(c){
-    var cm=parseInt(CUR_STAGE,10)||0;  // child's age in months (stage lower bound)
+    var sL=parseInt(CUR_STAGE,10)||0;                       // stage lower bound (months)
+    var sUm=CUR_STAGE.match(/[–-]\s*(\d+)/); var sU=sUm?parseInt(sUm[1],10):sL;  // stage upper bound
     function startM(s){ var m=s.match(/(\d+)\s*m/i); if(m) return parseInt(m[1],10); var y=s.match(/(\d+)\s*y/i); return y?parseInt(y[1],10)*12:0; }
-    function endM(s){ if(/adult/i.test(s)||/\+/.test(s)) return Infinity; var y=s.match(/(\d+)\s*y/i); if(y) return parseInt(y[1],10)*12; var m=s.match(/(\d+)\s*m/i); return m?parseInt(m[1],10):Infinity; }
-    var shown=c.data.brands.filter(function(b){ var p=b[2].split('–'); return cm>=startM(p[0]) && cm<=endM(p[1]||p[0]); });
+    function endM(s){ if(/adult/i.test(s)) return Infinity; var y=s.match(/(\d+)\s*y/i); if(y) return parseInt(y[1],10)*12; var m=s.match(/(\d+)\s*m/i); return m?parseInt(m[1],10):Infinity; }
+    // cap-at-upper-age: brand must start by the child's age AND still cover the child's stage top
+    var shown=c.data.brands.filter(function(b){ var p=b[2].split(/[–-]/); return sL>=startM(p[0]) && sU<=endM(p[1]||p[0]); });
     var brands = shown.length ? shown.map(function(b){
       return '<div class="food-card" style="cursor:pointer" onclick="openBrand(\''+b[6]+'\')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBrand(\''+b[6]+'\')">Shop ↗</button></div>';
     }).join('')
       : '<div class="avoid-card" style="text-align:center;font-size:13px;color:#8a8296;font-weight:600;line-height:1.5">🥄 Solids usually begin around <b>6 months</b>.<br>Food brand picks appear once '+CHILDREN[CUR_CHILD].name+' is ready to start.</div>';
-    var avoid='<div class="sec-label">Avoid under 2 years</div><div class="avoid-card">'+c.data.avoid.map(function(a){return '<div class="avoid-item"><span class="av-x">✕</span><div><b>'+a[0]+'</b> — '+a[1]+'</div></div>';}).join('')+'</div>';
+    var avoid='<div class="avoid-card"><div class="ac-head"><span class="ac-ic">🚫</span><div><div class="ac-title">Avoid under 2 years</div><div class="ac-sub">Keep these out of baby’s food & drinks</div></div></div>'+c.data.avoid.map(function(a){return '<div class="avoid-item"><span class="av-x">✕</span><div><b>'+a[0]+'</b> — '+a[1]+'</div></div>';}).join('')+'</div>';
     var foods='<div class="sec-label">Healthy foods to introduce</div>'+Object.keys(c.data.foods).map(function(g){ return '<div class="food-grp">'+g+'</div><div class="bg-chips" style="margin:0 2px">'+c.data.foods[g].map(function(f){return '<span class="bg-chip">'+f+'</span>';}).join('')+'</div>'; }).join('');
     document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+brands+avoid+foods;
   };
