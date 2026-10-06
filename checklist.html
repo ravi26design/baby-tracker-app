@@ -342,7 +342,7 @@
 
   /* ---- renderers ---- */
   var RENDER={};
-  function catCardsHTML(groups, idPfx, collapsed){
+  function catCardsHTML(groups, idPfx, collapsed, hideBrand){
     return groups.map(function(c,ci){
       var rows=c.items.map(function(it,ii){
         var id=idPfx+'|'+ci+'|'+ii, on=CHECKED[id];
@@ -350,7 +350,7 @@
           (it.ic?'<span class="pk-ic">'+it.ic+'</span>':'')+'<span class="ci-n">'+it.n+'</span>'+
           (it.ess?'<span class="ess">Must</span>':'')+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
-          (it.brand&&!it.shop&&!it.link?'<span class="brand-tag">'+it.brand+'</span>':'')+
+          (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.link?'<button class="view-btn" onclick="event.stopPropagation();openBrand(\''+it.link+'\')">View</button>':'')+
           (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
       }).join('');
@@ -369,7 +369,7 @@
   function setAgeStage(s){ CUR_STAGE=s; RENDER.age(CATS.filter(function(x){return x.key===CUR_CAT;})[0]); }
 
   RENDER.sections=function(c){
-    document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(c.data, 's|'+c.key, true);
+    document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(c.data, 's|'+c.key, true, c.key==='hospital');
   };
 
   RENDER.brands=function(c){
