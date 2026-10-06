@@ -217,3 +217,15 @@ var CATS=[
  {key:'travel',name:'All Things Travel',ic:'✈️',tint:'#d5e6ff',desc:'Plan, pack & buy for trips',type:'travel'},
  {key:'food',name:'Food Brands',ic:'🥣',tint:'#d6f3e0',desc:'',type:'food',data:FOOD}
 ];
+
+/* ---- Mother profile: her own category set ---- */
+var MOTHER_CATS=[
+ {key:'m_recovery',name:'Recovery & Maternity',ic:'🤱',tint:'#ffd9e2',desc:'',type:'sections',data:[
+   {cat:'Recovery & maternity',ic:'🤱',tint:'#ffd9e2',items:[{n:'Post-pregnancy belt',shop:'belt'},{n:'Maternity pads',shop:'matpads'},{n:'Maternity panty',shop:'matpanty'},{n:'Stretch marks solution',shop:'stretch'},{n:'Perineal spray',shop:'perispray'},{n:'Perineal cooling pads',shop:'peripads'},{n:'Postpartum hairfall care',shop:'hairfall'},{n:'Hairfall gummies',shop:'hairgummies'},{n:'Lactation supplement',shop:'lactation'}]}
+ ]},
+ {key:'m_feeding',name:'Feeding & Nursing',ic:'🍼',tint:'#d5e6ff',desc:'',type:'sections',data:[
+   {cat:'Feeding & nursing',ic:'🍼',tint:'#d5e6ff',items:[{n:'Feeding pillow',shop:'feedpillow'},{n:'Nursing cover',shop:'nursingcover'},{n:'Nursing bra',shop:'nursingbra'},{n:'Nipple cream',shop:'nipplecream'},{n:'Nipple shield',shop:'nippleshield'},{n:'Manual breast pump',shop:'manualpump'},{n:'Electric breast pump',shop:'electricpump'},{n:'Breast pads',shop:'breastpads'},{n:'Breastmilk storage bags',shop:'storagebags'},{n:'Breastmilk cooler bags',shop:'coolerbags'},{n:'Milk collection caps',shop:'milkcaps'},{n:'Breast therapy pack',shop:'therapypack'},{n:'Feeding / nifty cup',shop:'niftycup'}]}
+ ]},
+ {key:'m_hospital',name:'Hospital Bag',ic:'🏥',tint:'#d6f3e0',desc:'',type:'sections',data:[HOSPITAL[1]]},
+ {key:'brands',name:'Brand Guide',ic:'🏷️',tint:'#d5e6ff',desc:'',type:'brands',data:BRAND_GUIDE}
+];
