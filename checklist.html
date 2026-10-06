@@ -454,10 +454,14 @@
   function pickN(pool,n,seed,avoid){ var out=[],used={}; if(avoid) used[avoid.toLowerCase()]=1; var h=0; for(var i=0;i<seed.length;i++) h=(h*31+seed.charCodeAt(i))>>>0; var idx=h%pool.length,g=0; while(out.length<n&&g++<pool.length*2+6){ var c=pool[idx%pool.length]; idx++; if(!used[c.toLowerCase()]){ used[c.toLowerCase()]=1; out.push(c);} } return out; }
   function getBrand(key){ return BRANDS[key] || ['🛍️','#e7d9ff','Baby Tracker Pick','Value Pick']; }
   var PV_KEY=null, PV_ITEM='', PV_FILTER='All', PV_ITEM_ID=null;
-  function makeProducts(key){ var b=getBrand(key),pr=getPrice(key),rnd=function(x){return Math.round(x/50)*50;};
-    var eco=[b[3]].concat(pickN(EXTRA_ECO,2,key+'e',b[3])), prem=[b[2]].concat(pickN(EXTRA_PREM,2,key+'p',b[2]));
-    var ecoP=[pr[0],rnd(pr[0]*1.2),rnd(pr[0]*0.85)], premP=[pr[1],rnd(pr[1]*0.85),rnd(pr[1]*1.25)], out=[];
-    for(var i=0;i<3;i++){ out.push({tier:'Budget',name:eco[i],price:ecoP[i],desc:hashPick(eco[i]+key,BUDGET_DESC),ic:b[0],bg:b[1]}); out.push({tier:'Premium',name:prem[i],price:premP[i],desc:hashPick(prem[i]+key,PREM_DESC),ic:b[0],bg:b[1]}); }
+  function makeProducts(key){ var b=getBrand(key);
+    /* if we have real pack images for this product's brands, show just those real picks */
+    if(BRAND_IMG[key+'|'+b[2]] || BRAND_IMG[key+'|'+b[3]]){
+      return [{tier:'Budget',name:b[3],desc:hashPick(b[3]+key,BUDGET_DESC),ic:b[0],bg:b[1]},
+              {tier:'Premium',name:b[2],desc:hashPick(b[2]+key,PREM_DESC),ic:b[0],bg:b[1]}];
+    }
+    var eco=[b[3]].concat(pickN(EXTRA_ECO,2,key+'e',b[3])), prem=[b[2]].concat(pickN(EXTRA_PREM,2,key+'p',b[2])), out=[];
+    for(var i=0;i<3;i++){ out.push({tier:'Budget',name:eco[i],desc:hashPick(eco[i]+key,BUDGET_DESC),ic:b[0],bg:b[1]}); out.push({tier:'Premium',name:prem[i],desc:hashPick(prem[i]+key,PREM_DESC),ic:b[0],bg:b[1]}); }
     return out;
   }
   function openShop(key,itemName,itemId){ PV_KEY=key; PV_ITEM=itemName||'Recommended'; PV_FILTER='All'; PV_ITEM_ID=itemId||null;
@@ -471,7 +475,7 @@
   function renderPV(){ var prods=makeProducts(PV_KEY); var shown=PV_FILTER==='All'?prods:prods.filter(function(p){return p.tier===PV_FILTER;});
     var tabs=['All','Budget','Premium'].map(function(f){return '<button class="pv-fbtn'+(f===PV_FILTER?' on':'')+'" onclick="setPVFilter(\''+f+'\')">'+f+'</button>';}).join('');
     var photo=PHOTOS[PV_KEY];
-    var grid=shown.map(function(p){ var badge=p.tier==='Premium'?'<span class="pv-badge prem">⭐ Premium</span>':'<span class="pv-badge eco">Budget</span>';
+    var grid=shown.map(function(p){ var badge=p.tier==='Premium'?'<span class="pv-badge prem">Premium</span>':'<span class="pv-badge eco">Budget</span>';
       var pack=BRAND_IMG[PV_KEY+'|'+p.name];
       var imgStyle=pack?"background:#fff url('"+pack+"') center/contain no-repeat":(photo?"background:#f1ecf6 url('"+photo+"') center/cover":"background:radial-gradient(circle at 50% 34%,rgba(255,255,255,.6),"+p.bg+")");
       var emoji=(pack||photo)?'':'<span class="pv-emoji">'+p.ic+'</span>';
