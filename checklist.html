@@ -232,7 +232,7 @@
   .pv-img{position:relative;aspect-ratio:4/3;border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
   .pv-emoji{font-size:50px;filter:drop-shadow(0 6px 10px rgba(60,40,60,.18));}
   .pv-badge{position:absolute;left:8px;bottom:8px;font-size:10px;font-weight:800;padding:3px 9px;border-radius:9px;display:inline-flex;align-items:center;gap:3px;box-shadow:0 3px 8px -3px rgba(0,0,0,.25);}
-  .pv-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pv-badge.prem{background:#fff0cf;color:#b6871f;}
+  .pv-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pv-badge.prem{background:#fff0cf;color:#b6871f;} .pv-badge.mid{background:#efe6ff;color:#6a4fc0;}
   .pv-price{position:absolute;right:8px;bottom:8px;font-size:12px;font-weight:800;color:#3a332e;background:rgba(255,255,255,.92);padding:3px 9px;border-radius:9px;box-shadow:0 3px 8px -3px rgba(0,0,0,.25);}
   .pv-name{font-size:14px;font-weight:800;color:var(--ink);margin-top:10px;letter-spacing:-.2px;}
   .pv-desc{font-size:11.5px;color:#8a8296;font-weight:500;margin-top:3px;line-height:1.45;}
@@ -372,21 +372,35 @@
   };
 
   RENDER.brands=function(c){
-    var cards=c.data.map(function(g){
+    var cards=c.data.map(function(g,gi){
       var n=g.tiers.reduce(function(a,t){return a+t.brands.length;},0);
-      var body=g.tiers.map(function(t){
-        var rows=t.brands.map(function(b){
-          return '<div class="ci-row brow" onclick="openBrand(\''+b[1]+'\')"><span class="bg-dot '+t.cls+'"></span><span class="ci-n">'+b[0]+'</span><span class="view-btn">Shop ↗</span></div>';
-        }).join('');
-        return '<div class="bg-tl '+t.cls+'" style="padding:11px 12px 3px">'+t.tier+'</div>'+rows;
-      }).join('');
-      return '<div class="cat collapsed" style="--tint:'+g.tint+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+g.tint+'">'+g.ic+'</span>'+
-        '<div class="cat-t"><div class="cat-n">'+g.cat+'</div><div class="cat-c">'+n+' brands · premium → economical</div></div><span class="cat-chev">'+CHEVD+'</span></div>'+
-        '<div class="cat-body">'+body+'</div></div>';
+      return '<div class="hub-cat" style="margin-bottom:14px" onclick="openBrandSheet('+gi+')"><span class="hc-ic" style="background:'+g.tint+'">'+g.ic+'</span>'+
+        '<div class="hc-t"><div class="hc-n">'+g.cat+'</div><div class="hc-d">'+n+' brands · premium → economical</div></div><span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
     document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + cards;
   };
   function openBrand(u){ if(u) window.open(u,'_blank','noopener'); }
+
+  /* Brand Guide → product-style bottom sheet */
+  var BS_CAT=null, BS_FILTER='All';
+  function openBrandSheet(gi){ var bc=CATS.filter(function(x){return x.key==='brands';})[0]; BS_CAT=bc.data[gi]; BS_FILTER='All';
+    document.getElementById('shTitle').textContent=BS_CAT.cat;
+    document.getElementById('shSub').textContent='Trusted brands · premium → economical';
+    renderBrandSheet();
+    document.querySelector('#shopSheet .sheet').classList.remove('full'); document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
+  }
+  function setBSFilter(f){ BS_FILTER=f; renderBrandSheet(); }
+  function renderBrandSheet(){ var g=BS_CAT; if(!g) return;
+    var tabs=['All'].concat(g.tiers.map(function(t){return t.tier;})).map(function(f){return '<button class="pv-fbtn'+(f===BS_FILTER?' on':'')+'" onclick="setBSFilter(\''+f.replace(/'/g,'')+'\')">'+f+'</button>';}).join('');
+    var grads={prem:'linear-gradient(150deg,#fff6e0,#ffe6bc)',mid:'linear-gradient(150deg,#efe7ff,#ddcfff)',eco:'linear-gradient(150deg,#e2f6ea,#c9edd6)'};
+    var cards=[];
+    g.tiers.forEach(function(t){ if(BS_FILTER!=='All'&&BS_FILTER!==t.tier) return;
+      t.brands.forEach(function(b){
+        cards.push('<div class="pv-card" onclick="openBrand(\''+b[1]+'\')"><div class="pv-img" style="background:'+grads[t.cls]+'"><span class="pv-emoji">'+g.ic+'</span><span class="pv-badge '+t.cls+'">'+t.tier+'</span></div><div class="pv-name">'+b[0]+'</div><div class="pv-desc">Tap to shop ↗</div></div>');
+      });
+    });
+    document.getElementById('shBody').innerHTML='<div class="pv-filters">'+tabs+'</div><div class="pv-grid">'+cards.join('')+'</div><div class="spons">Curated from New Mum’s Ultimate Guide · Baby Tracker may earn a commission</div>';
+  }
 
   RENDER.books=function(c){
     var list=c.data[CUR_STAGE]||[];
