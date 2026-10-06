@@ -253,7 +253,7 @@
         </div></div>
 
         <div class="content">
-          <div class="head"><h1>Checklist</h1><p id="clSub">Everything Mark needs, sorted for you</p></div>
+          <div class="head"><h1>Checklist</h1><p id="clSub" style="display:none"></p></div>
           <div class="child-tabs" id="childTabs"></div>
           <div class="sec-label">Guides &amp; checklists</div>
           <div class="hub" id="hub"></div>
@@ -312,7 +312,7 @@
       return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span><span class="ct-t"><span class="ct-name">'+c.name+'</span><span class="ct-age">'+c.age+'</span></span></button>';
     }).join('');
   }
-  function switchChild(k){ CUR_CHILD=k; document.getElementById('clSub').textContent='Everything '+CHILDREN[k].name+' needs, sorted for you'; renderChildTabs(); if(CUR_CAT) openCat(CUR_CAT); }
+  function switchChild(k){ CUR_CHILD=k; renderChildTabs(); if(CUR_CAT) openCat(CUR_CAT); }
 
   /* hub */
   function renderHub(){
