@@ -386,7 +386,7 @@
   var BS_CAT=null, BS_FILTER='All';
   function openBrandSheet(gi){ var bc=CATS.filter(function(x){return x.key==='brands';})[0]; BS_CAT=bc.data[gi]; BS_FILTER='All';
     document.getElementById('shTitle').textContent=BS_CAT.cat;
-    document.getElementById('shSub').textContent='Trusted brands · premium → economical';
+    var ss=document.getElementById('shSub'); ss.textContent='Trusted brands · premium → economical'; ss.style.display='';
     renderBrandSheet();
     document.querySelector('#shopSheet .sheet').classList.remove('full'); document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
   }
@@ -579,7 +579,7 @@
             {tier:'Premium',name:b[2],desc:hashPick(b[2]+key,PREM_DESC),ic:b[0],bg:b[1]}];
   }
   function openShop(key,itemName,itemId){ PV_KEY=key; PV_ITEM=itemName||'Recommended'; PV_FILTER='All'; PV_ITEM_ID=itemId||null;
-    document.getElementById('shTitle').textContent=PV_ITEM; document.getElementById('shSub').textContent='Budget & premium picks from trusted brands';
+    document.getElementById('shTitle').textContent=PV_ITEM; var ss=document.getElementById('shSub'); ss.textContent=''; ss.style.display='none';
     renderPV(); updateHaveBtn(); document.querySelector('#shopSheet .sheet').classList.remove('full'); document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open'); }
   function updateHaveBtn(){ var foot=document.getElementById('shFoot'),btn=document.getElementById('haveBtn'); if(!foot||!btn) return; if(!PV_ITEM_ID){foot.style.display='none';return;} foot.style.display='block'; var owned=!!CHECKED[PV_ITEM_ID]; btn.classList.toggle('owned',owned); btn.textContent=owned?'You have this':'I already have this'; }
   function markOwned(){ if(!PV_ITEM_ID) return; CHECKED[PV_ITEM_ID]=!CHECKED[PV_ITEM_ID]; updateHaveBtn();
