@@ -268,6 +268,8 @@
   .pd-stat{font-size:12px;font-weight:700;color:#6a6472;background:#f6f2fb;padding:7px 12px;border-radius:12px;}
   .pd-stat b{color:var(--ink);}
   .pd-desc{font-size:13px;color:#6a6472;font-weight:500;line-height:1.6;margin-top:14px;}
+  .pd-acts{margin-top:16px;background:#faf8fd;border-radius:16px;padding:4px 4px 8px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .pd-acts-h{font-size:13px;font-weight:800;color:var(--ink);padding:12px 12px 4px;}
   .pd-buy{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:15px;border-radius:16px;margin-top:18px;box-shadow:0 12px 24px -10px rgba(140,116,181,.7);}
   .pd-buy .wa-ic{display:inline-flex;}
   /* shareable link card */
@@ -480,6 +482,7 @@
       (o.meta?'<div class="pd-meta2">'+o.meta+'</div>':'')+
       '<div class="pd-stats"><span class="pd-stat">⭐ <b>'+rating+'</b> rating</span><span class="pd-stat">🛍️ <b>'+bought+'</b> parents bought this</span></div>'+
       '<div class="pd-desc">'+(o.desc||'A parent-loved pick — chosen for quality, comfort and everyday value.')+'</div>'+
+      (o.extra||'')+
       '<button class="pd-buy" onclick="sendWhatsAppLink()"><span class="wa-ic">'+WA_SVG+'</span>Send me the link</button>';
     document.querySelector('#shopSheet .sheet').classList.add('full');
     document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
@@ -493,7 +496,9 @@
   function openBookDetail(i){ var b=(BOOKS[CUR_STAGE]||[])[i]; if(!b) return; var cv=BOOK_COVER[b[0]]; renderDetail({name:b[0],imgs:cv?[bookCover(cv)]:null,fit:'contain',desc:b[2]+' Written by '+b[1]+'.',badge:'Best read',badgecls:'eco',emoji:'📚',bg:b[3],link:b[4]}); }
   function openFindDetail(kind,i){ var arr=kind==='diy'?FINDS.diy:FINDS.keepsakes; var x=arr[i]; if(!x) return; var img=FINDS_IMG[x[0]]; renderDetail({name:x[0],imgs:img?[img]:null,badge:kind==='diy'?'DIY buy':'Keepsake',emoji:kind==='diy'?'🎨':'🎀',link:x[1]}); }
   function openFoodDetail(i){ var b=FOOD.brands[i]; if(!b) return; renderDetail({name:b[0],desc:b[1]+'.',badge:b[3]+' range',emoji:b[5],bg:b[4],meta:'Suitable age: '+b[2],link:b[6]}); }
-  function openDiyMatDetail(i){ var d=DIY[i]; if(!d) return; var lk=''; FINDS.diy.forEach(function(x){if(x[0]===d.mat)lk=x[1];}); var img=FINDS_IMG[d.mat]; renderDetail({name:d.mat,imgs:img?[img]:null,badge:'DIY material',emoji:d.ic,bg:d.tint,link:lk}); }
+  function openDiyMatDetail(i){ var d=DIY[i]; if(!d) return; var lk=''; FINDS.diy.forEach(function(x){if(x[0]===d.mat)lk=x[1];}); var img=FINDS_IMG[d.mat];
+    var acts='<div class="pd-acts"><div class="pd-acts-h">5 ways to play</div>'+d.acts.map(function(a,ai){ var p=a.split(' – '); return '<div class="diy-act"><span class="da-n">'+(ai+1)+'</span><div>'+(p.length>1?'<b>'+p[0]+'</b> — '+p.slice(1).join(' – '):a)+'</div></div>'; }).join('')+'</div>';
+    renderDetail({name:d.mat,imgs:img?[img]:null,badge:'DIY material',badgecls:'mid',emoji:d.ic,bg:d.tint,link:lk,extra:acts}); }
   function openBrand(u){ renderDetail({name:'This product',link:u,emoji:'🛍️'}); }
 
   /* Avoid-under-2 info → bottom sheet */
@@ -532,7 +537,7 @@
       var bid='bk|'+CUR_STAGE+'|'+i, done=!!CHECKED[bid];
       var cv=BOOK_COVER[b[0]];
       var cover=cv?'<span class="bk-cover" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="bk-cover" style="background:'+b[3]+'">📕</span>';
-      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer" onclick="openBookDetail('+i+')">'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><span class="cbox cbox-r" style="align-self:center" onclick="event.stopPropagation();toggleRow(\''+bid+'\',this)">'+CHECK_SVG+'</span></div>';
+      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer;align-items:center" onclick="openBookDetail('+i+')">'+cover+'<div class="bk-t" style="flex:1">'+b[0]+'</div><span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+bid+'\',this)">'+CHECK_SVG+'</span></div>';
     }).join('');
     var rows=function(arr,ic,prefix){ return arr.map(function(x,i){
       var fid=prefix+'|'+i, done=!!CHECKED[fid];
@@ -554,24 +559,14 @@
   };
 
   RENDER.diy=function(c){
-    var link={}; (typeof FINDS!=='undefined'&&FINDS.diy||[]).forEach(function(x){link[x[0]]=x[1];});
-    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+
-      c.data.map(function(d,i){
-        var acts=d.acts.map(function(a,ai){ var p=a.split(' – '); return '<div class="diy-act"><span class="da-n">'+(ai+1)+'</span><div>'+(p.length>1?'<b>'+p[0]+'</b> — '+p.slice(1).join(' – '):a)+'</div></div>'; }).join('');
-        var did='diy|'+i, done=!!CHECKED[did];
-        var img=FINDS_IMG[d.mat];
-        var icStyle=img?"background:#fff url('"+img+"') center/cover":'background:'+d.tint;
-        var icInner=img?'':d.ic;
-        var lk=link[d.mat];
-        return '<div class="diy-card'+(done?' done':'')+'" id="diy'+i+'"><div class="diy-head" onclick="toggleDiy('+i+')">'+
-          '<span class="diy-ic" style="'+icStyle+'" onclick="event.stopPropagation();openDiyMatDetail('+i+')">'+icInner+'</span><span class="diy-n">'+d.mat+'</span>'+
-          '<span class="diy-chev">'+CHEVD+'</span>'+
-          '<span class="cbox cbox-r" onclick="event.stopPropagation();toggleDiyDone(\''+did+'\',this)">'+CHECK_SVG+'</span>'+
-          '</div><div class="diy-body" id="diyb'+i+'">'+acts+'</div></div>';
-      }).join('');
+    var rows=c.data.map(function(d,i){
+      var did='diy|'+i, done=!!CHECKED[did];
+      var img=FINDS_IMG[d.mat];
+      var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic" style="background:'+d.tint+'">'+d.ic+'</span>';
+      return '<div class="ci-row'+(done?' done':'')+'" onclick="openDiyMatDetail('+i+')">'+ic+'<span class="ci-n">'+d.mat+'</span><span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+did+'\',this)">'+CHECK_SVG+'</span></div>';
+    }).join('');
+    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div><div class="cat" style="--tint:#e7d9ff"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:#e7d9ff">🎨</span><div class="cat-t"><div class="cat-n">DIY materials</div><div class="cat-c">'+c.data.length+' products</div></div><span class="cat-chev">'+CHEVD+'</span></div><div class="cat-body" style="max-height:none">'+rows+'</div></div>';
   };
-  function toggleDiy(i){ var card=document.getElementById('diy'+i), b=document.getElementById('diyb'+i); card.classList.toggle('open'); b.style.maxHeight=card.classList.contains('open')?b.scrollHeight+'px':'0'; }
-  function toggleDiyDone(id,el){ CHECKED[id]=!CHECKED[id]; var card=el.closest('.diy-card'); if(card) card.classList.toggle('done', !!CHECKED[id]); }
 
   RENDER.food=function(c){
     var sL=parseInt(CUR_STAGE,10)||0;                       // stage lower bound (months)
@@ -580,9 +575,11 @@
     function endM(s){ if(/adult/i.test(s)) return Infinity; var y=s.match(/(\d+)\s*y/i); if(y) return parseInt(y[1],10)*12; var m=s.match(/(\d+)\s*m/i); return m?parseInt(m[1],10):Infinity; }
     // cap-at-upper-age: brand must start by the child's age AND still cover the child's stage top
     var shown=c.data.brands.filter(function(b){ var p=b[2].split(/[–-]/); return sL>=startM(p[0]) && sU<=endM(p[1]||p[0]); });
-    var brands = shown.length ? shown.map(function(b){ var fi=c.data.brands.indexOf(b);
-      return '<div class="food-card" style="cursor:pointer" onclick="openFoodDetail('+fi+')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><span class="food-chev">'+CHEV+'</span></div>';
-    }).join('')
+    var brandRows = shown.map(function(b){ var fi=c.data.brands.indexOf(b); var fid='food|'+fi,done=!!CHECKED[fid];
+      return '<div class="ci-row'+(done?' done':'')+'" onclick="openFoodDetail('+fi+')"><span class="pk-ic" style="background:'+b[4]+'">'+b[5]+'</span><span class="ci-n">'+b[0]+'</span><span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+fid+'\',this)">'+CHECK_SVG+'</span></div>';
+    }).join('');
+    var brands = shown.length
+      ? '<div class="cat" style="--tint:#d6f3e0"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:#d6f3e0">🥣</span><div class="cat-t"><div class="cat-n">Food brands</div><div class="cat-c">'+shown.length+' brands</div></div><span class="cat-chev">'+CHEVD+'</span></div><div class="cat-body" style="max-height:none">'+brandRows+'</div></div>'
       : '<div class="avoid-card" style="text-align:center;font-size:13px;color:#8a8296;font-weight:600;line-height:1.5">🥄 Solids usually begin around <b>6 months</b>.<br>Food brand picks appear once '+CHILDREN[CUR_CHILD].name+' is ready to start.</div>';
     var avoid='<div class="hub-cat" style="margin-bottom:14px" onclick="openAvoidSheet()"><span class="hc-ic" style="background:linear-gradient(150deg,#ffe3ea,#ffd0db)">🚫</span><div class="hc-t"><div class="hc-n">Avoid under 2 years</div><div class="hc-d">Keep these out of baby’s food &amp; drinks</div></div><span class="hc-chev">'+CHEV+'</span></div>';
     var foods='<div class="avoid-card"><div class="ac-head"><span class="ac-ic" style="background:linear-gradient(150deg,#dff3e7,#c3ecd4)">🥗</span><div><div class="ac-title">Healthy foods to introduce</div><div class="ac-sub">Nutrient-rich, age-appropriate picks</div></div></div>'+Object.keys(c.data.foods).map(function(g){ return '<div class="food-grp">'+g+'</div>'+c.data.foods[g].map(function(f){return '<div class="avoid-item"><span class="av-ok">✓</span><div>'+f+'</div></div>';}).join(''); }).join('')+'</div>';
