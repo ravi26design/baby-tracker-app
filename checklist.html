@@ -487,8 +487,8 @@
       (o.badge?'<span class="pd-badge '+(o.badgecls||'')+'">'+o.badge+'</span>':'')+
       '<div class="pd-name-row"><div class="pd-name">'+o.name+'</div><button class="pd-share" onclick="shareDetail()" aria-label="Share"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button></div>'+
       (o.meta?'<div class="pd-meta2">'+o.meta+'</div>':'')+
-      '<div class="pd-stats"><span class="pd-stat">⭐ <b>'+rating+'</b> rating</span><span class="pd-stat">🛍️ <b>'+bought+'</b> parents bought this</span></div>'+
       '<div class="pd-desc">'+(o.desc||'A parent-loved pick — chosen for quality, comfort and everyday value.')+'</div>'+
+      '<div class="pd-stats"><span class="pd-stat">⭐ <b>'+rating+'</b> rating</span><span class="pd-stat">🛍️ <b>'+bought+'</b> parents bought this</span></div>'+
       (o.extra||'')+
       '<button class="pd-buy" onclick="sendWhatsAppLink()"><span class="wa-ic">'+WA_SVG+'</span>Send me the link</button>';
     document.querySelector('#shopSheet .sheet').classList.add('full');
