@@ -307,6 +307,14 @@
   .rs-sheet{width:100%;background:#fff;border-radius:28px 28px 0 0;padding:10px 20px 26px;box-shadow:0 -22px 54px -20px rgba(50,30,70,.5);text-align:center;animation:rsUp .3s cubic-bezier(.2,.9,.3,1.05);}
   @keyframes rsUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
   .rs-grab{width:40px;height:5px;border-radius:3px;background:#e3dcef;margin:4px auto 14px;}
+  .share-h{font-size:16px;font-weight:800;letter-spacing:-.2px;text-align:left;margin:2px 2px 2px;}
+  .share-sub{font-size:12px;color:#9a8fb3;font-weight:600;text-align:left;margin:2px 2px 16px;}
+  .share-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px;}
+  .share-opt{display:flex;flex-direction:column;align-items:center;gap:7px;border:none;background:none;cursor:pointer;font-family:inherit;}
+  .share-ic{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800;box-shadow:0 8px 16px -8px rgba(0,0,0,.25);transition:transform .1s;}
+  .share-opt:active .share-ic{transform:scale(.9);}
+  .share-lbl{font-size:11px;font-weight:700;color:#6a6472;}
+  .share-ic.wa{background:#25D366;} .share-ic.tg{background:#29A9EB;} .share-ic.fb{background:#1877F2;} .share-ic.x{background:#111;} .share-ic.em{background:#8a8296;} .share-ic.cp{background:linear-gradient(150deg,#a58fd8,#8f78c4);}
   .rem-ic{width:54px;height:54px;border-radius:17px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(150deg,#efe7fb,#e2d6f6);}
   .rem-title{font-size:17px;font-weight:800;letter-spacing:-.2px;margin-top:10px;}
   .rem-sub{font-size:12px;color:#9a8fb3;font-weight:600;margin-top:4px;line-height:1.4;}
@@ -380,6 +388,10 @@
 
       <div class="rs-overlay" id="reminderOv" onclick="if(event.target===this)closeReminder()">
         <div class="rs-sheet" id="remCard"></div>
+      </div>
+
+      <div class="rs-overlay" id="shareSheet" onclick="if(event.target===this)closeShareSheet()">
+        <div class="rs-sheet" id="shareCard"></div>
       </div>
 
       <div class="toast" id="toast"></div>
@@ -524,12 +536,36 @@
     document.getElementById('linkCard').classList.add('open');
   }
   function closeLinkCard(){ document.getElementById('linkCard').classList.remove('open'); }
+  function shareLink(){ return PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby')); }
+  function shareText(){ return 'Check out '+(PD_NAME||'this pick')+' on Baby Tracker 🍼'; }
   function shareDetail(){
-    var link=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby'));
-    var data={title:PD_NAME||'Baby Tracker', text:'Check out '+(PD_NAME||'this pick')+' on Baby Tracker 🍼', url:link};
-    if(navigator.share){ navigator.share(data).catch(function(){}); }
-    else { showLinkCard(); }  /* fallback where native share isn't supported */
+    function opt(p,cls,inner,lbl,fn){ return '<button class="share-opt" onclick="'+fn+'"><span class="share-ic '+cls+'">'+inner+'</span><span class="share-lbl">'+lbl+'</span></button>'; }
+    document.getElementById('shareCard').innerHTML=
+      '<div class="rs-grab"></div>'+
+      '<div class="share-h">Share '+(PD_NAME||'this pick')+'</div>'+
+      '<div class="share-sub">Send it to someone or copy the link</div>'+
+      '<div class="share-grid">'+
+        opt('wa','wa',WA_SVG,'WhatsApp',"shareTo('wa')")+
+        opt('tg','tg','✈️','Telegram',"shareTo('tg')")+
+        opt('fb','fb','f','Facebook',"shareTo('fb')")+
+        opt('x','x','𝕏','X',"shareTo('x')")+
+        opt('em','em','✉️','Email',"shareTo('email')")+
+        opt('cp','cp','🔗','Copy link',"copyShareLink()")+
+      '</div>';
+    document.getElementById('shareSheet').classList.add('open');
   }
+  function shareTo(p){
+    var link=shareLink(), text=shareText(), u;
+    if(p==='wa') u='https://wa.me/?text='+encodeURIComponent(text+'\n'+link);
+    else if(p==='tg') u='https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(text);
+    else if(p==='fb') u='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(link);
+    else if(p==='x') u='https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(link);
+    else if(p==='email') u='mailto:?subject='+encodeURIComponent('Baby Tracker · '+(PD_NAME||''))+'&body='+encodeURIComponent(text+'\n'+link);
+    if(u) window.open(u,'_blank','noopener');
+    closeShareSheet();
+  }
+  function copyShareLink(){ try{ navigator.clipboard.writeText(shareLink()); }catch(e){} toast('Link copied ✓'); closeShareSheet(); }
+  function closeShareSheet(){ document.getElementById('shareSheet').classList.remove('open'); }
   function copyLink(){ var l=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby')); try{ navigator.clipboard.writeText(l); }catch(e){} toast('Buy link copied ✓'); }
 
   /* generic in-app product-detail view (inside the sheet) */
