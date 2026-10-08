@@ -254,7 +254,9 @@
   .pv-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pv-badge.prem{background:#fff0cf;color:#b6871f;} .pv-badge.mid{background:#efe6ff;color:#6a4fc0;}
   /* product detail */
   .pd-back{border:none;background:none;font-family:inherit;font-size:13.5px;font-weight:800;color:#7a5fd0;cursor:pointer;padding:2px 0 10px;}
-  .pd-backhd{color:#7a5fd0;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:-.2px;}
+  .pd-backhd{display:inline-flex;align-items:center;gap:3px;border:none;font-family:inherit;color:#7a5fd0;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:-.2px;background:#f3eefb;padding:7px 14px 7px 9px;border-radius:14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);transition:transform .12s;}
+  .pd-backhd:active{transform:scale(.95);}
+  .pd-backhd svg{flex-shrink:0;}
   .pd-gallery{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x;border-radius:24px;margin-top:4px;}
   .pd-gallery::-webkit-scrollbar{display:none;}
   .pd-photo{flex:0 0 100%;aspect-ratio:1/1;border-radius:24px;background:linear-gradient(160deg,#f6f1fb,#efe9f7);background-size:cover;background-position:center;background-repeat:no-repeat;scroll-snap-align:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.07),0 18px 38px -18px rgba(120,90,140,.45);}
@@ -480,7 +482,7 @@
       :'<div class="pd-photo" style="background:'+(o.bg||'#f1ecf6')+';display:flex;align-items:center;justify-content:center;font-size:72px">'+(o.emoji||'🛍️')+'</div>';
     var dots=(imgs&&imgs.length>1)?'<div class="pd-dots">'+imgs.map(function(_,i){return '<span class="pd-dot'+(i===0?' on':'')+'"></span>';}).join('')+'</div>':'';
     PD_NAME=o.name||''; PD_LINK=o.link||''; PD_IMG=imgs?imgs[0]:null; PD_EMOJI=o.emoji||'🛍️'; DETAIL_BACK=o.back||null;
-    document.getElementById('shTitle').innerHTML='<span class="pd-backhd" onclick="detailBack()">‹ Back</span>';
+    document.getElementById('shTitle').innerHTML='<button class="pd-backhd" onclick="detailBack()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back</button>';
     document.getElementById('shSub').style.display='none';
     document.getElementById('shBody').innerHTML=
       '<div class="pd-gallery" id="pdGal">'+gallery+'</div>'+dots+
