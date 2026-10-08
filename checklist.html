@@ -189,6 +189,11 @@
   /* travel planner */
   .planner{background:#fff;border-radius:24px;padding:18px;box-shadow:var(--shadow-soft);margin-top:4px;}
   .p-lbl{font-size:12px;font-weight:800;color:#8a8394;margin-bottom:9px;letter-spacing:.2px;}
+  .day-step{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:9px 12px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);}
+  .dstep{width:42px;height:42px;border-radius:13px;border:none;cursor:pointer;font-size:24px;font-weight:700;line-height:1;background:#f3eefb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);transition:transform .1s;}
+  .dstep:active{transform:scale(.9);}
+  .day-val{flex:1;text-align:center;font-size:14px;font-weight:700;color:#8a8296;}
+  .day-val b{font-size:19px;font-weight:800;color:var(--ink);}
   .dur-row{display:flex;gap:8px;flex-wrap:wrap;}
   .dur{flex:1 1 calc(50% - 4px);border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:12px;border-radius:14px;background:var(--chip);color:#8574b5;transition:.14s;border:2px solid transparent;}
   .dur.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:var(--btn-shadow);}
@@ -647,34 +652,47 @@
 
   RENDER.travel=function(c){ renderTravel(); };
 
-  /* ---------- travel: occasion-based, age-aware packing ---------- */
-  var OCCASIONS=[['Flight','✈️'],['Road trip','🚗'],['Beach','🏖️'],['Function','🎉'],['Cold place','❄️'],['Doctor','🩺']];
-  var T_TYPE='Flight', PACK=[];
-  function buildPack(){
-    var m=parseInt(CUR_STAGE,10)||0, infant=m<12;
-    PACK=[{n:'Diapers',ic:'🧷',shop:'diapers'},{n:'Baby wipes',ic:'🧻',shop:'wipes'},{n:'Change of clothes',ic:'👕'},{n:'Rash cream',ic:'🧴',shop:'rashcream'},{n:'Mosquito patch',ic:'🦟',shop:'mospatch'},{n:'First-aid & medicines',ic:'🩹'}];
-    if(infant) PACK.push({n:'Bottles & formula',ic:'🍼',shop:'bottle'},{n:'Burp cloths',ic:'🧣',shop:'burpcloth'},{n:'Swaddle & blanket',ic:'🛏️',shop:'swaddle'},{n:'Pacifier',ic:'🍼',shop:'pacifier'});
-    else PACK.push({n:'Healthy snacks',ic:'🍪',shop:'snackbox'},{n:'Sippy cup',ic:'🥤',shop:'sipper'},{n:'Favourite toy',ic:'🧸',shop:'toys'});
-    if(T_TYPE==='Flight') PACK.push({n:'Travel documents & ID',ic:'🛂'},{n:'Baby ear protection',ic:'🎧',shop:'earprotect'},{n:'Compact travel stroller',ic:'🛒',shop:'travelstroller'},{n:'Quiet toys & book',ic:'🧩'});
-    if(T_TYPE==='Road trip') PACK.push({n:'Car seat & window shades',ic:'🚗',shop:'carseat'},{n:'Travel potty',ic:'🚽',shop:'pottyseat'},{n:'Backseat organizer',ic:'🎒'});
-    if(T_TYPE==='Beach') PACK.push({n:'Swim diapers',ic:'🩱',shop:'swimdiaper'},{n:'UV swimsuit & sun hat',ic:'🩳'},{n:'Baby sunscreen SPF50',ic:'🧴',shop:'sunscreen'},{n:'Pop-up beach tent',ic:'⛱️',shop:'beachtent'});
-    if(T_TYPE==='Function') PACK.push({n:'Festive outfit',ic:'🎀'},{n:'Baby carrier',ic:'👝',shop:'carrier'},{n:'Ear protection',ic:'🎧',shop:'earprotect'},{n:'Spare dupatta / cover',ic:'🧣'});
-    if(T_TYPE==='Cold place') PACK.push({n:'Warm snowsuit',ic:'🧥',shop:'warmsuit'},{n:'Thermal layers',ic:'🧦'},{n:'Mittens & wool socks',ic:'🧤'},{n:'Extra blankets',ic:'🛏️',shop:'bedding'});
-    if(T_TYPE==='Doctor') PACK.push({n:'Health records & reports',ic:'📋'},{n:'Thermometer',ic:'🌡️',shop:'thermometer'},{n:'Comfort toy',ic:'🧸',shop:'toys'},{n:'Water / feed',ic:'🍼',shop:'bottle'});
+  /* ---------- travel: trip planner (duration + season + destination) ---------- */
+  var SEASONS=[['Summer','☀️'],['Winter','❄️'],['Monsoon','🌧️'],['Festival','🎉']];
+  var DESTS=[['Flight','✈️'],['Road trip','🚗'],['Beach','🏖️'],['Hill station','⛰️'],['City','🏙️']];
+  var T_DAYS=5, T_SEASON='Summer', T_DEST='Flight';
+  function tripSections(){
+    var m=parseInt(CUR_STAGE,10)||0, infant=m<12, d=T_DAYS;
+    var ess=[{n:'Diapers',ic:'🧷',shop:'diapers',q:(d*6)+' pcs'},{n:'Baby wipes',ic:'🧻',shop:'wipes',q:Math.ceil(d/3)+' packs'},{n:'Change of clothes',ic:'👕',q:Math.min(d+2,16)+'+'},{n:'Rash cream',ic:'🧴',shop:'rashcream'},{n:'First-aid & medicines',ic:'🩹'}];
+    if(infant) ess=ess.concat([{n:'Bottles & formula',ic:'🍼',shop:'bottle'},{n:'Burp cloths',ic:'🧣',shop:'burpcloth'},{n:'Swaddle & blanket',ic:'🛏️',shop:'swaddle'},{n:'Pacifier',ic:'🍼',shop:'pacifier'}]);
+    else ess=ess.concat([{n:'Healthy snacks',ic:'🍪',shop:'snackbox'},{n:'Sippy cup',ic:'🥤',shop:'sipper'},{n:'Favourite toy',ic:'🧸',shop:'toys'}]);
+    var season={
+      'Summer':[{n:'Baby sunscreen SPF50',ic:'🧴',shop:'sunscreen'},{n:'UV sun hat & cottons',ic:'👒'},{n:'Mosquito patch',ic:'🦟',shop:'mospatch'},{n:'Prickly-heat powder',ic:'🫧'},{n:'Extra water / sippers',ic:'💧',shop:'sipper'}],
+      'Winter':[{n:'Warm snowsuit',ic:'🧥',shop:'warmsuit'},{n:'Thermal layers',ic:'🧦'},{n:'Mittens & wool socks',ic:'🧤'},{n:'Cold cream / lotion',ic:'🧴',shop:'lotion'},{n:'Extra blankets',ic:'🛏️',shop:'bedding'}],
+      'Monsoon':[{n:'Rain cover / poncho',ic:'🌂'},{n:'Quick-dry towels',ic:'🧻',shop:'towel'},{n:'Mosquito repellent',ic:'🦟',shop:'mosspray'},{n:'Anti-fungal powder',ic:'🫧'},{n:'Waterproof wet bag',ic:'👝'}],
+      'Festival':[{n:'Festive outfit',ic:'🎀'},{n:'Baby ear protection',ic:'🎧',shop:'earprotect'},{n:'Baby carrier',ic:'👝',shop:'carrier'}]
+    }[T_SEASON]||[];
+    var dest={
+      'Flight':[{n:'Travel documents & ID',ic:'🛂'},{n:'Baby ear protection',ic:'🎧',shop:'earprotect'},{n:'Compact travel stroller',ic:'🛒',shop:'travelstroller'},{n:'Quiet toys & book',ic:'🧩'}],
+      'Road trip':[{n:'Car seat & window shades',ic:'🚗',shop:'carseat'},{n:'Travel potty',ic:'🚽',shop:'pottyseat'},{n:'Backseat organizer',ic:'🎒'}],
+      'Beach':[{n:'Swim diapers',ic:'🩱',shop:'swimdiaper'},{n:'UV swimsuit',ic:'🩳'},{n:'Pop-up beach tent',ic:'⛱️',shop:'beachtent'}],
+      'Hill station':[{n:'Warm layers',ic:'🧥',shop:'warmsuit'},{n:'Baby carrier',ic:'👝',shop:'carrier'},{n:'Ear protection',ic:'🎧',shop:'earprotect'}],
+      'City':[{n:'Stroller',ic:'🛒',shop:'stroller'},{n:'Baby carrier',ic:'👝',shop:'carrier'},{n:'Diaper bag',ic:'🎒',shop:'diaperbag'},{n:'Hand sanitizer',ic:'🧴',shop:'handwash'}]
+    }[T_DEST]||[];
+    var sIc=(SEASONS.filter(function(s){return s[0]===T_SEASON;})[0]||['','🌦️'])[1];
+    var dIc=(DESTS.filter(function(s){return s[0]===T_DEST;})[0]||['','🧳'])[1];
+    return [
+      {cat:'Daily essentials · '+d+' day'+(d>1?'s':''),ic:'🍼',tint:'#ffe6c8',items:ess},
+      {cat:T_SEASON+' care',ic:sIc,tint:'#d6f3e0',items:season},
+      {cat:T_DEST+' gear',ic:dIc,tint:'#d5e6ff',items:dest}
+    ];
   }
   function renderTravel(){
-    buildPack();
     var nm=(CHILDREN[CUR_CHILD]||{}).name||'baby';
-    var grid='<div class="type-row" style="margin-top:2px">'+OCCASIONS.map(function(t){return '<button class="ttype'+(t[0]===T_TYPE?' on':'')+'" onclick="setType(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>';
-    var pack='<div class="pack-title">What to pack for '+nm+' · '+T_TYPE+'</div><div class="cat" style="--tint:#d5e6ff"><div class="cat-body" style="max-height:none">'+PACK.map(function(p,i){ var id='p|'+T_TYPE+'|'+i,on=CHECKED[id];
-      var nm2=p.n.replace(/'/g,''); var pimg=p.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[p.shop];
-      var pic=pimg?'<span class="pk-ic" style="background:#fff url(\''+pimg+'\') center/cover"></span>':'<span class="pk-ic">'+(p.ic||'🎒')+'</span>';
-      var ptap=p.shop?'openShop(\''+p.shop+'\',\''+nm2+'\',\''+id+'\')':'toggleRow(\''+id+'\',this)';
-      return '<div class="ci-row'+(on?' done':'')+'" onclick="'+ptap+'">'+pic+'<span class="ci-n">'+p.n+'</span>'+(p.q?'<span class="qty">'+p.q+'</span>':'')+'<span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+id+'\',this)">'+CHECK_SVG+'</span></div>';
-    }).join('')+'</div></div>';
-    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+grid+pack;
+    var dur='<div class="p-lbl">Trip duration</div><div class="day-step"><button class="dstep" onclick="setDays(-1)">−</button><div class="day-val"><b>'+T_DAYS+'</b> '+(T_DAYS===1?'day':'days')+'</div><button class="dstep" onclick="setDays(1)">+</button></div>';
+    var seasonRow='<div class="p-lbl" style="margin-top:18px">Season / occasion</div><div class="type-row">'+SEASONS.map(function(t){return '<button class="ttype'+(t[0]===T_SEASON?' on':'')+'" onclick="setSeason(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>';
+    var destRow='<div class="p-lbl" style="margin-top:18px">Destination</div><div class="type-row">'+DESTS.map(function(t){return '<button class="ttype'+(t[0]===T_DEST?' on':'')+'" onclick="setDest(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>';
+    var recs='<div class="pack-title">Recommended for '+nm+'</div>'+catCardsHTML(tripSections(),'trip|'+T_DEST+'|'+T_SEASON,false);
+    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+dur+seasonRow+destRow+recs;
   }
-  function setType(t){ T_TYPE=t; renderTravel(); }
+  function setDays(delta){ T_DAYS=Math.max(1,Math.min(30,T_DAYS+(delta||0))); renderTravel(); }
+  function setSeason(s){ T_SEASON=s; renderTravel(); }
+  function setDest(s){ T_DEST=s; renderTravel(); }
 
   /* ---------- product sheet ---------- */
   var PRICES={ diapers:[600,1200],bodywash:[250,650],lotion:[250,650],shampoo:[250,650],rashcream:[250,600],wipes:[200,450],hairoil:[250,600],massageoil:[300,700],swaddle:[700,1600],burpcloth:[300,700],towel:[400,900],raipillow:[500,1100],drysheet:[300,600],bottle:[350,900],sterilizer:[2500,6500],feedpillow:[900,2200],bottlecleaner:[200,450],bathtub:[1200,3500],bathseat:[600,1500],washcloth:[250,500],detergent:[300,650],carseat:[6000,18000],stroller:[5000,20000],carrier:[2500,7000],diaperbag:[1500,4500],teether:[300,900],woodteether:[400,1000],bibs:[300,700],wbibs:[350,800],sipper:[400,900],steelsipper:[600,1400],opencup:[500,1200],sleepsack:[800,1800],vapour:[200,500],colic:[250,550],mosquito:[200,450],mosnet:[400,1000],highchair:[4500,12000],spoons:[300,900],feedingkit:[1500,4000],snackbox:[500,1300],processor:[2000,6000],toothbrush:[150,400],toothpaste:[180,450],monitor:[3000,12000],socketcovers:[200,500],edgeguards:[300,700],drawerlock:[400,900],bedrail:[2000,5000],walker:[1500,4500],antiskid:[300,600],kneepad:[300,700],doorstop:[200,450],sunscreen:[300,750],handwash:[200,450],pottyseat:[800,2200],trainpants:[600,1400],swimdiaper:[500,1200],playmat:[1500,4500],playpen:[4000,12000],slide:[2500,6000],swing:[3000,8000],shoes:[700,2000],books:[500,1500],travelstroller:[6000,22000],travelcrib:[4000,12000],bottlewarmer:[1500,3500],portablechair:[1200,3500],beachtent:[1500,3500],warmsuit:[2000,5000],earprotect:[1500,3000],potty:[800,2200],toys:[400,1500] };
@@ -811,7 +829,7 @@
     grab.addEventListener('pointerup',function(e){ if(!drag)return; drag=false; var dy=e.clientY-sY; if(dy<-22)expand(); else if(dy>22){ if(isFull())half(); else closeShop(); } });
   })();
 
-  buildPack(); renderChildTabs(); renderHub();
+  renderChildTabs(); renderHub();
 </script>
 </body>
 </html>
