@@ -96,6 +96,7 @@
   .ci-row:active{background:#f7f4fb;}
   .ci-row+.ci-row::before{content:'';position:absolute;left:12px;right:12px;top:0;height:1px;background:#f4eef9;}
   .cbox{width:24px;height:24px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 2px #ddd4ea;display:flex;align-items:center;justify-content:center;color:#fff;transition:.16s;}
+  .cbox-r{margin-left:6px;}
   .cbox svg{width:13px;height:13px;opacity:0;transform:scale(.5);transition:.16s;}
   .ci-row.done .cbox{background:linear-gradient(150deg,#a58fd8,#8f78c4);box-shadow:0 6px 12px -5px rgba(140,116,181,.6);}
   .ci-row.done .cbox svg{opacity:1;transform:scale(1);}
@@ -109,6 +110,7 @@
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
   .view-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:800;color:#7a5fd0;background:#efe6ff;padding:8px 14px;border-radius:12px;transition:.12s;box-shadow:0 5px 12px -7px rgba(120,90,140,.5),inset 0 0 0 1px rgba(139,116,181,.12);}
   .view-btn:active{transform:scale(.94);}
+  .food-chev{width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:center;}
 
   .tip{display:flex;gap:11px;background:#fff;border-radius:16px;padding:13px 15px;margin-bottom:16px;box-shadow:var(--shadow-soft);font-size:12.5px;color:#6a645f;font-weight:500;line-height:1.5;}
   .tip .tip-ic{font-size:19px;flex-shrink:0;}
@@ -403,15 +405,16 @@
   function catCardsHTML(groups, idPfx, collapsed, hideBrand){
     return groups.map(function(c,ci){
       var rows=c.items.map(function(it,ii){
-        var id=idPfx+'|'+ci+'|'+ii, on=CHECKED[id];
-        return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+
-          (it.ic?'<span class="pk-ic">'+it.ic+'</span>':'')+'<span class="ci-n">'+it.n+'</span>'+
+        var id=idPfx+'|'+ci+'|'+ii, on=CHECKED[id], nm=it.n.replace(/'/g,'');
+        var img=it.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[it.shop];
+        var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>';
+        var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'toggleRow(\''+id+'\',this)');
+        return '<div class="ci-row'+(on?' done':'')+'" onclick="'+tap+'">'+ic+'<span class="ci-n">'+it.n+'</span>'+
           (it.ess?'<span class="ess">Must</span>':'')+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
           (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.tag?'<span class="brand-tag '+(it.tagcls||'')+'">'+it.tag+'</span>':'')+
-          (it.link?'<button class="view-btn" onclick="event.stopPropagation();openItemDetail(\''+it.n.replace(/'/g,'')+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')">View</button>':'')+
-          (it.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+it.shop+'\',\''+it.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
+          '<span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+id+'\',this)">'+CHECK_SVG+'</span></div>';
       }).join('');
       return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
         '<div class="cat-t"><div class="cat-n">'+c.cat+'</div><div class="cat-c">'+c.items.length+' items</div></div><span class="cat-chev">'+CHEVD+'</span></div>'+
@@ -421,6 +424,7 @@
   function fixHeights(){ document.querySelectorAll('#cpBody .cat-body').forEach(function(b){ if(!b.closest('.cat').classList.contains('collapsed')) b.style.maxHeight=b.scrollHeight+'px'; }); }
   function toggleCat(h){ var el=h.closest('.cat'); el.classList.toggle('collapsed'); var b=el.querySelector('.cat-body'); if(!el.classList.contains('collapsed')) b.style.maxHeight=b.scrollHeight+'px'; }
   function toggleCheck(id,row){ CHECKED[id]=!CHECKED[id]; row.classList.toggle('done', !!CHECKED[id]); }
+  function toggleRow(id,el){ CHECKED[id]=!CHECKED[id]; var r=el.closest('.ci-row,.bk-row'); if(r) r.classList.toggle('done', !!CHECKED[id]); }
 
   RENDER.age=function(c){
     document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(c.data[CUR_STAGE]||[], 'x|'+c.key+'|'+CUR_STAGE, true);
@@ -529,15 +533,14 @@
       var bid='bk|'+CUR_STAGE+'|'+i, done=!!CHECKED[bid];
       var cv=BOOK_COVER[b[0]];
       var cover=cv?'<span class="bk-cover" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="bk-cover" style="background:'+b[3]+'">📕</span>';
-      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer" onclick="toggleCheck(\''+bid+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openBookDetail('+i+')">View</button></div>';
+      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer" onclick="openBookDetail('+i+')">'+cover+'<div style="flex:1"><div class="bk-t">'+b[0]+'</div><div class="bk-a">'+b[1]+'</div><div class="bk-s">'+b[2]+'</div></div><span class="cbox cbox-r" style="align-self:center" onclick="event.stopPropagation();toggleRow(\''+bid+'\',this)">'+CHECK_SVG+'</span></div>';
     }).join('');
     var rows=function(arr,ic,prefix){ return arr.map(function(x,i){
       var fid=prefix+'|'+i, done=!!CHECKED[fid];
       var kind=prefix==='fdiy'?'diy':'keep';
-      var btn='<button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openFindDetail(\''+kind+'\','+i+')">View</button>';
       var img=FINDS_IMG[x[0]];
       var icHtml=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+ic+'</span>';
-      return '<div class="ci-row'+(done?' done':'')+'" onclick="toggleCheck(\''+fid+'\',this)"><span class="cbox">'+CHECK_SVG+'</span>'+icHtml+'<span class="ci-n">'+x[0]+'</span>'+btn+'</div>';
+      return '<div class="ci-row'+(done?' done':'')+'" onclick="openFindDetail(\''+kind+'\','+i+')">'+icHtml+'<span class="ci-n">'+x[0]+'</span><span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+fid+'\',this)">'+CHECK_SVG+'</span></div>';
     }).join(''); };
     function card(ic,tint,name,count,body,open){
       return '<div class="cat'+(open?'':' collapsed')+'" style="--tint:'+tint+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+tint+'">'+ic+'</span>'+
@@ -562,10 +565,10 @@
         var icInner=img?'':d.ic;
         var lk=link[d.mat];
         return '<div class="diy-card'+(done?' done':'')+'" id="diy'+i+'"><div class="diy-head" onclick="toggleDiy('+i+')">'+
-          '<span class="cbox" onclick="event.stopPropagation();toggleDiyDone(\''+did+'\',this)">'+CHECK_SVG+'</span>'+
-          '<span class="diy-ic" style="'+icStyle+'">'+icInner+'</span><span class="diy-n">'+d.mat+'</span>'+
-          '<button class="view-btn" onclick="event.stopPropagation();openDiyMatDetail('+i+')">View</button>'+
-          '<span class="diy-chev">'+CHEVD+'</span></div><div class="diy-body" id="diyb'+i+'">'+acts+'</div></div>';
+          '<span class="diy-ic" style="'+icStyle+'" onclick="event.stopPropagation();openDiyMatDetail('+i+')">'+icInner+'</span><span class="diy-n">'+d.mat+'</span>'+
+          '<span class="diy-chev">'+CHEVD+'</span>'+
+          '<span class="cbox cbox-r" onclick="event.stopPropagation();toggleDiyDone(\''+did+'\',this)">'+CHECK_SVG+'</span>'+
+          '</div><div class="diy-body" id="diyb'+i+'">'+acts+'</div></div>';
       }).join('');
   };
   function toggleDiy(i){ var card=document.getElementById('diy'+i), b=document.getElementById('diyb'+i); card.classList.toggle('open'); b.style.maxHeight=card.classList.contains('open')?b.scrollHeight+'px':'0'; }
@@ -579,7 +582,7 @@
     // cap-at-upper-age: brand must start by the child's age AND still cover the child's stage top
     var shown=c.data.brands.filter(function(b){ var p=b[2].split(/[–-]/); return sL>=startM(p[0]) && sU<=endM(p[1]||p[0]); });
     var brands = shown.length ? shown.map(function(b){ var fi=c.data.brands.indexOf(b);
-      return '<div class="food-card" style="cursor:pointer" onclick="openFoodDetail('+fi+')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><button class="view-btn" style="align-self:center" onclick="event.stopPropagation();openFoodDetail('+fi+')">View</button></div>';
+      return '<div class="food-card" style="cursor:pointer" onclick="openFoodDetail('+fi+')"><span class="food-ic" style="background:'+b[4]+'">'+b[5]+'</span><div style="flex:1"><div class="food-n">'+b[0]+'</div><div class="food-items">'+b[1]+'</div><div class="food-meta"><span class="food-pill">'+b[2]+'</span><span class="food-pill lvl">'+b[3]+' range</span></div></div><span class="food-chev">'+CHEV+'</span></div>';
     }).join('')
       : '<div class="avoid-card" style="text-align:center;font-size:13px;color:#8a8296;font-weight:600;line-height:1.5">🥄 Solids usually begin around <b>6 months</b>.<br>Food brand picks appear once '+CHILDREN[CUR_CHILD].name+' is ready to start.</div>';
     var avoid='<div class="hub-cat" style="margin-bottom:14px" onclick="openAvoidSheet()"><span class="hc-ic" style="background:linear-gradient(150deg,#ffe3ea,#ffd0db)">🚫</span><div class="hc-t"><div class="hc-n">Avoid under 2 years</div><div class="hc-d">Keep these out of baby’s food &amp; drinks</div></div><span class="hc-chev">'+CHEV+'</span></div>';
@@ -609,7 +612,10 @@
     var nm=(CHILDREN[CUR_CHILD]||{}).name||'baby';
     var grid='<div class="type-row" style="margin-top:2px">'+OCCASIONS.map(function(t){return '<button class="ttype'+(t[0]===T_TYPE?' on':'')+'" onclick="setType(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>';
     var pack='<div class="pack-title">What to pack for '+nm+' · '+T_TYPE+'</div><div class="cat" style="--tint:#d5e6ff"><div class="cat-body" style="max-height:none">'+PACK.map(function(p,i){ var id='p|'+T_TYPE+'|'+i,on=CHECKED[id];
-      return '<div class="ci-row'+(on?' done':'')+'" onclick="toggleCheck(\''+id+'\',this)"><span class="cbox">'+CHECK_SVG+'</span><span class="pk-ic">'+(p.ic||'🎒')+'</span><span class="ci-n">'+p.n+'</span>'+(p.q?'<span class="qty">'+p.q+'</span>':'')+(p.shop?'<button class="view-btn" onclick="event.stopPropagation();openShop(\''+p.shop+'\',\''+p.n.replace(/'/g,'')+'\',\''+id+'\')">View</button>':'')+'</div>';
+      var nm2=p.n.replace(/'/g,''); var pimg=p.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[p.shop];
+      var pic=pimg?'<span class="pk-ic" style="background:#fff url(\''+pimg+'\') center/cover"></span>':'<span class="pk-ic">'+(p.ic||'🎒')+'</span>';
+      var ptap=p.shop?'openShop(\''+p.shop+'\',\''+nm2+'\',\''+id+'\')':'toggleRow(\''+id+'\',this)';
+      return '<div class="ci-row'+(on?' done':'')+'" onclick="'+ptap+'">'+pic+'<span class="ci-n">'+p.n+'</span>'+(p.q?'<span class="qty">'+p.q+'</span>':'')+'<span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+id+'\',this)">'+CHECK_SVG+'</span></div>';
     }).join('')+'</div></div>';
     document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+grid+pack;
   }
