@@ -724,11 +724,12 @@
     }[T_DEST]||[];
     var sIc=(SEASONS.filter(function(s){return s[0]===T_SEASON;})[0]||['','🌦️'])[1];
     var dIc=(DESTS.filter(function(s){return s[0]===T_DEST;})[0]||['','🧳'])[1];
+    function buyable(arr){ return arr.filter(function(x){return x.shop;}); }  /* only products a parent can buy */
     return [
-      {cat:'Daily essentials · '+d+' day'+(d>1?'s':''),ic:'🍼',tint:'#ffe6c8',items:ess},
-      {cat:T_SEASON+' care',ic:sIc,tint:'#d6f3e0',items:season},
-      {cat:T_DEST+' gear',ic:dIc,tint:'#d5e6ff',items:dest}
-    ];
+      {cat:'Daily essentials · '+d+' day'+(d>1?'s':''),ic:'🍼',tint:'#ffe6c8',items:buyable(ess)},
+      {cat:T_SEASON+' care',ic:sIc,tint:'#d6f3e0',items:buyable(season)},
+      {cat:T_DEST+' gear',ic:dIc,tint:'#d5e6ff',items:buyable(dest)}
+    ].filter(function(g){return g.items.length;});
   }
   function renderTravel(){
     var nm=(CHILDREN[CUR_CHILD]||{}).name||'baby';
