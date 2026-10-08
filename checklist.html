@@ -536,8 +536,8 @@
     var books=list.map(function(b,i){
       var bid='bk|'+CUR_STAGE+'|'+i, done=!!CHECKED[bid];
       var cv=BOOK_COVER[b[0]];
-      var cover=cv?'<span class="bk-cover" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="bk-cover" style="background:'+b[3]+'">📕</span>';
-      return '<div class="bk-row'+(done?' done':'')+'" style="cursor:pointer;align-items:center" onclick="openBookDetail('+i+')">'+cover+'<div class="bk-t" style="flex:1">'+b[0]+'</div><span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+bid+'\',this)">'+CHECK_SVG+'</span></div>';
+      var cover=cv?'<span class="pk-ic" style="background:#fff url(\''+bookCover(cv)+'\') center/cover"></span>':'<span class="pk-ic" style="background:'+b[3]+'">📕</span>';
+      return '<div class="ci-row'+(done?' done':'')+'" onclick="openBookDetail('+i+')">'+cover+'<span class="ci-n">'+b[0]+'</span><span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+bid+'\',this)">'+CHECK_SVG+'</span></div>';
     }).join('');
     var rows=function(arr,ic,prefix){ return arr.map(function(x,i){
       var fid=prefix+'|'+i, done=!!CHECKED[fid];
