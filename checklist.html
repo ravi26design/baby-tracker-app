@@ -410,7 +410,6 @@
         var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>';
         var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'toggleRow(\''+id+'\',this)');
         return '<div class="ci-row'+(on?' done':'')+'" onclick="'+tap+'">'+ic+'<span class="ci-n">'+it.n+'</span>'+
-          (it.ess?'<span class="ess">Must</span>':'')+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
           (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.tag?'<span class="brand-tag '+(it.tagcls||'')+'">'+it.tag+'</span>':'')+
