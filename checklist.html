@@ -440,7 +440,8 @@
       var rows=c.items.map(function(it,ii){
         var id=idPfx+'|'+ci+'|'+ii, on=CHECKED[id], nm=it.n.replace(/'/g,'');
         var img=it.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[it.shop];
-        var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>';
+        var logo=(typeof BRAND_LOGO!=='undefined')&&BRAND_LOGO[it.n];
+        var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':(logo?'<span class="pk-ic" style="background:#fff url(\''+logo+'\') center/contain no-repeat;background-size:66%"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>');
         var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'toggleRow(\''+id+'\',this)');
         return '<div class="ci-row'+(on?' done':'')+'" onclick="'+tap+'">'+ic+'<span class="ci-n">'+it.n+'</span>'+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
@@ -770,6 +771,12 @@
     'The Day the Crayons Quit':'https://is1-ssl.mzstatic.com/image/thumb/Publication1/v4/5e/03/72/5e03722c-fbd6-0df1-e85f-7095242a9245/9781101628126.jpg/400x400bb.jpg'
   };
   function bookCover(id){ return typeof id==='number' ? 'https://covers.openlibrary.org/b/id/'+id+'-M.jpg' : id; }
+  /* real brand logos (favicon service), keyed by brand name */
+  function blogo(d){ return 'https://www.google.com/s2/favicons?sz=128&domain='+d; }
+  var BRAND_LOGO={
+    'Aveeno':blogo('aveeno.com'),'Sebamed':blogo('sebamed.in'),'Mustela':blogo('mustela.com'),'Cetaphil':blogo('cetaphil.com'),'Little Rituals':blogo('littlerituals.in'),'Chicco':blogo('chicco.com'),'Mama Earth':blogo('mamaearth.in'),'Mother Sparsh':blogo('mothersparsh.com'),'Mee Mee':blogo('meemee.in'),'Tots and Bubbles':blogo('totsandbubbles.in'),'Himalaya':blogo('himalayawellness.in'),'LuvLap':blogo('luvlap.in'),'Luvlap':blogo('luvlap.in'),'Johnson’s Baby':blogo('johnsonsbaby.in'),'The Moms Co':blogo('themomsco.com'),'Baby Chakra':blogo('babychakra.com'),
+    'Stokke':blogo('stokke.com'),'Skip Hop':blogo('skiphop.com'),'BabyZen':blogo('babyzen.com'),'Joie':blogo('joiebaby.com'),'Beaba':blogo('beaba.com'),'Infantino':blogo('infantino.com'),'Graco':blogo('gracobaby.com'),'R for Rabbit':blogo('rforrabbit.com'),'Star and Daisy':blogo('starandaisy.com'),'Baby Hug':blogo('babyhug.com'),'Mother Care':blogo('mothercare.in'),'Bay Bee':blogo('baybee.in')
+  };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
   var PREM_DESC=['Top-rated with premium build & features.','Best-in-class quality, built to last.','Premium pick loved by parents.','Feature-rich, grows with your baby.'];
