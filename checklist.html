@@ -451,7 +451,7 @@
     return groups.map(function(c,ci){
       var rows=c.items.map(function(it,ii){
         var id=idPfx+'|'+ci+'|'+ii, on=CHECKED[id], nm=it.n.replace(/'/g,'');
-        var img=it.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[it.shop];
+        var img=(it.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[it.shop]) || ((typeof HOSP_IMG!=='undefined')&&HOSP_IMG[it.n]&&PHOTOS[HOSP_IMG[it.n]]);
         var logo=(typeof BRAND_LOGO!=='undefined')&&BRAND_LOGO[it.n];
         var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':(logo?'<span class="pk-ic" style="background:#fff url(\''+logo+'\') center/contain no-repeat;background-size:66%"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>');
         var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'toggleRow(\''+id+'\',this)');
@@ -823,6 +823,11 @@
   var BRAND_LOGO={
     'Aveeno':blogo('aveeno.com'),'Sebamed':blogo('sebamed.in'),'Mustela':blogo('mustela.com'),'Cetaphil':blogo('cetaphil.com'),'Little Rituals':blogo('littlerituals.in'),'Chicco':blogo('chicco.com'),'Mama Earth':blogo('mamaearth.in'),'Mother Sparsh':blogo('mothersparsh.com'),'Mee Mee':blogo('meemee.in'),'Tots and Bubbles':blogo('totsandbubbles.in'),'Himalaya':blogo('himalayawellness.in'),'LuvLap':blogo('luvlap.in'),'Luvlap':blogo('luvlap.in'),'Johnson’s Baby':blogo('johnsonsbaby.in'),'The Moms Co':blogo('themomsco.com'),'Baby Chakra':blogo('babychakra.com'),
     'Stokke':blogo('stokke.com'),'Skip Hop':blogo('skiphop.com'),'BabyZen':blogo('babyzen.com'),'Joie':blogo('joiebaby.com'),'Beaba':blogo('beaba.com'),'Infantino':blogo('infantino.com'),'Graco':blogo('gracobaby.com'),'R for Rabbit':blogo('rforrabbit.com'),'Star and Daisy':blogo('starandaisy.com'),'Baby Hug':blogo('babyhug.com'),'Mother Care':blogo('mothercare.in'),'Bay Bee':blogo('baybee.in')
+  };
+  /* hospital-bag item names → product photo key (so link items show a relevant image) */
+  var HOSP_IMG={
+    'Rai pillow':'raipillow','Towel':'towel','Diapers':'diapers','Body wash':'bodywash','Lotion':'lotion','Shampoo':'shampoo','Sunscreen':'sunscreen','Rash cream':'rashcream','Massage oil':'massageoil','Washcloths':'washcloth','Swaddles':'swaddle','Burp cloths':'burpcloth','Dry sheet':'drysheet','Wet wipes':'wipes','Mosquito patch':'mospatch','Kajal (nazar tikka)':'kajal','Grooming kit':'grooming','Blanket':'bedding','Carrier nest':'carrier','Feeding cup':'opencup','Silver spoon & bowl':'spoons',
+    'Maternity pads':'matpads','Breast pad':'breastpads','Feeding pillow':'feedpillow','Nursing cover':'nursingcover','Nipple cream':'nipplecream','Nipple shield':'nippleshield','Therapy pad':'therapypack','Breast pump':'electricpump','Maternity panty':'matpanty','Perineal spray':'perispray','Perineal cooling pads':'peripads','Nursing bra':'nursingbra','Face wash':'facewash','Body lotion':'lotion','Hand towel':'towel','Toothpaste':'toothpaste','Toothbrush':'toothbrush','Bedsheets':'bedding'
   };
   function inr(n){ return '₹'+n.toLocaleString('en-IN'); }
   var BUDGET_DESC=['Reliable, great everyday value.','Simple, practical & affordable.','Solid basics without the price tag.','Parent-favourite budget buy.'];
