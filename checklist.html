@@ -229,7 +229,9 @@
   .sheet.full{height:93%;}
   .sheet-layer.open .sheet{transform:none;}
   .sh-grab{padding:11px 0 6px;flex-shrink:0;cursor:grab;touch-action:none;} .sh-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
-  .sh-head{padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;}
+  .sh-head{position:relative;padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;}
+  .sh-share{position:absolute;right:20px;top:10px;width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;background:#f3eefb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);transition:transform .12s;z-index:2;}
+  .sh-share:active{transform:scale(.92);}
   .sh-title{font-size:17px;font-weight:800;letter-spacing:-.2px;}
   .sh-sub{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:3px;}
   .sh-body{padding:14px 20px 22px;overflow-y:auto;flex:1;min-height:0;}
@@ -342,7 +344,7 @@
         <div class="sheet-bd" onclick="closeShop()"></div>
         <div class="sheet">
           <div class="sh-grab"><span></span></div>
-          <div class="sh-head"><div class="sh-title" id="shTitle">Recommended</div><div class="sh-sub" id="shSub">Budget & premium picks · prices in ₹</div></div>
+          <div class="sh-head"><button class="sh-share" id="shShare" onclick="shareDetail()" style="display:none" aria-label="Share"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><div class="sh-title" id="shTitle">Recommended</div><div class="sh-sub" id="shSub">Budget & premium picks · prices in ₹</div></div>
           <div class="sh-body" id="shBody"></div>
         </div>
       </div>
@@ -460,6 +462,7 @@
     document.getElementById('linkCard').classList.add('open');
   }
   function closeLinkCard(){ document.getElementById('linkCard').classList.remove('open'); }
+  function shareDetail(){ showLinkCard(); }
   function copyLink(){ var l=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby')); try{ navigator.clipboard.writeText(l); }catch(e){} toast('Buy link copied ✓'); }
 
   /* generic in-app product-detail view (inside the sheet) */
@@ -475,6 +478,7 @@
     PD_NAME=o.name||''; PD_LINK=o.link||''; PD_IMG=imgs?imgs[0]:null; PD_EMOJI=o.emoji||'🛍️'; DETAIL_BACK=o.back||null;
     document.getElementById('shTitle').innerHTML='<span class="pd-backhd" onclick="detailBack()">‹ Back</span>';
     document.getElementById('shSub').style.display='none';
+    document.getElementById('shShare').style.display='flex';
     document.getElementById('shBody').innerHTML=
       '<div class="pd-gallery" id="pdGal">'+gallery+'</div>'+dots+
       (o.badge?'<span class="pd-badge '+(o.badgecls||'')+'">'+o.badge+'</span>':'')+
@@ -504,7 +508,7 @@
   /* Avoid-under-2 info → bottom sheet */
   function openAvoidSheet(){
     var c=CATS.filter(function(x){return x.key==='food';})[0]; if(!c) return;
-    document.getElementById('shTitle').textContent='Avoid under 2 years';
+    document.getElementById('shTitle').textContent='Avoid under 2 years'; document.getElementById('shShare').style.display='none';
     var ss=document.getElementById('shSub'); ss.textContent='Keep these out of baby’s food & drinks'; ss.style.display='';
     document.getElementById('shBody').innerHTML='<div style="height:2px"></div>'+c.data.avoid.map(function(a){return '<div class="avoid-item"><span class="av-x">✕</span><div><b>'+a[0]+'</b> — '+a[1]+'</div></div>';}).join('');
     document.querySelector('#shopSheet .sheet').classList.remove('full'); document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
@@ -513,7 +517,7 @@
   /* Brand Guide → product-style bottom sheet */
   var BS_CAT=null, BS_FILTER='All';
   function openBrandSheet(gi){ var bc=CATS.filter(function(x){return x.key==='brands';})[0]; BS_CAT=bc.data[gi]; BS_FILTER='All';
-    document.getElementById('shTitle').textContent=BS_CAT.cat;
+    document.getElementById('shTitle').textContent=BS_CAT.cat; document.getElementById('shShare').style.display='none';
     var ss=document.getElementById('shSub'); ss.textContent='Trusted brands · premium → economical'; ss.style.display='';
     renderBrandSheet();
     document.querySelector('#shopSheet .sheet').classList.remove('full'); document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
@@ -715,7 +719,7 @@
     var c=activeCats().filter(function(x){return x.key===CUR_CAT;})[0]; if(c&&RENDER[c.type]) RENDER[c.type](c);
     toast(CHECKED[PV_ITEM_ID]?'Marked as owned ✓':'Removed from your list'); }
   function setPVFilter(f){ PV_FILTER=f; renderPV(); }
-  function renderPV(){ document.getElementById('shTitle').textContent=PV_ITEM; document.getElementById('shSub').style.display='none';
+  function renderPV(){ document.getElementById('shTitle').textContent=PV_ITEM; document.getElementById('shSub').style.display='none'; document.getElementById('shShare').style.display='none';
     var prods=makeProducts(PV_KEY); var shown=PV_FILTER==='All'?prods:prods.filter(function(p){return p.tier===PV_FILTER;});
     var tabs=['All','Budget','Premium'].map(function(f){return '<button class="pv-fbtn'+(f===PV_FILTER?' on':'')+'" onclick="setPVFilter(\''+f+'\')">'+f+'</button>';}).join('');
     var photo=PHOTOS[PV_KEY];
