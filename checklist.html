@@ -524,7 +524,12 @@
     document.getElementById('linkCard').classList.add('open');
   }
   function closeLinkCard(){ document.getElementById('linkCard').classList.remove('open'); }
-  function shareDetail(){ showLinkCard(); }
+  function shareDetail(){
+    var link=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby'));
+    var data={title:PD_NAME||'Baby Tracker', text:'Check out '+(PD_NAME||'this pick')+' on Baby Tracker 🍼', url:link};
+    if(navigator.share){ navigator.share(data).catch(function(){}); }
+    else { showLinkCard(); }  /* fallback where native share isn't supported */
+  }
   function copyLink(){ var l=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby')); try{ navigator.clipboard.writeText(l); }catch(e){} toast('Buy link copied ✓'); }
 
   /* generic in-app product-detail view (inside the sheet) */
