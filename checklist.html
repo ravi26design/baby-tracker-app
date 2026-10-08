@@ -264,6 +264,10 @@
   .pd-dot.on{background:#8f78c4;width:18px;border-radius:4px;}
   .pd-badge{display:inline-block;font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:9px;margin-top:16px;background:#efe9f7;color:#8574b5;}
   .pd-badge.eco{background:#d6f3e0;color:#2f8f5f;} .pd-badge.prem{background:#fff0cf;color:#b6871f;} .pd-badge.mid{background:#efe6ff;color:#6a4fc0;}
+  .pd-name-row{display:flex;align-items:center;gap:12px;margin-top:9px;}
+  .pd-name-row .pd-name{flex:1;margin-top:0;}
+  .pd-share{flex-shrink:0;width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:#f3eefb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);transition:transform .12s;}
+  .pd-share:active{transform:scale(.92);}
   .pd-name{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-top:9px;}
   .pd-meta2{font-size:12px;font-weight:700;color:#9a8fb3;margin-top:6px;}
   .pd-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
@@ -478,11 +482,10 @@
     PD_NAME=o.name||''; PD_LINK=o.link||''; PD_IMG=imgs?imgs[0]:null; PD_EMOJI=o.emoji||'🛍️'; DETAIL_BACK=o.back||null;
     document.getElementById('shTitle').innerHTML='<span class="pd-backhd" onclick="detailBack()">‹ Back</span>';
     document.getElementById('shSub').style.display='none';
-    document.getElementById('shShare').style.display='flex';
     document.getElementById('shBody').innerHTML=
       '<div class="pd-gallery" id="pdGal">'+gallery+'</div>'+dots+
       (o.badge?'<span class="pd-badge '+(o.badgecls||'')+'">'+o.badge+'</span>':'')+
-      '<div class="pd-name">'+o.name+'</div>'+
+      '<div class="pd-name-row"><div class="pd-name">'+o.name+'</div><button class="pd-share" onclick="shareDetail()" aria-label="Share"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button></div>'+
       (o.meta?'<div class="pd-meta2">'+o.meta+'</div>':'')+
       '<div class="pd-stats"><span class="pd-stat">⭐ <b>'+rating+'</b> rating</span><span class="pd-stat">🛍️ <b>'+bought+'</b> parents bought this</span></div>'+
       '<div class="pd-desc">'+(o.desc||'A parent-loved pick — chosen for quality, comfort and everyday value.')+'</div>'+
