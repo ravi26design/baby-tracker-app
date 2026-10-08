@@ -735,7 +735,7 @@
     var dur='<div class="p-lbl">Trip duration</div><div class="day-step"><button class="dstep" onclick="setDays(-1)">−</button><div class="day-val"><b>'+T_DAYS+'</b> '+(T_DAYS===1?'day':'days')+'</div><button class="dstep" onclick="setDays(1)">+</button></div>';
     var seasonRow='<div class="p-lbl" style="margin-top:18px">Season / occasion</div><div class="type-row">'+SEASONS.map(function(t){return '<button class="ttype'+(t[0]===T_SEASON?' on':'')+'" onclick="setSeason(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>';
     var destRow='<div class="p-lbl" style="margin-top:18px">Destination</div><div class="type-row">'+DESTS.map(function(t){return '<button class="ttype'+(t[0]===T_DEST?' on':'')+'" onclick="setDest(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>';
-    var recs='<div class="pack-title">Recommended for '+nm+'</div>'+catCardsHTML(tripSections(),'trip|'+T_DEST+'|'+T_SEASON,false);
+    var recs='<div class="pack-title">Recommended for '+nm+' · '+T_SEASON+' '+T_DEST+'</div>'+catCardsHTML(tripSections(),'trip|'+T_DEST+'|'+T_SEASON,true);
     document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+dur+seasonRow+destRow+recs;
   }
   function setDays(delta){ T_DAYS=Math.max(1,Math.min(30,T_DAYS+(delta||0))); renderTravel(); }
