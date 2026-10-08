@@ -474,6 +474,7 @@
     var row=el.closest('.ci-row,.bk-row');
     if(CHECKED[id]){ CHECKED[id]=false; delete REMINDERS[id]; if(REM_TIMERS[id]){clearTimeout(REM_TIMERS[id]);delete REM_TIMERS[id];}
       if(row){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); } }
+    else if(CUR_CAT==='travel'){ markDone(id,row,null); }  /* travel = packing, no restock reminder */
     else { askReminder(id,row); }
   }
   function askReminder(id,row){
