@@ -101,9 +101,11 @@
   .ci-row.done .cbox{background:linear-gradient(150deg,#a58fd8,#8f78c4);box-shadow:0 6px 12px -5px rgba(140,116,181,.6);}
   .ci-row.done .cbox svg{opacity:1;transform:scale(1);}
   .pk-ic{width:33px;height:33px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f4f0fa;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
-  .ci-row.done .pk-ic{opacity:.5;}
+  .ci-row.done .pk-ic{opacity:.4;filter:grayscale(.5);}
   .ci-n{flex:1;font-size:14px;font-weight:600;color:var(--ink);transition:.14s;}
-  .ci-row.done .ci-n{color:#b8b0c4;text-decoration:line-through;}
+  .ci-row.done .ci-n{color:#bdb6c9;}
+  .ci-row.done{background:#faf9fc;}
+  .rem-badge{font-size:10px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;white-space:nowrap;}
   .ess{font-size:9px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:2px 7px;border-radius:7px;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;}
   .brand-tag{font-size:10.5px;font-weight:700;color:#8574b5;background:#efe9f7;padding:3px 8px;border-radius:8px;flex-shrink:0;}
   .brand-tag.prem{background:#fff3d9;color:#9c7418;} .brand-tag.mid{background:#efe6ff;color:#6a4fc0;} .brand-tag.eco{background:#dff3e7;color:#2b7d54;}
@@ -295,6 +297,13 @@
   .lc-copy:active{transform:scale(.97);}
   .lc-note{font-size:11px;color:#9a8fb3;font-weight:600;margin-top:12px;}
   .lc-close{margin-top:6px;border:none;background:none;font-family:inherit;font-size:12.5px;font-weight:800;color:#b3a6cc;cursor:pointer;padding:6px;}
+  .rem-ic{width:54px;height:54px;border-radius:17px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(150deg,#efe7fb,#e2d6f6);}
+  .rem-title{font-size:17px;font-weight:800;letter-spacing:-.2px;margin-top:10px;}
+  .rem-sub{font-size:12px;color:#9a8fb3;font-weight:600;margin-top:4px;line-height:1.4;}
+  .rem-opts{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+  .rem-opt{border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;color:#5a4fa0;background:#f3eefb;padding:13px;border-radius:14px;transition:transform .1s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .rem-opt:active{transform:scale(.97);}
+  .rem-opt.plain{background:none;color:#b3a6cc;box-shadow:none;font-size:13px;padding:8px;}
   .pd-buy:active{transform:scale(.98);}
   .pv-price{position:absolute;right:8px;bottom:8px;font-size:12px;font-weight:800;color:#3a332e;background:rgba(255,255,255,.92);padding:3px 9px;border-radius:9px;box-shadow:0 3px 8px -3px rgba(0,0,0,.25);}
   .pv-name{font-size:14px;font-weight:800;color:var(--ink);margin-top:10px;letter-spacing:-.2px;}
@@ -357,6 +366,10 @@
 
       <div class="lc-overlay" id="linkCard" onclick="if(event.target===this)closeLinkCard()">
         <div class="lc-card" id="lcCard"></div>
+      </div>
+
+      <div class="lc-overlay" id="reminderOv" onclick="if(event.target===this)closeReminder()">
+        <div class="lc-card" id="remCard"></div>
       </div>
 
       <div class="toast" id="toast"></div>
@@ -433,7 +446,38 @@
   function fixHeights(){ document.querySelectorAll('#cpBody .cat-body').forEach(function(b){ if(!b.closest('.cat').classList.contains('collapsed')) b.style.maxHeight=b.scrollHeight+'px'; }); }
   function toggleCat(h){ var el=h.closest('.cat'); el.classList.toggle('collapsed'); var b=el.querySelector('.cat-body'); if(!el.classList.contains('collapsed')) b.style.maxHeight=b.scrollHeight+'px'; }
   function toggleCheck(id,row){ CHECKED[id]=!CHECKED[id]; row.classList.toggle('done', !!CHECKED[id]); }
-  function toggleRow(id,el){ CHECKED[id]=!CHECKED[id]; var r=el.closest('.ci-row,.bk-row'); if(r) r.classList.toggle('done', !!CHECKED[id]); }
+  var REMINDERS={}, REM_TIMERS={}, PENDING_REM=null;
+  function toggleRow(id,el){
+    var row=el.closest('.ci-row,.bk-row');
+    if(CHECKED[id]){ CHECKED[id]=false; delete REMINDERS[id]; if(REM_TIMERS[id]){clearTimeout(REM_TIMERS[id]);delete REM_TIMERS[id];}
+      if(row){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); } }
+    else { askReminder(id,row); }
+  }
+  function askReminder(id,row){
+    var name=(row&&row.querySelector('.ci-n'))?row.querySelector('.ci-n').textContent:'this item';
+    PENDING_REM={id:id,row:row,name:name};
+    var opts=[['1 week',7],['2 weeks',14],['1 month',30],['3 months',90]];
+    document.getElementById('remCard').innerHTML=
+      '<div class="rem-ic">⏰</div><div class="rem-title">Set a reminder</div>'+
+      '<div class="rem-sub">We’ll bring <b>'+name+'</b> back on your list when it’s time to restock.</div>'+
+      '<div class="rem-opts">'+opts.map(function(o){return '<button class="rem-opt" onclick="setReminder(\''+o[0]+'\','+o[1]+')">In '+o[0]+'</button>';}).join('')+
+      '<button class="rem-opt plain" onclick="markDoneNoReminder()">Just mark done</button></div>';
+    document.getElementById('reminderOv').classList.add('open');
+  }
+  function markDone(id,row,label){ CHECKED[id]=true;
+    if(row){ row.classList.add('done'); var old=row.querySelector('.rem-badge'); if(old)old.remove();
+      if(label){ var badge=document.createElement('span'); badge.className='rem-badge'; badge.textContent='⏰ '+label; row.insertBefore(badge, row.querySelector('.cbox')); } } }
+  function setReminder(label,days){ if(!PENDING_REM)return; var id=PENDING_REM.id,row=PENDING_REM.row,name=PENDING_REM.name;
+    markDone(id,row,label); REMINDERS[id]={label:label,row:row};
+    var ms=Math.min(days*86400000, 2147483000); if(REM_TIMERS[id])clearTimeout(REM_TIMERS[id]);
+    REM_TIMERS[id]=setTimeout(function(){ fireReminder(id,name,row); }, ms);
+    closeReminder(); toast('⏰ Reminder set — we’ll remind you in '+label);
+  }
+  function markDoneNoReminder(){ if(!PENDING_REM)return; markDone(PENDING_REM.id,PENDING_REM.row,null); closeReminder(); toast('Marked as done ✓'); }
+  function fireReminder(id,name,row){ CHECKED[id]=false; delete REMINDERS[id]; delete REM_TIMERS[id];
+    if(row&&document.contains(row)){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); }
+    toast('⏰ Time to restock '+name); }
+  function closeReminder(){ document.getElementById('reminderOv').classList.remove('open'); PENDING_REM=null; }
 
   RENDER.age=function(c){
     document.getElementById('cpBody').innerHTML = '<div style="height:6px"></div>' + catCardsHTML(c.data[CUR_STAGE]||[], 'x|'+c.key+'|'+CUR_STAGE, true);
