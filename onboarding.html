@@ -144,7 +144,10 @@
     background:linear-gradient(150deg,#d6f3e0,#bfe8d0);box-shadow:0 24px 50px -18px rgba(60,150,100,.5);animation:pop .6s cubic-bezier(.2,.9,.3,1.4) both;}
   #done h2{font-size:26px;font-weight:800;letter-spacing:-.4px;margin-top:26px;}
   #done p{font-size:14.5px;color:#7d7770;font-weight:500;margin-top:12px;line-height:1.6;max-width:290px;}
-  .done-foot{position:absolute;left:0;right:0;bottom:0;padding:0 26px 30px;}
+  .done-foot{position:absolute;left:0;right:0;bottom:0;padding:0 26px 34px;display:flex;justify-content:center;}
+  .done-hint{font-size:13px;font-weight:600;color:#a49ea6;letter-spacing:.2px;display:inline-flex;align-items:center;gap:8px;}
+  .done-hint::before{content:'';width:15px;height:15px;border-radius:50%;border:2px solid #d9d2e6;border-top-color:#9a85d6;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
   .confetti{position:absolute;top:0;left:0;right:0;height:60%;pointer-events:none;overflow:hidden;}
   .confetti span{position:absolute;top:-20px;width:9px;height:9px;border-radius:2px;opacity:.9;animation:fall 2.4s linear infinite;}
   @keyframes fall{to{transform:translateY(560px) rotate(360deg);opacity:0;}}
@@ -264,17 +267,6 @@
               </div>
             </div>
 
-            <!-- step 5: notifications -->
-            <div class="ostep">
-              <div class="bell">🔔</div>
-              <div class="ob-h" style="text-align:center;margin-top:22px">Never miss a moment</div>
-              <div class="ob-sub" style="text-align:center">Get gentle reminders for milestones, and replies from your community.</div>
-              <div class="ob-body">
-                <div class="perk"><span class="pk">✨</span> Milestone reminders as baby grows</div>
-                <div class="perk"><span class="pk">💬</span> Replies from parents & experts</div>
-                <div class="perk"><span class="pk">📸</span> Nudges to capture weekly memories</div>
-              </div>
-            </div>
 
           </div>
         </div>
@@ -290,7 +282,7 @@
         <div class="done-badge">🎉</div>
         <h2 id="doneTitle">You're all set!</h2>
         <p id="doneMsg">Your baby's journey starts now. Let's capture the first of many beautiful moments.</p>
-        <div class="done-foot"><button class="btn" onclick="enterApp()">Enter Baby Tracker</button></div>
+        <div class="done-foot"><span class="done-hint">Taking you in…</span></div>
       </div>
 
     </div>
@@ -339,20 +331,19 @@
 
   /* auth — google only (sign up = sign in) */
   function openAuth(){ document.getElementById('authSwitch').innerHTML=''; show('auth'); }
-  function googleAuth(){ goOnb(); }
+  function googleAuth(){ DATA.user='Priya'; goOnb(); } /* real app: name comes from the Google account */
 
   /* onboarding */
-  var step=0, SMAX=3, DATA={ava:'👶'};
+  var step=0, SMAX=2, DATA={ava:'👶'};
   function goOnb(){ show('onb'); step=0; renderStep(); }
   function renderStep(){
     document.getElementById('obTrack').style.transform='translateX(-'+(step*100)+'%)';
     document.getElementById('progFill').style.width=((step+1)/SMAX*100)+'%';
     document.getElementById('obCount').textContent=(step+1)+'/'+SMAX;
     var last = step===SMAX-1;
-    document.getElementById('obBtn').style.display = last ? 'none' : 'block';
-    document.getElementById('obSkip').style.display = last ? 'block' : 'none';
-    document.getElementById('obBtn').textContent = 'Continue';
-    if(last){ document.getElementById('obSkip').textContent = DATA.notif ? 'Continue' : 'Maybe later'; }
+    document.getElementById('obBtn').style.display = 'block';
+    document.getElementById('obSkip').style.display = 'none';
+    document.getElementById('obBtn').textContent = last ? 'Finish' : 'Continue';
     checkStep();
   }
   function checkStep(){
@@ -388,14 +379,12 @@
     var conf=document.getElementById('confetti'); var cols=['#ffc9db','#c3daff','#bfe8d0','#d5c8ef','#ffe0a8']; var h='';
     for(var i=0;i<26;i++){ h+='<span style="left:'+Math.round(Math.random()*100)+'%;background:'+cols[i%5]+';animation-delay:'+(Math.random()*2).toFixed(2)+'s"></span>'; }
     conf.innerHTML=h;
-    document.getElementById('doneTitle').textContent='All set, '+DATA.name+'! 🎉';
-    document.getElementById('doneMsg').textContent="Welcome to Baby Tracker. Let's capture the first of many beautiful moments together.";
+    document.getElementById('doneTitle').textContent='All set, '+(DATA.user||'there')+'! 🎉';
+    document.getElementById('doneMsg').textContent="Welcome to Baby Tracker. Let's capture the first of many beautiful moments with "+DATA.name+".";
     show('done');
+    setTimeout(enterApp, 2600); /* no CTA — the celebration holds briefly, then enters the app */
   }
   function enterApp(){ window.location.href='home3.html'; }
-
-  /* let the notif step's "Maybe later"/allow both proceed; tapping the bell marks allowed */
-  document.querySelector('.bell').addEventListener('click',function(){ DATA.notif=true; document.getElementById('obSkip').textContent='Continue'; });
 </script>
 </body>
 </html>
