@@ -285,10 +285,7 @@
   .pd-wish:active{transform:scale(.92);}
   .pd-wish.on{background:linear-gradient(150deg,#ff8fb2,#ff6f93);color:#fff;box-shadow:0 10px 20px -9px rgba(255,111,147,.8);}
   /* Wishlist sheet */
-  .wl-ph{display:flex;align-items:center;gap:13px;margin:4px 2px 18px;}
-  .wl-ph-ic{width:46px;height:46px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#ff9dbb,#ff6f93);box-shadow:0 10px 20px -9px rgba(255,111,147,.8);}
-  .wl-ph-t{font-size:23px;font-weight:800;letter-spacing:-.5px;}
-  .wl-ph-s{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .wish-ava{width:38px;height:38px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#ff9dbb,#ff6f93);box-shadow:0 8px 16px -8px rgba(255,111,147,.8);}
   .wl-row{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:11px 13px 11px 11px;margin-bottom:11px;cursor:pointer;box-shadow:0 12px 26px -18px rgba(120,90,140,.55),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .13s,box-shadow .18s;}
   .wl-row:active{transform:scale(.99);}
   .wl-img{width:60px;height:60px;border-radius:15px;flex-shrink:0;background:#f7f4fb center/contain no-repeat;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.09);}
@@ -387,6 +384,21 @@
           <div><div class="cp-title" id="cpTitle"></div><div class="cp-sub" id="cpSub"></div></div>
         </div>
         <div class="cp-body" id="cpBody"></div>
+      </div>
+
+      <!-- wishlist full page -->
+      <div class="cat-panel" id="wishPanel">
+        <div class="statusbar"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
+        </div></div>
+        <div class="cp-bar">
+          <button class="cp-back" onclick="closeWish()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <span class="wish-ava"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg></span>
+          <div class="cp-title">Wishlist</div>
+        </div>
+        <div class="cp-body" id="wishBody"></div>
       </div>
 
       <div class="bottom-nav">
@@ -571,13 +583,10 @@
     renderHub();
   }
   function openWishlist(){
-    document.getElementById('shShare').style.display='none';
-    document.getElementById('shTitle').innerHTML='<button class="pd-backhd" onclick="closeShop()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back</button>';
-    document.getElementById('shSub').style.display='none';
+    closeShop();
     var n=WISHLIST.length;
     var heart='<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg>';
     var xsvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';
-    var head='<div class="wl-ph"><div class="wl-ph-ic">'+heart.replace('width="12" height="12"','width="20" height="20"')+'</div><div><div class="wl-ph-t">Wishlist</div><div class="wl-ph-s">'+(n?n+' product'+(n>1?'s':'')+' saved to gift':'Nothing saved yet')+'</div></div></div>';
     var body;
     if(!n){
       body='<div class="wl-empty"><div class="we-ic">🎁</div><div class="we-h">No wishes yet</div><div class="we-p">Open any product and tap the ♥ heart<br>to add it here for family &amp; friends to gift.</div></div>';
@@ -590,10 +599,10 @@
           '<button class="wl-rm" onclick="event.stopPropagation();removeWish('+ix+')" aria-label="Remove">'+xsvg+'</button></div>';
       }).join('');
     }
-    document.getElementById('shBody').innerHTML='<div style="height:6px"></div>'+head+body;
-    document.querySelector('#shopSheet .sheet').classList.add('full');
-    document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
+    document.getElementById('wishBody').innerHTML='<div style="height:6px"></div>'+body;
+    document.getElementById('wishBody').scrollTop=0; document.getElementById('wishPanel').classList.add('open');
   }
+  function closeWish(){ document.getElementById('wishPanel').classList.remove('open'); }
   function removeWish(ix){ WISHLIST.splice(ix,1); saveWish(); renderHub(); openWishlist(); }
   function openWishItem(ix){ var x=WISHLIST[ix]; if(!x) return;
     renderDetail({name:x.name, imgs:x.img?[x.img]:null, fit:x.fit, emoji:x.emoji, bg:x.bg, badge:x.badge, badgecls:x.badgecls, desc:x.desc, meta:x.meta, link:x.link, back:openWishlist}); }
