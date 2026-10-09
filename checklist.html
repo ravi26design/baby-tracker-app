@@ -341,8 +341,7 @@
   .share-opt:active .share-ic{transform:scale(.9);}
   .share-lbl{font-size:11px;font-weight:700;color:#6a6472;}
   .share-ic.wa{background:#25D366;} .share-ic.tg{background:#29A9EB;} .share-ic.fb{background:#1877F2;} .share-ic.x{background:#111;} .share-ic.em{background:#8a8296;} .share-ic.cp{background:linear-gradient(150deg,#a58fd8,#8f78c4);}
-  .rem-ic{width:54px;height:54px;border-radius:17px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(150deg,#efe7fb,#e2d6f6);}
-  .rem-title{font-size:17px;font-weight:800;letter-spacing:-.2px;margin-top:10px;}
+  .rem-title{font-size:17px;font-weight:800;letter-spacing:-.2px;margin-top:18px;}
   .rem-sub{font-size:12px;color:#9a8fb3;font-weight:600;margin-top:4px;line-height:1.4;}
   .rem-opts{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
   .rem-opt{border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;color:#5a4fa0;background:#f3eefb;padding:13px;border-radius:14px;transition:transform .1s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
@@ -528,7 +527,7 @@
     var opts=[['1 week',7],['2 weeks',14],['1 month',30],['3 months',90]];
     document.getElementById('remCard').innerHTML=
       '<div class="rs-grab"></div>'+
-      '<div class="rem-ic">⏰</div><div class="rem-title">Set a reminder</div>'+
+      '<div class="rem-title">Set a reminder</div>'+
       '<div class="rem-sub">We’ll bring <b>'+name+'</b> back on your list when it’s time to restock.</div>'+
       '<div class="rem-opts">'+opts.map(function(o){return '<button class="rem-opt" onclick="setReminder(\''+o[0]+'\','+o[1]+')">In '+o[0]+'</button>';}).join('')+
       '<button class="rem-opt plain" onclick="markDoneNoReminder()">Just mark done</button></div>';
