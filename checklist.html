@@ -285,7 +285,6 @@
   .pd-wish:active{transform:scale(.92);}
   .pd-wish.on{background:linear-gradient(150deg,#ff8fb2,#ff6f93);color:#fff;box-shadow:0 10px 20px -9px rgba(255,111,147,.8);}
   /* Wishlist sheet */
-  .wish-ava{width:38px;height:38px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#ff9dbb,#ff6f93);box-shadow:0 8px 16px -8px rgba(255,111,147,.8);}
   .wl-row{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:11px 13px 11px 11px;margin-bottom:11px;cursor:pointer;box-shadow:0 12px 26px -18px rgba(120,90,140,.55),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .13s,box-shadow .18s;}
   .wl-row:active{transform:scale(.99);}
   .wl-img{width:60px;height:60px;border-radius:15px;flex-shrink:0;background:#f7f4fb center/contain no-repeat;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.09);}
@@ -296,10 +295,14 @@
   .wl-rm{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;background:#f6f2fb;color:#ab9fc6;display:flex;align-items:center;justify-content:center;transition:transform .12s,background .15s,color .15s;}
   .wl-rm:active{transform:scale(.88);background:#ffe4ea;color:#e8698f;}
   .wl-rm svg{display:block;}
-  .wl-empty{text-align:center;padding:38px 20px;color:#9a8fb3;}
-  .wl-empty .we-ic{font-size:46px;}
-  .wl-empty .we-h{font-size:15px;font-weight:800;color:var(--ink);margin-top:12px;}
-  .wl-empty .we-p{font-size:12.5px;font-weight:600;margin-top:6px;line-height:1.55;}
+  .wl-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:66px 26px 0;}
+  .we-badge{width:112px;height:112px;border-radius:36px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#ffb3ca,#ff6f93);box-shadow:0 28px 48px -20px rgba(255,111,147,.95);position:relative;animation:wePop .55s cubic-bezier(.2,.9,.3,1.4) both;}
+  .we-badge::after{content:'';position:absolute;inset:-11px;border-radius:44px;border:2px dashed rgba(255,111,147,.38);}
+  @keyframes wePop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+  .wl-empty .we-h{font-size:19px;font-weight:800;color:var(--ink);margin-top:28px;letter-spacing:-.3px;}
+  .wl-empty .we-p{font-size:13px;font-weight:600;color:var(--muted);margin-top:9px;line-height:1.6;max-width:280px;}
+  .we-btn{margin-top:24px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:13px 28px;border-radius:15px;box-shadow:0 14px 26px -11px rgba(140,116,181,.75);transition:transform .12s;}
+  .we-btn:active{transform:scale(.97);}
   .pd-name{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-top:9px;}
   .pd-meta2{font-size:12px;font-weight:700;color:#9a8fb3;margin-top:6px;}
   .pd-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
@@ -395,7 +398,6 @@
         </div></div>
         <div class="cp-bar">
           <button class="cp-back" onclick="closeWish()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-          <span class="wish-ava"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg></span>
           <div class="cp-title">Wishlist</div>
         </div>
         <div class="cp-body" id="wishBody"></div>
@@ -589,7 +591,10 @@
     var xsvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';
     var body;
     if(!n){
-      body='<div class="wl-empty"><div class="we-ic">🎁</div><div class="we-h">No wishes yet</div><div class="we-p">Open any product and tap the ♥ heart<br>to add it here for family &amp; friends to gift.</div></div>';
+      body='<div class="wl-empty"><div class="we-badge"><svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg></div>'+
+        '<div class="we-h">Your wishlist is empty</div>'+
+        '<div class="we-p">Tap the ♥ on any product to save it here — so family &amp; friends know exactly what to gift.</div>'+
+        '<button class="we-btn" onclick="closeWish()">Browse products</button></div>';
     } else {
       body=WISHLIST.map(function(x,ix){
         var img=x.img?'style="background-image:url(\''+x.img+'\')"':'';
