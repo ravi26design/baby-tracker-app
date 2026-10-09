@@ -285,19 +285,24 @@
   .pd-wish:active{transform:scale(.92);}
   .pd-wish.on{background:linear-gradient(150deg,#ff8fb2,#ff6f93);color:#fff;box-shadow:0 10px 20px -9px rgba(255,111,147,.8);}
   /* Wishlist sheet */
-  .wl-note{font-size:12.5px;font-weight:600;color:#9a8fb3;background:#faf6fd;border-radius:14px;padding:11px 13px;margin:2px 0 14px;line-height:1.5;display:flex;gap:9px;align-items:flex-start;}
-  .wl-row{display:flex;align-items:center;gap:13px;background:#fff;border-radius:17px;padding:10px 12px;margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.05);}
-  .wl-img{width:52px;height:52px;border-radius:13px;flex-shrink:0;background:#f4eff9 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .wl-ph{display:flex;align-items:center;gap:13px;margin:4px 2px 18px;}
+  .wl-ph-ic{width:46px;height:46px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#ff9dbb,#ff6f93);box-shadow:0 10px 20px -9px rgba(255,111,147,.8);}
+  .wl-ph-t{font-size:23px;font-weight:800;letter-spacing:-.5px;}
+  .wl-ph-s{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .wl-row{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:11px 13px 11px 11px;margin-bottom:11px;cursor:pointer;box-shadow:0 12px 26px -18px rgba(120,90,140,.55),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .13s,box-shadow .18s;}
+  .wl-row:active{transform:scale(.99);}
+  .wl-img{width:60px;height:60px;border-radius:15px;flex-shrink:0;background:#f7f4fb center/contain no-repeat;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.09);}
   .wl-t{flex:1;min-width:0;}
-  .wl-n{font-size:14px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .wl-d{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px;}
-  .wl-rm{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:#fff0f3;color:#e8698f;font-size:16px;display:flex;align-items:center;justify-content:center;}
-  .wl-rm:active{transform:scale(.9);}
+  .wl-n{font-size:15px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .wl-tag{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;font-weight:800;color:#e8698f;background:#ffeef3;padding:4px 9px 4px 8px;border-radius:9px;}
+  .wl-tag svg{display:block;}
+  .wl-rm{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;background:#f6f2fb;color:#ab9fc6;display:flex;align-items:center;justify-content:center;transition:transform .12s,background .15s,color .15s;}
+  .wl-rm:active{transform:scale(.88);background:#ffe4ea;color:#e8698f;}
+  .wl-rm svg{display:block;}
   .wl-empty{text-align:center;padding:38px 20px;color:#9a8fb3;}
   .wl-empty .we-ic{font-size:46px;}
   .wl-empty .we-h{font-size:15px;font-weight:800;color:var(--ink);margin-top:12px;}
   .wl-empty .we-p{font-size:12.5px;font-weight:600;margin-top:6px;line-height:1.55;}
-  .wl-share{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#ff9dbb,#ff6f93);padding:15px;border-radius:16px;margin-top:8px;box-shadow:0 12px 24px -10px rgba(255,111,147,.7);}
   .pd-name{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-top:9px;}
   .pd-meta2{font-size:12px;font-weight:700;color:#9a8fb3;margin-top:6px;}
   .pd-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
@@ -364,7 +369,7 @@
         </div></div>
 
         <div class="content">
-          <div class="head"><div><h1>Checklist</h1><p id="clSub" style="display:none"></p></div><button class="wish-btn" onclick="openWishlist()" aria-label="Give Wishlist"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg><span class="wb-badge" id="wishBadge" style="display:none">0</span></button></div>
+          <div class="head"><div><h1>Checklist</h1><p id="clSub" style="display:none"></p></div><button class="wish-btn" onclick="openWishlist()" aria-label="Wishlist"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg><span class="wb-badge" id="wishBadge" style="display:none">0</span></button></div>
           <div class="child-tabs" id="childTabs"></div>
           <div class="hub" id="hub" style="margin-top:18px"></div>
         </div>
@@ -567,31 +572,31 @@
   }
   function openWishlist(){
     document.getElementById('shShare').style.display='none';
-    document.getElementById('shTitle').textContent='Give Wishlist';
-    var ss=document.getElementById('shSub'); ss.textContent='Products loved ones can gift '+(CHILDREN[CUR_CHILD].isMother?'mumma':CHILDREN[CUR_CHILD].name); ss.style.display='';
+    document.getElementById('shTitle').innerHTML='<button class="pd-backhd" onclick="closeShop()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back</button>';
+    document.getElementById('shSub').style.display='none';
+    var n=WISHLIST.length;
+    var heart='<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg>';
+    var xsvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';
+    var head='<div class="wl-ph"><div class="wl-ph-ic">'+heart.replace('width="12" height="12"','width="20" height="20"')+'</div><div><div class="wl-ph-t">Wishlist</div><div class="wl-ph-s">'+(n?n+' product'+(n>1?'s':'')+' saved to gift':'Nothing saved yet')+'</div></div></div>';
     var body;
-    if(!WISHLIST.length){
+    if(!n){
       body='<div class="wl-empty"><div class="we-ic">🎁</div><div class="we-h">No wishes yet</div><div class="we-p">Open any product and tap the ♥ heart<br>to add it here for family &amp; friends to gift.</div></div>';
     } else {
-      var rows=WISHLIST.map(function(x,ix){
+      body=WISHLIST.map(function(x,ix){
         var img=x.img?'style="background-image:url(\''+x.img+'\')"':'';
         var ic=x.img?'':(x.emoji||'🛍️');
         return '<div class="wl-row" onclick="openWishItem('+ix+')"><span class="wl-img" '+img+'>'+ic+'</span>'+
-          '<div class="wl-t"><div class="wl-n">'+x.name+'</div><div class="wl-d">Tap to view · ♥ wishlisted</div></div>'+
-          '<button class="wl-rm" onclick="event.stopPropagation();removeWish('+ix+')" aria-label="Remove">✕</button></div>';
+          '<div class="wl-t"><div class="wl-n">'+x.name+'</div><span class="wl-tag">'+heart+'Wishlisted</span></div>'+
+          '<button class="wl-rm" onclick="event.stopPropagation();removeWish('+ix+')" aria-label="Remove">'+xsvg+'</button></div>';
       }).join('');
-      body='<div class="wl-note"><span>💝</span><div>Share this list so family &amp; friends know exactly what to gift — no duplicates, no guesswork.</div></div>'+
-        rows+'<button class="wl-share" onclick="shareWishlist()">'+shareGlyph()+'Share wishlist</button>';
     }
-    document.getElementById('shBody').innerHTML='<div style="height:2px"></div>'+body;
-    document.querySelector('#shopSheet .sheet').classList.remove('full');
+    document.getElementById('shBody').innerHTML='<div style="height:6px"></div>'+head+body;
+    document.querySelector('#shopSheet .sheet').classList.add('full');
     document.getElementById('shBody').scrollTop=0; document.getElementById('shopSheet').classList.add('open');
   }
   function removeWish(ix){ WISHLIST.splice(ix,1); saveWish(); renderHub(); openWishlist(); }
   function openWishItem(ix){ var x=WISHLIST[ix]; if(!x) return;
     renderDetail({name:x.name, imgs:x.img?[x.img]:null, fit:x.fit, emoji:x.emoji, bg:x.bg, badge:x.badge, badgecls:x.badgecls, desc:x.desc, meta:x.meta, link:x.link, back:openWishlist}); }
-  function shareGlyph(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>'; }
-  function shareWishlist(){ PD_NAME=(CHILDREN[CUR_CHILD].isMother?'Mumma':CHILDREN[CUR_CHILD].name)+"'s wishlist"; PD_LINK='https://ravi26design.github.io/baby-tracker-app/'; shareDetail(); }
 
   /* in-app only — never redirect to another app; show a shareable card */
   function sendWhatsAppLink(){ showLinkCard(); }
