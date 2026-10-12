@@ -89,7 +89,7 @@ var ESS={
 
 /* ---- toys (age-wise, by education method) ---- */
 function _m(mont,reg,wal,play){ function it(a){return a.map(function(n){return {n:n,shop:'toys'};});}
- return [{cat:'Montessori',ic:'🧩',tint:'#e7d9ff',items:it(mont)},{cat:'Reggio Emilia',ic:'🎨',tint:'#ffd9e2',items:it(reg)},{cat:'Waldorf',ic:'🌿',tint:'#d6f3e0',items:it(wal)},{cat:'Play-Based',ic:'🎈',tint:'#fff0d0',items:it(play)}];
+ return [{cat:'Montessori',desc:'Self-led, hands-on learning',ic:'🧩',tint:'#e7d9ff',items:it(mont)},{cat:'Reggio Emilia',desc:'Creative, art-led exploration',ic:'🎨',tint:'#ffd9e2',items:it(reg)},{cat:'Waldorf',desc:'Natural, imaginative play',ic:'🌿',tint:'#d6f3e0',items:it(wal)},{cat:'Play-Based',desc:'Learning through fun & games',ic:'🎈',tint:'#fff0d0',items:it(play)}];
 }
 var TOYS={
  '0–3m':_m(['Black & white mobiles','Soft fabric balls','Wooden grasping toys'],['Soft high-contrast plush toys','Soft fabric rattles','Textured fabric books'],['Hand-knitted wool animals','Natural wood rattles','Woolen mobile'],['Crib mobiles with gentle sounds','Sensory balls (squishy)','Soft plush toys, varied textures']),
