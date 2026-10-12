@@ -1008,7 +1008,9 @@
     T_INSHEET=true;
     document.getElementById('tripSheetCard').innerHTML=tsHead()+tripFormFields();
     document.getElementById('tripSheet').classList.add('open');
-    var el=document.getElementById('tripName'); if(el&&!editId) el.focus();
+    document.getElementById('tripSheetCard').scrollTop=0;
+    try{ document.querySelector('.screen').scrollTop=0; }catch(e){}
+    var el=document.getElementById('tripName'); if(el&&!editId){ try{ el.focus({preventScroll:true}); }catch(e){} }
   }
   function closeTripSheet(){ document.getElementById('tripSheet').classList.remove('open'); T_INSHEET=false; EDIT_ID=null; }
   function newTrip(){ T_NAME=''; T_DAYS=5; T_SEASON='Summer'; T_DEST='Flight'; }
