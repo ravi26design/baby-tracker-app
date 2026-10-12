@@ -222,8 +222,14 @@
   .t-field::placeholder{color:#b3adbe;font-weight:500;}
   .create-trip-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:15px;border-radius:16px;margin-top:22px;box-shadow:0 12px 24px -10px rgba(140,116,181,.7);transition:transform .12s;}
   .create-trip-btn:active{transform:scale(.98);}
+  .ts-sheet{text-align:left;max-height:90%;overflow-y:auto;padding-bottom:30px;}
+  .ts-sheet::-webkit-scrollbar{display:none;}
+  .ts-head{font-size:18px;font-weight:800;letter-spacing:-.3px;color:var(--ink);text-align:center;margin:-4px 0 16px;}
+  .trip-add{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#7a5fd0;background:#f3eefb;padding:15px;border-radius:16px;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.22);transition:transform .12s,background .15s;}
+  .trip-add:active{transform:scale(.98);background:#ece3fb;}
   /* one-card create-trip form */
   .trip-form{background:#fff;border-radius:22px;padding:18px 16px 16px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);}
+  .trip-form.bare{background:transparent;box-shadow:none;padding:0;border-radius:0;}
   .trip-form>.p-lbl:first-child{margin-top:0;}
   .trip-form .t-field{background:#f4f1f9;box-shadow:inset 0 0 0 1px rgba(139,116,181,.13);}
   .trip-form .day-step{background:#f4f1f9;box-shadow:inset 0 0 0 1px rgba(139,116,181,.11);}
@@ -472,6 +478,10 @@
 
       <div class="rs-overlay" id="shareSheet" onclick="if(event.target===this)closeShareSheet()">
         <div class="rs-sheet" id="shareCard"></div>
+      </div>
+
+      <div class="rs-overlay" id="tripSheet" onclick="if(event.target===this)closeTripSheet()">
+        <div class="rs-sheet ts-sheet" id="tripSheetCard"></div>
       </div>
 
       <div class="toast" id="toast"></div>
@@ -928,44 +938,64 @@
     ].filter(function(g){return g.items.length;});
   }
 
-  /* trip list + create form */
-  function renderTravel(){
-    CUR_TRIP=null;
-    var ct=document.getElementById('cpTitle'); if(ct) ct.textContent='Travel';
-    var cs=document.getElementById('cpSub'); if(cs) cs.style.display='none';
-    var xsvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';
-    var form='<div class="trip-form">'+
-      '<div class="p-lbl">Trip name</div><input id="tripName" class="t-field" type="text" placeholder="e.g. Goa beach holiday" value="'+T_NAME.replace(/"/g,'&quot;')+'" oninput="syncName()">'+
+  /* ---- create-trip form (shared by empty-state page + bottom sheet) ---- */
+  var T_INSHEET=false;
+  function tripFormFields(){
+    return '<div class="p-lbl">Trip name</div><input id="tripName" class="t-field" type="text" placeholder="e.g. Goa beach holiday" value="'+T_NAME.replace(/"/g,'&quot;')+'" oninput="syncName()">'+
       '<div class="p-lbl" style="margin-top:18px">Trip duration</div><div class="day-step"><button class="dstep" onclick="setDays(-1)">−</button><div class="day-val"><b>'+T_DAYS+'</b> '+(T_DAYS===1?'day':'days')+'</div><button class="dstep" onclick="setDays(1)">+</button></div>'+
       '<div class="p-lbl" style="margin-top:18px">Season / occasion</div><div class="type-row">'+SEASONS.map(function(t){return '<button class="ttype'+(t[0]===T_SEASON?' on':'')+'" onclick="setSeason(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>'+
       '<div class="p-lbl" style="margin-top:18px">Destination</div><div class="type-row">'+DESTS.map(function(t){return '<button class="ttype'+(t[0]===T_DEST?' on':'')+'" onclick="setDest(\''+t[0]+'\')"><span class="te">'+t[1]+'</span>'+t[0]+'</button>';}).join('')+'</div>'+
-      '<button class="create-trip-btn" onclick="createTrip()"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Create Trip</button>'+
-      '</div>';
-    var list='';
+      '<button class="create-trip-btn" onclick="createTrip()"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Create Trip</button>';
+  }
+  function tripCardsHTML(){
+    var xsvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';
+    return TRIPS.map(function(t){
+      return '<div class="trip-card" onclick="openTrip(\''+t.id+'\')"><span class="trip-ic">'+destIc(t.dest)+'</span>'+
+        '<div class="trip-info"><div class="trip-nm">'+t.name+'</div><div class="trip-meta">'+t.days+' day'+(t.days>1?'s':'')+' · '+t.season+' · '+t.dest+'</div></div>'+
+        '<button class="trip-del" onclick="deleteTrip(\''+t.id+'\',event)" aria-label="Delete">'+xsvg+'</button></div>';
+    }).join('');
+  }
+  /* entry: no trips → full-page create form; ≥1 trip → + CTA on top + trip list */
+  function renderTravel(){
+    CUR_TRIP=null; T_INSHEET=false;
+    var ct=document.getElementById('cpTitle'); if(ct) ct.textContent='Travel';
+    var cs=document.getElementById('cpSub'); if(cs) cs.style.display='none';
     if(TRIPS.length){
-      list='<div class="sec-head">Your trips</div>'+TRIPS.map(function(t){
-        return '<div class="trip-card" onclick="openTrip(\''+t.id+'\')"><span class="trip-ic">'+destIc(t.dest)+'</span>'+
-          '<div class="trip-info"><div class="trip-nm">'+t.name+'</div><div class="trip-meta">'+t.days+' day'+(t.days>1?'s':'')+' · '+t.season+' · '+t.dest+'</div></div>'+
-          '<button class="trip-del" onclick="deleteTrip(\''+t.id+'\',event)" aria-label="Delete">'+xsvg+'</button></div>';
-      }).join('');
+      document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+
+        '<button class="trip-add" onclick="openCreateSheet()"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Create a new trip</button>'+
+        '<div class="sec-head">Your trips</div>'+tripCardsHTML();
+    } else {
+      document.getElementById('cpBody').innerHTML='<div style="height:6px"></div><div class="trip-form">'+tripFormFields()+'</div>';
     }
-    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+form+list;
+    document.getElementById('cpBody').scrollTop=0;
+  }
+  function openCreateSheet(){
+    newTrip(); T_INSHEET=true;
+    document.getElementById('tripSheetCard').innerHTML='<div class="rs-grab"></div><div class="ts-head">Create a trip</div>'+tripFormFields();
+    document.getElementById('tripSheet').classList.add('open');
+    var el=document.getElementById('tripName'); if(el) el.focus();
+  }
+  function closeTripSheet(){ document.getElementById('tripSheet').classList.remove('open'); T_INSHEET=false; }
+  function newTrip(){ T_NAME=''; T_DAYS=5; T_SEASON='Summer'; T_DEST='Flight'; }
+  function renderFormUI(){
+    if(T_INSHEET){ document.getElementById('tripSheetCard').innerHTML='<div class="rs-grab"></div><div class="ts-head">Create a trip</div>'+tripFormFields(); }
+    else { document.getElementById('cpBody').innerHTML='<div style="height:6px"></div><div class="trip-form">'+tripFormFields()+'</div>'; }
   }
   function syncName(){ var el=document.getElementById('tripName'); if(el) T_NAME=el.value; }
-  function setDays(delta){ syncName(); T_DAYS=Math.max(1,Math.min(30,T_DAYS+(delta||0))); renderTravel(); }
-  function setSeason(s){ syncName(); T_SEASON=s; renderTravel(); }
-  function setDest(s){ syncName(); T_DEST=s; renderTravel(); }
+  function setDays(delta){ syncName(); T_DAYS=Math.max(1,Math.min(30,T_DAYS+(delta||0))); renderFormUI(); }
+  function setSeason(s){ syncName(); T_SEASON=s; renderFormUI(); }
+  function setDest(s){ syncName(); T_DEST=s; renderFormUI(); }
   function createTrip(){
     syncName();
     var name=(T_NAME||'').trim()||(T_DEST+' · '+T_SEASON);
     var id='t'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
     TRIPS.unshift({id:id,name:name,days:T_DAYS,season:T_SEASON,dest:T_DEST,child:CUR_CHILD});
-    saveTrips(); T_NAME=''; toast('Trip created ✈️'); openTrip(id);
+    saveTrips(); closeTripSheet(); toast('Trip created ✈️'); openTrip(id);
   }
   function deleteTrip(id,ev){ if(ev)ev.stopPropagation(); TRIPS=TRIPS.filter(function(t){return t.id!==id;}); saveTrips(); renderTravel(); }
   function openTrip(id){
     var t=TRIPS.filter(function(x){return x.id===id;})[0]; if(!t){ renderTravel(); return; }
-    CUR_TRIP=t;
+    CUR_TRIP=t; T_INSHEET=false;
     var ct=document.getElementById('cpTitle'); if(ct) ct.textContent=t.name;
     var cs=document.getElementById('cpSub'); if(cs) cs.style.display='none';
     var hero='<div class="trip-hero"><div class="th-top"><span class="th-emoji">'+destIc(t.dest)+'</span>'+
