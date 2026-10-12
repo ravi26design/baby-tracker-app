@@ -111,9 +111,12 @@
   .ci-row.done{background:#faf9fc;}
   .rem-badge{font-size:10px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;white-space:nowrap;}
   .ess{font-size:9px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:2px 7px;border-radius:7px;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;}
-  .sugg-tag{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;color:#7a5fd0;background:#f1ecfb;padding:4px 9px 4px 8px;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
-  .sugg-tag svg{display:block;}
-  .ci-row.done .sugg-tag{opacity:.4;}
+  .pk-ic.add{background:repeating-linear-gradient(45deg,#faf8fd,#faf8fd 4px,#f3eff9 4px,#f3eff9 8px);box-shadow:inset 0 0 0 1.4px rgba(150,140,175,.28);color:#b4abc8;}
+  .ci-nt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
+  .ci-nt .ci-n{flex:none;}
+  .ci-hint{font-size:11px;font-weight:700;color:#b1a8c4;}
+  .ci-row.plain .ci-n{color:#9a92ad;}
+  .ci-row.plain.done .ci-hint{opacity:.5;}
   .brand-tag{font-size:10.5px;font-weight:700;color:#8574b5;background:#efe9f7;padding:3px 8px;border-radius:8px;flex-shrink:0;}
   .brand-tag.prem{background:#fff3d9;color:#9c7418;} .brand-tag.mid{background:#efe6ff;color:#6a4fc0;} .brand-tag.eco{background:#dff3e7;color:#2b7d54;}
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
@@ -501,12 +504,14 @@
         var img=(it.shop&&(typeof PHOTOS!=='undefined')&&PHOTOS[it.shop]) || ((typeof HOSP_IMG!=='undefined')&&HOSP_IMG[it.n]&&PHOTOS[HOSP_IMG[it.n]]);
         var logo=(typeof BRAND_LOGO!=='undefined')&&BRAND_LOGO[it.n];
         var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':(logo?'<span class="pk-ic" style="background:#fff url(\''+logo+'\') center/contain no-repeat;background-size:66%"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>');
+        var hasSugg=!!(it.shop||it.link);
         var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'toggleRow(\''+id+'\',this)');
-        return '<div class="ci-row'+(on?' done':'')+'" onclick="'+tap+'">'+ic+'<span class="ci-n">'+it.n+'</span>'+
+        var lead=hasSugg?ic:'<span class="pk-ic add"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>';
+        var nameCell=hasSugg?'<span class="ci-n">'+it.n+'</span>':'<span class="ci-nt"><span class="ci-n">'+it.n+'</span><span class="ci-hint">Add your own</span></span>';
+        return '<div class="ci-row'+(on?' done':'')+(hasSugg?'':' plain')+'" onclick="'+tap+'">'+lead+nameCell+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
           (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.tag?'<span class="brand-tag '+(it.tagcls||'')+'">'+it.tag+'</span>':'')+
-          ((it.shop||it.link)?'<span class="sugg-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Picks</span>':'')+
           '<span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+id+'\',this)">'+CHECK_SVG+'</span></div>';
       }).join('');
       return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
