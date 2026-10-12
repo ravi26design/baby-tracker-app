@@ -111,6 +111,9 @@
   .ci-row.done{background:#faf9fc;}
   .rem-badge{font-size:10px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;white-space:nowrap;}
   .ess{font-size:9px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:2px 7px;border-radius:7px;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;}
+  .sugg-tag{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;color:#7a5fd0;background:#f1ecfb;padding:4px 9px 4px 8px;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .sugg-tag svg{display:block;}
+  .ci-row.done .sugg-tag{opacity:.4;}
   .brand-tag{font-size:10.5px;font-weight:700;color:#8574b5;background:#efe9f7;padding:3px 8px;border-radius:8px;flex-shrink:0;}
   .brand-tag.prem{background:#fff3d9;color:#9c7418;} .brand-tag.mid{background:#efe6ff;color:#6a4fc0;} .brand-tag.eco{background:#dff3e7;color:#2b7d54;}
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
@@ -503,6 +506,7 @@
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
           (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
           (it.tag?'<span class="brand-tag '+(it.tagcls||'')+'">'+it.tag+'</span>':'')+
+          ((it.shop||it.link)?'<span class="sugg-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Picks</span>':'')+
           '<span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+id+'\',this)">'+CHECK_SVG+'</span></div>';
       }).join('');
       return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
