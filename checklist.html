@@ -474,34 +474,49 @@
     var b=document.getElementById('wishBadge'); if(!b) return; var n=WISHLIST.length;
     if(n){ b.textContent=n>99?'99+':n; b.style.display='flex'; } else { b.style.display='none'; }
   }
-  /* progress per card: required (essential) items where flagged, else all items */
-  function catProgress(c){
-    var done=0,total=0; if(!c) return {done:0,total:0};
+  /* list of toggle ids for a category (required items where flagged, else all) */
+  function catItemIds(c){
+    var ids=[]; if(!c) return ids;
     var stage=CUR_STAGE||(CHILDREN[CUR_CHILD]&&CHILDREN[CUR_CHILD].stage)||'';
-    function add(id){ total++; if(CHECKED[id]) done++; }
     if(c.type==='sections'&&c.data){
       var hasEss=false;
       c.data.forEach(function(sec){ (sec.items||[]).forEach(function(it){ if(it.ess) hasEss=true; }); });
-      c.data.forEach(function(sec,si){ (sec.items||[]).forEach(function(it,ii){ if(hasEss&&!it.ess) return; add('s|'+c.key+'|'+si+'|'+ii); }); });
+      c.data.forEach(function(sec,si){ (sec.items||[]).forEach(function(it,ii){ if(hasEss&&!it.ess) return; ids.push('s|'+c.key+'|'+si+'|'+ii); }); });
     } else if(c.type==='age'&&c.data){
-      (c.data[stage]||[]).forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ add('x|'+c.key+'|'+stage+'|'+gi+'|'+ii); }); });
+      (c.data[stage]||[]).forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ ids.push('x|'+c.key+'|'+stage+'|'+gi+'|'+ii); }); });
     } else if(c.type==='brands'&&c.data){
-      c.data.forEach(function(g,gi){ var n=0; (g.tiers||[]).forEach(function(t){ (t.brands||[]).forEach(function(){ n++; }); }); for(var ii=0;ii<n;ii++) add('bg|'+gi+'|'+ii); });
+      c.data.forEach(function(g,gi){ var n=0; (g.tiers||[]).forEach(function(t){ (t.brands||[]).forEach(function(){ n++; }); }); for(var ii=0;ii<n;ii++) ids.push('bg|'+gi+'|'+ii); });
     } else if(c.type==='books'&&c.data){
-      (c.data[stage]||[]).forEach(function(_,i){ add('bk|'+stage+'|'+i); });
-      if(typeof FINDS!=='undefined'){ (FINDS.diy||[]).forEach(function(_,i){ add('fdiy|'+i); }); (FINDS.keepsakes||[]).forEach(function(_,i){ add('fkeep|'+i); }); }
+      (c.data[stage]||[]).forEach(function(_,i){ ids.push('bk|'+stage+'|'+i); });
+      if(typeof FINDS!=='undefined'){ (FINDS.diy||[]).forEach(function(_,i){ ids.push('fdiy|'+i); }); (FINDS.keepsakes||[]).forEach(function(_,i){ ids.push('fkeep|'+i); }); }
     } else if(c.type==='diy'&&c.data){
-      c.data.forEach(function(_,i){ add('diy|'+i); });
+      c.data.forEach(function(_,i){ ids.push('diy|'+i); });
     } else if(c.type==='food'&&c.data&&c.data.brands){
       var sL=parseInt(stage,10)||0, sUm=String(stage).match(/[–-]\s*(\d+)/), sU=sUm?parseInt(sUm[1],10):sL;
       var startM=function(s){ var m=s.match(/(\d+)\s*m/i); if(m) return parseInt(m[1],10); var y=s.match(/(\d+)\s*y/i); return y?parseInt(y[1],10)*12:0; };
       var endM=function(s){ if(/adult/i.test(s)) return Infinity; var y=s.match(/(\d+)\s*y/i); if(y) return parseInt(y[1],10)*12; var m=s.match(/(\d+)\s*m/i); return m?parseInt(m[1],10):Infinity; };
-      c.data.brands.forEach(function(b,fi){ var p=b[2].split(/[–-]/); if(sL>=startM(p[0])&&sU<=endM(p[1]||p[0])) add('food|'+fi); });
+      c.data.brands.forEach(function(b,fi){ var p=b[2].split(/[–-]/); if(sL>=startM(p[0])&&sU<=endM(p[1]||p[0])) ids.push('food|'+fi); });
     } else if(c.type==='travel'){
       var _s=CUR_STAGE; CUR_STAGE=stage; var gs=[]; try{ gs=tripSections(); }catch(e){} CUR_STAGE=_s;
-      gs.forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ add('trip|'+T_DEST+'|'+T_SEASON+'|'+gi+'|'+ii); }); });
+      gs.forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ ids.push('trip|'+T_DEST+'|'+T_SEASON+'|'+gi+'|'+ii); }); });
     }
-    return {done:done,total:total};
+    return ids;
+  }
+  function catProgress(c){ var ids=catItemIds(c), done=0; for(var i=0;i<ids.length;i++) if(CHECKED[ids[i]]) done++; return {done:done,total:ids.length}; }
+  /* pre-fill a realistic, varied amount of progress (demo) */
+  function seedProgress(){
+    var savedChild=CUR_CHILD, savedStage=CUR_STAGE;
+    Object.keys(CHILDREN).forEach(function(k){
+      CUR_CHILD=k; CUR_STAGE=CHILDREN[k].stage;
+      activeCats().forEach(function(c){
+        var ids=catItemIds(c); if(!ids.length) return;
+        var h=0,s=c.key+'|'+k; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0;
+        var frac=0.22+(h%34)/100;                 // 22%–55%
+        var n=Math.round(ids.length*frac);
+        for(var j=0;j<n;j++) CHECKED[ids[j]]=true;
+      });
+    });
+    CUR_CHILD=savedChild; CUR_STAGE=savedStage;
   }
   function renderHub(){
     updateWishIcon();
@@ -1032,7 +1047,7 @@
     grab.addEventListener('pointerup',function(e){ if(!drag)return; drag=false; var dy=e.clientY-sY; if(dy<-22)expand(); else if(dy>22){ if(isFull())half(); else closeShop(); } });
   })();
 
-  renderChildTabs(); renderHub();
+  seedProgress(); renderChildTabs(); renderHub();
 </script>
 </body>
 </html>
