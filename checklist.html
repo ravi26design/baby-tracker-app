@@ -357,6 +357,11 @@
   .pd-wish:active{transform:scale(.92);}
   .pd-wish.on{background:linear-gradient(150deg,#ff8fb2,#ff6f93);color:#fff;box-shadow:0 10px 20px -9px rgba(255,111,147,.8);}
   /* Wishlist sheet */
+  .wl-tabs{margin:0 -4px 14px;padding:2px 4px 4px;}
+  .wl-filters{margin:0 -4px 14px;padding:0 4px 2px;}
+  .wl-cat{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#9a8fb3;margin:22px 2px 12px;}
+  .wl-cat:first-child{margin-top:4px;}
+  .wl-cat-n{font-size:11px;font-weight:800;color:#8574b5;background:#f1ecfb;padding:2px 8px;border-radius:9px;letter-spacing:0;}
   .wl-row{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:11px 13px 11px 11px;margin-bottom:11px;cursor:pointer;box-shadow:0 12px 26px -18px rgba(120,90,140,.55),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .13s,box-shadow .18s;}
   .wl-row:active{transform:scale(.99);}
   .wl-img{width:60px;height:60px;border-radius:15px;flex-shrink:0;background:#f7f4fb center/contain no-repeat;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.09);}
@@ -537,7 +542,7 @@
       return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span><span class="ct-t"><span class="ct-name">'+c.name+'</span><span class="ct-age">'+c.age+'</span></span></button>';
     }).join('');
   }
-  function switchChild(k){ CUR_CHILD=k; renderChildTabs(); renderHub();
+  function switchChild(k){ CUR_CHILD=k; syncWish(); renderChildTabs(); renderHub();
     if(CUR_CAT && activeCats().filter(function(x){return x.key===CUR_CAT;})[0]) openCat(CUR_CAT);
     else { CUR_CAT=null; closeCat(); } }
 
@@ -699,34 +704,56 @@
   };
   var PD_NAME='', PD_LINK='', PD_IMG=null, PD_EMOJI='🛍️', PD_ITEM=null;
 
-  /* ---------- Give Wishlist (gift registry) ---------- */
-  var WISHLIST=loadWish();
-  function loadWish(){ try{ return JSON.parse(localStorage.getItem('bt_wishlist')||'[]'); }catch(e){ return []; } }
-  function saveWish(){ try{ localStorage.setItem('bt_wishlist',JSON.stringify(WISHLIST)); }catch(e){} }
+  /* ---------- Give Wishlist (gift registry, per child) ---------- */
+  var WISHLISTS=loadWishlists();
+  function loadWishlists(){ try{ var o=JSON.parse(localStorage.getItem('bt_wishlists2')||'null'); return (o&&typeof o==='object'&&!Array.isArray(o))?o:{}; }catch(e){ return {}; } }
+  if(!WISHLISTS[CUR_CHILD]) WISHLISTS[CUR_CHILD]=[];
+  var WISHLIST=WISHLISTS[CUR_CHILD], WISH_FILTER='All';
+  function syncWish(){ if(!WISHLISTS[CUR_CHILD]) WISHLISTS[CUR_CHILD]=[]; WISHLIST=WISHLISTS[CUR_CHILD]; }
+  function saveWish(){ try{ WISHLISTS[CUR_CHILD]=WISHLIST; localStorage.setItem('bt_wishlists2',JSON.stringify(WISHLISTS)); }catch(e){} }
+  function curCatName(){ var c=(typeof activeCats==='function')&&activeCats().filter(function(x){return x.key===CUR_CAT;})[0]; return (c&&c.name)||'Baby Essentials'; }
   function wishKey(o){ return (o.name||'')+'|'+(o.link||''); }
-  /* pre-populate the wishlist with demo products (tops up if nearly empty) */
+  /* pre-populate each child's wishlist with categorized demo products */
   function seedWishlist(){
-    if(WISHLIST.length>=4) return;
-    var demo=[
-      {name:'Huggies Wonder Pants',shop:'diapers',fit:'cover'},
-      {name:'Mother Sparsh body wash',shop:'bodywash',fit:'cover'},
-      {name:'Aveeno baby lotion',shop:'lotion',fit:'cover'},
-      {name:'Baby stroller',shop:'stroller',fit:'cover'},
-      {name:'Convertible car seat',shop:'carseat',fit:'cover'},
-      {name:'Silicone teether',shop:'teether',fit:'cover'},
-      {name:'Wooden high chair',shop:'highchair',fit:'cover'},
-      {name:'Steel feeding bottle',shop:'bottle',fit:'cover'},
-      {name:'Baby sunscreen SPF50',shop:'sunscreen',fit:'cover'},
-      {name:'Soft swaddle wrap',shop:'swaddle',fit:'cover'}
-    ];
-    var have={}; WISHLIST.forEach(function(x){ have[x.key]=1; });
-    demo.forEach(function(it){
-      var link='https://www.amazon.in/s?k='+encodeURIComponent(it.name);
-      var k=it.name+'|'+link; if(have[k]) return;
-      var img=(typeof PHOTOS!=='undefined')?PHOTOS[it.shop]:null;
-      WISHLIST.push({key:k,name:it.name,img:img||null,imgs:img?[img]:null,fit:it.fit||'contain',emoji:'🛍️',link:link});
+    var seeds={
+      mark:[
+        {name:'Huggies Wonder Pants',shop:'diapers',cat:'Baby Essentials'},
+        {name:'Mother Sparsh body wash',shop:'bodywash',cat:'Baby Essentials'},
+        {name:'Aveeno baby lotion',shop:'lotion',cat:'Baby Essentials'},
+        {name:'Baby sunscreen SPF50',shop:'sunscreen',cat:'Baby Essentials'},
+        {name:'Soft swaddle wrap',shop:'swaddle',cat:'Baby Essentials'},
+        {name:'Steel feeding bottle',shop:'bottle',cat:'Feeding & Essentials'},
+        {name:'Silicone teether',shop:'teether',cat:'Feeding & Essentials'},
+        {name:'Wooden high chair',shop:'highchair',cat:'Feeding & Essentials'},
+        {name:'Baby stroller',shop:'stroller',cat:'Travel'},
+        {name:'Convertible car seat',shop:'carseat',cat:'Travel'}
+      ],
+      lily:[
+        {name:'Potty training seat',shop:'pottyseat',cat:'Baby Essentials'},
+        {name:'Kids body wash',shop:'bodywash',cat:'Baby Essentials'},
+        {name:'Toothbrush & paste',shop:'toothbrush',cat:'Baby Essentials'},
+        {name:'Steel sipper bottle',shop:'steelsipper',cat:'Feeding & Essentials'},
+        {name:'Snack box',shop:'snackbox',cat:'Feeding & Essentials'},
+        {name:'Convertible car seat',shop:'carseat',cat:'Travel'}
+      ],
+      mother:[
+        {name:'Nursing pillow',shop:'feedpillow',cat:'Feeding & Nursing'},
+        {name:'Electric breast pump',shop:'electricpump',cat:'Feeding & Nursing'},
+        {name:'Nursing cover',shop:'nursingcover',cat:'Feeding & Nursing'},
+        {name:'Maternity pads',shop:'matpads',cat:'Recovery & Maternity'}
+      ]
+    };
+    Object.keys(seeds).forEach(function(ch){
+      if(!WISHLISTS[ch]) WISHLISTS[ch]=[];
+      if(WISHLISTS[ch].length) return;
+      seeds[ch].forEach(function(it){
+        var link='https://www.amazon.in/s?k='+encodeURIComponent(it.name);
+        var img=(typeof PHOTOS!=='undefined')?PHOTOS[it.shop]:null;
+        WISHLISTS[ch].push({key:it.name+'|'+link,name:it.name,img:img||null,imgs:img?[img]:null,fit:'cover',emoji:'🛍️',link:link,cat:it.cat});
+      });
     });
-    saveWish();
+    syncWish();
+    try{ localStorage.setItem('bt_wishlists2',JSON.stringify(WISHLISTS)); }catch(e){}
   }
   function inWish(o){ if(!o) return false; var k=wishKey(o); return WISHLIST.some(function(x){return x.key===k;}); }
   var HEART_O='<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg>';
@@ -739,33 +766,53 @@
     var btn=document.getElementById('pdWish'); if(btn){ var on=inWish(PD_ITEM); btn.className='pd-wish'+(on?' on':''); btn.innerHTML=on?HEART_F:HEART_O; }
     renderHub();
   }
+  function wishChildTabs(){
+    return '<div class="child-tabs wl-tabs">'+Object.keys(CHILDREN).map(function(k){ var c=CHILDREN[k];
+      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchWishChild(\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span><span class="ct-t"><span class="ct-name">'+c.name+'</span><span class="ct-age">'+c.age+'</span></span></button>';
+    }).join('')+'</div>';
+  }
+  function switchWishChild(k){ CUR_CHILD=k; syncWish(); WISH_FILTER='All'; renderChildTabs(); renderHub(); if(CUR_CAT){ CUR_CAT=null; closeCat(); } openWishlist(); }
+  function setWishFilter(f){ WISH_FILTER=f; openWishlist(); }
   function openWishlist(){
-    closeShop();
-    var n=WISHLIST.length;
+    closeShop(); syncWish();
     var heart='<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg>';
     var xsvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';
+    function wlRow(x){
+      var ix=WISHLIST.indexOf(x);
+      var img=x.img?'style="background-image:url(\''+x.img+'\')"':'';
+      var ic=x.img?'':(x.emoji||'🛍️');
+      return '<div class="wl-row" onclick="openWishItem('+ix+')"><span class="wl-img" '+img+'>'+ic+'</span>'+
+        '<div class="wl-t"><div class="wl-n">'+x.name+'</div><span class="wl-tag">'+heart+'Wishlisted</span></div>'+
+        '<button class="wl-rm" onclick="event.stopPropagation();removeWish('+ix+')" aria-label="Remove">'+xsvg+'</button></div>';
+    }
+    var tabs=wishChildTabs();
     var body;
-    if(!n){
+    if(!WISHLIST.length){
       body='<div class="wl-empty"><div class="we-badge"><svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg></div>'+
-        '<div class="we-h">Your wishlist is empty</div>'+
+        '<div class="we-h">No wishes yet for '+(CHILDREN[CUR_CHILD].isMother?'mumma':CHILDREN[CUR_CHILD].name)+'</div>'+
         '<div class="we-p">Tap the ♥ on any product to save it here — so family &amp; friends know exactly what to gift.</div>'+
         '<button class="we-btn" onclick="closeWish()">Browse products</button></div>';
+      document.getElementById('wishBody').innerHTML='<div style="height:6px"></div>'+tabs+body;
     } else {
-      body=WISHLIST.map(function(x,ix){
-        var img=x.img?'style="background-image:url(\''+x.img+'\')"':'';
-        var ic=x.img?'':(x.emoji||'🛍️');
-        return '<div class="wl-row" onclick="openWishItem('+ix+')"><span class="wl-img" '+img+'>'+ic+'</span>'+
-          '<div class="wl-t"><div class="wl-n">'+x.name+'</div><span class="wl-tag">'+heart+'Wishlisted</span></div>'+
-          '<button class="wl-rm" onclick="event.stopPropagation();removeWish('+ix+')" aria-label="Remove">'+xsvg+'</button></div>';
-      }).join('');
+      var order=[], groups={};
+      WISHLIST.forEach(function(x){ var c=x.cat||'Other picks'; if(!groups[c]){ groups[c]=[]; order.push(c); } groups[c].push(x); });
+      if(WISH_FILTER!=='All' && order.indexOf(WISH_FILTER)<0) WISH_FILTER='All';
+      var chips='<div class="pv-filters wl-filters">'+['All'].concat(order).map(function(f){
+        return '<button class="pv-fbtn'+(f===WISH_FILTER?' on':'')+'" onclick="setWishFilter(\''+f.replace(/'/g,'')+'\')">'+f+'</button>';
+      }).join('')+'</div>';
+      if(WISH_FILTER==='All'){
+        body=order.map(function(c){ return '<div class="wl-cat">'+c+' <span class="wl-cat-n">'+groups[c].length+'</span></div>'+groups[c].map(wlRow).join(''); }).join('');
+      } else {
+        body=groups[WISH_FILTER].map(wlRow).join('');
+      }
+      document.getElementById('wishBody').innerHTML='<div style="height:6px"></div>'+tabs+chips+body;
     }
-    document.getElementById('wishBody').innerHTML='<div style="height:6px"></div>'+body;
     document.getElementById('wishBody').scrollTop=0; document.getElementById('wishPanel').classList.add('open');
   }
   function closeWish(){ document.getElementById('wishPanel').classList.remove('open'); }
   function removeWish(ix){ WISHLIST.splice(ix,1); saveWish(); renderHub(); openWishlist(); }
   function openWishItem(ix){ var x=WISHLIST[ix]; if(!x) return;
-    renderDetail({name:x.name, imgs:x.img?[x.img]:null, fit:x.fit, emoji:x.emoji, bg:x.bg, badge:x.badge, badgecls:x.badgecls, desc:x.desc, meta:x.meta, link:x.link, back:openWishlist}); }
+    renderDetail({name:x.name, imgs:x.img?[x.img]:null, fit:x.fit, emoji:x.emoji, bg:x.bg, badge:x.badge, badgecls:x.badgecls, desc:x.desc, meta:x.meta, link:x.link, cat:x.cat, back:openWishlist}); }
 
   /* in-app only — never redirect to another app; show a shareable card */
   function sendWhatsAppLink(){ showLinkCard(); }
@@ -831,7 +878,7 @@
       :'<div class="pd-photo" style="background:'+(o.bg||'#f1ecf6')+';display:flex;align-items:center;justify-content:center;font-size:72px">'+(o.emoji||'🛍️')+'</div>';
     var dots=(imgs&&imgs.length>1)?'<div class="pd-dots">'+imgs.map(function(_,i){return '<span class="pd-dot'+(i===0?' on':'')+'"></span>';}).join('')+'</div>':'';
     PD_NAME=o.name||''; PD_LINK=o.link||''; PD_IMG=imgs?imgs[0]:null; PD_EMOJI=o.emoji||'🛍️'; DETAIL_BACK=o.back||null;
-    PD_ITEM={key:wishKey(o),name:o.name||'',img:PD_IMG,imgs:imgs,fit:o.fit,emoji:o.emoji||'🛍️',bg:o.bg,badge:o.badge,badgecls:o.badgecls,desc:o.desc,meta:o.meta,link:o.link||''};
+    PD_ITEM={key:wishKey(o),name:o.name||'',img:PD_IMG,imgs:imgs,fit:o.fit,emoji:o.emoji||'🛍️',bg:o.bg,badge:o.badge,badgecls:o.badgecls,desc:o.desc,meta:o.meta,link:o.link||'',cat:o.cat||curCatName()};
     var wished=inWish(PD_ITEM);
     document.getElementById('shTitle').innerHTML='<button class="pd-backhd" onclick="detailBack()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back</button>';
     document.getElementById('shSub').style.display='none';
