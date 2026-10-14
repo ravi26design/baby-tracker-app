@@ -131,7 +131,7 @@
   .opt .o-check svg{width:12px;height:12px;opacity:0;transition:.14s;}
   .opt.sel .o-check svg{opacity:1;}
   .seg{display:flex;gap:9px;}
-  .seg button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;padding:13px 6px;border-radius:14px;background:var(--chip);color:#8574b5;transition:.14s;border:2px solid transparent;}
+  .seg button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;padding:13px 6px;border-radius:14px;background:#fff;color:#8574b5;transition:.14s;box-shadow:0 8px 20px -12px rgba(120,90,140,.4),inset 0 0 0 1px rgba(139,116,181,.12);}
   .seg button.sel{background:linear-gradient(155deg,var(--lav-1),var(--lav-2));color:#fff;box-shadow:var(--btn-shadow);}
   .bell{width:110px;height:110px;border-radius:34px;margin:8px auto 0;display:flex;align-items:center;justify-content:center;font-size:54px;
     background:linear-gradient(150deg,#efeaf7,#e3daf6);box-shadow:var(--shadow-soft);}
@@ -229,8 +229,7 @@
 
             <!-- step 1: baby profile (name, avatar, dob, gender) -->
             <div class="ostep">
-              <div class="ob-emoji">👶</div>
-              <div class="ob-h">Set up your baby's profile</div>
+              <div class="ob-h" style="margin-top:8px">Set up your baby's profile</div>
               <div class="ob-sub">A few quick details to personalize your little one's journey.</div>
               <div class="ob-body">
                 <label class="lbl">Baby's name</label>
