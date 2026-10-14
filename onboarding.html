@@ -150,11 +150,38 @@
   .opt.sel .o-check{background:var(--lav-2);box-shadow:none;}
   .opt .o-check svg{width:12px;height:12px;opacity:0;transition:.14s;}
   .opt.sel .o-check svg{opacity:1;}
-  .mc-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9a8fb3;margin-top:6px;}
-  .mc-dot{width:30px;height:30px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .mc-dot svg{width:17px;height:17px;}
+  /* milestone check (app lavender theme) */
+  .mc2-head{display:flex;align-items:center;justify-content:center;gap:11px;padding:30px 26px 0;}
+  .mc2-cat-ic{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .mc2-cat-ic svg{width:32px;height:32px;}
+  .mc2-cat{font-size:26px;font-weight:800;letter-spacing:-.5px;color:var(--ink);}
+  .mc2-card{margin:26px 24px 0;background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 26px 48px -22px rgba(120,90,150,.42);}
+  .mc2-photo{aspect-ratio:1/1;background:#efe9f5;}
+  .mc2-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .mc2-cbody{padding:24px 26px 28px;}
+  .mc2-title{font-size:21px;font-weight:800;letter-spacing:-.3px;line-height:1.22;color:var(--ink);}
+  .mc2-desc{font-size:15px;line-height:1.5;color:#8a8296;font-weight:500;margin-top:11px;}
+  .mc2-opts{display:flex;gap:9px;margin-top:24px;}
+  .mc2-pill{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;letter-spacing:.1px;color:#7d6ab0;background:#f1ecf8;padding:14px 4px;border-radius:30px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);transition:.15s;}
+  .mc2-pill:active{transform:scale(.96);}
+  .mc2-pill.on{background:linear-gradient(150deg,var(--lav-1),var(--lav-2));color:#fff;box-shadow:var(--btn-shadow);}
+  .mc2-count{text-align:center;font-size:15px;font-weight:700;color:#a99fbb;margin-top:auto;padding:22px 0 30px;}
+  /* celebration */
+  #mcdone{align-items:center;justify-content:center;text-align:center;padding:0 34px;}
+  .mc2-back{position:absolute;top:58px;left:22px;z-index:5;width:42px;height:42px;border:none;cursor:pointer;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;}
+  .mc2-hearts{position:absolute;inset:0;pointer-events:none;}
+  .mc2-hearts i{position:absolute;opacity:.8;}
+  .mc2done-in{display:flex;flex-direction:column;align-items:center;}
+  .mc2-badge{width:124px;height:124px;clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);background:linear-gradient(160deg,var(--lav-1),var(--lav-2));display:flex;align-items:center;justify-content:center;box-shadow:0 22px 40px -18px rgba(140,116,181,.72);}
+  .mc2-badge svg{width:66px;height:66px;}
+  .mc2done-h{font-size:30px;font-weight:800;letter-spacing:-.5px;color:var(--ink);margin-top:34px;}
+  .mc2done-p{font-size:15.5px;line-height:1.6;color:#8a8296;font-weight:500;margin-top:16px;max-width:300px;}
+  .mc2done-foot{position:absolute;left:0;right:0;bottom:0;padding:0 26px 40px;}
+  .mc2-next{width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;padding:17px;border-radius:30px;background:linear-gradient(155deg,var(--lav-1),var(--lav-2));box-shadow:var(--btn-shadow);}
+  .mc2-next:active{transform:scale(.985);}
   .seg{display:flex;gap:9px;}
-  .seg button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;padding:13px 6px;border-radius:14px;background:#fff;color:#8574b5;transition:.14s;box-shadow:0 8px 20px -12px rgba(120,90,140,.4),inset 0 0 0 1px rgba(139,116,181,.12);}
+  .seg button{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;padding:13px 6px;border-radius:14px;background:#fff;color:#8574b5;transition:.14s;box-shadow:0 8px 20px -12px rgba(120,90,140,.4),inset 0 0 0 1px rgba(139,116,181,.12);display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+  .seg-ic{width:16px;height:16px;flex-shrink:0;}
   .seg button.sel{background:linear-gradient(155deg,var(--lav-1),var(--lav-2));color:#fff;box-shadow:var(--btn-shadow);}
   .bell{width:110px;height:110px;border-radius:34px;margin:8px auto 0;display:flex;align-items:center;justify-content:center;font-size:54px;
     background:linear-gradient(150deg,#efeaf7,#e3daf6);box-shadow:var(--shadow-soft);}
@@ -271,8 +298,8 @@
                 <div id="ageWrap"></div>
                 <label class="lbl" style="margin-top:22px">Gender <span class="lbl-opt">Optional</span></label>
                 <div class="seg" id="genderSeg">
-                  <button onclick="pickSeg(this,'genderSeg')">👧 Girl</button>
-                  <button onclick="pickSeg(this,'genderSeg')">👦 Boy</button>
+                  <button onclick="pickSeg(this,'genderSeg')"><svg class="seg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.2"/><path d="M12 14.2V21M9 18h6"/></svg>Girl</button>
+                  <button onclick="pickSeg(this,'genderSeg')"><svg class="seg-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5.2"/><path d="M14.5 9.5 20 4M15 4h5v5"/></svg>Boy</button>
                   <button onclick="pickSeg(this,'genderSeg')">Prefer not</button>
                 </div>
               </div>
@@ -311,18 +338,34 @@
       <!-- ============ MILESTONE CHECK ============ -->
       <div class="view" id="milecheck">
         <div class="statusbar" data-sb></div>
-        <div class="ob-top">
-          <button class="ob-back" onclick="mcBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-          <div class="prog"><i id="mcProg"></i></div>
-          <div class="ob-count" id="mcCount">1/3</div>
+        <div class="mc2-head"><span class="mc2-cat-ic" id="mcCatIc"></span><span class="mc2-cat" id="mcCatName"></span></div>
+        <div class="mc2-card">
+          <div class="mc2-photo"><img id="mcImg" src="" alt=""></div>
+          <div class="mc2-cbody">
+            <div class="mc2-title" id="mcTitle"></div>
+            <div class="mc2-desc" id="mcDesc"></div>
+            <div class="mc2-opts">
+              <button class="mc2-pill" data-v="not_yet" onclick="mcAnswer(this,'not_yet')">Not yet</button>
+              <button class="mc2-pill" data-v="not_sure" onclick="mcAnswer(this,'not_sure')">Not sure</button>
+              <button class="mc2-pill" data-v="achieved" onclick="mcAnswer(this,'achieved')">Achieved</button>
+            </div>
+          </div>
         </div>
-        <div class="ob-window">
-          <div class="ob-track" id="mcTrack"></div>
+        <div class="mc2-count" id="mcCount"></div>
+      </div>
+
+      <!-- milestone check — celebration -->
+      <div class="view" id="mcdone">
+        <button class="mc2-back" onclick="show('milecheck')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div class="mc2-hearts"><i style="top:9%;left:58%;font-size:26px">💜</i><i style="top:26%;left:11%;font-size:34px">💜</i><i style="top:30%;left:86%;font-size:24px">💜</i></div>
+        <div class="mc2done-in">
+          <div class="mc2-badge">
+            <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="19" stroke-width="3"/><g stroke-width="2.4"><path d="M24 22.5v8M20 26.5h8M21.3 23.8l5.4 5.4M26.7 23.8l-5.4 5.4"/></g><g stroke-width="2.4"><path d="M40 22.5v8M36 26.5h8M37.3 23.8l5.4 5.4M42.7 23.8l-5.4 5.4"/></g><path d="M22.5 38c2.6 3.2 6.2 4.8 9.5 4.8s6.9-1.6 9.5-4.8" stroke-width="3"/></svg>
+          </div>
+          <h2 class="mc2done-h" id="mcDoneH">Amazing!</h2>
+          <p class="mc2done-p" id="mcDoneP"></p>
         </div>
-        <div class="ob-foot">
-          <button class="btn" id="mcBtn" onclick="mcNext()">Continue</button>
-          <button class="btn ghost" onclick="enterApp()">Skip for now</button>
-        </div>
+        <div class="mc2done-foot"><button class="mc2-next" onclick="enterApp()">Next</button></div>
       </div>
 
       <!-- date-of-birth wheel picker -->
@@ -477,7 +520,7 @@
       title='All set, '+(DATA.user||'there')+'! 🎉';
       msg=DATA.name+" is on the way — let's get everything ready for the big day.";
     } else if(age){
-      title='Wow — '+DATA.name+' is '+age+' already! 🎉';
+      title='Wow - '+DATA.name+' is '+age+' already! 🎉';
       msg="Let's quickly check a few key milestones to see how "+DATA.name+" is doing.";
     } else {
       title='All set, '+(DATA.user||'there')+'! 🎉';
@@ -506,78 +549,87 @@
     var m=(now.getFullYear()-b.getFullYear())*12+(now.getMonth()-b.getMonth());
     if(now.getDate()<b.getDate()) m--; return m<0?0:m;
   }
-  var MC_ICON={
-    move:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>',
-    talk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>',
-    play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>'
+  /* category metadata — name + orange line icon */
+  var MC_CAT={
+    social:{name:'Social', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="#8574b5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="10" r="6"/><path d="M6.9 9.6h.01M11.1 9.6h.01M7.1 12.3c.5.6 1.1.9 1.9.9s1.4-.3 1.9-.9"/><circle cx="16.4" cy="13" r="5" fill="#f1ecf7"/><path d="M14.8 12.7h.01M18 12.7h.01M14.9 14.6c.4.5.9.7 1.5.7s1.1-.2 1.5-.7"/></svg>'},
+    cognitive:{name:'Cognitive', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="#8574b5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.9 10.6c.7.6 1.1 1.2 1.2 2.4h5.4c.1-1.2.5-1.8 1.2-2.4A6 6 0 0 0 12 3z"/></svg>'},
+    communication:{name:'Communication', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="#8574b5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4.5H4A1.5 1.5 0 0 0 2.5 6v8.5A1.5 1.5 0 0 0 4 16h3v4.2L11.4 16H20a1.5 1.5 0 0 0 1.5-1.5V6A1.5 1.5 0 0 0 20 4.5z"/><path d="M12 13c-1.3-1-2.7-1.9-2.7-3.3 0-.9.7-1.5 1.5-1.5.6 0 1 .3 1.2.7.2-.4.6-.7 1.2-.7.8 0 1.5.6 1.5 1.5C14.7 11.1 13.3 12 12 13z"/></svg>'},
+    motor:{name:'Motor', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="#8574b5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>'}
   };
-  var MC_CATS=[
-    {cat:'Movement', bg:'#e7f0ff', col:'#5b8fc9', ic:MC_ICON.move, title:function(n){return n+' on the move';}, sub:function(n){return 'Tap each thing '+n+' can already do.';}},
-    {cat:'Communication', bg:'#fdecd8', col:'#d79a4e', ic:MC_ICON.talk, title:'Sounds & chatter', sub:function(n){return 'What is '+n+' saying these days?';}},
-    {cat:'Social & play', bg:'#ffe4ee', col:'#d96a93', ic:MC_ICON.play, title:'Play & connection', sub:function(n){return 'How '+n+' loves to play.';}}
-  ];
-  function mileItems(m){
+  function mcPhoto(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=760&h=760&fit=crop'; }
+  /* age-appropriate question banks (4 per band) */
+  function mileQs(m){
     if(m<4) return [
-      [{e:'🙆',t:'Lifts head during tummy time',d:'Even for a few seconds'},{e:'🤸',t:'Moves arms and legs smoothly',d:'Wiggles and stretches'},{e:'✊',t:'Grips your finger',d:'Opens and closes hands'}],
-      [{e:'🗣️',t:'Makes cooing sounds',d:'“Ooh” and “aah”'},{e:'👂',t:'Reacts to loud sounds',d:'Startles or turns'},{e:'😌',t:'Calms to your voice',d:'Soothes when held'}],
-      [{e:'👀',t:'Looks at your face',d:'Holds your gaze'},{e:'😊',t:'Smiles at people',d:'That first social smile'},{e:'🎯',t:'Follows things with eyes',d:'Tracks a moving toy'}]
+      {c:'social', img:'1648375', t:'Smiles at people', d:"That first social smile shows your baby is starting to connect with you."},
+      {c:'motor', img:'3933250', t:'Lifts head during tummy time', d:"Building neck strength is one of baby's very first motor milestones."},
+      {c:'communication', img:'322070', t:'Reacts to loud sounds', d:"Sudden noises may startle your baby, showing healthy development of hearing and alertness."},
+      {c:'cognitive', img:'1648377', t:'Watches your face closely', d:"Your baby studies faces as early focus and attention begin to grow."}
     ];
     if(m<8) return [
-      [{e:'🙆',t:'Holds head steady',d:'Without any support'},{e:'💪',t:'Pushes up on elbows',d:'During tummy time'},{e:'🔄',t:'Rolls over',d:'Tummy to back or back'}],
-      [{e:'🫧',t:'Babbles and makes sounds',d:'Strings like “ba-ba”'},{e:'🎵',t:'Turns toward your voice',d:'Knows where you are'},{e:'😄',t:'Laughs out loud',d:'Giggles when you play'}],
-      [{e:'😊',t:'Smiles back at you',d:'Responds to your smile'},{e:'🧸',t:'Reaches for toys',d:'And grabs them'},{e:'👐',t:'Brings things to mouth',d:'Exploring by taste'}]
+      {c:'social', img:'1648375', t:'Smiles when you talk to or smile at them', d:"A social smile begins here, helping strengthen connection and emotional development."},
+      {c:'cognitive', img:'3661264', t:'Looks at a toy for several seconds', d:"Brief attention spans grow as your baby starts exploring objects visually."},
+      {c:'social', img:'3933250', t:'Seems happy to see you when you walk up to them', d:"This shows early social bonding and the baby's growing ability to recognize loved ones."},
+      {c:'communication', img:'322070', t:'Reacts to loud sounds', d:"Sudden noises may startle your baby, showing healthy development of hearing and alertness."}
     ];
     if(m<13) return [
-      [{e:'🪑',t:'Sits without support',d:'Steady on their own'},{e:'🐛',t:'Crawls or scoots',d:'Getting around'},{e:'🧍',t:'Pulls up to stand',d:'Using furniture'}],
-      [{e:'🗨️',t:'Says “mama” or “dada”',d:'May not mean it yet'},{e:'🙋',t:'Responds to their name',d:'Looks when called'},{e:'🔁',t:'Copies gestures',d:'Waves or claps'}],
-      [{e:'🙈',t:'Plays peek-a-boo',d:'Loves the surprise'},{e:'🤲',t:'Passes a toy hand to hand',d:'Explores objects'},{e:'🔍',t:'Looks for hidden toys',d:'Knows they still exist'}]
+      {c:'motor', img:'3933250', t:'Sits without support', d:"Sitting steadily frees baby's hands to explore the world around them."},
+      {c:'cognitive', img:'3661264', t:'Looks for a toy they saw you hide', d:"Your baby is learning that objects still exist even when out of sight."},
+      {c:'communication', img:'1648377', t:'Babbles “mama” or “dada”', d:"Repeating sounds is an exciting step toward first real words."},
+      {c:'social', img:'1166473', t:'Plays games like peek-a-boo', d:"Back-and-forth play builds social skills and shared joy."}
     ];
     if(m<24) return [
-      [{e:'🚶',t:'Walks on their own',d:'A few steps or more'},{e:'🧗',t:'Climbs onto furniture',d:'Into everything!'},{e:'⚽',t:'Kicks or throws a ball',d:'Getting coordinated'}],
-      [{e:'💬',t:'Says a few words',d:'Besides mama/dada'},{e:'👉',t:'Points to what they want',d:'Shows you things'},{e:'✅',t:'Follows simple directions',d:'“Give me the toy”'}],
-      [{e:'🧹',t:'Copies you doing chores',d:'Loves to imitate'},{e:'📖',t:'Brings you a book',d:'Wants to read together'},{e:'🎭',t:'Plays pretend',d:'Feeds a doll, “talks” on phone'}]
+      {c:'motor', img:'1257110', t:'Takes a few steps on their own', d:"Those first wobbly steps are a huge leap in balance and strength."},
+      {c:'communication', img:'1912868', t:'Says a few single words', d:"Beyond mama and dada, new words show growing language skills."},
+      {c:'cognitive', img:'3661264', t:'Points to things they want', d:"Pointing is an early way of sharing and communicating ideas."},
+      {c:'social', img:'3933281', t:'Copies you doing simple tasks', d:"Imitation is how toddlers learn routines and build independence."}
     ];
     return [
-      [{e:'🏃',t:'Runs and jumps',d:'Full of energy'},{e:'🪜',t:'Walks up stairs',d:'One step at a time'},{e:'🦶',t:'Stands on tiptoe',d:'Great balance'}],
-      [{e:'🗣️',t:'Speaks in short sentences',d:'2–4 words together'},{e:'🏷️',t:'Names familiar things',d:'People, toys, animals'},{e:'❓',t:'Asks lots of questions',d:'The “why” phase'}],
-      [{e:'🧒',t:'Plays alongside other kids',d:'Starting to share'},{e:'❤️',t:'Shows affection',d:'Hugs and kisses'},{e:'🧩',t:'Sorts shapes and colors',d:'Simple problem-solving'}]
+      {c:'motor', img:'1912868', t:'Runs and climbs with ease', d:"Energetic movement shows strong, well-coordinated muscles."},
+      {c:'communication', img:'1912868', t:'Speaks in short sentences', d:"Putting words together is a big language milestone."},
+      {c:'cognitive', img:'3933281', t:'Sorts shapes or colors', d:"Matching and sorting show early problem-solving skills."},
+      {c:'social', img:'4473871', t:'Plays alongside other children', d:"Parallel play is the start of friendships and sharing."}
     ];
   }
-  var MC_STEP=0, MC_LEN=3;
-  function startMileCheck(){
-    var N=DATA.name||'your little one', items=mileItems(babyMonths());
-    var html=MC_CATS.map(function(c,i){
-      var body=items[i].map(function(it){
-        return '<button class="opt" onclick="mcToggle(this)"><span class="o-ic" style="background:'+c.bg+'">'+it.e+'</span><span class="o-t"><span class="o-name">'+it.t+'</span><span class="o-desc">'+it.d+'</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>';
-      }).join('');
-      var title=(typeof c.title==='function')?c.title(N):c.title;
-      var sub=(typeof c.sub==='function')?c.sub(N):c.sub;
-      return '<div class="ostep"><div class="mc-eyebrow"><span class="mc-dot" style="background:'+c.bg+';color:'+c.col+'">'+c.ic+'</span>'+c.cat+'</div><div class="ob-h" style="margin-top:12px">'+title+'</div><div class="ob-sub">'+sub+'</div><div class="ob-body">'+body+'</div></div>';
-    }).join('');
-    document.getElementById('mcTrack').innerHTML=html;
-    MC_LEN=MC_CATS.length; mcGo(0); show('milecheck');
+  var MC_Q=[], MC_I=0, MC_ANS=[];
+  function startMileCheck(){ MC_Q=mileQs(babyMonths()); MC_I=0; MC_ANS=[]; mcRender(); show('milecheck'); }
+  function mcRender(){
+    var q=MC_Q[MC_I], cat=MC_CAT[q.c];
+    document.getElementById('mcCatIc').innerHTML=cat.ic;
+    document.getElementById('mcCatName').textContent=cat.name;
+    var im=document.getElementById('mcImg'); im.src=mcPhoto(q.img); im.alt=q.t;
+    document.getElementById('mcTitle').textContent=q.t;
+    document.getElementById('mcDesc').textContent=q.d;
+    document.getElementById('mcCount').textContent=(MC_I+1)+' of '+MC_Q.length;
+    document.querySelectorAll('#milecheck .mc2-pill').forEach(function(p){
+      p.classList.toggle('on', MC_ANS[MC_I]===p.getAttribute('data-v'));
+    });
+    document.querySelector('.screen').scrollTop=0;
   }
-  function mcToggle(el){ el.classList.toggle('sel'); }
-  function mcGo(i){
-    MC_STEP=i;
-    document.getElementById('mcTrack').style.transform='translateX(-'+(i*100)+'%)';
-    document.getElementById('mcProg').style.width=Math.round((i+1)/MC_LEN*100)+'%';
-    document.getElementById('mcCount').textContent=(i+1)+'/'+MC_LEN;
-    document.getElementById('mcBtn').textContent=(i===MC_LEN-1)?('See '+(DATA.name||'their')+'’s progress'):'Continue';
+  function mcAnswer(el,v){
+    MC_ANS[MC_I]=v;
+    document.querySelectorAll('#milecheck .mc2-pill').forEach(function(p){ p.classList.toggle('on', p===el); });
+    setTimeout(function(){
+      if(MC_I<MC_Q.length-1){ MC_I++; mcRender(); }
+      else { saveMile(); mcFinish(); }
+    }, 300);
   }
-  function mcNext(){ if(MC_STEP<MC_LEN-1) mcGo(MC_STEP+1); else { saveMile(); enterApp(); } }
-  function mcBack(){ if(MC_STEP>0) mcGo(MC_STEP-1); else show('done'); }
+  function mcBack(){ if(MC_I>0){ MC_I--; mcRender(); } else show('done'); }
   function saveMile(){
     try{
-      var steps=document.querySelectorAll('#mcTrack .ostep'), out={};
-      MC_CATS.forEach(function(c,i){
-        var st=steps[i]; if(!st) return;
-        var all=st.querySelectorAll('.opt'), sel=st.querySelectorAll('.opt.sel'), names=[];
-        sel.forEach(function(o){ var n=o.querySelector('.o-name'); if(n) names.push(n.textContent); });
-        out[c.cat]={done:names, total:all.length, pct:all.length?Math.round(sel.length/all.length*100):0};
-      });
+      var out=MC_Q.map(function(q,i){ return {cat:MC_CAT[q.c].name, milestone:q.t, answer:MC_ANS[i]||'skipped'}; });
       localStorage.setItem('bt_milecheck', JSON.stringify(out));
     }catch(e){}
+  }
+  function mcFinish(){
+    var N=DATA.name||'your little one';
+    var ach=MC_ANS.filter(function(a){ return a==='achieved'; }).length;
+    var h,p;
+    if(ach>=3){ h='Amazing!'; p=N+" is building skills beautifully. We'll help you stay ready for what's next."; }
+    else if(ach>=1){ h='Lovely start!'; p=N+" is growing every day. We'll guide you through the milestones ahead."; }
+    else { h='Good to know!'; p="Every baby grows at their own pace. We'll help you support "+N+" each step of the way."; }
+    document.getElementById('mcDoneH').textContent=h;
+    document.getElementById('mcDoneP').textContent=p;
+    show('mcdone');
   }
   function enterApp(){ window.location.href='home3.html'; }
 </script>
