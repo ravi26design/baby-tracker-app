@@ -302,7 +302,7 @@
         <div class="done-badge">🎉</div>
         <h2 id="doneTitle">You're all set!</h2>
         <p id="doneMsg">Your baby's journey starts now. Let's capture the first of many beautiful moments.</p>
-        <div class="done-foot"><span class="done-hint">Taking you in…</span></div>
+        <div class="done-foot"><button class="btn" onclick="enterApp()">Let's go <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:2px"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></div>
       </div>
 
       <!-- date-of-birth wheel picker -->
@@ -452,10 +452,32 @@
     var conf=document.getElementById('confetti'); var cols=['#ffc9db','#c3daff','#bfe8d0','#d5c8ef','#ffe0a8']; var h='';
     for(var i=0;i<26;i++){ h+='<span style="left:'+Math.round(Math.random()*100)+'%;background:'+cols[i%5]+';animation-delay:'+(Math.random()*2).toFixed(2)+'s"></span>'; }
     conf.innerHTML=h;
-    document.getElementById('doneTitle').textContent='All set, '+(DATA.user||'there')+'! 🎉';
-    document.getElementById('doneMsg').textContent="Welcome to Baby Tracker. Let's capture the first of many beautiful moments with "+DATA.name+".";
-    show('done');
-    setTimeout(enterApp, 2600); /* no CTA — the celebration holds briefly, then enters the app */
+    var age=babyAgeText(), title, msg;
+    if(age==='on the way'){
+      title='All set, '+(DATA.user||'there')+'! 🎉';
+      msg=DATA.name+" is on the way — let's get everything ready for the big day.";
+    } else if(age){
+      title='Wow — '+DATA.name+' is '+age+' already! 🎉';
+      msg="Let's quickly check a few key milestones to see how "+DATA.name+" is doing.";
+    } else {
+      title='All set, '+(DATA.user||'there')+'! 🎉';
+      msg="Let's quickly check a few key milestones to see how "+DATA.name+" is doing.";
+    }
+    document.getElementById('doneTitle').textContent=title;
+    document.getElementById('doneMsg').textContent=msg;
+    show('done'); /* CTA-driven: user taps "Let's go" to enter the app */
+  }
+  function babyAgeText(){
+    var v=(document.getElementById('babyDob')||{}).value; if(!v) return '';
+    var b=new Date(v+'T00:00:00'), now=new Date();
+    var months=(now.getFullYear()-b.getFullYear())*12+(now.getMonth()-b.getMonth());
+    if(now.getDate()<b.getDate()) months--;
+    if(months<0) return 'on the way';
+    if(months<1){ var d=Math.max(0,Math.round((now-b)/86400000));
+      if(d<14) return d+' day'+(d===1?'':'s')+' old';
+      var w=Math.round(d/7); return w+' week'+(w===1?'':'s')+' old'; }
+    if(months<24) return months+' month'+(months===1?'':'s')+' old';
+    var y=Math.floor(months/12), m=months%12; return y+' year'+(y===1?'':'s')+(m?' '+m+'m':'')+' old';
   }
   function enterApp(){ window.location.href='home3.html'; }
 </script>
