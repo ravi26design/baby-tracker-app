@@ -114,6 +114,26 @@
   .lbl{display:block;font-size:12px;font-weight:800;color:#8a8394;margin-bottom:8px;letter-spacing:.2px;}
   .field{width:100%;box-sizing:border-box;border:none;outline:none;background:#fff;border-radius:15px;padding:15px 16px;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);box-shadow:0 8px 20px -12px rgba(120,90,140,.4),inset 0 0 0 1px rgba(139,116,181,.12);}
   .field::placeholder{color:#b3adae;font-weight:500;}
+  .dob-field{display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer;}
+  .dob-field .dob-ph{color:#b3adae;font-weight:500;}
+  .dob-field .dob-ph.set{color:var(--ink);font-weight:600;}
+  /* dob wheel picker */
+  .dp-layer{position:absolute;inset:0;z-index:60;display:none;}
+  .dp-layer.open{display:block;}
+  .dp-bd{position:absolute;inset:0;background:rgba(44,32,60,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:dpFade .2s ease;}
+  @keyframes dpFade{from{opacity:0}to{opacity:1}}
+  .dp-panel{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:10px 22px 26px;box-shadow:0 -22px 54px -20px rgba(50,30,70,.5);animation:dpUp .32s cubic-bezier(.2,.9,.3,1.05);}
+  @keyframes dpUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .dp-grab{width:40px;height:5px;border-radius:3px;background:#e3dcef;margin:4px auto 14px;}
+  .dp-h{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);margin-bottom:10px;}
+  .dp-wheels{position:relative;display:flex;height:230px;overflow:hidden;margin:4px 0 18px;}
+  .dp-band{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:46px;background:#f3eef0;border-radius:14px;z-index:0;}
+  .dp-col{flex:1;height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;text-align:center;position:relative;z-index:1;padding:92px 0;box-sizing:border-box;}
+  .dp-col::-webkit-scrollbar{display:none;}
+  .dp-col .dp-item{height:46px;line-height:46px;scroll-snap-align:center;font-size:18px;font-weight:600;color:#c3bcce;transition:color .15s,font-weight .15s;}
+  .dp-col .dp-item.on{color:var(--ink);font-weight:800;}
+  .dp-done{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(155deg,var(--lav-1),var(--lav-2));padding:16px;border-radius:16px;box-shadow:var(--btn-shadow);}
+  .dp-done:active{transform:scale(.98);}
   .ava-row{display:flex;gap:11px;margin:6px -26px 0;padding:8px 26px 10px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
   .ava-row::-webkit-scrollbar{display:none;}
   .ava{width:56px;height:56px;flex:0 0 auto;border-radius:18px;background:#fff;box-shadow:var(--shadow-soft);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:.14s;border:2px solid transparent;}
@@ -243,7 +263,8 @@
                   <div class="ava" onclick="pickAva(this,'🍼')">🍼</div>
                 </div>
                 <label class="lbl" style="margin-top:22px">Date of birth</label>
-                <input class="field" id="babyDob" type="date" onchange="onDob()">
+                <button type="button" class="field dob-field" id="dobField" onclick="openDobPicker()"><span class="dob-ph" id="dobText">dd/mm/yyyy</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9a8fb3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></button>
+                <input type="hidden" id="babyDob">
                 <div id="ageWrap"></div>
                 <label class="lbl" style="margin-top:22px">Gender <span class="lbl-opt">Optional</span></label>
                 <div class="seg" id="genderSeg">
@@ -256,14 +277,13 @@
 
             <!-- step 4: role -->
             <div class="ostep">
-              <div class="ob-emoji">💛</div>
-              <div class="ob-h">What's your role?</div>
+              <div class="ob-h" style="margin-top:8px">What's your role?</div>
               <div class="ob-sub">So the community knows how to welcome you.</div>
               <div class="ob-body" id="roleList">
-                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#ffe1ea">🤱</span><span class="o-t"><span class="o-name">Mom</span><span class="o-desc">Mother of the little one</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
-                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#dbeafb">👨</span><span class="o-t"><span class="o-name">Dad</span><span class="o-desc">Father of the little one</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
-                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#fbe8d2">👵</span><span class="o-t"><span class="o-name">Grandparent</span><span class="o-desc">Grandma or grandpa</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
-                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#d6f3e0">🧑</span><span class="o-t"><span class="o-name">Guardian</span><span class="o-desc">Caregiver or family</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#ffe1ea"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d96a93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="3"/><path d="M3.5 20c0-3.6 2.5-6.3 5.5-6.3 1.7 0 3.2.9 4.2 2.3"/><circle cx="17" cy="15" r="2.3"/><path d="M14.3 20c0-1.6 1.2-2.7 2.7-2.7s2.7 1.1 2.7 2.7"/></svg></span><span class="o-t"><span class="o-name">Mom</span><span class="o-desc">Mother of the little one</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#dbeafb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b8fc9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/></svg></span><span class="o-t"><span class="o-name">Dad</span><span class="o-desc">Father of the little one</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#fbe8d2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cf9553" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="2.1"/><circle cx="15" cy="8.5" r="2.1"/><path d="M11.1 8.5h1.8M6.9 8.5H4.6M19.4 8.5H17.1"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></span><span class="o-t"><span class="o-name">Grandparent</span><span class="o-desc">Grandma or grandpa</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+                <button class="opt" onclick="pickOpt(this,'roleList')"><span class="o-ic" style="background:#d6f3e0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4faa77" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l6.5 2.3v4.9c0 4-2.8 7.2-6.5 8.4-3.7-1.2-6.5-4.4-6.5-8.4V5.3L12 3z"/><path d="M12 10.3c-.7-1.1-2.5-.8-2.5.7 0 1.1 1.5 2.1 2.5 2.8 1-.7 2.5-1.7 2.5-2.8 0-1.5-1.8-1.8-2.5-.7z"/></svg></span><span class="o-t"><span class="o-name">Guardian</span><span class="o-desc">Caregiver or family</span></span><span class="o-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
               </div>
             </div>
 
@@ -283,6 +303,22 @@
         <h2 id="doneTitle">You're all set!</h2>
         <p id="doneMsg">Your baby's journey starts now. Let's capture the first of many beautiful moments.</p>
         <div class="done-foot"><span class="done-hint">Taking you in…</span></div>
+      </div>
+
+      <!-- date-of-birth wheel picker -->
+      <div class="dp-layer" id="dobSheet">
+        <div class="dp-bd" onclick="closeDobPicker()"></div>
+        <div class="dp-panel">
+          <div class="dp-grab"></div>
+          <div class="dp-h">Date of birth</div>
+          <div class="dp-wheels">
+            <div class="dp-band"></div>
+            <div class="dp-col" id="dpDay"></div>
+            <div class="dp-col" id="dpMon"></div>
+            <div class="dp-col" id="dpYear"></div>
+          </div>
+          <button class="dp-done" onclick="doneDob()">Done</button>
+        </div>
       </div>
 
     </div>
@@ -360,6 +396,43 @@
   function pickAva(el,emo){ document.querySelectorAll('#avaRow .ava').forEach(function(a){a.classList.remove('sel');}); el.classList.add('sel'); DATA.ava=emo; }
   function pickSeg(el,wrap){ document.querySelectorAll('#'+wrap+' button').forEach(function(b){b.classList.remove('sel');}); el.classList.add('sel'); }
   function pickOpt(el,wrap){ document.querySelectorAll('#'+wrap+' .opt').forEach(function(b){b.classList.remove('sel');}); el.classList.add('sel'); }
+  /* ---- date-of-birth wheel picker ---- */
+  var DP_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DP_D=1, DP_M=0, DP_Y=(new Date()).getFullYear(), DP_YEARS=[];
+  function dpItems(id, arr){ document.getElementById(id).innerHTML = arr.map(function(t){ return '<div class="dp-item">'+t+'</div>'; }).join(''); }
+  function dpScrollTo(id, idx){ var el=document.getElementById(id); el.scrollTop = Math.max(0,idx)*46; }
+  function dpMark(){
+    [['dpDay'],['dpMon'],['dpYear']].forEach(function(p){ var el=document.getElementById(p[0]); var idx=Math.round(el.scrollTop/46);
+      Array.prototype.forEach.call(el.children,function(c,i){ c.classList.toggle('on', i===idx); }); });
+  }
+  function dpAttach(){
+    [['dpDay',function(i){DP_D=i+1;}],['dpMon',function(i){DP_M=i;}],['dpYear',function(i){DP_Y=DP_YEARS[i];}]].forEach(function(p){
+      var el=document.getElementById(p[0]); if(el._b) return; el._b=1; var t;
+      el.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ var idx=Math.round(el.scrollTop/46); if(idx<0)idx=0; if(idx>el.children.length-1)idx=el.children.length-1; p[1](idx); dpMark(); },70); });
+    });
+  }
+  function openDobPicker(){
+    var now=new Date(), i, days=[], years=[];
+    for(i=1;i<=31;i++) days.push(i);
+    for(i=now.getFullYear()-14;i<=now.getFullYear();i++) years.push(i);
+    DP_YEARS=years;
+    var prev=document.getElementById('babyDob').value;
+    if(prev){ var pb=prev.split('-'); DP_Y=parseInt(pb[0],10); DP_M=parseInt(pb[1],10)-1; DP_D=parseInt(pb[2],10); }
+    else { DP_Y=now.getFullYear(); DP_M=now.getMonth(); DP_D=now.getDate(); }
+    dpItems('dpDay', days); dpItems('dpMon', DP_MONTHS); dpItems('dpYear', years);
+    document.getElementById('dobSheet').classList.add('open');
+    setTimeout(function(){
+      dpScrollTo('dpDay', DP_D-1); dpScrollTo('dpMon', DP_M); dpScrollTo('dpYear', Math.max(0,years.indexOf(DP_Y)));
+      dpMark(); dpAttach();
+    }, 30);
+  }
+  function closeDobPicker(){ document.getElementById('dobSheet').classList.remove('open'); }
+  function doneDob(){
+    var mm=('0'+(DP_M+1)).slice(-2), dd=('0'+DP_D).slice(-2);
+    document.getElementById('babyDob').value = DP_Y+'-'+mm+'-'+dd;
+    var t=document.getElementById('dobText'); t.textContent = dd+'/'+mm+'/'+DP_Y; t.classList.add('set');
+    closeDobPicker(); onDob();
+  }
   function onDob(){
     var v=document.getElementById('babyDob').value; var w=document.getElementById('ageWrap');
     if(!v){ w.innerHTML=''; checkStep(); return; }
@@ -371,7 +444,7 @@
     else if(months<1){ var d=Math.max(0,Math.round((now-b)/86400000)); txt=d+' day'+(d===1?'':'s')+' old'; }
     else if(months<24) txt=months+' month'+(months===1?'':'s')+' old';
     else { var y=Math.floor(months/12), m=months%12; txt=y+'y'+(m?' '+m+'m':'')+' old'; }
-    w.innerHTML='<span class="age-chip">🎈 '+txt+'</span>';
+    w.innerHTML='';
     checkStep();
   }
   function finish(){
