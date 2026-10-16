@@ -68,10 +68,13 @@
   .hub-cat .hc-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#cfc1ea,#b6a6dd);transition:width .4s ease;}
   .hub-cat .hc-pct{font-size:11px;font-weight:800;color:#8574b5;flex-shrink:0;min-width:28px;text-align:right;}
   .hub-cat .hc-prog.full .hc-bar i{background:linear-gradient(90deg,#9ddcb4,#7fc99a);}
-  .hub-cat.done{box-shadow:var(--shadow-soft),inset 0 0 0 1.5px rgba(95,175,125,.3);}
+  .hub-cat.done{background:linear-gradient(152deg,#ffffff 55%,#eef9f1);box-shadow:0 16px 30px -18px rgba(95,175,125,.5),inset 0 0 0 1.5px rgba(95,175,125,.32);}
   .hub-cat.done .hc-ic{box-shadow:0 8px 16px -9px rgba(95,175,125,.6);}
-  .hub-cat .hc-done{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;font-size:11px;font-weight:800;letter-spacing:.1px;color:#3b9c69;background:#e4f6ec;padding:4px 10px 4px 7px;border-radius:9px;}
-  .hub-cat .hc-done svg{width:12px;height:12px;}
+  .hub-cat.done .hc-bar{background:#dcefE2;}
+  .hub-cat.done .hc-chev{background:#e4f6ec;color:#4bab77;}
+  .hub-cat .hc-done{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;font-size:11.5px;font-weight:800;letter-spacing:.2px;color:#3b9c69;background:#e4f6ec;padding:4px 11px 4px 5px;border-radius:20px;}
+  .hub-cat .hc-done-ck{width:16px;height:16px;border-radius:50%;background:linear-gradient(150deg,#86d3a2,#5bb87f);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 8px -3px rgba(90,170,120,.7);}
+  .hub-cat .hc-done-ck svg{width:10px;height:10px;}
   .hub-cat .hc-prog.full .hc-pct{color:#2f9c63;}
   .hub-cat .hc-chev{width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
@@ -632,7 +635,7 @@
     document.getElementById('hub').innerHTML=activeCats().map(function(c){
       var p=catProgress(c);
       var full=p.total>0 && p.done>=p.total;
-      var done='<span class="hc-done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Done</span>';
+      var done='<span class="hc-done"><span class="hc-done-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Done</span>';
       var prog=p.total>0?('<div class="hc-prog'+(full?' full':'')+'"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div>'+(full?done:'')+'</div>'):'';
       return '<div class="hub-cat'+(full?' done':'')+'" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
         '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+prog+'</div>'+
