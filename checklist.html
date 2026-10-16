@@ -134,6 +134,15 @@
   .pv-empty-ic svg{width:34px;height:34px;}
   .pv-empty-t{font-size:17px;font-weight:800;color:var(--ink);}
   .pv-empty-d{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;max-width:280px;}
+  .pv-share{text-align:left;width:100%;max-width:330px;margin-top:26px;background:#f7f4fb;border-radius:18px;padding:16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .pv-share-t{font-size:14.5px;font-weight:800;color:var(--ink);}
+  .pv-share-sub{font-size:12.5px;font-weight:600;color:#9a8fb3;margin-top:3px;}
+  .pv-share-row{display:flex;gap:8px;margin-top:12px;}
+  .pv-share-in{flex:1;min-width:0;border:none;background:#fff;border-radius:12px;padding:12px 13px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+  .pv-share-in:focus{outline:none;box-shadow:inset 0 0 0 1.6px var(--lav-2);}
+  .pv-share-in::placeholder{color:#b3aac2;}
+  .pv-share-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:0 18px;border-radius:12px;box-shadow:0 10px 18px -8px rgba(140,116,181,.7);}
+  .pv-share-btn:active{transform:scale(.97);}
   .brand-tag.prem{background:#fff3d9;color:#9c7418;} .brand-tag.mid{background:#efe6ff;color:#6a4fc0;} .brand-tag.eco{background:#dff3e7;color:#2b7d54;}
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
   .view-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:800;color:#7a5fd0;background:#efe6ff;padding:8px 14px;border-radius:12px;transition:.12s;box-shadow:0 5px 12px -7px rgba(120,90,140,.5),inset 0 0 0 1px rgba(139,116,181,.12);}
@@ -1304,10 +1313,18 @@
     var ss=document.getElementById('shSub'); if(ss){ ss.textContent=''; ss.style.display='none'; }
     var sh=document.getElementById('shShare'); if(sh) sh.style.display='none';
     var foot=document.getElementById('shFoot'); if(foot) foot.style.display='none';
-    document.getElementById('shBody').innerHTML='<div class="pv-empty"><div class="pv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/><path d="M11 7.5v4"/><path d="M11 14.5h.01"/></svg></div><div class="pv-empty-t">No suggestion yet</div><div class="pv-empty-d">We don’t have a product suggestion for <b>'+name+'</b> right now. We’ll add recommendations here soon.</div></div>';
+    document.getElementById('shBody').innerHTML='<div class="pv-empty"><div class="pv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/><path d="M11 7.5v4"/><path d="M11 14.5h.01"/></svg></div><div class="pv-empty-t">No suggestion yet</div><div class="pv-empty-d">We don’t have a product suggestion for <b>'+name+'</b> right now. We’ll add recommendations here soon.</div>'+
+      '<div class="pv-share"><div class="pv-share-t">Have a product in mind?</div><div class="pv-share-sub">Paste a link and we’ll take a look for you.</div><div class="pv-share-row"><input id="noSuggLink" class="pv-share-in" type="url" placeholder="Paste product link…" onkeydown="if(event.key===\'Enter\')submitSuggLink()"><button class="pv-share-btn" onclick="submitSuggLink()">Share</button></div></div></div>';
     document.querySelector('#shopSheet .sheet').classList.remove('full');
     document.getElementById('shBody').scrollTop=0;
     document.getElementById('shopSheet').classList.add('open');
+  }
+  function submitSuggLink(){
+    var el=document.getElementById('noSuggLink'); var v=(el&&el.value||'').trim();
+    if(!v){ if(el){ el.focus(); } return; }
+    if(el){ el.value=''; el.blur(); }
+    closeShop();
+    toast('Thanks! We’ll review your suggestion 💜');
   }
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt; function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove('show');},1800); }
