@@ -112,10 +112,9 @@
   .cat.collapsed .cat-chev{transform:rotate(-90deg);}
   .cat-body{overflow:hidden;transition:max-height .3s ease;}
   .cat.collapsed .cat-body{max-height:0!important;}
-  .ci-row{position:relative;display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:15px;cursor:pointer;background:#efeaf7;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);margin-bottom:8px;transition:transform .12s,background .12s;}
-  .ci-row:last-child{margin-bottom:0;}
-  .ci-row:active{transform:scale(.99);background:#e7e0f2;}
-  .ci-row.plain{background:#fff;box-shadow:inset 0 0 0 1.6px rgba(150,133,196,.4);}
+  .ci-row{position:relative;display:flex;align-items:center;gap:12px;padding:13px 4px;border-radius:0;cursor:pointer;background:transparent;box-shadow:none;border-bottom:1px solid rgba(139,116,181,.14);margin-bottom:0;transition:background .12s;}
+  .ci-row:last-child{border-bottom:none;}
+  .ci-row:active{background:rgba(139,116,181,.06);}
   .cbox{width:24px;height:24px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 2px #ddd4ea;display:flex;align-items:center;justify-content:center;color:#fff;transition:.16s;}
   .cbox-r{margin-left:6px;}
   .cbox svg{width:13px;height:13px;opacity:0;transform:scale(.5);transition:.16s;}
@@ -129,9 +128,12 @@
   .ci-nt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
   .ci-nt .ci-n{flex:none;}
   .ci-hint{font-size:11px;font-weight:700;color:#b1a8c4;}
-  .ci-row.plain{cursor:default;}
-  .ci-row.plain:active{transform:none;background:#fff;}
   .brand-tag{font-size:10.5px;font-weight:700;color:#8574b5;background:#efe9f7;padding:3px 8px;border-radius:8px;flex-shrink:0;}
+  .pv-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px 34px;}
+  .pv-empty-ic{width:72px;height:72px;border-radius:50%;background:#f1ecf8;display:flex;align-items:center;justify-content:center;color:#9b8bc4;margin-bottom:16px;}
+  .pv-empty-ic svg{width:34px;height:34px;}
+  .pv-empty-t{font-size:17px;font-weight:800;color:var(--ink);}
+  .pv-empty-d{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;max-width:280px;}
   .brand-tag.prem{background:#fff3d9;color:#9c7418;} .brand-tag.mid{background:#efe6ff;color:#6a4fc0;} .brand-tag.eco{background:#dff3e7;color:#2b7d54;}
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
   .view-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:800;color:#7a5fd0;background:#efe6ff;padding:8px 14px;border-radius:12px;transition:.12s;box-shadow:0 5px 12px -7px rgba(120,90,140,.5),inset 0 0 0 1px rgba(139,116,181,.12);}
@@ -639,7 +641,7 @@
         var logo=(typeof BRAND_LOGO!=='undefined')&&BRAND_LOGO[it.n];
         var ic=img?'<span class="pk-ic" style="background:#fff url(\''+img+'\') center/cover"></span>':(logo?'<span class="pk-ic" style="background:#fff url(\''+logo+'\') center/contain no-repeat;background-size:66%"></span>':'<span class="pk-ic">'+(it.ic||'🛍️')+'</span>');
         var hasSugg=!!(it.shop||it.link);
-        var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'');
+        var tap=it.shop?'openShop(\''+it.shop+'\',\''+nm+'\',\''+id+'\')':(it.link?'openItemDetail(\''+nm+'\',\''+(it.tag||'')+'\',\''+(it.tagcls||'')+'\')':'openNoSugg(\''+nm+'\')');
         return '<div class="ci-row'+(on?' done':'')+(hasSugg?'':' plain')+'"'+(tap?' onclick="'+tap+'"':'')+'>'+ic+'<span class="ci-n">'+it.n+'</span>'+
           (it.q?'<span class="qty">'+it.q+'</span>':'')+
           (it.brand&&!it.shop&&!it.link&&!hideBrand?'<span class="brand-tag">'+it.brand+'</span>':'')+
@@ -1296,6 +1298,16 @@
       badge:p.tier+' pick', badgecls:(p.tier==='Premium'?'prem':'eco'),
       desc:p.desc+' A well-loved pick from the '+PV_ITEM.toLowerCase()+' category — chosen by parents for quality, comfort and value for money.',
       key:PV_KEY, link:'https://www.amazon.in/s?k='+encodeURIComponent(p.name+' '+PV_ITEM), back:renderPV});
+  }
+  function openNoSugg(name){
+    document.getElementById('shTitle').textContent=name;
+    var ss=document.getElementById('shSub'); if(ss){ ss.textContent=''; ss.style.display='none'; }
+    var sh=document.getElementById('shShare'); if(sh) sh.style.display='none';
+    var foot=document.getElementById('shFoot'); if(foot) foot.style.display='none';
+    document.getElementById('shBody').innerHTML='<div class="pv-empty"><div class="pv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/><path d="M11 7.5v4"/><path d="M11 14.5h.01"/></svg></div><div class="pv-empty-t">No suggestion yet</div><div class="pv-empty-d">We don’t have a product suggestion for <b>'+name+'</b> right now. We’ll add recommendations here soon.</div></div>';
+    document.querySelector('#shopSheet .sheet').classList.remove('full');
+    document.getElementById('shBody').scrollTop=0;
+    document.getElementById('shopSheet').classList.add('open');
   }
   function closeShop(){ document.getElementById('shopSheet').classList.remove('open'); }
   var _tt; function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){t.classList.remove('show');},1800); }
