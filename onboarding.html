@@ -174,15 +174,23 @@
   .mc2-pill.on{background:linear-gradient(150deg,var(--lav-1),var(--lav-2));color:#fff;box-shadow:var(--btn-shadow);}
   .mc2-count{text-align:center;font-size:15px;font-weight:700;color:#a99fbb;margin-top:auto;padding:22px 0 30px;}
   /* celebration */
-  #mcdone{align-items:center;justify-content:center;text-align:center;padding:0 34px;}
+  #mcdone{align-items:center;justify-content:center;text-align:center;padding:0 34px;overflow:hidden;}
   .mc2-back{position:absolute;top:58px;left:22px;z-index:5;width:42px;height:42px;border:none;cursor:pointer;background:none;color:var(--ink);display:flex;align-items:center;justify-content:center;}
-  .mc2-hearts{position:absolute;inset:0;pointer-events:none;}
-  .mc2-hearts i{position:absolute;opacity:.8;}
-  .mc2done-in{display:flex;flex-direction:column;align-items:center;}
-  .mc2-badge{width:124px;height:124px;clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);background:linear-gradient(160deg,var(--lav-1),var(--lav-2));display:flex;align-items:center;justify-content:center;box-shadow:0 22px 40px -18px rgba(140,116,181,.72);}
+  .mc2-conf{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+  .mc2-conf i{position:absolute;display:block;opacity:0;animation:mcFloat 3.4s ease-in-out infinite;}
+  .mc2-conf i.h{color:transparent;}
+  @keyframes mcFloat{0%{opacity:0;transform:translateY(10px) scale(.8)}20%{opacity:.9}50%{transform:translateY(-10px) scale(1)}80%{opacity:.9}100%{opacity:0;transform:translateY(10px) scale(.8)}}
+  .mc2done-in{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;}
+  .mc2-badge-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
+  .mc2-badge-wrap::before{content:'';position:absolute;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(155,139,196,.34),rgba(155,139,196,0) 66%);}
+  .mc2-badge{position:relative;width:124px;height:124px;clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);background:linear-gradient(160deg,var(--lav-1),var(--lav-2));display:flex;align-items:center;justify-content:center;box-shadow:0 22px 40px -18px rgba(140,116,181,.72);}
+  .mc2-badge.pop{animation:mcPop .55s cubic-bezier(.2,.9,.3,1.5);}
+  @keyframes mcPop{0%{transform:scale(.5) rotate(-8deg);opacity:0}55%{transform:scale(1.1) rotate(3deg)}100%{transform:scale(1) rotate(0);opacity:1}}
   .mc2-badge svg{width:66px;height:66px;}
-  .mc2done-h{font-size:30px;font-weight:800;letter-spacing:-.5px;color:var(--ink);margin-top:34px;}
-  .mc2done-p{font-size:15.5px;line-height:1.6;color:#8a8296;font-weight:500;margin-top:16px;max-width:300px;}
+  .mc2done-h{font-size:30px;font-weight:800;letter-spacing:-.5px;color:var(--ink);margin-top:30px;}
+  .mc2done-p{font-size:15.5px;line-height:1.6;color:#8a8296;font-weight:500;margin-top:14px;max-width:300px;}
+  .mc2-stat{margin-top:22px;display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;color:#7d6ab0;background:#f1ecf8;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);padding:9px 16px;border-radius:30px;}
+  .mc2-stat svg{width:16px;height:16px;flex-shrink:0;}
   .mc2done-foot{position:absolute;left:0;right:0;bottom:0;padding:0 26px 40px;}
   .mc2-next{width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;padding:17px;border-radius:30px;background:linear-gradient(155deg,var(--lav-1),var(--lav-2));box-shadow:var(--btn-shadow);}
   .mc2-next:active{transform:scale(.985);}
@@ -367,14 +375,16 @@
 
       <!-- milestone check — celebration -->
       <div class="view" id="mcdone">
-        <button class="mc2-back" onclick="show('milecheck')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-        <div class="mc2-hearts"><i style="top:9%;left:58%;font-size:26px">💜</i><i style="top:26%;left:11%;font-size:34px">💜</i><i style="top:30%;left:86%;font-size:24px">💜</i></div>
+        <div class="mc2-conf" id="mcConf"></div>
         <div class="mc2done-in">
-          <div class="mc2-badge">
-            <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="19" stroke-width="3"/><g stroke-width="2.4"><path d="M24 22.5v8M20 26.5h8M21.3 23.8l5.4 5.4M26.7 23.8l-5.4 5.4"/></g><g stroke-width="2.4"><path d="M40 22.5v8M36 26.5h8M37.3 23.8l5.4 5.4M42.7 23.8l-5.4 5.4"/></g><path d="M22.5 38c2.6 3.2 6.2 4.8 9.5 4.8s6.9-1.6 9.5-4.8" stroke-width="3"/></svg>
+          <div class="mc2-badge-wrap">
+            <div class="mc2-badge" id="mcBadge">
+              <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="19" stroke-width="3"/><g stroke-width="2.4"><path d="M24 22.5v8M20 26.5h8M21.3 23.8l5.4 5.4M26.7 23.8l-5.4 5.4"/></g><g stroke-width="2.4"><path d="M40 22.5v8M36 26.5h8M37.3 23.8l5.4 5.4M42.7 23.8l-5.4 5.4"/></g><path d="M22.5 38c2.6 3.2 6.2 4.8 9.5 4.8s6.9-1.6 9.5-4.8" stroke-width="3"/></svg>
+            </div>
           </div>
           <h2 class="mc2done-h" id="mcDoneH">Amazing!</h2>
           <p class="mc2done-p" id="mcDoneP"></p>
+          <div class="mc2-stat" id="mcStat"></div>
         </div>
         <div class="mc2done-foot"><button class="mc2-next" onclick="enterApp()">Next</button></div>
       </div>
@@ -641,6 +651,21 @@
     else { h='Good to know!'; p="Every baby grows at their own pace. We'll help you support "+N+" each step of the way."; }
     document.getElementById('mcDoneH').textContent=h;
     document.getElementById('mcDoneP').textContent=p;
+    // achievement summary pill
+    var st=document.getElementById('mcStat');
+    if(st){
+      var chk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      st.innerHTML = ach>0 ? chk+ach+' of '+MC_Q.length+' milestones reached' : chk+'Milestones saved for '+N;
+    }
+    // confetti scatter (hearts + sparkles, gentle float)
+    var cf=document.getElementById('mcConf');
+    if(cf){
+      var bits=[['💜',26,'8%','56%','0s'],['💜',34,'24%','10%','.5s'],['💜',22,'30%','86%','1s'],['✨',20,'14%','30%','.3s'],['✨',16,'40%','66%','.9s'],['✨',22,'52%','16%','1.3s'],['💜',18,'46%','90%','.7s']];
+      cf.innerHTML=bits.map(function(b){ return '<i style="font-size:'+b[1]+'px;top:'+b[2]+';left:'+b[3]+';animation-delay:'+b[4]+'">'+b[0]+'</i>'; }).join('');
+    }
+    // badge pop
+    var bd=document.getElementById('mcBadge');
+    if(bd){ bd.classList.remove('pop'); void bd.offsetWidth; bd.classList.add('pop'); }
     show('mcdone');
   }
   function enterApp(){ window.location.href='home3.html'; }
