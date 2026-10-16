@@ -129,19 +129,22 @@
   .ci-nt .ci-n{flex:none;}
   .ci-hint{font-size:11px;font-weight:700;color:#b1a8c4;}
   .brand-tag{font-size:10.5px;font-weight:700;color:#8574b5;background:#efe9f7;padding:3px 8px;border-radius:8px;flex-shrink:0;}
-  .pv-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px 34px;}
-  .pv-empty-ic{width:72px;height:72px;border-radius:50%;background:#f1ecf8;display:flex;align-items:center;justify-content:center;color:#9b8bc4;margin-bottom:16px;}
-  .pv-empty-ic svg{width:34px;height:34px;}
-  .pv-empty-t{font-size:17px;font-weight:800;color:var(--ink);}
-  .pv-empty-d{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;max-width:280px;}
-  .pv-share{text-align:left;width:100%;max-width:330px;margin-top:26px;background:#f7f4fb;border-radius:18px;padding:16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
-  .pv-share-t{font-size:14.5px;font-weight:800;color:var(--ink);}
-  .pv-share-sub{font-size:12.5px;font-weight:600;color:#9a8fb3;margin-top:3px;}
-  .pv-share-row{display:flex;gap:8px;margin-top:12px;}
-  .pv-share-in{flex:1;min-width:0;border:none;background:#fff;border-radius:12px;padding:12px 13px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+  .pv-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 24px 36px;}
+  .pv-empty-ic{position:relative;width:88px;height:88px;border-radius:50%;background:linear-gradient(160deg,#f4effb,#e3d8f4);display:flex;align-items:center;justify-content:center;color:#8f78c4;margin-bottom:20px;box-shadow:0 18px 34px -16px rgba(140,116,181,.55),inset 0 0 0 1px rgba(255,255,255,.65);}
+  .pv-empty-ic::after{content:'';position:absolute;inset:-9px;border-radius:50%;border:1.5px dashed rgba(149,131,196,.35);}
+  .pv-empty-ic svg{width:38px;height:38px;}
+  .pv-empty-t{font-size:18px;font-weight:800;letter-spacing:-.2px;color:var(--ink);}
+  .pv-empty-d{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;max-width:290px;}
+  .pv-share{text-align:left;width:100%;max-width:330px;margin-top:28px;background:linear-gradient(165deg,#f6f1fc,#efe8f8);border-radius:20px;padding:17px 17px 18px;box-shadow:0 18px 34px -22px rgba(140,116,181,.6),inset 0 0 0 1px rgba(139,116,181,.12);}
+  .pv-share-t{display:flex;align-items:center;gap:7px;font-size:14.5px;font-weight:800;color:var(--ink);}
+  .pv-share-t svg{width:17px;height:17px;color:#8f78c4;flex-shrink:0;}
+  .pv-share-sub{font-size:12.5px;font-weight:600;color:#9a8fb3;margin-top:4px;}
+  .pv-share-row{display:flex;gap:8px;margin-top:13px;}
+  .pv-share-in{flex:1;min-width:0;border:none;background:#fff;border-radius:13px;padding:13px 14px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
   .pv-share-in:focus{outline:none;box-shadow:inset 0 0 0 1.6px var(--lav-2);}
   .pv-share-in::placeholder{color:#b3aac2;}
-  .pv-share-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:0 18px;border-radius:12px;box-shadow:0 10px 18px -8px rgba(140,116,181,.7);}
+  .pv-share-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:0 16px;border-radius:13px;box-shadow:0 10px 18px -8px rgba(140,116,181,.7);}
+  .pv-share-btn svg{width:16px;height:16px;}
   .pv-share-btn:active{transform:scale(.97);}
   .brand-tag.prem{background:#fff3d9;color:#9c7418;} .brand-tag.mid{background:#efe6ff;color:#6a4fc0;} .brand-tag.eco{background:#dff3e7;color:#2b7d54;}
   .qty{font-size:11.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:3px 9px;border-radius:9px;flex-shrink:0;}
@@ -1314,7 +1317,7 @@
     var sh=document.getElementById('shShare'); if(sh) sh.style.display='none';
     var foot=document.getElementById('shFoot'); if(foot) foot.style.display='none';
     document.getElementById('shBody').innerHTML='<div class="pv-empty"><div class="pv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/><path d="M11 7.5v4"/><path d="M11 14.5h.01"/></svg></div><div class="pv-empty-t">No suggestion yet</div><div class="pv-empty-d">We don’t have a product suggestion for <b>'+name+'</b> right now. We’ll add recommendations here soon.</div>'+
-      '<div class="pv-share"><div class="pv-share-t">Have a product in mind?</div><div class="pv-share-sub">Paste a link and we’ll take a look for you.</div><div class="pv-share-row"><input id="noSuggLink" class="pv-share-in" type="url" placeholder="Paste product link…" onkeydown="if(event.key===\'Enter\')submitSuggLink()"><button class="pv-share-btn" onclick="submitSuggLink()">Share</button></div></div></div>';
+      '<div class="pv-share"><div class="pv-share-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7a5 5 0 0 1 0-10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8"/></svg>Have a product in mind?</div><div class="pv-share-sub">Paste a link and we’ll take a look for you.</div><div class="pv-share-row"><input id="noSuggLink" class="pv-share-in" type="url" placeholder="Paste product link…" onkeydown="if(event.key===\'Enter\')submitSuggLink()"><button class="pv-share-btn" onclick="submitSuggLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>Share</button></div></div></div>';
     document.querySelector('#shopSheet .sheet').classList.remove('full');
     document.getElementById('shBody').scrollTop=0;
     document.getElementById('shopSheet').classList.add('open');
