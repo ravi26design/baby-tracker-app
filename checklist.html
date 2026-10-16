@@ -543,7 +543,7 @@
 
   function renderChildTabs(){
     document.getElementById('childTabs').innerHTML=Object.keys(CHILDREN).map(function(k){ var c=CHILDREN[k];
-      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span><span class="ct-t"><span class="ct-name">'+c.name+'</span><span class="ct-age">'+c.age+'</span></span></button>';
+      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-name">'+c.name+'</span></button>';
     }).join('');
   }
   function switchChild(k){ CUR_CHILD=k; syncWish(); renderChildTabs(); renderHub();
@@ -772,7 +772,7 @@
   }
   function wishChildTabs(){
     return '<div class="child-tabs wl-tabs">'+Object.keys(CHILDREN).map(function(k){ var c=CHILDREN[k];
-      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchWishChild(\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span><span class="ct-t"><span class="ct-name">'+c.name+'</span><span class="ct-age">'+c.age+'</span></span></button>';
+      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchWishChild(\''+k+'\')"><span class="ct-name">'+c.name+'</span></button>';
     }).join('')+'</div>';
   }
   function switchWishChild(k){ CUR_CHILD=k; syncWish(); WISH_FILTER='All'; renderChildTabs(); renderHub(); if(CUR_CAT){ CUR_CAT=null; closeCat(); } openWishlist(); }
