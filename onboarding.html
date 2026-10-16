@@ -151,10 +151,10 @@
   .opt .o-check svg{width:12px;height:12px;opacity:0;transition:.14s;}
   .opt.sel .o-check svg{opacity:1;}
   /* milestone check (app lavender theme) */
-  .mc2-head{display:flex;align-items:center;justify-content:center;gap:11px;padding:30px 26px 0;}
-  .mc2-cat-ic{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .mc2-cat-ic svg{width:32px;height:32px;}
-  .mc2-cat{font-size:26px;font-weight:800;letter-spacing:-.5px;color:var(--ink);}
+  .mc2-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .mc2-cat-ic{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .mc2-cat-ic svg{width:24px;height:24px;}
+  .mc2-cat{font-size:15px;font-weight:800;letter-spacing:-.2px;color:#8574b5;}
   .mc2-prog{display:flex;gap:6px;margin:18px 24px 0;}
   .mc2-prog i{flex:1;height:5px;border-radius:3px;background:#e4dbf1;transition:.3s;}
   .mc2-prog i.done{background:linear-gradient(90deg,var(--lav-1),var(--lav-2));}
@@ -342,11 +342,11 @@
       <!-- ============ MILESTONE CHECK ============ -->
       <div class="view" id="milecheck">
         <div class="statusbar" data-sb></div>
-        <div class="mc2-head"><span class="mc2-cat-ic" id="mcCatIc"></span><span class="mc2-cat" id="mcCatName"></span></div>
         <div class="mc2-prog" id="mcProg"></div>
         <div class="mc2-card">
           <div class="mc2-photo"><img id="mcImg" src="" alt=""></div>
           <div class="mc2-cbody">
+            <div class="mc2-head"><span class="mc2-cat-ic" id="mcCatIc"></span><span class="mc2-cat" id="mcCatName"></span></div>
             <div class="mc2-title" id="mcTitle"></div>
             <div class="mc2-desc" id="mcDesc"></div>
             <div class="mc2-opts">
