@@ -64,10 +64,10 @@
   .hub-cat .hc-n{font-size:15.5px;font-weight:800;letter-spacing:-.2px;}
   .hub-cat .hc-d{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
   .hub-cat .hc-prog{display:flex;align-items:center;gap:9px;margin-top:9px;}
-  .hub-cat .hc-bar{flex:1;height:6px;border-radius:4px;background:#ece7f5;overflow:hidden;}
-  .hub-cat .hc-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#b29ce4,#8f78c4);transition:width .4s ease;}
+  .hub-cat .hc-bar{flex:1;height:5px;border-radius:4px;background:#efeaf6;overflow:hidden;}
+  .hub-cat .hc-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#cfc1ea,#b6a6dd);transition:width .4s ease;}
   .hub-cat .hc-pct{font-size:11px;font-weight:800;color:#8574b5;flex-shrink:0;min-width:28px;text-align:right;}
-  .hub-cat .hc-prog.full .hc-bar i{background:linear-gradient(90deg,#5ec98a,#3fa873);}
+  .hub-cat .hc-prog.full .hc-bar i{background:linear-gradient(90deg,#9ddcb4,#7fc99a);}
   .hub-cat .hc-prog.full .hc-pct{color:#2f9c63;}
   .hub-cat .hc-chev{width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
@@ -626,7 +626,7 @@
     updateWishIcon();
     document.getElementById('hub').innerHTML=activeCats().map(function(c){
       var p=catProgress(c);
-      var prog=p.total>0?('<div class="hc-prog'+(p.done>=p.total?' full':'')+'"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div><span class="hc-pct">'+p.done+'/'+p.total+'</span></div>'):'';
+      var prog=p.total>0?('<div class="hc-prog'+(p.done>=p.total?' full':'')+'"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>'):'';
       return '<div class="hub-cat" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
         '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+prog+'</div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
