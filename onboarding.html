@@ -370,7 +370,6 @@
             </div>
           </div>
         </div>
-        <div class="mc2-count" id="mcCount"></div>
       </div>
 
       <!-- milestone check — celebration -->
@@ -620,7 +619,6 @@
     var im=document.getElementById('mcImg'); im.src=mcPhoto(q.img); im.alt=q.t;
     document.getElementById('mcTitle').textContent=q.t;
     document.getElementById('mcDesc').textContent=q.d;
-    document.getElementById('mcCount').textContent=(MC_I+1)+' of '+MC_Q.length;
     var pg=document.getElementById('mcProg'); if(pg){ var s=''; for(var i=0;i<MC_Q.length;i++){ s+='<i class="'+(i<=MC_I?'done':'')+'"></i>'; } pg.innerHTML=s; }
     document.querySelectorAll('#milecheck .mc2-pill').forEach(function(p){
       p.classList.toggle('on', MC_ANS[MC_I]===p.getAttribute('data-v'));
