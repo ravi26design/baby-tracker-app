@@ -618,6 +618,7 @@
       CUR_CHILD=k; CUR_STAGE=CHILDREN[k].stage;
       activeCats().forEach(function(c){
         var ids=catItemIds(c); if(!ids.length) return;
+        if(k==='mark' && c.key==='essentials'){ ids.forEach(function(id){ CHECKED[id]=true; }); return; } // demo: a fully-completed category
         var h=0,s=c.key+'|'+k; for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0;
         var frac=0.22+(h%34)/100;                 // 22%–55%
         var n=Math.round(ids.length*frac);
