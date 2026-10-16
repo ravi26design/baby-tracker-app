@@ -635,8 +635,7 @@
     document.getElementById('hub').innerHTML=activeCats().map(function(c){
       var p=catProgress(c);
       var full=p.total>0 && p.done>=p.total;
-      var done='<span class="hc-done"><span class="hc-done-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Done</span>';
-      var prog=p.total>0?('<div class="hc-prog'+(full?' full':'')+'"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div>'+(full?done:'')+'</div>'):'';
+      var prog=p.total>0?('<div class="hc-prog'+(full?' full':'')+'"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>'):'';
       return '<div class="hub-cat'+(full?' done':'')+'" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
         '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+prog+'</div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
