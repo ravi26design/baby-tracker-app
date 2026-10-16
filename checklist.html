@@ -137,7 +137,7 @@
   @keyframes pvFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
   .pv-empty-t{font-size:18px;font-weight:800;letter-spacing:-.2px;color:var(--ink);}
   .pv-empty-d{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;max-width:290px;}
-  .pv-share{text-align:left;width:100%;max-width:330px;margin-top:16px;background:linear-gradient(165deg,#f6f1fc,#efe8f8);border-radius:20px;padding:17px 17px 18px;box-shadow:0 18px 34px -22px rgba(140,116,181,.6),inset 0 0 0 1px rgba(139,116,181,.12);}
+  .pv-share{text-align:left;align-self:stretch;margin:16px -24px 0;background:linear-gradient(165deg,#f6f1fc,#efe8f8);border-radius:20px;padding:17px 18px 18px;box-shadow:0 18px 34px -22px rgba(140,116,181,.6),inset 0 0 0 1px rgba(139,116,181,.12);}
   .pv-share-t{display:flex;align-items:center;gap:7px;font-size:14.5px;font-weight:800;color:var(--ink);}
   .pv-share-t svg{width:17px;height:17px;color:#8f78c4;flex-shrink:0;}
   .pv-share-sub{font-size:12.5px;font-weight:600;color:#9a8fb3;margin-top:4px;}
@@ -1319,7 +1319,7 @@
     var sh=document.getElementById('shShare'); if(sh) sh.style.display='none';
     var foot=document.getElementById('shFoot'); if(foot) foot.style.display='none';
     document.getElementById('shBody').innerHTML='<div class="pv-empty"><div class="pv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/><path d="M11 7.5v4"/><path d="M11 14.5h.01"/></svg></div><div class="pv-empty-t">No suggestion yet</div><div class="pv-empty-d">We don’t have a product suggestion for <b>'+name+'</b> right now. We’ll add recommendations here soon.</div>'+
-      '<div class="pv-share"><div class="pv-share-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7a5 5 0 0 1 0-10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8"/></svg>Have a product in mind?</div><div class="pv-share-sub">Paste a link and we’ll take a look for you.</div><div class="pv-share-row"><input id="noSuggLink" class="pv-share-in" type="url" placeholder="Paste product link…" onkeydown="if(event.key===\'Enter\')submitSuggLink()"><button class="pv-share-btn" onclick="submitSuggLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>Share</button></div></div></div>';
+      '<div class="pv-share"><div class="pv-share-t">Have a product in mind?</div><div class="pv-share-sub">Paste a link and we’ll take a look for you.</div><div class="pv-share-row"><input id="noSuggLink" class="pv-share-in" type="url" placeholder="Paste product link…" onkeydown="if(event.key===\'Enter\')submitSuggLink()"><button class="pv-share-btn" onclick="submitSuggLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>Share</button></div></div></div>';
     document.querySelector('#shopSheet .sheet').classList.remove('full');
     document.getElementById('shBody').scrollTop=0;
     document.getElementById('shopSheet').classList.add('open');
