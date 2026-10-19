@@ -1081,10 +1081,10 @@
       var posts = memPosts(), pkeys = Object.keys(posts);
       if(pkeys.length){   // map the card to the latest captured memory
         var lastTitle = pkeys[pkeys.length-1], rec = posts[lastTitle]||{};
-        if(t) t.innerHTML = '🎉 '+c.name+'’s <b>'+lastTitle+'</b> is captured!';
-        if(x) x.innerHTML = 'A new memory added to '+(her?'her':'his')+' story 💛';
-        if(l) l.textContent = 'View Memories';
-        window.WC_CTA_HREF = 'memories.html';
+        if(t) t.innerHTML = '🎉 You marked '+c.name+'’s <b>'+lastTitle+'</b>!';
+        if(x) x.innerHTML = 'Here’s a quick checklist to support '+(her?'her':'his')+' '+lastTitle.toLowerCase()+'.';
+        if(l) l.textContent = 'View Checklist';
+        window.WC_CTA_HREF = 'checklist.html';
       } else {
         var act = (c.activities && c.activities[0]) || {};
         if(t) t.innerHTML = 'Welcome! '+c.name+' is '+age+' old';
