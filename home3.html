@@ -1239,6 +1239,7 @@
     selectChild(Object.keys(CHILDREN)[0]);
     updateWelcome(Object.keys(CHILDREN)[0]);
     showWelcomeIfFirst();
+    try{ localStorage.removeItem('bt_mem_firsts'); }catch(e){}  /* demo: always open in the first-time empty memory state */
     renderMemState();
 
     // memory cards — each card's inner image slider updates its own dots
