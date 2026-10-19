@@ -358,6 +358,26 @@
   .mp-m{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .mp-f{font-size:12.5px;color:#8a8296;font-weight:500;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .mp-time{font-size:11.5px;font-weight:800;color:#a99fbb;flex-shrink:0;white-space:nowrap;}
+  .mp-row{cursor:pointer;transition:background .12s;margin:0 -16px;padding-left:16px;padding-right:16px;border-radius:12px;}
+  .mp-row:active{background:rgba(139,116,181,.06);}
+  .meal-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:62;visibility:hidden;pointer-events:none;}
+  .meal-layer.open{visibility:visible;pointer-events:auto;}
+  .meal-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
+  .meal-layer.open .meal-bd{opacity:1;}
+  .meal-panel{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:8px 22px 30px;transform:translateY(110%);transition:transform .34s cubic-bezier(.4,0,.2,1);}
+  .meal-layer.open .meal-panel{transform:none;}
+  .meal-grab{width:38px;height:5px;border-radius:3px;background:#e2dcec;margin:4px auto 16px;}
+  .meal-head{display:flex;align-items:center;gap:14px;}
+  .meal-ic{width:58px;height:58px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03);}
+  .meal-ht{flex:1;min-width:0;}
+  .meal-m{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
+  .meal-time{font-size:12.5px;font-weight:800;color:#a99fbb;margin-top:2px;}
+  .meal-food{font-size:14.5px;font-weight:700;color:#7d6ab0;margin-top:16px;}
+  .meal-about{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;}
+  .meal-portion{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f7f4fb;border-radius:14px;padding:13px 15px;margin-top:16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .meal-portion .mp-lbl{font-size:13px;font-weight:700;color:#8a8296;}
+  .meal-portion .mp-val{font-size:14px;font-weight:800;color:var(--ink);}
+  .meal-tip{font-size:13px;line-height:1.5;font-weight:600;color:#6a9a4e;background:#eef7e8;border-radius:14px;padding:13px 15px;margin-top:10px;box-shadow:inset 0 0 0 1px rgba(110,160,80,.16);}
   .act-card{
     position:relative;flex:0 0 calc((91% - 14px) / 2);aspect-ratio:9/16;border-radius:26px;overflow:hidden;
     scroll-snap-align:start;
@@ -834,6 +854,18 @@
     </div>
 
     <!-- profile menu popover -->
+    <div class="meal-layer" id="mealSheet">
+      <div class="meal-bd" onclick="closeMeal()"></div>
+      <div class="meal-panel">
+        <div class="meal-grab"></div>
+        <div class="meal-head"><span class="meal-ic" id="mealIc"></span><div class="meal-ht"><div class="meal-m" id="mealM"></div><div class="meal-time" id="mealTime"></div></div></div>
+        <div class="meal-food" id="mealFood"></div>
+        <div class="meal-about" id="mealAbout"></div>
+        <div class="meal-portion"><span class="mp-lbl">Suggested portion</span><span class="mp-val" id="mealPortion"></span></div>
+        <div class="meal-tip" id="mealTip"></div>
+      </div>
+    </div>
+
     <div class="mca-layer" id="memCardMenu">
       <div class="mca-bd" onclick="closeMemCardMenu()"></div>
       <div class="mca-sheet">
@@ -1002,11 +1034,11 @@
         milestone:'On track for this age',
         mile:{motor:72,idea:55,lang:40,social:80},
         meals:[
-          {t:'7:00 AM', m:'Morning milk', f:'Breast / formula', e:'🍼'},
-          {t:'9:00 AM', m:'Breakfast', f:'Oatmeal & mashed banana', e:'🥣'},
-          {t:'12:30 PM', m:'Lunch', f:'Carrot & sweet-potato purée', e:'🥕'},
-          {t:'3:30 PM', m:'Snack', f:'Apple purée', e:'🍎'},
-          {t:'7:00 PM', m:'Dinner', f:'Rice cereal & soft peas', e:'🍚'}
+          {t:'7:00 AM', m:'Morning milk', f:'Breast / formula', e:'🍼', portion:'150–180 ml', about:'A full milk feed to gently start the day — still the main source of nutrition at 6 months.', tip:'Keep baby upright and burp halfway through the feed.'},
+          {t:'9:00 AM', m:'Breakfast', f:'Oatmeal & mashed banana', e:'🥣', portion:'2–3 tbsp', about:'Smooth oats mixed with mashed banana — gentle on the tummy and rich in iron and energy.', tip:'Start thin and thicken the texture as baby gets used to solids.'},
+          {t:'12:30 PM', m:'Lunch', f:'Carrot & sweet-potato purée', e:'🥕', portion:'2–4 tbsp', about:'A naturally sweet veggie purée packed with beta-carotene for healthy eyes and skin.', tip:'Serve lukewarm and introduce one new vegetable at a time.'},
+          {t:'3:30 PM', m:'Snack', f:'Apple purée', e:'🍎', portion:'1–2 tbsp', about:'Lightly stewed apple, cooled and blended silky smooth — an easy first fruit.', tip:'No added sugar needed — the apple is naturally sweet.'},
+          {t:'7:00 PM', m:'Dinner', f:'Rice cereal & soft peas', e:'🍚', portion:'2–3 tbsp', about:'Iron-fortified rice cereal with mashed soft peas for a filling, gentle evening meal.', tip:'Mix with a little breast milk or formula for a familiar taste.'}
         ],
         medication:'Mark is not currently taking any medication.',
         activities:[
@@ -1025,11 +1057,11 @@
         milestone:'Ahead for this age',
         mile:{motor:90,idea:82,lang:75,social:88},
         meals:[
-          {t:'8:00 AM', m:'Breakfast', f:'Veggie omelette & toast', e:'🍳'},
-          {t:'11:00 AM', m:'Snack', f:'Fruit & yoghurt', e:'🍓'},
-          {t:'1:00 PM', m:'Lunch', f:'Dal, rice & soft veggies', e:'🍲'},
-          {t:'4:30 PM', m:'Snack', f:'Banana & milk', e:'🍌'},
-          {t:'7:30 PM', m:'Dinner', f:'Khichdi & curd', e:'🍚'}
+          {t:'8:00 AM', m:'Breakfast', f:'Veggie omelette & toast', e:'🍳', portion:'1 egg + ½ slice', about:'A protein-rich start with soft veggies folded in — great for growing toddlers.', tip:'Cut toast into strips so she can self-feed and build grip.'},
+          {t:'11:00 AM', m:'Snack', f:'Fruit & yoghurt', e:'🍓', portion:'½ cup', about:'Plain yoghurt with chopped soft fruit for calcium and gut-friendly probiotics.', tip:'Choose full-fat plain yoghurt and skip added sugar.'},
+          {t:'1:00 PM', m:'Lunch', f:'Dal, rice & soft veggies', e:'🍲', portion:'¾ cup', about:'A balanced, easy-to-chew meal with protein, carbs and veggies in one bowl.', tip:'Mash lightly and keep it mild on spices.'},
+          {t:'4:30 PM', m:'Snack', f:'Banana & milk', e:'🍌', portion:'½ banana + 150 ml', about:'A quick energy top-up between lunch and dinner.', tip:'Offer in a sippy cup to practise independent drinking.'},
+          {t:'7:30 PM', m:'Dinner', f:'Khichdi & curd', e:'🍚', portion:'¾ cup', about:'Soft, comforting khichdi with a spoon of curd — light and easy before bed.', tip:'Add a little ghee for healthy fats and flavour.'}
         ],
         medication:'Vitamin D drops · once daily.',
         activities:[
@@ -1243,13 +1275,26 @@
       if(mp && c.meals){
         var tints = ['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'];
         mp.innerHTML = c.meals.map(function(ml, i){
-          return '<div class="mp-row"><span class="mp-ic" style="background:'+tints[i%tints.length]+'">'+ml.e+'</span>'+
+          return '<div class="mp-row" onclick="openMeal('+i+')"><span class="mp-ic" style="background:'+tints[i%tints.length]+'">'+ml.e+'</span>'+
             '<div class="mp-t"><div class="mp-m">'+ml.m+'</div><div class="mp-f">'+ml.f+'</div></div>'+
             '<span class="mp-time">'+ml.t+'</span></div>';
         }).join('');
       }
     }
 
+    function openMeal(i){
+      var c=CHILDREN[CURRENT_KEY]; if(!c||!c.meals||!c.meals[i]) return;
+      var ml=c.meals[i], tints=['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'];
+      var ic=document.getElementById('mealIc'); ic.textContent=ml.e; ic.style.background=tints[i%tints.length];
+      document.getElementById('mealM').textContent=ml.m;
+      document.getElementById('mealTime').textContent=ml.t;
+      document.getElementById('mealFood').textContent=ml.f;
+      document.getElementById('mealAbout').textContent=ml.about||'';
+      document.getElementById('mealPortion').textContent=ml.portion||'—';
+      document.getElementById('mealTip').innerHTML='💡 '+(ml.tip||'');
+      document.getElementById('mealSheet').classList.add('open');
+    }
+    function closeMeal(){ document.getElementById('mealSheet').classList.remove('open'); }
     function setTab(el){
       document.querySelectorAll('.bottom-nav .nav-item').forEach(function(i){ i.classList.remove('active'); });
       el.classList.add('active');
