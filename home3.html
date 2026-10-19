@@ -246,6 +246,19 @@
   .mem-dots{display:flex;justify-content:center;gap:6px;margin-top:12px;}
   .mem-dots .dot{width:6px;height:6px;border-radius:50%;background:#e6dfdf;transition:.2s;}
   .mem-dots .dot.active{width:18px;border-radius:3px;background:#8574b5;}
+  .mem-card .mem-menu{position:absolute;top:28px;right:28px;z-index:5;width:34px;height:34px;border:none;cursor:pointer;border-radius:50%;background:rgba(20,16,26,.42);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.16);}
+  .mem-card .mem-menu svg{width:17px;height:17px;}
+  .mca-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:60;visibility:hidden;pointer-events:none;}
+  .mca-layer.open{visibility:visible;pointer-events:auto;}
+  .mca-bd{position:absolute;inset:0;background:rgba(35,22,12,.42);opacity:0;transition:opacity .25s;}
+  .mca-layer.open .mca-bd{opacity:1;}
+  .mca-sheet{position:absolute;left:12px;right:12px;bottom:12px;background:#fff;border-radius:22px;padding:8px;transform:translateY(135%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 -10px 44px -12px rgba(60,40,70,.4);}
+  .mca-layer.open .mca-sheet{transform:none;}
+  .mca-opt{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--ink);padding:15px 14px;border-radius:14px;cursor:pointer;text-align:left;}
+  .mca-opt:active{background:#f5f1fa;}
+  .mca-opt.danger{color:#e0567a;}
+  .mca-opt.cancel{justify-content:center;color:#8a8296;font-weight:800;}
+  .mca-opt svg{width:19px;height:19px;flex-shrink:0;}
   /* first-time memory starter — same card layout, empty image slot */
   .me-empty{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px;background:#f6f2fb;border:2px dashed rgba(139,116,181,.3);box-shadow:none;}
   .me-post{background:linear-gradient(160deg,#efe9f8,#e3d8f4);border:2px dashed rgba(139,116,181,.42);}
@@ -802,6 +815,14 @@
     </div>
 
     <!-- profile menu popover -->
+    <div class="mca-layer" id="memCardMenu">
+      <div class="mca-bd" onclick="closeMemCardMenu()"></div>
+      <div class="mca-sheet">
+        <button class="mca-opt danger" onclick="removeMemPost()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Remove memory</button>
+        <button class="mca-opt cancel" onclick="closeMemCardMenu()">Cancel</button>
+      </div>
+    </div>
+
     <div class="pf-layer" id="pfMenu">
       <div class="pf-bd" onclick="closeProfileMenu()"></div>
       <div class="pf-pop">
@@ -1097,6 +1118,7 @@
         if(pst){   // posted → full image card
           var img=(pst.img && pst.img.length>12) ? pst.img : mcPhoto(p.img);
           return '<div class="mem-card" onclick="location.href=\'memories.html\'" style="cursor:pointer">'+
+            '<button class="mem-menu" onclick="event.stopPropagation();openMemCardMenu(\''+p.t.replace(/'/g,"\\'")+'\')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>'+
             '<div class="mem-slider mc-slider"><div class="mem-slide"><div class="mem-img" style="background-image:url(\''+img+'\')"></div></div></div>'+
             '<div class="mem-fover"><span class="fo like">'+HEART_ICON+' 0</span><span class="fo">'+CHAT_ICON+' 0</span></div>'+
             '<div class="mem-title">'+p.t+'</div>'+
@@ -1113,6 +1135,13 @@
           '<div class="mem-desc">Capture this special first and it’ll appear here.</div>'+
         '</div>';
       }).join('');
+    }
+    var MEM_MENU_TITLE=null;
+    function openMemCardMenu(title){ MEM_MENU_TITLE=title; var m=document.getElementById('memCardMenu'); if(m) m.classList.add('open'); }
+    function closeMemCardMenu(){ var m=document.getElementById('memCardMenu'); if(m) m.classList.remove('open'); }
+    function removeMemPost(){
+      if(MEM_MENU_TITLE){ try{ var p=memPosts(); if(p[MEM_MENU_TITLE]){ delete p[MEM_MENU_TITLE]; localStorage.setItem('bt_mem_posted', JSON.stringify(p)); } }catch(e){} }
+      closeMemCardMenu(); renderMemState();
     }
     function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
     function openMemUpload(k){
