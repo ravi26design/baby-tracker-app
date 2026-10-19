@@ -547,11 +547,12 @@
   .pf-layer.open{visibility:visible;pointer-events:auto;}
   .pf-bd{position:absolute;inset:0;background:rgba(35,22,12,.14);opacity:0;transition:opacity .2s;}
   .pf-layer.open .pf-bd{opacity:1;}
-  .pf-pop{position:absolute;top:76px;left:18px;width:204px;background:#fff;border-radius:18px;padding:6px;
-    box-shadow:0 26px 46px -14px rgba(60,40,70,.36),inset 0 0 0 1px rgba(139,116,181,.08);
-    transform-origin:top left;transform:translateY(-8px) scale(.95);opacity:0;transition:transform .22s cubic-bezier(.2,.9,.3,1.25),opacity .18s;}
-  .pf-layer.open .pf-pop{transform:none;opacity:1;}
-  .pf-item{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);padding:11px 11px;border-radius:13px;cursor:pointer;text-align:left;transition:background .12s;}
+  .pf-pop{position:absolute;top:0;left:0;bottom:0;width:74%;max-width:288px;background:#fff;border-radius:0 26px 26px 0;padding:62px 14px 20px;display:flex;flex-direction:column;
+    box-shadow:22px 0 54px -18px rgba(60,40,70,.42),inset 0 0 0 1px rgba(139,116,181,.06);
+    transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+  .pf-layer.open .pf-pop{transform:none;}
+  .pf-head{font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a99fbb;padding:0 11px 10px;}
+  .pf-item{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);padding:13px 11px;border-radius:13px;cursor:pointer;text-align:left;transition:background .12s;}
   .pf-item:active{background:#f5f1fa;}
   .pf-item.danger{color:#e0567a;}
   .pf-ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -804,11 +805,12 @@
     <div class="pf-layer" id="pfMenu">
       <div class="pf-bd" onclick="closeProfileMenu()"></div>
       <div class="pf-pop">
+        <div class="pf-head">Account</div>
         <button class="pf-item" onclick="openProfileSheet()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
           <span>Profile</span>
         </button>
-        <div class="pf-div"></div>
+        <div style="flex:1"></div>
         <button class="pf-item danger" onclick="logout()">
           <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></span>
           <span>Log Out</span>
