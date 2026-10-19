@@ -1129,11 +1129,10 @@
       wrap.innerHTML=MEM_PROMPTS.map(function(p){
         var pst=posts[p.t];
         if(!pst && removed[p.t]) return '';   // removed → don't show the empty prompt again
-        if(pst){   // posted → full image card
-          var img=(pst.img && pst.img.length>12) ? pst.img : mcPhoto(p.img);
+        if(pst && pst.img && pst.img.length>12){   // posted WITH a real photo → full image card
           return '<div class="mem-card" onclick="location.href=\'memories.html\'" style="cursor:pointer">'+
             '<button class="mem-menu" onclick="event.stopPropagation();openMemCardMenu(\''+p.t.replace(/'/g,"\\'")+'\')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>'+
-            '<div class="mem-slider mc-slider"><div class="mem-slide"><div class="mem-img" style="background-image:url(\''+img+'\')"></div></div></div>'+
+            '<div class="mem-slider mc-slider"><div class="mem-slide"><div class="mem-img" style="background-image:url(\''+pst.img+'\')"></div></div></div>'+
             '<div class="mem-fover"><span class="fo like">'+HEART_ICON+' 0</span><span class="fo">'+CHAT_ICON+' 0</span></div>'+
             '<div class="mem-title">'+p.t+'</div>'+
             '<div class="mem-desc">'+((pst.desc||'A special first — '+p.t.toLowerCase()+'! 💛'))+'</div>'+
@@ -1163,8 +1162,8 @@
     }
     function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
     function openMemUpload(k){
-      var posts=memPosts(), t=memTitle(k);
-      if(posts[t]){ location.href='memories.html'; return; }
+      var posts=memPosts(), t=memTitle(k), p=posts[t];
+      if(p && p.img && p.img.length>12){ location.href='memories.html'; return; }
       location.href='memories.html?add='+encodeURIComponent(t);
     }
     var COLLECT=[

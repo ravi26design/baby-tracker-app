@@ -1126,12 +1126,10 @@
       var lbl=document.querySelector('.tgroup-label[data-group="First Year"]');
       if(grp){ grp.classList.remove('collapsed'); grp.style.maxHeight=''; if(lbl) lbl.classList.remove('collapsed'); }
       var MS_LOOKUP={}; Object.keys(MS_YEARS).forEach(function(y){ MS_YEARS[y].forEach(function(mm){ MS_LOOKUP[mm[0]]=[mm[1],mm[2],mm[3]]; }); });
-      var STOCK={'First Walk':'1257110','First Smile':'1648375','First Steps':'3933250','First Word':'1912868','First Food':'3661264','First Bath':'1166473'};
-      function px(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=760&h=760&fit=crop'; }
       titles.forEach(function(t){
         var rec=posts[t]||{};
         var when = rec.date ? new Date(rec.date+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}) : 'Just now';
-        var img = (rec.img && rec.img.length>12) ? rec.img : (STOCK[t]?px(STOCK[t]):'');
+        var img = (rec.img && rec.img.length>12) ? rec.img : '';
         var _ms=MS_LOOKUP[t], nodeEmo=_ms?_ms[0]:'👶', nodeBg=_ms?('linear-gradient(150deg,'+_ms[1]+','+_ms[2]+')'):'radial-gradient(circle at 45% 35%,#efeaf7,#e3daf6)';
         var d=rec.desc||'A special moment.';
         var it=document.createElement('div');
