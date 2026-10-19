@@ -623,7 +623,7 @@
   .pf-avwrap{position:relative;display:inline-block;}
   .pf-avwrap .pf-av{width:86px;height:86px;font-size:34px;}
   .pf-dot{position:absolute;bottom:4px;right:4px;width:20px;height:20px;border-radius:50%;background:#3b9c69;border:3px solid #f6f3fa;}
-  .pf-hero2 .pf-name{display:inline-flex;align-items:center;gap:7px;justify-content:center;font-size:22px;margin-top:14px;}
+  .pf-hero2 .pf-name{display:flex;align-items:center;gap:7px;justify-content:center;font-size:22px;margin-top:14px;}
   .pf-vf{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:#3f8ff0;color:#fff;flex-shrink:0;}
   .pf-vf svg{width:12px;height:12px;}
   .pf-tagpill{display:inline-block;margin-top:13px;font-size:12.5px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:5px 15px;border-radius:20px;}
@@ -968,6 +968,14 @@
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
           <span>My Profile</span>
         </button>
+        <button class="pf-item" onclick="openHelp()">
+          <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9.2 9.5a2.8 2.8 0 0 1 5.4.9c0 1.9-2.8 2.8-2.8 2.8M12 16.5h.01"/></svg></span>
+          <span>Help &amp; Support</span>
+        </button>
+        <button class="pf-item" onclick="openSettings()">
+          <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+          <span>Settings</span>
+        </button>
         <button class="pf-item" onclick="openTerms()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h5"/></svg></span>
           <span>Terms &amp; Conditions</span>
@@ -1012,8 +1020,6 @@
         </div>
         <div class="pf-sec">Account</div>
         <button class="pf-row" onclick="openEdit()"><span class="pf-ric">✏️</span><span class="pf-rt">Edit Profile</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
-        <button class="pf-row" onclick="openSettings()"><span class="pf-ric">⚙️</span><span class="pf-rt">Settings</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
-        <button class="pf-row" onclick="openHelp()"><span class="pf-ric">💬</span><span class="pf-rt">Help &amp; Support</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
         <button class="pf-logout" onclick="logout()">Log Out</button>
       </div>
     </div>
@@ -1273,9 +1279,9 @@
       var ea=document.getElementById('epAv'); if(ea) ea.textContent=nm.charAt(0).toUpperCase();
       closeEdit(); hToast('Profile updated ✓');
     }
-    function openSettings(){ document.getElementById('setSheet').classList.add('open'); }
+    function openSettings(){ closeProfileMenu(); document.getElementById('setSheet').classList.add('open'); }
     function closeSettings(){ document.getElementById('setSheet').classList.remove('open'); }
-    function openHelp(){ document.getElementById('helpSheet').classList.add('open'); }
+    function openHelp(){ closeProfileMenu(); document.getElementById('helpSheet').classList.add('open'); }
     function closeHelp(){ document.getElementById('helpSheet').classList.remove('open'); }
     function toggleFaq(q){ var f=q.parentNode; f.classList.toggle('open'); var a=q.nextElementSibling; a.style.maxHeight = a.style.maxHeight ? '' : (a.scrollHeight+'px'); }
     function openTerms(){ closeProfileMenu(); document.getElementById('termsSheet').classList.add('open'); }
