@@ -1080,7 +1080,7 @@
       if(!wrap) return;
       wrap.innerHTML=MEM_PROMPTS.map(function(p){
         var on=!!cap[p.k];
-        return '<div class="mem-card'+(on?' added':'')+'" onclick="addMemory(\''+p.k+'\')" style="cursor:pointer">'+
+        return '<div class="mem-card'+(on?' added':'')+'" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
           '<div class="mem-img me-empty">'+
             '<div class="me-up">'+(on?CK_ICON:UP_ICON)+'</div>'+
             '<div class="me-msg">'+(on?'Uploaded — looking lovely! 🎉':'You haven’t uploaded this yet')+'</div>'+
@@ -1091,10 +1091,11 @@
         '</div>';
       }).join('');
     }
-    function addMemory(k){
-      var cap=memCaptured(); if(cap[k]) return; cap[k]=true;
-      try{ localStorage.setItem('bt_mem_firsts', JSON.stringify(cap)); }catch(e){}
-      renderMemState();
+    function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
+    function openMemUpload(k){
+      var cap=memCaptured();
+      if(cap[k]){ location.href='memories.html'; return; }   // already uploaded → view memories
+      location.href='memories.html?add='+encodeURIComponent(memTitle(k));
     }
     var COLLECT=[
       {ic:'🍼',n:'Feeding routine',d:'Breast, bottle or solids'},

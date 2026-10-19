@@ -941,11 +941,13 @@
       document.getElementById('cropSheet').classList.remove('open'); nextCrop();
     }
     function removeMemPhoto(i){ MEM_PHOTOS.splice(i,1); renderMemPhotos(); }
+    var MS_DESC={'First Walk':'The first wobbly steps — so proud! 👣','First Smile':'That first gummy smile melted our hearts. 😊','First Steps':'Off and running — a huge milestone! 🎉','First Word':'The first little word we’ll never forget. 🗣️','First Food':'Messy, happy and a brand-new taste adventure! 🥣','First Bath':'Splashes, giggles and bubbles everywhere. 🛁'};
     function openAdd(title){
       EDIT_CARD=null; var _sb0=document.querySelector('.am-save'); if(_sb0) _sb0.textContent='Save';
       MEM_PHOTOS=[]; renderMemPhotos();
       document.getElementById('afTitle').value = title || '';
-      document.getElementById('afDesc').value=''; document.getElementById('afDate').value='';
+      document.getElementById('afDate').value = title ? new Date().toISOString().slice(0,10) : '';
+      document.getElementById('afDesc').value = title ? (MS_DESC[title] || ('A special first — '+title.toLowerCase()+'! 💛')) : '';
       document.getElementById('addSheetTitle').textContent = title ? ('Add · '+title) : 'Add Custom Memory';
       document.getElementById('addSheet').classList.add('open');
     }
@@ -1099,7 +1101,9 @@
       }
     })();
     switchChild('mark');
-    if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); }
+    (function(){ var q=null; try{ q=new URLSearchParams(location.search).get('add'); }catch(e){}
+      if(q!==null){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(q); },250); }
+      else if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); } })();
     renderMilestones('Year 1');
   </script>
 
