@@ -864,7 +864,13 @@
     }
     function deleteMemory(){
       var c=CARD_TARGET; if(!c){ closeCardMenu(); return; }
+      var titleEl=c.querySelector('.mc-title'); var title=titleEl?titleEl.textContent.trim():'';
       var item=c.closest('.titem'); if(item) item.remove();
+      if(title){   // if it's a posted memory, drop it from the shared store so it also leaves the home page
+        try{ var posts=JSON.parse(localStorage.getItem('bt_mem_posted')||'{}');
+          if(posts[title]){ delete posts[title]; localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }
+        }catch(e){}
+      }
       closeCardMenu();
       if(typeof switchChild==='function') switchChild(CUR_CHILD);
     }
