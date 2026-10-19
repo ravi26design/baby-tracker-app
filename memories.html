@@ -866,9 +866,10 @@
       var c=CARD_TARGET; if(!c){ closeCardMenu(); return; }
       var titleEl=c.querySelector('.mc-title'); var title=titleEl?titleEl.textContent.trim():'';
       var item=c.closest('.titem'); if(item) item.remove();
-      if(title){   // if it's a posted memory, drop it from the shared store so it also leaves the home page
+      if(title){   // if it's a posted memory, drop it from the shared store + mark removed so home doesn't show its empty prompt
         try{ var posts=JSON.parse(localStorage.getItem('bt_mem_posted')||'{}');
-          if(posts[title]){ delete posts[title]; localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }
+          if(posts[title]){ delete posts[title]; localStorage.setItem('bt_mem_posted', JSON.stringify(posts));
+            var rem=JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); rem[title]=true; localStorage.setItem('bt_mem_removed', JSON.stringify(rem)); }
         }catch(e){}
       }
       closeCardMenu();
@@ -1006,6 +1007,7 @@
           posts[t]=rec;
           try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }
           catch(e2){ delete rec.img; posts[t]=rec; try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }catch(e3){} }
+          try{ var rem=JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); if(rem[t]){ delete rem[t]; localStorage.setItem('bt_mem_removed', JSON.stringify(rem)); } }catch(e4){}
         }catch(e){}
         location.href='home3.html'; return;
       }

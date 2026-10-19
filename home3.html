@@ -1096,6 +1096,7 @@
       {k:'bath',  t:'First Bath',  e:'🛁', img:'1166473'}
     ];
     function memPosts(){ try{ return JSON.parse(localStorage.getItem('bt_mem_posted')||'{}'); }catch(e){ return {}; } }
+    function memRemoved(){ try{ return JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); }catch(e){ return {}; } }
     function mcPhoto(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=760&h=760&fit=crop'; }
     function renderMemState(){
       var starter=document.getElementById('memStarter'), feat=document.getElementById('memFeatured');
@@ -1111,10 +1112,11 @@
     var CHAT_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>';
     function renderMemStarter(){
       var wrap=document.getElementById('memStarter'); if(!wrap) return;
-      var posts=memPosts();
+      var posts=memPosts(), removed=memRemoved();
       var baby=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your baby';
       wrap.innerHTML=MEM_PROMPTS.map(function(p){
         var pst=posts[p.t];
+        if(!pst && removed[p.t]) return '';   // removed → don't show the empty prompt again
         if(pst){   // posted → full image card
           var img=(pst.img && pst.img.length>12) ? pst.img : mcPhoto(p.img);
           return '<div class="mem-card" onclick="location.href=\'memories.html\'" style="cursor:pointer">'+
@@ -1140,7 +1142,10 @@
     function openMemCardMenu(title){ MEM_MENU_TITLE=title; var m=document.getElementById('memCardMenu'); if(m) m.classList.add('open'); }
     function closeMemCardMenu(){ var m=document.getElementById('memCardMenu'); if(m) m.classList.remove('open'); }
     function removeMemPost(){
-      if(MEM_MENU_TITLE){ try{ var p=memPosts(); if(p[MEM_MENU_TITLE]){ delete p[MEM_MENU_TITLE]; localStorage.setItem('bt_mem_posted', JSON.stringify(p)); } }catch(e){} }
+      if(MEM_MENU_TITLE){ try{
+        var p=memPosts(); if(p[MEM_MENU_TITLE]){ delete p[MEM_MENU_TITLE]; localStorage.setItem('bt_mem_posted', JSON.stringify(p)); }
+        var r=memRemoved(); r[MEM_MENU_TITLE]=true; localStorage.setItem('bt_mem_removed', JSON.stringify(r));
+      }catch(e){} }
       closeMemCardMenu(); renderMemState();
     }
     function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
