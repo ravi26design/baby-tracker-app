@@ -1042,8 +1042,8 @@
           <span class="lbl">Checklist</span>
         </div>
         <div class="nav-item" onclick="location.href='home3.html'">
-          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2H2z"/><path d="M22 4h-6a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2H22z"/></svg></span>
-          <span class="lbl">Story</span>
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
+          <span class="lbl">Health</span>
         </div>
       </div>
       <div class="nav-add" onclick="openPost()">
@@ -1078,7 +1078,7 @@
               <span class="exp-status">In ~10 min</span>
             </div>
           </div>
-          <button class="exp-book" onclick="startExpert('a video consult')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.5-2.5v9L15 14M4 6h9a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>Book a video consult</button>
+          <button class="exp-book" onclick="bookConsult()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.5-2.5v9L15 14M4 6h9a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>Book a video consult</button>
         </div>
       </div>
 
@@ -1353,7 +1353,24 @@
     function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(function(){ t.classList.remove('show'); },1800); }
     function openExpert(){ document.getElementById('expertSheet').classList.add('open'); }
     function closeExpert(){ document.getElementById('expertSheet').classList.remove('open'); }
-    function startExpert(name){ closeExpert(); showToast('Connecting you with '+name+' 💬'); }
+    var EXPERTS={
+      'Dr. Meera Nair':{spec:'Paediatrician',e:'👩🏻‍⚕️',c1:'#ffe6c8',c2:'#f4b784',msg:'Hi! I’m Dr. Meera 🩺 How can I help with your little one today?'},
+      'Anita Rao':{spec:'Lactation consultant',e:'🤱🏻',c1:'#ffd9e2',c2:'#f3a9bd',msg:'Hello! I’m Anita. Tell me what’s on your mind about feeding 💛'},
+      'Priya Sethi':{spec:'Sleep coach',e:'😴',c1:'#dbeafb',c2:'#a9c3f3',msg:'Hi, I’m Priya 😴 Let’s sort out your baby’s sleep together.'}
+    };
+    function startExpert(name){
+      closeExpert();
+      var e=EXPERTS[name]||{spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',msg:'Hi! How can I help you today?'};
+      curGid=null;
+      var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
+      document.getElementById('chatName').textContent=name;
+      document.getElementById('chatPres').textContent=e.spec+' · Online';
+      var m={n:name, e:e.e, c1:e.c1, c2:e.c2};
+      document.getElementById('chatBody').innerHTML='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+'<div class="seenby" id="seenBy"></div>';
+      var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
+      document.getElementById('chat').classList.add('open');
+    }
+    function bookConsult(){ closeExpert(); showToast('Video consult requested — we’ll send a link shortly 📹'); }
     function showReply(bub){ var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You'; var tx=bub.querySelector('.txt'); document.getElementById('rbTo').textContent='Replying to '+name; document.getElementById('rbMsg').textContent=tx?tx.textContent:''; document.getElementById('replyBar').style.display='flex'; var ci=document.getElementById('chatInput'); if(ci) ci.focus(); }
     function cancelReply(){ document.getElementById('replyBar').style.display='none'; }
     function msgAction(type){ if(!MM_TARGET){ closeMsgMenu(); return; }
