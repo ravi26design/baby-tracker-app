@@ -680,34 +680,17 @@
     var normal = activeCats().map(function(c){
       var p=catProgress(c);
       var full=p.total>0 && p.done>=p.total;
-      var body = full
-        ? '<div class="hc-sub">All '+p.total+' items ticked off 🎉</div>'
-        : (p.total>0?('<div class="hc-prog"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>'):'');
-      var ribbon = full ? '<span class="hc-ribbon">✓ COMPLETED</span>' : '';
-      return '<div class="hub-cat'+(full?' done':'')+'" onclick="openCat(\''+c.key+'\')">'+ribbon+'<span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
+      var body = '';
+      if(p.total>0){
+        body = full
+          ? '<div class="hc-prog"><div class="hc-bar" style="background:#dcefe2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div>'
+          : '<div class="hc-prog"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>';
+      }
+      return '<div class="hub-cat'+(full?' d2':'')+'" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
         '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+body+'</div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
-    var CK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-    var BTL='<svg viewBox="0 0 24 24" fill="none" stroke="#d98a3d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5V3.6a1 1 0 0 1 2 0V5"/><rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/><path d="M8.5 12h7M8.5 15.2h7"/></svg>';
-    var compare =
-      '<div class="cmp-wrap">'+
-      '<div class="cmp-lbl">Style 1 — Ribbon</div>'+
-      '<div class="hub-cat done"><span class="hc-ribbon">✓ COMPLETED</span><span class="hc-ic" style="background:#fbe7cf">'+BTL+'</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub">All 10 items ticked off 🎉</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
-      '<div class="cmp-lbl">Style 2 — Green wash + bar</div>'+
-      '<div class="hub-cat d2"><span class="hc-ic" style="background:#fbe7cf">'+BTL+'</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog"><div class="hc-bar" style="background:#dcefE2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div></div><span class="hc-chev">'+CHEV+'</span></div>'+
-      '<div class="cmp-lbl">Style 3 — Mint + check</div>'+
-      '<div class="hub-cat d3"><span class="hc-ic" style="background:#fff">'+BTL+'</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub2">'+CK+'All packed &amp; ready</div></div><span class="hc-chk">'+CK+'</span></div>'+
-      '<div class="cmp-lbl">Style 4 — Full bar + end check</div>'+
-      '<div class="hub-cat d4"><span class="hc-ic" style="background:#fbe7cf">'+BTL+'</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog4"><div class="hc-bar"><i></i></div><span class="hc-endck">'+CK+'</span></div></div><span class="hc-chev">'+CHEV+'</span></div>'+
-      '<div class="cmp-lbl">Style 5 — Check badge on icon</div>'+
-      '<div class="hub-cat d5"><span class="hc-ic hc-ic-done" style="background:#fbe7cf">'+BTL+'<span class="ic-badge">'+CK+'</span></span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub">Completed · 10/10</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
-      '<div class="cmp-lbl">Style 6 — Done pill</div>'+
-      '<div class="hub-cat d6"><span class="hc-ic" style="background:#fbe7cf">'+BTL+'</span><div class="hc-t"><div class="hc-nrow"><div class="hc-n">Baby Essentials</div><span class="done-pill">'+CK+'Done</span></div><div class="hc-sub">All items complete</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
-      '<div class="cmp-lbl">Style 7 — Green bar + check</div>'+
-      '<div class="hub-cat d7"><span class="hc-ic" style="background:#fbe7cf">'+BTL+'</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog"><div class="hc-bar" style="background:#dcefE2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div></div><span class="hc-chk">'+CK+'</span></div>'+
-      '</div>';
-    document.getElementById('hub').innerHTML = compare + normal;
+    document.getElementById('hub').innerHTML = normal;
   }
 
   /* category panel */
