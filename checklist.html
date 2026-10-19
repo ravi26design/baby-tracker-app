@@ -107,6 +107,9 @@
   .hc-nrow{display:flex;align-items:center;gap:8px;}
   .done-pill{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;letter-spacing:.2px;color:#fff;background:linear-gradient(150deg,#86d3a2,#5bb87f);padding:3px 9px 3px 6px;border-radius:20px;box-shadow:0 5px 10px -5px rgba(90,170,120,.7);}
   .done-pill svg{width:11px;height:11px;}
+  /* Style 7 — green wash + bar + check (no chevron) */
+  .hub-cat.d7{background:linear-gradient(152deg,#fff 55%,#eef9f1);box-shadow:0 16px 30px -18px rgba(95,175,125,.5),inset 0 0 0 1.5px rgba(95,175,125,.32);}
+  .hub-cat.d7 .hc-ic{box-shadow:0 8px 16px -9px rgba(95,175,125,.6);}
   .hub-cat .hc-prog.full .hc-pct{color:#2f9c63;}
   .hub-cat .hc-chev{width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
@@ -699,6 +702,8 @@
       '<div class="hub-cat d5"><span class="hc-ic hc-ic-done" style="background:#fbe7cf">🍼<span class="ic-badge">'+CK+'</span></span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub">Completed · 10/10</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
       '<div class="cmp-lbl">Style 6 — Done pill</div>'+
       '<div class="hub-cat d6"><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-nrow"><div class="hc-n">Baby Essentials</div><span class="done-pill">'+CK+'Done</span></div><div class="hc-sub">All items complete</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
+      '<div class="cmp-lbl">Style 7 — Green bar + check</div>'+
+      '<div class="hub-cat d7"><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog"><div class="hc-bar" style="background:#dcefE2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div></div><span class="hc-chk">'+CK+'</span></div>'+
       '</div>';
     document.getElementById('hub').innerHTML = compare + normal;
   }
