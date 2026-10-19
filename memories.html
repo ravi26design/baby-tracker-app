@@ -992,6 +992,17 @@
       grp.insertBefore(it, grp.firstChild);
       document.getElementById('afTitle').value=''; document.getElementById('afDesc').value=''; document.getElementById('afDate').value='';
       var msc=document.querySelector('.ms-card[data-ms="'+t+'"]'); if(msc){ msc.remove(); }
+      if(window.__fromHomeFirst){   // posted from the home first-time card → persist + return home
+        try{
+          var posts=JSON.parse(localStorage.getItem('bt_mem_posted')||'{}');
+          var rec={desc:d, date:(dateV||'')};
+          if(MEM_PHOTOS.length) rec.img=MEM_PHOTOS[0];
+          posts[t]=rec;
+          try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }
+          catch(e2){ delete rec.img; posts[t]=rec; try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }catch(e3){} }
+        }catch(e){}
+        location.href='home3.html'; return;
+      }
       MEM_PHOTOS=[]; renderMemPhotos();
       if(MS_SHOWN['First Year']!=null) MS_SHOWN['First Year']+=1;
       paginate('First Year'); refreshCounts(); closeAdd();
@@ -1102,7 +1113,7 @@
     })();
     switchChild('mark');
     (function(){ var q=null; try{ q=new URLSearchParams(location.search).get('add'); }catch(e){}
-      if(q!==null){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(q); },250); }
+      if(q!==null){ if(q){ window.__fromHomeFirst=q; } setTimeout(function(){ if(typeof openAdd==='function') openAdd(q); },250); }
       else if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); } })();
     renderMilestones('Year 1');
   </script>

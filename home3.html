@@ -1051,57 +1051,60 @@
       if(!done){ var w=document.getElementById('welcomeCard'); if(w) w.style.display=''; }
     }
     function dismissWelcome(){ var w=document.getElementById('welcomeCard'); if(w) w.style.display='none'; try{ localStorage.setItem('bt_home_welcome','done'); }catch(e){} }
-    /* ---------- featured memory: first-time starter → featured carousel ---------- */
-    var MEM_UNLOCK=3; // capture this many firsts to unlock the featured memory book
+    /* ---------- featured memory: first-time empty firsts → image card once posted ---------- */
     var MEM_PROMPTS=[
-      {k:'walk',  t:'First Walk',  e:'👣', bg:'linear-gradient(160deg,#dcecff,#bcd7ff)'},
-      {k:'smile', t:'First Smile', e:'😊', bg:'linear-gradient(160deg,#ffe3ef,#ffc6dc)'},
-      {k:'steps', t:'First Steps', e:'🦶', bg:'linear-gradient(160deg,#e7f6e4,#c9ecc3)'},
-      {k:'word',  t:'First Word',  e:'🗣️', bg:'linear-gradient(160deg,#fff0d6,#ffdfab)'},
-      {k:'food',  t:'First Food',  e:'🥣', bg:'linear-gradient(160deg,#efe7ff,#d7c4ff)'},
-      {k:'bath',  t:'First Bath',  e:'🛁', bg:'linear-gradient(160deg,#dcf4ff,#bbe6ff)'}
+      {k:'walk',  t:'First Walk',  e:'👣', img:'1257110'},
+      {k:'smile', t:'First Smile', e:'😊', img:'1648375'},
+      {k:'steps', t:'First Steps', e:'🦶', img:'3933250'},
+      {k:'word',  t:'First Word',  e:'🗣️', img:'1912868'},
+      {k:'food',  t:'First Food',  e:'🥣', img:'3661264'},
+      {k:'bath',  t:'First Bath',  e:'🛁', img:'1166473'}
     ];
-    function memCaptured(){ try{ return JSON.parse(localStorage.getItem('bt_mem_firsts')||'{}'); }catch(e){ return {}; } }
-    function memCount(){ var c=memCaptured(),n=0; for(var k in c){ if(c[k]) n++; } return n; }
+    function memPosts(){ try{ return JSON.parse(localStorage.getItem('bt_mem_posted')||'{}'); }catch(e){ return {}; } }
+    function mcPhoto(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=760&h=760&fit=crop'; }
     function renderMemState(){
       var starter=document.getElementById('memStarter'), feat=document.getElementById('memFeatured');
       var va=document.getElementById('memViewAll');
       if(!starter||!feat) return;
-      if(memCount()>=MEM_UNLOCK){
-        starter.style.display='none'; feat.style.display='';
-        if(va) va.style.display='';
-      } else {
-        feat.style.display='none'; starter.style.display='';
-        if(va) va.style.display='none';
-        renderMemStarter();
-      }
+      feat.style.display='none'; starter.style.display='';
+      var posted=memPosts();
+      if(va) va.style.display = (Object.keys(posted).length ? '' : 'none');
+      renderMemStarter();
     }
     var UP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.4"/></svg>';
-    var CK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-    var PLUS_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
+    var HEART_ICON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>';
+    var CHAT_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>';
     function renderMemStarter(){
-      var cap=memCaptured(), wrap=document.getElementById('memStarter');
-      if(!wrap) return;
+      var wrap=document.getElementById('memStarter'); if(!wrap) return;
+      var posts=memPosts();
       var baby=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your baby';
       wrap.innerHTML=MEM_PROMPTS.map(function(p){
-        var on=!!cap[p.k];
-        return '<div class="mem-card'+(on?' added':'')+'" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
+        var pst=posts[p.t];
+        if(pst){   // posted → full image card
+          var img=(pst.img && pst.img.length>12) ? pst.img : mcPhoto(p.img);
+          return '<div class="mem-card" onclick="location.href=\'memories.html\'" style="cursor:pointer">'+
+            '<div class="mem-slider mc-slider"><div class="mem-slide"><div class="mem-img" style="background-image:url(\''+img+'\')"></div></div></div>'+
+            '<div class="mem-fover"><span class="fo like">'+HEART_ICON+' 0</span><span class="fo">'+CHAT_ICON+' 0</span></div>'+
+            '<div class="mem-title">'+p.t+'</div>'+
+            '<div class="mem-desc">'+((pst.desc||'A special first — '+p.t.toLowerCase()+'! 💛'))+'</div>'+
+          '</div>';
+        }
+        return '<div class="mem-card" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
           '<div class="mem-img me-empty">'+
-            '<div class="me-up">'+(on?CK_ICON:UP_ICON)+'</div>'+
-            '<div class="me-msg">'+(on?'Uploaded — looking lovely! 🎉':'You haven’t uploaded a memory yet. Add '+baby+'’s <b>'+p.t+'</b> memory to get started!')+'</div>'+
-            '<div class="me-cta">'+(on?CK_ICON+'Uploaded':UP_ICON+'Upload photo')+'</div>'+
+            '<div class="me-up">'+UP_ICON+'</div>'+
+            '<div class="me-msg">You haven’t uploaded a memory yet. Add '+baby+'’s <b>'+p.t+'</b> memory to get started!</div>'+
+            '<div class="me-cta">'+UP_ICON+'Upload photo</div>'+
           '</div>'+
           '<div class="mem-title">'+p.t+'</div>'+
-          '<div class="mem-desc">'+(on?'Added to '+baby+'’s memories.':'Capture this special first and it’ll appear here.')+'</div>'+
+          '<div class="mem-desc">Capture this special first and it’ll appear here.</div>'+
         '</div>';
       }).join('');
     }
     function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
-    function openMemPost(){ location.href='memories.html?add='; }   // blank Add Custom Memory sheet
     function openMemUpload(k){
-      var cap=memCaptured();
-      if(cap[k]){ location.href='memories.html'; return; }   // already uploaded → view memories
-      location.href='memories.html?add='+encodeURIComponent(memTitle(k));
+      var posts=memPosts(), t=memTitle(k);
+      if(posts[t]){ location.href='memories.html'; return; }
+      location.href='memories.html?add='+encodeURIComponent(t);
     }
     var COLLECT=[
       {ic:'🍼',n:'Feeding routine',d:'Breast, bottle or solids'},
@@ -1232,7 +1235,6 @@
     selectChild(Object.keys(CHILDREN)[0]);
     updateWelcome(Object.keys(CHILDREN)[0]);
     showWelcomeIfFirst();
-    try{ localStorage.removeItem('bt_mem_firsts'); }catch(e){}  /* demo: always open in the first-time empty memory state */
     renderMemState();
 
     // memory cards — each card's inner image slider updates its own dots
