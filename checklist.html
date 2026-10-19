@@ -298,6 +298,10 @@
   .trip-nm{font-size:15.5px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .trip-meta{font-size:12px;color:var(--muted);font-weight:600;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .trip-pill{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;font-weight:800;color:#7a5fd0;background:#f1ecfb;padding:4px 10px 4px 8px;border-radius:9px;}
+  .trip-prog{display:flex;align-items:center;margin-top:10px;}
+  .trip-prog .tp-bar{flex:1;height:5px;border-radius:4px;background:#efeaf6;overflow:hidden;}
+  .trip-prog .tp-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#cfc1ea,#b6a6dd);transition:width .4s ease;}
+  .trip-prog.full .tp-bar i{background:linear-gradient(90deg,#9ddcb4,#7fc99a);}
   .trip-go{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;align-self:center;}
   .trip-del{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;background:rgba(150,140,175,.1);color:#aba1bc;display:flex;align-items:center;justify-content:center;transition:transform .12s,background .15s,color .15s;}
   .trip-del:active{transform:scale(.88);background:#ffe4ea;color:#e8698f;}
@@ -1128,10 +1132,11 @@
     return TRIPS.map(function(t){
       var tint=DEST_TINT[t.dest]||'linear-gradient(150deg,#efe7fb,#e2d6f6)';
       var icol=DEST_ICCOL[t.dest]||'#7a5fd0';
-      var cnt=0; tripSectionsFor(t).forEach(function(g){ cnt+=g.items.length; });
+      var total=0, packed=0; tripSectionsFor(t).forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ total++; if(CHECKED['trip|'+t.id+'|'+gi+'|'+ii]) packed++; }); });
+      var pct=total?Math.round(packed/total*100):0, full=total>0&&packed>=total;
       return '<div class="trip-card" onclick="openTrip(\''+t.id+'\')"><span class="trip-ic" style="background:'+tint+';color:'+icol+'">'+icDest(t.dest,25)+'</span>'+
         '<div class="trip-info"><div class="trip-nm">'+t.name+'</div><div class="trip-meta">'+t.days+' day'+(t.days>1?'s':'')+' · '+t.season+' · '+t.dest+'</div>'+
-        '<span class="trip-pill">🛍 '+cnt+' to pack</span></div>'+
+        '<div class="trip-prog'+(full?' full':'')+'"><div class="tp-bar"><i style="width:'+pct+'%"></i></div></div></div>'+
         '<span class="trip-go">'+chev+'</span></div>';
     }).join('');
   }
