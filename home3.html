@@ -1293,6 +1293,11 @@
     buildChildCards();
     buildChildTabs();
     selectChild(Object.keys(CHILDREN)[0]);
+    /* demo: home opens in the empty memory state on a normal load; a just-posted memory (redirected with #posted) is kept so the user sees it */
+    try{
+      if(location.hash==='#posted'){ history.replaceState(null,'',location.pathname+location.search); }
+      else { localStorage.removeItem('bt_mem_posted'); localStorage.removeItem('bt_mem_removed'); }
+    }catch(e){}
     updateWelcome(Object.keys(CHILDREN)[0]);
     showWelcomeIfFirst();
     renderMemState();

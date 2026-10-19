@@ -1009,7 +1009,7 @@
           catch(e2){ delete rec.img; posts[t]=rec; try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }catch(e3){} }
           try{ var rem=JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); if(rem[t]){ delete rem[t]; localStorage.setItem('bt_mem_removed', JSON.stringify(rem)); } }catch(e4){}
         }catch(e){}
-        location.href='home3.html'; return;
+        location.href='home3.html#posted'; return;
       }
       MEM_PHOTOS=[]; renderMemPhotos();
       if(MS_SHOWN['First Year']!=null) MS_SHOWN['First Year']+=1;
