@@ -1171,7 +1171,7 @@
             <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
             <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
           </div></div>
-        <div class="chat-bar" onclick="openDetails()">
+        <div class="chat-bar" onclick="openChatHeader()">
           <button class="chat-back" onclick="event.stopPropagation();closePanel('chat')" aria-label="Back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
           <span class="chat-av" id="chatAv"></span>
           <div class="chat-id"><div class="chat-name" id="chatName"></div><div class="chat-pres" id="chatPres"></div></div>
@@ -1353,23 +1353,25 @@
     function openExpert(){ document.getElementById('expertSheet').classList.add('open'); }
     function closeExpert(){ document.getElementById('expertSheet').classList.remove('open'); }
     var EXPERTS={
-      'Dr. Meera Nair':{spec:'Paediatrician',e:'👩🏻‍⚕️',c1:'#ffe6c8',c2:'#f4b784',msg:'Hi! I’m Dr. Meera 🩺 How can I help with your little one today?'},
-      'Anita Rao':{spec:'Lactation consultant',e:'🤱🏻',c1:'#ffd9e2',c2:'#f3a9bd',msg:'Hello! I’m Anita. Tell me what’s on your mind about feeding 💛'},
-      'Priya Sethi':{spec:'Sleep coach',e:'😴',c1:'#dbeafb',c2:'#a9c3f3',msg:'Hi, I’m Priya 😴 Let’s sort out your baby’s sleep together.'}
+      'Dr. Meera Nair':{n:'Dr. Meera Nair',spec:'Paediatrician · 12 yrs',e:'👩🏻‍⚕️',c1:'#ffe6c8',c2:'#f4b784',on:true,verified:true,level:'Verified Paediatrician',tag:'Paediatrician',tagKind:'expert',tagBg:'#e2f0f7',tagFg:'#1f86a8',answers:214,helpful:'5.0',points:3200,topics:['Health','Feeding','Sleep','Development'],badges:[['🩺','Pediatrician','#daf0f7','#2b93b0'],['✅','Verified Expert','#e2f5e8','#2fa96f'],['🏆','Top Helper','#fff4d6','#c2931f']],bio:'Board-certified paediatrician with 12 years’ experience 🩺 Here to help with feeding, sleep, growth and everyday health worries.',msg:'Hi! I’m Dr. Meera 🩺 How can I help with your little one today?'},
+      'Anita Rao':{n:'Anita Rao',spec:'Lactation consultant',e:'🤱🏻',c1:'#ffd9e2',c2:'#f3a9bd',on:true,verified:true,level:'IBCLC Lactation Consultant',tag:'Lactation',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',answers:98,helpful:'4.9',points:1580,topics:['Feeding','Latch','Breastfeeding'],badges:[['⭐','Expert','#ede4fb','#7a5fd0'],['✅','Verified','#dceafb','#3f7fd0']],bio:'IBCLC lactation consultant 🤱 Gentle, judgement-free support with latch, supply and feeding routines.',msg:'Hello! I’m Anita. Tell me what’s on your mind about feeding 💛'},
+      'Priya Sethi':{n:'Priya Sethi',spec:'Sleep coach',e:'😴',c1:'#dbeafb',c2:'#a9c3f3',on:false,verified:true,level:'Certified Sleep Coach',tag:'Sleep coach',tagKind:'expert',tagBg:'#dceafb',tagFg:'#3f7fd0',answers:76,helpful:'4.8',points:1120,topics:['Sleep','Routines','Regressions'],badges:[['😴','Sleep Coach','#dceafb','#3f7fd0'],['✅','Verified','#e2f5e8','#2fa96f']],bio:'Certified paediatric sleep coach 😴 Helping families build gentle, realistic sleep routines that actually work.',msg:'Hi, I’m Priya 😴 Let’s sort out your baby’s sleep together.'}
     };
+    var curExpert=null;
     function startExpert(name){
       closeExpert();
-      var e=EXPERTS[name]||{spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',msg:'Hi! How can I help you today?'};
-      curGid=null;
+      var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,verified:true,level:'Verified Expert',tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',answers:0,helpful:'5.0',points:0,topics:['Baby care'],badges:[['✅','Verified','#e2f5e8','#2fa96f']],bio:'Verified paediatric expert here to help.',msg:'Hi! How can I help you today?'};
+      curExpert=e; curGid=null;
+      clearTimeout(typingTimer); hideTyping();
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
-      document.getElementById('chatPres').textContent=e.spec+' · Online';
+      document.getElementById('chatPres').textContent=e.spec+' · '+(e.on?'Online':'Replies in ~10 min');
       var m={n:name, e:e.e, c1:e.c1, c2:e.c2};
       document.getElementById('chatBody').innerHTML='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+'<div class="seenby" id="seenBy"></div>';
       var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
       document.getElementById('chat').classList.add('open');
     }
-    function bookConsult(){ closeExpert(); showToast('Video consult requested — we’ll send a link shortly 📹'); }
+    function openChatHeader(){ if(curExpert){ showProfile(curExpert); } else { openDetails(); } }
     function showReply(bub){ var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You'; var tx=bub.querySelector('.txt'); document.getElementById('rbTo').textContent='Replying to '+name; document.getElementById('rbMsg').textContent=tx?tx.textContent:''; document.getElementById('replyBar').style.display='flex'; var ci=document.getElementById('chatInput'); if(ci) ci.focus(); }
     function cancelReply(){ document.getElementById('replyBar').style.display='none'; }
     function msgAction(type){ if(!MM_TARGET){ closeMsgMenu(); return; }
@@ -1599,7 +1601,7 @@
       body.scrollTop=body.scrollHeight;
     }
     function openGroup(gid){
-      curGid=gid; var g=GROUPS[gid];
+      curGid=gid; curExpert=null; var g=GROUPS[gid];
       document.getElementById('chatAv').textContent=g.emoji;
       document.getElementById('chatAv').style.background=g.bg;
       document.getElementById('chatName').textContent=g.name;
