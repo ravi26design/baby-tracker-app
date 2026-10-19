@@ -59,7 +59,7 @@
   .hub{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
   .ck-intro{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;margin:12px 2px 0;}
   .ck-intro:empty{display:none;}
-  .hub-cat{display:flex;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:14px 15px;cursor:pointer;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.05);transition:transform .13s;}
+  .hub-cat{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:14px 15px;cursor:pointer;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.05);transition:transform .13s;}
   .hub-cat:active{transform:scale(.99);}
   .hub-cat .hc-ic{width:48px;height:48px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 8px 16px -9px rgba(120,90,140,.5);}
   .hub-cat .hc-t{flex:1;min-width:0;}
@@ -70,13 +70,25 @@
   .hub-cat .hc-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#e0d7f2,#cfc3ec);transition:width .4s ease;}
   .hub-cat .hc-pct{font-size:11px;font-weight:800;color:#8574b5;flex-shrink:0;min-width:28px;text-align:right;}
   .hub-cat .hc-prog.full .hc-bar i{background:linear-gradient(90deg,#9ddcb4,#7fc99a);}
-  .hub-cat.done{background:linear-gradient(152deg,#ffffff 55%,#eef9f1);box-shadow:0 16px 30px -18px rgba(95,175,125,.5),inset 0 0 0 1.5px rgba(95,175,125,.32);}
+  /* completed category — Option C: side accent + corner ribbon */
+  .hub-cat.done{padding-left:19px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(95,175,125,.22);}
+  .hub-cat.done::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:3px;background:linear-gradient(#86d3a2,#5bb87f);}
   .hub-cat.done .hc-ic{box-shadow:0 8px 16px -9px rgba(95,175,125,.6);}
-  .hub-cat.done .hc-bar{background:#dcefE2;}
-  .hub-cat.done .hc-chev{background:#e4f6ec;color:#4bab77;}
-  .hub-cat .hc-done{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;font-size:11.5px;font-weight:800;letter-spacing:.2px;color:#3b9c69;background:#e4f6ec;padding:4px 11px 4px 5px;border-radius:20px;}
-  .hub-cat .hc-done-ck{width:16px;height:16px;border-radius:50%;background:linear-gradient(150deg,#86d3a2,#5bb87f);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 8px -3px rgba(90,170,120,.7);}
-  .hub-cat .hc-done-ck svg{width:10px;height:10px;}
+  .hub-cat .hc-sub{font-size:12px;font-weight:600;color:#6aa37e;margin-top:5px;}
+  .hub-cat .hc-ribbon{position:absolute;top:0;right:0;font-size:10px;font-weight:800;letter-spacing:.3px;color:#fff;background:linear-gradient(150deg,#86d3a2,#5bb87f);padding:4px 12px;border-bottom-left-radius:12px;z-index:1;}
+  /* compare: alternative completed styles */
+  .hub-cat.d2{background:linear-gradient(152deg,#fff 55%,#eef9f1);box-shadow:0 16px 30px -18px rgba(95,175,125,.5),inset 0 0 0 1.5px rgba(95,175,125,.32);}
+  .hub-cat.d2 .hc-chev{background:#e4f6ec;color:#4bab77;}
+  .hub-cat.d3{background:linear-gradient(160deg,#eef9f1,#e1f3e7);box-shadow:0 14px 28px -16px rgba(95,175,125,.55),inset 0 0 0 1px rgba(95,175,125,.2);}
+  .hub-cat.d3 .hc-ic{box-shadow:0 8px 16px -9px rgba(95,175,125,.55);}
+  .hub-cat .hc-sub2{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:12.5px;font-weight:700;color:#3b9c69;}
+  .hub-cat .hc-sub2 svg{width:15px;height:15px;}
+  .hub-cat .hc-chk{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#86d3a2,#5bb87f);box-shadow:0 6px 12px -5px rgba(90,170,120,.7);}
+  .hub-cat .hc-chk svg{width:16px;height:16px;}
+  .cmp-lbl{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8574b5;margin:14px 2px 8px;}
+  .cmp-lbl:first-child{margin-top:0;}
+  .cmp-wrap{margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed rgba(139,116,181,.3);}
+  .cmp-wrap .hub-cat{margin-bottom:10px;}
   .hub-cat .hc-prog.full .hc-pct{color:#2f9c63;}
   .hub-cat .hc-chev{width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
@@ -643,14 +655,28 @@
   function renderHub(){
     updateWishIcon();
     var ci=document.getElementById('ckIntro'); if(ci){ var cc=CHILDREN[CUR_CHILD]; ci.textContent=(cc&&cc.intro)||''; }
-    document.getElementById('hub').innerHTML=activeCats().map(function(c){
+    var normal = activeCats().map(function(c){
       var p=catProgress(c);
       var full=p.total>0 && p.done>=p.total;
-      var prog=p.total>0?('<div class="hc-prog'+(full?' full':'')+'"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>'):'';
-      return '<div class="hub-cat'+(full?' done':'')+'" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
-        '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+prog+'</div>'+
+      var body = full
+        ? '<div class="hc-sub">All '+p.total+' items ticked off 🎉</div>'
+        : (p.total>0?('<div class="hc-prog"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>'):'');
+      var ribbon = full ? '<span class="hc-ribbon">✓ COMPLETED</span>' : '';
+      return '<div class="hub-cat'+(full?' done':'')+'" onclick="openCat(\''+c.key+'\')">'+ribbon+'<span class="hc-ic" style="background:'+c.tint+'">'+c.ic+'</span>'+
+        '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+body+'</div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
+    var CK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    var compare =
+      '<div class="cmp-wrap">'+
+      '<div class="cmp-lbl">Style 1 — Ribbon</div>'+
+      '<div class="hub-cat done"><span class="hc-ribbon">✓ COMPLETED</span><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub">All 10 items ticked off 🎉</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
+      '<div class="cmp-lbl">Style 2 — Green wash + bar</div>'+
+      '<div class="hub-cat d2"><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog"><div class="hc-bar" style="background:#dcefE2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div></div><span class="hc-chev">'+CHEV+'</span></div>'+
+      '<div class="cmp-lbl">Style 3 — Mint + check</div>'+
+      '<div class="hub-cat d3"><span class="hc-ic" style="background:#fff">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub2">'+CK+'All packed &amp; ready</div></div><span class="hc-chk">'+CK+'</span></div>'+
+      '</div>';
+    document.getElementById('hub').innerHTML = compare + normal;
   }
 
   /* category panel */
