@@ -100,6 +100,8 @@
   .cp-title{font-size:19px;font-weight:800;letter-spacing:-.3px;}
   .pack-title{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin:18px 2px 12px;}
   .cp-sub{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:1px;}
+  .cp-guide{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;padding:2px 22px 10px;}
+  .cp-guide:empty{display:none;}
   .cp-body{flex:1;overflow-y:auto;padding:4px 20px 30px;}
   .cp-body::-webkit-scrollbar{display:none;}
 
@@ -500,6 +502,7 @@
           <button class="cp-add" id="cpAdd" onclick="openCreateSheet()" style="display:none" aria-label="Create a new trip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
           <button class="cp-more" id="cpMore" onclick="openTripMenu()" style="display:none" aria-label="Trip options"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
         </div>
+        <div class="cp-guide" id="cpGuide"></div>
         <div class="cp-body" id="cpBody"></div>
       </div>
 
@@ -648,10 +651,23 @@
 
   /* category panel */
   var CUR_CAT=null, CUR_STAGE=null;
+  var CAT_GUIDE={
+    essentials:'Everything your little one uses day to day — browse by type and tick off what you already have.',
+    toys:'Age-right toys that match your baby’s stage — each one gently supports a skill they’re building now.',
+    books:'First books and sensory finds to spark early language and a love of reading.',
+    hospital:'Pack this ahead of the big day — the essentials for you and baby at the hospital.',
+    diaperbag:'Keep these in your diaper bag so you’re ready for nappy changes and little surprises on the go.',
+    diy:'Simple, safe play ideas you can set up at home with things you already have.',
+    travel:'Plan each trip with a packing list tailored to your baby’s age and the season.',
+    food:'Trusted brands and gentle first-food picks suited to this stage.',
+    feeding:'Feeding and nursing must-haves to make every feed easier for you and baby.',
+    recovery:'Gentle recovery and maternity care to look after you in the weeks after birth.'
+  };
   function openCat(key){
     var c=activeCats().filter(function(x){return x.key===key;})[0]; if(!c) return;
     CUR_CAT=key; CUR_STAGE=CHILDREN[CUR_CHILD].stage;
     document.getElementById('cpTitle').textContent=c.name; var sub=document.getElementById('cpSub'); sub.textContent=c.desc||''; sub.style.display=c.desc?'':'none';
+    var g=document.getElementById('cpGuide'); if(g) g.textContent=CAT_GUIDE[key]||'';
     var add=document.getElementById('cpAdd'); if(add) add.style.display='none';
     var more=document.getElementById('cpMore'); if(more) more.style.display='none';
     RENDER[c.type](c);
