@@ -684,7 +684,7 @@
           <div class="welcome-card" id="welcomeCard" style="display:none">
             <div class="wc-title" id="wcTitle">Welcome!</div>
             <div class="wc-text" id="wcText"></div>
-            <button class="wc-cta" onclick="location.href='checklist.html'"><span id="wcCtaLabel">View Checklist</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+            <button class="wc-cta" onclick="location.href=(window.WC_CTA_HREF||'checklist.html')"><span id="wcCtaLabel">View Checklist</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
           </div>
 
           <!-- child cards (horizontal scroll, one per child) -->
@@ -1076,10 +1076,22 @@
     function updateWelcome(key){
       var c = CHILDREN[key]; if(!c) return;
       var age = ageWords(c.ageShort);
-      var act = (c.activities && c.activities[0]) || {};
-      var t = document.getElementById('wcTitle'); if(t) t.innerHTML = 'Welcome! '+c.name+' is '+age+' old';
-      var x = document.getElementById('wcText'); if(x) x.innerHTML = 'This week '+c.name+' is loving <b>'+(act.title||'play time')+'</b>. Add a few details to personalise '+(c.breed&&/female/i.test(c.breed)?'her':'his')+' milestones &amp; reminders.';
-      var l = document.getElementById('wcCtaLabel'); if(l) l.textContent = "View "+(c.breed&&/female/i.test(c.breed)?'Her':'His')+" Checklist";
+      var her = (c.breed&&/female/i.test(c.breed));
+      var t = document.getElementById('wcTitle'), x = document.getElementById('wcText'), l = document.getElementById('wcCtaLabel');
+      var posts = memPosts(), pkeys = Object.keys(posts);
+      if(pkeys.length){   // map the card to the latest captured memory
+        var lastTitle = pkeys[pkeys.length-1], rec = posts[lastTitle]||{};
+        if(t) t.innerHTML = '🎉 '+c.name+'’s <b>'+lastTitle+'</b> is captured!';
+        if(x) x.innerHTML = (rec.desc? rec.desc+' ' : '') + 'A lovely new memory added to '+(her?'her':'his')+' story — keep capturing '+c.name+'’s special firsts.';
+        if(l) l.textContent = 'View Memories';
+        window.WC_CTA_HREF = 'memories.html';
+      } else {
+        var act = (c.activities && c.activities[0]) || {};
+        if(t) t.innerHTML = 'Welcome! '+c.name+' is '+age+' old';
+        if(x) x.innerHTML = 'This week '+c.name+' is loving <b>'+(act.title||'play time')+'</b>. Add a few details to personalise '+(her?'her':'his')+' milestones &amp; reminders.';
+        if(l) l.textContent = 'View '+(her?'Her':'His')+' Checklist';
+        window.WC_CTA_HREF = 'checklist.html';
+      }
     }
     function showWelcomeIfFirst(){
       var done = false; try{ done = localStorage.getItem('bt_home_welcome')==='done'; }catch(e){}
@@ -1147,6 +1159,7 @@
         var r=memRemoved(); r[MEM_MENU_TITLE]=true; localStorage.setItem('bt_mem_removed', JSON.stringify(r));
       }catch(e){} }
       closeMemCardMenu(); renderMemState();
+      try{ updateWelcome(CURRENT_KEY); }catch(e){}
     }
     function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
     function openMemUpload(k){
