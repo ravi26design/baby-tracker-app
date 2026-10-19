@@ -1082,17 +1082,8 @@
     function renderMemStarter(){
       var cap=memCaptured(), wrap=document.getElementById('memStarter');
       if(!wrap) return;
-      var postCard='<div class="mem-card" onclick="openMemPost()" style="cursor:pointer">'+
-          '<div class="mem-img me-empty me-post">'+
-            '<div class="me-up">'+PLUS_ICON+'</div>'+
-            '<div class="me-msg">Share any special moment — a photo and a little note.</div>'+
-            '<div class="me-cta">'+PLUS_ICON+'Post a memory</div>'+
-          '</div>'+
-          '<div class="mem-title">Add your own</div>'+
-          '<div class="mem-desc">Not a “first”? Post any moment you love.</div>'+
-        '</div>';
       var baby=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your baby';
-      wrap.innerHTML=postCard+MEM_PROMPTS.map(function(p){
+      wrap.innerHTML=MEM_PROMPTS.map(function(p){
         var on=!!cap[p.k];
         return '<div class="mem-card'+(on?' added':'')+'" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
           '<div class="mem-img me-empty">'+
