@@ -248,6 +248,8 @@
   .mem-dots .dot.active{width:18px;border-radius:3px;background:#8574b5;}
   /* first-time memory starter — same card layout, empty image slot */
   .me-empty{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px;background:#f6f2fb;border:2px dashed rgba(139,116,181,.3);box-shadow:none;}
+  .me-post{background:linear-gradient(160deg,#efe9f8,#e3d8f4);border:2px dashed rgba(139,116,181,.42);}
+  .me-post .me-up{color:#8f78c4;}
   .me-up{width:54px;height:54px;border-radius:50%;background:#fff;color:#8574b5;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -8px rgba(120,90,140,.4);}
   .me-up svg{width:26px;height:26px;}
   .me-msg{font-size:13px;font-weight:700;color:#8a8296;max-width:210px;line-height:1.45;}
@@ -1075,10 +1077,20 @@
     }
     var UP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.4"/></svg>';
     var CK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    var PLUS_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
     function renderMemStarter(){
       var cap=memCaptured(), wrap=document.getElementById('memStarter');
       if(!wrap) return;
-      wrap.innerHTML=MEM_PROMPTS.map(function(p){
+      var postCard='<div class="mem-card" onclick="openMemPost()" style="cursor:pointer">'+
+          '<div class="mem-img me-empty me-post">'+
+            '<div class="me-up">'+PLUS_ICON+'</div>'+
+            '<div class="me-msg">Share any special moment — a photo and a little note.</div>'+
+            '<div class="me-cta">'+PLUS_ICON+'Post a memory</div>'+
+          '</div>'+
+          '<div class="mem-title">Add your own</div>'+
+          '<div class="mem-desc">Not a “first”? Post any moment you love.</div>'+
+        '</div>';
+      wrap.innerHTML=postCard+MEM_PROMPTS.map(function(p){
         var on=!!cap[p.k];
         return '<div class="mem-card'+(on?' added':'')+'" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
           '<div class="mem-img me-empty">'+
@@ -1092,6 +1104,7 @@
       }).join('');
     }
     function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
+    function openMemPost(){ location.href='memories.html?add='; }   // blank Add Custom Memory sheet
     function openMemUpload(k){
       var cap=memCaptured();
       if(cap[k]){ location.href='memories.html'; return; }   // already uploaded → view memories
