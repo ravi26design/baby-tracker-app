@@ -354,6 +354,7 @@
   .mp-row{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid rgba(139,116,181,.1);}
   .mp-row:last-child{border-bottom:none;}
   .mp-ic{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03);}
+  .mp-ic svg{width:22px;height:22px;}
   .mp-t{flex:1;min-width:0;}
   .mp-m{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .mp-f{font-size:12.5px;color:#8a8296;font-weight:500;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -369,6 +370,7 @@
   .meal-grab{width:38px;height:5px;border-radius:3px;background:#e2dcec;margin:4px auto 16px;}
   .meal-head{display:flex;align-items:center;gap:14px;}
   .meal-ic{width:58px;height:58px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03);}
+  .meal-ic svg{width:30px;height:30px;}
   .meal-ht{flex:1;min-width:0;}
   .meal-m{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
   .meal-time{font-size:12.5px;font-weight:800;color:#a99fbb;margin-top:2px;}
@@ -607,21 +609,105 @@
   .pf-sheet-layer.open{visibility:visible;pointer-events:auto;}
   .pf-sheet-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
   .pf-sheet-layer.open .pf-sheet-bd{opacity:1;}
-  .pf-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:0 22px 26px;
+  .pf-sheet{position:absolute;left:0;right:0;bottom:0;background:#f6f3fa;border-radius:28px 28px 46px 46px;padding:0 22px 26px;max-height:calc(100% - 16px);overflow-y:auto;-webkit-overflow-scrolling:touch;
     transform:translateY(110%);transition:transform .34s cubic-bezier(.32,.72,0,1);}
+  .pf-sheet::-webkit-scrollbar{display:none;}
   .pf-sheet-layer.open .pf-sheet{transform:none;}
   .grabber-x{padding:11px 0 6px;} .grabber-x span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
   .pf-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 0 20px;}
   .pf-av{width:82px;height:82px;border-radius:50%;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;box-shadow:var(--shadow-soft);}
   .pf-name{font-size:20px;font-weight:800;color:var(--ink);margin-top:13px;letter-spacing:-.3px;}
   .pf-mail{font-size:13px;color:var(--muted);margin-top:3px;font-weight:500;}
-  .pf-row{display:flex;align-items:center;gap:13px;width:100%;border:none;background:#f7f4fb;border-radius:15px;padding:14px 15px;margin-bottom:10px;font-family:inherit;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:transform .12s;}
+  /* rich My Profile */
+  .pf-hero2{text-align:center;padding:4px 0 2px;}
+  .pf-avwrap{position:relative;display:inline-block;}
+  .pf-avwrap .pf-av{width:86px;height:86px;font-size:34px;}
+  .pf-dot{position:absolute;bottom:4px;right:4px;width:20px;height:20px;border-radius:50%;background:#3b9c69;border:3px solid #f6f3fa;}
+  .pf-hero2 .pf-name{display:inline-flex;align-items:center;gap:7px;justify-content:center;font-size:22px;margin-top:14px;}
+  .pf-vf{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:#3f8ff0;color:#fff;flex-shrink:0;}
+  .pf-vf svg{width:12px;height:12px;}
+  .pf-tagpill{display:inline-block;margin-top:13px;font-size:12.5px;font-weight:800;color:#d6567a;background:#ffe1ea;padding:5px 15px;border-radius:20px;}
+  .pf-level{font-size:13.5px;font-weight:700;color:#9a8fb3;margin-top:11px;}
+  .pf-bio{font-size:13.5px;line-height:1.55;color:#6a645f;font-weight:500;margin-top:12px;max-width:300px;margin-left:auto;margin-right:auto;}
+  .pf-stats{display:flex;gap:10px;margin-top:22px;}
+  .pf-stat{flex:1;background:#fff;border-radius:16px;padding:14px 6px;text-align:center;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);}
+  .pf-stat .ps-l{font-size:9.5px;font-weight:800;letter-spacing:.4px;color:#a99fbb;}
+  .pf-stat .ps-v{font-size:20px;font-weight:800;color:var(--ink);margin-top:5px;}
+  .pf-sec{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:22px 2px 11px;}
+  .pf-pills{display:flex;flex-wrap:wrap;gap:8px;}
+  .pf-pill{font-size:12.5px;font-weight:800;color:#7a68ad;background:#f1ecf8;padding:7px 14px;border-radius:20px;}
+  .pf-badges{display:flex;gap:12px;overflow-x:auto;margin:0 -22px;padding:2px 22px 4px;}
+  .pf-badges::-webkit-scrollbar{display:none;}
+  .pf-badge{flex:0 0 auto;width:104px;background:#fff;border-radius:16px;padding:14px 8px;text-align:center;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);}
+  .pb-ic{width:46px;height:46px;border-radius:14px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:23px;}
+  .pb-t{display:block;font-size:11.5px;font-weight:800;color:var(--ink);margin-top:9px;}
+  .pf-row{display:flex;align-items:center;gap:13px;width:100%;border:none;background:#fff;border-radius:15px;padding:14px 15px;margin-bottom:10px;font-family:inherit;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:transform .12s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.07);}
   .pf-row:active{transform:scale(.99);}
   .pf-ric{width:32px;height:32px;border-radius:10px;background:#efe9f7;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
   .pf-rt{flex:1;}
   .pf-rchev{color:#c3bad4;display:flex;}
   .pf-logout{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;background:#fdecec;color:#e0567a;font-size:15px;font-weight:800;padding:15px;border-radius:16px;margin-top:6px;box-shadow:inset 0 0 0 1px rgba(224,86,122,.2);transition:transform .12s;}
   .pf-logout:active{transform:scale(.99);}
+  /* profile sub-sheets (edit / settings / help) */
+  .ss-layer{z-index:60;}
+  .ss-head{display:flex;align-items:center;gap:10px;margin:-2px 0 16px;}
+  .ss-back{width:36px;height:36px;border:none;background:#f1ecf8;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#7a68ad;cursor:pointer;flex-shrink:0;}
+  .ss-back svg{width:19px;height:19px;}
+  .ss-title{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
+  .ep-av-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:18px;}
+  .ep-av{width:84px;height:84px;border-radius:50%;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;box-shadow:var(--shadow-soft);}
+  .ep-change{margin-top:11px;font-size:13px;font-weight:800;color:#8574b5;background:none;border:none;cursor:pointer;}
+  .ep-fld{margin-bottom:14px;}
+  .ep-fld label{display:block;font-size:12px;font-weight:800;color:#8a8296;margin:0 2px 7px;}
+  .ep-fld input{width:100%;border:none;background:#f7f4fb;border-radius:14px;padding:14px 15px;font-family:inherit;font-size:14.5px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);box-sizing:border-box;}
+  .ep-fld input:focus{outline:none;box-shadow:inset 0 0 0 1.6px #9b8bc4;}
+  .ep-save{width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:8px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:16px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);}
+  .ep-save:active{transform:scale(.99);}
+  .set-sec{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:16px 2px 9px;}
+  .set-sec:first-of-type{margin-top:4px;}
+  .set-row{display:flex;align-items:center;gap:13px;background:#f7f4fb;border-radius:14px;padding:13px 15px;margin-bottom:9px;}
+  .set-row.rowtap{cursor:pointer;}
+  .set-ic{width:34px;height:34px;border-radius:11px;background:#efe9f7;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .set-t{flex:1;font-size:14.5px;font-weight:700;color:var(--ink);}
+  .set-val{font-size:13px;font-weight:700;color:#9a8fb3;}
+  .tgl{width:46px;height:28px;border-radius:16px;background:#ded6ec;position:relative;cursor:pointer;flex-shrink:0;transition:background .18s;}
+  .tgl i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:transform .18s;}
+  .tgl.on{background:linear-gradient(150deg,#b0a2d8,#9b8bc4);}
+  .tgl.on i{transform:translateX(18px);}
+  .help-actions{display:flex;gap:10px;margin-bottom:6px;}
+  .help-act{flex:1;border:none;cursor:pointer;font-family:inherit;background:#f7f4fb;border-radius:16px;padding:16px 8px;text-align:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .help-act:active{transform:scale(.98);}
+  .help-act .ha-ic{font-size:24px;}
+  .help-act .ha-t{font-size:12px;font-weight:800;color:var(--ink);margin-top:7px;}
+  .faq{background:#f7f4fb;border-radius:14px;margin-bottom:9px;overflow:hidden;}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 15px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;}
+  .faq-q svg{width:17px;height:17px;color:#b3a6cc;transition:transform .2s;flex-shrink:0;}
+  .faq.open .faq-q svg{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-a p{margin:0;padding:0 15px 14px;font-size:13px;line-height:1.55;color:#8a8296;font-weight:500;}
+  .help-ver{text-align:center;font-size:12px;color:#b3aac2;font-weight:700;margin-top:16px;}
+  /* Terms / Privacy document sheets */
+  .doc-meta{font-size:12px;font-weight:700;color:#b3aac2;margin:-6px 2px 14px;}
+  .doc-body{font-size:13.5px;line-height:1.6;color:#6c6478;font-weight:500;}
+  .doc-body p{margin:0 0 13px;}
+  .doc-h{font-size:14.5px;font-weight:800;color:var(--ink);margin:18px 0 7px;}
+  .doc-foot{margin-top:18px;font-weight:700;color:#8a8296;}
+  .doc-agree{width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:18px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:16px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);}
+  .doc-agree:active{transform:scale(.99);}
+  /* Notifications */
+  .nt-clear{margin-left:auto;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;}
+  .nt-day{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:16px 2px 10px;}
+  .nt-day:first-of-type{margin-top:2px;}
+  .nt-item{display:flex;align-items:flex-start;gap:12px;background:#f7f4fb;border-radius:16px;padding:13px 14px;margin-bottom:9px;position:relative;}
+  .nt-item.unread{background:#fff;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.1);}
+  .nt-ic{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .nt-tx{flex:1;min-width:0;}
+  .nt-t{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .nt-d{font-size:12.8px;line-height:1.45;color:#8a8296;font-weight:500;margin-top:2px;}
+  .nt-tm{font-size:11px;font-weight:700;color:#b3aac2;margin-top:5px;}
+  .nt-dot{position:absolute;top:14px;right:14px;width:9px;height:9px;border-radius:50%;background:linear-gradient(150deg,#f08a8a,#e26868);box-shadow:0 0 0 3px #fff;}
+  .h-toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:80;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:80%;text-align:center;}
+  .h-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .addmenu-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
   .addmenu.open .addmenu-bd{opacity:1;}
   .addmenu-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:12px 16px 30px;
@@ -700,8 +786,8 @@
                 <div class="date">You're doing a great job!</div>
               </div>
             </div>
-            <div class="bell">
-              <span class="dot"></span>
+            <div class="bell" onclick="openNotif()" style="cursor:pointer">
+              <span class="dot" id="notifDot"></span>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b2622" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
             </div>
           </div>
@@ -882,15 +968,11 @@
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
           <span>My Profile</span>
         </button>
-        <button class="pf-item" onclick="closeProfileMenu()">
-          <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="11" width="15" height="9.5" rx="2.2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/><circle cx="12" cy="15.6" r="1.1"/></svg></span>
-          <span>Change Password</span>
-        </button>
-        <button class="pf-item" onclick="closeProfileMenu()">
+        <button class="pf-item" onclick="openTerms()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h5"/></svg></span>
           <span>Terms &amp; Conditions</span>
         </button>
-        <button class="pf-item" onclick="closeProfileMenu()">
+        <button class="pf-item" onclick="openPrivacy()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5v5c0 4.3-3 7.7-7 9-4-1.3-7-4.7-7-9v-5L12 3z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <span>Privacy Policy</span>
         </button>
@@ -907,17 +989,176 @@
       <div class="pf-sheet-bd" onclick="closeProfileSheet()"></div>
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
-        <div class="pf-hero">
-          <div class="pf-av">A</div>
-          <div class="pf-name">Agnes Miller</div>
-          <div class="pf-mail">agnes.miller@babytracker.app</div>
+        <div class="pf-hero2">
+          <div class="pf-avwrap"><div class="pf-av" id="pfAv">A</div><span class="pf-dot"></span></div>
+          <div class="pf-name" id="pfName">Agnes Miller <span class="pf-vf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+          <span class="pf-tagpill">Mom of 2</span>
+          <div class="pf-level">Gold Parent · Level 4</div>
+          <div class="pf-bio" id="pfBio">Mum to Mark &amp; Lily 💕 Tracking milestones, memories and all the little wins.</div>
         </div>
-        <button class="pf-row" onclick="closeProfileSheet()"><span class="pf-ric">✏️</span><span class="pf-rt">Edit Profile</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
-        <button class="pf-row" onclick="closeProfileSheet()"><span class="pf-ric">⚙️</span><span class="pf-rt">Settings</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
-        <button class="pf-row" onclick="closeProfileSheet()"><span class="pf-ric">💬</span><span class="pf-rt">Help &amp; Support</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
+        <div class="pf-stats">
+          <div class="pf-stat"><div class="ps-l">MEMORIES</div><div class="ps-v">12</div></div>
+          <div class="pf-stat"><div class="ps-l">STREAK</div><div class="ps-v">23 🔥</div></div>
+          <div class="pf-stat"><div class="ps-l">POINTS</div><div class="ps-v">1,250</div></div>
+        </div>
+        <div class="pf-sec">Interests</div>
+        <div class="pf-pills"><span class="pf-pill">Milestones</span><span class="pf-pill">Feeding</span><span class="pf-pill">Sleep</span><span class="pf-pill">Play</span></div>
+        <div class="pf-sec">Badges earned</div>
+        <div class="pf-badges">
+          <div class="pf-badge"><span class="pb-ic" style="background:#fff4d6;color:#c2931f">🏅</span><span class="pb-t">First Memory</span></div>
+          <div class="pf-badge"><span class="pb-ic" style="background:#ffe1ea;color:#d6567a">🔥</span><span class="pb-t">7-Day Streak</span></div>
+          <div class="pf-badge"><span class="pb-ic" style="background:#e2f5e8;color:#2fa96f">✅</span><span class="pb-t">Checklist Champ</span></div>
+          <div class="pf-badge"><span class="pb-ic" style="background:#daf0f7;color:#2b93b0">⭐</span><span class="pb-t">Super Parent</span></div>
+        </div>
+        <div class="pf-sec">Account</div>
+        <button class="pf-row" onclick="openEdit()"><span class="pf-ric">✏️</span><span class="pf-rt">Edit Profile</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
+        <button class="pf-row" onclick="openSettings()"><span class="pf-ric">⚙️</span><span class="pf-rt">Settings</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
+        <button class="pf-row" onclick="openHelp()"><span class="pf-ric">💬</span><span class="pf-rt">Help &amp; Support</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
         <button class="pf-logout" onclick="logout()">Log Out</button>
       </div>
     </div>
+
+    <!-- edit profile -->
+    <div class="pf-sheet-layer ss-layer" id="epSheet">
+      <div class="pf-sheet-bd" onclick="closeEdit()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeEdit()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Edit Profile</div></div>
+        <div class="ep-av-wrap"><div class="ep-av" id="epAv">A</div><button class="ep-change">Change photo</button></div>
+        <div class="ep-fld"><label>Full name</label><input id="epName" type="text" value="Agnes Miller" autocomplete="off"></div>
+        <div class="ep-fld"><label>Email</label><input id="epMail" type="email" value="agnes.miller@babytracker.app" autocomplete="off"></div>
+        <div class="ep-fld"><label>Phone <span style="color:#b3aac2">optional</span></label><input id="epPhone" type="tel" placeholder="Add a phone number" autocomplete="off"></div>
+        <button class="ep-save" onclick="saveProfile()">Save changes</button>
+      </div>
+    </div>
+
+    <!-- settings -->
+    <div class="pf-sheet-layer ss-layer" id="setSheet">
+      <div class="pf-sheet-bd" onclick="closeSettings()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeSettings()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Settings</div></div>
+        <div class="set-sec">Notifications</div>
+        <div class="set-row"><span class="set-ic">🔔</span><span class="set-t">Push notifications</span><span class="tgl on" onclick="this.classList.toggle('on')"><i></i></span></div>
+        <div class="set-row"><span class="set-ic">⏰</span><span class="set-t">Restock reminders</span><span class="tgl on" onclick="this.classList.toggle('on')"><i></i></span></div>
+        <div class="set-row"><span class="set-ic">✉️</span><span class="set-t">Email updates</span><span class="tgl" onclick="this.classList.toggle('on')"><i></i></span></div>
+        <div class="set-sec">Preferences</div>
+        <div class="set-row"><span class="set-ic">🌙</span><span class="set-t">Dark mode</span><span class="tgl" onclick="this.classList.toggle('on')"><i></i></span></div>
+        <div class="set-row rowtap"><span class="set-ic">🌐</span><span class="set-t">Language</span><span class="set-val">English</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
+        <div class="set-row rowtap"><span class="set-ic">📏</span><span class="set-t">Units</span><span class="set-val">Metric · kg, cm</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
+      </div>
+    </div>
+
+    <!-- help & support -->
+    <div class="pf-sheet-layer ss-layer" id="helpSheet">
+      <div class="pf-sheet-bd" onclick="closeHelp()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeHelp()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Help &amp; Support</div></div>
+        <div class="help-actions">
+          <button class="help-act" onclick="hToast('A specialist will chat with you shortly 💬')"><div class="ha-ic">💬</div><div class="ha-t">Chat with us</div></button>
+          <button class="help-act" onclick="hToast('Opening your email app ✉️')"><div class="ha-ic">✉️</div><div class="ha-t">Email support</div></button>
+          <button class="help-act" onclick="hToast('Calling support… 📞')"><div class="ha-ic">📞</div><div class="ha-t">Call us</div></button>
+        </div>
+        <div class="set-sec">Popular questions</div>
+        <div class="faq"><div class="faq-q" onclick="toggleFaq(this)">How do I add another child?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><div class="faq-a"><p>Tap the profile tabs at the top of the home screen, then “Add child”. You can track multiple little ones from one account.</p></div></div>
+        <div class="faq"><div class="faq-q" onclick="toggleFaq(this)">How are milestone percentages calculated?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><div class="faq-a"><p>They reflect how many age-appropriate milestones you’ve marked as achieved in the onboarding check and over time, across Motor, Cognitive, Language and Social areas.</p></div></div>
+        <div class="faq"><div class="faq-q" onclick="toggleFaq(this)">Can I talk to a real expert?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><div class="faq-a"><p>Yes — open the Community tab and tap “Talk to an Expert” to start a 1:1 chat with a verified paediatric expert.</p></div></div>
+        <div class="faq"><div class="faq-q" onclick="toggleFaq(this)">How do I delete a memory?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><div class="faq-a"><p>Open the memory and tap the ⋯ menu, then “Remove memory”. It’s removed from both Home and All Memories.</p></div></div>
+        <div class="help-ver">Baby Tracker · v1.0.0</div>
+      </div>
+    </div>
+
+    <!-- Terms & Conditions -->
+    <div class="pf-sheet-layer ss-layer" id="termsSheet">
+      <div class="pf-sheet-bd" onclick="closeTerms()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeTerms()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Terms &amp; Conditions</div></div>
+        <div class="doc-meta">Last updated 1 October 2026</div>
+        <div class="doc-body">
+          <p>Welcome to Baby Tracker. By creating an account and using the app, you agree to these Terms &amp; Conditions. Please read them carefully.</p>
+          <div class="doc-h">1. Using the app</div>
+          <p>Baby Tracker helps you record milestones, memories, feeding, sleep and other moments of your child’s early years. You’re responsible for the accuracy of the information you add and for keeping your login details safe.</p>
+          <div class="doc-h">2. Your content</div>
+          <p>Photos, notes and milestones you add stay yours. We only use them to provide the features you see in the app — showing your memories, tracking progress and giving you helpful suggestions. We never sell your content.</p>
+          <div class="doc-h">3. Guidance, not medical advice</div>
+          <p>Milestone ranges and tips are for general guidance only and are not a substitute for professional medical advice. Always speak to your paediatrician about any concerns regarding your child’s health or development.</p>
+          <div class="doc-h">4. Expert chats</div>
+          <p>“Talk to an Expert” connects you with verified professionals for general support. It is not an emergency service — in an emergency, contact your local services immediately.</p>
+          <div class="doc-h">5. Account &amp; cancellation</div>
+          <p>You can stop using Baby Tracker at any time and request deletion of your data from Settings. Some information may be kept where the law requires.</p>
+          <div class="doc-h">6. Changes to these terms</div>
+          <p>We may update these terms from time to time. We’ll let you know in the app when anything important changes.</p>
+          <p class="doc-foot">Questions? Reach us any time through Help &amp; Support.</p>
+        </div>
+        <button class="doc-agree" onclick="closeTerms()">I understand</button>
+      </div>
+    </div>
+
+    <!-- Privacy Policy -->
+    <div class="pf-sheet-layer ss-layer" id="privacySheet">
+      <div class="pf-sheet-bd" onclick="closePrivacy()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closePrivacy()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Privacy Policy</div></div>
+        <div class="doc-meta">Last updated 1 October 2026</div>
+        <div class="doc-body">
+          <p>Your family’s privacy matters to us. This policy explains what we collect, why, and the control you have.</p>
+          <div class="doc-h">What we collect</div>
+          <p>Your account details (name, email), your children’s profiles (name, date of birth), and the memories, milestones and activities you choose to add.</p>
+          <div class="doc-h">Why we collect it</div>
+          <p>To run the features you use — saving memories, tracking milestones, personalising tips and keeping your data in sync across your devices.</p>
+          <div class="doc-h">How it’s protected</div>
+          <p>Your data is encrypted in transit and at rest. Only you can see your children’s profiles and memories unless you choose to share them.</p>
+          <div class="doc-h">Sharing</div>
+          <p>We never sell your personal data. We share information only with services that help us run the app, under strict confidentiality, and only what’s needed.</p>
+          <div class="doc-h">Your choices</div>
+          <p>You can view, edit or delete your data at any time from Settings, and control notifications and email updates there too.</p>
+          <p class="doc-foot">Want a copy of your data or have a question? Contact us through Help &amp; Support.</p>
+        </div>
+        <button class="doc-agree" onclick="closePrivacy()">Got it</button>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="pf-sheet-layer ss-layer" id="notifSheet">
+      <div class="pf-sheet-bd" onclick="closeNotif()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeNotif()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Notifications</div><button class="nt-clear" onclick="hToast('All caught up ✓')">Mark all read</button></div>
+
+        <div class="nt-day">Today</div>
+        <div class="nt-item unread">
+          <div class="nt-ic" style="background:#e4f6ec;color:#4bab77">🎉</div>
+          <div class="nt-tx"><div class="nt-t">Milestone unlocked!</div><div class="nt-d">Mark took his First Walk — add it to his memories.</div><div class="nt-tm">2h ago</div></div>
+          <span class="nt-dot"></span>
+        </div>
+        <div class="nt-item unread">
+          <div class="nt-ic" style="background:#fff0e6;color:#e78a4e">🍼</div>
+          <div class="nt-tx"><div class="nt-t">Feeding reminder</div><div class="nt-d">Time for Mark’s afternoon meal — Veggie purée.</div><div class="nt-tm">4h ago</div></div>
+          <span class="nt-dot"></span>
+        </div>
+
+        <div class="nt-day">Yesterday</div>
+        <div class="nt-item">
+          <div class="nt-ic" style="background:#eef0ff;color:#6b7ce0">💬</div>
+          <div class="nt-tx"><div class="nt-t">Dr. Meera replied</div><div class="nt-d">“That’s completely normal at this age — here’s what to…”</div><div class="nt-tm">1d ago</div></div>
+        </div>
+        <div class="nt-item">
+          <div class="nt-ic" style="background:#f3ecff;color:#8574b5">✅</div>
+          <div class="nt-tx"><div class="nt-t">Checklist complete</div><div class="nt-d">You ticked off everything in Baby Essentials 🎉</div><div class="nt-tm">1d ago</div></div>
+        </div>
+
+        <div class="nt-day">Earlier</div>
+        <div class="nt-item">
+          <div class="nt-ic" style="background:#fff4d6;color:#c2931f">🏅</div>
+          <div class="nt-tx"><div class="nt-t">Badge earned</div><div class="nt-d">You unlocked the 7-Day Streak badge — keep it up!</div><div class="nt-tm">3d ago</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-toast" id="hToast"></div>
 
     <!-- switch-child bottom sheet -->
     <div class="sheet-layer" id="sheet">
@@ -1022,6 +1263,28 @@
     function openProfileSheet(){ closeProfileMenu(); document.getElementById('pfSheet').classList.add('open'); }
     function closeProfileSheet(){ document.getElementById('pfSheet').classList.remove('open'); }
     function logout(){ window.location.href='onboarding.html'; }
+    /* profile sub-sheets */
+    function openEdit(){ document.getElementById('epSheet').classList.add('open'); }
+    function closeEdit(){ document.getElementById('epSheet').classList.remove('open'); }
+    function saveProfile(){
+      var nm=(document.getElementById('epName').value||'').trim()||'Agnes Miller';
+      var pn=document.getElementById('pfName'); if(pn && pn.childNodes[0]) pn.childNodes[0].nodeValue = nm+' ';
+      var pa=document.getElementById('pfAv'); if(pa) pa.textContent=nm.charAt(0).toUpperCase();
+      var ea=document.getElementById('epAv'); if(ea) ea.textContent=nm.charAt(0).toUpperCase();
+      closeEdit(); hToast('Profile updated ✓');
+    }
+    function openSettings(){ document.getElementById('setSheet').classList.add('open'); }
+    function closeSettings(){ document.getElementById('setSheet').classList.remove('open'); }
+    function openHelp(){ document.getElementById('helpSheet').classList.add('open'); }
+    function closeHelp(){ document.getElementById('helpSheet').classList.remove('open'); }
+    function toggleFaq(q){ var f=q.parentNode; f.classList.toggle('open'); var a=q.nextElementSibling; a.style.maxHeight = a.style.maxHeight ? '' : (a.scrollHeight+'px'); }
+    function openTerms(){ closeProfileMenu(); document.getElementById('termsSheet').classList.add('open'); }
+    function closeTerms(){ document.getElementById('termsSheet').classList.remove('open'); }
+    function openPrivacy(){ closeProfileMenu(); document.getElementById('privacySheet').classList.add('open'); }
+    function closePrivacy(){ document.getElementById('privacySheet').classList.remove('open'); }
+    function openNotif(){ document.getElementById('notifSheet').classList.add('open'); var b=document.getElementById('notifDot'); if(b) b.style.display='none'; }
+    function closeNotif(){ document.getElementById('notifSheet').classList.remove('open'); }
+    var _hT; function hToast(msg){ var t=document.getElementById('hToast'); if(!t) return; t.textContent=msg; t.classList.add('show'); clearTimeout(_hT); _hT=setTimeout(function(){ t.classList.remove('show'); },1900); }
     /* ---- per-child data ---- */
     var CHILDREN = {
       mark: {
@@ -1274,24 +1537,34 @@
       var mp = document.getElementById('mpList');
       if(mp && c.meals){
         var tints = ['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'];
+        var strokes = ['#dd8646','#5b7fc9','#3aa877','#d6567a','#7a68ad'];
         mp.innerHTML = c.meals.map(function(ml, i){
-          return '<div class="mp-row" onclick="openMeal('+i+')"><span class="mp-ic" style="background:'+tints[i%tints.length]+'">'+ml.e+'</span>'+
+          return '<div class="mp-row" onclick="openMeal('+i+')"><span class="mp-ic" style="background:'+tints[i%tints.length]+'">'+mealIcon(ml.m,strokes[i%strokes.length])+'</span>'+
             '<div class="mp-t"><div class="mp-m">'+ml.m+'</div><div class="mp-f">'+ml.f+'</div></div>'+
             '<span class="mp-time">'+ml.t+'</span></div>';
         }).join('');
       }
     }
 
+    function mealIcon(name, stroke){
+      var n=(name||'').toLowerCase(), p;
+      if(n.indexOf('milk')>-1) p='<path d="M9.2 4.2 14.8 9.8"/><path d="M10.5 6.5 7.6 9.4a3 3 0 0 0-.9 2.1V18a3 3 0 0 0 3 3h2.6a3 3 0 0 0 3-3v-6.5a3 3 0 0 0-.9-2.1l-2.9-2.9a1.5 1.5 0 0 0-2.1 0z"/><path d="M8 13h7M8.5 16.5h6"/>';
+      else if(n.indexOf('breakfast')>-1) p='<path d="M3 18h18"/><path d="M8 18a4 4 0 0 1 8 0"/><path d="M12 3v3M5.4 7.4 6.8 8.8M18.6 7.4 17.2 8.8M2.5 13.5H4M20 13.5h1.5"/>';
+      else if(n.indexOf('lunch')>-1) p='<path d="M6 2.5v4.5M8 2.5v4.5M10 2.5v4.5"/><path d="M6 7h4"/><path d="M8 7v14.5"/><path d="M16 2.5v19"/><path d="M16 2.5c-2.4 1-3.4 3.2-3.4 5.8V9H16"/>';
+      else if(n.indexOf('snack')>-1) p='<path d="M12 9c-1.3-2.5-3.6-3-5.2-1.6-1.9 1.7-1.6 5.2 0 8 1 1.8 2.3 3.4 3.7 3.9.9.3 1.6.3 2.5 0 1.4-.5 2.7-2.1 3.7-3.9 1.6-2.8 1.9-6.3 0-8C15.6 6 13.3 6.5 12 9z"/><path d="M12 9V5.5M12 5.5c.3-1.6 1.6-2.6 3-2.6"/>';
+      else p='<path d="M3.5 11.5h17"/><path d="M4.5 11.5a7.5 7.5 0 0 0 15 0"/><path d="M8 11.5c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/>';
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="'+stroke+'" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
+    }
     function openMeal(i){
       var c=CHILDREN[CURRENT_KEY]; if(!c||!c.meals||!c.meals[i]) return;
-      var ml=c.meals[i], tints=['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'];
-      var ic=document.getElementById('mealIc'); ic.textContent=ml.e; ic.style.background=tints[i%tints.length];
+      var ml=c.meals[i], tints=['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'], strokes=['#dd8646','#5b7fc9','#3aa877','#d6567a','#7a68ad'];
+      var ic=document.getElementById('mealIc'); ic.innerHTML=mealIcon(ml.m,strokes[i%strokes.length]); ic.style.background=tints[i%tints.length];
       document.getElementById('mealM').textContent=ml.m;
       document.getElementById('mealTime').textContent=ml.t;
       document.getElementById('mealFood').textContent=ml.f;
       document.getElementById('mealAbout').textContent=ml.about||'';
       document.getElementById('mealPortion').textContent=ml.portion||'—';
-      document.getElementById('mealTip').innerHTML='💡 '+(ml.tip||'');
+      document.getElementById('mealTip').textContent=(ml.tip||'');
       document.getElementById('mealSheet').classList.add('open');
     }
     function closeMeal(){ document.getElementById('mealSheet').classList.remove('open'); }
