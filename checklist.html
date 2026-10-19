@@ -89,6 +89,24 @@
   .cmp-lbl:first-child{margin-top:0;}
   .cmp-wrap{margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed rgba(139,116,181,.3);}
   .cmp-wrap .hub-cat{margin-bottom:10px;}
+  /* Style 4 — full bar + check at the end */
+  .hub-cat.d4{box-shadow:var(--shadow-soft),inset 0 0 0 1.5px rgba(95,175,125,.28);}
+  .hub-cat.d4 .hc-ic{box-shadow:0 8px 16px -9px rgba(95,175,125,.5);}
+  .hc-prog4{display:flex;align-items:center;gap:8px;margin-top:9px;}
+  .hc-prog4 .hc-bar{flex:1;height:5px;border-radius:4px;background:#e7f2ea;overflow:hidden;}
+  .hc-prog4 .hc-bar i{display:block;height:100%;width:100%;border-radius:4px;background:linear-gradient(90deg,#9ddcb4,#7fc99a);}
+  .hc-endck{width:18px;height:18px;border-radius:50%;flex-shrink:0;background:linear-gradient(150deg,#86d3a2,#5bb87f);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px -3px rgba(90,170,120,.7);}
+  .hc-endck svg{width:11px;height:11px;}
+  /* Style 5 — check badge on the icon */
+  .hub-cat.d5{box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(95,175,125,.18);}
+  .hc-ic-done{position:relative;overflow:visible;}
+  .ic-badge{position:absolute;bottom:-4px;right:-4px;width:22px;height:22px;border-radius:50%;background:linear-gradient(150deg,#86d3a2,#5bb87f);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px -3px rgba(90,170,120,.7),0 0 0 2.5px #fff;}
+  .ic-badge svg{width:12px;height:12px;}
+  /* Style 6 — Done pill next to the title */
+  .hub-cat.d6{box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(95,175,125,.18);}
+  .hc-nrow{display:flex;align-items:center;gap:8px;}
+  .done-pill{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;letter-spacing:.2px;color:#fff;background:linear-gradient(150deg,#86d3a2,#5bb87f);padding:3px 9px 3px 6px;border-radius:20px;box-shadow:0 5px 10px -5px rgba(90,170,120,.7);}
+  .done-pill svg{width:11px;height:11px;}
   .hub-cat .hc-prog.full .hc-pct{color:#2f9c63;}
   .hub-cat .hc-chev{width:28px;height:28px;border-radius:50%;background:#f6f2fb;color:#b3a6cc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
@@ -675,6 +693,12 @@
       '<div class="hub-cat d2"><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog"><div class="hc-bar" style="background:#dcefE2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div></div><span class="hc-chev">'+CHEV+'</span></div>'+
       '<div class="cmp-lbl">Style 3 — Mint + check</div>'+
       '<div class="hub-cat d3"><span class="hc-ic" style="background:#fff">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub2">'+CK+'All packed &amp; ready</div></div><span class="hc-chk">'+CK+'</span></div>'+
+      '<div class="cmp-lbl">Style 4 — Full bar + end check</div>'+
+      '<div class="hub-cat d4"><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog4"><div class="hc-bar"><i></i></div><span class="hc-endck">'+CK+'</span></div></div><span class="hc-chev">'+CHEV+'</span></div>'+
+      '<div class="cmp-lbl">Style 5 — Check badge on icon</div>'+
+      '<div class="hub-cat d5"><span class="hc-ic hc-ic-done" style="background:#fbe7cf">🍼<span class="ic-badge">'+CK+'</span></span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-sub">Completed · 10/10</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
+      '<div class="cmp-lbl">Style 6 — Done pill</div>'+
+      '<div class="hub-cat d6"><span class="hc-ic" style="background:#fbe7cf">🍼</span><div class="hc-t"><div class="hc-nrow"><div class="hc-n">Baby Essentials</div><span class="done-pill">'+CK+'Done</span></div><div class="hc-sub">All items complete</div></div><span class="hc-chev">'+CHEV+'</span></div>'+
       '</div>';
     document.getElementById('hub').innerHTML = compare + normal;
   }
