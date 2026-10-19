@@ -504,6 +504,37 @@
   .c-back:active{transform:scale(.96);}
   .c-title{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.5px;flex:1;}
   .c-section{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#9a8fb3;margin:22px 2px 12px;}
+  /* talk to an expert */
+  .expert-card{position:relative;overflow:hidden;background:linear-gradient(150deg,#b0a2d8,#8f78c4);color:#fff;border-radius:20px;padding:16px;margin:6px 0 4px;box-shadow:0 18px 34px -18px rgba(140,116,181,.85);cursor:pointer;}
+  .expert-card::after{content:'';position:absolute;top:-44px;right:-34px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12);}
+  .ex-top{display:flex;align-items:center;gap:13px;position:relative;z-index:1;}
+  .ex-ic{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+  .ex-t{flex:1;min-width:0;}
+  .ex-title{font-size:16.5px;font-weight:800;letter-spacing:-.2px;}
+  .ex-sub{font-size:12px;font-weight:500;color:rgba(255,255,255,.9);margin-top:3px;line-height:1.45;}
+  .ex-cta{position:relative;z-index:1;display:inline-flex;align-items:center;gap:5px;margin-top:14px;border:none;cursor:pointer;font-family:inherit;background:#fff;color:#7a5fc0;font-size:13.5px;font-weight:800;padding:11px 18px;border-radius:13px;box-shadow:0 10px 18px -8px rgba(0,0,0,.3);}
+  .ex-cta svg{width:15px;height:15px;}
+  .exp-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:62;visibility:hidden;pointer-events:none;}
+  .exp-layer.open{visibility:visible;pointer-events:auto;}
+  .exp-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
+  .exp-layer.open .exp-bd{opacity:1;}
+  .exp-panel{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:8px 22px 28px;transform:translateY(110%);transition:transform .34s cubic-bezier(.4,0,.2,1);}
+  .exp-layer.open .exp-panel{transform:none;}
+  .exp-grab{width:38px;height:5px;border-radius:3px;background:#e2dcec;margin:4px auto 10px;}
+  .exp-hero{text-align:center;padding:4px 6px 18px;}
+  .exp-hero-ic{width:70px;height:70px;border-radius:22px;margin:0 auto;background:linear-gradient(150deg,#efe9f7,#e3daf6);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 14px 28px -14px rgba(140,116,181,.6);}
+  .exp-hero-t{font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);margin-top:14px;}
+  .exp-hero-s{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;margin-top:7px;}
+  .exp-row{display:flex;align-items:center;gap:13px;background:#f7f4fb;border-radius:16px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:transform .12s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .exp-row:active{transform:scale(.99);}
+  .exp-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:inset 0 0 0 2px #fff;}
+  .exp-rt{flex:1;min-width:0;}
+  .exp-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .exp-spec{font-size:12px;color:#8a8296;font-weight:600;margin-top:2px;}
+  .exp-status{font-size:11px;font-weight:800;color:#a99fbb;flex-shrink:0;}
+  .exp-status.online{color:#3b9c69;}
+  .exp-book{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:6px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:16px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);}
+  .exp-book svg{width:19px;height:19px;}
   .online-strip{display:flex;gap:14px;overflow-x:auto;padding:2px 22px 4px;margin:14px -22px 0;}
   .online-strip::-webkit-scrollbar{display:none;}
   .op{flex:0 0 auto;width:60px;display:flex;flex-direction:column;align-items:center;gap:6px;}
@@ -911,6 +942,13 @@
             <div class="tab" data-tab="feeds" onclick="switchTab('feeds')">Feeds</div>
           </div>
           <div id="tabGroups">
+          <div class="expert-card" onclick="openExpert()">
+            <div class="ex-top">
+              <span class="ex-ic">👩‍⚕️</span>
+              <div class="ex-t"><div class="ex-title">Talk to an Expert</div><div class="ex-sub">1:1 advice from verified paediatric experts — feeding, sleep &amp; milestones.</div></div>
+            </div>
+            <button class="ex-cta">Start a chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
           <div class="c-section">Your Groups</div>
           
           <div class="grp" onclick="openGroup('g1')">
@@ -1012,6 +1050,37 @@
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
       </div>
       <div class="home-indicator"></div>
+
+      <!-- talk to an expert sheet -->
+      <div class="exp-layer" id="expertSheet">
+        <div class="exp-bd" onclick="closeExpert()"></div>
+        <div class="exp-panel">
+          <div class="exp-grab"></div>
+          <div class="exp-hero">
+            <div class="exp-hero-ic">👩‍⚕️</div>
+            <div class="exp-hero-t">Talk to an Expert</div>
+            <div class="exp-hero-s">Get trusted, personalised answers from verified paediatric experts — usually within minutes.</div>
+          </div>
+          <div class="exp-list">
+            <div class="exp-row" onclick="startExpert('Dr. Meera Nair')">
+              <span class="exp-av" style="background:radial-gradient(circle at 45% 35%,#ffe6c8,#f4b784)">👩🏻‍⚕️</span>
+              <div class="exp-rt"><div class="exp-name">Dr. Meera Nair</div><div class="exp-spec">Paediatrician · 12 yrs</div></div>
+              <span class="exp-status online">● Online</span>
+            </div>
+            <div class="exp-row" onclick="startExpert('Anita Rao')">
+              <span class="exp-av" style="background:radial-gradient(circle at 45% 35%,#ffd9e2,#f3a9bd)">🤱🏻</span>
+              <div class="exp-rt"><div class="exp-name">Anita Rao</div><div class="exp-spec">Lactation consultant</div></div>
+              <span class="exp-status online">● Online</span>
+            </div>
+            <div class="exp-row" onclick="startExpert('Sleep Coach Priya')">
+              <span class="exp-av" style="background:radial-gradient(circle at 45% 35%,#dbeafb,#a9c3f3)">😴</span>
+              <div class="exp-rt"><div class="exp-name">Priya Sethi</div><div class="exp-spec">Sleep coach</div></div>
+              <span class="exp-status">In ~10 min</span>
+            </div>
+          </div>
+          <button class="exp-book" onclick="startExpert('a video consult')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.5-2.5v9L15 14M4 6h9a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>Book a video consult</button>
+        </div>
+      </div>
 
       <div class="post-sheet-layer" id="postSheet">
         <div class="ps-backdrop" onclick="closePost()"></div>
@@ -1282,6 +1351,9 @@
     }
     var _toastT=null;
     function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(function(){ t.classList.remove('show'); },1800); }
+    function openExpert(){ document.getElementById('expertSheet').classList.add('open'); }
+    function closeExpert(){ document.getElementById('expertSheet').classList.remove('open'); }
+    function startExpert(name){ closeExpert(); showToast('Connecting you with '+name+' 💬'); }
     function showReply(bub){ var w=bub.querySelector('.who'); var name=w?w.childNodes[0].textContent.trim():'You'; var tx=bub.querySelector('.txt'); document.getElementById('rbTo').textContent='Replying to '+name; document.getElementById('rbMsg').textContent=tx?tx.textContent:''; document.getElementById('replyBar').style.display='flex'; var ci=document.getElementById('chatInput'); if(ci) ci.focus(); }
     function cancelReply(){ document.getElementById('replyBar').style.display='none'; }
     function msgAction(type){ if(!MM_TARGET){ closeMsgMenu(); return; }
