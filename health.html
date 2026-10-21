@@ -99,7 +99,11 @@
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
 
   /* inline add form */
-  .form{border-radius:16px;padding:13px;margin-bottom:12px;}
+  .form{border-radius:18px;padding:15px;margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(90,90,120,.05);}
+  .form-title{font-size:14.5px;font-weight:800;letter-spacing:-.2px;color:var(--ink);margin:0 2px 13px;display:flex;align-items:center;gap:7px;}
+  .form-title .ft-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+  .fld-lab{display:block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#9a8fb3;}
+  .fld-lab>.fld,.fld-lab>.fld-suf{margin-top:6px;}
   .fld{width:100%;border:none;background:#fff;border-radius:10px;padding:11px 13px;font-family:inherit;font-size:13.5px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);outline:none;}
   .fld:focus{box-shadow:inset 0 0 0 1.6px var(--lav-2);}
   .fld::placeholder{color:#b6aec0;}
@@ -239,22 +243,25 @@
             </div>
             <div class="rc-body" id="growthBody">
               <div class="form" id="growthForm" style="display:none;background:var(--gr-bg)">
+                <div class="form-title"><span class="ft-dot" style="background:var(--gr)"></span>Add growth entry</div>
                 <div class="fld-grid3">
-                  <input class="fld" id="gAge" placeholder="Age (12M)">
-                  <div class="fld-suf"><input class="fld" id="gWt" placeholder="Weight" inputmode="decimal"><span>kg</span></div>
-                  <div class="fld-suf"><input class="fld" id="gHt" placeholder="Height" inputmode="decimal"><span>cm</span></div>
+                  <label class="fld-lab">Age<input class="fld" id="gAge" placeholder="12M"></label>
+                  <label class="fld-lab">Weight<div class="fld-suf"><input class="fld" id="gWt" placeholder="0.0" inputmode="decimal"><span>kg</span></div></label>
+                  <label class="fld-lab">Height<div class="fld-suf"><input class="fld" id="gHt" placeholder="0" inputmode="decimal"><span>cm</span></div></label>
                 </div>
                 <div class="form-actions">
                   <button class="btn btn-cancel" onclick="toggleForm('growthForm',false)">Cancel</button>
                   <button class="btn btn-save" style="background:var(--gr)" onclick="saveGrowth()">Save</button>
                 </div>
               </div>
-              <div class="gr-top">
-                <button class="chip" data-gt="weight" onclick="setGrowthTab('weight')">Weight</button>
-                <button class="chip" data-gt="height" onclick="setGrowthTab('height')">Height</button>
-                <div class="gr-now" id="grNow"></div>
+              <div id="growthView">
+                <div class="gr-top">
+                  <button class="chip" data-gt="weight" onclick="setGrowthTab('weight')">Weight</button>
+                  <button class="chip" data-gt="height" onclick="setGrowthTab('height')">Height</button>
+                  <div class="gr-now" id="grNow"></div>
+                </div>
+                <div class="chart-wrap" id="growthChart"></div>
               </div>
-              <div class="chart-wrap" id="growthChart"></div>
             </div>
           </div>
 
@@ -268,6 +275,7 @@
             </div>
             <div class="rc-body" id="notesBody">
               <div class="form" id="noteForm" style="display:none;background:var(--hn-bg)">
+                <div class="form-title"><span class="ft-dot" style="background:var(--hn)"></span>Add a note</div>
                 <div class="rc-lbl">What are you noting?</div>
                 <div class="chips" id="noteTypeChips"></div>
                 <div id="noteFields"></div>
@@ -286,6 +294,7 @@
             </div>
             <div class="rc-body" id="visitsBody">
               <div class="form" id="visitForm" style="display:none;background:var(--gr-bg)">
+                <div class="form-title"><span class="ft-dot" style="background:var(--gr)"></span>Add a visit</div>
                 <div class="rc-lbl">Reason for Visit</div>
                 <div class="chips" id="vReasonChips"></div>
                 <div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
@@ -312,6 +321,7 @@
             </div>
             <div class="rc-body" id="docsBody">
               <div class="form" id="docForm" style="display:none;background:var(--dc-bg)">
+                <div class="form-title"><span class="ft-dot" style="background:var(--dc)"></span>Add a document</div>
                 <div class="rc-lbl">Source</div>
                 <div class="chips" id="dSourceChips"></div>
                 <div class="rc-lbl sp">Document Type</div>
@@ -528,10 +538,12 @@
   /* ---------- helpers ---------- */
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   function toggleCard(id){document.getElementById(id).classList.toggle('open');}
+  var FORM_VIEW={growthForm:'growthView', visitForm:'visitsList', docForm:'docsList', noteForm:'notesList'};
   function toggleForm(id,force){
     var f=document.getElementById(id);
     var show = (force===undefined)? f.style.display==='none' : force;
     f.style.display=show?'block':'none';
+    var vid=FORM_VIEW[id]; if(vid){ var v=document.getElementById(vid); if(v) v.style.display=show?'none':'block'; }
   }
   var _t;
   function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(_t);_t=setTimeout(function(){t.classList.remove('show');},1800);}
@@ -558,6 +570,9 @@
     document.getElementById('hsSub').textContent=s.sub||'';
     document.getElementById('hsContent').appendChild(document.getElementById(s.body));
     curSheet=key;
+    // always open showing the list/chart; add mode then reveals the form
+    var kf={growth:'growthForm',notes:'noteForm',visits:'visitForm',docs:'docForm'}[key];
+    if(kf){ kf==='noteForm'?toggleNoteForm(false):toggleForm(kf,false); }
     document.getElementById('hSheet').classList.add('open');
     document.getElementById('hsContent').scrollTop=0;
     if(addMode && s.add) s.add();
@@ -638,6 +653,7 @@
     var f=document.getElementById('noteForm');
     var show=(force===undefined)?f.style.display==='none':force;
     f.style.display=show?'block':'none';
+    var v=document.getElementById('notesList'); if(v) v.style.display=show?'none':'block';
     if(show){noteType=null;noteSel={};renderNoteTypeChips();document.getElementById('noteFields').innerHTML='';}
   }
   function renderNoteTypeChips(){
