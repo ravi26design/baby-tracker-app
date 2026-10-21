@@ -103,6 +103,7 @@
   .nt-chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;text-align:left;transition:transform .12s;}
   .nt-chip:active{transform:scale(.98);}
   .nt-em{width:27px;height:27px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .nt-em svg{width:15px;height:15px;}
 
   /* inline add form */
   .form{margin-bottom:8px;}
@@ -327,7 +328,7 @@
               <div class="form" id="docForm" style="display:none">
                 <div class="form-title"><span class="ft-dot" style="background:var(--dc)"></span>Add a document</div>
                 <div class="rc-lbl">Source</div>
-                <div class="chips" id="dSourceChips"></div>
+                <div class="nt-grid" id="dSourceChips"></div>
                 <div class="rc-lbl sp">Document Type</div>
                 <div class="chips" id="dTypeChips"></div>
                 <div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
@@ -758,7 +759,7 @@
   function renderDSource(){
     document.getElementById('dSourceChips').innerHTML=DOC_SOURCES.map(function(s){
       var on=s.label===dSource;
-      return '<button class="chip has-ic" style="background:'+(on?'var(--dc)':'rgba(154,90,212,.12)')+';color:'+(on?'#fff':'var(--dc)')+'" onclick="dSource=\''+s.label+'\';renderDSource()"><svg class="chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg>'+s.label+'</button>';
+      return '<button class="nt-chip" style="background:'+(on?'var(--dc)':'rgba(154,90,212,.1)')+';color:'+(on?'#fff':'var(--dc)')+'" onclick="dSource=\''+s.label+'\';renderDSource()"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.22)':'#fff')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.label+'</button>';
     }).join('');
   }
   function renderDType(){
