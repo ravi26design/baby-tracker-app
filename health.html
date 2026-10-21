@@ -37,16 +37,28 @@
   .status-icons{display:flex;align-items:center;gap:7px;}
 
   .content{position:relative;z-index:2;padding:2px 20px 30px;}
-  .h-title{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:4px 2px 14px;}
+  .h-title{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:4px 2px 13px;}
+  .child-tabs{display:flex;gap:9px;margin:0 2px 16px;}
+  .child-tab{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;padding:11px 10px;border-radius:16px;border:none;cursor:pointer;background:#fff;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .12s;font-family:inherit;}
+  .child-tab:active{transform:scale(.98);}
+  .child-tab .ct-name{font-size:14px;font-weight:800;color:#8a8788;letter-spacing:-.2px;white-space:nowrap;}
+  .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
+  .child-tab.active .ct-name{color:#fff;}
 
-  .rec-hero{border-radius:20px;padding:15px 16px;margin-bottom:16px;background:linear-gradient(135deg,#fef0e8 0%,#f0eafe 100%);box-shadow:var(--shadow-soft);}
-  .rec-hero .rh-t{font-size:15px;font-weight:800;letter-spacing:-.2px;}
-  .rec-hero .rh-s{font-size:12.5px;color:#8b8296;font-weight:500;margin-top:2px;}
+  .rec-hero{position:relative;overflow:hidden;border-radius:24px;padding:17px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;
+    background:linear-gradient(150deg,#b0a2d8,#9279bd);color:#fff;
+    box-shadow:0 18px 34px -16px rgba(140,116,181,.75),inset 0 0 0 1px rgba(255,255,255,.14);}
+  .rec-hero::after{content:'';position:absolute;top:-44px;right:-32px;width:154px;height:154px;border-radius:50%;background:rgba(255,255,255,.12);}
+  .rec-hero .rh-ic{position:relative;z-index:1;width:50px;height:50px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .rec-hero .rh-ic svg{width:25px;height:25px;}
+  .rec-hero .rh-txt{position:relative;z-index:1;}
+  .rec-hero .rh-t{font-size:16.5px;font-weight:800;letter-spacing:-.3px;}
+  .rec-hero .rh-s{font-size:12.5px;color:rgba(255,255,255,.9);font-weight:500;margin-top:3px;line-height:1.4;}
 
   /* record card */
-  .rc{background:var(--card);border-radius:22px;overflow:hidden;margin-bottom:13px;box-shadow:0 2px 14px rgba(30,26,23,.07),var(--ring);}
-  .rc-head{display:flex;align-items:center;gap:13px;padding:14px 15px;cursor:pointer;}
-  .rc-ic{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;}
+  .rc{background:var(--card);border-radius:24px;overflow:hidden;margin-bottom:14px;box-shadow:0 13px 30px -16px rgba(120,80,95,.24),0 2px 7px rgba(30,26,23,.04),inset 0 0 0 1px rgba(255,255,255,.65);}
+  .rc-head{display:flex;align-items:center;gap:13px;padding:15px 16px;cursor:pointer;}
+  .rc-ic{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;box-shadow:0 7px 14px -8px rgba(120,90,140,.4);}
   .rc-ic svg{width:22px;height:22px;}
   .rc-title{font-size:15px;font-weight:800;letter-spacing:-.2px;flex:1;}
   .rc-chev{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#b9b0c4;transition:transform .25s;}
@@ -54,8 +66,24 @@
   .rc-chev svg{width:17px;height:17px;}
   .rc-add{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
   .rc-add svg{width:16px;height:16px;}
+  .rc{cursor:pointer;transition:transform .12s;}
+  .rc:active{transform:scale(.992);}
   .rc-body{display:none;padding:0 15px 15px;}
   .rc.open .rc-body{display:block;}
+
+  /* record bottom sheet */
+  .hs-layer{position:absolute;inset:0;z-index:45;visibility:hidden;}
+  .hs-layer.open{visibility:visible;}
+  .hs-bd{position:absolute;inset:0;background:rgba(30,20,26,.42);opacity:0;transition:opacity .3s;}
+  .hs-layer.open .hs-bd{opacity:1;}
+  .hs-panel{position:absolute;left:0;right:0;bottom:0;max-height:88%;display:flex;flex-direction:column;background:#f8f5fc;border-radius:30px 30px 46px 46px;transform:translateY(112%);transition:transform .4s cubic-bezier(.32,.72,0,1);box-shadow:0 -22px 50px -14px rgba(90,60,70,.4);}
+  .hs-layer.open .hs-panel{transform:none;}
+  .hs-grab{width:40px;height:5px;border-radius:3px;background:#e2dcec;margin:11px auto 3px;flex-shrink:0;}
+  .hs-head{display:flex;align-items:center;gap:13px;padding:10px 20px 14px;flex-shrink:0;}
+  .hs-title{font-size:18px;font-weight:800;letter-spacing:-.3px;flex:1;}
+  .hs-content{overflow-y:auto;padding:4px 20px 28px;}
+  .hs-content::-webkit-scrollbar{display:none;}
+  .hs-content .rc-body{display:block;padding:0;}
 
   .rc-lbl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a99fbb;margin:2px 2px 8px;}
   .rc-lbl.sp{margin-top:16px;}
@@ -121,7 +149,7 @@
   .vac-inline .mini{padding:8px 13px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
 
   /* vaccine info sheet */
-  .vs-layer{position:absolute;inset:0;z-index:40;visibility:hidden;}
+  .vs-layer{position:absolute;inset:0;z-index:55;visibility:hidden;}
   .vs-layer.open{visibility:visible;}
   .vs-bd{position:absolute;inset:0;background:rgba(30,20,26,.42);opacity:0;transition:opacity .3s;}
   .vs-layer.open .vs-bd{opacity:1;}
@@ -175,19 +203,20 @@
 
         <div class="content">
           <div class="h-title">Health</div>
+          <div class="child-tabs" id="childTabs"></div>
           <div class="rec-hero">
-            <div class="rh-t">Mark's Records</div>
-            <div class="rh-s">Everything in one place, always organised.</div>
+            <div class="rh-ic"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg></div>
+            <div class="rh-txt"><div class="rh-t" id="heroName">Mark's Records</div><div class="rh-s">Everything in one place, always organised.</div></div>
           </div>
 
           <!-- Health Profile -->
-          <div class="rc open" id="cardProfile">
-            <div class="rc-head" onclick="toggleCard('cardProfile')">
+          <div class="rc" id="cardProfile">
+            <div class="rc-head" onclick="openSheet('profile')">
               <div class="rc-ic" style="background:var(--hp-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hp)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3 3.4 5.5 6.3 5.5 9.3a5.5 5.5 0 0 1-11 0c0-3 2.5-5.9 5.5-9.3z"/></svg></div>
               <div class="rc-title">Health Profile</div>
-              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
-            <div class="rc-body">
+            <div class="rc-body" id="profileBody">
               <div class="rc-lbl">Blood Type</div>
               <div class="chips" id="bloodChips"></div>
               <div class="rc-lbl sp">Known Allergies</div>
@@ -196,14 +225,14 @@
           </div>
 
           <!-- Growth -->
-          <div class="rc open" id="cardGrowth">
-            <div class="rc-head" onclick="toggleCard('cardGrowth')">
+          <div class="rc" id="cardGrowth">
+            <div class="rc-head" onclick="openSheet('growth')">
               <div class="rc-ic" style="background:var(--gr-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gr)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 3.5 3.5 7-7.5"/><path d="M15.5 7h4v4"/></svg></div>
               <div class="rc-title">Growth</div>
-              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();toggleForm('growthForm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();openSheet('growth',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
-            <div class="rc-body">
+            <div class="rc-body" id="growthBody">
               <div class="form" id="growthForm" style="display:none;background:var(--gr-bg)">
                 <div class="fld-grid3">
                   <input class="fld" id="gAge" placeholder="Age (12M)">
@@ -225,14 +254,14 @@
           </div>
 
           <!-- Health Notes -->
-          <div class="rc open" id="cardNotes">
-            <div class="rc-head" onclick="toggleCard('cardNotes')">
+          <div class="rc" id="cardNotes">
+            <div class="rc-head" onclick="openSheet('notes')">
               <div class="rc-ic" style="background:var(--hn-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h8.5"/><path d="M16.3 3.7a1.9 1.9 0 0 1 2.7 2.7L7.5 17.9 3.5 19l1.1-4z"/></svg></div>
               <div class="rc-title">Health Notes</div>
-              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--hn)" onclick="event.stopPropagation();toggleNoteForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--hn)" onclick="event.stopPropagation();openSheet('notes',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
-            <div class="rc-body">
+            <div class="rc-body" id="notesBody">
               <div class="form" id="noteForm" style="display:none;background:var(--hn-bg)">
                 <div class="rc-lbl">What are you noting?</div>
                 <div class="chips" id="noteTypeChips"></div>
@@ -243,14 +272,14 @@
           </div>
 
           <!-- Doctor Visits -->
-          <div class="rc open" id="cardVisits">
-            <div class="rc-head" onclick="toggleCard('cardVisits')">
+          <div class="rc" id="cardVisits">
+            <div class="rc-head" onclick="openSheet('visits')">
               <div class="rc-ic" style="background:var(--gr-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gr)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3"/><path d="M6 3H4.6M15 3h1.4"/><path d="M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle cx="19.1" cy="12.8" r="2.3"/></svg></div>
               <div class="rc-title">Doctor Visits</div>
-              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();toggleForm('visitForm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();openSheet('visits',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
-            <div class="rc-body">
+            <div class="rc-body" id="visitsBody">
               <div class="form" id="visitForm" style="display:none;background:var(--gr-bg)">
                 <div class="rc-lbl">Reason for Visit</div>
                 <div class="chips" id="vReasonChips"></div>
@@ -270,13 +299,13 @@
 
           <!-- Documents -->
           <div class="rc" id="cardDocs">
-            <div class="rc-head" onclick="toggleCard('cardDocs')">
+            <div class="rc-head" onclick="openSheet('docs')">
               <div class="rc-ic" style="background:var(--dc-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--dc)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 11.5 20a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.5a1.6 1.6 0 0 1-2.3-2.3l7.9-7.9"/></svg></div>
               <div class="rc-title">Documents</div>
-              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--dc)" onclick="event.stopPropagation();toggleForm('docForm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--dc)" onclick="event.stopPropagation();openSheet('docs',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
-            <div class="rc-body">
+            <div class="rc-body" id="docsBody">
               <div class="form" id="docForm" style="display:none;background:var(--dc-bg)">
                 <div class="rc-lbl">Source</div>
                 <div class="chips" id="dSourceChips"></div>
@@ -296,17 +325,31 @@
           </div>
 
           <!-- Vaccinations -->
-          <div class="rc open" id="cardVac">
-            <div class="rc-head" onclick="toggleCard('cardVac')">
+          <div class="rc" id="cardVac">
+            <div class="rc-head" onclick="openSheet('vac')">
               <div class="rc-ic" style="background:var(--hn-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><path d="M3.8 12H7"/><rect x="7" y="9.3" width="9.4" height="5.4" rx="1.1"/><path d="M9.8 9.3v5.4M12.1 9.3v5.4M14.4 9.3v5.4"/><path d="M16.4 10.3h2.4"/><path d="M18.8 9.1v3.4"/></g></svg></div>
               <div class="rc-title">Vaccinations</div>
-              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
-            <div class="rc-body">
+            <div class="rc-body" id="vacBody">
               <div class="vac-tabs" id="vacTabs"></div>
               <div id="vacList"></div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- record detail bottom sheet -->
+      <div class="hs-layer" id="hSheet">
+        <div class="hs-bd" onclick="closeSheet()"></div>
+        <div class="hs-panel">
+          <div class="hs-grab"></div>
+          <div class="hs-head">
+            <div class="rc-ic" id="hsIc"></div>
+            <div class="hs-title" id="hsTitle"></div>
+            <button class="vs-close" onclick="closeSheet()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+          </div>
+          <div class="hs-content" id="hsContent"></div>
         </div>
       </div>
 
@@ -443,6 +486,50 @@
   ];
   var vacMarkId=null, vacMarkDate=TODAY, reminderEdit=null;
 
+  /* ---------- per-child records ---------- */
+  var CHILDREN={
+    mark:{name:'Mark', bloodType:bloodType, allergies:allergies, growth:GROWTH, notes:NOTES, visits:VISITS, docs:DOCS, vaccines:VACCINES},
+    lily:{name:'Lily', bloodType:'A+', allergies:['Peanuts'],
+      growth:[{age:'Birth',weight:3.2,height:49},{age:'3M',weight:5.8,height:60},{age:'6M',weight:7.4,height:66},{age:'9M',weight:8.6,height:71},{age:'12M',weight:9.4,height:75},{age:'17M',weight:10.8,height:80}],
+      notes:[{date:'2 Oct 2026',summary:'Runny nose · Mild',emoji:'🤒'},{date:'20 Sep 2026',summary:'10h · Good',emoji:'😴'},{date:'12 Sep 2026',summary:'Solids · Well',emoji:'🍼'},{date:'1 Sep 2026',summary:'Active · Lots of walking',emoji:'😊'}],
+      visits:[{title:'15-Month Well Visit',date:'18 Sep 2026',doctor:'Dr. Priya Menon',note:'Wt 10.8 kg, Ht 80 cm. Thriving.'}],
+      docs:[{name:'Growth Chart Sep 2026',type:'Report',date:'18 Sep 2026'}],
+      vaccines:[
+        {id:'lv1',category:'mandatory',name:'MMR, Varicella',dueAge:'12 months',dueDate:'10 Apr 2026',done:true,doneDate:'10 Apr 2026',protects:'Measles, mumps, rubella, chickenpox',why:'First doses at 12 months protect against highly contagious childhood diseases.',sideEffects:['Mild fever 7–10 days later','Faint rash','Mild fussiness']},
+        {id:'lv2',category:'mandatory',name:'DTaP, Hib, PCV13 (booster)',dueAge:'15 months',dueDate:'10 Jul 2026',done:true,doneDate:'12 Jul 2026',protects:'Diphtheria, tetanus, whooping cough, Hib, pneumonia',why:'Booster reinforces the primary infant series for longer-lasting immunity.',sideEffects:['Injection site soreness','Low-grade fever','Irritability']},
+        {id:'lv3',category:'mandatory',name:'HepA (2nd dose)',dueAge:'18 months',dueDate:'10 Oct 2026',done:false,protects:'Hepatitis A',why:'Second dose completes long-lasting protection against hepatitis A.',sideEffects:['Soreness','Headache','Low appetite 1–2 days']},
+        {id:'lv4',category:'good-to-have',name:'Influenza (annual)',dueAge:'Yearly',dueDate:'Oct 2026',done:false,protects:'Seasonal flu',why:'Reformulated yearly; young children are at higher risk of flu complications.',sideEffects:['Soreness','Low-grade fever','Mild fatigue']},
+        {id:'lv5',category:'specific',name:'Typhoid',dueAge:'2 years+',dueDate:'2027',done:false,protects:'Typhoid fever',why:'Recommended in regions with water-safety concerns or for travel.',sideEffects:['Soreness','Mild fever']}
+      ]},
+    mother:{name:'Mother', bloodType:'B+', allergies:['Penicillin'],
+      growth:[{age:'Delivery',weight:78,height:165},{age:'1M',weight:75,height:165},{age:'2M',weight:73,height:165},{age:'3M',weight:71.5,height:165},{age:'6M',weight:69,height:165},{age:'9M',weight:68,height:165}],
+      notes:[{date:'5 Oct 2026',summary:'Mood · Feeling good',emoji:'😊'},{date:'28 Sep 2026',summary:'7h · Disrupted',emoji:'😴'},{date:'15 Sep 2026',summary:'Mild headache',emoji:'🤒'}],
+      visits:[{title:'6-Week Postpartum Check',date:'1 Sep 2025',doctor:'Dr. Anita Rao',note:'Recovery on track. Cleared for light exercise.'},{title:'Lactation Consult',date:'20 Aug 2025',doctor:'Anita Rao',note:'Latch improved, feeding well.'}],
+      docs:[{name:'Discharge Summary',type:'Report',date:'16 Jul 2025'},{name:'Iron Supplement Rx',type:'Prescription',date:'1 Sep 2025'}],
+      vaccines:[
+        {id:'mv1',category:'mandatory',name:'Tdap (in pregnancy)',dueAge:'27–36 weeks',dueDate:'1 Jun 2025',done:true,doneDate:'3 Jun 2025',protects:'Tetanus, diphtheria, whooping cough',why:'Given in pregnancy so antibodies pass to the baby, protecting the newborn before their own vaccines begin.',sideEffects:['Arm soreness','Mild fever','Fatigue']},
+        {id:'mv2',category:'good-to-have',name:'Influenza (annual)',dueAge:'Yearly',dueDate:'Oct 2026',done:false,protects:'Seasonal flu',why:'Recommended every year, especially while breastfeeding and caring for an infant.',sideEffects:['Arm soreness','Low-grade fever','Mild aches']},
+        {id:'mv3',category:'good-to-have',name:'COVID-19 booster',dueAge:'As advised',dueDate:'2026',done:false,protects:'COVID-19',why:'Keeps your protection up to date for you and those around the baby.',sideEffects:['Arm soreness','Fatigue','Headache']}
+      ]}
+  };
+  var CUR_CHILD='mark';
+  function loadChild(k){var c=CHILDREN[k];bloodType=c.bloodType;allergies=c.allergies;GROWTH=c.growth;NOTES=c.notes;VISITS=c.visits;DOCS=c.docs;VACCINES=c.vaccines;}
+  function saveCurrent(){var c=CHILDREN[CUR_CHILD];c.bloodType=bloodType;c.allergies=allergies;}
+  function renderChildTabs(){
+    document.getElementById('childTabs').innerHTML=Object.keys(CHILDREN).map(function(k){
+      return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-name">'+CHILDREN[k].name+'</span></button>';
+    }).join('');
+  }
+  function updateHero(){document.getElementById('heroName').textContent=CHILDREN[CUR_CHILD].name+"'s Records";}
+  function renderAll(){renderBlood();renderAllergies();renderGrowth();renderNotes();renderVReasons();renderVisits();renderDSource();renderDType();renderDocs();renderVac();}
+  function switchChild(k){
+    if(k===CUR_CHILD)return;
+    saveCurrent(); CUR_CHILD=k; loadChild(k);
+    growthTab='weight'; vacTab='mandatory'; noteType=null; noteSel={}; vReason=''; dSource=''; dType='';
+    closeSheet();
+    renderChildTabs(); updateHero(); renderAll();
+  }
+
   /* ---------- helpers ---------- */
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   function toggleCard(id){document.getElementById(id).classList.toggle('open');}
@@ -453,7 +540,40 @@
   }
   var _t;
   function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(_t);_t=setTimeout(function(){t.classList.remove('show');},1800);}
-  function scrollToAdd(){document.getElementById('cardNotes').scrollIntoView({behavior:'smooth'});toggleNoteForm(true);}
+  function scrollToAdd(){openSheet('notes',true);}
+
+  /* ---------- record bottom sheet ---------- */
+  var SHEETS={
+    profile:{card:'cardProfile',body:'profileBody',title:'Health Profile',add:null},
+    growth :{card:'cardGrowth', body:'growthBody', title:'Growth',        add:function(){toggleForm('growthForm',true);}},
+    notes  :{card:'cardNotes',  body:'notesBody',  title:'Health Notes',   add:function(){toggleNoteForm(true);}},
+    visits :{card:'cardVisits', body:'visitsBody', title:'Doctor Visits',  add:function(){toggleForm('visitForm',true);}},
+    docs   :{card:'cardDocs',   body:'docsBody',   title:'Documents',      add:function(){toggleForm('docForm',true);}},
+    vac    :{card:'cardVac',    body:'vacBody',    title:'Vaccinations',   add:null}
+  };
+  var curSheet=null;
+  function openSheet(key,addMode){
+    var s=SHEETS[key]; if(!s) return;
+    if(curSheet) returnBody(curSheet);
+    var card=document.getElementById(s.card);
+    var ic=card.querySelector('.rc-ic');
+    var hsIc=document.getElementById('hsIc');
+    hsIc.innerHTML=ic.innerHTML; hsIc.style.background=ic.style.background;
+    document.getElementById('hsTitle').textContent=s.title;
+    document.getElementById('hsContent').appendChild(document.getElementById(s.body));
+    curSheet=key;
+    document.getElementById('hSheet').classList.add('open');
+    document.getElementById('hsContent').scrollTop=0;
+    if(addMode && s.add) s.add();
+  }
+  function returnBody(key){
+    var s=SHEETS[key]; if(!s) return;
+    document.getElementById(s.card).appendChild(document.getElementById(s.body));
+  }
+  function closeSheet(){
+    if(curSheet){ returnBody(curSheet); curSheet=null; }
+    document.getElementById('hSheet').classList.remove('open');
+  }
 
   /* ---------- Health Profile ---------- */
   function renderBlood(){
@@ -673,6 +793,7 @@
   function closeVacInfo(){document.getElementById('vacInfo').classList.remove('open');}
 
   /* ---------- init ---------- */
+  renderChildTabs();
   renderBlood();renderAllergies();renderGrowth();
   renderNotes();renderVReasons();renderVisits();renderDSource();renderDType();renderDocs();renderVac();
 </script>
