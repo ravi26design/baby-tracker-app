@@ -98,6 +98,11 @@
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
   .chip.has-ic{display:inline-flex;align-items:center;gap:6px;}
   .chip-ic{width:14px;height:14px;flex-shrink:0;}
+  /* note-type picker grid */
+  .nt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .nt-chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;text-align:left;transition:transform .12s;}
+  .nt-chip:active{transform:scale(.98);}
+  .nt-em{width:27px;height:27px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 
   /* inline add form */
   .form{margin-bottom:8px;}
@@ -277,7 +282,7 @@
               <div class="form" id="noteForm" style="display:none">
                 <div class="form-title"><span class="ft-dot" style="background:var(--hn)"></span>Add a note</div>
                 <div class="rc-lbl">What are you noting?</div>
-                <div class="chips" id="noteTypeChips"></div>
+                <div class="nt-grid" id="noteTypeChips"></div>
                 <div id="noteFields"></div>
               </div>
               <div id="notesList"></div>
@@ -674,7 +679,7 @@
   function renderNoteTypeChips(){
     document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
       var on=nt.type===noteType;
-      return '<button class="chip" style="background:'+(on?'var(--hn)':'rgba(90,152,128,.12)')+';color:'+(on?'#fff':'var(--hn)')+'" onclick="pickNoteType(\''+nt.type+'\')">'+nt.emoji+' '+nt.label+'</button>';
+      return '<button class="nt-chip" style="background:'+(on?'var(--hn)':'rgba(90,152,128,.1)')+';color:'+(on?'#fff':'var(--hn)')+'" onclick="pickNoteType(\''+nt.type+'\')"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.22)':'#fff')+'">'+nt.emoji+'</span>'+nt.label+'</button>';
     }).join('');
   }
   function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
