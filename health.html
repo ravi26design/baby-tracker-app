@@ -58,7 +58,7 @@
   /* record card */
   .rc{background:var(--card);border-radius:24px;overflow:hidden;margin-bottom:14px;box-shadow:0 13px 30px -16px rgba(120,80,95,.24),0 2px 7px rgba(30,26,23,.04),inset 0 0 0 1px rgba(255,255,255,.65);}
   .rc-head{display:flex;align-items:center;gap:13px;padding:15px 16px;cursor:pointer;}
-  .rc-ic{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;box-shadow:0 7px 14px -8px rgba(120,90,140,.4);}
+  .rc-ic{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;}
   .rc-ic svg{width:22px;height:22px;}
   .rc-title{font-size:15px;font-weight:800;letter-spacing:-.2px;flex:1;}
   .rc-chev{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#b9b0c4;transition:transform .25s;}
@@ -83,7 +83,6 @@
   .hs-ht{flex:1;min-width:0;}
   .hs-title{font-size:18.5px;font-weight:800;letter-spacing:-.3px;line-height:1.15;}
   .hs-sub{font-size:11.5px;font-weight:600;color:#a197b4;margin-top:3px;}
-  .hs-head .rc-ic{box-shadow:0 8px 16px -9px rgba(120,90,140,.5);}
   .hs-content{overflow-y:auto;padding:17px 20px 30px;}
   .hs-content::-webkit-scrollbar{display:none;}
   .hs-content .rc-body{display:block;padding:0;}
@@ -249,7 +248,6 @@
                   <label class="fld-lab">Height<div class="fld-suf"><input class="fld" id="gHt" placeholder="0" inputmode="decimal"><span>cm</span></div></label>
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-cancel" onclick="toggleForm('growthForm',false)">Cancel</button>
                   <button class="btn btn-save" style="background:var(--gr)" onclick="saveGrowth()">Save</button>
                 </div>
               </div>
@@ -302,7 +300,6 @@
                   <input class="fld" id="vNote" placeholder="Notes (optional)">
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-cancel" onclick="toggleForm('visitForm',false)">Cancel</button>
                   <button class="btn btn-save" style="background:var(--gr)" onclick="saveVisit()">Save</button>
                 </div>
               </div>
@@ -330,7 +327,6 @@
                   <input class="fld" id="dDate" placeholder="Date (e.g. 21 Oct 2026)">
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-cancel" onclick="toggleForm('docForm',false)">Cancel</button>
                   <button class="btn btn-save" style="background:var(--dc)" onclick="saveDoc()">Save</button>
                 </div>
               </div>
@@ -361,7 +357,7 @@
           <div class="hs-head">
             <div class="rc-ic" id="hsIc"></div>
             <div class="hs-ht"><div class="hs-title" id="hsTitle"></div><div class="hs-sub" id="hsSub"></div></div>
-            <button class="vs-close" onclick="closeSheet()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+            <button class="vs-close" onclick="sheetClose()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
           </div>
           <div class="hs-content" id="hsContent"></div>
         </div>
@@ -558,10 +554,10 @@
   /* ---------- record bottom sheet ---------- */
   var SHEETS={
     profile:{card:'cardProfile',body:'profileBody',title:'Health Profile',sub:'Blood type & known allergies',add:null},
-    growth :{card:'cardGrowth', body:'growthBody', title:'Growth',        sub:'Weight & height over time',    addTitle:'Add growth entry', add:function(){toggleForm('growthForm',true);}},
-    notes  :{card:'cardNotes',  body:'notesBody',  title:'Health Notes',   sub:'Symptoms, sleep, feeds & more',addTitle:'Add a note',       add:function(){toggleNoteForm(true);}},
-    visits :{card:'cardVisits', body:'visitsBody', title:'Doctor Visits',  sub:'Appointments & checkups',      addTitle:'Add a visit',      add:function(){toggleForm('visitForm',true);}},
-    docs   :{card:'cardDocs',   body:'docsBody',   title:'Documents',      sub:'Reports & prescriptions',      addTitle:'Add a document',   add:function(){toggleForm('docForm',true);}},
+    growth :{card:'cardGrowth', body:'growthBody', title:'Growth',        sub:'Weight & height over time',    addTitle:'Add Growth',   add:function(){toggleForm('growthForm',true);}},
+    notes  :{card:'cardNotes',  body:'notesBody',  title:'Health Notes',   sub:'Symptoms, sleep, feeds & more',addTitle:'Add Note',     add:function(){toggleNoteForm(true);}},
+    visits :{card:'cardVisits', body:'visitsBody', title:'Doctor Visits',  sub:'Appointments & checkups',      addTitle:'Add Visit',    add:function(){toggleForm('visitForm',true);}},
+    docs   :{card:'cardDocs',   body:'docsBody',   title:'Documents',      sub:'Reports & prescriptions',      addTitle:'Add Document', add:function(){toggleForm('docForm',true);}},
     vac    :{card:'cardVac',    body:'vacBody',    title:'Vaccinations',   sub:'Schedule, reminders & info',   add:null}
   };
   var curSheet=null;
@@ -590,6 +586,12 @@
   function closeSheet(){
     if(curSheet){ returnBody(curSheet); curSheet=null; }
     document.getElementById('hSheet').classList.remove('open');
+  }
+  function sheetClose(){
+    // if an add form is open, the cross cancels it (back to the record view); otherwise close the sheet
+    var kf={growth:'growthForm',notes:'noteForm',visits:'visitForm',docs:'docForm'}[curSheet];
+    if(kf){ var f=document.getElementById(kf); if(f && f.style.display!=='none'){ kf==='noteForm'?toggleNoteForm(false):toggleForm(kf,false); return; } }
+    closeSheet();
   }
 
   /* ---------- Health Profile ---------- */
@@ -698,7 +700,7 @@
       h+=L('How did it go?')+'<div class="chips">'+['Well','Refused','Less than usual'].map(function(x){return nchip(x,d.how===x,"nSet('how','"+x+"')");}).join('')+'</div>';
     }
     if(noteType){
-      h+='<div class="form-actions"><button class="btn btn-cancel" onclick="toggleNoteForm(false)">Cancel</button><button class="btn btn-save" style="background:var(--hn)" onclick="saveNote()">Save Note</button></div>';
+      h+='<div class="form-actions"><button class="btn btn-save" style="background:var(--hn)" onclick="saveNote()">Save Note</button></div>';
     }
     document.getElementById('noteFields').innerHTML=h;
   }
