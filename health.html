@@ -64,7 +64,7 @@
   .rc-chev{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#b9b0c4;transition:transform .25s;}
   .rc.open .rc-chev{transform:rotate(180deg);}
   .rc-chev svg{width:17px;height:17px;}
-  .rc-add{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
+  .rc-add{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;background:linear-gradient(155deg,#b0a2d8,#9b8bc4)!important;box-shadow:0 9px 16px -6px rgba(140,116,181,.6);}
   .rc-add svg{width:16px;height:16px;}
   .rc{cursor:pointer;transition:transform .12s;}
   .rc:active{transform:scale(.992);}
@@ -96,6 +96,8 @@
   .chips{display:flex;flex-wrap:wrap;gap:7px;}
   .chip{padding:7px 13px;border-radius:20px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .12s;flex-shrink:0;}
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
+  .chip.has-ic{display:inline-flex;align-items:center;gap:6px;}
+  .chip-ic{width:14px;height:14px;flex-shrink:0;}
 
   /* inline add form */
   .form{margin-bottom:8px;}
@@ -109,10 +111,11 @@
   .fld-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
   .fld-suf{position:relative;}
   .fld-suf span{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#9a8fb3;pointer-events:none;}
-  .form-actions{display:flex;gap:8px;margin-top:11px;}
-  .btn{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:11px;border-radius:20px;}
+  .form-actions{display:flex;gap:8px;margin-top:18px;}
+  .btn{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;padding:15px;border-radius:26px;transition:transform .12s;}
   .btn-cancel{background:#efe9f3;color:#9a8fb3;}
-  .btn-save{color:#fff;}
+  .btn-save{background:linear-gradient(155deg,#b0a2d8,#9b8bc4)!important;color:#fff;box-shadow:0 14px 24px -9px rgba(140,116,181,.65);}
+  .btn-save:active{transform:scale(.99);}
 
   /* list rows */
   .row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);}
@@ -237,7 +240,7 @@
               <div class="rc-ic" style="background:var(--gr-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gr)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 3.5 3.5 7-7.5"/><path d="M15.5 7h4v4"/></svg></div>
               <div class="rc-title">Growth</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();openSheet('growth',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <button class="rc-add" onclick="event.stopPropagation();openSheet('growth',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
             <div class="rc-body" id="growthBody">
               <div class="form" id="growthForm" style="display:none">
@@ -248,7 +251,7 @@
                   <label class="fld-lab">Height<div class="fld-suf"><input class="fld" id="gHt" placeholder="0" inputmode="decimal"><span>cm</span></div></label>
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-save" style="background:var(--gr)" onclick="saveGrowth()">Save</button>
+                  <button class="btn btn-save" onclick="saveGrowth()">Save</button>
                 </div>
               </div>
               <div id="growthView">
@@ -268,7 +271,7 @@
               <div class="rc-ic" style="background:var(--hn-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h8.5"/><path d="M16.3 3.7a1.9 1.9 0 0 1 2.7 2.7L7.5 17.9 3.5 19l1.1-4z"/></svg></div>
               <div class="rc-title">Health Notes</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--hn)" onclick="event.stopPropagation();openSheet('notes',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <button class="rc-add" onclick="event.stopPropagation();openSheet('notes',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
             <div class="rc-body" id="notesBody">
               <div class="form" id="noteForm" style="display:none">
@@ -287,7 +290,7 @@
               <div class="rc-ic" style="background:var(--gr-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gr)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3"/><path d="M6 3H4.6M15 3h1.4"/><path d="M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle cx="19.1" cy="12.8" r="2.3"/></svg></div>
               <div class="rc-title">Doctor Visits</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();openSheet('visits',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <button class="rc-add" onclick="event.stopPropagation();openSheet('visits',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
             <div class="rc-body" id="visitsBody">
               <div class="form" id="visitForm" style="display:none">
@@ -300,7 +303,7 @@
                   <input class="fld" id="vNote" placeholder="Notes (optional)">
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-save" style="background:var(--gr)" onclick="saveVisit()">Save</button>
+                  <button class="btn btn-save" onclick="saveVisit()">Save</button>
                 </div>
               </div>
               <div id="visitsList"></div>
@@ -313,7 +316,7 @@
               <div class="rc-ic" style="background:var(--dc-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--dc)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 11.5 20a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.5a1.6 1.6 0 0 1-2.3-2.3l7.9-7.9"/></svg></div>
               <div class="rc-title">Documents</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
-              <button class="rc-add" style="background:var(--dc)" onclick="event.stopPropagation();openSheet('docs',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+              <button class="rc-add" onclick="event.stopPropagation();openSheet('docs',true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
             </div>
             <div class="rc-body" id="docsBody">
               <div class="form" id="docForm" style="display:none">
@@ -327,7 +330,7 @@
                   <input class="fld" id="dDate" placeholder="Date (e.g. 21 Oct 2026)">
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-save" style="background:var(--dc)" onclick="saveDoc()">Save</button>
+                  <button class="btn btn-save" onclick="saveDoc()">Save</button>
                 </div>
               </div>
               <div id="docsList"></div>
@@ -442,7 +445,10 @@
     {title:'Sick Visit — Ear Infection',date:'3 Apr 2026',doctor:'Dr. Priya Menon',note:'Amoxicillin 125mg/5ml prescribed — 10-day course.'}
   ];
 
-  var DOC_SOURCES=[{icon:'📷',label:'Take Photo'},{icon:'📁',label:'Upload File'}];
+  var DOC_SOURCES=[
+    {label:'Take Photo',svg:'<path d="M4.5 8.5h3L8.8 6.4a1 1 0 0 1 .9-.5h4.6a1 1 0 0 1 .9.5l1.3 2.1h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3"/>'},
+    {label:'Upload File',svg:'<path d="M12 15.5V5M8.5 8 12 4.5 15.5 8"/><path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/>'}
+  ];
   var DOC_TYPES=['Report','Prescription','Vaccine Card','Lab Test','Other'];
   var dSource='', dType='';
   var DOCS=[
@@ -700,7 +706,7 @@
       h+=L('How did it go?')+'<div class="chips">'+['Well','Refused','Less than usual'].map(function(x){return nchip(x,d.how===x,"nSet('how','"+x+"')");}).join('')+'</div>';
     }
     if(noteType){
-      h+='<div class="form-actions"><button class="btn btn-save" style="background:var(--hn)" onclick="saveNote()">Save Note</button></div>';
+      h+='<div class="form-actions"><button class="btn btn-save" onclick="saveNote()">Save Note</button></div>';
     }
     document.getElementById('noteFields').innerHTML=h;
   }
@@ -747,7 +753,7 @@
   function renderDSource(){
     document.getElementById('dSourceChips').innerHTML=DOC_SOURCES.map(function(s){
       var on=s.label===dSource;
-      return '<button class="chip" style="background:'+(on?'var(--dc)':'rgba(154,90,212,.12)')+';color:'+(on?'#fff':'var(--dc)')+'" onclick="dSource=\''+s.label+'\';renderDSource()">'+s.icon+' '+s.label+'</button>';
+      return '<button class="chip has-ic" style="background:'+(on?'var(--dc)':'rgba(154,90,212,.12)')+';color:'+(on?'#fff':'var(--dc)')+'" onclick="dSource=\''+s.label+'\';renderDSource()"><svg class="chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg>'+s.label+'</button>';
     }).join('');
   }
   function renderDType(){
