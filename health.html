@@ -124,8 +124,8 @@
   .btn-save:active{transform:scale(.99);}
 
   /* list rows */
-  .row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);}
-  .row:last-child{border-bottom:none;}
+  .row{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:15px;background:#faf8fc;box-shadow:inset 0 0 0 1px rgba(139,116,181,.07);margin-bottom:8px;}
+  .row:last-child{margin-bottom:0;}
   .row-ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
   .row-ic svg{width:17px;height:17px;}
   .row-main{flex:1;min-width:0;}
@@ -427,20 +427,21 @@
   var growthTab='weight';
 
   var NOTE_TYPES=[
-    {type:'symptom',emoji:'🤒',label:'Symptom'},
-    {type:'measurement',emoji:'📏',label:'Measurement'},
-    {type:'observation',emoji:'😊',label:'Observation'},
-    {type:'reaction',emoji:'⚠️',label:'Reaction'},
-    {type:'sleep',emoji:'😴',label:'Sleep'},
-    {type:'feed',emoji:'🍼',label:'Feed'}
+    {type:'symptom',label:'Symptom',svg:'<path d="M13 15.3V5a1.5 1.5 0 0 0-3 0v10.3a3 3 0 1 0 3 0z"/><path d="M11.5 8.5v4"/>'},
+    {type:'measurement',label:'Measurement',svg:'<path d="M15.5 3.4 20.6 8.5a1 1 0 0 1 0 1.4L9.9 20.6a1 1 0 0 1-1.4 0L3.4 15.5a1 1 0 0 1 0-1.4L14.1 3.4a1 1 0 0 1 1.4 0z"/><path d="M7.5 11 9 12.5M10.5 8 12 9.5M13.5 5 15 6.5M4.5 14 6 15.5"/>'},
+    {type:'observation',label:'Observation',svg:'<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>'},
+    {type:'reaction',label:'Reaction',svg:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'},
+    {type:'sleep',label:'Sleep',svg:'<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>'},
+    {type:'feed',label:'Feed',svg:'<path d="M11 5V3.6a1 1 0 0 1 2 0V5"/><rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/><path d="M8.5 12h7M8.5 15.2h7"/>'}
   ];
+  function noteIcon(tag){var t=NOTE_TYPES.filter(function(x){return x.label===tag;})[0];return t?t.svg:'';}
   var NOTES=[
-    {date:'24 Jun 2026',summary:'Fever · Mild',emoji:'🤒'},
-    {date:'10 Jun 2026',summary:'Food · Mild rash',emoji:'⚠️'},
-    {date:'3 Jun 2026',summary:'38.1°C · 9.6 kg',emoji:'📏'},
-    {date:'28 May 2026',summary:'7h · Good',emoji:'😴'},
-    {date:'20 May 2026',summary:'Breast · Well',emoji:'🍼'},
-    {date:'15 May 2026',summary:'Happy · Very active day',emoji:'😊'}
+    {date:'24 Jun 2026',summary:'Fever · Mild',emoji:'🤒',tag:'Symptom'},
+    {date:'10 Jun 2026',summary:'Food · Mild rash',emoji:'⚠️',tag:'Reaction'},
+    {date:'3 Jun 2026',summary:'38.1°C · 9.6 kg',emoji:'📏',tag:'Measurement'},
+    {date:'28 May 2026',summary:'7h · Good',emoji:'😴',tag:'Sleep'},
+    {date:'20 May 2026',summary:'Breast · Well',emoji:'🍼',tag:'Feed'},
+    {date:'15 May 2026',summary:'Happy · Very active day',emoji:'😊',tag:'Observation'}
   ];
   var noteType=null, noteSel={};
 
@@ -513,7 +514,7 @@
     mark:{name:'Mark', bloodType:bloodType, allergies:allergies, growth:GROWTH, notes:NOTES, visits:VISITS, docs:DOCS, vaccines:VACCINES},
     lily:{name:'Lily', bloodType:'A+', allergies:['Peanuts'],
       growth:[{age:'Birth',weight:3.2,height:49},{age:'3M',weight:5.8,height:60},{age:'6M',weight:7.4,height:66},{age:'9M',weight:8.6,height:71},{age:'12M',weight:9.4,height:75},{age:'17M',weight:10.8,height:80}],
-      notes:[{date:'2 Oct 2026',summary:'Runny nose · Mild',emoji:'🤒'},{date:'20 Sep 2026',summary:'10h · Good',emoji:'😴'},{date:'12 Sep 2026',summary:'Solids · Well',emoji:'🍼'},{date:'1 Sep 2026',summary:'Active · Lots of walking',emoji:'😊'}],
+      notes:[{date:'2 Oct 2026',summary:'Runny nose · Mild',tag:'Symptom'},{date:'20 Sep 2026',summary:'10h · Good',tag:'Sleep'},{date:'12 Sep 2026',summary:'Solids · Well',tag:'Feed'},{date:'1 Sep 2026',summary:'Active · Lots of walking',tag:'Observation'}],
       visits:[{title:'15-Month Well Visit',date:'18 Sep 2026',doctor:'Dr. Priya Menon',note:'Wt 10.8 kg, Ht 80 cm. Thriving.'}],
       docs:[{name:'Growth Chart Sep 2026',type:'Report',date:'18 Sep 2026'}],
       vaccines:[
@@ -680,7 +681,7 @@
   function renderNoteTypeChips(){
     document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
       var on=nt.type===noteType;
-      return '<button class="nt-chip" style="background:'+(on?'var(--hn)':'rgba(90,152,128,.1)')+';color:'+(on?'#fff':'var(--hn)')+'" onclick="pickNoteType(\''+nt.type+'\')"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.22)':'#fff')+'">'+nt.emoji+'</span>'+nt.label+'</button>';
+      return '<button class="nt-chip" style="background:'+(on?'var(--hn)':'rgba(90,152,128,.1)')+';color:'+(on?'#fff':'var(--hn)')+'" onclick="pickNoteType(\''+nt.type+'\')"><span class="nt-em" style="background:#fff"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg></span>'+nt.label+'</button>';
     }).join('');
   }
   function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
@@ -725,13 +726,16 @@
     else if(noteType==='reaction'){if(!d.reactTo){toast('Pick a trigger');return;}summary=d.reactTo+' · '+((d.reaction||[]).join(', ')||'reaction');emoji='⚠️';}
     else if(noteType==='sleep'){if(!d.duration){toast('Pick a duration');return;}summary=d.duration+' · '+(d.quality||'');emoji='😴';}
     else if(noteType==='feed'){if(!d.feedType){toast('Pick a feed type');return;}summary=d.feedType+' · '+(d.how||'');emoji='🍼';}
-    NOTES.unshift({date:TODAY,summary:summary,emoji:emoji});
+    var tag=(NOTE_TYPES.filter(function(x){return x.type===noteType;})[0]||{}).label||'';
+    NOTES.unshift({date:TODAY,summary:summary,emoji:emoji,tag:tag});
     toggleNoteForm(false);renderNotes();toast('Note saved ✓');
   }
   function renderNotes(){
     document.getElementById('notesList').innerHTML=NOTES.map(function(n){
-      return '<div class="row"><div class="row-ic" style="background:var(--hn-bg)">'+n.emoji+'</div>'+
-        '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div></div>'+
+      var ic=noteIcon(n.tag);
+      var icHTML=ic?'<svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg>':(n.emoji||'');
+      return '<div class="row"><div class="row-ic" style="background:var(--hn-bg)">'+icHTML+'</div>'+
+        '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div>'+(n.tag?'<div class="row-s">'+esc(n.tag)+'</div>':'')+'</div>'+
         '<div class="row-date">'+esc(n.date)+'</div></div>';
     }).join('');
   }
