@@ -76,14 +76,19 @@
   .hs-layer.open{visibility:visible;}
   .hs-bd{position:absolute;inset:0;background:rgba(30,20,26,.42);opacity:0;transition:opacity .3s;}
   .hs-layer.open .hs-bd{opacity:1;}
-  .hs-panel{position:absolute;left:0;right:0;bottom:0;max-height:88%;display:flex;flex-direction:column;background:#f8f5fc;border-radius:30px 30px 46px 46px;transform:translateY(112%);transition:transform .4s cubic-bezier(.32,.72,0,1);box-shadow:0 -22px 50px -14px rgba(90,60,70,.4);}
+  .hs-panel{position:absolute;left:0;right:0;bottom:0;max-height:90%;display:flex;flex-direction:column;background:#fff;border-radius:32px 32px 46px 46px;transform:translateY(112%);transition:transform .42s cubic-bezier(.32,.72,0,1);box-shadow:0 -24px 54px -14px rgba(90,60,70,.42);}
   .hs-layer.open .hs-panel{transform:none;}
-  .hs-grab{width:40px;height:5px;border-radius:3px;background:#e2dcec;margin:11px auto 3px;flex-shrink:0;}
-  .hs-head{display:flex;align-items:center;gap:13px;padding:10px 20px 14px;flex-shrink:0;}
-  .hs-title{font-size:18px;font-weight:800;letter-spacing:-.3px;flex:1;}
-  .hs-content{overflow-y:auto;padding:4px 20px 28px;}
+  .hs-grab{width:38px;height:5px;border-radius:3px;background:#e4ddee;margin:11px auto 5px;flex-shrink:0;}
+  .hs-head{display:flex;align-items:center;gap:13px;padding:6px 20px 15px;flex-shrink:0;border-bottom:1px solid rgba(139,116,181,.11);}
+  .hs-ht{flex:1;min-width:0;}
+  .hs-title{font-size:18.5px;font-weight:800;letter-spacing:-.3px;line-height:1.15;}
+  .hs-sub{font-size:11.5px;font-weight:600;color:#a197b4;margin-top:3px;}
+  .hs-head .rc-ic{box-shadow:0 8px 16px -9px rgba(120,90,140,.5);}
+  .hs-content{overflow-y:auto;padding:17px 20px 30px;}
   .hs-content::-webkit-scrollbar{display:none;}
   .hs-content .rc-body{display:block;padding:0;}
+  .hs-content .rc-lbl{font-size:10.5px;letter-spacing:.6px;margin:2px 2px 9px;}
+  .hs-content .rc-lbl.sp{margin-top:18px;}
 
   .rc-lbl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a99fbb;margin:2px 2px 8px;}
   .rc-lbl.sp{margin-top:16px;}
@@ -346,7 +351,7 @@
           <div class="hs-grab"></div>
           <div class="hs-head">
             <div class="rc-ic" id="hsIc"></div>
-            <div class="hs-title" id="hsTitle"></div>
+            <div class="hs-ht"><div class="hs-title" id="hsTitle"></div><div class="hs-sub" id="hsSub"></div></div>
             <button class="vs-close" onclick="closeSheet()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
           </div>
           <div class="hs-content" id="hsContent"></div>
@@ -544,12 +549,12 @@
 
   /* ---------- record bottom sheet ---------- */
   var SHEETS={
-    profile:{card:'cardProfile',body:'profileBody',title:'Health Profile',add:null},
-    growth :{card:'cardGrowth', body:'growthBody', title:'Growth',        add:function(){toggleForm('growthForm',true);}},
-    notes  :{card:'cardNotes',  body:'notesBody',  title:'Health Notes',   add:function(){toggleNoteForm(true);}},
-    visits :{card:'cardVisits', body:'visitsBody', title:'Doctor Visits',  add:function(){toggleForm('visitForm',true);}},
-    docs   :{card:'cardDocs',   body:'docsBody',   title:'Documents',      add:function(){toggleForm('docForm',true);}},
-    vac    :{card:'cardVac',    body:'vacBody',    title:'Vaccinations',   add:null}
+    profile:{card:'cardProfile',body:'profileBody',title:'Health Profile',sub:'Blood type & known allergies',add:null},
+    growth :{card:'cardGrowth', body:'growthBody', title:'Growth',        sub:'Weight & height over time',    add:function(){toggleForm('growthForm',true);}},
+    notes  :{card:'cardNotes',  body:'notesBody',  title:'Health Notes',   sub:'Symptoms, sleep, feeds & more',add:function(){toggleNoteForm(true);}},
+    visits :{card:'cardVisits', body:'visitsBody', title:'Doctor Visits',  sub:'Appointments & checkups',      add:function(){toggleForm('visitForm',true);}},
+    docs   :{card:'cardDocs',   body:'docsBody',   title:'Documents',      sub:'Reports & prescriptions',      add:function(){toggleForm('docForm',true);}},
+    vac    :{card:'cardVac',    body:'vacBody',    title:'Vaccinations',   sub:'Schedule, reminders & info',   add:null}
   };
   var curSheet=null;
   function openSheet(key,addMode){
@@ -560,6 +565,7 @@
     var hsIc=document.getElementById('hsIc');
     hsIc.innerHTML=ic.innerHTML; hsIc.style.background=ic.style.background;
     document.getElementById('hsTitle').textContent=s.title;
+    document.getElementById('hsSub').textContent=s.sub||'';
     document.getElementById('hsContent').appendChild(document.getElementById(s.body));
     curSheet=key;
     document.getElementById('hSheet').classList.add('open');
