@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Tracker — Health</title>
+<style>
+  :root{
+    --ink:#3a332e;--muted:#a99c92;--muted-2:#b6aca2;--card:#ffffff;--line:#efe7f0;--chip:#f5eff8;
+    --lav-1:#b0a2d8;--lav-2:#9b8bc4;--lav-3:#8574b5;
+    --field:#f7f4fb;
+    /* health module accents (from the Records design) */
+    --hp:#c4705a;  --hp-bg:#fef0e8;   /* health profile — terracotta */
+    --gr:#5a78d4;  --gr-bg:#ebf0fe;   /* growth / visits — blue */
+    --hn:#5a9880;  --hn-bg:#e8f5f1;   /* notes / vaccines — green */
+    --dc:#9a5ad4;  --dc-bg:#f0eafe;   /* documents — purple */
+    --shadow-soft:0 8px 22px -8px rgba(120,80,95,.18);
+    --shadow-card:0 18px 40px -14px rgba(120,80,95,.18);
+    --ring:inset 0 0 0 1px rgba(255,255,255,.65);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#efeaf6,#e6e0f0 55%,#ece6f4);
+    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px 0;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink);
+  }
+  .phone{position:relative;width:390px;height:844px;border-radius:56px;background:#0c0c0c;
+    box-shadow:0 50px 90px -30px rgba(40,20,30,.6),0 12px 30px rgba(40,20,30,.25),inset 0 0 0 2px #2a2a2a;overflow:hidden;}
+  .screen{position:absolute;inset:11px;border-radius:46px;overflow:hidden;background:linear-gradient(180deg,#f6f3fa,#efebf5);}
+  .scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:124px;}
+  .scroll::-webkit-scrollbar{display:none;}
+  .statusbar{position:relative;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font-weight:700;color:var(--ink);z-index:3;}
+  .statusbar .time{font-size:16px;letter-spacing:.3px;}
+  .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:20px;}
+  .status-icons{display:flex;align-items:center;gap:7px;}
+
+  .content{position:relative;z-index:2;padding:2px 20px 30px;}
+  .h-title{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:4px 2px 14px;}
+
+  .rec-hero{border-radius:20px;padding:15px 16px;margin-bottom:16px;background:linear-gradient(135deg,#fef0e8 0%,#f0eafe 100%);box-shadow:var(--shadow-soft);}
+  .rec-hero .rh-t{font-size:15px;font-weight:800;letter-spacing:-.2px;}
+  .rec-hero .rh-s{font-size:12.5px;color:#8b8296;font-weight:500;margin-top:2px;}
+
+  /* record card */
+  .rc{background:var(--card);border-radius:22px;overflow:hidden;margin-bottom:13px;box-shadow:0 2px 14px rgba(30,26,23,.07),var(--ring);}
+  .rc-head{display:flex;align-items:center;gap:13px;padding:14px 15px;cursor:pointer;}
+  .rc-ic{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;}
+  .rc-title{font-size:15px;font-weight:800;letter-spacing:-.2px;flex:1;}
+  .rc-chev{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#b9b0c4;transition:transform .25s;}
+  .rc.open .rc-chev{transform:rotate(180deg);}
+  .rc-chev svg{width:17px;height:17px;}
+  .rc-add{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
+  .rc-add svg{width:16px;height:16px;}
+  .rc-body{display:none;padding:0 15px 15px;}
+  .rc.open .rc-body{display:block;}
+
+  .rc-lbl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a99fbb;margin:2px 2px 8px;}
+  .rc-lbl.sp{margin-top:16px;}
+
+  /* chips */
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{padding:7px 13px;border-radius:20px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .12s;flex-shrink:0;}
+  .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
+
+  /* inline add form */
+  .form{border-radius:16px;padding:13px;margin-bottom:12px;}
+  .fld{width:100%;border:none;background:#fff;border-radius:10px;padding:11px 13px;font-family:inherit;font-size:13.5px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);outline:none;}
+  .fld:focus{box-shadow:inset 0 0 0 1.6px var(--lav-2);}
+  .fld::placeholder{color:#b6aec0;}
+  .fld-row{display:flex;gap:8px;align-items:center;}
+  .fld-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .fld-suf{position:relative;}
+  .fld-suf span{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#9a8fb3;pointer-events:none;}
+  .form-actions{display:flex;gap:8px;margin-top:11px;}
+  .btn{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:11px;border-radius:20px;}
+  .btn-cancel{background:#efe9f3;color:#9a8fb3;}
+  .btn-save{color:#fff;}
+
+  /* list rows */
+  .row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);}
+  .row:last-child{border-bottom:none;}
+  .row-ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .row-ic svg{width:17px;height:17px;}
+  .row-main{flex:1;min-width:0;}
+  .row-t{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .row-s{font-size:11.5px;color:#8b8296;font-weight:500;margin-top:2px;line-height:1.35;}
+  .row-date{font-size:10px;color:#b3aac2;font-weight:600;flex-shrink:0;margin-left:6px;white-space:nowrap;}
+
+  /* growth chart */
+  .gr-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .gr-now{margin-left:auto;font-size:13px;font-weight:800;color:var(--ink);}
+  .gr-now span{font-size:10px;color:#b3aac2;font-weight:600;margin-left:3px;}
+  .chart-wrap{width:100%;}
+
+  /* vaccine */
+  .vac-tabs{display:flex;gap:7px;margin-bottom:12px;}
+  .vac-tab{flex:1;padding:9px 4px;border-radius:20px;font-size:10.5px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .12s;}
+  .vac{padding:12px 0;border-bottom:1px solid var(--line);}
+  .vac:last-child{border-bottom:none;}
+  .vac-row{display:flex;align-items:flex-start;gap:11px;}
+  .vac-check{margin-top:1px;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+  .vac-check svg{width:13px;height:13px;color:#fff;}
+  .vac-main{flex:1;min-width:0;}
+  .vac-nrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .vac-name{font-size:13.5px;font-weight:800;color:var(--ink);}
+  .vac-name.done{color:#aba3b5;text-decoration:line-through;}
+  .vac-info{width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .vac-info svg{width:12px;height:12px;}
+  .vac-due{font-size:11px;color:#8b8296;font-weight:500;margin-top:3px;}
+  .vac-rem{display:flex;align-items:center;gap:4px;margin-top:5px;font-size:10px;font-weight:700;color:var(--hn);}
+  .vac-rem svg{width:12px;height:12px;}
+  .vac-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+  .vac-up{font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;background:var(--hp-bg);color:var(--hp);}
+  .vac-bell{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .vac-bell svg{width:15px;height:15px;}
+  .vac-inline{display:flex;gap:7px;margin-top:9px;}
+  .vac-inline .fld{padding:8px 11px;font-size:12px;}
+  .vac-inline .mini{padding:8px 13px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+
+  /* vaccine info sheet */
+  .vs-layer{position:absolute;inset:0;z-index:40;visibility:hidden;}
+  .vs-layer.open{visibility:visible;}
+  .vs-bd{position:absolute;inset:0;background:rgba(30,20,26,.42);opacity:0;transition:opacity .3s;}
+  .vs-layer.open .vs-bd{opacity:1;}
+  .vs-panel{position:absolute;left:0;right:0;bottom:0;max-height:82%;overflow-y:auto;background:#fff;border-radius:28px 28px 46px 46px;padding:14px 20px 26px;transform:translateY(110%);transition:transform .36s cubic-bezier(.32,.72,0,1);}
+  .vs-panel::-webkit-scrollbar{display:none;}
+  .vs-layer.open .vs-panel{transform:none;}
+  .vs-grab{width:40px;height:5px;border-radius:3px;background:#e2dcec;margin:2px auto 14px;}
+  .vs-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
+  .vs-cat{display:inline-block;font-size:10px;font-weight:800;padding:4px 11px;border-radius:20px;margin-bottom:8px;}
+  .vs-name{font-size:17px;font-weight:800;letter-spacing:-.3px;line-height:1.25;}
+  .vs-close{width:32px;height:32px;border-radius:50%;background:#efe9f3;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9a8fb3;flex-shrink:0;}
+  .vs-close svg{width:16px;height:16px;}
+  .vs-block{border-radius:14px;padding:13px 14px;margin-bottom:11px;}
+  .vs-bl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#8b8296;margin-bottom:5px;}
+  .vs-bt{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.4;}
+  .vs-bt.reg{font-weight:500;color:#5a5360;}
+  .vs-se{display:flex;flex-wrap:wrap;gap:7px;}
+  .vs-se span{font-size:11px;font-weight:600;padding:6px 11px;border-radius:20px;background:#f3eff6;color:#7d7488;}
+
+  /* bottom nav */
+  .bottom-nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:#fff;border-radius:30px 30px 0 0;
+    display:flex;align-items:center;justify-content:space-around;padding:16px 26px 24px;z-index:6;
+    -webkit-mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);
+    filter:drop-shadow(0 -12px 30px rgba(70,48,80,.26)) drop-shadow(0 -4px 12px rgba(70,48,80,.16)) drop-shadow(0 -1px 3px rgba(70,48,80,.10));}
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#bcb2a8;width:46px;cursor:pointer;}
+  .nav-item .lbl{font-size:9.5px;font-weight:700;letter-spacing:.1px;}
+  .nav-item .tab-ic{display:flex;align-items:center;justify-content:center;height:24px;}
+  .nav-item .ic-fill{display:none;}
+  .nav-item.active{color:#9b8bc4;}
+  .nav-item.active .ic-line{display:none;}
+  .nav-item.active .ic-fill{display:block;}
+  .nav-slot{width:56px;flex-shrink:0;}
+  .nav-add{position:absolute;left:50%;bottom:61px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 22px -6px rgba(140,116,181,.55);z-index:8;cursor:pointer;}
+  .home-indicator{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;opacity:.85;z-index:7;}
+
+  .toast{position:absolute;left:50%;bottom:122px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:80;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:80%;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="screen">
+      <div class="scroll">
+        <div class="statusbar"><span class="time">9:41</span><div class="notch"></div><div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
+          </div></div>
+
+        <div class="content">
+          <div class="h-title">Health</div>
+          <div class="rec-hero">
+            <div class="rh-t">Mark's Records</div>
+            <div class="rh-s">Everything in one place, always organised.</div>
+          </div>
+
+          <!-- Health Profile -->
+          <div class="rc open" id="cardProfile">
+            <div class="rc-head" onclick="toggleCard('cardProfile')">
+              <div class="rc-ic" style="background:var(--hp-bg)">🩸</div>
+              <div class="rc-title">Health Profile</div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+            <div class="rc-body">
+              <div class="rc-lbl">Blood Type</div>
+              <div class="chips" id="bloodChips"></div>
+              <div class="rc-lbl sp">Known Allergies</div>
+              <div class="chips" id="allergyChips"></div>
+            </div>
+          </div>
+
+          <!-- Growth -->
+          <div class="rc open" id="cardGrowth">
+            <div class="rc-head" onclick="toggleCard('cardGrowth')">
+              <div class="rc-ic" style="background:var(--gr-bg)">📈</div>
+              <div class="rc-title">Growth</div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();toggleForm('growthForm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+            <div class="rc-body">
+              <div class="form" id="growthForm" style="display:none;background:var(--gr-bg)">
+                <div class="fld-grid3">
+                  <input class="fld" id="gAge" placeholder="Age (12M)">
+                  <div class="fld-suf"><input class="fld" id="gWt" placeholder="Weight" inputmode="decimal"><span>kg</span></div>
+                  <div class="fld-suf"><input class="fld" id="gHt" placeholder="Height" inputmode="decimal"><span>cm</span></div>
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-cancel" onclick="toggleForm('growthForm',false)">Cancel</button>
+                  <button class="btn btn-save" style="background:var(--gr)" onclick="saveGrowth()">Save</button>
+                </div>
+              </div>
+              <div class="gr-top">
+                <button class="chip" data-gt="weight" onclick="setGrowthTab('weight')">⚖️ Weight</button>
+                <button class="chip" data-gt="height" onclick="setGrowthTab('height')">📏 Height</button>
+                <div class="gr-now" id="grNow"></div>
+              </div>
+              <div class="chart-wrap" id="growthChart"></div>
+            </div>
+          </div>
+
+          <!-- Health Notes -->
+          <div class="rc open" id="cardNotes">
+            <div class="rc-head" onclick="toggleCard('cardNotes')">
+              <div class="rc-ic" style="background:var(--hn-bg)">📝</div>
+              <div class="rc-title">Health Notes</div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--hn)" onclick="event.stopPropagation();toggleNoteForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+            <div class="rc-body">
+              <div class="form" id="noteForm" style="display:none;background:var(--hn-bg)">
+                <div class="rc-lbl">What are you noting?</div>
+                <div class="chips" id="noteTypeChips"></div>
+                <div id="noteFields"></div>
+              </div>
+              <div id="notesList"></div>
+            </div>
+          </div>
+
+          <!-- Doctor Visits -->
+          <div class="rc open" id="cardVisits">
+            <div class="rc-head" onclick="toggleCard('cardVisits')">
+              <div class="rc-ic" style="background:var(--gr-bg)">🏥</div>
+              <div class="rc-title">Doctor Visits</div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--gr)" onclick="event.stopPropagation();toggleForm('visitForm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+            <div class="rc-body">
+              <div class="form" id="visitForm" style="display:none;background:var(--gr-bg)">
+                <div class="rc-lbl">Reason for Visit</div>
+                <div class="chips" id="vReasonChips"></div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
+                  <input class="fld" id="vDoctor" value="Dr. Priya Menon" placeholder="Doctor name">
+                  <input class="fld" id="vDate" placeholder="Date (e.g. 21 Oct 2026)">
+                  <input class="fld" id="vNote" placeholder="Notes (optional)">
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-cancel" onclick="toggleForm('visitForm',false)">Cancel</button>
+                  <button class="btn btn-save" style="background:var(--gr)" onclick="saveVisit()">Save</button>
+                </div>
+              </div>
+              <div id="visitsList"></div>
+            </div>
+          </div>
+
+          <!-- Documents -->
+          <div class="rc" id="cardDocs">
+            <div class="rc-head" onclick="toggleCard('cardDocs')">
+              <div class="rc-ic" style="background:var(--dc-bg)">📎</div>
+              <div class="rc-title">Documents</div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <button class="rc-add" style="background:var(--dc)" onclick="event.stopPropagation();toggleForm('docForm')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+            <div class="rc-body">
+              <div class="form" id="docForm" style="display:none;background:var(--dc-bg)">
+                <div class="rc-lbl">Source</div>
+                <div class="chips" id="dSourceChips"></div>
+                <div class="rc-lbl sp">Document Type</div>
+                <div class="chips" id="dTypeChips"></div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
+                  <input class="fld" id="dName" placeholder="Document name">
+                  <input class="fld" id="dDate" placeholder="Date (e.g. 21 Oct 2026)">
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-cancel" onclick="toggleForm('docForm',false)">Cancel</button>
+                  <button class="btn btn-save" style="background:var(--dc)" onclick="saveDoc()">Save</button>
+                </div>
+              </div>
+              <div id="docsList"></div>
+            </div>
+          </div>
+
+          <!-- Vaccinations -->
+          <div class="rc open" id="cardVac">
+            <div class="rc-head" onclick="toggleCard('cardVac')">
+              <div class="rc-ic" style="background:var(--hn-bg)">💉</div>
+              <div class="rc-title">Vaccinations</div>
+              <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+            </div>
+            <div class="rc-body">
+              <div class="vac-tabs" id="vacTabs"></div>
+              <div id="vacList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- vaccine info sheet -->
+      <div class="vs-layer" id="vacInfo">
+        <div class="vs-bd" onclick="closeVacInfo()"></div>
+        <div class="vs-panel" id="vacInfoPanel"></div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="location.href='home3.html'">
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg></span>
+          <span class="lbl">Home</span>
+        </div>
+        <div class="nav-item" onclick="location.href='community.html'">
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.4"/><path d="M2.5 20c0-3.2 2.9-5 6.5-5s6.5 1.8 6.5 5"/><path d="M16 3.3a3.4 3.4 0 0 1 0 6.4"/><path d="M22 20c0-2.5-1.5-4.3-3.6-4.9"/></svg></span>
+          <span class="lbl">Community</span>
+        </div>
+        <div class="nav-slot"></div>
+        <div class="nav-item" onclick="location.href='checklist.html'">
+          <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></span>
+          <span class="lbl">Checklist</span>
+        </div>
+        <div class="nav-item active">
+          <span class="tab-ic">
+            <svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <svg class="ic-fill" width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>
+          </span>
+          <span class="lbl">Health</span>
+        </div>
+      </div>
+      <div class="nav-add" onclick="scrollToAdd()">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <div class="home-indicator"></div>
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+
+<script>
+  var TODAY = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  /* ---------- data ---------- */
+  var BLOOD_TYPES=['A+','A−','B+','B−','O+','O−','AB+','AB−'];
+  var bloodType='O+';
+  var allergies=['None known'];
+
+  var GROWTH=[
+    {age:'Birth',weight:3.4,height:50},
+    {age:'2M',weight:5.1,height:57},
+    {age:'4M',weight:6.8,height:63},
+    {age:'6M',weight:7.9,height:67},
+    {age:'9M',weight:9.1,height:72},
+    {age:'11M',weight:9.6,height:74.5}
+  ];
+  var growthTab='weight';
+
+  var NOTE_TYPES=[
+    {type:'symptom',emoji:'🤒',label:'Symptom'},
+    {type:'measurement',emoji:'📏',label:'Measurement'},
+    {type:'observation',emoji:'😊',label:'Observation'},
+    {type:'reaction',emoji:'⚠️',label:'Reaction'},
+    {type:'sleep',emoji:'😴',label:'Sleep'},
+    {type:'feed',emoji:'🍼',label:'Feed'}
+  ];
+  var NOTES=[
+    {date:'24 Jun 2026',summary:'Fever · Mild',emoji:'🤒'},
+    {date:'10 Jun 2026',summary:'Food · Mild rash',emoji:'⚠️'},
+    {date:'3 Jun 2026',summary:'38.1°C · 9.6 kg',emoji:'📏'},
+    {date:'28 May 2026',summary:'7h · Good',emoji:'😴'},
+    {date:'20 May 2026',summary:'Breast · Well',emoji:'🍼'},
+    {date:'15 May 2026',summary:'Happy · Very active day',emoji:'😊'}
+  ];
+  var noteType=null, noteSel={};
+
+  var VISIT_REASONS=['Well Visit','Sick Visit','Follow-up','Specialist','Emergency'];
+  var vReason='';
+  var VISITS=[
+    {title:'9-Month Well Visit',date:'12 May 2026',doctor:'Dr. Priya Menon',note:'Wt: 9.1 kg, Ht: 72 cm. All within normal range.'},
+    {title:'Sick Visit — Ear Infection',date:'3 Apr 2026',doctor:'Dr. Priya Menon',note:'Amoxicillin 125mg/5ml prescribed — 10-day course.'}
+  ];
+
+  var DOC_SOURCES=[{icon:'📷',label:'Take Photo'},{icon:'📁',label:'Upload File'}];
+  var DOC_TYPES=['Report','Prescription','Vaccine Card','Lab Test','Other'];
+  var dSource='', dType='';
+  var DOCS=[
+    {name:'Blood Report Jun 2026',type:'Report',date:'20 Jun 2026'},
+    {name:'Amoxicillin Prescription',type:'Prescription',date:'3 Apr 2026'}
+  ];
+
+  var VAC_CAT=[
+    {key:'mandatory',label:'Mandatory',color:'var(--hp)',bg:'var(--hp-bg)'},
+    {key:'good-to-have',label:'Good to Have',color:'var(--hn)',bg:'var(--hn-bg)'},
+    {key:'specific',label:'Specific',color:'var(--dc)',bg:'var(--dc-bg)'}
+  ];
+  var vacTab='mandatory';
+  var VACCINES=[
+    {id:'v1',category:'mandatory',name:'Hepatitis B',dueAge:'Birth',dueDate:'15 Jul 2025',done:true,doneDate:'15 Jul 2025',
+     protects:'Serious liver infection caused by the hepatitis B virus',
+     why:'Given at birth because HepB can be transmitted during delivery. Protects against long-term liver damage and liver cancer that can develop silently over decades.',
+     sideEffects:['Soreness at injection site','Low-grade fever','Mild fussiness for 1–2 days']},
+    {id:'v2',category:'mandatory',name:'DTaP, Hib, IPV, PCV13',dueAge:'2 months',dueDate:'15 Sep 2025',done:true,doneDate:'18 Sep 2025',
+     protects:'Diphtheria, tetanus, whooping cough, Hib meningitis, polio, pneumonia',
+     why:'Covers several life-threatening diseases at once. Whooping cough is especially dangerous for young infants and can be fatal before 2 months of age.',
+     sideEffects:['Soreness/redness at site','Fever 38–39°C','Fussiness for 1–3 days','Drowsiness']},
+    {id:'v3',category:'mandatory',name:'DTaP, Hib, IPV, PCV13',dueAge:'4 months',dueDate:'15 Nov 2025',done:true,doneDate:'20 Nov 2025',
+     protects:'Diphtheria, tetanus, whooping cough, Hib meningitis, polio, pneumonia',
+     why:'Second dose reinforces immunity from the 2-month vaccines. The series at 2, 4 and 6 months works together to build lasting protective antibodies.',
+     sideEffects:['Injection site swelling','Low-grade fever','Mild irritability']},
+    {id:'v4',category:'mandatory',name:'DTaP, Hib, PCV13, Influenza',dueAge:'6 months',dueDate:'15 Jan 2026',done:true,doneDate:'14 Jan 2026',
+     protects:'Diphtheria, tetanus, whooping cough, Hib meningitis, pneumonia, seasonal flu',
+     why:'Completes the primary 3-dose series. Influenza vaccination begins at 6 months — flu can cause hospitalisation in infants under 2 years.',
+     sideEffects:['Injection site soreness','Fever','Runny nose from flu component','Irritability']},
+    {id:'v5',category:'mandatory',name:'MMR, Varicella, HepA, DTaP',dueAge:'12 months',dueDate:'15 Jul 2026',done:false,
+     protects:'Measles, mumps, rubella, chickenpox, Hepatitis A',
+     why:'First doses of MMR and Varicella at 12 months guard against highly contagious childhood diseases. Measles can cause encephalitis and is still circulating globally.',
+     sideEffects:['Mild fever 7–10 days later','Faint rash','Temporary joint pain (rubella)','Mild fussiness']},
+    {id:'v6',category:'good-to-have',name:'Influenza (annual booster)',dueAge:'Yearly from 6M',dueDate:'Oct 2026',done:false,
+     protects:'Seasonal influenza strains (updated formula each year)',
+     why:'Flu strains mutate annually so the vaccine is reformulated each year. Young children are at high risk of flu complications including febrile seizures and pneumonia.',
+     sideEffects:['Soreness at injection site','Low-grade fever for 1 day','Mild fatigue']},
+    {id:'v7',category:'good-to-have',name:'HepA (2nd dose)',dueAge:'18 months',dueDate:'Jan 2027',done:false,
+     protects:'Hepatitis A — a liver infection spread via contaminated food or water',
+     why:'Two doses 6 months apart give long-lasting protection. Especially important for families who travel internationally or eat out frequently.',
+     sideEffects:['Injection site soreness','Headache','Loss of appetite for 1–2 days']},
+    {id:'v8',category:'specific',name:'Typhoid',dueAge:'2 years+',dueDate:'Jul 2027',done:false,
+     protects:'Typhoid fever — a bacterial infection from contaminated water or food',
+     why:'Recommended for children in regions with poor water safety or families that travel to high-risk countries. Not part of the universal national schedule.',
+     sideEffects:['Injection site soreness','Mild fever','Nausea (oral form)']},
+    {id:'v9',category:'specific',name:'Meningococcal (MenACWY)',dueAge:'High-risk only',dueDate:'—',done:false,
+     protects:'Bacterial meningococcal disease — a severe, fast-moving meningitis',
+     why:'Recommended for children with certain health conditions, those travelling to sub-Saharan Africa, or living in crowded settings. Discuss with your paediatrician.',
+     sideEffects:['Injection site redness','Low-grade fever','Fatigue for 1–2 days']}
+  ];
+  var vacMarkId=null, vacMarkDate=TODAY, reminderEdit=null;
+
+  /* ---------- helpers ---------- */
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function toggleCard(id){document.getElementById(id).classList.toggle('open');}
+  function toggleForm(id,force){
+    var f=document.getElementById(id);
+    var show = (force===undefined)? f.style.display==='none' : force;
+    f.style.display=show?'block':'none';
+  }
+  var _t;
+  function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(_t);_t=setTimeout(function(){t.classList.remove('show');},1800);}
+  function scrollToAdd(){document.getElementById('cardNotes').scrollIntoView({behavior:'smooth'});toggleNoteForm(true);}
+
+  /* ---------- Health Profile ---------- */
+  function renderBlood(){
+    document.getElementById('bloodChips').innerHTML = BLOOD_TYPES.map(function(bt){
+      var on=bt===bloodType;
+      return '<button class="chip" style="background:'+(on?'var(--hp)':'var(--hp-bg)')+';color:'+(on?'#fff':'var(--hp)')+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
+    }).join('');
+  }
+  function selectBlood(bt){bloodType=bt;renderBlood();}
+  function renderAllergies(){
+    var h = allergies.map(function(a){
+      return '<span class="chip" style="background:var(--hp-bg);color:var(--hp)">'+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
+    }).join('');
+    h += '<button class="chip" style="background:#efe9f3;color:#9a8fb3" onclick="addAllergy()">+ Add</button>';
+    document.getElementById('allergyChips').innerHTML=h;
+  }
+  function addAllergy(){var v=prompt('Add allergy');if(v&&v.trim())allergies.push(v.trim());renderAllergies();}
+  function removeAllergy(a){allergies=allergies.filter(function(x){return x!==a;});renderAllergies();}
+
+  /* ---------- Growth ---------- */
+  function setGrowthTab(t){growthTab=t;renderGrowth();}
+  function renderGrowth(){
+    document.querySelectorAll('[data-gt]').forEach(function(b){
+      var on=b.getAttribute('data-gt')===growthTab;
+      b.style.background=on?'var(--gr)':'var(--gr-bg)';
+      b.style.color=on?'#fff':'var(--gr)';
+    });
+    var last=GROWTH[GROWTH.length-1];
+    document.getElementById('grNow').innerHTML=(growthTab==='weight'?last.weight+' kg':last.height+' cm')+'<span>now</span>';
+    // build SVG line chart
+    var W=300,H=96,padL=6,padR=6,padT=10,padB=20;
+    var vals=GROWTH.map(function(g){return growthTab==='weight'?g.weight:g.height;});
+    var min=Math.min.apply(null,vals), max=Math.max.apply(null,vals);
+    if(min===max){min-=1;max+=1;}
+    var n=GROWTH.length;
+    var x=function(i){return padL+(W-padL-padR)*(i/(n-1));};
+    var y=function(v){return padT+(H-padT-padB)*(1-(v-min)/(max-min));};
+    var col=growthTab==='weight'?'#c4705a':'#5a78d4';
+    var pts=GROWTH.map(function(g,i){return x(i)+','+y(growthTab==='weight'?g.weight:g.height);}).join(' ');
+    var dots=GROWTH.map(function(g,i){return '<circle cx="'+x(i)+'" cy="'+y(growthTab==='weight'?g.weight:g.height)+'" r="3" fill="'+col+'"/>';}).join('');
+    var labels=GROWTH.map(function(g,i){return '<text x="'+x(i)+'" y="'+(H-6)+'" font-size="9" fill="#b3aac2" text-anchor="middle" font-family="inherit">'+esc(g.age)+'</text>';}).join('');
+    document.getElementById('growthChart').innerHTML=
+      '<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="96" preserveAspectRatio="none">'+
+      '<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'+
+      dots+labels+'</svg>';
+  }
+  function saveGrowth(){
+    var age=document.getElementById('gAge').value.trim();
+    var wt=parseFloat(document.getElementById('gWt').value);
+    var ht=parseFloat(document.getElementById('gHt').value);
+    if(!age||(!wt&&!ht)){toast('Add an age and a value');return;}
+    GROWTH.push({age:age,weight:wt||0,height:ht||0});
+    document.getElementById('gAge').value='';document.getElementById('gWt').value='';document.getElementById('gHt').value='';
+    toggleForm('growthForm',false);renderGrowth();toast('Growth entry added ✓');
+  }
+
+  /* ---------- Health Notes ---------- */
+  function toggleNoteForm(force){
+    var f=document.getElementById('noteForm');
+    var show=(force===undefined)?f.style.display==='none':force;
+    f.style.display=show?'block':'none';
+    if(show){noteType=null;noteSel={};renderNoteTypeChips();document.getElementById('noteFields').innerHTML='';}
+  }
+  function renderNoteTypeChips(){
+    document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
+      var on=nt.type===noteType;
+      return '<button class="chip" style="background:'+(on?'var(--hn)':'rgba(90,152,128,.12)')+';color:'+(on?'#fff':'var(--hn)')+'" onclick="pickNoteType(\''+nt.type+'\')">'+nt.emoji+' '+nt.label+'</button>';
+    }).join('');
+  }
+  function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
+  function nchip(val,active,onclick){
+    return '<button class="chip" style="background:'+(active?'var(--hn)':'rgba(90,152,128,.12)')+';color:'+(active?'#fff':'var(--hn)')+'" onclick="'+onclick+'">'+esc(val)+'</button>';
+  }
+  function nToggle(key,val){var a=noteSel[key]||[];noteSel[key]=a.indexOf(val)>-1?a.filter(function(x){return x!==val;}):a.concat([val]);renderNoteFields();}
+  function nSet(key,val){noteSel[key]=val;renderNoteFields();}
+  function nField(key,ph,suf){
+    return '<div class="fld-suf"><input class="fld" placeholder="'+ph+'" value="'+(noteSel[key]||'')+'" oninput="noteSel[\''+key+'\']=this.value" inputmode="decimal">'+(suf?'<span>'+suf+'</span>':'')+'</div>';
+  }
+  function renderNoteFields(){
+    var d=noteSel, h='', L=function(t){return '<div class="rc-lbl" style="margin:11px 2px 7px">'+t+'</div>';};
+    if(noteType==='symptom'){
+      h+=L('Symptoms')+'<div class="chips">'+['Fever','Cough','Runny nose','Rash','Vomiting','Diarrhoea','Ear pain','Other'].map(function(s){return nchip(s,(d.symptoms||[]).indexOf(s)>-1,"nToggle('symptoms','"+s+"')");}).join('')+'</div>';
+      h+=L('Severity')+'<div class="chips">'+['Mild','Moderate','Called doctor'].map(function(s){return nchip(s,d.severity===s,"nSet('severity','"+s+"')");}).join('')+'</div>';
+    }else if(noteType==='measurement'){
+      h+='<div class="fld-grid3" style="margin-top:11px">'+nField('temp','Temp','°C')+nField('weight','Weight','kg')+nField('height','Height','cm')+'</div>';
+    }else if(noteType==='observation'){
+      h+=L('Mood')+'<div class="chips">'+['😊 Happy','😤 Fussy','🏃 Active','😴 Tired','😢 Cranky','🤔 Unsettled'].map(function(m){return nchip(m,d.mood===m,"nSet('mood','"+m+"')");}).join('')+'</div>';
+    }else if(noteType==='reaction'){
+      h+=L('Trigger')+'<div class="chips">'+['Food','Medicine','Environment'].map(function(r){return nchip(r,d.reactTo===r,"nSet('reactTo','"+r+"')");}).join('')+'</div>';
+      h+=L('Reaction')+'<div class="chips">'+['Mild rash','Hives','Swelling','Vomiting','Breathing concern'].map(function(r){return nchip(r,(d.reaction||[]).indexOf(r)>-1,"nToggle('reaction','"+r+"')");}).join('')+'</div>';
+    }else if(noteType==='sleep'){
+      h+=L('Duration')+'<div class="chips">'+['<5h','6h','7h','8h','9h','10h+'].map(function(x){return nchip(x,d.duration===x,"nSet('duration','"+x+"')");}).join('')+'</div>';
+      h+=L('Quality')+'<div class="chips">'+['Good','Disrupted','Poor'].map(function(q){return nchip(q,d.quality===q,"nSet('quality','"+q+"')");}).join('')+'</div>';
+    }else if(noteType==='feed'){
+      h+=L('Type')+'<div class="chips">'+['Breast','Formula','Solids','Mixed'].map(function(f){return nchip(f,d.feedType===f,"nSet('feedType','"+f+"')");}).join('')+'</div>';
+      h+=L('How did it go?')+'<div class="chips">'+['Well','Refused','Less than usual'].map(function(x){return nchip(x,d.how===x,"nSet('how','"+x+"')");}).join('')+'</div>';
+    }
+    if(noteType){
+      h+='<div class="form-actions"><button class="btn btn-cancel" onclick="toggleNoteForm(false)">Cancel</button><button class="btn btn-save" style="background:var(--hn)" onclick="saveNote()">Save Note</button></div>';
+    }
+    document.getElementById('noteFields').innerHTML=h;
+  }
+  function saveNote(){
+    if(!noteType)return;
+    var d=noteSel, summary='', emoji='📝';
+    if(noteType==='symptom'){var s=d.symptoms||[];if(!s.length||!d.severity){toast('Pick a symptom & severity');return;}summary=s.join(', ')+' · '+d.severity;emoji='🤒';}
+    else if(noteType==='measurement'){var p=[d.temp&&d.temp+'°C',d.weight&&d.weight+' kg',d.height&&d.height+' cm'].filter(Boolean);if(!p.length){toast('Add a measurement');return;}summary=p.join(' · ');emoji='📏';}
+    else if(noteType==='observation'){if(!d.mood){toast('Pick a mood');return;}summary=d.mood;emoji='😊';}
+    else if(noteType==='reaction'){if(!d.reactTo){toast('Pick a trigger');return;}summary=d.reactTo+' · '+((d.reaction||[]).join(', ')||'reaction');emoji='⚠️';}
+    else if(noteType==='sleep'){if(!d.duration){toast('Pick a duration');return;}summary=d.duration+' · '+(d.quality||'');emoji='😴';}
+    else if(noteType==='feed'){if(!d.feedType){toast('Pick a feed type');return;}summary=d.feedType+' · '+(d.how||'');emoji='🍼';}
+    NOTES.unshift({date:TODAY,summary:summary,emoji:emoji});
+    toggleNoteForm(false);renderNotes();toast('Note saved ✓');
+  }
+  function renderNotes(){
+    document.getElementById('notesList').innerHTML=NOTES.map(function(n){
+      return '<div class="row"><div class="row-ic" style="background:var(--hn-bg)">'+n.emoji+'</div>'+
+        '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div></div>'+
+        '<div class="row-date">'+esc(n.date)+'</div></div>';
+    }).join('');
+  }
+
+  /* ---------- Doctor Visits ---------- */
+  function renderVReasons(){
+    document.getElementById('vReasonChips').innerHTML=VISIT_REASONS.map(function(r){
+      var on=r===vReason;
+      return '<button class="chip" style="background:'+(on?'var(--gr)':'rgba(90,120,212,.12)')+';color:'+(on?'#fff':'var(--gr)')+'" onclick="vReason=\''+r+'\';renderVReasons()">'+r+'</button>';
+    }).join('');
+  }
+  function saveVisit(){
+    if(!vReason){toast('Pick a reason');return;}
+    VISITS.unshift({title:vReason,date:document.getElementById('vDate').value.trim()||TODAY,doctor:document.getElementById('vDoctor').value.trim()||'Doctor',note:document.getElementById('vNote').value.trim()});
+    vReason='';document.getElementById('vDate').value='';document.getElementById('vNote').value='';renderVReasons();
+    toggleForm('visitForm',false);renderVisits();toast('Visit added ✓');
+  }
+  function renderVisits(){
+    document.getElementById('visitsList').innerHTML=VISITS.map(function(v){
+      return '<div class="row"><div class="row-main"><div class="row-t">'+esc(v.title)+'</div><div class="row-s">'+esc(v.doctor)+(v.note?' · '+esc(v.note):'')+'</div></div><div class="row-date">'+esc(v.date)+'</div></div>';
+    }).join('');
+  }
+
+  /* ---------- Documents ---------- */
+  function renderDSource(){
+    document.getElementById('dSourceChips').innerHTML=DOC_SOURCES.map(function(s){
+      var on=s.label===dSource;
+      return '<button class="chip" style="background:'+(on?'var(--dc)':'rgba(154,90,212,.12)')+';color:'+(on?'#fff':'var(--dc)')+'" onclick="dSource=\''+s.label+'\';renderDSource()">'+s.icon+' '+s.label+'</button>';
+    }).join('');
+  }
+  function renderDType(){
+    document.getElementById('dTypeChips').innerHTML=DOC_TYPES.map(function(t){
+      var on=t===dType;
+      return '<button class="chip" style="background:'+(on?'var(--dc)':'rgba(154,90,212,.12)')+';color:'+(on?'#fff':'var(--dc)')+'" onclick="dType=\''+t+'\';renderDType()">'+t+'</button>';
+    }).join('');
+  }
+  function saveDoc(){
+    var name=document.getElementById('dName').value.trim();
+    if(!dType||!name){toast('Pick a type & name');return;}
+    DOCS.unshift({name:name,type:dType,date:document.getElementById('dDate').value.trim()||TODAY});
+    dSource='';dType='';document.getElementById('dName').value='';document.getElementById('dDate').value='';renderDSource();renderDType();
+    toggleForm('docForm',false);renderDocs();toast('Document added ✓');
+  }
+  function renderDocs(){
+    document.getElementById('docsList').innerHTML=DOCS.map(function(d){
+      return '<div class="row"><div class="row-ic" style="background:var(--dc-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--dc)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11V7a2 2 0 0 0-2-2h-3.2l-1.3-1.6A2 2 0 0 0 10.9 3H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7"/><circle cx="18" cy="17.5" r="3"/><path d="M18 16v1.5l1 .8"/></svg></div>'+
+        '<div class="row-main"><div class="row-t">'+esc(d.name)+'</div><div class="row-s">'+esc(d.type)+' · '+esc(d.date)+'</div></div></div>';
+    }).join('');
+  }
+
+  /* ---------- Vaccinations ---------- */
+  function renderVacTabs(){
+    document.getElementById('vacTabs').innerHTML=VAC_CAT.map(function(c){
+      var on=c.key===vacTab;
+      return '<button class="vac-tab" style="background:'+(on?c.color:c.bg)+';color:'+(on?'#fff':c.color)+'" onclick="vacTab=\''+c.key+'\';renderVac()">'+c.label+'</button>';
+    }).join('');
+  }
+  function renderVac(){
+    renderVacTabs();
+    var list=VACCINES.filter(function(v){return v.category===vacTab;});
+    document.getElementById('vacList').innerHTML=list.map(function(v){
+      var h='<div class="vac"><div class="vac-row">';
+      h+='<button class="vac-check" style="'+(v.done?'border-color:var(--hn);background:var(--hn)':'')+'" onclick="toggleVacMark(\''+v.id+'\')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>';
+      h+='<div class="vac-main"><div class="vac-nrow"><span class="vac-name'+(v.done?' done':'')+'">'+esc(v.name)+'</span>';
+      h+='<button class="vac-info" style="background:var(--hn-bg);color:var(--hn)" onclick="openVacInfo(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></button></div>';
+      h+='<div class="vac-due">'+esc(v.dueAge)+' · '+(v.done?'Done '+esc(v.doneDate):'Due '+esc(v.dueDate))+'</div>';
+      if(v.reminder)h+='<div class="vac-rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Reminder: '+esc(v.reminder)+'</div>';
+      if(vacMarkId===v.id)h+='<div class="vac-inline"><input class="fld" id="vacMarkInput" value="'+esc(vacMarkDate)+'" placeholder="Date done"><button class="mini" style="background:var(--hn)" onclick="markVacDone(\''+v.id+'\')">Done</button></div>';
+      if(reminderEdit===v.id)h+='<div class="vac-inline"><input class="fld" id="remInput" placeholder="Reminder date"><button class="mini" style="background:var(--hn)" onclick="saveReminder(\''+v.id+'\')">Set</button></div>';
+      h+='</div><div class="vac-right">';
+      if(!v.done)h+='<span class="vac-up">Upcoming</span><button class="vac-bell" style="background:'+(v.reminder?'var(--hn-bg)':'#efe9f3')+'" onclick="toggleReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'var(--hn)':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
+      h+='</div></div></div>';
+      return h;
+    }).join('') || '<div class="row-s" style="padding:10px 2px">No vaccines in this group.</div>';
+  }
+  function toggleVacMark(id){var v=VACCINES.find(function(x){return x.id===id;});if(v.done)return;vacMarkId=vacMarkId===id?null:id;vacMarkDate=TODAY;reminderEdit=null;renderVac();}
+  function markVacDone(id){var d=document.getElementById('vacMarkInput').value.trim()||TODAY;VACCINES.find(function(x){return x.id===id;}).done=true;VACCINES.find(function(x){return x.id===id;}).doneDate=d;vacMarkId=null;renderVac();toast('Marked done ✓');}
+  function toggleReminder(id){reminderEdit=reminderEdit===id?null:id;vacMarkId=null;renderVac();}
+  function saveReminder(id){var d=document.getElementById('remInput').value.trim();if(!d){toast('Enter a date');return;}VACCINES.find(function(x){return x.id===id;}).reminder=d;reminderEdit=null;renderVac();toast('Reminder set 🔔');}
+  function openVacInfo(id){
+    var v=VACCINES.find(function(x){return x.id===id;});
+    var cat=VAC_CAT.filter(function(c){return c.key===v.category;})[0];
+    document.getElementById('vacInfoPanel').innerHTML=
+      '<div class="vs-grab"></div>'+
+      '<div class="vs-head"><div><span class="vs-cat" style="background:'+cat.bg+';color:'+cat.color+'">'+cat.label+'</span><div class="vs-name">'+esc(v.name)+'</div></div>'+
+      '<button class="vs-close" onclick="closeVacInfo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'+
+      '<div class="vs-block" style="background:var(--hp-bg)"><div class="vs-bl">Protects against</div><div class="vs-bt">'+esc(v.protects)+'</div></div>'+
+      '<div class="vs-block" style="background:var(--gr-bg)"><div class="vs-bl">Why it matters</div><div class="vs-bt reg">'+esc(v.why)+'</div></div>'+
+      '<div class="vs-bl" style="margin:2px 2px 9px">Common side effects</div><div class="vs-se">'+v.sideEffects.map(function(s){return '<span>'+esc(s)+'</span>';}).join('')+'</div>';
+    document.getElementById('vacInfo').classList.add('open');
+  }
+  function closeVacInfo(){document.getElementById('vacInfo').classList.remove('open');}
+
+  /* ---------- init ---------- */
+  renderBlood();renderAllergies();renderGrowth();
+  renderNotes();renderVReasons();renderVisits();renderDSource();renderDType();renderDocs();renderVac();
+</script>
+</body>
+</html>
