@@ -555,7 +555,7 @@
   }
 
   /* activity detail overlay — GIF on top, title + description below */
-  .vid-overlay{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:50;background:#faf8fc;
+  .vid-overlay{position:absolute;inset:0;border-radius:0;overflow:hidden;z-index:50;background:#faf8fc;
     display:flex;flex-direction:column;visibility:hidden;opacity:0;transition:opacity .28s ease;}
   .vid-overlay.open{visibility:visible;opacity:1;}
   .vid-close{position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;
@@ -563,7 +563,7 @@
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);}
   .vid-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   .vid-scroll::-webkit-scrollbar{display:none;}
-  .vid-media{position:relative;margin:11px 11px 0;height:460px;border-radius:36px;overflow:hidden;background:#000;flex-shrink:0;}
+  .vid-media{position:relative;margin:0;height:480px;border-radius:0 0 30px 30px;overflow:hidden;background:#000;flex-shrink:0;}
   .vid-media video{width:100%;height:100%;object-fit:cover;display:block;}
   .vid-body{padding:22px 26px 16px;}
   .vid-cta{flex-shrink:0;padding:12px 22px 30px;}
