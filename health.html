@@ -104,7 +104,7 @@
   .chip.on,.bt-chip.on,.nt-chip.on,.vac-tab.on{background:#a28cdb;color:#fff;box-shadow:0 7px 16px -7px rgba(140,116,181,.75);}
   .chip.on:active,.bt-chip.on:active,.nt-chip.on:active,.vac-tab.on:active{transform:scale(.96);}
   .chip-ic{width:14px;height:14px;flex-shrink:0;}
-  .sug-chip{display:inline-flex;align-items:center;gap:7px;border-radius:13px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:6px 14px 6px 6px;font-weight:800;}
+  .sug-chip{display:inline-flex;align-items:center;gap:7px;border-radius:13px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:9px 16px;font-weight:800;}
   .sug-chip:active{transform:scale(.97);}
   .sug-em{width:24px;height:24px;border-radius:50%;background:#f1ecf8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .sug-em svg{width:13px;height:13px;}
@@ -675,7 +675,7 @@
     var el=document.getElementById('commonAllergyChips'); if(!el) return;
     var avail=ALLERGY_SUGGEST.filter(function(s){return allergies.indexOf(s.n)<0;});
     el.innerHTML=avail.map(function(s){
-      return '<button class="chip sug-chip" onclick="addAllergyVal(\''+s.n+'\')"><span class="sug-em"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.n+'</button>';
+      return '<button class="chip sug-chip" onclick="addAllergyVal(\''+s.n+'\')">'+s.n+'</button>';
     }).join('');
   }
   function addAllergyVal(name){
