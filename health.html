@@ -104,13 +104,13 @@
   .chip.on,.bt-chip.on,.nt-chip.on,.vac-tab.on{background:#a28cdb;color:#fff;box-shadow:0 7px 16px -7px rgba(140,116,181,.75);}
   .chip.on:active,.bt-chip.on:active,.nt-chip.on:active,.vac-tab.on:active{transform:scale(.96);}
   .chip-ic{width:14px;height:14px;flex-shrink:0;}
-  .sug-chip{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:5px 14px 5px 5px;font-weight:800;}
+  .sug-chip{display:inline-flex;align-items:center;gap:7px;border-radius:13px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:6px 14px 6px 6px;font-weight:800;}
   .sug-chip:active{transform:scale(.97);}
   .sug-em{width:24px;height:24px;border-radius:50%;background:#f1ecf8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .sug-em svg{width:13px;height:13px;}
   .al-none{background:#f1eef4;color:#a79fb0;}
   /* selected allergy chips (with icon badge) */
-  .al-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 13px 5px 5px;border-radius:20px;background:#efeaf6;color:#7a68ad;font-size:12.5px;font-weight:800;}
+  .al-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 13px 6px 6px;border-radius:13px;background:#efeaf6;color:#7a68ad;font-size:12.5px;font-weight:800;}
   .al-chip.al-plain{padding-left:14px;}
   .al-chip .al-em{width:24px;height:24px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .al-chip .al-em svg{width:13px;height:13px;}
@@ -273,7 +273,7 @@
             <div class="rc-body" id="profileBody">
               <div class="rc-lbl">Blood Type</div>
               <div class="bt-grid" id="bloodChips"></div>
-              <div class="rc-lbl sp">Known Allergies</div>
+              <div class="rc-lbl sp">Allergies</div>
               <div class="al-input-row">
                 <input class="fld" id="allergyInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter')confirmAllergy()">
                 <button class="al-add-btn" onclick="confirmAllergy()">Add</button>
