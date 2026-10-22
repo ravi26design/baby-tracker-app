@@ -1450,6 +1450,7 @@
       renderMemStarter();
     }
     var UP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.4"/></svg>';
+    var MEM_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.6"/><circle cx="8.6" cy="9.8" r="1.7"/><path d="M21 15.5 16 10.5 7.5 19"/></svg>';
     var HEART_ICON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>';
     var CHAT_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>';
     function renderMemStarter(){
@@ -1470,8 +1471,8 @@
         }
         return '<div class="mem-card" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
           '<div class="mem-img me-empty">'+
-            '<div class="me-up">'+UP_ICON+'</div>'+
-            '<div class="me-msg">You haven’t uploaded a memory yet. Add '+baby+'’s <b>'+p.t+'</b> memory to get started!</div>'+
+            '<div class="me-up">'+MEM_ICON+'</div>'+
+            '<div class="me-msg">Add '+baby+'’s <b>'+p.t+'</b> memory</div>'+
             '<div class="me-cta">'+UP_ICON+'Upload photo</div>'+
           '</div>'+
           '<div class="mem-title">'+p.t+'</div>'+
