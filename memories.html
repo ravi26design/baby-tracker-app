@@ -554,6 +554,7 @@
   .ms-card{flex:0 0 116px;background:#fff;border-radius:20px;padding:15px 12px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;transition:transform .12s;}
   .ms-card:active{transform:scale(.97);}
   .ms-ic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .ms-ic svg{width:26px;height:26px;}
   .ms-name{font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.2;}
   .ms-add{font-size:11px;font-weight:800;color:#8574b5;display:inline-flex;align-items:center;gap:3px;}
   .ms-add svg{width:12px;height:12px;}
@@ -823,6 +824,23 @@
       'Year 2':[['First Sentence','🗣️','#e3daf6','#d5c8ef'],['First Run','🏃','#d5e6ff','#c3daff'],['Potty Training','🚽','#d3efdf','#bfe8d0'],['Second Birthday','🎂','#ffe0ea','#ffc9db'],['First Scribble','🖍️','#fff0d0','#ffe0a8']],
       'Year 3':[['First Friend','🧒','#d5e6ff','#c3daff'],['First Puzzle','🧩','#e3daf6','#d5c8ef'],['Counting 1-10','🔢','#d3efdf','#bfe8d0'],['Third Birthday','🎂','#ffe0ea','#ffc9db'],['First Song','🎵','#fff0d0','#ffe0a8']]
     };
+    var MS_SVG={
+      'First Walk':'<path d="M9 3.2c1.5 0 2.6 1.6 2.6 3.7S10.5 11 9 11s-2.6-1.4-2.6-3.5S7.5 3.2 9 3.2z"/><path d="M6.8 13.6c0 1.7 1 2.9 2.2 2.9s2.2-1.2 2.2-2.9"/><path d="M15.5 8.5c1 0 1.7 1 1.7 2.4s-.7 2.4-1.7 2.4-1.7-1-1.7-2.4.7-2.4 1.7-2.4z"/><path d="M14 15.4c0 1.1.7 1.9 1.5 1.9s1.5-.8 1.5-1.9"/>',
+      'First Word':'<path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>',
+      'First Tooth':'<path d="M12 3.5c-3.3 0-5.5 2-5.5 5 0 2.6.9 4.6 1.7 7.4.4 1.4 2.2 1.4 2.6 0l.5-2.3c.2-.9 1.2-.9 1.4 0l.5 2.3c.4 1.4 2.2 1.4 2.6 0 .8-2.8 1.7-4.8 1.7-7.4 0-3-2.2-5-5.5-5z"/>',
+      'First Birthday':'<path d="M4.5 20.5h15"/><path d="M6 20.5v-7.5h12v7.5"/><path d="M6 13a1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0"/><path d="M9 9.5V7M12 9.5V6.5M15 9.5V7"/>',
+      'Second Birthday':'<path d="M4.5 20.5h15"/><path d="M6 20.5v-7.5h12v7.5"/><path d="M6 13a1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0"/><path d="M9 9.5V7M12 9.5V6.5M15 9.5V7"/>',
+      'Third Birthday':'<path d="M4.5 20.5h15"/><path d="M6 20.5v-7.5h12v7.5"/><path d="M6 13a1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0"/><path d="M9 9.5V7M12 9.5V6.5M15 9.5V7"/>',
+      'First Haircut':'<circle cx="6" cy="6.5" r="2.5"/><circle cx="6" cy="17.5" r="2.5"/><path d="M8.2 7.8 20 17"/><path d="M8.2 16.2 20 7"/>',
+      'First Sentence':'<path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M8 10h8M8 13h5"/>',
+      'First Run':'<circle cx="14" cy="4.5" r="1.7"/><path d="M12.5 7.5 9 10l2 3-1.5 5"/><path d="M11 13l4 1 2 4"/><path d="M9 10 5.5 9"/>',
+      'Potty Training':'<path d="M6 4.5h2v5.5a4 4 0 0 0 8 0V4.5"/><path d="M5 10.5h14"/><path d="M7 10.5a5 5 0 0 0 10 0"/><path d="M9 15.5l-1 4M15 15.5l1 4"/>',
+      'First Scribble':'<path d="M12 20h8.5"/><path d="M16.3 3.7a1.9 1.9 0 0 1 2.7 2.7L7.5 17.9 3.5 19l1.1-4z"/>',
+      'First Friend':'<circle cx="9" cy="8" r="3"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.6 14.4c2.3.3 3.9 2 3.9 4.6"/>',
+      'First Puzzle':'<path d="M11 4.5a1.6 1.6 0 0 1 3 0c0 .9-.6 1.1-.6 1.5 0 .3.3.5.7.5H17a1 1 0 0 1 1 1v2.4c0 .4.2.7.5.7.4 0 .6-.6 1.5-.6a1.6 1.6 0 0 1 0 3c-.9 0-1.1-.6-1.5-.6-.3 0-.5.3-.5.7V18a1 1 0 0 1-1 1h-2.4c-.4 0-.7-.2-.7-.5 0-.4.6-.6.6-1.5a1.6 1.6 0 0 0-3 0c0 .9.6 1.1.6 1.5 0 .3-.3.5-.7.5H8a1 1 0 0 1-1-1v-2.4c0-.4-.2-.7-.5-.7-.4 0-.6.6-1.5.6a1.6 1.6 0 0 1 0-3c.9 0 1.1.6 1.5.6.3 0 .5-.3.5-.7V7a1 1 0 0 1 1-1h2.4c.4 0 .7-.2.7-.5 0-.4-.6-.6-.6-1z"/>',
+      'Counting 1-10':'<path d="M8 4 6 20M18 4l-2 16M4 9h16M3 15h16"/>',
+      'First Song':'<path d="M9 18V5l11-2v13"/><circle cx="6.3" cy="18" r="2.7"/><circle cx="17.3" cy="16" r="2.7"/>'
+    };
     function renderMilestones(year){
       var plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
       var list=MS_YEARS[year]||[];
@@ -835,7 +853,8 @@
       function navCard(y,ic){ return '<div class="ms-card ms-nav" onclick="setMsYear(\''+y+'\')"><span class="ms-ic">'+ic+'</span><span class="ms-name">'+y+'</span><span class="ms-add">View list</span></div>'; }
       var html = prev ? navCard(prev,lArrow) : '';
       html += list.map(function(m){
-        return '<div class="ms-card" data-ms="'+m[0]+'" onclick="openAdd(\''+m[0]+'\')"><span class="ms-ic" style="background:linear-gradient(150deg,'+m[2]+','+m[3]+')">'+m[1]+'</span><span class="ms-name">'+m[0]+'</span><span class="ms-add">'+plus+' Add</span></div>';
+        var ic = MS_SVG[m[0]] ? '<svg viewBox="0 0 24 24" fill="none" stroke="#4a4356" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+MS_SVG[m[0]]+'</svg>' : m[1];
+        return '<div class="ms-card" data-ms="'+m[0]+'" onclick="openAdd(\''+m[0]+'\')"><span class="ms-ic" style="background:linear-gradient(150deg,'+m[2]+','+m[3]+')">'+ic+'</span><span class="ms-name">'+m[0]+'</span><span class="ms-add">'+plus+' Add</span></div>';
       }).join('');
       if(next) html += navCard(next,rArrow);
       document.getElementById('msStrip').innerHTML=html;
