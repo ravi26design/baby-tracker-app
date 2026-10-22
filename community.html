@@ -534,6 +534,36 @@
   .exp-spec{font-size:12px;color:#8a8296;font-weight:600;margin-top:2px;}
   .exp-status{font-size:11px;font-weight:800;color:#a99fbb;flex-shrink:0;}
   .exp-status.online{color:#3b9c69;}
+  /* expert intake wizard */
+  .exp-wiz-head{display:flex;align-items:center;gap:12px;padding:2px 0 16px;}
+  .exp-back,.exp-xclose{width:34px;height:34px;border-radius:50%;border:none;background:#f1ecf8;color:#6f61a3;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s;}
+  .exp-back:active,.exp-xclose:active{background:#e6def4;}
+  .exp-back svg,.exp-xclose svg{width:18px;height:18px;}
+  .exp-prog{flex:1;height:6px;border-radius:3px;background:#ece5f4;overflow:hidden;}
+  .exp-prog span{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#b0a2d8,#8f78c4);width:20%;transition:width .35s cubic-bezier(.4,0,.2,1);}
+  .exp-step{padding:2px 2px 4px;min-height:302px;}
+  .wz-q{font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--ink);line-height:1.25;}
+  .wz-sub{font-size:12.5px;color:#8a8296;font-weight:500;margin:7px 0 18px;line-height:1.5;}
+  .wz-opt{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:none;cursor:pointer;font-family:inherit;background:#f7f4fb;border-radius:18px;padding:13px 14px;margin-bottom:11px;box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .15s,background .15s,transform .1s;}
+  .wz-opt:active{transform:scale(.99);}
+  .wz-opt.sel{background:#f3eefc;box-shadow:inset 0 0 0 2px #9b8bc4;}
+  .wz-ic{width:46px;height:46px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#8574b5;box-shadow:0 5px 12px -6px rgba(140,116,181,.6);font-size:24px;overflow:hidden;}
+  .wz-ic svg{width:23px;height:23px;}
+  .wz-ic.round{border-radius:50%;}
+  .wz-ot{flex:1;min-width:0;}
+  .wz-name{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;display:flex;align-items:center;gap:7px;}
+  .wz-desc{font-size:12px;color:#8a8296;font-weight:500;margin-top:2px;}
+  .wz-rec{font-size:10px;font-weight:800;color:#2fa96f;background:#e2f5e8;padding:3px 8px;border-radius:20px;letter-spacing:.2px;}
+  .wz-check{width:23px;height:23px;border-radius:50%;border:2px solid #d8cfe6;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s,border-color .15s;}
+  .wz-opt.sel .wz-check{background:#8574b5;border-color:#8574b5;}
+  .wz-check svg{width:12px;height:12px;opacity:0;transition:opacity .15s;}
+  .wz-opt.sel .wz-check svg{opacity:1;}
+  .wz-ta{width:100%;min-height:130px;border:none;background:#f7f4fb;border-radius:18px;padding:15px;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink);resize:none;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.14);}
+  .wz-ta:focus{outline:none;box-shadow:inset 0 0 0 2px #9b8bc4;}
+  .exp-next{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:8px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15.5px;font-weight:800;padding:16px;border-radius:17px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);transition:opacity .15s;}
+  .exp-next svg{width:18px;height:18px;}
+  .exp-next:disabled{opacity:.4;box-shadow:none;cursor:default;}
+  .grp-av.round{border-radius:50%;}
   .exp-book{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:6px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:16px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);}
   .exp-book svg{width:19px;height:19px;}
   .online-strip{display:flex;gap:14px;overflow-x:auto;padding:2px 22px 4px;margin:14px -22px 0;}
@@ -951,6 +981,8 @@
             </div>
             <button class="ex-cta">Start a chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
           </div>
+          <div class="c-section" id="expSectionHead" style="display:none">Expert Chat</div>
+          <div id="expertChats"></div>
           <div class="c-section">Your Groups</div>
           
           <div class="grp" onclick="openGroup('g1')">
@@ -1058,28 +1090,13 @@
         <div class="exp-bd" onclick="closeExpert()"></div>
         <div class="exp-panel">
           <div class="exp-grab"></div>
-          <div class="exp-hero">
-            <div class="exp-hero-ic">👩‍⚕️</div>
-            <div class="exp-hero-t">Talk to an Expert</div>
-            <div class="exp-hero-s">Get trusted, personalised answers from verified paediatric experts - usually within minutes.</div>
+          <div class="exp-wiz-head">
+            <button class="exp-back" id="expBack" onclick="expPrev()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+            <div class="exp-prog"><span id="expProg"></span></div>
+            <button class="exp-xclose" onclick="closeExpert()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
           </div>
-          <div class="exp-list">
-            <div class="exp-row" onclick="startExpert('Dr. Meera Nair')">
-              <span class="exp-av" style="background:radial-gradient(circle at 45% 35%,#ffe6c8,#f4b784)">👩🏻‍⚕️</span>
-              <div class="exp-rt"><div class="exp-name">Dr. Meera Nair</div><div class="exp-spec">Paediatrician · 12 yrs</div></div>
-              <span class="exp-status online">● Online</span>
-            </div>
-            <div class="exp-row" onclick="startExpert('Anita Rao')">
-              <span class="exp-av" style="background:radial-gradient(circle at 45% 35%,#ffd9e2,#f3a9bd)">🤱🏻</span>
-              <div class="exp-rt"><div class="exp-name">Anita Rao</div><div class="exp-spec">Lactation consultant</div></div>
-              <span class="exp-status online">● Online</span>
-            </div>
-            <div class="exp-row" onclick="startExpert('Sleep Coach Priya')">
-              <span class="exp-av" style="background:radial-gradient(circle at 45% 35%,#dbeafb,#a9c3f3)">😴</span>
-              <div class="exp-rt"><div class="exp-name">Priya Sethi</div><div class="exp-spec">Sleep coach</div></div>
-              <span class="exp-status">In ~10 min</span>
-            </div>
-          </div>
+          <div class="exp-step" id="expStep"></div>
+          <button class="exp-next" id="expNext" onclick="expNext()">Continue</button>
         </div>
       </div>
 
@@ -1352,8 +1369,156 @@
     }
     var _toastT=null;
     function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(function(){ t.classList.remove('show'); },1800); }
-    function openExpert(){ document.getElementById('expertSheet').classList.add('open'); }
     function closeExpert(){ document.getElementById('expertSheet').classList.remove('open'); }
+
+    /* ---- Talk to an Expert: intake wizard ---- */
+    var WZ_IC={
+      bottle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.5h6"/><path d="M10 2.5v2.4c0 .6-.3 1.1-.8 1.5A3.2 3.2 0 0 0 8 9v10.5A2 2 0 0 0 10 21.5h4a2 2 0 0 0 2-2V9a3.2 3.2 0 0 0-1.2-2.6c-.5-.4-.8-.9-.8-1.5V2.5"/><path d="M8 11h3.5M8 14h3.5"/></svg>',
+      moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>',
+      cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5h4a1 1 0 0 1 1 1V8h3.5a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H15v3.5a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V14H5.5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1H9V4.5a1 1 0 0 1 1-1z"/></svg>',
+      spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 5.5L19 10l-5.3 1.5L12 17l-1.7-5.5L5 10l5.3-1.5z"/><path d="M19 15.5l.6 2 2 .6-2 .6-.6 2-.6-2-2-.6 2-.6z"/></svg>',
+      smile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.3 14.3a4.6 4.6 0 0 0 7.4 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg>',
+      dots:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>',
+      clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3V12l3.2 1.9"/></svg>',
+      bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13z"/></svg>',
+      leaf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 6-14 16-14 0 10-6 15-13 15-1.2 0-2.1-.3-3-.9"/><path d="M4 20c1.5-5 4.5-8 9-9.5"/></svg>',
+      check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+    };
+    var WZ_CHILDREN=[
+      {k:'Mark', sub:'6 months old', e:'👦🏻', c1:'#d5e6ff', c2:'#c3daff'},
+      {k:'Lily', sub:'1 yr 5 mo old', e:'👧🏻', c1:'#ffe0ea', c2:'#ffc9db'}
+    ];
+    var WZ_TOPICS=[
+      {k:'Feeding',     d:'Latch, bottles, weaning', ic:'bottle', rec:'Anita Rao'},
+      {k:'Sleep',       d:'Naps, night waking, routine', ic:'moon', rec:'Priya Sethi'},
+      {k:'Health',      d:'Illness, fever, vaccines', ic:'cross', rec:'Dr. Meera Nair'},
+      {k:'Development',  d:'Milestones & growth', ic:'spark', rec:'Dr. Meera Nair'},
+      {k:'Behaviour',   d:'Fussiness, crying, moods', ic:'smile', rec:'Dr. Meera Nair'},
+      {k:'Other',       d:'Something else', ic:'dots', rec:'Dr. Meera Nair'}
+    ];
+    var WZ_URGENCY=[
+      {k:'Just curious',       d:'No rush at all', ic:'leaf'},
+      {k:'Within a day',       d:'Sometime today would be great', ic:'clock'},
+      {k:'As soon as possible',d:'I’d love a quick reply', ic:'bolt'}
+    ];
+    var WZ_EXPERTS=['Dr. Meera Nair','Anita Rao','Priya Sethi'];
+    var WZ_REPLY={
+      'Feeding':'Thanks for sharing 💛 Feeding worries are so common. Could you tell me roughly how often {child} is feeding, and whether it’s breast, bottle or both? That’ll help me guide you.',
+      'Sleep':'Thank you 😴 Let’s get {child}’s sleep back on track. How many naps is {child} having right now, and what does bedtime usually look like?',
+      'Health':'Thanks for reaching out 🩺 I’m here to help. Is {child} showing any temperature, or any change in feeding or nappies? I’ll take it from there.',
+      'Development':'Lovely to meet you 🌱 I’d be glad to look at {child}’s milestones. What have you noticed lately that you’d like to check on?',
+      'Behaviour':'Thank you for sharing 💛 This is really common. When does it tend to happen most for {child} — around feeds, naps, or in the evenings?',
+      'Other':'Thanks for reaching out 💛 Tell me a little more about what’s on your mind for {child} and I’ll do my best to help.'
+    };
+    var WZ_STEPS=['child','topic','urgency','detail','expert'];
+    var EXP={i:0, child:null, topic:null, urgency:null, detail:'', expert:null};
+    var EXP_CHATS=[];
+
+    function openExpert(){ EXP={i:0, child:null, topic:null, urgency:null, detail:'', expert:null}; wzRender(); document.getElementById('expertSheet').classList.add('open'); }
+    function wzRecExpert(){ var t=WZ_TOPICS.filter(function(x){return x.k===EXP.topic;})[0]; return t?t.rec:'Dr. Meera Nair'; }
+    function wzOptRow(sel, ic, name, desc, rec){
+      return '<div class="wz-opt'+(sel?' sel':'')+'">'
+        +'<span class="wz-ic'+(ic&&ic.indexOf('circle')<0&&false?'':'')+'">'+ic+'</span>'
+        +'<span class="wz-ot"><span class="wz-name">'+name+(rec?' <span class="wz-rec">Recommended</span>':'')+'</span><span class="wz-desc">'+desc+'</span></span>'
+        +'<span class="wz-check">'+WZ_IC.check+'</span></div>';
+    }
+    function wzRender(){
+      var step=WZ_STEPS[EXP.i], el=document.getElementById('expStep'), h='';
+      document.getElementById('expProg').style.width=((EXP.i+1)/WZ_STEPS.length*100)+'%';
+      if(step==='child'){
+        h='<div class="wz-q">Who would you like advice for?</div><div class="wz-sub">We’ll share a little context so the expert can help faster.</div>';
+        WZ_CHILDREN.forEach(function(c){
+          h+='<div onclick="wzPick(\'child\',\''+c.k+'\')">'+wzOptRow(EXP.child===c.k,'<span style="font-size:24px">'+c.e+'</span>',c.k,c.sub)+'</div>';
+        });
+      } else if(step==='topic'){
+        h='<div class="wz-q">What do you need help with?</div><div class="wz-sub">Pick the area closest to your question.</div>';
+        WZ_TOPICS.forEach(function(t){
+          h+='<div onclick="wzPick(\'topic\',\''+t.k+'\')">'+wzOptRow(EXP.topic===t.k,WZ_IC[t.ic],t.k,t.d)+'</div>';
+        });
+      } else if(step==='urgency'){
+        h='<div class="wz-q">How soon do you need advice?</div><div class="wz-sub">This helps us route you to an available expert.</div>';
+        WZ_URGENCY.forEach(function(u){
+          h+='<div onclick="wzPick(\'urgency\',\''+u.k+'\')">'+wzOptRow(EXP.urgency===u.k,WZ_IC[u.ic],u.k,u.d)+'</div>';
+        });
+      } else if(step==='detail'){
+        var who=EXP.child||'your little one';
+        h='<div class="wz-q">Anything you’d like to add?</div><div class="wz-sub">A few words about '+who+'’s situation (optional).</div>'
+          +'<textarea class="wz-ta" id="wzDetail" placeholder="e.g. '+who+' has been waking every 2 hours and seems unsettled after feeds…" oninput="EXP.detail=this.value">'+(EXP.detail||'')+'</textarea>';
+      } else if(step==='expert'){
+        h='<div class="wz-q">Choose your expert</div><div class="wz-sub">Verified paediatric experts — usually reply within minutes.</div>';
+        var rec=wzRecExpert();
+        var ordered=WZ_EXPERTS.slice().sort(function(a,b){ return (b===rec)-(a===rec); });
+        ordered.forEach(function(n){
+          var e=EXPERTS[n]||{}; var av='<span style="font-size:23px">'+(e.e||'👩‍⚕️')+'</span>';
+          var icon='<span class="wz-ic round" style="background:radial-gradient(circle at 45% 35%,'+(e.c1||'#efe9f7')+','+(e.c2||'#d5c8ef')+')">'+av+'</span>';
+          h+='<div onclick="wzPick(\'expert\',\''+n.replace(/'/g,"\\'")+'\')"><div class="wz-opt'+(EXP.expert===n?' sel':'')+'">'
+            +icon
+            +'<span class="wz-ot"><span class="wz-name"><span style="white-space:nowrap">'+n+'</span>'+(n===rec?'<span class="wz-rec">Recommended</span>':'')+'</span><span class="wz-desc">'+(e.spec||'Expert')+' · '+(e.on?'Online now':'Replies in ~10 min')+'</span></span>'
+            +'<span class="wz-check">'+WZ_IC.check+'</span></div></div>';
+        });
+      }
+      el.innerHTML=h;
+      document.getElementById('expBack').style.visibility = EXP.i===0 ? 'hidden' : 'visible';
+      wzUpdateBtn();
+    }
+    function wzValid(){
+      var step=WZ_STEPS[EXP.i];
+      if(step==='detail') return true;
+      return !!EXP[step];
+    }
+    function wzUpdateBtn(){
+      var b=document.getElementById('expNext'), last=EXP.i===WZ_STEPS.length-1;
+      b.disabled=!wzValid();
+      b.innerHTML = last ? 'Start chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' : 'Continue';
+    }
+    function wzPick(field,val){ EXP[field]=val; wzRender(); }
+    function expPrev(){ if(EXP.i>0){ EXP.i--; wzRender(); } else { closeExpert(); } }
+    function expNext(){
+      if(!wzValid()) return;
+      if(EXP.i<WZ_STEPS.length-1){ EXP.i++; wzRender(); return; }
+      finishExpert();
+    }
+    function finishExpert(){
+      var name=EXP.expert;
+      var entry={expert:name, topic:EXP.topic, child:EXP.child, urgency:EXP.urgency, detail:(EXP.detail||'').trim(), time:'now', unread:0, preview:EXP.topic+' · '+EXP.child};
+      var idx=-1; for(var i=0;i<EXP_CHATS.length;i++){ if(EXP_CHATS[i].expert===name){ idx=i; break; } }
+      if(idx>-1) EXP_CHATS.splice(idx,1);
+      EXP_CHATS.unshift(entry);
+      renderExpertChats();
+      closeExpert();
+      setTimeout(function(){ openExpertChatByName(name); }, 280);
+    }
+    function renderExpertChats(){
+      var wrap=document.getElementById('expertChats'), head=document.getElementById('expSectionHead');
+      if(!EXP_CHATS.length){ wrap.innerHTML=''; head.style.display='none'; return; }
+      head.style.display='';
+      wrap.innerHTML=EXP_CHATS.map(function(c,i){
+        var e=EXPERTS[c.expert]||{};
+        return '<div class="grp" onclick="openExpertChat('+i+')">'
+          +'<span class="grp-av round" style="background:radial-gradient(circle at 45% 35%,'+(e.c1||'#efe9f7')+','+(e.c2||'#d5c8ef')+')">'+(e.e||'👩‍⚕️')+'</span>'
+          +'<div class="grp-main"><div class="grp-top"><span class="grp-name">'+c.expert+'</span><span class="grp-time">'+c.time+'</span></div>'
+          +'<div class="grp-msg">'+c.preview+(c.detail?' · '+esc(c.detail):'')+'</div>'
+          +'<div class="grp-sub"><span class="grp-online"><i></i>'+(e.on?'Online':'Away')+'</span><span class="grp-count">· '+(e.spec||'Expert')+'</span>'+(c.unread?'<span class="grp-badge">'+c.unread+'</span>':'')+'</div></div></div>';
+      }).join('');
+    }
+    function openExpertChat(i){ var c=EXP_CHATS[i]; if(!c) return; c.unread=0; renderExpertChats(); openExpertChatByName(c.expert); }
+    function openExpertChatByName(name){
+      var entry=null; for(var i=0;i<EXP_CHATS.length;i++){ if(EXP_CHATS[i].expert===name){ entry=EXP_CHATS[i]; break; } }
+      if(!entry) entry={topic:'Other',child:'',detail:''};
+      var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',msg:'Hi! How can I help you today?'};
+      curExpert=e; curGid=null; clearTimeout(typingTimer); hideTyping();
+      var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
+      document.getElementById('chatName').textContent=name;
+      document.getElementById('chatPres').textContent=e.spec+' · '+(e.on?'Online':'Replies in ~10 min');
+      var m={n:name,e:e.e,c1:e.c1,c2:e.c2,tag:e.tag,tagKind:e.tagKind,tagBg:e.tagBg,tagFg:e.tagFg};
+      var who=entry.child||'';
+      var ask='Hi, I’d like some advice about '+(entry.topic||'baby care').toLowerCase()+(who?' for '+who:'')+'.'+(entry.detail?' '+entry.detail:'');
+      var reply=(WZ_REPLY[entry.topic]||WZ_REPLY.Other).replace(/\{child\}/g, who||'your little one');
+      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+mine(ask,'Just now','read')+incoming(m,reply,'')+'<div class="seenby" id="seenBy"></div>';
+      document.getElementById('chatBody').innerHTML=html;
+      var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
+      document.getElementById('chat').classList.add('open');
+    }
     var EXPERTS={
       'Dr. Meera Nair':{n:'Dr. Meera Nair',spec:'Paediatrician · 12 yrs',e:'👩🏻‍⚕️',c1:'#ffe6c8',c2:'#f4b784',on:true,verified:true,level:'Verified Paediatrician',tag:'Paediatrician',tagKind:'expert',tagBg:'#e2f0f7',tagFg:'#1f86a8',answers:214,helpful:'5.0',points:3200,topics:['Health','Feeding','Sleep','Development'],badges:[['🩺','Pediatrician','#daf0f7','#2b93b0'],['✅','Verified Expert','#e2f5e8','#2fa96f'],['🏆','Top Helper','#fff4d6','#c2931f']],bio:'Board-certified paediatrician with 12 years’ experience 🩺 Here to help with feeding, sleep, growth and everyday health worries.',msg:'Hi! I’m Dr. Meera 🩺 How can I help with your little one today?'},
       'Anita Rao':{n:'Anita Rao',spec:'Lactation consultant',e:'🤱🏻',c1:'#ffd9e2',c2:'#f3a9bd',on:true,verified:true,level:'IBCLC Lactation Consultant',tag:'Lactation',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',answers:98,helpful:'4.9',points:1580,topics:['Feeding','Latch','Breastfeeding'],badges:[['⭐','Expert','#ede4fb','#7a5fd0'],['✅','Verified','#dceafb','#3f7fd0']],bio:'IBCLC lactation consultant 🤱 Gentle, judgement-free support with latch, supply and feeding routines.',msg:'Hello! I’m Anita. Tell me what’s on your mind about feeding 💛'},
