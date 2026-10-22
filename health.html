@@ -100,9 +100,9 @@
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
   .chip.has-ic{display:inline-flex;align-items:center;gap:6px;}
   .chip-ic{width:14px;height:14px;flex-shrink:0;}
-  .sug-chip{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--hp);box-shadow:inset 0 0 0 1px rgba(196,112,90,.2);padding:5px 14px 5px 5px;font-weight:800;}
+  .sug-chip{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:5px 14px 5px 5px;font-weight:800;}
   .sug-chip:active{transform:scale(.97);}
-  .sug-em{width:24px;height:24px;border-radius:50%;background:var(--hp-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sug-em{width:24px;height:24px;border-radius:50%;background:#f1ecf8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .sug-em svg{width:13px;height:13px;}
   .al-none{background:#f1eef4;color:#a79fb0;}
   /* note-type picker grid */
@@ -632,7 +632,8 @@
   function renderBlood(){
     document.getElementById('bloodChips').innerHTML = BLOOD_TYPES.map(function(bt){
       var on=bt===bloodType;
-      return '<button class="bt-chip" style="background:'+(on?'var(--hp)':'var(--hp-bg)')+';color:'+(on?'#fff':'var(--hp)')+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
+      var s = on ? 'background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 11px 20px -8px rgba(140,116,181,.6)' : 'background:#f1ecf8;color:#7a68ad';
+      return '<button class="bt-chip" style="'+s+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
     }).join('');
   }
   function selectBlood(bt){bloodType=bt;renderBlood();}
@@ -649,7 +650,7 @@
   function renderAllergies(){
     document.getElementById('allergyChips').innerHTML = allergies.map(function(a){
       if(a==='None known') return '<span class="chip al-none">None known</span>';
-      return '<span class="chip" style="background:var(--hp-bg);color:var(--hp)">'+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
+      return '<span class="chip" style="background:#f1ecf8;color:#7a68ad">'+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
     }).join('');
     renderAllergySuggest();
   }
@@ -658,7 +659,7 @@
     var avail=ALLERGY_SUGGEST.filter(function(s){return allergies.indexOf(s.n)<0;});
     var lbl=document.getElementById('sugLbl'); if(lbl) lbl.style.display=avail.length?'':'none';
     el.innerHTML=avail.map(function(s){
-      return '<button class="chip sug-chip" onclick="addAllergyVal(\''+s.n+'\')"><span class="sug-em"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hp)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.n+'</button>';
+      return '<button class="chip sug-chip" onclick="addAllergyVal(\''+s.n+'\')"><span class="sug-em"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.n+'</button>';
     }).join('');
   }
   function addAllergyVal(name){
