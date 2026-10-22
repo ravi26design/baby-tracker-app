@@ -104,6 +104,18 @@
   .nt-chip:active{transform:scale(.98);}
   .nt-em{width:27px;height:27px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
   .nt-em svg{width:15px;height:15px;}
+  /* blood type grid */
+  .bt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .bt-chip{padding:12px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:transform .12s;}
+  .bt-chip:active{transform:scale(.95);}
+  /* add-allergy panel */
+  .al-panel{margin-top:12px;border-radius:16px;padding:14px;background:var(--hp-bg);}
+  .al-ptitle{font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:11px;}
+  .al-plbl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#b78a7c;margin-bottom:8px;}
+  .al-input-row{display:flex;gap:8px;margin-top:12px;}
+  .al-input-row .fld{background:#fff;}
+  .al-add-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);border-radius:12px;padding:0 20px;box-shadow:0 10px 18px -8px rgba(140,116,181,.6);}
+  .al-add-btn:active{transform:scale(.98);}
 
   /* inline add form */
   .form{margin-bottom:8px;}
@@ -234,9 +246,20 @@
             </div>
             <div class="rc-body" id="profileBody">
               <div class="rc-lbl">Blood Type</div>
-              <div class="chips" id="bloodChips"></div>
+              <div class="bt-grid" id="bloodChips"></div>
               <div class="rc-lbl sp">Known Allergies</div>
               <div class="chips" id="allergyChips"></div>
+              <div id="allergyForm" style="display:none">
+                <div class="al-panel">
+                  <div class="al-ptitle">Add allergy</div>
+                  <div class="al-plbl">Common</div>
+                  <div class="chips" id="commonAllergyChips"></div>
+                  <div class="al-input-row">
+                    <input class="fld" id="allergyInput" placeholder="Other allergy…" autocomplete="off" onkeydown="if(event.key==='Enter')confirmAllergy()">
+                    <button class="al-add-btn" onclick="confirmAllergy()">Add</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -588,6 +611,7 @@
     // always open showing the list/chart; add mode then reveals the form
     var kf={growth:'growthForm',notes:'noteForm',visits:'visitForm',docs:'docForm'}[key];
     if(kf){ kf==='noteForm'?toggleNoteForm(false):toggleForm(kf,false); }
+    if(key==='profile'){ var af=document.getElementById('allergyForm'); if(af) af.style.display='none'; }
     document.getElementById('hSheet').classList.add('open');
     document.getElementById('hsContent').scrollTop=0;
     if(addMode && s.add) s.add();
@@ -608,22 +632,42 @@
   }
 
   /* ---------- Health Profile ---------- */
+  var COMMON_ALLERGIES=['Peanuts','Tree nuts','Dairy','Eggs','Soy','Wheat','Fish','Shellfish','Pollen','Dust'];
   function renderBlood(){
     document.getElementById('bloodChips').innerHTML = BLOOD_TYPES.map(function(bt){
       var on=bt===bloodType;
-      return '<button class="chip" style="background:'+(on?'var(--hp)':'var(--hp-bg)')+';color:'+(on?'#fff':'var(--hp)')+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
+      return '<button class="bt-chip" style="background:'+(on?'var(--hp)':'var(--hp-bg)')+';color:'+(on?'#fff':'var(--hp)')+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
     }).join('');
   }
   function selectBlood(bt){bloodType=bt;renderBlood();}
   function renderAllergies(){
     var h = allergies.map(function(a){
-      return '<span class="chip" style="background:var(--hp-bg);color:var(--hp)">'+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
+      var rm = a==='None known' ? '' : '<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span>';
+      return '<span class="chip" style="background:var(--hp-bg);color:var(--hp)">'+esc(a)+rm+'</span>';
     }).join('');
-    h += '<button class="chip" style="background:#efe9f3;color:#9a8fb3" onclick="addAllergy()">+ Add</button>';
+    h += '<button class="chip" style="background:#efe9f3;color:#9a8fb3" onclick="toggleAllergyForm()">+ Add</button>';
     document.getElementById('allergyChips').innerHTML=h;
   }
-  function addAllergy(){var v=prompt('Add allergy');if(v&&v.trim())allergies.push(v.trim());renderAllergies();}
-  function removeAllergy(a){allergies=allergies.filter(function(x){return x!==a;});renderAllergies();}
+  function toggleAllergyForm(){
+    var f=document.getElementById('allergyForm');
+    var show=f.style.display==='none';
+    f.style.display=show?'block':'none';
+    if(show){ renderCommonAllergies(); var el=document.getElementById('allergyInput'); if(el) setTimeout(function(){el.focus();},60); }
+  }
+  function renderCommonAllergies(){
+    var avail=COMMON_ALLERGIES.filter(function(a){return allergies.indexOf(a)<0;});
+    document.getElementById('commonAllergyChips').innerHTML = avail.length
+      ? avail.map(function(a){ return '<button class="chip" style="background:#fff;color:var(--hp)" onclick="addAllergyVal(\''+a+'\')">+ '+a+'</button>'; }).join('')
+      : '<div class="row-s" style="padding:2px 2px">All common ones added — type a custom one below.</div>';
+  }
+  function addAllergyVal(name){
+    name=(name||'').trim(); if(!name) return;
+    allergies=allergies.filter(function(x){return x!=='None known';});
+    if(allergies.indexOf(name)<0) allergies.push(name);
+    renderAllergies(); renderCommonAllergies(); toast('Allergy added ✓');
+  }
+  function confirmAllergy(){ var el=document.getElementById('allergyInput'); addAllergyVal(el.value); el.value=''; el.focus(); }
+  function removeAllergy(a){ allergies=allergies.filter(function(x){return x!==a;}); if(!allergies.length) allergies=['None known']; renderAllergies(); if(document.getElementById('allergyForm').style.display!=='none') renderCommonAllergies(); }
 
   /* ---------- Growth ---------- */
   function setGrowthTab(t){growthTab=t;renderGrowth();}
