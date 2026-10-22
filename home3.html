@@ -328,16 +328,14 @@
 
   /* activities */
   /* child selection tabs */
-  .child-tabs{display:flex;align-items:center;margin:16px 0 16px;padding-left:4px;}
+  .child-tabs{display:flex;gap:9px;margin:14px 0 16px;}
   .child-tabs:empty{display:none;}
-  .child-av{width:50px;height:50px;border-radius:50%;flex-shrink:0;cursor:pointer;border:3px solid #fff;
-    background-size:cover;background-position:center;background-repeat:no-repeat;
-    display:flex;align-items:center;justify-content:center;font-size:24px;margin-right:-12px;position:relative;
-    box-shadow:0 6px 14px -5px rgba(90,70,100,.35);transition:width .22s,height .22s,box-shadow .22s;}
-  .child-av.active{width:62px;height:62px;z-index:3;box-shadow:0 10px 20px -6px rgba(140,116,181,.6),0 0 0 3px #fff;}
-  .child-av:active{filter:brightness(.97);}
-  .child-av.add{width:46px;height:46px;background:#efe9f5;color:#9b8bc4;font-size:27px;font-weight:300;margin-left:16px;margin-right:0;
-    box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);border:3px solid #fff;z-index:1;}
+  .child-tab{flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;border-radius:17px;border:none;cursor:pointer;
+    font-family:inherit;background:#fff;box-shadow:var(--shadow-soft),var(--ring);transition:transform .15s,box-shadow .2s;}
+  .child-tab:active{transform:scale(.98);}
+  .child-tab .ct-name{font-size:14px;font-weight:700;color:#8a8788;letter-spacing:-.2px;}
+  .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
+  .child-tab.active .ct-name{color:#fff;}
 
   .activities{margin-top:24px;}
   .act-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
@@ -1384,14 +1382,11 @@
       if(keys.length < 2){ el.innerHTML = ''; return; }
       el.innerHTML = keys.map(function(k){
         var c = CHILDREN[k];
-        var bg = c.photo ? ' style="background-image:url(\''+c.photo+'\')"' : '';
-        return '<button class="child-av" data-key="'+k+'" onclick="selectChild(\''+k+'\')"'+bg+'>'+(c.photo?'':c.face)+'</button>';
-      }).join('') + '<button class="child-av add" onclick="addChild()" aria-label="Add child">+</button>';
+        return '<button class="child-tab" data-key="'+k+'" onclick="selectChild(\''+k+'\')"><span class="ct-name">'+c.name+'</span></button>';
+      }).join('');
     }
-    function addChild(){ try{ toast('Add a child'); }catch(e){} }
     function updateTabs(key){
-      document.querySelectorAll('#childTabs .child-av').forEach(function(t){
-        if(t.classList.contains('add')) return;
+      document.querySelectorAll('#childTabs .child-tab').forEach(function(t){
         t.classList.toggle('active', t.getAttribute('data-key') === key);
       });
     }
