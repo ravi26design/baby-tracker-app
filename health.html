@@ -135,6 +135,8 @@
   .bt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
   .bt-chip{padding:12px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:transform .12s;}
   .bt-chip:active{transform:scale(.95);}
+  .al-wrap{gap:9px;}
+  .al-opt{padding:11px 17px;}
   /* add-allergy input */
   .al-input-row{display:flex;gap:8px;}
   .al-add-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);border-radius:12px;padding:0 20px;box-shadow:0 10px 18px -8px rgba(140,116,181,.6);}
@@ -278,8 +280,7 @@
                 <input class="fld" id="allergyInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter')confirmAllergy()">
                 <button class="al-add-btn" onclick="confirmAllergy()">Add</button>
               </div>
-              <div class="chips" id="allergyChips" style="margin-top:12px"></div>
-              <div class="chips" id="commonAllergyChips" style="margin-top:12px"></div>
+              <div class="chips al-wrap" id="allergyChips" style="margin-top:12px"></div>
             </div>
           </div>
 
@@ -601,7 +602,7 @@
 
   /* ---------- record bottom sheet ---------- */
   var SHEETS={
-    profile:{card:'cardProfile',body:'profileBody',title:'Health Profile',sub:'Blood type & known allergies',add:null},
+    profile:{card:'cardProfile',body:'profileBody',title:'Health Profile',sub:'Blood type & allergies',add:null},
     growth :{card:'cardGrowth', body:'growthBody', title:'Growth',        sub:'Weight & height over time',    addTitle:'Add Growth',   add:function(){toggleForm('growthForm',true);}},
     notes  :{card:'cardNotes',  body:'notesBody',  title:'Health Notes',   sub:'Symptoms, sleep, feeds & more',addTitle:'Add Note',     add:function(){toggleNoteForm(true);}},
     visits :{card:'cardVisits', body:'visitsBody', title:'Doctor Visits',  sub:'Appointments & checkups',      addTitle:'Add Visit',    add:function(){toggleForm('visitForm',true);}},
@@ -663,20 +664,21 @@
     {n:'Shellfish',svg:'<path d="M12 4.5c-4.4 0-7.5 3.6-7.5 7.8 0 .5.4.9.9.9h13.2c.5 0 .9-.4.9-.9 0-4.2-3.1-7.8-7.5-7.8z"/><path d="M12 4.5v8.7M8.5 5.2 7.8 13.2M15.5 5.2 16.2 13.2"/>'}
   ];
   function renderAllergies(){
-    document.getElementById('allergyChips').innerHTML = allergies.filter(function(a){return a!=='None known';}).map(function(a){
-      var ic=allergyIcon(a);
-      var em = ic ? '<span class="al-em"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span>' : '';
-      return '<span class="chip al-chip'+(ic?'':' al-plain')+'">'+em+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
+    var sel=allergies.filter(function(a){return a!=='None known';});
+    var common=ALLERGY_SUGGEST.map(function(s){return s.n;});
+    var customs=sel.filter(function(a){return common.indexOf(a)<0;});
+    var options=common.concat(customs);
+    document.getElementById('allergyChips').innerHTML = options.map(function(n){
+      var on=sel.indexOf(n)>-1;
+      return '<button class="bt-chip al-opt '+(on?'on':'off')+'" onclick="toggleAllergy(\''+esc(n).replace(/'/g,"")+'\')">'+esc(n)+'</button>';
     }).join('');
-    renderAllergySuggest();
   }
-  function allergyIcon(name){ var s=ALLERGY_SUGGEST.filter(function(x){return x.n===name;})[0]; return s?s.svg:''; }
-  function renderAllergySuggest(){
-    var el=document.getElementById('commonAllergyChips'); if(!el) return;
-    var avail=ALLERGY_SUGGEST.filter(function(s){return allergies.indexOf(s.n)<0;});
-    el.innerHTML=avail.map(function(s){
-      return '<button class="chip sug-chip" onclick="addAllergyVal(\''+s.n+'\')">'+s.n+'</button>';
-    }).join('');
+  function toggleAllergy(name){
+    name=(name||'').trim(); if(!name) return;
+    allergies=allergies.filter(function(x){return x!=='None known';});
+    var i=allergies.indexOf(name);
+    if(i>-1) allergies.splice(i,1); else allergies.push(name);
+    renderAllergies();
   }
   function addAllergyVal(name){
     name=(name||'').trim(); if(!name) return;
@@ -685,7 +687,6 @@
     renderAllergies(); toast('Allergy added ✓');
   }
   function confirmAllergy(){ var el=document.getElementById('allergyInput'); addAllergyVal(el.value); el.value=''; el.focus(); }
-  function removeAllergy(a){ allergies=allergies.filter(function(x){return x!==a;}); renderAllergies(); }
 
   /* ---------- Growth ---------- */
   function setGrowthTab(t){growthTab=t;renderGrowth();}
