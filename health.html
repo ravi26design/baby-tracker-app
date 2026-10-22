@@ -118,15 +118,15 @@
   .nt-em{width:27px;height:27px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
   .nt-em svg{width:15px;height:15px;}
   /* selectable option cards (icon + check) */
-  .nt-card{position:relative;display:flex;flex-direction:column;gap:13px;padding:13px 13px 14px;border-radius:18px;border:1.5px solid #ece7f1;background:#faf8fc;cursor:pointer;text-align:left;font-family:inherit;transition:border-color .15s,background .15s,transform .12s;}
+  .nt-card{position:relative;display:flex;flex-direction:column;gap:9px;padding:10px 11px 11px;border-radius:15px;border:1.5px solid #ece7f1;background:#faf8fc;cursor:pointer;text-align:left;font-family:inherit;transition:border-color .15s,background .15s,transform .12s;}
   .nt-card:active{transform:scale(.98);}
-  .nt-card.on{border-color:var(--hn);background:#edf7f2;}
-  .nt-row{display:flex;align-items:flex-start;justify-content:space-between;min-height:40px;}
-  .nt-tile{width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(90,152,128,.1);}
-  .nt-tile svg{width:20px;height:20px;}
-  .nt-check{width:24px;height:24px;border-radius:50%;background:var(--hn);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 5px 10px -4px rgba(90,152,128,.6);}
-  .nt-check svg{width:13px;height:13px;color:#fff;}
-  .nt-name{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .nt-card.on{border-color:#9b8bc4;background:#f3eefb;}
+  .nt-row{display:flex;align-items:flex-start;justify-content:space-between;min-height:33px;}
+  .nt-tile{width:33px;height:33px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .nt-tile svg{width:17px;height:17px;}
+  .nt-check{width:21px;height:21px;border-radius:50%;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 9px -4px rgba(140,116,181,.6);}
+  .nt-check svg{width:11px;height:11px;color:#fff;}
+  .nt-name{font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   /* blood type grid */
   .bt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
   .bt-chip{padding:12px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:transform .12s;}
@@ -744,12 +744,12 @@
     document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
       var on=nt.type===noteType;
       var chk = on ? '<span class="nt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' : '';
-      return '<button class="nt-card'+(on?' on':'')+'" onclick="pickNoteType(\''+nt.type+'\')"><div class="nt-row"><span class="nt-tile"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg></span>'+chk+'</div><div class="nt-name">'+nt.label+'</div></button>';
+      return '<button class="nt-card'+(on?' on':'')+'" onclick="pickNoteType(\''+nt.type+'\')"><div class="nt-row"><span class="nt-tile"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg></span>'+chk+'</div><div class="nt-name">'+nt.label+'</div></button>';
     }).join('');
   }
   function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
   function nchip(val,active,onclick){
-    return '<button class="chip" style="background:'+(active?'var(--hn)':'rgba(90,152,128,.12)')+';color:'+(active?'#fff':'var(--hn)')+'" onclick="'+onclick+'">'+esc(val)+'</button>';
+    return '<button class="chip" style="background:'+(active?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(active?'#fff':'#7a68ad')+'" onclick="'+onclick+'">'+esc(val)+'</button>';
   }
   function nToggle(key,val){var a=noteSel[key]||[];noteSel[key]=a.indexOf(val)>-1?a.filter(function(x){return x!==val;}):a.concat([val]);renderNoteFields();}
   function nSet(key,val){noteSel[key]=val;renderNoteFields();}
