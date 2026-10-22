@@ -105,6 +105,12 @@
   .sug-em{width:24px;height:24px;border-radius:50%;background:#f1ecf8;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .sug-em svg{width:13px;height:13px;}
   .al-none{background:#f1eef4;color:#a79fb0;}
+  /* selected allergy chips (with icon badge) */
+  .al-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 13px 5px 5px;border-radius:20px;background:#efeaf6;color:#7a68ad;font-size:12.5px;font-weight:800;}
+  .al-chip.al-plain{padding-left:14px;}
+  .al-chip .al-em{width:24px;height:24px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .al-chip .al-em svg{width:13px;height:13px;}
+  .al-chip .x{margin-left:1px;}
   /* note-type picker grid */
   .nt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
   .nt-chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;text-align:left;transition:transform .12s;}
@@ -658,10 +664,13 @@
   ];
   function renderAllergies(){
     document.getElementById('allergyChips').innerHTML = allergies.filter(function(a){return a!=='None known';}).map(function(a){
-      return '<span class="chip" style="background:#f1ecf8;color:#7a68ad">'+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
+      var ic=allergyIcon(a);
+      var em = ic ? '<span class="al-em"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span>' : '';
+      return '<span class="chip al-chip'+(ic?'':' al-plain')+'">'+em+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
     }).join('');
     renderAllergySuggest();
   }
+  function allergyIcon(name){ var s=ALLERGY_SUGGEST.filter(function(x){return x.n===name;})[0]; return s?s.svg:''; }
   function renderAllergySuggest(){
     var el=document.getElementById('commonAllergyChips'); if(!el) return;
     var avail=ALLERGY_SUGGEST.filter(function(s){return allergies.indexOf(s.n)<0;});
