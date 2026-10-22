@@ -1412,15 +1412,15 @@
       var posts = memPosts(), pkeys = Object.keys(posts);
       if(pkeys.length){   // map the card to the latest captured memory
         var lastTitle = pkeys[pkeys.length-1], rec = posts[lastTitle]||{};
-        if(t) t.innerHTML = '🎉 You marked '+c.name+'’s <b>'+lastTitle+'</b>!';
+        if(t) t.innerHTML = '🎉 You marked <b>'+lastTitle+'</b>!';
         if(x) x.innerHTML = 'Here’s a quick checklist to support '+(her?'her':'his')+' '+lastTitle.toLowerCase()+'.';
         if(l) l.textContent = 'View Checklist';
         window.WC_CTA_HREF = 'checklist.html';
       } else {
         var act = (c.activities && c.activities[0]) || {};
-        if(t) t.innerHTML = 'Welcome! '+c.name+' is '+age+' old';
-        if(x) x.innerHTML = 'This week '+c.name+' is loving <b>'+(act.title||'play time')+'</b>. Add a few details to personalise '+(her?'her':'his')+' milestones &amp; reminders.';
-        if(l) l.textContent = 'View '+(her?'Her':'His')+' Checklist';
+        if(t) t.innerHTML = 'Loving <b>'+(act.title||'play time')+'</b> this week';
+        if(x) x.innerHTML = 'Add a few details to personalise '+(her?'her':'his')+' milestones &amp; reminders.';
+        if(l) l.textContent = 'View Checklist';
         window.WC_CTA_HREF = 'checklist.html';
       }
     }
