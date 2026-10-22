@@ -96,9 +96,12 @@
 
   /* chips */
   .chips{display:flex;flex-wrap:wrap;gap:7px;}
-  .chip{padding:7px 13px;border-radius:20px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .12s;flex-shrink:0;}
+  .chip{padding:8px 15px;border-radius:20px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .14s;flex-shrink:0;}
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
   .chip.has-ic{display:inline-flex;align-items:center;gap:6px;}
+  .chip.off,.bt-chip.off,.nt-chip.off,.vac-tab.off{background:#f1ecf8;color:#7a68ad;}
+  .chip.on,.bt-chip.on,.nt-chip.on,.vac-tab.on{background:#a28cdb;color:#fff;box-shadow:0 7px 16px -7px rgba(140,116,181,.75);}
+  .chip.on:active,.bt-chip.on:active,.nt-chip.on:active,.vac-tab.on:active{transform:scale(.96);}
   .chip-ic{width:14px;height:14px;flex-shrink:0;}
   .sug-chip{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:5px 14px 5px 5px;font-weight:800;}
   .sug-chip:active{transform:scale(.97);}
@@ -647,8 +650,7 @@
   function renderBlood(){
     document.getElementById('bloodChips').innerHTML = BLOOD_TYPES.map(function(bt){
       var on=bt===bloodType;
-      var s = on ? 'background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 11px 20px -8px rgba(140,116,181,.6)' : 'background:#f1ecf8;color:#7a68ad';
-      return '<button class="bt-chip" style="'+s+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
+      return '<button class="bt-chip '+(on?'on':'off')+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
     }).join('');
   }
   function selectBlood(bt){bloodType=bt;renderBlood();}
@@ -743,12 +745,12 @@
   function renderNoteTypeChips(){
     document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
       var on=nt.type===noteType;
-      return '<button class="chip has-ic" style="background:'+(on?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(on?'#fff':'#7a68ad')+'" onclick="pickNoteType(\''+nt.type+'\')"><svg class="chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg>'+nt.label+'</button>';
+      return '<button class="chip has-ic '+(on?'on':'off')+'" onclick="pickNoteType(\''+nt.type+'\')"><svg class="chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg>'+nt.label+'</button>';
     }).join('');
   }
   function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
   function nchip(val,active,onclick){
-    return '<button class="chip" style="background:'+(active?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(active?'#fff':'#7a68ad')+'" onclick="'+onclick+'">'+esc(val)+'</button>';
+    return '<button class="chip '+(active?'on':'off')+'" onclick="'+onclick+'">'+esc(val)+'</button>';
   }
   function nToggle(key,val){var a=noteSel[key]||[];noteSel[key]=a.indexOf(val)>-1?a.filter(function(x){return x!==val;}):a.concat([val]);renderNoteFields();}
   function nSet(key,val){noteSel[key]=val;renderNoteFields();}
@@ -806,7 +808,7 @@
   function renderVReasons(){
     document.getElementById('vReasonChips').innerHTML=VISIT_REASONS.map(function(r){
       var on=r===vReason;
-      return '<button class="chip" style="background:'+(on?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(on?'#fff':'#7a68ad')+'" onclick="vReason=\''+r+'\';renderVReasons()">'+r+'</button>';
+      return '<button class="chip '+(on?'on':'off')+'" onclick="vReason=\''+r+'\';renderVReasons()">'+r+'</button>';
     }).join('');
   }
   function saveVisit(){
@@ -825,13 +827,13 @@
   function renderDSource(){
     document.getElementById('dSourceChips').innerHTML=DOC_SOURCES.map(function(s){
       var on=s.label===dSource;
-      return '<button class="nt-chip" style="background:'+(on?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(on?'#fff':'#7a68ad')+'" onclick="dSource=\''+s.label+'\';renderDSource()"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.25)':'#fff')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.label+'</button>';
+      return '<button class="nt-chip '+(on?'on':'off')+'" onclick="dSource=\''+s.label+'\';renderDSource()"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.25)':'#fff')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.label+'</button>';
     }).join('');
   }
   function renderDType(){
     document.getElementById('dTypeChips').innerHTML=DOC_TYPES.map(function(t){
       var on=t===dType;
-      return '<button class="chip" style="background:'+(on?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(on?'#fff':'#7a68ad')+'" onclick="dType=\''+t+'\';renderDType()">'+t+'</button>';
+      return '<button class="chip '+(on?'on':'off')+'" onclick="dType=\''+t+'\';renderDType()">'+t+'</button>';
     }).join('');
   }
   function saveDoc(){
@@ -852,7 +854,7 @@
   function renderVacTabs(){
     document.getElementById('vacTabs').innerHTML=VAC_CAT.map(function(c){
       var on=c.key===vacTab;
-      return '<button class="vac-tab" style="background:'+(on?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(on?'#fff':'#7a68ad')+'" onclick="vacTab=\''+c.key+'\';renderVac()">'+c.label+'</button>';
+      return '<button class="vac-tab '+(on?'on':'off')+'" onclick="vacTab=\''+c.key+'\';renderVac()">'+c.label+'</button>';
     }).join('');
   }
   function renderVac(){
