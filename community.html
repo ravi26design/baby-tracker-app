@@ -545,20 +545,19 @@
   .exp-step{padding:2px 2px 4px;min-height:302px;}
   .wz-q{font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--ink);line-height:1.25;}
   .wz-sub{font-size:12.5px;color:#8a8296;font-weight:500;margin:7px 0 18px;line-height:1.5;}
-  .wz-opt{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:none;cursor:pointer;font-family:inherit;background:#f7f4fb;border-radius:18px;padding:13px 14px;margin-bottom:11px;box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .15s,background .15s,transform .1s;}
+  .wz-opt{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:none;cursor:pointer;font-family:inherit;background:#f6f3fb;border-radius:20px;padding:15px 16px;margin-bottom:12px;box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .15s,background .15s,transform .1s;}
   .wz-opt:active{transform:scale(.99);}
-  .wz-opt.sel{background:#f3eefc;box-shadow:inset 0 0 0 2px #9b8bc4;}
-  .wz-ic{width:46px;height:46px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#8574b5;font-size:24px;overflow:hidden;}
-  .wz-ic svg{width:23px;height:23px;}
-  .wz-ic.round{border-radius:50%;}
+  .wz-opt.sel{background:#f1eafc;box-shadow:inset 0 0 0 2px #9b8bc4;}
   .wz-ot{flex:1;min-width:0;}
-  .wz-name{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;display:flex;align-items:center;gap:7px;}
-  .wz-desc{font-size:12px;color:#8a8296;font-weight:500;margin-top:2px;}
+  .wz-name{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.2px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .wz-desc{font-size:12.5px;color:#8a8296;font-weight:500;margin-top:3px;}
   .wz-rec{font-size:10px;font-weight:800;color:#2fa96f;background:#e2f5e8;padding:3px 8px;border-radius:20px;letter-spacing:.2px;}
-  .wz-check{width:23px;height:23px;border-radius:50%;border:2px solid #d8cfe6;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s,border-color .15s;}
-  .wz-opt.sel .wz-check{background:#8574b5;border-color:#8574b5;}
-  .wz-check svg{width:12px;height:12px;opacity:0;transition:opacity .15s;}
-  .wz-opt.sel .wz-check svg{opacity:1;}
+  .wz-fig{position:relative;width:52px;height:52px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;overflow:visible;}
+  .wz-fig svg{width:25px;height:25px;}
+  .wz-fig::before{content:'';position:absolute;inset:0;border-radius:50%;background:inherit;filter:blur(7px);opacity:.38;z-index:-1;transform:translateY(3px) scale(.86);}
+  .wz-tick{position:absolute;right:-3px;bottom:-3px;width:21px;height:21px;border-radius:50%;background:#8574b5;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;opacity:0;transform:scale(.5);transition:opacity .16s,transform .16s;}
+  .wz-tick svg{width:11px;height:11px;}
+  .wz-opt.sel .wz-tick{opacity:1;transform:none;}
   .wz-ta{width:100%;min-height:130px;border:none;background:#f7f4fb;border-radius:18px;padding:15px;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink);resize:none;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.14);}
   .wz-ta:focus{outline:none;box-shadow:inset 0 0 0 2px #9b8bc4;}
   .exp-next{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:8px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15.5px;font-weight:800;padding:16px;border-radius:17px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);transition:opacity .15s;}
@@ -1415,12 +1414,25 @@
     var EXP_CHATS=[];
 
     function openExpert(){ EXP={i:0, child:null, topic:null, urgency:null, detail:'', expert:null}; wzRender(); document.getElementById('expertSheet').classList.add('open'); }
+    var WZ_GRAD={
+      'Feeding':'linear-gradient(145deg,#ffb45a,#ff8a3d)',
+      'Sleep':'linear-gradient(145deg,#8f7cff,#6355d6)',
+      'Health':'linear-gradient(145deg,#3fd6c0,#1fb0a4)',
+      'Development':'linear-gradient(145deg,#c380e6,#9b5fd6)',
+      'Behaviour':'linear-gradient(145deg,#ff8fb3,#f2679a)',
+      'Other':'linear-gradient(145deg,#aab2c5,#878fa3)'
+    };
+    var WZ_UGRAD={
+      'Just curious':'linear-gradient(145deg,#5fd08a,#36b06a)',
+      'Within a day':'linear-gradient(145deg,#5aa9ff,#3f7fe0)',
+      'As soon as possible':'linear-gradient(145deg,#ff8a6b,#f2593f)'
+    };
     function wzRecExpert(){ var t=WZ_TOPICS.filter(function(x){return x.k===EXP.topic;})[0]; return t?t.rec:'Dr. Meera Nair'; }
-    function wzOptRow(sel, ic, name, desc, rec){
+    function wzFig(bg, inner){ return '<span class="wz-fig" style="background:'+bg+'">'+inner+'<span class="wz-tick">'+WZ_IC.check+'</span></span>'; }
+    function wzOpt(sel, name, desc, fig, rec){
       return '<div class="wz-opt'+(sel?' sel':'')+'">'
-        +'<span class="wz-ic'+(ic&&ic.indexOf('circle')<0&&false?'':'')+'">'+ic+'</span>'
-        +'<span class="wz-ot"><span class="wz-name">'+name+(rec?' <span class="wz-rec">Recommended</span>':'')+'</span><span class="wz-desc">'+desc+'</span></span>'
-        +'<span class="wz-check">'+WZ_IC.check+'</span></div>';
+        +'<span class="wz-ot"><span class="wz-name"><span style="white-space:nowrap">'+name+'</span>'+(rec?'<span class="wz-rec">Recommended</span>':'')+'</span><span class="wz-desc">'+desc+'</span></span>'
+        +fig+'</div>';
     }
     function wzRender(){
       var step=WZ_STEPS[EXP.i], el=document.getElementById('expStep'), h='';
@@ -1428,17 +1440,20 @@
       if(step==='child'){
         h='<div class="wz-q">Who would you like advice for?</div><div class="wz-sub">We’ll share a little context so the expert can help faster.</div>';
         WZ_CHILDREN.forEach(function(c){
-          h+='<div onclick="wzPick(\'child\',\''+c.k+'\')">'+wzOptRow(EXP.child===c.k,'<span style="font-size:24px">'+c.e+'</span>',c.k,c.sub)+'</div>';
+          var fig=wzFig('radial-gradient(circle at 42% 32%,'+c.c1+','+c.c2+')','<span style="font-size:27px">'+c.e+'</span>');
+          h+='<div onclick="wzPick(\'child\',\''+c.k+'\')">'+wzOpt(EXP.child===c.k,c.k,c.sub,fig)+'</div>';
         });
       } else if(step==='topic'){
         h='<div class="wz-q">What do you need help with?</div><div class="wz-sub">Pick the area closest to your question.</div>';
         WZ_TOPICS.forEach(function(t){
-          h+='<div onclick="wzPick(\'topic\',\''+t.k+'\')">'+wzOptRow(EXP.topic===t.k,WZ_IC[t.ic],t.k,t.d)+'</div>';
+          var fig=wzFig(WZ_GRAD[t.k]||WZ_GRAD.Other, WZ_IC[t.ic]);
+          h+='<div onclick="wzPick(\'topic\',\''+t.k+'\')">'+wzOpt(EXP.topic===t.k,t.k,t.d,fig)+'</div>';
         });
       } else if(step==='urgency'){
         h='<div class="wz-q">How soon do you need advice?</div><div class="wz-sub">This helps us route you to an available expert.</div>';
         WZ_URGENCY.forEach(function(u){
-          h+='<div onclick="wzPick(\'urgency\',\''+u.k+'\')">'+wzOptRow(EXP.urgency===u.k,WZ_IC[u.ic],u.k,u.d)+'</div>';
+          var fig=wzFig(WZ_UGRAD[u.k]||WZ_GRAD.Other, WZ_IC[u.ic]);
+          h+='<div onclick="wzPick(\'urgency\',\''+u.k+'\')">'+wzOpt(EXP.urgency===u.k,u.k,u.d,fig)+'</div>';
         });
       } else if(step==='detail'){
         var who=EXP.child||'your little one';
@@ -1449,12 +1464,9 @@
         var rec=wzRecExpert();
         var ordered=WZ_EXPERTS.slice().sort(function(a,b){ return (b===rec)-(a===rec); });
         ordered.forEach(function(n){
-          var e=EXPERTS[n]||{}; var av='<span style="font-size:23px">'+(e.e||'👩‍⚕️')+'</span>';
-          var icon='<span class="wz-ic round" style="background:radial-gradient(circle at 45% 35%,'+(e.c1||'#efe9f7')+','+(e.c2||'#d5c8ef')+')">'+av+'</span>';
-          h+='<div onclick="wzPick(\'expert\',\''+n.replace(/'/g,"\\'")+'\')"><div class="wz-opt'+(EXP.expert===n?' sel':'')+'">'
-            +icon
-            +'<span class="wz-ot"><span class="wz-name"><span style="white-space:nowrap">'+n+'</span>'+(n===rec?'<span class="wz-rec">Recommended</span>':'')+'</span><span class="wz-desc">'+(e.spec||'Expert')+' · '+(e.on?'Online now':'Replies in ~10 min')+'</span></span>'
-            +'<span class="wz-check">'+WZ_IC.check+'</span></div></div>';
+          var e=EXPERTS[n]||{}; var av='<span style="font-size:27px">'+(e.e||'👩‍⚕️')+'</span>';
+          var fig=wzFig('radial-gradient(circle at 42% 32%,'+(e.c1||'#efe9f7')+','+(e.c2||'#d5c8ef')+')', av);
+          h+='<div onclick="wzPick(\'expert\',\''+n.replace(/'/g,"\\'")+'\')">'+wzOpt(EXP.expert===n,n,(e.spec||'Expert')+' · '+(e.on?'Online now':'Replies in ~10 min'),fig,n===rec)+'</div>';
         });
       }
       el.innerHTML=h;
