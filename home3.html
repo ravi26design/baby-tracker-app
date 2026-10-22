@@ -328,17 +328,16 @@
 
   /* activities */
   /* child selection tabs */
-  .child-tabs{display:flex;gap:9px;margin:14px 0 16px;}
+  .child-tabs{display:flex;align-items:center;margin:16px 0 16px;padding-left:4px;}
   .child-tabs:empty{display:none;}
-  .child-tab{flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;border-radius:17px;border:none;cursor:pointer;
-    font-family:inherit;background:#fff;box-shadow:var(--shadow-soft),var(--ring);transition:transform .15s,box-shadow .2s;}
-  .child-tab:active{transform:scale(.98);}
-  .child-tab .ct-face{width:28px;height:28px;border-radius:50%;flex-shrink:0;overflow:hidden;font-size:16px;
-    background:radial-gradient(circle at 45% 35%,#ffe0c0,#f3b481) center/cover no-repeat;display:flex;align-items:center;justify-content:center;}
-  .child-tab .ct-name{font-size:14px;font-weight:700;color:#8a8788;letter-spacing:-.2px;}
-  .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
-  .child-tab.active .ct-name{color:#fff;}
-  .child-tab.active .ct-face{box-shadow:inset 0 0 0 2px rgba(255,255,255,.9);}
+  .child-av{width:50px;height:50px;border-radius:50%;flex-shrink:0;cursor:pointer;border:3px solid #fff;
+    background-size:cover;background-position:center;background-repeat:no-repeat;
+    display:flex;align-items:center;justify-content:center;font-size:24px;margin-right:-12px;position:relative;
+    box-shadow:0 6px 14px -5px rgba(90,70,100,.35);transition:width .22s,height .22s,box-shadow .22s;}
+  .child-av.active{width:62px;height:62px;z-index:3;box-shadow:0 10px 20px -6px rgba(140,116,181,.6),0 0 0 3px #fff;}
+  .child-av:active{filter:brightness(.97);}
+  .child-av.add{width:46px;height:46px;background:#efe9f5;color:#9b8bc4;font-size:27px;font-weight:300;margin-left:16px;margin-right:0;
+    box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);border:3px solid #fff;z-index:1;}
 
   .activities{margin-top:24px;}
   .act-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
@@ -1366,10 +1365,10 @@
         +   '<span class="hc-arrow">'+CC.arrow+'</span></div>'
         + '<div class="cc-mile">'
         +   '<div class="cc-mile-grid">'
-        +     '<div class="cc-mile-item m-motor"><div class="mi-circle">'+mRing(mv.motor)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="11.1" width="5.4" height="1.8" rx=".9"/><rect x="7" y="8.3" width="9" height="7.4" rx="1.8"/><rect x="16" y="10.9" width="5" height="2.2" rx="1.1"/><rect x="20" y="8.3" width="1.9" height="7.4" rx=".95"/></svg></span></div><span class="mi-name">Motor</span><span class="mi-pct">'+(mv.motor||0)+'%</span></div>'
-        +     '<div class="cc-mile-item m-idea"><div class="mi-circle">'+mRing(mv.idea)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="3.5" y="12" width="4.3" height="8.5" rx="1.3"/><rect x="9.85" y="7" width="4.3" height="13.5" rx="1.3"/><rect x="16.2" y="3" width="4.3" height="17.5" rx="1.3"/></svg></span></div><span class="mi-name">Cognitive</span><span class="mi-pct">'+(mv.idea||0)+'%</span></div>'
-        +     '<div class="cc-mile-item m-lang"><div class="mi-circle">'+mRing(mv.lang)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 2.5c.66 0 1.2.54 1.2 1.2V21a1 1 0 1 1-2 0V3.7c0-.66.54-1.2 1.2-1.2z"/><path d="M7.2 4h10.4c.85 0 1.3.98.78 1.64L16 9l2.38 3.36c.52.72.05 1.64-.78 1.64H7.2z"/></svg></span></div><span class="mi-name">Language</span><span class="mi-pct">'+(mv.lang||0)+'%</span></div>'
-        +     '<div class="cc-mile-item m-social"><div class="mi-circle">'+mRing(mv.social)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="2.5" y="8.4" width="19" height="7.2" rx="3.6" transform="rotate(45 12 12)" fill="currentColor"/><path d="m8.46 8.46 7.08 7.08" stroke="rgba(0,0,0,.22)" stroke-width="1.7" stroke-linecap="round"/></svg></span></div><span class="mi-name">Social</span><span class="mi-pct">'+(mv.social||0)+'%</span></div>'
+        +     '<div class="cc-mile-item m-motor"><div class="mi-circle">'+mRing(mv.motor)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="11.1" width="5.4" height="1.8" rx=".9"/><rect x="7" y="8.3" width="9" height="7.4" rx="1.8"/><rect x="16" y="10.9" width="5" height="2.2" rx="1.1"/><rect x="20" y="8.3" width="1.9" height="7.4" rx=".95"/></svg></span></div><span class="mi-name">Motor</span></div>'
+        +     '<div class="cc-mile-item m-idea"><div class="mi-circle">'+mRing(mv.idea)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="3.5" y="12" width="4.3" height="8.5" rx="1.3"/><rect x="9.85" y="7" width="4.3" height="13.5" rx="1.3"/><rect x="16.2" y="3" width="4.3" height="17.5" rx="1.3"/></svg></span></div><span class="mi-name">Cognitive</span></div>'
+        +     '<div class="cc-mile-item m-lang"><div class="mi-circle">'+mRing(mv.lang)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 2.5c.66 0 1.2.54 1.2 1.2V21a1 1 0 1 1-2 0V3.7c0-.66.54-1.2 1.2-1.2z"/><path d="M7.2 4h10.4c.85 0 1.3.98.78 1.64L16 9l2.38 3.36c.52.72.05 1.64-.78 1.64H7.2z"/></svg></span></div><span class="mi-name">Language</span></div>'
+        +     '<div class="cc-mile-item m-social"><div class="mi-circle">'+mRing(mv.social)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="2.5" y="8.4" width="19" height="7.2" rx="3.6" transform="rotate(45 12 12)" fill="currentColor"/><path d="m8.46 8.46 7.08 7.08" stroke="rgba(0,0,0,.22)" stroke-width="1.7" stroke-linecap="round"/></svg></span></div><span class="mi-name">Social</span></div>'
         +   '</div></div>'
         + '</div>';
     }
@@ -1385,11 +1384,14 @@
       if(keys.length < 2){ el.innerHTML = ''; return; }
       el.innerHTML = keys.map(function(k){
         var c = CHILDREN[k];
-        return '<button class="child-tab" data-key="'+k+'" onclick="selectChild(\''+k+'\')"><span class="ct-name">'+c.name+'</span></button>';
-      }).join('');
+        var bg = c.photo ? ' style="background-image:url(\''+c.photo+'\')"' : '';
+        return '<button class="child-av" data-key="'+k+'" onclick="selectChild(\''+k+'\')"'+bg+'>'+(c.photo?'':c.face)+'</button>';
+      }).join('') + '<button class="child-av add" onclick="addChild()" aria-label="Add child">+</button>';
     }
+    function addChild(){ try{ toast('Add a child'); }catch(e){} }
     function updateTabs(key){
-      document.querySelectorAll('#childTabs .child-tab').forEach(function(t){
+      document.querySelectorAll('#childTabs .child-av').forEach(function(t){
+        if(t.classList.contains('add')) return;
         t.classList.toggle('active', t.getAttribute('data-key') === key);
       });
     }
