@@ -383,8 +383,9 @@
   .meal-ht{flex:1;min-width:0;}
   .meal-m{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
   .meal-time{font-size:12.5px;font-weight:800;color:#a99fbb;margin-top:2px;}
-  .meal-food{font-size:14.5px;font-weight:700;color:#7d6ab0;margin-top:16px;}
-  .meal-about{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;}
+  .meal-food{font-size:16px;font-weight:800;color:#7d6ab0;letter-spacing:-.2px;margin-top:5px;}
+  .meal-lbl{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a99fbb;margin-top:15px;}
+  .meal-about{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:6px;}
   .meal-portion{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f7f4fb;border-radius:14px;padding:13px 15px;margin-top:16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
   .meal-portion .mp-lbl{font-size:13px;font-weight:700;color:#8a8296;}
   .meal-portion .mp-val{font-size:14px;font-weight:800;color:var(--ink);}
@@ -956,9 +957,11 @@
       <div class="meal-panel">
         <div class="meal-grab"></div>
         <div class="meal-head"><span class="meal-ic" id="mealIc"></span><div class="meal-ht"><div class="meal-m" id="mealM"></div><div class="meal-time" id="mealTime"></div></div></div>
+        <div class="meal-lbl">What to serve</div>
         <div class="meal-food" id="mealFood"></div>
+        <div class="meal-lbl">Why it’s good</div>
         <div class="meal-about" id="mealAbout"></div>
-        <div class="meal-portion"><span class="mp-lbl">Suggested portion</span><span class="mp-val" id="mealPortion"></span></div>
+        <div class="meal-portion"><span class="mp-lbl">How much to give</span><span class="mp-val" id="mealPortion"></span></div>
         <div class="meal-tip" id="mealTip"></div>
       </div>
     </div>
