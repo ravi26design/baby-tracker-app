@@ -1400,6 +1400,7 @@
       document.getElementById('childScroll').innerHTML = childCardHTML(key);
       renderBelow(key);
       updateWelcome(key);
+      try{ renderMemState(); }catch(e){}
     }
 
     /* ---- first-time welcome + collect-info ---- */
@@ -1430,14 +1431,28 @@
     }
     function dismissWelcome(){ var w=document.getElementById('welcomeCard'); if(w) w.style.display='none'; try{ localStorage.setItem('bt_home_welcome','done'); }catch(e){} }
     /* ---------- featured memory: first-time empty firsts → image card once posted ---------- */
-    var MEM_PROMPTS=[
-      {k:'walk',  t:'First Walk',  e:'👣', img:'1257110'},
-      {k:'smile', t:'First Smile', e:'😊', img:'1648375'},
-      {k:'steps', t:'First Steps', e:'🦶', img:'3933250'},
-      {k:'word',  t:'First Word',  e:'🗣️', img:'1912868'},
-      {k:'food',  t:'First Food',  e:'🥣', img:'3661264'},
-      {k:'bath',  t:'First Bath',  e:'🛁', img:'1166473'}
+    /* age-appropriate firsts: 0–9 mo babies vs older toddlers */
+    var MEM_PROMPTS_BABY=[
+      {k:'food',     t:'First Food',      svg:'<path d="M3.5 11.5h17"/><path d="M4.5 11.5a7.5 7.5 0 0 0 15 0"/><path d="M15.5 4.5c-1.2.8-1.2 2 0 2.8s1.2 2 0 2.8"/>'},
+      {k:'tooth',    t:'First Tooth',     svg:'<path d="M12 3.5c-3.3 0-5.5 2-5.5 5 0 2.6.9 4.6 1.7 7.4.4 1.4 2.2 1.4 2.6 0l.5-2.3c.2-.9 1.2-.9 1.4 0l.5 2.3c.4 1.4 2.2 1.4 2.6 0 .8-2.8 1.7-4.8 1.7-7.4 0-3-2.2-5-5.5-5z"/>'},
+      {k:'rollover', t:'First Rollover',  svg:'<path d="M3.5 12a8.5 8.5 0 0 1 14.6-5.9"/><path d="M19 3.5v4h-4"/><path d="M20.5 12a8.5 8.5 0 0 1-14.6 5.9"/><path d="M5 20.5v-4h4"/>'},
+      {k:'sitting',  t:'First Sitting',   svg:'<path d="M7 4v7h8a1.4 1.4 0 0 0 1.5-1.4V4"/><path d="M7 11v8M16.5 11v8"/><path d="M7 15.5h9.5"/>'},
+      {k:'laugh',    t:'First Laugh',     svg:'<circle cx="12" cy="12" r="8.8"/><path d="M8.6 9.4h.01M15.4 9.4h.01"/><path d="M8.2 13a4 4 0 0 0 7.6 0"/>'},
+      {k:'bath',     t:'First Bath',      svg:'<path d="M3 12h18"/><path d="M5 12v4a2.4 2.4 0 0 0 2.4 2.5h9.2A2.4 2.4 0 0 0 19 16v-4"/><path d="M7 12V7a2 2 0 0 1 3.5-1.3"/>'}
     ];
+    var MEM_PROMPTS_TODDLER=[
+      {k:'walk',     t:'First Walk',      svg:'<path d="M9 3.2c1.5 0 2.6 1.6 2.6 3.7S10.5 11 9 11s-2.6-1.4-2.6-3.5S7.5 3.2 9 3.2z"/><path d="M6.8 13.6c0 1.7 1 2.9 2.2 2.9s2.2-1.2 2.2-2.9"/><path d="M15.5 8.5c1 0 1.7 1 1.7 2.4s-.7 2.4-1.7 2.4-1.7-1-1.7-2.4.7-2.4 1.7-2.4z"/><path d="M14 15.4c0 1.1.7 1.9 1.5 1.9s1.5-.8 1.5-1.9"/>'},
+      {k:'word',     t:'First Word',      svg:'<path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/>'},
+      {k:'steps',    t:'First Steps',     svg:'<path d="M3.5 20.5h4v-4h4v-4h4v-4h4"/>'},
+      {k:'birthday', t:'First Birthday',  svg:'<path d="M4.5 20.5h15"/><path d="M6 20.5v-7.5h12v7.5"/><path d="M6 13a1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0 1.8 1.8 0 0 0 3 0"/><path d="M9 9.5V7M12 9.5V6.5M15 9.5V7"/>'},
+      {k:'food',     t:'First Food',      svg:'<path d="M3.5 11.5h17"/><path d="M4.5 11.5a7.5 7.5 0 0 0 15 0"/><path d="M15.5 4.5c-1.2.8-1.2 2 0 2.8s1.2 2 0 2.8"/>'},
+      {k:'haircut',  t:'First Haircut',   svg:'<circle cx="6" cy="6.5" r="2.5"/><circle cx="6" cy="17.5" r="2.5"/><path d="M8.2 7.8 20 17"/><path d="M8.2 16.2 20 7"/>'}
+    ];
+    function memPrompts(){
+      var c=CHILDREN[CURRENT_KEY]||{};
+      var isToddler = /y/i.test(c.ageShort||'') || c.stage==='toddler';
+      return isToddler ? MEM_PROMPTS_TODDLER : MEM_PROMPTS_BABY;
+    }
     function memPosts(){ try{ return JSON.parse(localStorage.getItem('bt_mem_posted')||'{}'); }catch(e){ return {}; } }
     function memRemoved(){ try{ return JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); }catch(e){ return {}; } }
     function mcPhoto(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=760&h=760&fit=crop'; }
@@ -1458,7 +1473,7 @@
       var wrap=document.getElementById('memStarter'); if(!wrap) return;
       var posts=memPosts(), removed=memRemoved();
       var baby=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your baby';
-      wrap.innerHTML=MEM_PROMPTS.map(function(p){
+      wrap.innerHTML=memPrompts().map(function(p){
         var pst=posts[p.t];
         if(!pst && removed[p.t]) return '';   // removed → don't show the empty prompt again
         if(pst && pst.img && pst.img.length>12){   // posted WITH a real photo → full image card
@@ -1472,7 +1487,7 @@
         }
         return '<div class="mem-card" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
           '<div class="mem-img me-empty">'+
-            '<div class="me-up" style="font-size:27px">'+(p.e||MEM_ICON)+'</div>'+
+            '<div class="me-up">'+(p.svg?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p.svg+'</svg>':MEM_ICON)+'</div>'+
             '<div class="me-msg">Add '+baby+'’s <b>'+p.t+'</b> memory</div>'+
             '<div class="me-cta">'+UP_ICON+'Upload photo</div>'+
           '</div>'+
