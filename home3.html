@@ -1356,8 +1356,7 @@
       var mv = c.mile || {motor:70,idea:60,lang:50,social:75};
       return '<div class="card child-card" data-key="'+key+'" onclick="selectChild(\''+key+'\')">'
         + '<div class="cc-head"><div class="child-face"'+(c.photo?' style="background-image:url(\''+c.photo+'\')"':'')+'>'+(c.photo?'':c.face)+'</div>'
-        +   '<div class="cc-main"><div class="cc-name-row"><div class="cc-name">'+c.name+'</div><span class="cc-age-inline">'+c.ageShort+'</span></div>'
-        +     '<div class="cc-breed">'+c.breed+'</div></div></div>'
+        +   '<div class="cc-main"><div class="cc-name-row"><div class="cc-name">'+c.name+'</div><span class="cc-age-inline">'+c.ageShort+'</span></div></div></div>'
         + '<div class="cc-health"><span class="hc-check">'+CC.check+'</span>'
         +   '<div class="hc-info"><span class="hc-title">'+c.health+'</span><span class="hc-sub">· Checked '+c.healthDate+'</span></div>'
         +   '<span class="hc-arrow">'+CC.arrow+'</span></div>'
