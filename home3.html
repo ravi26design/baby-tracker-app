@@ -555,7 +555,7 @@
   }
 
   /* activity detail overlay — GIF on top, title + description below */
-  .vid-overlay{position:absolute;inset:0;border-radius:0;overflow:hidden;z-index:50;background:#faf8fc;
+  .vid-overlay{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:50;background:#faf8fc;
     display:flex;flex-direction:column;visibility:hidden;opacity:0;transition:opacity .28s ease;}
   .vid-overlay.open{visibility:visible;opacity:1;}
   .vid-close{position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;
@@ -767,7 +767,7 @@
   .collect-save{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:15px;border-radius:16px;margin-top:8px;box-shadow:0 12px 24px -10px rgba(140,116,181,.7);}
   .collect-save:active{transform:scale(.98);}
   [class*="-layer"],.addmenu{inset:0;border-radius:0}
-  @media (max-width:600px){html,body{height:auto}body{padding:0!important;margin:0!important;display:block!important;min-height:0!important;background:#f4f1f9!important}.phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}.screen{inset:0!important;border-radius:0!important}[class*="-layer"]{inset:0!important;border-radius:0!important}.addmenu{inset:0!important;border-radius:0!important}}
+  @media (max-width:600px){html,body{height:auto}body{padding:0!important;margin:0!important;display:block!important;min-height:0!important;background:#f4f1f9!important}.phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}.screen{inset:0!important;border-radius:0!important}[class*="-layer"]{inset:0!important;border-radius:0!important}.addmenu,.vid-overlay{inset:0!important;border-radius:0!important}}
 </style>
 </head>
 <body>
