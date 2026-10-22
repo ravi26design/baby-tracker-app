@@ -111,6 +111,16 @@
   .nt-chip:active{transform:scale(.98);}
   .nt-em{width:27px;height:27px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
   .nt-em svg{width:15px;height:15px;}
+  /* selectable option cards (icon + check) */
+  .nt-card{position:relative;display:flex;flex-direction:column;gap:13px;padding:13px 13px 14px;border-radius:18px;border:1.5px solid #ece7f1;background:#faf8fc;cursor:pointer;text-align:left;font-family:inherit;transition:border-color .15s,background .15s,transform .12s;}
+  .nt-card:active{transform:scale(.98);}
+  .nt-card.on{border-color:var(--hn);background:#edf7f2;}
+  .nt-row{display:flex;align-items:flex-start;justify-content:space-between;min-height:40px;}
+  .nt-tile{width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(90,152,128,.1);}
+  .nt-tile svg{width:20px;height:20px;}
+  .nt-check{width:24px;height:24px;border-radius:50%;background:var(--hn);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 5px 10px -4px rgba(90,152,128,.6);}
+  .nt-check svg{width:13px;height:13px;color:#fff;}
+  .nt-name{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   /* blood type grid */
   .bt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
   .bt-chip{padding:12px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:transform .12s;}
@@ -256,8 +266,7 @@
                 <button class="al-add-btn" onclick="confirmAllergy()">Add</button>
               </div>
               <div class="chips" id="allergyChips" style="margin-top:12px"></div>
-              <div class="rc-lbl sp" id="sugLbl">Suggestions</div>
-              <div class="chips" id="commonAllergyChips"></div>
+              <div class="chips" id="commonAllergyChips" style="margin-top:12px"></div>
             </div>
           </div>
 
@@ -648,8 +657,7 @@
     {n:'Shellfish',svg:'<path d="M12 4.5c-4.4 0-7.5 3.6-7.5 7.8 0 .5.4.9.9.9h13.2c.5 0 .9-.4.9-.9 0-4.2-3.1-7.8-7.5-7.8z"/><path d="M12 4.5v8.7M8.5 5.2 7.8 13.2M15.5 5.2 16.2 13.2"/>'}
   ];
   function renderAllergies(){
-    document.getElementById('allergyChips').innerHTML = allergies.map(function(a){
-      if(a==='None known') return '<span class="chip al-none">None known</span>';
+    document.getElementById('allergyChips').innerHTML = allergies.filter(function(a){return a!=='None known';}).map(function(a){
       return '<span class="chip" style="background:#f1ecf8;color:#7a68ad">'+esc(a)+'<span class="x" onclick="removeAllergy(\''+esc(a).replace(/'/g,"")+'\')">✕</span></span>';
     }).join('');
     renderAllergySuggest();
@@ -657,7 +665,6 @@
   function renderAllergySuggest(){
     var el=document.getElementById('commonAllergyChips'); if(!el) return;
     var avail=ALLERGY_SUGGEST.filter(function(s){return allergies.indexOf(s.n)<0;});
-    var lbl=document.getElementById('sugLbl'); if(lbl) lbl.style.display=avail.length?'':'none';
     el.innerHTML=avail.map(function(s){
       return '<button class="chip sug-chip" onclick="addAllergyVal(\''+s.n+'\')"><span class="sug-em"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.n+'</button>';
     }).join('');
@@ -669,7 +676,7 @@
     renderAllergies(); toast('Allergy added ✓');
   }
   function confirmAllergy(){ var el=document.getElementById('allergyInput'); addAllergyVal(el.value); el.value=''; el.focus(); }
-  function removeAllergy(a){ allergies=allergies.filter(function(x){return x!==a;}); if(!allergies.length) allergies=['None known']; renderAllergies(); }
+  function removeAllergy(a){ allergies=allergies.filter(function(x){return x!==a;}); renderAllergies(); }
 
   /* ---------- Growth ---------- */
   function setGrowthTab(t){growthTab=t;renderGrowth();}
@@ -727,7 +734,8 @@
   function renderNoteTypeChips(){
     document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
       var on=nt.type===noteType;
-      return '<button class="nt-chip" style="background:'+(on?'var(--hn)':'rgba(90,152,128,.1)')+';color:'+(on?'#fff':'var(--hn)')+'" onclick="pickNoteType(\''+nt.type+'\')"><span class="nt-em" style="background:#fff"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg></span>'+nt.label+'</button>';
+      var chk = on ? '<span class="nt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' : '';
+      return '<button class="nt-card'+(on?' on':'')+'" onclick="pickNoteType(\''+nt.type+'\')"><div class="nt-row"><span class="nt-tile"><svg viewBox="0 0 24 24" fill="none" stroke="var(--hn)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg></span>'+chk+'</div><div class="nt-name">'+nt.label+'</div></button>';
     }).join('');
   }
   function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
