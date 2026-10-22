@@ -117,10 +117,10 @@
   .al-chip .x{margin-left:1px;}
   /* note-type picker grid */
   .nt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .nt-chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;text-align:left;transition:transform .12s;}
+  .nt-chip{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;text-align:left;transition:transform .12s;}
   .nt-chip:active{transform:scale(.98);}
-  .nt-em{width:27px;height:27px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-  .nt-em svg{width:15px;height:15px;}
+  .nt-em{width:31px;height:31px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .nt-em svg{width:16px;height:16px;}
   /* selectable option cards (icon + check) */
   .nt-card{position:relative;display:flex;flex-direction:column;gap:9px;padding:10px 11px 11px;border-radius:15px;border:1.5px solid #ece7f1;background:#faf8fc;cursor:pointer;text-align:left;font-family:inherit;transition:border-color .15s,background .15s,transform .12s;}
   .nt-card:active{transform:scale(.98);}
@@ -169,6 +169,7 @@
   .row-t{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .row-s{font-size:12px;color:#8b8296;font-weight:500;margin-top:2px;line-height:1.35;}
   .row-date{font-size:11px;color:#b3aac2;font-weight:700;flex-shrink:0;margin-left:8px;white-space:nowrap;}
+  .row-bdate{font-size:11px;color:#b3aac2;font-weight:700;margin-top:7px;}
 
   /* growth chart */
   .gr-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
@@ -179,8 +180,7 @@
   /* vaccine */
   .vac-tabs{display:flex;gap:7px;margin-bottom:12px;}
   .vac-tab{flex:1;padding:9px 4px;border-radius:20px;font-size:10.5px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .12s;}
-  .vac{padding:12px 0;border-bottom:1px solid var(--line);}
-  .vac:last-child{border-bottom:none;}
+  .vac{padding:13px 14px;border-radius:18px;background:#fff;border:1.5px solid rgba(139,116,181,.18);box-shadow:0 10px 24px -16px rgba(120,90,140,.38);margin-bottom:11px;}
   .vac-row{display:flex;align-items:flex-start;gap:11px;}
   .vac-check{margin-top:1px;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
   .vac-check svg{width:13px;height:13px;color:#fff;}
@@ -838,8 +838,13 @@
     toggleForm('visitForm',false);renderVisits();toast('Visit added ✓');
   }
   function renderVisits(){
+    var STETH='<path d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3"/><path d="M6 3H4.6M15 3h1.4"/><path d="M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle cx="19.1" cy="12.8" r="2.3"/>';
+    var PILL='<path d="M10.5 3.5 3.5 10.5a5 5 0 0 0 7 7l7-7a5 5 0 0 0-7-7z"/><path d="M7 7l7 7"/>';
     document.getElementById('visitsList').innerHTML=VISITS.map(function(v){
-      return '<div class="row"><div class="row-main"><div class="row-t">'+esc(v.title)+'</div><div class="row-s">'+esc(v.doctor)+(v.note?' · '+esc(v.note):'')+'</div></div><div class="row-date">'+esc(v.date)+'</div></div>';
+      var sick=/sick|infection|ill|fever|flu|cold|rash|cough/i.test(v.title||'');
+      var col=sick?'#ef7a66':'#45b487', ic=sick?PILL:STETH;
+      return '<div class="row"><div class="row-ic" style="background:'+col+'"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
+        '<div class="row-main"><div class="row-t">'+esc(v.title)+'</div><div class="row-s">'+esc(v.doctor)+(v.note?' · '+esc(v.note):'')+'</div><div class="row-bdate">'+esc(v.date)+'</div></div></div>';
     }).join('');
   }
 
