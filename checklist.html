@@ -57,10 +57,12 @@
 
   /* hub category cards */
   .hub{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
-  .ck-intro{display:flex;gap:11px;align-items:flex-start;margin:14px 0 2px;background:linear-gradient(140deg,#f4f0fb,#ece6f6);border-radius:16px;padding:13px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.13);}
-  .cki-ic{width:30px;height:30px;border-radius:50%;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .cki-ic svg{width:17px;height:17px;}
-  .cki-tx{font-size:12.5px;line-height:1.5;color:#6f6880;font-weight:600;}
+  .ck-intro,.cp-guide{position:relative;overflow:hidden;display:flex;gap:13px;align-items:center;background:linear-gradient(150deg,#b0a2d8,#9279bd);color:#fff;border-radius:20px;box-shadow:0 16px 30px -16px rgba(140,116,181,.7),inset 0 0 0 1px rgba(255,255,255,.14);}
+  .ck-intro{margin:14px 0 2px;padding:15px 16px;}
+  .ck-intro::after,.cp-guide::after{content:'';position:absolute;top:-40px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12);}
+  .cki-ic{position:relative;z-index:1;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .cki-ic svg{width:21px;height:21px;}
+  .cki-tx{position:relative;z-index:1;font-size:13px;line-height:1.45;color:#fff;font-weight:600;}
   .hub-cat{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;background:#fff;border-radius:24px;padding:14px 15px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .13s;}
   .hub-cat:active{transform:scale(.99);}
   .hub-cat .hc-ic{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:25px;}
@@ -136,7 +138,7 @@
   .cp-title{font-size:19px;font-weight:800;letter-spacing:-.3px;}
   .pack-title{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin:18px 2px 12px;}
   .cp-sub{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:1px;}
-  .cp-guide{display:flex;gap:11px;align-items:flex-start;margin:2px 20px 14px;background:linear-gradient(140deg,#f4f0fb,#ece6f6);border-radius:16px;padding:13px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.13);}
+  .cp-guide{margin:2px 20px 14px;padding:15px 16px;}
   .cp-body{flex:1;overflow-y:auto;padding:4px 20px 30px;}
   .cp-body::-webkit-scrollbar{display:none;}
 
