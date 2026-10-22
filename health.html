@@ -402,7 +402,6 @@
             <div class="rc-ic" id="hsIc"></div>
             <div class="hs-ht"><div class="hs-title" id="hsTitle"></div><div class="hs-sub" id="hsSub"></div></div>
             <button class="hs-add" id="hsAdd" style="display:none" onclick="hsAddClick()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
-            <button class="vs-close" onclick="sheetClose()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
           </div>
           <div class="hs-content" id="hsContent"></div>
         </div>
@@ -592,9 +591,9 @@
   }
   function applyAddHeader(show){
     if(!curSheet) return;
-    var s=SHEETS[curSheet], t=document.getElementById('hsTitle'), sub=document.getElementById('hsSub');
-    if(show){ t.textContent=s.addTitle||s.title; sub.style.display='none'; }
-    else { t.textContent=s.title; sub.style.display=''; sub.textContent=s.sub||''; }
+    var s=SHEETS[curSheet], t=document.getElementById('hsTitle'), sub=document.getElementById('hsSub'), addBtn=document.getElementById('hsAdd');
+    if(show){ t.textContent=s.addTitle||s.title; sub.style.display='none'; if(addBtn) addBtn.style.display='none'; }
+    else { t.textContent=s.title; sub.style.display=''; sub.textContent=s.sub||''; if(addBtn) addBtn.style.display=s.add?'flex':'none'; }
   }
   var _t;
   function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(_t);_t=setTimeout(function(){t.classList.remove('show');},1800);}
@@ -699,28 +698,49 @@
     var last=GROWTH[GROWTH.length-1];
     document.getElementById('grNow').innerHTML=(growthTab==='weight'?last.weight+' kg':last.height+' cm')+'<span>now</span>';
     // build SVG line chart
-    var W=300,H=96,padL=12,padR=12,padT=10,padB=20;
+    var W=320,H=224,padL=34,padR=14,padT=20,padB=30;
+    var cW=W-padL-padR, cH=H-padT-padB;
     var vals=GROWTH.map(function(g){return growthTab==='weight'?g.weight:g.height;});
-    var min=Math.min.apply(null,vals), max=Math.max.apply(null,vals);
-    if(min===max){min-=1;max+=1;}
+    var dmin=Math.min.apply(null,vals), dmax=Math.max.apply(null,vals);
+    var span=(dmax-dmin)||1;
+    var min=dmin-span*0.18, max=dmax+span*0.18;
+    if(min<0) min=0;
     var n=GROWTH.length;
-    var x=function(i){return padL+(W-padL-padR)*(i/(n-1));};
-    var y=function(v){return padT+(H-padT-padB)*(1-(v-min)/(max-min));};
+    var x=function(i){return padL+cW*(i/(n-1));};
+    var y=function(v){return padT+cH*(1-(v-min)/(max-min));};
     var col=growthTab==='weight'?'#c4705a':'#5a78d4';
-    var base=H-padB;
-    var lineP=GROWTH.map(function(g,i){return (i?'L':'M')+x(i)+' '+y(growthTab==='weight'?g.weight:g.height);}).join(' ');
-    var areaP=lineP+' L'+x(n-1)+' '+base+' L'+x(0)+' '+base+' Z';
-    var dots=GROWTH.map(function(g,i){var cy=y(growthTab==='weight'?g.weight:g.height);var lastOne=i===n-1;return '<circle cx="'+x(i)+'" cy="'+cy+'" r="'+(lastOne?4.2:3)+'" fill="#fff" stroke="'+col+'" stroke-width="2"/>';}).join('');
-    var labels=GROWTH.map(function(g,i){var anc=i===0?'start':(i===n-1?'end':'middle');var lx=i===0?2:(i===n-1?W-2:x(i));return '<text x="'+lx+'" y="'+(H-5)+'" font-size="8.5" fill="#b8b0c4" text-anchor="'+anc+'" font-family="inherit" font-weight="600">'+esc(g.age)+'</text>';}).join('');
+    var unit=growthTab==='weight'?'kg':'cm';
+    var base=padT+cH;
+    var pts=GROWTH.map(function(g,i){return [x(i), y(growthTab==='weight'?g.weight:g.height)];});
+    function sp(P){ if(P.length<2) return 'M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1); var d='M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1); for(var i=0;i<P.length-1;i++){var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,t=0.16; var c1x=p1[0]+(p2[0]-p0[0])*t,c1y=p1[1]+(p2[1]-p0[1])*t,c2x=p2[0]-(p3[0]-p1[0])*t,c2y=p2[1]-(p3[1]-p1[1])*t; d+=' C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+' '+c2x.toFixed(1)+' '+c2y.toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);} return d; }
+    var lineP=sp(pts);
+    var areaP=lineP+' L'+x(n-1).toFixed(1)+' '+base.toFixed(1)+' L'+x(0).toFixed(1)+' '+base.toFixed(1)+' Z';
+    // y-axis gridlines + labels
+    var TICKS=4, grid='';
+    for(var k=0;k<=TICKS;k++){
+      var gy=padT+cH*(k/TICKS);
+      var gv=max-(max-min)*(k/TICKS);
+      var lbl=growthTab==='weight'?gv.toFixed(1):Math.round(gv);
+      grid+='<line x1="'+padL+'" y1="'+gy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+gy.toFixed(1)+'" stroke="#efecf5" stroke-width="1"/>';
+      grid+='<text x="'+(padL-8)+'" y="'+(gy+3.2).toFixed(1)+'" font-size="9" fill="#bcb4c8" text-anchor="end" font-family="inherit" font-weight="600">'+lbl+'</text>';
+    }
+    var dots=GROWTH.map(function(g,i){var cy=y(growthTab==='weight'?g.weight:g.height);var lastOne=i===n-1;return '<circle cx="'+x(i).toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+(lastOne?5:3.4)+'" fill="#fff" stroke="'+col+'" stroke-width="2.4"/>';}).join('');
+    var labels=GROWTH.map(function(g,i){var anc=i===0?'start':(i===n-1?'end':'middle');var lx=i===0?padL:(i===n-1?W-padR:x(i));return '<text x="'+lx.toFixed(1)+'" y="'+(H-10)+'" font-size="9" fill="#b8b0c4" text-anchor="'+anc+'" font-family="inherit" font-weight="600">'+esc(g.age)+'</text>';}).join('');
+    // highlight tag on latest point
+    var lv=vals[n-1], lvTxt=(growthTab==='weight'?lv.toFixed(1):Math.round(lv))+' '+unit;
+    var lpx=x(n-1), lpy=y(lv), tagW=lvTxt.length*5.7+16;
+    var tagX=Math.max(padL, Math.min(lpx-tagW/2, W-padR-tagW)), tagY=lpy-25; if(tagY<padT-2) tagY=lpy+9;
+    var tag='<rect x="'+tagX.toFixed(1)+'" y="'+tagY.toFixed(1)+'" width="'+tagW.toFixed(1)+'" height="19" rx="9.5" fill="'+col+'"/><text x="'+(tagX+tagW/2).toFixed(1)+'" y="'+(tagY+13).toFixed(1)+'" font-size="10" fill="#fff" text-anchor="middle" font-family="inherit" font-weight="800">'+lvTxt+'</text>';
     var gid='grad'+growthTab;
     document.getElementById('growthChart').innerHTML=
       '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+
       '<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1">'+
-      '<stop offset="0" stop-color="'+col+'" stop-opacity="0.18"/>'+
+      '<stop offset="0" stop-color="'+col+'" stop-opacity="0.22"/>'+
       '<stop offset="1" stop-color="'+col+'" stop-opacity="0"/></linearGradient></defs>'+
+      grid+
       '<path d="'+areaP+'" fill="url(#'+gid+')" stroke="none"/>'+
-      '<path d="'+lineP+'" fill="none" stroke="'+col+'" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'+
-      dots+labels+'</svg>';
+      '<path d="'+lineP+'" fill="none" stroke="'+col+'" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>'+
+      dots+labels+tag+'</svg>';
   }
   function saveGrowth(){
     var age=document.getElementById('gAge').value.trim();
