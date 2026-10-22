@@ -1507,7 +1507,7 @@
       closeMemCardMenu(); renderMemState();
       try{ updateWelcome(CURRENT_KEY); }catch(e){}
     }
-    function memTitle(k){ for(var i=0;i<MEM_PROMPTS.length;i++){ if(MEM_PROMPTS[i].k===k) return MEM_PROMPTS[i].t; } return ''; }
+    function memTitle(k){ var a=memPrompts(); for(var i=0;i<a.length;i++){ if(a[i].k===k) return a[i].t; } return ''; }
     function openMemUpload(k){
       var posts=memPosts(), t=memTitle(k), p=posts[t];
       if(p && p.img && p.img.length>12){ location.href='memories.html'; return; }
