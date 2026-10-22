@@ -159,6 +159,8 @@
   .cc-mile-title{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .cc-mile-explore{display:inline-flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700;color:#8574b5;cursor:pointer;}
   .cc-mile-grid{display:flex;padding:10px 2px 4px;margin-top:4px;border-top:1px solid #f2eef7;}
+  .cc-mile-top{margin-top:2px;}
+  .cc-mile-top .cc-mile-grid{border-top:none;margin-top:0;padding-top:2px;}
   .cc-mile-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;}
   .cc-mile-item .mi-circle{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
   .cc-mile-item .mi-ring{position:absolute;inset:0;transform:rotate(-90deg);}
@@ -1359,9 +1361,7 @@
       var c = CHILDREN[key];
       var mv = c.mile || {motor:70,idea:60,lang:50,social:75};
       return '<div class="card child-card" data-key="'+key+'" onclick="selectChild(\''+key+'\')">'
-        + '<div class="cc-head"><div class="child-face"'+(c.photo?' style="background-image:url(\''+c.photo+'\')"':'')+'>'+(c.photo?'':c.face)+'</div>'
-        +   '<div class="cc-main"><div class="cc-name-row"><div class="cc-name">'+c.name+'</div></div></div></div>'
-        + '<div class="cc-mile">'
+        + '<div class="cc-mile cc-mile-top">'
         +   '<div class="cc-mile-grid">'
         +     '<div class="cc-mile-item m-motor"><div class="mi-circle">'+mRing(mv.motor)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="11.1" width="5.4" height="1.8" rx=".9"/><rect x="7" y="8.3" width="9" height="7.4" rx="1.8"/><rect x="16" y="10.9" width="5" height="2.2" rx="1.1"/><rect x="20" y="8.3" width="1.9" height="7.4" rx=".95"/></svg></span></div><span class="mi-name">Motor</span></div>'
         +     '<div class="cc-mile-item m-idea"><div class="mi-circle">'+mRing(mv.idea)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="3.5" y="12" width="4.3" height="8.5" rx="1.3"/><rect x="9.85" y="7" width="4.3" height="13.5" rx="1.3"/><rect x="16.2" y="3" width="4.3" height="17.5" rx="1.3"/></svg></span></div><span class="mi-name">Cognitive</span></div>'
