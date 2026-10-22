@@ -1563,7 +1563,7 @@
       // meal plan
       var mp = document.getElementById('mpList');
       if(mp && c.meals){
-        var tints = ['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'];
+        var tints = ['#ffe0c7','#d2e3ff','#cbead9','#ffd7e3','#ddd1f2'];
         var strokes = ['#dd8646','#5b7fc9','#3aa877','#d6567a','#7a68ad'];
         mp.innerHTML = c.meals.map(function(ml, i){
           return '<div class="mp-row" onclick="openMeal('+i+')"><span class="mp-ic" style="background:'+tints[i%tints.length]+'">'+mealIcon(ml.m,strokes[i%strokes.length])+'</span>'+
@@ -1584,7 +1584,7 @@
     }
     function openMeal(i){
       var c=CHILDREN[CURRENT_KEY]; if(!c||!c.meals||!c.meals[i]) return;
-      var ml=c.meals[i], tints=['#fdeccf','#e3eeff','#e5f6e2','#ffe3ef','#efe7ff'], strokes=['#dd8646','#5b7fc9','#3aa877','#d6567a','#7a68ad'];
+      var ml=c.meals[i], tints=['#ffe0c7','#d2e3ff','#cbead9','#ffd7e3','#ddd1f2'], strokes=['#dd8646','#5b7fc9','#3aa877','#d6567a','#7a68ad'];
       var ic=document.getElementById('mealIc'); ic.innerHTML=mealIcon(ml.m,strokes[i%strokes.length]); ic.style.background=tints[i%tints.length];
       document.getElementById('mealM').textContent=ml.m;
       document.getElementById('mealTime').textContent=ml.t;
