@@ -319,7 +319,7 @@
               <div class="form" id="noteForm" style="display:none">
                 <div class="form-title"><span class="ft-dot" style="background:var(--hn)"></span>Add a note</div>
                 <div class="rc-lbl">What are you noting?</div>
-                <div class="nt-grid" id="noteTypeChips"></div>
+                <div class="chips" id="noteTypeChips"></div>
                 <div id="noteFields"></div>
               </div>
               <div id="notesList"></div>
@@ -743,8 +743,7 @@
   function renderNoteTypeChips(){
     document.getElementById('noteTypeChips').innerHTML=NOTE_TYPES.map(function(nt){
       var on=nt.type===noteType;
-      var chk = on ? '<span class="nt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' : '';
-      return '<button class="nt-card'+(on?' on':'')+'" onclick="pickNoteType(\''+nt.type+'\')"><div class="nt-row"><span class="nt-tile"><svg viewBox="0 0 24 24" fill="none" stroke="#7a68ad" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg></span>'+chk+'</div><div class="nt-name">'+nt.label+'</div></button>';
+      return '<button class="chip has-ic" style="background:'+(on?'linear-gradient(155deg,#b0a2d8,#9b8bc4)':'#f1ecf8')+';color:'+(on?'#fff':'#7a68ad')+'" onclick="pickNoteType(\''+nt.type+'\')"><svg class="chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+nt.svg+'</svg>'+nt.label+'</button>';
     }).join('');
   }
   function pickNoteType(t){noteType=t;noteSel={};renderNoteTypeChips();renderNoteFields();}
