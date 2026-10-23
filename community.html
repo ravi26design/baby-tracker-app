@@ -506,6 +506,10 @@
   .c-section{font-size:12px;font-weight:800;letter-spacing:-.5px;text-transform:uppercase;color:var(--ink);margin:22px 2px 12px;}
   /* talk to an expert */
   .expert-card{position:relative;overflow:hidden;background:linear-gradient(150deg,#b0a2d8,#8f78c4);color:#fff;border-radius:20px;padding:16px;margin:6px 0 4px;box-shadow:0 18px 34px -18px rgba(140,116,181,.85);cursor:pointer;}
+  .c-section.exp-sec-head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .exp-add{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 7px 14px -6px rgba(140,116,181,.75);transition:transform .12s;}
+  .exp-add:active{transform:scale(.92);}
+  .exp-add svg{width:17px;height:17px;}
   .expert-card::after{content:'';position:absolute;top:-44px;right:-34px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12);}
   .ex-top{display:flex;align-items:center;gap:13px;position:relative;z-index:1;}
   .ex-ic{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
@@ -984,7 +988,7 @@
             <div class="tab" data-tab="feeds" onclick="switchTab('feeds')">Feeds</div>
           </div>
           <div id="tabGroups">
-          <div class="expert-card" onclick="openExpert()">
+          <div class="expert-card" id="expertPromo" onclick="openExpert()">
             <div class="ex-title">Ask to an Expert</div>
             <div class="ex-sub">1:1 advice from verified paediatric experts.</div>
             <div class="ex-foot">
@@ -992,7 +996,7 @@
               <button class="ex-cta2">Start a chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
             </div>
           </div>
-          <div class="c-section" id="expSectionHead" style="display:none">Expert Chat</div>
+          <div class="c-section exp-sec-head" id="expSectionHead" style="display:none"><span>Expert Chat</span><button class="exp-add" onclick="openExpert()" aria-label="New expert chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="expertChats"></div>
           <div class="c-section">Your Groups</div>
           
@@ -1514,8 +1518,9 @@
     }
     function renderExpertChats(){
       var wrap=document.getElementById('expertChats'), head=document.getElementById('expSectionHead');
-      if(!EXP_CHATS.length){ wrap.innerHTML=''; head.style.display='none'; return; }
-      head.style.display='';
+      var promo=document.getElementById('expertPromo');
+      if(!EXP_CHATS.length){ wrap.innerHTML=''; head.style.display='none'; if(promo) promo.style.display=''; return; }
+      head.style.display=''; if(promo) promo.style.display='none';
       wrap.innerHTML=EXP_CHATS.map(function(c,i){
         var e=EXPERTS[c.expert]||{};
         return '<div class="grp" onclick="openExpertChat('+i+')">'
