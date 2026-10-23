@@ -345,11 +345,12 @@
                 <div class="form-title"><span class="ft-dot" style="background:var(--gr)"></span>Add a visit</div>
                 <div class="rc-lbl">Reason for Visit</div>
                 <div class="chips" id="vReasonChips"></div>
-                <div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
-                  <input class="fld" id="vDoctor" value="Dr. Priya Menon" placeholder="Doctor name">
-                  <input class="fld" id="vDate" placeholder="Date (e.g. 21 Oct 2026)">
-                  <input class="fld" id="vNote" placeholder="Notes (optional)">
-                </div>
+                <div class="rc-lbl sp">Doctor</div>
+                <input class="fld" id="vDoctor" value="Dr. Priya Menon" placeholder="Doctor name">
+                <div class="rc-lbl sp">Date</div>
+                <input class="fld" id="vDate" placeholder="Date (e.g. 21 Oct 2026)">
+                <div class="rc-lbl sp">Notes</div>
+                <input class="fld" id="vNote" placeholder="Notes (optional)">
                 <div class="form-actions">
                   <button class="btn btn-save" onclick="saveVisit()">Save</button>
                 </div>
