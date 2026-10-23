@@ -960,7 +960,7 @@
         return '<button class="pv-fbtn'+(f===WISH_FILTER?' on':'')+'" onclick="setWishFilter(\''+f.replace(/'/g,'')+'\')">'+f+'</button>';
       }).join('')+'</div>';
       if(WISH_FILTER==='All'){
-        body=order.map(function(c){ return '<div class="wl-cat">'+c+' <span class="wl-cat-n">'+groups[c].length+'</span></div>'+groups[c].map(wlRow).join(''); }).join('');
+        body=order.map(function(c){ return '<div class="wl-cat">'+c+'</div>'+groups[c].map(wlRow).join(''); }).join('');
       } else {
         body=groups[WISH_FILTER].map(wlRow).join('');
       }
