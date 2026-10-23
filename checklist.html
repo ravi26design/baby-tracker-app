@@ -63,6 +63,22 @@
   .cki-ic{position:relative;z-index:1;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .cki-ic svg{width:21px;height:21px;}
   .cki-tx{position:relative;z-index:1;font-size:13px;line-height:1.45;color:#fff;font-weight:600;}
+  .myck-sec{margin-top:26px;}
+  .myck-head{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 2px 12px;}
+  .myck-add{display:flex;gap:9px;margin-bottom:14px;}
+  .myck-in{flex:1;min-width:0;border:none;background:#fff;border-radius:14px;padding:13px 15px;font-family:inherit;font-size:14px;color:var(--ink);box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.1);}
+  .myck-in:focus{outline:none;box-shadow:var(--shadow-soft),inset 0 0 0 1.6px var(--lav-2);}
+  .myck-in::placeholder{color:#b1a8c4;}
+  .myck-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);border-radius:14px;padding:0 20px;box-shadow:0 10px 18px -8px rgba(140,116,181,.7);transition:transform .12s;}
+  .myck-btn:active{transform:scale(.97);}
+  .myck-row{display:flex;align-items:center;gap:13px;background:#fff;border-radius:16px;padding:14px 15px;margin-bottom:10px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);cursor:pointer;transition:transform .12s;}
+  .myck-row:active{transform:scale(.99);}
+  .myck-row.done .cbox{background:linear-gradient(150deg,#a58fd8,#8f78c4);box-shadow:0 6px 12px -5px rgba(140,116,181,.6);}
+  .myck-name{flex:1;min-width:0;font-size:14.5px;font-weight:700;color:var(--ink);}
+  .myck-row.done .myck-name{color:#aba3b5;text-decoration:line-through;}
+  .myck-del{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:none;cursor:pointer;background:rgba(150,140,175,.1);color:#aba1bc;font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .myck-del:active{background:#ffe4ea;color:#e8698f;}
+  .myck-empty{font-size:12.5px;color:#a99fbb;font-weight:500;line-height:1.5;padding:4px 2px;}
   .hub-cat{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;background:#fff;border-radius:24px;padding:14px 15px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .13s;}
   .hub-cat:active{transform:scale(.99);}
   .hub-cat .hc-ic{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:25px;}
@@ -535,6 +551,11 @@
           <div class="child-tabs" id="childTabs"></div>
           <div class="ck-intro" id="ckIntro" style="display:none"><span class="cki-tx" id="ckIntroTx"></span></div>
           <div class="hub" id="hub" style="margin-top:16px"></div>
+          <div class="myck-sec">
+            <div class="myck-head">My Checklist</div>
+            <div class="myck-add"><input id="myckInput" class="myck-in" type="text" placeholder="Add your own item…" onkeydown="if(event.key==='Enter')addMyCk()"><button class="myck-btn" onclick="addMyCk()">Add</button></div>
+            <div class="myck-list" id="myckList"></div>
+          </div>
         </div>
       </div>
 
@@ -702,6 +723,21 @@
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
     document.getElementById('hub').innerHTML = normal;
+    loadMyCk(); renderMyCk();
+  }
+
+  /* ---- My Checklist (custom items) ---- */
+  var MYCK=[];
+  function myckEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function loadMyCk(){ try{ MYCK=JSON.parse(localStorage.getItem('bt_myck_'+CUR_CHILD)||'[]'); }catch(e){ MYCK=[]; } }
+  function saveMyCk(){ try{ localStorage.setItem('bt_myck_'+CUR_CHILD, JSON.stringify(MYCK)); }catch(e){} }
+  function addMyCk(){ var el=document.getElementById('myckInput'); var v=(el&&el.value||'').trim(); if(!v){ if(el)el.focus(); return; } MYCK.push({name:v,done:false}); if(el){ el.value=''; el.focus(); } saveMyCk(); renderMyCk(); }
+  function toggleMyCk(i){ if(MYCK[i]){ MYCK[i].done=!MYCK[i].done; saveMyCk(); renderMyCk(); } }
+  function removeMyCk(i){ MYCK.splice(i,1); saveMyCk(); renderMyCk(); }
+  function renderMyCk(){ var el=document.getElementById('myckList'); if(!el) return;
+    el.innerHTML = MYCK.length ? MYCK.map(function(it,i){
+      return '<div class="myck-row'+(it.done?' done':'')+'" onclick="toggleMyCk('+i+')"><span class="cbox">'+CHECK_SVG+'</span><span class="myck-name">'+myckEsc(it.name)+'</span><button class="myck-del" onclick="event.stopPropagation();removeMyCk('+i+')" aria-label="Remove">✕</button></div>';
+    }).join('') : '<div class="myck-empty">Add your own items — appointments, reminders or anything else you want to tick off.</div>';
   }
 
   /* category panel */
