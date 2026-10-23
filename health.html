@@ -193,12 +193,12 @@
   .vac-tab{flex:1;padding:9px 4px;border-radius:20px;font-size:10.5px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .12s;}
   .vac{padding:13px 14px;border-radius:18px;background:#fff;border:1.5px solid rgba(139,116,181,.18);box-shadow:0 10px 24px -16px rgba(120,90,140,.38);margin-bottom:11px;}
   .vac-row{display:flex;align-items:flex-start;gap:11px;}
-  .vac-check{margin-top:1px;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+  .vac-check{align-self:center;margin-left:4px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
   .vac-check svg{width:13px;height:13px;color:#fff;}
   .vac-main{flex:1;min-width:0;}
   .vac-nrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
   .vac-name{font-size:13.5px;font-weight:800;color:var(--ink);}
-  .vac-name.done{color:#aba3b5;text-decoration:line-through;}
+  .vac-name.done{color:var(--ink);text-decoration:none;}
   .vac-info{width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .vac-info svg{width:12px;height:12px;}
   .vac-due{font-size:11px;color:#8b8296;font-weight:500;margin-top:3px;}
@@ -951,7 +951,7 @@
     var list=VACCINES.filter(function(v){return v.category===vacTab;});
     document.getElementById('vacList').innerHTML=list.map(function(v){
       var h='<div class="vac"><div class="vac-row">';
-      h+='<button class="vac-check" style="'+(v.done?'border-color:#9b8bc4;background:#9b8bc4':'')+'" onclick="toggleVacMark(\''+v.id+'\')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>';
+      var checkBtn='<button class="vac-check" style="'+(v.done?'border-color:#9b8bc4;background:#9b8bc4':'')+'" onclick="toggleVacMark(\''+v.id+'\')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>';
       h+='<div class="vac-main"><div class="vac-nrow"><span class="vac-name'+(v.done?' done':'')+'">'+esc(v.name)+'</span>';
       h+='<button class="vac-info" style="background:#f1ecf8;color:#7a68ad" onclick="openVacInfo(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></button></div>';
       h+='<div class="vac-due">'+esc(v.dueAge)+' · '+(v.done?'Done '+esc(v.doneDate):'Due '+esc(v.dueDate))+'</div>';
@@ -960,7 +960,7 @@
       if(reminderEdit===v.id)h+='<div class="vac-inline"><input class="fld" id="remInput" placeholder="Reminder date"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="saveReminder(\''+v.id+'\')">Set</button></div>';
       h+='</div><div class="vac-right">';
       if(!v.done)h+='<span class="vac-up">Upcoming</span><button class="vac-bell" style="background:'+(v.reminder?'#f1ecf8':'#efe9f3')+'" onclick="toggleReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'#7a68ad':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
-      h+='</div></div></div>';
+      h+='</div>'+checkBtn+'</div></div>';
       return h;
     }).join('') || '<div class="row-s" style="padding:10px 2px">No vaccines in this group.</div>';
   }
