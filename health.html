@@ -209,7 +209,10 @@
   .vac-bell{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .vac-bell svg{width:15px;height:15px;}
   .vac-inline{display:flex;gap:7px;margin-top:9px;}
-  .vac-inline .fld{padding:8px 11px;font-size:12px;}
+  .vac-inline .fld{padding:8px 11px;font-size:12px;min-width:0;}
+  .fld-dt{font-family:inherit;color:var(--ink);background:#f6f3fb;}
+  .fld-dt::-webkit-datetime-edit{color:var(--ink);}
+  .fld-dt::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}
   .vac-inline .mini{padding:8px 13px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
 
   /* vaccine info sheet */
@@ -957,7 +960,7 @@
       h+='<div class="vac-due">'+esc(v.dueAge)+' · '+(v.done?'Done '+esc(v.doneDate):'Due '+esc(v.dueDate))+'</div>';
       if(v.reminder)h+='<div class="vac-rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Reminder: '+esc(v.reminder)+'</div>';
       if(vacMarkId===v.id)h+='<div class="vac-inline"><input class="fld" id="vacMarkInput" value="'+esc(vacMarkDate)+'" placeholder="Date done"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="markVacDone(\''+v.id+'\')">Done</button></div>';
-      if(reminderEdit===v.id)h+='<div class="vac-inline"><input class="fld" id="remInput" placeholder="Reminder date"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="saveReminder(\''+v.id+'\')">Set</button></div>';
+      if(reminderEdit===v.id)h+='<div class="vac-inline"><input class="fld fld-dt" id="remInput" type="datetime-local"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="saveReminder(\''+v.id+'\')">Set</button></div>';
       h+='</div><div class="vac-right">';
       if(!v.done)h+='<span class="vac-up">Upcoming</span><button class="vac-bell" style="background:'+(v.reminder?'#f1ecf8':'#efe9f3')+'" onclick="toggleReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'#7a68ad':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
       h+='</div>'+checkBtn+'</div></div>';
@@ -967,7 +970,14 @@
   function toggleVacMark(id){var v=VACCINES.find(function(x){return x.id===id;});if(v.done)return;vacMarkId=vacMarkId===id?null:id;vacMarkDate=TODAY;reminderEdit=null;renderVac();}
   function markVacDone(id){var d=document.getElementById('vacMarkInput').value.trim()||TODAY;VACCINES.find(function(x){return x.id===id;}).done=true;VACCINES.find(function(x){return x.id===id;}).doneDate=d;vacMarkId=null;renderVac();toast('Marked done ✓');}
   function toggleReminder(id){reminderEdit=reminderEdit===id?null:id;vacMarkId=null;renderVac();}
-  function saveReminder(id){var d=document.getElementById('remInput').value.trim();if(!d){toast('Enter a date');return;}VACCINES.find(function(x){return x.id===id;}).reminder=d;reminderEdit=null;renderVac();toast('Reminder set 🔔');}
+  function fmtDateTime(val){
+    if(!val) return '';
+    var d=new Date(val); if(isNaN(d.getTime())) return val;
+    var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var hh=d.getHours(), mm=d.getMinutes(), ap=hh>=12?'PM':'AM', h12=hh%12||12;
+    return d.getDate()+' '+mo[d.getMonth()]+' '+d.getFullYear()+' · '+h12+':'+(mm<10?'0'+mm:mm)+' '+ap;
+  }
+  function saveReminder(id){var raw=document.getElementById('remInput').value;if(!raw){toast('Pick a date & time');return;}VACCINES.find(function(x){return x.id===id;}).reminder=fmtDateTime(raw);reminderEdit=null;renderVac();toast('Reminder set 🔔');}
   function openVacInfo(id){
     var v=VACCINES.find(function(x){return x.id===id;});
     var cat=VAC_CAT.filter(function(c){return c.key===v.category;})[0];
