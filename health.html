@@ -45,7 +45,7 @@
   .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
   .child-tab.active .ct-name{color:#fff;}
 
-  .rec-hero{position:relative;overflow:hidden;border-radius:24px;padding:17px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;
+  .rec-hero{position:relative;overflow:hidden;border-radius:16px;padding:16px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;
     background:linear-gradient(150deg,#b0a2d8,#9279bd);color:#fff;
     box-shadow:0 18px 34px -16px rgba(140,116,181,.75),inset 0 0 0 1px rgba(255,255,255,.14);}
   .rec-hero::after{content:'';position:absolute;top:-44px;right:-32px;width:154px;height:154px;border-radius:50%;background:rgba(255,255,255,.12);}
@@ -263,7 +263,7 @@
           <div class="h-title">Health</div>
           <div class="child-tabs" id="childTabs"></div>
           <div class="rec-hero">
-            <div class="rh-txt"><div class="rh-t" id="heroName">Mark's Records</div><div class="rh-s">Everything in one place, always organised.</div></div>
+            <div class="rh-txt"><div class="rh-s">Everything in one place, always organised.</div></div>
           </div>
 
           <!-- Health Profile -->
@@ -574,7 +574,7 @@
       return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-name">'+CHILDREN[k].name+'</span></button>';
     }).join('');
   }
-  function updateHero(){document.getElementById('heroName').textContent=CHILDREN[CUR_CHILD].name+"'s Records";}
+  function updateHero(){var h=document.getElementById('heroName');if(h)h.textContent="Records";}
   function renderAll(){renderBlood();renderAllergies();renderGrowth();renderNotes();renderVReasons();renderVisits();renderDSource();renderDType();renderDocs();renderVac();}
   function switchChild(k){
     if(k===CUR_CHILD)return;
