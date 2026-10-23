@@ -781,7 +781,7 @@
   function nToggle(key,val){var a=noteSel[key]||[];noteSel[key]=a.indexOf(val)>-1?a.filter(function(x){return x!==val;}):a.concat([val]);renderNoteFields();}
   function nSet(key,val){noteSel[key]=val;renderNoteFields();}
   function nField(key,ph,suf){
-    return '<div class="fld-suf"><input class="fld" placeholder="'+ph+'" value="'+(noteSel[key]||'')+'" oninput="noteSel[\''+key+'\']=this.value" inputmode="decimal">'+(suf?'<span>'+suf+'</span>':'')+'</div>';
+    return '<label class="fld-lab">'+ph+'<div class="fld-suf"><input class="fld" placeholder="0" value="'+(noteSel[key]||'')+'" oninput="noteSel[\''+key+'\']=this.value" inputmode="decimal">'+(suf?'<span>'+suf+'</span>':'')+'</div></label>';
   }
   function renderNoteFields(){
     var d=noteSel, h='', L=function(t){return '<div class="rc-lbl" style="margin:11px 2px 7px">'+t+'</div>';};
