@@ -1159,10 +1159,12 @@
       'City':[{n:'Stroller',ic:'🛒',shop:'stroller'},{n:'Baby carrier',ic:'👝',shop:'carrier'},{n:'Diaper bag',ic:'🎒',shop:'diaperbag'},{n:'Hand sanitizer',ic:'🧴',shop:'handwash'}]
     }[trip.dest]||[];
     function buyable(arr){ return arr.filter(function(x){return x.shop;}); }
+    var icEssW='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5V3.6a1 1 0 0 1 2 0V5"/><rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/><path d="M8.5 12h7M8.5 15.2h7"/></svg>';
+    var w=function(s){return s.replace(/currentColor/g,'#fff');};
     return [
-      {cat:'Daily essentials',desc:'Must-pack basics for all '+d+' day'+(d>1?'s':''),ic:'🍼',tint:'#ffe6c8',items:buyable(ess)},
-      {cat:trip.season+' care',desc:'Weather-ready picks for '+trip.season.toLowerCase(),ic:seasonIc(trip.season),tint:'#d6f3e0',items:buyable(season)},
-      {cat:trip.dest+' gear',desc:'Gear for your '+trip.dest.toLowerCase()+' trip',ic:destIc(trip.dest),tint:'#d5e6ff',items:buyable(dest)}
+      {cat:'Daily essentials',desc:'Must-pack basics for all '+d+' day'+(d>1?'s':''),ic:icEssW,tint:'#ef9a4e',items:buyable(ess)},
+      {cat:trip.season+' care',desc:'Weather-ready picks for '+trip.season.toLowerCase(),ic:w(icSeason(trip.season,22)),tint:'#45b487',items:buyable(season)},
+      {cat:trip.dest+' gear',desc:'Gear for your '+trip.dest.toLowerCase()+' trip',ic:w(icDest(trip.dest,22)),tint:'#6f93d6',items:buyable(dest)}
     ].filter(function(g){return g.items.length;});
   }
 
