@@ -206,6 +206,7 @@
   .vac-rem svg{width:12px;height:12px;}
   .vac-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
   .vac-up{font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;background:#f1ecf8;color:#7a68ad;}
+  .vac-status{font-size:10.5px;font-weight:600;color:#8b8296;text-align:right;}
   .vac-bell{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .vac-bell svg{width:15px;height:15px;}
   .vac-inline{display:flex;gap:7px;margin-top:9px;}
@@ -957,12 +958,12 @@
       var checkBtn='<button class="vac-check" style="'+(v.done?'border-color:#9b8bc4;background:#9b8bc4':'')+'" onclick="toggleVacMark(\''+v.id+'\')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>';
       h+='<div class="vac-main"><div class="vac-nrow"><span class="vac-name'+(v.done?' done':'')+'">'+esc(v.name)+'</span>';
       h+='<button class="vac-info" style="background:#f1ecf8;color:#7a68ad" onclick="openVacInfo(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></button></div>';
-      h+='<div class="vac-due">'+esc(v.dueAge)+' · '+(v.done?'Done '+esc(v.doneDate):'Due '+esc(v.dueDate))+'</div>';
+      h+='<div class="vac-due">'+esc(v.dueAge)+(v.done?' · Done '+esc(v.doneDate):'')+'</div>';
       if(v.reminder)h+='<div class="vac-rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Reminder: '+esc(v.reminder)+'</div>';
       if(vacMarkId===v.id)h+='<div class="vac-inline"><input class="fld" id="vacMarkInput" value="'+esc(vacMarkDate)+'" placeholder="Date done"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="markVacDone(\''+v.id+'\')">Done</button></div>';
       if(reminderEdit===v.id)h+='<div class="vac-inline"><input class="fld fld-dt" id="remInput" type="datetime-local"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="saveReminder(\''+v.id+'\')">Set</button></div>';
       h+='</div><div class="vac-right">';
-      if(!v.done)h+='<span class="vac-up">Upcoming</span><button class="vac-bell" style="background:'+(v.reminder?'#f1ecf8':'#efe9f3')+'" onclick="toggleReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'#7a68ad':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
+      if(!v.done)h+='<span class="vac-up">Upcoming</span><span class="vac-status">Due '+esc(v.dueDate)+'</span><button class="vac-bell" style="background:'+(v.reminder?'#f1ecf8':'#efe9f3')+'" onclick="toggleReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'#7a68ad':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
       h+='</div>'+checkBtn+'</div></div>';
       return h;
     }).join('') || '<div class="row-s" style="padding:10px 2px">No vaccines in this group.</div>';
