@@ -1307,7 +1307,7 @@
       '<span class="th-chip">'+icSeason(t.season,15)+t.season+'</span>'+
       '<span class="th-chip">'+icDest(t.dest,15)+t.dest+'</span></div></div>';
     var tc=t.child||kidKeys()[0];
-    var childTabs = kidKeys().length>1 ? '<div class="child-tabs" style="margin:16px 0 2px">'+kidKeys().map(function(k){var c=CHILDREN[k];return '<button class="child-tab'+(k===tc?' active':'')+'" onclick="switchTripChild(\''+t.id+'\',\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span>'+c.name+'</button>';}).join('')+'</div>' : '';
+    var childTabs = kidKeys().length>1 ? '<div class="child-tabs" style="margin:16px 0 2px">'+kidKeys().map(function(k){var c=CHILDREN[k];return '<button class="child-tab'+(k===tc?' active':'')+'" onclick="switchTripChild(\''+t.id+'\',\''+k+'\')"><span class="ct-name">'+c.name+'</span></button>';}).join('')+'</div>' : '';
     var recs=catCardsHTML(tripSectionsFor(t),'trip|'+t.id,true);
     var myck='<div class="myck-sec"><div class="myck-head">Your trip checklist</div><div class="myck-sub">Add anything else you want to pack or do for this trip.</div><div class="myck-add"><input id="myckInput" class="myck-in" type="text" placeholder="Add your own item…" onkeydown="if(event.key===\'Enter\')addMyCk()"><button class="myck-btn" onclick="addMyCk()">Add</button></div><div class="myck-list" id="myckList"></div></div>';
     document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+hero+childTabs+'<div class="pack-title">Recommended products</div>'+recs+myck;
