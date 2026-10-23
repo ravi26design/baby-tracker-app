@@ -64,7 +64,8 @@
   .cki-ic svg{width:21px;height:21px;}
   .cki-tx{position:relative;z-index:1;font-size:13px;line-height:1.45;color:#fff;font-weight:600;}
   .myck-sec{margin-top:26px;}
-  .myck-head{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 2px 12px;}
+  .myck-head{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 2px 4px;}
+  .myck-sub{font-size:12.5px;font-weight:600;color:#9a8fb3;margin:0 2px 13px;line-height:1.4;}
   .myck-add{display:flex;gap:9px;margin-bottom:14px;}
   .myck-in{flex:1;min-width:0;border:none;background:#fff;border-radius:14px;padding:13px 15px;font-family:inherit;font-size:14px;color:var(--ink);box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.1);}
   .myck-in:focus{outline:none;box-shadow:var(--shadow-soft),inset 0 0 0 1.6px var(--lav-2);}
@@ -551,11 +552,6 @@
           <div class="child-tabs" id="childTabs"></div>
           <div class="ck-intro" id="ckIntro" style="display:none"><span class="cki-tx" id="ckIntroTx"></span></div>
           <div class="hub" id="hub" style="margin-top:16px"></div>
-          <div class="myck-sec">
-            <div class="myck-head">My Checklist</div>
-            <div class="myck-add"><input id="myckInput" class="myck-in" type="text" placeholder="Add your own item…" onkeydown="if(event.key==='Enter')addMyCk()"><button class="myck-btn" onclick="addMyCk()">Add</button></div>
-            <div class="myck-list" id="myckList"></div>
-          </div>
         </div>
       </div>
 
@@ -723,14 +719,13 @@
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
     document.getElementById('hub').innerHTML = normal;
-    loadMyCk(); renderMyCk();
   }
 
-  /* ---- My Checklist (custom items) ---- */
-  var MYCK=[];
+  /* ---- Trip checklist (custom items, per trip) ---- */
+  var MYCK=[], MYCK_TRIP=null;
   function myckEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-  function loadMyCk(){ try{ MYCK=JSON.parse(localStorage.getItem('bt_myck_'+CUR_CHILD)||'[]'); }catch(e){ MYCK=[]; } }
-  function saveMyCk(){ try{ localStorage.setItem('bt_myck_'+CUR_CHILD, JSON.stringify(MYCK)); }catch(e){} }
+  function loadMyCk(tripId){ MYCK_TRIP=tripId||null; try{ MYCK=MYCK_TRIP?JSON.parse(localStorage.getItem('bt_tripck_'+MYCK_TRIP)||'[]'):[]; }catch(e){ MYCK=[]; } }
+  function saveMyCk(){ try{ if(MYCK_TRIP) localStorage.setItem('bt_tripck_'+MYCK_TRIP, JSON.stringify(MYCK)); }catch(e){} }
   function addMyCk(){ var el=document.getElementById('myckInput'); var v=(el&&el.value||'').trim(); if(!v){ if(el)el.focus(); return; } MYCK.push({name:v,done:false}); if(el){ el.value=''; el.focus(); } saveMyCk(); renderMyCk(); }
   function toggleMyCk(i){ if(MYCK[i]){ MYCK[i].done=!MYCK[i].done; saveMyCk(); renderMyCk(); } }
   function removeMyCk(i){ MYCK.splice(i,1); saveMyCk(); renderMyCk(); }
@@ -1311,7 +1306,9 @@
     var tc=t.child||kidKeys()[0];
     var childTabs = kidKeys().length>1 ? '<div class="child-tabs" style="margin:16px 0 2px">'+kidKeys().map(function(k){var c=CHILDREN[k];return '<button class="child-tab'+(k===tc?' active':'')+'" onclick="switchTripChild(\''+t.id+'\',\''+k+'\')"><span class="ct-face" style="background:'+c.bg+'">'+c.face+'</span>'+c.name+'</button>';}).join('')+'</div>' : '';
     var recs=catCardsHTML(tripSectionsFor(t),'trip|'+t.id,true);
-    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+hero+childTabs+'<div class="pack-title">Recommended products</div>'+recs;
+    var myck='<div class="myck-sec"><div class="myck-head">Your trip checklist</div><div class="myck-sub">Add anything else you want to pack or do for this trip.</div><div class="myck-add"><input id="myckInput" class="myck-in" type="text" placeholder="Add your own item…" onkeydown="if(event.key===\'Enter\')addMyCk()"><button class="myck-btn" onclick="addMyCk()">Add</button></div><div class="myck-list" id="myckList"></div></div>';
+    document.getElementById('cpBody').innerHTML='<div style="height:6px"></div>'+hero+childTabs+'<div class="pack-title">Recommended products</div>'+recs+myck;
+    loadMyCk(t.id); renderMyCk();
     document.getElementById('cpBody').scrollTop=0;
   }
   function switchTripChild(id,k){ var t=TRIPS.filter(function(x){return x.id===id;})[0]; if(t){ t.child=k; saveTrips(); openTrip(id); } }
