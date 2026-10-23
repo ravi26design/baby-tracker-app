@@ -1536,9 +1536,16 @@
       document.getElementById('chatPres').textContent=e.spec+' · '+(e.on?'Online':'Replies in ~10 min');
       var m={n:name,e:e.e,c1:e.c1,c2:e.c2,tag:e.tag,tagKind:e.tagKind,tagBg:e.tagBg,tagFg:e.tagFg};
       var who=entry.child||'';
-      var ask='Hi, I’d like some advice about '+(entry.topic||'baby care').toLowerCase()+(who?' for '+who:'')+'.'+(entry.detail?' '+entry.detail:'');
+      var sum=[];
+      if(who) sum.push('<b>Child:</b> '+esc(who));
+      if(entry.topic) sum.push('<b>Topic:</b> '+esc(entry.topic));
+      if(entry.urgency) sum.push('<b>How soon:</b> '+esc(entry.urgency));
+      if(entry.detail) sum.push('<b>More:</b> '+esc(entry.detail));
+      var askHTML='Hi 💛 Here’s a quick summary of what I’d like help with —<br>'+sum.join('<br>');
+      var _tk=TK_D.replace('class="tk"','class="tk read"');
+      var askBubble='<div class="msg me"><div class="bub" onclick="openMsgMenu(this)"><div class="txt">'+askHTML+'</div><div class="foot"><span class="tm">Just now</span>'+_tk+'</div></div></div>';
       var reply=(WZ_REPLY[entry.topic]||WZ_REPLY.Other).replace(/\{child\}/g, who||'your little one');
-      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+mine(ask,'Just now','read')+incoming(m,reply,'')+'<div class="seenby" id="seenBy"></div>';
+      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+askBubble+incoming(m,reply,'')+'<div class="seenby" id="seenBy"></div>';
       document.getElementById('chatBody').innerHTML=html;
       var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
       document.getElementById('chat').classList.add('open');
