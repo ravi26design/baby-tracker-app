@@ -208,13 +208,32 @@
   .vac-up{font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;background:#f1ecf8;color:#7a68ad;}
   .vac-status{font-size:11px;font-weight:600;color:#8b8296;}
   .vac-foot{display:flex;align-items:center;gap:8px;margin-top:8px;}
+
+  /* date/time picker */
+  .dt-nav{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 12px;}
+  .dt-mon{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .dt-navbtn{width:34px;height:34px;border-radius:50%;border:none;background:#f3eff6;color:#7a68ad;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .dt-navbtn svg{width:17px;height:17px;}
+  .dt-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+  .dt-wd{text-align:center;font-size:10px;font-weight:800;color:#b4accb;padding:2px 0 6px;text-transform:uppercase;}
+  .dt-day{height:40px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:var(--ink);border-radius:11px;cursor:pointer;transition:background .12s;}
+  .dt-day.muted{color:#d2ccde;}
+  .dt-day.today{box-shadow:inset 0 0 0 1.5px #cdbff0;}
+  .dt-day.sel{background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;box-shadow:0 7px 14px -6px rgba(140,116,181,.7);}
+  .dt-day.empty{cursor:default;}
+  .dt-tlbl{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8b8296;margin:16px 2px 6px;}
+  .dt-wheels{position:relative;display:flex;justify-content:center;gap:6px;height:152px;margin:2px 0 4px;}
+  .dt-band{position:absolute;left:12px;right:12px;top:57px;height:38px;background:#f3eff6;border-radius:12px;pointer-events:none;}
+  .dt-col{height:152px;overflow-y:auto;scroll-snap-type:y mandatory;text-align:center;scrollbar-width:none;position:relative;z-index:1;flex:0 0 72px;}
+  .dt-col::-webkit-scrollbar{display:none;}
+  .dt-pad{height:57px;}
+  .dt-item{height:38px;line-height:38px;scroll-snap-align:center;font-size:18px;font-weight:700;color:#aba3bd;}
+  .dt-set{width:100%;margin-top:14px;padding:14px;border-radius:16px;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
+  .dt-set:active{transform:scale(.99);}
   .vac-bell{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .vac-bell svg{width:15px;height:15px;}
   .vac-inline{display:flex;gap:7px;margin-top:9px;}
   .vac-inline .fld{padding:8px 11px;font-size:12px;min-width:0;}
-  .fld-dt{font-family:inherit;color:var(--ink);background:#f6f3fb;}
-  .fld-dt::-webkit-datetime-edit{color:var(--ink);}
-  .fld-dt::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;}
   .vac-inline .mini{padding:8px 13px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
 
   /* vaccine info sheet */
@@ -364,7 +383,7 @@
                 <div class="rc-lbl sp">Doctor</div>
                 <input class="fld" id="vDoctor" value="Dr. Priya Menon" placeholder="Doctor name">
                 <div class="rc-lbl sp">Date</div>
-                <input class="fld" id="vDate" placeholder="Date (e.g. 21 Oct 2026)">
+                <input class="fld" id="vDate" placeholder="Date (e.g. 21 Oct 2026)" readonly onclick="openDtVisitDate()">
                 <div class="rc-lbl sp">Notes</div>
                 <input class="fld" id="vNote" placeholder="Notes (optional)">
                 <div class="form-actions">
@@ -391,7 +410,7 @@
                 <div class="chips" id="dTypeChips"></div>
                 <div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
                   <input class="fld" id="dName" placeholder="Document name">
-                  <input class="fld" id="dDate" placeholder="Date (e.g. 21 Oct 2026)">
+                  <input class="fld" id="dDate" placeholder="Date (e.g. 21 Oct 2026)" readonly onclick="openDtDocDate()">
                 </div>
                 <div class="form-actions">
                   <button class="btn btn-save" onclick="saveDoc()">Save</button>
@@ -435,6 +454,13 @@
         <div class="vs-bd" onclick="closeVacInfo()"></div>
         <div class="vs-panel" id="vacInfoPanel"></div>
       </div>
+
+      <!-- date / time picker sheet -->
+      <div class="vs-layer" id="dtPicker" style="z-index:62">
+        <div class="vs-bd" onclick="closeDtPicker()"></div>
+        <div class="vs-panel" id="dtPanel"></div>
+      </div>
+      <input type="file" id="docFile" accept="image/*,application/pdf" style="display:none" onchange="onDocFile(this)">
 
       <!-- row edit/delete action sheet -->
       <div class="vs-layer" id="rowMenu" style="z-index:58">
@@ -899,7 +925,7 @@
   function renderDSource(){
     document.getElementById('dSourceChips').innerHTML=DOC_SOURCES.map(function(s){
       var on=s.label===dSource;
-      return '<button class="nt-chip '+(on?'on':'off')+'" onclick="dSource=\''+s.label+'\';renderDSource()"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.25)':'#fff')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.label+'</button>';
+      return '<button class="nt-chip '+(on?'on':'off')+'" onclick="pickDocSource(\''+s.label+'\')"><span class="nt-em" style="background:'+(on?'rgba(255,255,255,.25)':'#fff')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+s.svg+'</svg></span>'+s.label+'</button>';
     }).join('');
   }
   function renderDType(){
@@ -962,24 +988,122 @@
       if(!v.done)h+='<div class="vac-foot"><span class="vac-up">Upcoming</span></div>';
       if(v.reminder)h+='<div class="vac-rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Reminder: '+esc(v.reminder)+'</div>';
       if(vacMarkId===v.id)h+='<div class="vac-inline"><input class="fld" id="vacMarkInput" value="'+esc(vacMarkDate)+'" placeholder="Date done"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="markVacDone(\''+v.id+'\')">Done</button></div>';
-      if(reminderEdit===v.id)h+='<div class="vac-inline"><input class="fld fld-dt" id="remInput" type="datetime-local"><button class="mini" style="background:linear-gradient(155deg,#b0a2d8,#9b8bc4)" onclick="saveReminder(\''+v.id+'\')">Set</button></div>';
       h+='</div><div class="vac-right">';
-      if(!v.done)h+='<button class="vac-bell" style="background:'+(v.reminder?'#f1ecf8':'#efe9f3')+'" onclick="toggleReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'#7a68ad':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
+      if(!v.done)h+='<button class="vac-bell" style="background:'+(v.reminder?'#f1ecf8':'#efe9f3')+'" onclick="openDtReminder(\''+v.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="'+(v.reminder?'#7a68ad':'#9a8fb3')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>';
       h+='</div>'+checkBtn+'</div></div>';
       return h;
     }).join('') || '<div class="row-s" style="padding:10px 2px">No vaccines in this group.</div>';
   }
   function toggleVacMark(id){var v=VACCINES.find(function(x){return x.id===id;});if(v.done)return;vacMarkId=vacMarkId===id?null:id;vacMarkDate=TODAY;reminderEdit=null;renderVac();}
   function markVacDone(id){var d=document.getElementById('vacMarkInput').value.trim()||TODAY;VACCINES.find(function(x){return x.id===id;}).done=true;VACCINES.find(function(x){return x.id===id;}).doneDate=d;vacMarkId=null;renderVac();toast('Marked done ✓');}
-  function toggleReminder(id){reminderEdit=reminderEdit===id?null:id;vacMarkId=null;renderVac();}
+  /* ---------- Date / time picker (custom bottom sheet) ---------- */
+  var DT_MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var DT_MOFULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DT_WD=['S','M','T','W','T','F','S'];
+  var DT_HOURS=[1,2,3,4,5,6,7,8,9,10,11,12];
+  var DT_MINS=['00','05','10','15','20','25','30','35','40','45','50','55'];
+  var DT_onset=null, DT_mode='datetime', DT_y, DT_m, DT_d, DT_vy, DT_vm, DT_h=9, DT_min=0;
   function fmtDateTime(val){
     if(!val) return '';
     var d=new Date(val); if(isNaN(d.getTime())) return val;
-    var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     var hh=d.getHours(), mm=d.getMinutes(), ap=hh>=12?'PM':'AM', h12=hh%12||12;
-    return d.getDate()+' '+mo[d.getMonth()]+' '+d.getFullYear()+' · '+h12+':'+(mm<10?'0'+mm:mm)+' '+ap;
+    return d.getDate()+' '+DT_MO[d.getMonth()]+' '+d.getFullYear()+' · '+h12+':'+(mm<10?'0'+mm:mm)+' '+ap;
   }
-  function saveReminder(id){var raw=document.getElementById('remInput').value;if(!raw){toast('Pick a date & time');return;}VACCINES.find(function(x){return x.id===id;}).reminder=fmtDateTime(raw);reminderEdit=null;renderVac();toast('Reminder set 🔔');}
+  function fmtDate(d){ if(!d) return ''; return d.getDate()+' '+DT_MO[d.getMonth()]+' '+d.getFullYear(); }
+  function parseDMY(str){ if(!str) return null; var p=(''+str).trim().split(/\s+/); if(p.length<3) return null; var mi=DT_MO.indexOf(p[1].slice(0,3)); if(mi<0) return null; var d=new Date(parseInt(p[2]),mi,parseInt(p[0])); return isNaN(d.getTime())?null:d; }
+  function openDtPicker(opts){
+    DT_mode=opts.mode||'datetime'; DT_onset=opts.onSet||null;
+    var ini=opts.initial||new Date();
+    DT_y=ini.getFullYear(); DT_m=ini.getMonth(); DT_d=ini.getDate();
+    DT_vy=DT_y; DT_vm=DT_m; DT_h=ini.getHours(); DT_min=ini.getMinutes();
+    renderDtPicker(opts.title||'Select date');
+    document.getElementById('dtPicker').classList.add('open');
+    setTimeout(setDtWheels, 60);
+  }
+  function closeDtPicker(){ document.getElementById('dtPicker').classList.remove('open'); }
+  function renderDtPicker(title){
+    var wheels='';
+    if(DT_mode==='datetime'){
+      var col=function(id,items){ return '<div class="dt-col" id="'+id+'" onscroll="dtWheelScroll(this)"><div class="dt-pad"></div>'+items.map(function(t){return '<div class="dt-item">'+t+'</div>';}).join('')+'<div class="dt-pad"></div></div>'; };
+      wheels='<div class="dt-tlbl">Time</div><div class="dt-wheels"><div class="dt-band"></div>'+
+        col('dtH',DT_HOURS)+col('dtM',DT_MINS)+col('dtA',['AM','PM'])+'</div>';
+    }
+    document.getElementById('dtPanel').innerHTML=
+      '<div class="vs-grab"></div>'+
+      '<div class="vs-head"><div class="vs-name">'+esc(title)+'</div>'+
+      '<button class="vs-close" onclick="closeDtPicker()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'+
+      '<div class="dt-nav"><button class="dt-navbtn" onclick="changeDtMonth(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>'+
+      '<div class="dt-mon" id="dtMon"></div>'+
+      '<button class="dt-navbtn" onclick="changeDtMonth(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div>'+
+      '<div class="dt-grid">'+DT_WD.map(function(w){return '<div class="dt-wd">'+w+'</div>';}).join('')+'</div>'+
+      '<div class="dt-grid" id="dtCal"></div>'+wheels+
+      '<button class="dt-set" onclick="confirmDt()">'+(DT_mode==='datetime'?'Set reminder':'Select date')+'</button>';
+    renderDtCal();
+  }
+  function renderDtCal(){
+    document.getElementById('dtMon').textContent=DT_MOFULL[DT_vm]+' '+DT_vy;
+    var first=new Date(DT_vy,DT_vm,1).getDay();
+    var ndays=new Date(DT_vy,DT_vm+1,0).getDate();
+    var now=new Date(), ty=now.getFullYear(), tm=now.getMonth(), td=now.getDate();
+    var h='';
+    for(var i=0;i<first;i++) h+='<div class="dt-day empty"></div>';
+    for(var d=1;d<=ndays;d++){
+      var sel=(DT_vy===DT_y&&DT_vm===DT_m&&d===DT_d);
+      var today=(DT_vy===ty&&DT_vm===tm&&d===td);
+      h+='<div class="dt-day'+(sel?' sel':'')+(today&&!sel?' today':'')+'" onclick="selectDtDay('+d+')">'+d+'</div>';
+    }
+    document.getElementById('dtCal').innerHTML=h;
+  }
+  function changeDtMonth(delta){ DT_vm+=delta; if(DT_vm<0){DT_vm=11;DT_vy--;} else if(DT_vm>11){DT_vm=0;DT_vy++;} renderDtCal(); }
+  function selectDtDay(d){ DT_y=DT_vy; DT_m=DT_vm; DT_d=d; renderDtCal(); }
+  function setDtWheels(){
+    if(DT_mode!=='datetime') return;
+    var hi=DT_HOURS.indexOf(DT_h%12||12); if(hi<0) hi=0;
+    var mi=Math.round(DT_min/5)%12;
+    var ai=DT_h>=12?1:0;
+    var H=document.getElementById('dtH'), M=document.getElementById('dtM'), A=document.getElementById('dtA');
+    if(H){H.scrollTop=hi*38; dtWheelScroll(H);} if(M){M.scrollTop=mi*38; dtWheelScroll(M);} if(A){A.scrollTop=ai*38; dtWheelScroll(A);}
+  }
+  function dtWheelScroll(col){
+    var idx=Math.round(col.scrollTop/38);
+    col.querySelectorAll('.dt-item').forEach(function(it,i){ it.style.color=(i===idx)?'#3a332e':'#aba3bd'; it.style.fontWeight=(i===idx)?'800':'700'; });
+  }
+  function confirmDt(){
+    var h24=0,mn=0;
+    if(DT_mode==='datetime'){
+      var H=document.getElementById('dtH'), M=document.getElementById('dtM'), A=document.getElementById('dtA');
+      var hi=Math.max(0,Math.min(11,Math.round(H.scrollTop/38)));
+      var mi=Math.max(0,Math.min(11,Math.round(M.scrollTop/38)));
+      var ai=Math.max(0,Math.min(1,Math.round(A.scrollTop/38)));
+      var h12=DT_HOURS[hi]; mn=parseInt(DT_MINS[mi],10);
+      h24=(ai===1)?(h12%12)+12:(h12%12);
+    }
+    var date=new Date(DT_y,DT_m,DT_d,h24,mn);
+    if(DT_onset) DT_onset(date);
+    closeDtPicker();
+  }
+  function openDtReminder(id){
+    var v=VACCINES.find(function(x){return x.id===id;});
+    var ini=parseDMY(v.dueDate)||new Date(); ini.setHours(9,0,0,0);
+    openDtPicker({mode:'datetime', title:'Set reminder', initial:ini, onSet:function(d){ v.reminder=fmtDateTime(d); renderVac(); toast('Reminder set 🔔'); }});
+  }
+  function openDtDocDate(){
+    var cur=parseDMY(document.getElementById('dDate').value)||new Date();
+    openDtPicker({mode:'date', title:'Select date', initial:cur, onSet:function(d){ document.getElementById('dDate').value=fmtDate(d); }});
+  }
+  function openDtVisitDate(){
+    var cur=parseDMY(document.getElementById('vDate').value)||new Date();
+    openDtPicker({mode:'date', title:'Select date', initial:cur, onSet:function(d){ document.getElementById('vDate').value=fmtDate(d); }});
+  }
+  function pickDocSource(label){
+    dSource=label; renderDSource();
+    var inp=document.getElementById('docFile');
+    if(label==='Take Photo') inp.setAttribute('capture','environment'); else inp.removeAttribute('capture');
+    inp.value=''; inp.click();
+  }
+  function onDocFile(inp){
+    if(inp.files&&inp.files[0]){ var f=inp.files[0]; var nm=document.getElementById('dName'); if(nm&&!nm.value.trim()) nm.value=f.name.replace(/\.[^.]+$/,''); toast('File attached ✓'); }
+  }
   function openVacInfo(id){
     var v=VACCINES.find(function(x){return x.id===id;});
     var cat=VAC_CAT.filter(function(c){return c.key===v.category;})[0];
