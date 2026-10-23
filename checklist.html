@@ -480,7 +480,7 @@
   .wl-cat-n{font-size:11px;font-weight:800;color:#8574b5;background:#f1ecfb;padding:2px 8px;border-radius:9px;letter-spacing:0;}
   .wl-row{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:11px 13px 11px 11px;margin-bottom:11px;cursor:pointer;box-shadow:0 12px 26px -18px rgba(120,90,140,.55),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .13s,box-shadow .18s;}
   .wl-row:active{transform:scale(.99);}
-  .wl-img{width:60px;height:60px;border-radius:15px;flex-shrink:0;background:#f7f4fb center/contain no-repeat;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.09);}
+  .wl-img{width:60px;height:60px;border-radius:50%;flex-shrink:0;background:#f7f4fb center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.09);}
   .wl-t{flex:1;min-width:0;}
   .wl-n{font-size:15px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .wl-tag{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;font-weight:800;color:#e8698f;background:#ffeef3;padding:4px 9px 4px 8px;border-radius:9px;}
@@ -865,11 +865,11 @@
 
   /* ---------- Give Wishlist (gift registry, per child) ---------- */
   var WISHLISTS=loadWishlists();
-  function loadWishlists(){ try{ var o=JSON.parse(localStorage.getItem('bt_wishlists2')||'null'); return (o&&typeof o==='object'&&!Array.isArray(o))?o:{}; }catch(e){ return {}; } }
+  function loadWishlists(){ try{ var o=JSON.parse(localStorage.getItem('bt_wishlists3')||'null'); return (o&&typeof o==='object'&&!Array.isArray(o))?o:{}; }catch(e){ return {}; } }
   if(!WISHLISTS[CUR_CHILD]) WISHLISTS[CUR_CHILD]=[];
   var WISHLIST=WISHLISTS[CUR_CHILD], WISH_FILTER='All';
   function syncWish(){ if(!WISHLISTS[CUR_CHILD]) WISHLISTS[CUR_CHILD]=[]; WISHLIST=WISHLISTS[CUR_CHILD]; }
-  function saveWish(){ try{ WISHLISTS[CUR_CHILD]=WISHLIST; localStorage.setItem('bt_wishlists2',JSON.stringify(WISHLISTS)); }catch(e){} }
+  function saveWish(){ try{ WISHLISTS[CUR_CHILD]=WISHLIST; localStorage.setItem('bt_wishlists3',JSON.stringify(WISHLISTS)); }catch(e){} }
   function curCatName(){ var c=(typeof activeCats==='function')&&activeCats().filter(function(x){return x.key===CUR_CAT;})[0]; return (c&&c.name)||'Baby Essentials'; }
   function wishKey(o){ return (o.name||'')+'|'+(o.link||''); }
   /* pre-populate each child's wishlist with categorized demo products */
@@ -912,7 +912,7 @@
       });
     });
     syncWish();
-    try{ localStorage.setItem('bt_wishlists2',JSON.stringify(WISHLISTS)); }catch(e){}
+    try{ localStorage.setItem('bt_wishlists3',JSON.stringify(WISHLISTS)); }catch(e){}
   }
   function inWish(o){ if(!o) return false; var k=wishKey(o); return WISHLIST.some(function(x){return x.key===k;}); }
   var HEART_O='<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg>';
@@ -1374,11 +1374,11 @@
     cradle:BED,cot:BED,bedding:BED,mattressp:BED,bedrail:BED,
     thermometer:HEALTH,vapour:SK,vapourpatch:SK,colic:OIL,
     spoons:FEED,feedingkit:FEED,snackbox:FEED,opencup:FEED,sipper:FEED,steelsipper:FEED,processor:FEED,bibs:FEED,dispbibs:FEED,wbibs:FEED,
-    manualpump:px('13045844'),electricpump:px('14224688'),nursingcover:px('27175908'),nipplecream:px('10199353'),nippleshield:px('8102290'),breastpads:px('6167398'),storagebags:px('12538690'),coolerbags:px('5632335'),milkcaps:px('11444457'),feedpillow:px('4975462'),therapypack:px('15785493'),niftycup:px('7691165'),lactation:px('7615570'),nursingbra:px('12359528'),
+    manualpump:px('13045844'),electricpump:px('7491733'),nursingcover:px('16949950'),nipplecream:px('10199353'),nippleshield:px('8102290'),breastpads:px('6167398'),storagebags:px('12538690'),coolerbags:px('5632335'),milkcaps:px('11444457'),feedpillow:px('6182241'),therapypack:px('15785493'),niftycup:px('7691165'),lactation:px('7615570'),nursingbra:px('12359528'),
     toothbrush:TEETH,toothpaste:TEETH,
     playmat:PLAY,playpen:PLAY,rocker:PLAY,swing:PLAY,slide:PLAY,toyorg:PLAY,walker:PLAY,kneepad:PLAY,antiskid:PLAY,
     detergent:CLEAN,dishwasher:CLEAN,toycleaner:CLEAN,handwash:CLEAN,
-    belt:px('27175921'),matpads:px('8049849'),matpanty:px('1502219'),stretch:px('8101673'),hairfall:px('12969358'),hairgummies:px('7615558'),perispray:px('8015807'),peripads:px('10712765'),
+    belt:px('27175921'),matpads:px('7692459'),matpanty:px('1502219'),stretch:px('8101673'),hairfall:px('12969358'),hairgummies:px('7615558'),perispray:px('8015807'),peripads:px('10712765'),
     socketcovers:SAFE,edgeguards:SAFE,drawerlock:SAFE,doorstop:SAFE,
     monitor:MON,humidifier:MON };
   /* real product-pack images per (shop key · brand) */
