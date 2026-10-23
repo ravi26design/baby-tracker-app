@@ -377,6 +377,10 @@
   .trip-prog .tp-bar{flex:1;height:5px;border-radius:4px;background:#efeaf6;overflow:hidden;}
   .trip-prog .tp-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#cfc1ea,#b6a6dd);transition:width .4s ease;}
   .trip-prog.full .tp-bar i{background:linear-gradient(90deg,#9ddcb4,#7fc99a);}
+  .trip-card.done{background:linear-gradient(152deg,#fff 52%,#eef9f1);box-shadow:0 16px 30px -18px rgba(95,175,125,.5),inset 0 0 0 1.5px rgba(95,175,125,.32);}
+  .trip-card.done .trip-ic{box-shadow:0 8px 16px -9px rgba(95,175,125,.6);}
+  .trip-card.done .trip-go{color:#4bab77;}
+  .trip-card.done .trip-prog .tp-bar{background:#dcefe2;}
   .trip-go{flex-shrink:0;width:24px;height:28px;background:none;color:#c2b9d0;display:flex;align-items:center;justify-content:center;align-self:center;}
   .trip-del{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;background:rgba(150,140,175,.1);color:#aba1bc;display:flex;align-items:center;justify-content:center;transition:transform .12s,background .15s,color .15s;}
   .trip-del:active{transform:scale(.88);background:#ffe4ea;color:#e8698f;}
@@ -1238,7 +1242,7 @@
       var icol=DEST_ICCOL[t.dest]||'#fff';
       var total=0, packed=0; tripSectionsFor(t).forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ total++; if(CHECKED['trip|'+t.id+'|'+gi+'|'+ii]) packed++; }); });
       var pct=total?Math.round(packed/total*100):0, full=total>0&&packed>=total;
-      return '<div class="trip-card" onclick="openTrip(\''+t.id+'\')"><span class="trip-ic" style="background:'+tint+';color:'+icol+'">'+icDest(t.dest,25)+'</span>'+
+      return '<div class="trip-card'+(full?' done':'')+'" onclick="openTrip(\''+t.id+'\')"><span class="trip-ic" style="background:'+tint+';color:'+icol+'">'+icDest(t.dest,25)+'</span>'+
         '<div class="trip-info"><div class="trip-nm">'+t.name+'</div><div class="trip-meta">'+t.days+' day'+(t.days>1?'s':'')+' · '+t.season+' · '+t.dest+'</div>'+
         '<div class="trip-prog'+(full?' full':'')+'"><div class="tp-bar"><i style="width:'+pct+'%"></i></div></div></div>'+
         '<span class="trip-go">'+chev+'</span></div>';
