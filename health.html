@@ -6,7 +6,7 @@
 <title>Baby Tracker — Health</title>
 <style>
   :root{
-    --ink:#3a332e;--muted:#a99c92;--muted-2:#b6aca2;--card:#ffffff;--line:#efe7f0;--chip:#f5eff8;
+    --ink:#3a332e;--muted:#a99c92;--muted-2:#b6aca2;--card:#faf9fe;--card-bg:#faf9fe;--line:#efe7f0;--chip:#f5eff8;
     --lav-1:#b0a2d8;--lav-2:#9b8bc4;--lav-3:#8574b5;
     --field:#f7f4fb;
     /* health module accents (from the Records design) */
@@ -39,7 +39,7 @@
   .content{position:relative;z-index:2;padding:2px 20px 30px;}
   .h-title{font-size:27px;font-weight:800;letter-spacing:-.5px;margin:4px 2px 13px;}
   .child-tabs{display:flex;gap:9px;margin:0 2px 16px;}
-  .child-tab{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;padding:11px 10px;border-radius:16px;border:none;cursor:pointer;background:#fff;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .12s;font-family:inherit;}
+  .child-tab{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;padding:11px 10px;border-radius:16px;border:none;cursor:pointer;background:var(--card-bg);box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .12s;font-family:inherit;}
   .child-tab:active{transform:scale(.98);}
   .child-tab .ct-name{font-size:14px;font-weight:800;color:#8a8788;letter-spacing:-.2px;white-space:nowrap;}
   .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
@@ -58,7 +58,7 @@
   /* record card */
   .rc{background:var(--card);border-radius:24px;overflow:hidden;margin-bottom:14px;box-shadow:0 13px 30px -16px rgba(120,80,95,.24),0 2px 7px rgba(30,26,23,.04),inset 0 0 0 1px rgba(255,255,255,.65);}
   .rc-head{display:flex;align-items:center;gap:13px;padding:15px 16px;cursor:pointer;}
-  .rc-ic{position:relative;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px;flex-shrink:0;box-shadow:0 8px 18px -8px rgba(60,40,70,.3);}
+  .rc-ic{position:relative;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;background:color-mix(in srgb, var(--rcc,#9b8bc4) 17%, #fff);color:var(--rcc,#9b8bc4);box-shadow:0 8px 18px -10px color-mix(in srgb, var(--rcc,#9b8bc4) 55%, transparent);}
   .rc-ic svg{width:24px;height:24px;position:relative;z-index:1;}
   .rc-ic::before{content:'';position:absolute;inset:0;border-radius:50%;background:inherit;filter:blur(8px);opacity:.42;z-index:-1;transform:translateY(4px) scale(.84);}
   .rc-title{font-size:15px;font-weight:800;letter-spacing:-.2px;flex:1;}
@@ -161,10 +161,10 @@
   .btn-save:active{transform:scale(.99);}
 
   /* list rows */
-  .row{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:18px;background:#fff;border:1.5px solid rgba(139,116,181,.18);box-shadow:0 10px 24px -16px rgba(120,90,140,.38);margin-bottom:11px;}
+  .row{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:18px;background:var(--card-bg);border:1.5px solid rgba(139,116,181,.18);box-shadow:0 10px 24px -16px rgba(120,90,140,.38);margin-bottom:11px;}
   .row:last-child{margin-bottom:0;}
-  .row-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
-  .row-ic svg{width:20px;height:20px;stroke:#fff;}
+  .row-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;background:color-mix(in srgb, var(--rowc,#9b8bc4) 18%, #fff);color:var(--rowc,#9b8bc4);}
+  .row-ic svg{width:20px;height:20px;stroke:currentColor;}
   .row-main{flex:1;min-width:0;}
   .row-t{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .row-s{font-size:12px;color:#8b8296;font-weight:500;margin-top:2px;line-height:1.35;}
@@ -191,7 +191,7 @@
   /* vaccine */
   .vac-tabs{display:flex;gap:7px;margin-bottom:12px;}
   .vac-tab{flex:1;padding:9px 4px;border-radius:20px;font-size:10.5px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .12s;}
-  .vac{padding:13px 14px;border-radius:18px;background:#fff;border:1.5px solid rgba(139,116,181,.18);box-shadow:0 10px 24px -16px rgba(120,90,140,.38);margin-bottom:11px;}
+  .vac{padding:13px 14px;border-radius:18px;background:var(--card-bg);border:1.5px solid rgba(139,116,181,.18);box-shadow:0 10px 24px -16px rgba(120,90,140,.38);margin-bottom:11px;}
   .vac-row{display:flex;align-items:flex-start;gap:11px;}
   .vac-check{align-self:center;margin-left:4px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
   .vac-check svg{width:13px;height:13px;color:#fff;}
@@ -304,7 +304,7 @@
           <!-- Health Profile -->
           <div class="rc" id="cardProfile">
             <div class="rc-head" onclick="openSheet('profile')">
-              <div class="rc-ic" style="background:linear-gradient(145deg,#ff9e7d,#f2744e)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3 3.4 5.5 6.3 5.5 9.3a5.5 5.5 0 0 1-11 0c0-3 2.5-5.9 5.5-9.3z"/></svg></div>
+              <div class="rc-ic" style="--rcc:#f2744e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c3 3.4 5.5 6.3 5.5 9.3a5.5 5.5 0 0 1-11 0c0-3 2.5-5.9 5.5-9.3z"/></svg></div>
               <div class="rc-title">Health Profile</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
@@ -323,7 +323,7 @@
           <!-- Growth -->
           <div class="rc" id="cardGrowth">
             <div class="rc-head" onclick="openSheet('growth')">
-              <div class="rc-ic" style="background:linear-gradient(145deg,#5aa9ff,#3f7fe0)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 3.5 3.5 7-7.5"/><path d="M15.5 7h4v4"/></svg></div>
+              <div class="rc-ic" style="--rcc:#3f7fe0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5.5-5.5 3.5 3.5 7-7.5"/><path d="M15.5 7h4v4"/></svg></div>
               <div class="rc-title">Growth</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
@@ -353,7 +353,7 @@
           <!-- Health Notes -->
           <div class="rc" id="cardNotes">
             <div class="rc-head" onclick="openSheet('notes')">
-              <div class="rc-ic" style="background:linear-gradient(145deg,#4fd1a0,#28b082)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h8.5"/><path d="M16.3 3.7a1.9 1.9 0 0 1 2.7 2.7L7.5 17.9 3.5 19l1.1-4z"/></svg></div>
+              <div class="rc-ic" style="--rcc:#28b082"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h8.5"/><path d="M16.3 3.7a1.9 1.9 0 0 1 2.7 2.7L7.5 17.9 3.5 19l1.1-4z"/></svg></div>
               <div class="rc-title">Health Notes</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
@@ -371,7 +371,7 @@
           <!-- Doctor Visits -->
           <div class="rc" id="cardVisits">
             <div class="rc-head" onclick="openSheet('visits')">
-              <div class="rc-ic" style="background:linear-gradient(145deg,#8f7cff,#6355d6)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3"/><path d="M6 3H4.6M15 3h1.4"/><path d="M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle cx="19.1" cy="12.8" r="2.3"/></svg></div>
+              <div class="rc-ic" style="--rcc:#6355d6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3"/><path d="M6 3H4.6M15 3h1.4"/><path d="M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle cx="19.1" cy="12.8" r="2.3"/></svg></div>
               <div class="rc-title">Doctor Visits</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
@@ -397,7 +397,7 @@
           <!-- Documents -->
           <div class="rc" id="cardDocs">
             <div class="rc-head" onclick="openSheet('docs')">
-              <div class="rc-ic" style="background:linear-gradient(145deg,#c380e6,#9b5fd6)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 11.5 20a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.5a1.6 1.6 0 0 1-2.3-2.3l7.9-7.9"/></svg></div>
+              <div class="rc-ic" style="--rcc:#9b5fd6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 11.5 20a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.6 8.5a1.6 1.6 0 0 1-2.3-2.3l7.9-7.9"/></svg></div>
               <div class="rc-title">Documents</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
@@ -423,7 +423,7 @@
           <!-- Vaccinations -->
           <div class="rc" id="cardVac">
             <div class="rc-head" onclick="openSheet('vac')">
-              <div class="rc-ic" style="background:linear-gradient(145deg,#3fd6c0,#1fb0a4)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><path d="M3.8 12H7"/><rect x="7" y="9.3" width="9.4" height="5.4" rx="1.1"/><path d="M9.8 9.3v5.4M12.1 9.3v5.4M14.4 9.3v5.4"/><path d="M16.4 10.3h2.4"/><path d="M18.8 9.1v3.4"/></g></svg></div>
+              <div class="rc-ic" style="--rcc:#1fb0a4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><path d="M3.8 12H7"/><rect x="7" y="9.3" width="9.4" height="5.4" rx="1.1"/><path d="M9.8 9.3v5.4M12.1 9.3v5.4M14.4 9.3v5.4"/><path d="M16.4 10.3h2.4"/><path d="M18.8 9.1v3.4"/></g></svg></div>
               <div class="rc-title">Vaccinations</div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
@@ -883,8 +883,8 @@
   function renderNotes(){
     document.getElementById('notesList').innerHTML=NOTES.map(function(n,i){
       var ic=noteIcon(n.tag), col=NOTE_COLOR[n.tag]||'#9b8bc4';
-      var icHTML=ic?'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg>':(n.emoji||'');
-      return '<div class="row"><div class="row-ic" style="background:'+col+'">'+icHTML+'</div>'+
+      var icHTML=ic?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg>':(n.emoji||'');
+      return '<div class="row"><div class="row-ic" style="--rowc:'+col+'">'+icHTML+'</div>'+
         '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div>'+(n.tag?'<div class="row-s">'+esc(n.tag)+'</div>':'')+'</div>'+
         '<div class="row-date">'+esc(n.date)+'</div>'+rowMoreBtn('note',i)+'</div>';
     }).join('');
@@ -916,7 +916,7 @@
     document.getElementById('visitsList').innerHTML=VISITS.map(function(v,i){
       var sick=/sick|infection|ill|fever|flu|cold|rash|cough/i.test(v.title||'');
       var col=sick?'#ef7a66':'#45b487', ic=sick?PILL:STETH;
-      return '<div class="row"><div class="row-ic" style="background:'+col+'"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
+      return '<div class="row"><div class="row-ic" style="--rowc:'+col+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
         '<div class="row-main"><div class="row-t">'+esc(v.title)+'</div><div class="row-s">'+esc(v.doctor)+(v.note?' · '+esc(v.note):'')+'</div><div class="row-bdate">'+esc(v.date)+'</div></div>'+rowMoreBtn('visit',i)+'</div>';
     }).join('');
   }
@@ -950,7 +950,7 @@
   }
   function renderDocs(){
     document.getElementById('docsList').innerHTML=DOCS.map(function(d,i){
-      return '<div class="row"><div class="row-ic" style="background:#9b5fd6"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11V7a2 2 0 0 0-2-2h-3.2l-1.3-1.6A2 2 0 0 0 10.9 3H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7"/><circle cx="18" cy="17.5" r="3"/><path d="M18 16v1.5l1 .8"/></svg></div>'+
+      return '<div class="row"><div class="row-ic" style="--rowc:#9b5fd6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11V7a2 2 0 0 0-2-2h-3.2l-1.3-1.6A2 2 0 0 0 10.9 3H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7"/><circle cx="18" cy="17.5" r="3"/><path d="M18 16v1.5l1 .8"/></svg></div>'+
         '<div class="row-main"><div class="row-t">'+esc(d.name)+'</div><div class="row-s">'+esc(d.type)+' · '+esc(d.date)+'</div></div>'+rowMoreBtn('doc',i)+'</div>';
     }).join('');
   }
