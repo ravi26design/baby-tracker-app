@@ -815,7 +815,7 @@
 
   .tabs{display:flex;gap:10px;margin:16px 0 8px;}
   .tab{flex:1;text-align:center;padding:11px 14px;border-radius:17px;font-size:15px;font-weight:800;color:#8a8788;background:var(--card-bg);box-shadow:var(--shadow-card),var(--ring);cursor:pointer;transition:.2s;}
-  .tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
+  .tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
   .feed{background:var(--card-bg);border-radius:20px;padding:16px;box-shadow:var(--shadow-card),var(--ring);margin-bottom:14px;}
   .fd-top{display:flex;align-items:center;gap:11px;margin-bottom:11px;}
   .fd-av{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);}
@@ -1064,7 +1064,7 @@
           <div class="c-section">Your Groups</div>
           
           <div class="grp" onclick="openGroup('g1')">
-            <span class="grp-av" style="--grpc:#33b1c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 11h.01M15 11h.01"/><path d="M9.3 14.5a3.6 3.6 0 0 0 5.4 0"/><path d="M12 3c-1 .9-1 2 0 2.6"/></svg></span>
+            <span class="grp-av" style="--grpc:#33b1c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="currentColor" fill-opacity=".2"/><path d="M9 11h.01M15 11h.01"/><path d="M9.3 14.5a3.6 3.6 0 0 0 5.4 0"/><path d="M12 3c-1 .9-1 2 0 2.6"/></svg></span>
             <div class="grp-main">
               <div class="grp-top"><span class="grp-name">Newborn Parents</span><span class="grp-time">2m</span></div>
               <div class="grp-msg">Emma: How do you handle cluster feeding at night?</div>
@@ -1072,7 +1072,7 @@
             </div>
           </div>
           <div class="grp" onclick="openGroup('g2')">
-            <span class="grp-av" style="--grpc:#6f93d6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></span>
+            <span class="grp-av" style="--grpc:#6f93d6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" fill="currentColor" fill-opacity=".2"/></svg></span>
             <div class="grp-main">
               <div class="grp-top"><span class="grp-name">Sleep & Naps</span><span class="grp-time">18m</span></div>
               <div class="grp-msg">Daniel: Any tips for the 4-month regression?</div>
@@ -1082,17 +1082,17 @@
           <div class="c-section">Discover Groups</div>
           
           <div class="grp dsc">
-            <span class="grp-av" style="--grpc:#ef9a4e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5V3.6a1 1 0 0 1 2 0V5"/><rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/><path d="M8.5 12h7M8.5 15.2h7"/></svg></span>
+            <span class="grp-av" style="--grpc:#ef9a4e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5V3.6a1 1 0 0 1 2 0V5"/><rect x="7.3" y="5" width="9.4" height="3" rx="1.4" fill="currentColor" fill-opacity=".2"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z" fill="currentColor" fill-opacity=".2"/><path d="M8.5 12h7M8.5 15.2h7"/></svg></span>
             <div class="grp-main"><div class="grp-top"><span class="grp-name">Feeding & Nutrition</span></div><div class="grp-msg">2.1k members · 120 online</div></div>
             <button class="join-btn" onclick="joinGroup(this)">Join</button>
           </div>
           <div class="grp dsc">
-            <span class="grp-av" style="--grpc:#45b487"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4.5h11.2a.6.6 0 0 1 .5.9l-1.4 2.6a.6.6 0 0 0 0 .6l1.4 2.6a.6.6 0 0 1-.5.9H6"/></svg></span>
+            <span class="grp-av" style="--grpc:#45b487"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4.5h11.2a.6.6 0 0 1 .5.9l-1.4 2.6a.6.6 0 0 0 0 .6l1.4 2.6a.6.6 0 0 1-.5.9H6" fill="currentColor" fill-opacity=".2"/></svg></span>
             <div class="grp-main"><div class="grp-top"><span class="grp-name">Milestones 0–1yr</span></div><div class="grp-msg">640 members · 33 online</div></div>
             <button class="join-btn" onclick="joinGroup(this)">Join</button>
           </div>
           <div class="grp dsc">
-            <span class="grp-av" style="--grpc:#e07a9e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"/><circle cx="6.8" cy="7.6" r="2.6"/><circle cx="17.2" cy="7.6" r="2.6"/><path d="M10 13.5h.01M14 13.5h.01"/><path d="M10.5 16.3a2 2 0 0 0 3 0"/></svg></span>
+            <span class="grp-av" style="--grpc:#e07a9e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.8" cy="7.6" r="2.6" fill="currentColor" fill-opacity=".2"/><circle cx="17.2" cy="7.6" r="2.6" fill="currentColor" fill-opacity=".2"/><circle cx="12" cy="14" r="6" fill="currentColor" fill-opacity=".2"/><path d="M10 13.5h.01M14 13.5h.01"/><path d="M10.5 16.3a2 2 0 0 0 3 0"/></svg></span>
             <div class="grp-main"><div class="grp-top"><span class="grp-name">Toddler Play</span></div><div class="grp-msg">1.5k members · 76 online</div></div>
             <button class="join-btn" onclick="joinGroup(this)">Join</button>
           </div>
