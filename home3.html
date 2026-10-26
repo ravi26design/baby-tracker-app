@@ -376,8 +376,8 @@
   .mp-sg-pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#fff;background:color-mix(in srgb,var(--mealc,#caa06a) 82%, #7a5a38);padding:4px 10px;border-radius:20px;}
   .mp-sg-title{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;line-height:1.18;margin-top:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   .mp-sg-desc{font-size:12px;font-weight:500;color:#8c8192;line-height:1.45;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .mp-sg-img{position:relative;z-index:1;flex-shrink:0;width:92px;height:92px;display:flex;align-items:center;justify-content:center;}
-  .mp-sg-img svg{width:76px;height:76px;filter:drop-shadow(0 7px 9px rgba(140,100,70,.18));}
+  .mp-sg-img{position:relative;z-index:1;flex-shrink:0;width:94px;height:94px;display:flex;align-items:center;justify-content:center;}
+  .mp-sg-img svg{width:82px;height:82px;filter:drop-shadow(0 6px 7px rgba(43,53,69,.14));}
   .meal-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:62;visibility:hidden;pointer-events:none;}
   .meal-layer.open{visibility:visible;pointer-events:auto;}
   .meal-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
@@ -1666,40 +1666,79 @@
       }
     }
 
-    function mealBowl(fill, garnish, garnish2){
+    // ---- Bold-outlined, soft-fill food illustrations ----
+    var MEAL_OL='#2b3545';
+    function mealBowl(bowl, food, dot){
+      var OL=MEAL_OL;
       return '<svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">'+
-        '<ellipse cx="46" cy="70" rx="29" ry="5" fill="rgba(150,118,84,.14)"/>'+
-        '<path d="M17 46C17 62 30 70 46 70C62 70 75 62 75 46Z" fill="#fff"/>'+
-        '<path d="M17 46C17 62 30 70 46 70C62 70 75 62 75 46" stroke="#e6dac8" stroke-width="2.6" stroke-linecap="round"/>'+
-        '<ellipse cx="46" cy="46" rx="29" ry="9" fill="#f4ece0" stroke="#e6dac8" stroke-width="2.6"/>'+
-        '<ellipse cx="46" cy="45.4" rx="24" ry="7" fill="'+fill+'"/>'+
-        '<ellipse cx="40" cy="43.2" rx="6.5" ry="2.4" fill="rgba(255,255,255,.35)"/>'+
-        '<circle cx="39" cy="45.5" r="2.7" fill="'+garnish+'"/>'+
-        '<circle cx="51" cy="47" r="2.2" fill="'+garnish+'"/>'+
-        '<circle cx="46" cy="43.6" r="1.9" fill="'+(garnish2||garnish)+'"/>'+
-        '<path d="M58 22 C64 22 66 27 64 33 L60 47" stroke="#cbb89c" stroke-width="3.2" stroke-linecap="round"/>'+
+        '<ellipse cx="46" cy="80" rx="27" ry="3.6" fill="rgba(43,53,69,.13)"/>'+
+        '<path d="M18.5 46.5c0 15.6 12.3 25 27.5 25s27.5-9.4 27.5-25z" fill="'+bowl+'" stroke="'+OL+'" stroke-width="2.9" stroke-linejoin="round"/>'+
+        '<path d="M27 56c1.8 6.6 6.6 11 12.6 13" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>'+
+        '<ellipse cx="46" cy="46.5" rx="27.5" ry="8.6" fill="#ffffff" stroke="'+OL+'" stroke-width="2.9"/>'+
+        '<ellipse cx="46" cy="45.8" rx="22" ry="6" fill="'+food+'"/>'+
+        '<ellipse cx="40" cy="43.6" rx="6" ry="2.1" fill="#fff" opacity=".5"/>'+
+        '<circle cx="38.5" cy="45.4" r="3" fill="'+dot+'"/>'+
+        '<circle cx="52" cy="47" r="2.5" fill="'+dot+'"/>'+
+        '<circle cx="46" cy="43.4" r="2.2" fill="'+dot+'"/>'+
         '</svg>';
     }
     function mealBottle(){
+      var OL=MEAL_OL;
       return '<svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">'+
-        '<ellipse cx="46" cy="78" rx="18" ry="4" fill="rgba(150,118,84,.14)"/>'+
-        '<path d="M42 14h8v6a4 4 0 0 1-8 0z" fill="#f2b84e"/>'+
-        '<rect x="35" y="20" width="22" height="8" rx="2.4" fill="#ecdcc2"/>'+
-        '<rect x="33.5" y="27" width="25" height="48" rx="12.5" fill="#fff" stroke="#e6dac8" stroke-width="2.6"/>'+
-        '<path d="M36 46h19v20a9.5 9.5 0 0 1-9.5 7 9.5 9.5 0 0 1-9.5-7z" fill="#fbf4e7"/>'+
-        '<path d="M52 33h3.5M52 39h3.5M52 45h3.5" stroke="#e6dac8" stroke-width="1.8" stroke-linecap="round"/>'+
+        '<ellipse cx="46" cy="83" rx="16" ry="3.2" fill="rgba(43,53,69,.13)"/>'+
+        '<path d="M46 7c-3.1 0-5.4 2.3-5.4 5.3 0 2.1 1.3 3.6 1.3 5.4h8.2c0-1.8 1.3-3.3 1.3-5.4C51.4 9.3 49.1 7 46 7z" fill="#f8c85d" stroke="'+OL+'" stroke-width="2.4" stroke-linejoin="round"/>'+
+        '<rect x="35.2" y="17.2" width="21.6" height="7.4" rx="3.2" fill="#ffe3a6" stroke="'+OL+'" stroke-width="2.4"/>'+
+        '<rect x="33.3" y="24.3" width="25.4" height="50.4" rx="12.7" fill="#ffffff" stroke="'+OL+'" stroke-width="2.7"/>'+
+        '<path d="M35 49h22v13.6A11 11 0 0 1 46 73.6 11 11 0 0 1 35 62.6z" fill="#fbe6ad"/>'+
+        '<path d="M35 49c3.4 2.1 7.6 2.1 11 0s7.6-2.1 11 0" stroke="#efc570" stroke-width="2.1" stroke-linecap="round"/>'+
+        '<path d="M50.6 31.5h5M50.6 37.5h5M50.6 43.5h5" stroke="'+OL+'" stroke-width="1.7" stroke-linecap="round" opacity=".45"/>'+
+        '<rect x="37.4" y="30" width="3.4" height="18" rx="1.7" fill="#fff" opacity=".7"/>'+
+        '</svg>';
+    }
+    function mealCarrot(){
+      var OL=MEAL_OL;
+      return '<svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+        '<ellipse cx="46" cy="80" rx="14" ry="3.2" fill="rgba(43,53,69,.13)"/>'+
+        '<path d="M46 29c-1.2-6.2-5.2-9.6-11-9.4 1.2 5.6 4.6 8.8 11 9.4z" fill="#5fba4f" stroke="'+OL+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+        '<path d="M46 29c1.2-6.2 5.2-9.6 11-9.4-1.2 5.6-4.6 8.8-11 9.4z" fill="#58b24a" stroke="'+OL+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+        '<path d="M46 29c-.3-6.6 1.6-10.8 1.6-10.8 3.4 3.8 3.6 8.4-1.6 10.8z" fill="#6cc65c" stroke="'+OL+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+        '<path d="M35.5 33.5 56.5 33.5 49.3 73c-.9 2.6-4.7 2.6-5.6 0z" fill="#f08a38" stroke="'+OL+'" stroke-width="2.7" stroke-linejoin="round"/>'+
+        '<path d="M39 42l2.4-.4M45 50l2.4-.4M43 60l2.2-.4" stroke="'+OL+'" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>'+
+        '<path d="M40 40c-1 7-1.4 14-1 20" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".4"/>'+
+        '</svg>';
+    }
+    function mealApple(){
+      var OL=MEAL_OL;
+      return '<svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+        '<ellipse cx="46" cy="80" rx="18" ry="3.4" fill="rgba(43,53,69,.13)"/>'+
+        '<path d="M46 34c-2.8-3.6-7-5-11-2.9-4.9 2.6-7.1 9.7-4.4 17 1.6 4.4 4 8.4 6.8 10.8 2.5 2.2 5.4 3.4 8.6 3.4s6.1-1.2 8.6-3.4c2.8-2.4 5.2-6.4 6.8-10.8 2.7-7.3.5-14.4-4.4-17-4-2.1-8.2-.7-11 2.9z" fill="#ef7389" stroke="'+OL+'" stroke-width="2.7" stroke-linejoin="round"/>'+
+        '<path d="M46 34c0-4 .4-7.4 2-9.6" stroke="#8a5a3c" stroke-width="2.6" stroke-linecap="round"/>'+
+        '<path d="M48.5 26.5c2.8-3.2 7-3.4 10.4-2.3-1 4.2-4.2 6.8-8.2 6.8z" fill="#6cbf5e" stroke="'+OL+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+        '<path d="M37.5 40c-1.6 2.2-2.2 5.4-1.2 8.6" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>'+
+        '</svg>';
+    }
+    function mealRice(){
+      var OL=MEAL_OL;
+      return '<svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+        '<ellipse cx="46" cy="80" rx="27" ry="3.6" fill="rgba(43,53,69,.13)"/>'+
+        '<path d="M52 23 60 44M57 22 64.5 42" stroke="#d99f5f" stroke-width="2.8" stroke-linecap="round"/>'+
+        '<path d="M18.5 46.5c0 15.6 12.3 25 27.5 25s27.5-9.4 27.5-25z" fill="#b9df92" stroke="'+OL+'" stroke-width="2.9" stroke-linejoin="round"/>'+
+        '<path d="M27 56c1.8 6.6 6.6 11 12.6 13" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>'+
+        '<ellipse cx="46" cy="46.5" rx="27.5" ry="8.6" fill="#eaf3d8" stroke="'+OL+'" stroke-width="2.9"/>'+
+        '<path d="M28 46.5c2.4-8 9.2-12.5 18-12.5s15.6 4.5 18 12.5z" fill="#ffffff" stroke="'+OL+'" stroke-width="2.6" stroke-linejoin="round"/>'+
+        '<circle cx="40" cy="42" r="1" fill="#cfd9c2"/><circle cx="46" cy="39.5" r="1" fill="#cfd9c2"/><circle cx="52" cy="42.5" r="1" fill="#cfd9c2"/><circle cx="45" cy="44" r="1" fill="#cfd9c2"/>'+
         '</svg>';
     }
     function mealArt(ml, i){
-      var pal=[
-        {c:'#f4a63a', bottle:true},
-        {c:'#e8a94f', fill:'#f0cf8e', g:'#c98f3e', g2:'#d9a94e'},
-        {c:'#ef8a38', fill:'#f5a24e', g:'#d9731f', g2:'#f0b65e'},
-        {c:'#ec7a96', fill:'#f2a6b2', g:'#dd5f78', g2:'#f6c9cf'},
-        {c:'#7fc14e', fill:'#e4ecc8', g:'#6fb53e', g2:'#a6d57c'}
-      ];
-      var p=pal[i%pal.length];
-      return {c:p.c, svg:p.bottle?mealBottle():mealBowl(p.fill,p.g,p.g2)};
+      var e=ml.e||'', t=(ml.f||'').toLowerCase();
+      if(e==='🍼'||t.indexOf('milk')>-1||t.indexOf('formula')>-1) return {c:'#efb24c', svg:mealBottle()};
+      if(e==='🥣'||t.indexOf('oat')>-1||t.indexOf('porridge')>-1||t.indexOf('cereal')>-1&&t.indexOf('rice')<0) return {c:'#e9a94f', svg:mealBowl('#f6cf7a','#fff3d6','#eca23f')};
+      if(e==='🥕'||t.indexOf('carrot')>-1||t.indexOf('veg')>-1||t.indexOf('potato')>-1) return {c:'#ef8a3a', svg:mealCarrot()};
+      if(e==='🍎'||t.indexOf('apple')>-1||t.indexOf('fruit')>-1||t.indexOf('pear')>-1||t.indexOf('banana')>-1) return {c:'#ec7088', svg:mealApple()};
+      if(e==='🍚'||t.indexOf('rice')>-1||t.indexOf('pea')>-1) return {c:'#7cbf55', svg:mealRice()};
+      var fb=[{c:'#e9a94f',b:'#f6cf7a',f:'#fff3d6',d:'#eca23f'},{c:'#ec7088',b:'#f4aebb',f:'#fff0f2',d:'#e87690'},{c:'#7cbf55',b:'#b9df92',f:'#f3fade',d:'#74bb4e'}];
+      var p=fb[i%fb.length];
+      return {c:p.c, svg:mealBowl(p.b,p.f,p.d)};
     }
     function mealIcon(name, stroke){
       var n=(name||'').toLowerCase(), p;
