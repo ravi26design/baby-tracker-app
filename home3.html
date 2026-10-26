@@ -284,6 +284,9 @@
   .me-post .me-up{color:#8f78c4;}
   .me-up{width:54px;height:54px;border-radius:16px;background:color-mix(in srgb, var(--mec,#9b8bc4) 20%, #fff);color:var(--mec,#9b8bc4);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--mec,#9b8bc4) 22%, transparent);}
   .me-up svg{width:26px;height:26px;}
+  .me-up.me-up-art{background:#fff;box-shadow:inset 0 0 0 1px rgba(39,50,68,.10);}
+  .me-up.me-up-art{width:60px;height:60px;}
+  .me-up.me-up-art svg{width:38px;height:38px;}
   .me-msg{font-size:13px;font-weight:600;color:#8a8296;max-width:230px;line-height:1.5;}
   .me-msg b{color:var(--ink);font-weight:800;}
   .me-cta{display:inline-flex;align-items:center;gap:6px;margin-top:2px;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:9px 16px;border-radius:12px;box-shadow:0 10px 18px -8px rgba(140,116,181,.7);}
@@ -850,23 +853,23 @@
 
           <div class="welcome-card" id="welcomeCard" style="display:none">
             <svg class="wc-illo" viewBox="0 0 130 120" fill="none" aria-hidden="true">
-              <path d="M96 24a10 10 0 1 0 3 16 8 8 0 0 1-3-16z" fill="#f2d079"/>
-              <path d="M78 20l1.4 3 3.2.4-2.4 2.2.7 3.2L78 30.2l-2.9 1.4.7-3.2-2.4-2.2 3.2-.4z" fill="#ecc466"/>
+              <path d="M96 23a11 11 0 1 0 3.5 17 8.6 8.6 0 0 1-3.5-17z" fill="#f6d06a" stroke="#273244" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M78 18.5l1.6 3.4 3.7.5-2.7 2.6.7 3.7L78 29.4l-3.3 1.8.7-3.7-2.7-2.6 3.7-.5z" fill="#f6d06a" stroke="#273244" stroke-width="1.5" stroke-linejoin="round"/>
               <circle cx="110" cy="46" r="2.2" fill="#c3b4e6"/>
               <circle cx="71" cy="14" r="1.7" fill="#c3b4e6"/>
-              <circle cx="103" cy="72" r="1.7" fill="#c3b4e6"/>
-              <ellipse cx="66" cy="104" rx="40" ry="8" fill="#b7a8dd" opacity=".35"/>
-              <path d="M34 98c0-15 13-26 32-26s32 11 32 26z" fill="#9db0ee"/>
-              <path d="M40 99c0-13 11-22 26-22s26 9 26 22z" fill="#aec0f3"/>
-              <ellipse cx="42" cy="88" rx="9" ry="7" fill="#9db0ee"/>
-              <ellipse cx="90" cy="88" rx="9" ry="7" fill="#9db0ee"/>
-              <circle cx="66" cy="66" r="19" fill="#f6d4ba"/>
-              <path d="M48 62c1-10 8-16 18-16s17 6 18 16c-4-5-10-6-18-6s-14 1-18 6z" fill="#4a4038"/>
-              <path d="M57 66q2.4 2.4 4.8 0" stroke="#4a4038" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M70.2 66q2.4 2.4 4.8 0" stroke="#4a4038" stroke-width="1.8" stroke-linecap="round"/>
-              <circle cx="55" cy="72.5" r="2.6" fill="#f3a9bd" opacity=".75"/>
-              <circle cx="77" cy="72.5" r="2.6" fill="#f3a9bd" opacity=".75"/>
-              <path d="M63.5 75.5q2.5 2.3 5 0" stroke="#d58597" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="104" cy="72" r="1.7" fill="#c3b4e6"/>
+              <ellipse cx="66" cy="105" rx="40" ry="7.5" fill="#8f7fc4" opacity=".28"/>
+              <ellipse cx="42" cy="89" rx="8.5" ry="6.5" fill="#9db6f0" stroke="#273244" stroke-width="2.2"/>
+              <ellipse cx="90" cy="89" rx="8.5" ry="6.5" fill="#9db6f0" stroke="#273244" stroke-width="2.2"/>
+              <path d="M33 99c0-16 14.5-27 33-27s33 11 33 27z" fill="#9db6f0" stroke="#273244" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M41 98.5c0-12.5 11-21.5 25-21.5" stroke="#c2d1f7" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="66" cy="66" r="19" fill="#f6d4ba" stroke="#273244" stroke-width="2.4"/>
+              <path d="M47.5 62c1-11 8-17.5 18.5-17.5S83.5 51 84.5 62c-4.2-5.2-10.3-7-18.5-7s-14.3 1.8-18.5 7z" fill="#3b332c" stroke="#273244" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M56.4 65.6q2.7 2.7 5.4 0" stroke="#273244" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M70.2 65.6q2.7 2.7 5.4 0" stroke="#273244" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <circle cx="54.5" cy="72.5" r="2.8" fill="#f3a9bd"/>
+              <circle cx="77.5" cy="72.5" r="2.8" fill="#f3a9bd"/>
+              <path d="M63.4 75.3q2.6 2.4 5.2 0" stroke="#273244" stroke-width="1.7" fill="none" stroke-linecap="round"/>
             </svg>
             <div class="wc-title" id="wcTitle">Welcome!</div>
             <div class="wc-text" id="wcText"></div>
@@ -1521,6 +1524,21 @@
     ];
     var MEM_COLORS={food:'#ef9a4e',tooth:'#5aa0e0',rollover:'#9b8bc4',sitting:'#45b487',laugh:'#e07a9e',bath:'#3bb0c4',walk:'#5aa0e0',word:'#c084d6',steps:'#45b487',birthday:'#e07a9e',haircut:'#e8b23c'};
     var MEM_DEMO={food:'32989520',tooth:'26509771',rollover:'7328426',sitting:'33653834',laugh:'14941957',bath:'20509003',walk:'7973646',word:'26621360',steps:'36848843',birthday:'28644158',haircut:'14243394'};
+    /* Bold-outlined, soft-fill memory art (dark navy outline + colorful fills) */
+    var MEM_CAKE='<path d="M5 20v-6.2c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2V20z" fill="#f4aec0" stroke="#273244" stroke-width="2"/><path d="M5.6 14.4c1.1 1.1 2.2 1.1 3.3 0s2.2-1.1 3.3 0 2.2 1.1 3.3 0 2.2-1.1 3.3 0" stroke="#fff" stroke-width="1.9"/><path d="M8 11.8V9M12 11.8V9M16 11.8V9" stroke="#f6c86a" stroke-width="2"/><circle cx="8" cy="7.7" r="1.1" fill="#f7a93c" stroke="#273244" stroke-width="1.1"/><circle cx="12" cy="7.7" r="1.1" fill="#f7a93c" stroke="#273244" stroke-width="1.1"/><circle cx="16" cy="7.7" r="1.1" fill="#f7a93c" stroke="#273244" stroke-width="1.1"/><path d="M4.6 20h14.8" stroke="#273244" stroke-width="2"/>';
+    var MEM_ART={
+      food:'<path d="M4 11.5h16c-.3 4.4-3.7 7.8-8 7.8s-7.7-3.4-8-7.8z" fill="#f0a24a" stroke="#273244" stroke-width="2"/><ellipse cx="12" cy="11.5" rx="8" ry="1.7" fill="#f8c98c" stroke="#273244" stroke-width="2"/><path d="M16.3 4.4c-1.2.8-1.2 2 0 2.8s1.2 2 0 2.8" stroke="#273244" stroke-width="1.8" fill="none"/>',
+      tooth:'<path d="M12 3.4c-3.4 0-5.7 2.1-5.7 5.2 0 2.7.9 4.8 1.8 7.7.45 1.5 2.3 1.5 2.7 0l.5-2.4c.2-.95 1.25-.95 1.45 0l.5 2.4c.4 1.5 2.25 1.5 2.7 0 .9-2.9 1.8-5 1.8-7.7 0-3.1-2.3-5.2-5.75-5.2z" fill="#ffffff" stroke="#273244" stroke-width="2"/><path d="M8.8 7.4c.9-.8 2.1-1 3.1-.6" stroke="#273244" stroke-width="1.5" opacity=".4"/>',
+      rollover:'<circle cx="12" cy="12" r="8.4" fill="#b083d6" stroke="#273244" stroke-width="2"/><path d="M12 7.6a4.4 4.4 0 0 1 4.2 5.7M12 16.4a4.4 4.4 0 0 1-4.2-5.7" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M16.6 11.3l-.4 2.3-2.2-.7M7.4 12.7l.4-2.3 2.2.7" stroke="#fff" stroke-width="1.8" fill="none"/>',
+      sitting:'<path d="M7 4v6.5h8a1.5 1.5 0 0 0 1.5-1.5V4z" fill="#8fc9ee" stroke="#273244" stroke-width="2"/><path d="M7 10.5v9M16.5 10.5v9" stroke="#273244" stroke-width="2"/><path d="M7 15h9.5" stroke="#273244" stroke-width="2"/>',
+      laugh:'<circle cx="12" cy="12" r="8.6" fill="#f6c86a" stroke="#273244" stroke-width="2"/><circle cx="9" cy="10.2" r="1.1" fill="#273244"/><circle cx="15" cy="10.2" r="1.1" fill="#273244"/><path d="M8.3 13.5a4 4 0 0 0 7.4 0z" fill="#ef7389" stroke="#273244" stroke-width="1.7"/>',
+      bath:'<path d="M3 12h18v3.4a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z" fill="#8fc9ee" stroke="#273244" stroke-width="2"/><path d="M3 12h18M7 12V7.6A2.2 2.2 0 0 1 10.6 6" stroke="#273244" stroke-width="2" fill="none"/><circle cx="12" cy="7.2" r="1.3" fill="#d9effb" stroke="#273244" stroke-width="1.3"/><circle cx="16.2" cy="9" r="1" fill="#d9effb" stroke="#273244" stroke-width="1.3"/>',
+      walk:'<path d="M3.2 15.1 6.6 14.4 9.1 9.7c.42-.8 1.55-1 2.2-.35l.65.65c.33.33.44.83.26 1.3l-.62 1.6 5.2 1.35c1.75.45 3 2 3 3.8V19a1 1 0 0 1-1 1H4.2a1 1 0 0 1-1-1z" fill="#6aa6e0" stroke="#273244" stroke-width="2"/><path d="M7.2 13.1l-.8 3.1M10 12.2l-.7 3.6" stroke="#fff" stroke-width="1.6"/>',
+      word:'<path d="M21 11.2a8.2 8.2 0 0 1-8.3 8.3 8.8 8.8 0 0 1-3.9-.9L3 20.5l1.8-5.4A8.2 8.2 0 0 1 4 11.2 8.2 8.2 0 0 1 12.4 3 8.2 8.2 0 0 1 21 11.2z" fill="#c084d6" stroke="#273244" stroke-width="2"/><circle cx="8.9" cy="11.3" r="1.1" fill="#fff"/><circle cx="12.4" cy="11.3" r="1.1" fill="#fff"/><circle cx="15.9" cy="11.3" r="1.1" fill="#fff"/>',
+      steps:'<ellipse cx="8" cy="9" rx="2.9" ry="4.1" fill="#9fd98a" stroke="#273244" stroke-width="1.8"/><ellipse cx="16" cy="15.2" rx="2.9" ry="4.1" fill="#9fd98a" stroke="#273244" stroke-width="1.8"/><circle cx="8" cy="4" r="1.2" fill="#9fd98a" stroke="#273244" stroke-width="1.3"/><circle cx="16" cy="10.2" r="1.2" fill="#9fd98a" stroke="#273244" stroke-width="1.3"/>',
+      birthday:MEM_CAKE,
+      haircut:'<circle cx="6" cy="6.3" r="2.4" fill="#f6c86a" stroke="#273244" stroke-width="1.9"/><circle cx="6" cy="17.7" r="2.4" fill="#f6c86a" stroke="#273244" stroke-width="1.9"/><path d="M8.1 7.7 20 17M8.1 16.3 20 7" stroke="#273244" stroke-width="2"/><circle cx="12.6" cy="12" r=".9" fill="#273244"/>'
+    };
     function memDemoUrl(k){ var id=MEM_DEMO[k]||'26509771'; return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop'; }
     function memPrompts(){
       var c=CHILDREN[CURRENT_KEY]||{};
@@ -1586,9 +1604,9 @@
             '<div class="me-photo" style="background-image:url(\''+memDemoUrl(p.k)+'\')"></div>'+
             '<div class="me-scrim"></div>'+
             '<div class="me-body">'+
-              '<div class="me-up" style="--mec:'+(MEM_COLORS[p.k]||'#9b8bc4')+'">'+(p.svg?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p.svg+'</svg>':MEM_ICON)+'</div>'+
+              '<div class="me-up'+(MEM_ART[p.k]?' me-up-art':'')+'" style="--mec:'+(MEM_COLORS[p.k]||'#9b8bc4')+'">'+(MEM_ART[p.k]?'<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">'+MEM_ART[p.k]+'</svg>':(p.svg?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p.svg+'</svg>':MEM_ICON))+'</div>'+
               '<div class="me-msg">Add '+baby+'’s <b>'+p.t+'</b> memory</div>'+
-              '<div class="me-cta">'+UP_ICON+'Upload photo</div>'+
+              '<div class="me-cta">Upload photo</div>'+
             '</div>'+
           '</div>'+
           '<div class="mem-title">'+p.t+'</div>'+
