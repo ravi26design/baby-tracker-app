@@ -273,7 +273,8 @@
   .mca-opt.cancel:active{background:#ece7f2;}
   .mca-opt svg{flex-shrink:0;}
   /* first-time memory starter — same card layout, empty image slot */
-  .me-empty{position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background-size:cover;background-position:center;background-color:#e7dff4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .me-empty{position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background-color:#e7dff4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .me-empty .me-photo{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(7px);transform:scale(1.12);}
   .me-empty .me-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,18,34,.78),rgba(26,18,34,.15) 52%,rgba(26,18,34,.04) 100%);}
   .me-empty .me-sample{position:absolute;top:11px;left:11px;z-index:2;font-size:10px;font-weight:800;letter-spacing:.3px;color:#fff;background:rgba(0,0,0,.32);padding:4px 10px;border-radius:20px;}
   .me-empty .me-body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:11px;padding:15px;}
@@ -767,6 +768,20 @@
   .wc-cta:active{transform:scale(.97);}
   .wc-cta svg{width:14px;height:14px;}
   .welcome-card .wc-illo{position:absolute;right:6px;bottom:-2px;width:128px;height:118px;z-index:0;pointer-events:none;}
+  /* learn words grid */
+  .learn-sec{margin-top:26px;}
+  .lw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 6px;}
+  .lw-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
+  .lw-item:active .lw-circle{transform:scale(.94);}
+  .lw-circle{position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center;transition:transform .12s;}
+  .lw-ring{position:absolute;inset:0;transform:rotate(-90deg);}
+  .lw-ring .lw-track{fill:none;stroke:color-mix(in srgb,var(--lc,#9b8bc4) 16%,#fff);stroke-width:4;}
+  .lw-ring .lw-prog{fill:none;stroke:var(--lc,#9b8bc4);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .7s cubic-bezier(.3,.9,.3,1);}
+  .lw-disc{position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle at 42% 34%, color-mix(in srgb,var(--lc,#9b8bc4) 55%,#fff), var(--lc,#9b8bc4));box-shadow:0 9px 16px -9px color-mix(in srgb,var(--lc,#9b8bc4) 70%, transparent);}
+  .lw-emoji{position:relative;z-index:1;font-size:30px;line-height:1;}
+  .lw-check{position:absolute;top:-1px;right:0;z-index:2;width:21px;height:21px;border-radius:50%;background:#4bab77;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2.5px #faf9fe;}
+  .lw-check svg{width:12px;height:12px;}
+  .lw-label{font-size:11px;font-weight:700;color:#7a7483;text-align:center;line-height:1.25;letter-spacing:-.1px;}
   /* collect-info bottom sheet */
   .collect-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:55;visibility:hidden;pointer-events:none;}
   .collect-layer.open{visibility:visible;pointer-events:auto;}
@@ -923,6 +938,15 @@
                 <span class="mp-day" onclick="openMealAll()">See all</span>
               </div>
               <div class="mp-card" id="mpList"></div>
+            </div>
+
+            <!-- learn words -->
+            <div class="learn-sec">
+              <div class="act-header">
+                <div class="htitle"><h2>Learn Words</h2></div>
+                <span class="mp-day" onclick="hToast('Learning hub coming soon ✨')">See all</span>
+              </div>
+              <div class="lw-grid" id="lwGrid"></div>
             </div>
 
                         <div class="nav-spacer"></div>
@@ -1514,6 +1538,28 @@
     function memPosts(){ try{ return JSON.parse(localStorage.getItem('bt_mem_posted')||'{}'); }catch(e){ return {}; } }
     function memRemoved(){ try{ return JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); }catch(e){ return {}; } }
     function mcPhoto(id){ return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=760&h=760&fit=crop'; }
+    var LEARN_CATS=[
+      {t:'Common animals', e:'🐤', c:'#f0845f', p:70},
+      {t:'Body Parts',     e:'✋', c:'#6cbf5e', p:100},
+      {t:'Actions',        e:'🏃', c:'#8a6fd0', p:100},
+      {t:'Baby Things',    e:'🍼', c:'#4aa8e0', p:35},
+      {t:'Wild animals',   e:'🦁', c:'#2cc2a5', p:45},
+      {t:'At The Park',    e:'🏰', c:'#8a6fd0', p:20},
+      {t:'Vegetables',     e:'🥕', c:'#6cbf5e', p:0},
+      {t:'Shapes',         e:'🔷', c:'#4aa8e0', p:0}
+    ];
+    function renderLearn(){
+      var g=document.getElementById('lwGrid'); if(!g) return;
+      var R=33, C=2*Math.PI*R;
+      g.innerHTML=LEARN_CATS.map(function(a){
+        var off=C*(1-Math.max(0,Math.min(100,a.p))/100);
+        var check=a.p>=100?'<span class="lw-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>':'';
+        return '<div class="lw-item" onclick="hToast(\''+a.t.replace(/'/g,"")+' — coming soon\')"><div class="lw-circle" style="--lc:'+a.c+'">'+
+          '<svg class="lw-ring" viewBox="0 0 72 72"><circle class="lw-track" cx="36" cy="36" r="'+R+'"/><circle class="lw-prog" cx="36" cy="36" r="'+R+'" style="stroke-dasharray:'+C.toFixed(1)+';stroke-dashoffset:'+off.toFixed(1)+'"/></svg>'+
+          '<span class="lw-disc"></span><span class="lw-emoji">'+a.e+'</span>'+check+'</div>'+
+          '<div class="lw-label">'+a.t+'</div></div>';
+      }).join('');
+    }
     function renderMemState(){
       var starter=document.getElementById('memStarter'), feat=document.getElementById('memFeatured');
       var va=document.getElementById('memViewAll');
@@ -1544,7 +1590,8 @@
           '</div>';
         }
         return '<div class="mem-card" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
-          '<div class="mem-img me-empty" style="background-image:url(\''+memDemoUrl(p.k)+'\')">'+
+          '<div class="mem-img me-empty">'+
+            '<div class="me-photo" style="background-image:url(\''+memDemoUrl(p.k)+'\')"></div>'+
             '<span class="me-sample">Sample</span>'+
             '<div class="me-scrim"></div>'+
             '<div class="me-body">'+
@@ -1792,6 +1839,7 @@
     updateWelcome(Object.keys(CHILDREN)[0]);
     showWelcomeIfFirst();
     renderMemState();
+    renderLearn();
 
     // memory cards — each card's inner image slider updates its own dots
     (function(){
