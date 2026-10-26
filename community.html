@@ -1264,7 +1264,7 @@
           </div>
           <div class="dt-row geo-row" onclick="toggleGeo()">
             <span class="dtr-ic geo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.1 7 13 7 13s7-7.9 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg></span>
-            <div class="dtr-info"><div class="dtr-t">Nearby Messages Only</div><div class="dtr-s" id="geoSub">Show posts from parents near you</div></div>
+            <div class="dtr-info"><div class="dtr-t">My Geography Only</div><div class="dtr-s" id="geoSub">Show posts from parents in your geography</div></div>
             <span class="sw" id="geoSw"><span class="sw-dot"></span></span>
           </div>
           <div class="mem-head"><span class="pn-sec" id="dtMemCount"></span><div class="mem-filter" id="memFilter"><button class="mem-chip sel" data-f="all" onclick="setMemFilter('all')">All</button><button class="mem-chip" data-f="online" onclick="setMemFilter('online')">Online</button></div></div>
@@ -1814,12 +1814,12 @@
       var v=!geoOn(gid); setGeo(gid,v);
       var sw=document.getElementById('geoSw'); if(sw) sw.classList.toggle('on',v);
       renderChat(gid);
-      showToast(v?('Showing posts from parents near '+USER_REGION+' 📍'):'Showing posts from everyone');
+      showToast(v?('Showing posts from your geography · '+USER_REGION+' 📍'):'Showing posts from all geographies');
     }
     function renderChat(gid){
       var body=document.getElementById('chatBody'), on=geoOn(gid), hidden=0;
       var html='<div class="chat-day">Today</div>';
-      if(on) html+='<div class="geo-banner">'+GEO_PIN+'Nearby only · parents near <b>'+USER_REGION+'</b></div>';
+      if(on) html+='<div class="geo-banner">'+GEO_PIN+'Your geography · <b>'+USER_REGION+'</b></div>';
       MSGS[gid].forEach(function(m){
         if(m[0]===-1){ html+=mine(m[1],m[3],'read'); return; }
         if(on && memRegion(m[0])!==USER_REGION){ hidden++; return; }
@@ -1890,7 +1890,7 @@
       document.getElementById('dtSub').textContent=g.members+' members · '+g.online+' online';
       document.getElementById('dtDesc').textContent=g.desc;
       var _gs=document.getElementById('geoSw'); if(_gs) _gs.classList.toggle('on', geoOn(curGid));
-      var _gsub=document.getElementById('geoSub'); if(_gsub) _gsub.textContent='Only show posts from parents near '+USER_REGION;
+      var _gsub=document.getElementById('geoSub'); if(_gsub) _gsub.textContent='Only show posts from your geography · '+USER_REGION;
       updateStarCount();
       MEM_LIST=MEMBERS.slice();
       var _extra=['Olivia Brown','Ethan Clark','Ava Lewis','Mason Hall','Isla Young','Leo Walker','Mia Turner','Noah Green','Zoe Adams','Kai Nelson','Ruby Carter','Finn Baker'];
