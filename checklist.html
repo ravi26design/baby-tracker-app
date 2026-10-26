@@ -63,7 +63,8 @@
   .ck-intro::after,.cp-guide::after{content:'';position:absolute;top:-40px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(139,116,181,.10);}
   .cki-ic{position:relative;z-index:1;width:44px;height:44px;border-radius:14px;background:rgba(139,116,181,.14);color:#8f78c4;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .cki-ic svg{width:21px;height:21px;}
-  .cki-tx{position:relative;z-index:1;font-size:13px;line-height:1.45;color:#5a5160;font-weight:600;}
+  .cki-tx{position:relative;z-index:1;flex:1;min-width:0;font-size:13px;line-height:1.45;color:#5a5160;font-weight:600;}
+  .cki-illo{position:relative;z-index:1;width:74px;height:74px;flex-shrink:0;filter:drop-shadow(0 5px 7px rgba(43,53,69,.12));}
   .myck-sec{margin-top:0;}
   .myck-card2{background:var(--card-bg);border-radius:18px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.07);overflow:hidden;}
   .myck-top{display:flex;align-items:center;gap:12px;padding:14px 15px;cursor:pointer;}
@@ -571,7 +572,7 @@
         <div class="content">
           <div class="head"><div><h1>Checklist</h1><p id="clSub" style="display:none"></p></div><button class="wish-btn" onclick="openWishlist()" aria-label="Wishlist"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg><span class="wb-badge" id="wishBadge" style="display:none">0</span></button></div>
           <div class="child-tabs" id="childTabs"></div>
-          <div class="ck-intro" id="ckIntro" style="display:none"><span class="cki-tx" id="ckIntroTx"></span></div>
+          <div class="ck-intro" id="ckIntro" style="display:none"><span class="cki-tx" id="ckIntroTx"></span><svg class="cki-illo" viewBox="0 0 88 88" fill="none" aria-hidden="true"><rect x="33" y="8" width="22" height="10" rx="3" fill="#b9a9e6" stroke="#273244" stroke-width="2.6" stroke-linejoin="round"/><rect x="17" y="13" width="54" height="67" rx="9" fill="#ffffff" stroke="#273244" stroke-width="3" stroke-linejoin="round"/><circle cx="30" cy="34" r="5" fill="#7cc98f" stroke="#273244" stroke-width="2.2"/><path d="M27.6 34.2 29.4 36 32.4 32.4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 34h21" stroke="#273244" stroke-width="2.4" stroke-linecap="round" opacity=".32"/><circle cx="30" cy="50" r="5" fill="#fff" stroke="#273244" stroke-width="2.2"/><path d="M40 50h21" stroke="#273244" stroke-width="2.4" stroke-linecap="round" opacity=".32"/><circle cx="30" cy="66" r="5" fill="#fff" stroke="#273244" stroke-width="2.2"/><path d="M40 66h15" stroke="#273244" stroke-width="2.4" stroke-linecap="round" opacity=".32"/><path d="M74 20l1.4 3.6 3.8.5-2.8 2.6.7 3.8-3.1-1.9-3.1 1.9.7-3.8-2.8-2.6 3.8-.5z" fill="#f6c86a" stroke="#273244" stroke-width="1.3" stroke-linejoin="round"/></svg></div>
           <div class="hub" id="hub" style="margin-top:16px"></div>
         </div>
       </div>
