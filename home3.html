@@ -362,15 +362,15 @@
   .mp-day{font-size:13px;font-weight:700;color:#8574b5;cursor:pointer;}
   .mp-card{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -22px;padding:2px 22px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .mp-card::-webkit-scrollbar{display:none;}
-  .mp-sg{flex:0 0 85%;scroll-snap-align:start;position:relative;display:flex;align-items:center;gap:10px;background:linear-gradient(140deg, color-mix(in srgb,var(--mealc,#e8c184) 13%,#fff), color-mix(in srgb,var(--mealc,#e8c184) 26%,#fff));border-radius:22px;padding:16px 16px 16px 18px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--mealc,#caa06a) 30%, transparent);cursor:pointer;transition:transform .12s;overflow:hidden;}
-  .mp-sg::after{content:'';position:absolute;top:-34px;right:-30px;width:118px;height:118px;border-radius:50%;background:color-mix(in srgb,var(--mealc,#e8c184) 18%, #fff);opacity:.6;}
+  .mp-sg{flex:0 0 86%;scroll-snap-align:start;position:relative;display:flex;align-items:center;gap:8px;background:linear-gradient(140deg, color-mix(in srgb,var(--mealc,#e8c184) 12%,#fff), color-mix(in srgb,var(--mealc,#e8c184) 24%,#fff));border-radius:24px;padding:18px 16px 18px 18px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--mealc,#caa06a) 26%, transparent);cursor:pointer;transition:transform .12s;overflow:hidden;}
   .mp-sg:active{transform:scale(.99);}
+  .mp-sg-time{position:absolute;top:14px;right:16px;z-index:2;font-size:11px;font-weight:800;letter-spacing:-.1px;color:color-mix(in srgb,var(--mealc,#bd9f82) 70%, #6f5f48);opacity:.9;}
   .mp-sg-tx{position:relative;z-index:1;flex:1;min-width:0;}
-  .mp-sg-lbl{font-size:10.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:color-mix(in srgb,var(--mealc,#bd9f82) 62%, #7a6a52);}
-  .mp-sg-title{font-size:16.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;line-height:1.18;margin-top:5px;}
+  .mp-sg-pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#fff;background:color-mix(in srgb,var(--mealc,#caa06a) 82%, #7a5a38);padding:4px 10px;border-radius:20px;}
+  .mp-sg-title{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.3px;line-height:1.18;margin-top:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   .mp-sg-desc{font-size:12px;font-weight:500;color:#8c8192;line-height:1.45;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .mp-sg-img{position:relative;z-index:1;flex-shrink:0;width:90px;height:90px;display:flex;align-items:center;justify-content:center;}
-  .mp-sg-img svg{width:84px;height:84px;filter:drop-shadow(0 8px 10px rgba(140,100,70,.16));}
+  .mp-sg-img{position:relative;z-index:1;flex-shrink:0;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 50% 42%, #fff, color-mix(in srgb,var(--mealc,#e8c184) 26%, #fff));display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--mealc,#caa06a) 22%, transparent);}
+  .mp-sg-img svg{width:76px;height:76px;filter:drop-shadow(0 7px 9px rgba(140,100,70,.18));}
   .meal-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:62;visibility:hidden;pointer-events:none;}
   .meal-layer.open{visibility:visible;pointer-events:auto;}
   .meal-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
@@ -1565,7 +1565,8 @@
         mp.innerHTML = c.meals.map(function(ml, i){
           var a=mealArt(ml,i);
           return '<div class="mp-sg" style="--mealc:'+a.c+'" onclick="openMeal('+i+')">'+
-            '<div class="mp-sg-tx"><div class="mp-sg-lbl">'+ml.m+' · '+ml.t+'</div>'+
+            '<span class="mp-sg-time">'+ml.t+'</span>'+
+            '<div class="mp-sg-tx"><span class="mp-sg-pill">'+ml.m+'</span>'+
             '<div class="mp-sg-title">'+ml.f+'</div>'+
             '<div class="mp-sg-desc">'+(ml.about||'')+'</div></div>'+
             '<div class="mp-sg-img">'+a.svg+'</div></div>';
