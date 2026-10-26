@@ -707,6 +707,17 @@
   .af-tx b{font-size:13.5px;color:#fff;font-weight:700;letter-spacing:-.2px;}
   .af-tx small{font-size:11px;color:rgba(255,255,255,.82);font-weight:600;}
   .msg.me .bub.att .foot{padding:3px 4px 0;}
+  /* expert session paywall bubble */
+  .bub.pw{background:#f5f1fb;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);}
+  .bub.pw .pw-row{display:flex;align-items:center;gap:10px;margin:7px 0 5px;}
+  .bub.pw .pw-ic{width:36px;height:36px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,#8574b5 16%,#fff);color:#8574b5;}
+  .bub.pw .pw-ic svg{width:18px;height:18px;}
+  .bub.pw .pw-tx{display:flex;flex-direction:column;gap:1px;}
+  .bub.pw .pw-tx b{font-size:13.5px;color:var(--ink);font-weight:800;letter-spacing:-.2px;}
+  .bub.pw .pw-tx span{font-size:11.5px;color:#9a8fb3;font-weight:600;}
+  .bub.pw .txt{font-size:13px;color:#6a6477;line-height:1.45;}
+  .bub.pw .pw-btn{margin-top:11px;width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-size:13.5px;font-weight:800;padding:11px;border-radius:14px;transition:transform .1s;}
+  .bub.pw .pw-btn:active{transform:scale(.98);}
 
   /* details / profile */
   .pn-bar{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:8px 16px 12px;}
@@ -1634,10 +1645,10 @@
       var entry=null; for(var i=0;i<EXP_CHATS.length;i++){ if(EXP_CHATS[i].expert===name){ entry=EXP_CHATS[i]; break; } }
       if(!entry) entry={topic:'Other',child:'',detail:''};
       var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',msg:'Hi! How can I help you today?'};
-      curExpert=e; curGid=null; clearTimeout(typingTimer); hideTyping();
+      curExpert=e; curGid=null; EXP_UNLOCKED=false; clearTimeout(typingTimer); hideTyping();
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
-      document.getElementById('chatPres').textContent=e.spec+' · '+(e.on?'Online':'Replies in ~10 min');
+      document.getElementById('chatPres').textContent=e.spec;
       var m={n:name,e:e.e,c1:e.c1,c2:e.c2,tag:e.tag,tagKind:e.tagKind,tagBg:e.tagBg,tagFg:e.tagFg};
       var who=entry.child||'';
       var sum=[];
@@ -1663,11 +1674,11 @@
     function startExpert(name){
       closeExpert();
       var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,verified:true,level:'Verified Expert',tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',answers:0,helpful:'5.0',points:0,topics:['Baby care'],badges:[['✅','Verified','#e2f5e8','#2fa96f']],bio:'Verified paediatric expert here to help.',msg:'Hi! How can I help you today?'};
-      curExpert=e; curGid=null;
+      curExpert=e; curGid=null; EXP_UNLOCKED=false;
       clearTimeout(typingTimer); hideTyping();
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
-      document.getElementById('chatPres').textContent=e.spec+' · '+(e.on?'Online':'Replies in ~10 min');
+      document.getElementById('chatPres').textContent=e.spec;
       var m={n:name, e:e.e, c1:e.c1, c2:e.c2};
       document.getElementById('chatBody').innerHTML='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+'<div class="seenby" id="seenBy"></div>';
       var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
@@ -1979,9 +1990,38 @@
       // sent -> delivered -> read
       setTimeout(function(){ setTick(node,'delivered'); },700);
       setTimeout(function(){ setTick(node,'read'); sb.textContent='Seen by +20 people'; sb.classList.add('show'); body.scrollTop=body.scrollHeight; },1900);
-      // a reply after you send
+      if(curExpert){
+        if(EXP_UNLOCKED){
+          setTimeout(function(){ showTyping(curExpert); },2200);
+          setTimeout(function(){ hideTyping(); addIncoming(curExpert,'Thanks 💛 Let me look at that and I’ll share some guidance.'); },4200);
+        } else {
+          // free intro is used up — show the session paywall
+          setTimeout(function(){ showTyping(curExpert); },1800);
+          setTimeout(function(){ hideTyping(); var b2=document.getElementById('chatBody'), sb2=document.getElementById('seenBy');
+            var d=document.createElement('div'); d.innerHTML=expertPaywall(curExpert); b2.insertBefore(d.firstChild, sb2); b2.scrollTop=b2.scrollHeight; },3600);
+        }
+        return;
+      }
+      // group: a reply after you send
       setTimeout(function(){ showTyping(MEMBERS[1]); },2600);
       setTimeout(function(){ hideTyping(); addIncoming(MEMBERS[1],'Great — let us know how it goes! 🙌'); },4600);
+    }
+    var EXP_UNLOCKED=false;
+    var LOCK_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
+    function expertPaywall(e){
+      var fee=expertFee(e)||25, first=(e.n||'the expert').split(' ')[0];
+      var tag='<span class="who-tag icon-only expert" style="background:'+(e.tagBg||'#efeaf7')+';color:'+(e.tagFg||'#8574b5')+'">'+chatTagIcon(e)+'</span>';
+      return '<div class="msg">'+av(e)+'<div class="bub pw">'
+        +'<div class="who">'+esc(e.n)+tag+'</div>'
+        +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your free intro is used up</span></div></div>'
+        +'<div class="txt">To keep chatting with '+esc(first)+' and get personalised guidance, unlock a full session.</div>'
+        +'<button class="pw-btn" onclick="unlockSession()">Unlock session · £'+fee+'</button>'
+        +'</div></div>';
+    }
+    function unlockSession(){
+      EXP_UNLOCKED=true;
+      showToast('Session unlocked 🎉 Keep chatting');
+      if(curExpert){ addIncoming(curExpert,'You’re all set 💛 Ask me anything — I’m here to help.'); }
     }
     function setTick(node,state){
       var foot=node.querySelector('.foot'); var old=foot.querySelector('.tk'); if(old) old.remove();
