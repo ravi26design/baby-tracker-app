@@ -273,7 +273,12 @@
   .mca-opt.cancel:active{background:#ece7f2;}
   .mca-opt svg{flex-shrink:0;}
   /* first-time memory starter — same card layout, empty image slot */
-  .me-empty{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px;background:#f6f2fb;border:2px dashed rgba(139,116,181,.3);box-shadow:none;}
+  .me-empty{position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background-size:cover;background-position:center;background-color:#e7dff4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .me-empty .me-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,18,34,.78),rgba(26,18,34,.15) 52%,rgba(26,18,34,.04) 100%);}
+  .me-empty .me-sample{position:absolute;top:11px;left:11px;z-index:2;font-size:10px;font-weight:800;letter-spacing:.3px;color:#fff;background:rgba(0,0,0,.32);padding:4px 10px;border-radius:20px;}
+  .me-empty .me-body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:11px;padding:15px;}
+  .me-empty .me-msg{color:#fff;}
+  .me-empty .me-msg b{color:#fff;}
   .me-post{background:linear-gradient(160deg,#efe9f8,#e3d8f4);border:2px dashed rgba(139,116,181,.42);}
   .me-post .me-up{color:#8f78c4;}
   .me-up{width:54px;height:54px;border-radius:16px;background:color-mix(in srgb, var(--mec,#9b8bc4) 20%, #fff);color:var(--mec,#9b8bc4);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--mec,#9b8bc4) 22%, transparent);}
@@ -1499,6 +1504,8 @@
       {k:'haircut',  t:'First Haircut',   svg:'<circle cx="6" cy="6.5" r="2.5"/><circle cx="6" cy="17.5" r="2.5"/><path d="M8.2 7.8 20 17"/><path d="M8.2 16.2 20 7"/>'}
     ];
     var MEM_COLORS={food:'#ef9a4e',tooth:'#5aa0e0',rollover:'#9b8bc4',sitting:'#45b487',laugh:'#e07a9e',bath:'#3bb0c4',walk:'#5aa0e0',word:'#c084d6',steps:'#45b487',birthday:'#e07a9e',haircut:'#e8b23c'};
+    var MEM_DEMO={food:'32989520',tooth:'26509771',rollover:'7328426',sitting:'33653834',laugh:'14941957',bath:'20509003',walk:'7973646',word:'26621360',steps:'36848843',birthday:'28644158',haircut:'14243394'};
+    function memDemoUrl(k){ var id=MEM_DEMO[k]||'26509771'; return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop'; }
     function memPrompts(){
       var c=CHILDREN[CURRENT_KEY]||{};
       var isToddler = /y/i.test(c.ageShort||'') || c.stage==='toddler';
@@ -1537,10 +1544,13 @@
           '</div>';
         }
         return '<div class="mem-card" onclick="openMemUpload(\''+p.k+'\')" style="cursor:pointer">'+
-          '<div class="mem-img me-empty">'+
-            '<div class="me-up" style="--mec:'+(MEM_COLORS[p.k]||'#9b8bc4')+'">'+(p.svg?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p.svg+'</svg>':MEM_ICON)+'</div>'+
-            '<div class="me-msg">Add '+baby+'’s <b>'+p.t+'</b> memory</div>'+
-            '<div class="me-cta">'+UP_ICON+'Upload photo</div>'+
+          '<div class="mem-img me-empty" style="background-image:url(\''+memDemoUrl(p.k)+'\')">'+
+            '<span class="me-sample">Sample</span>'+
+            '<div class="me-scrim"></div>'+
+            '<div class="me-body">'+
+              '<div class="me-msg">Add '+baby+'’s <b>'+p.t+'</b> memory</div>'+
+              '<div class="me-cta">'+UP_ICON+'Upload photo</div>'+
+            '</div>'+
           '</div>'+
           '<div class="mem-title">'+p.t+'</div>'+
           '<div class="mem-desc">Capture this special first and it’ll appear here.</div>'+
