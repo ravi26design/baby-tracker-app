@@ -359,17 +359,16 @@
   .act-scroll{display:flex;gap:14px;overflow-x:auto;touch-action:pan-x;margin:0 -22px;padding:4px 22px 10px;scroll-snap-type:x mandatory;scroll-padding-left:22px;}
   .act-scroll::-webkit-scrollbar{display:none;}
   .mealplan{margin-top:26px;}
-  .mp-day{font-size:12px;font-weight:800;color:#8574b5;background:rgba(150,128,190,.16);padding:4px 11px;border-radius:10px;}
-  .mp-card{display:flex;flex-direction:column;gap:12px;}
-  .mp-row{display:flex;align-items:center;gap:13px;background:var(--card-bg);border-radius:18px;padding:13px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.06);}
-  .mp-ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;background:color-mix(in srgb, var(--mpc,#9b8bc4) 17%, #fff);}
-  .mp-ic svg{width:22px;height:22px;}
-  .mp-t{flex:1;min-width:0;}
-  .mp-m{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
-  .mp-f{font-size:12.5px;color:#8a8296;font-weight:500;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .mp-time{font-size:11.5px;font-weight:800;color:#a99fbb;flex-shrink:0;white-space:nowrap;}
-  .mp-row{cursor:pointer;transition:transform .12s;}
-  .mp-row:active{transform:scale(.99);}
+  .mp-day{font-size:13px;font-weight:700;color:#8574b5;cursor:pointer;}
+  .mp-card{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -22px;padding:2px 22px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .mp-card::-webkit-scrollbar{display:none;}
+  .mp-sg{flex:0 0 85%;scroll-snap-align:start;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#f8f0e6,#f2e7da);border-radius:20px;padding:16px 16px 16px 18px;box-shadow:inset 0 0 0 1px rgba(165,125,90,.14);cursor:pointer;transition:transform .12s;overflow:hidden;}
+  .mp-sg:active{transform:scale(.99);}
+  .mp-sg-tx{flex:1;min-width:0;}
+  .mp-sg-lbl{font-size:10.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#bd9f82;}
+  .mp-sg-title{font-size:16.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;line-height:1.18;margin-top:5px;}
+  .mp-sg-desc{font-size:12px;font-weight:500;color:#8c8192;line-height:1.45;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .mp-sg-img{flex-shrink:0;width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(165,125,90,.1);display:flex;align-items:center;justify-content:center;font-size:46px;line-height:1;}
   .meal-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:62;visibility:hidden;pointer-events:none;}
   .meal-layer.open{visibility:visible;pointer-events:auto;}
   .meal-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
@@ -882,7 +881,7 @@
             <div class="mealplan">
               <div class="act-header">
                 <div class="htitle"><h2>Meal Plan</h2></div>
-                <span class="mp-day">Today</span>
+                <span class="mp-day" onclick="openMeal(0)">See all</span>
               </div>
               <div class="mp-card" id="mpList"></div>
             </div>
@@ -1561,12 +1560,12 @@
       // meal plan
       var mp = document.getElementById('mpList');
       if(mp && c.meals){
-        var tints = ['#ef9a4e','#6f93d6','#45b487','#e07a9e','#9b8bc4'];
-        var strokes = tints;
         mp.innerHTML = c.meals.map(function(ml, i){
-          return '<div class="mp-row" onclick="openMeal('+i+')"><span class="mp-ic" style="--mpc:'+tints[i%tints.length]+'">'+mealIcon(ml.m,strokes[i%strokes.length])+'</span>'+
-            '<div class="mp-t"><div class="mp-m">'+ml.m+'</div><div class="mp-f">'+ml.f+'</div></div>'+
-            '<span class="mp-time">'+ml.t+'</span></div>';
+          return '<div class="mp-sg" onclick="openMeal('+i+')">'+
+            '<div class="mp-sg-tx"><div class="mp-sg-lbl">'+ml.m+' · '+ml.t+'</div>'+
+            '<div class="mp-sg-title">'+ml.f+'</div>'+
+            '<div class="mp-sg-desc">'+(ml.about||'')+'</div></div>'+
+            '<div class="mp-sg-img">'+(ml.e||'🍽️')+'</div></div>';
         }).join('');
       }
     }
