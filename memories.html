@@ -1132,10 +1132,13 @@
         try{
           var posts=JSON.parse(localStorage.getItem('bt_mem_posted')||'{}');
           var rec={desc:d, date:(dateV||'')};
-          if(MEM_PHOTOS.length) rec.img=MEM_PHOTOS[0];
+          if(MEM_PHOTOS.length){ rec.img=MEM_PHOTOS[0]; rec.imgs=MEM_PHOTOS.slice(); }
           posts[t]=rec;
-          try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }
-          catch(e2){ delete rec.img; posts[t]=rec; try{ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }catch(e3){} }
+          function _save(){ localStorage.setItem('bt_mem_posted', JSON.stringify(posts)); }
+          try{ _save(); }
+          catch(e2){ delete rec.imgs; posts[t]=rec;           // too big for all photos → keep just the first
+            try{ _save(); }
+            catch(e3){ delete rec.img; posts[t]=rec; try{ _save(); }catch(e4b){} } }
           try{ var rem=JSON.parse(localStorage.getItem('bt_mem_removed')||'{}'); if(rem[t]){ delete rem[t]; localStorage.setItem('bt_mem_removed', JSON.stringify(rem)); } }catch(e4){}
         }catch(e){}
         location.href='home3.html#posted'; return;
