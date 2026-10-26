@@ -515,15 +515,16 @@
   .ex-ic{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
   .ex-ic svg{width:28px;height:28px;}
   .ex-t{flex:1;min-width:0;}
-  .ex-title{position:relative;z-index:1;font-size:16px;font-weight:800;letter-spacing:-.3px;}
-  .ex-sub{position:relative;z-index:1;font-size:12.5px;font-weight:500;color:#6f6683;margin-top:4px;line-height:1.45;}
+  .ex-title{position:relative;z-index:1;font-size:16px;font-weight:800;letter-spacing:-.3px;max-width:62%;}
+  .ex-sub{position:relative;z-index:1;font-size:12.5px;font-weight:500;color:#6f6683;margin-top:4px;line-height:1.45;max-width:62%;}
   .ex-foot{display:flex;align-items:center;gap:9px;margin-top:15px;position:relative;z-index:1;}
+  .ex-illo{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:104px;height:98px;z-index:1;pointer-events:none;filter:drop-shadow(0 5px 7px rgba(43,53,69,.13));}
   .ex-avs{display:flex;flex-shrink:0;}
   .ex-avs span{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(139,116,181,.18);box-shadow:0 0 0 2px #e4ddf2;margin-left:-9px;}
   .ex-avs span:first-child{margin-left:0;}
   .ex-online{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.95);white-space:nowrap;}
   .ex-online i{width:7px;height:7px;border-radius:50%;background:#86e6ab;box-shadow:0 0 0 2px rgba(255,255,255,.25);}
-  .ex-cta2{margin-left:auto;display:inline-flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-size:13.5px;font-weight:800;padding:9px 15px;border-radius:20px;box-shadow:none;}
+  .ex-cta2{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-size:13.5px;font-weight:800;padding:9px 15px;border-radius:20px;box-shadow:none;}
   .ex-cta2 svg{width:14px;height:14px;}
   .ex-cta{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;margin-top:12px;margin-left:65px;border:none;cursor:pointer;font-family:inherit;background:transparent;color:#fff;font-size:14.5px;font-weight:800;padding:4px 0;border-radius:0;box-shadow:none;}
   .ex-cta.noic{margin-left:0;}
@@ -1042,9 +1043,13 @@
             <div class="ex-title">Ask to an Expert</div>
             <div class="ex-sub">1:1 advice from verified paediatric experts.</div>
             <div class="ex-foot">
-              <div class="ex-avs"><span>👩🏻‍⚕️</span><span>🤱🏻</span><span>😴</span></div>
               <button class="ex-cta2">Start a chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
             </div>
+            <svg class="ex-illo" viewBox="0 0 110 104" fill="none" aria-hidden="true">
+              <path d="M22 12h60a18 18 0 0 1 18 18v22a18 18 0 0 1-18 18H44l-14 12v-12h-8A18 18 0 0 1 4 52V30A18 18 0 0 1 22 12z" fill="#b9a9e6" stroke="#273244" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M46 28h12v7h7v12h-7v7H46v-7h-7V35h7z" fill="#ffffff" stroke="#273244" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M99 8l1.8 4.6 4.8.6-3.6 3.3 1 4.8-4-2.4-4 2.4 1-4.8-3.6-3.3 4.8-.6z" fill="#f6c86a" stroke="#273244" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
           </div>
           <div class="c-section exp-sec-head" id="expSectionHead" style="display:none"><span>Expert Chat</span><button class="exp-add" onclick="openExpert()" aria-label="New expert chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="expertChats"></div>
