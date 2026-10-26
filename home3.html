@@ -378,6 +378,18 @@
   .meal-panel{position:absolute;left:0;right:0;bottom:0;background:var(--card-bg);border-radius:28px 28px 46px 46px;padding:8px 22px 30px;transform:translateY(110%);transition:transform .34s cubic-bezier(.4,0,.2,1);}
   .meal-layer.open .meal-panel{transform:none;}
   .meal-grab{width:38px;height:5px;border-radius:3px;background:#e2dcec;margin:4px auto 16px;}
+  /* Meal Suggestions full page */
+  .mealall-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:63;visibility:hidden;pointer-events:none;}
+  .mealall-layer.open{visibility:visible;pointer-events:auto;}
+  .mealall-panel{position:absolute;inset:0;background:linear-gradient(180deg,#f6f3fa,#efebf5);transform:translateX(100%);transition:transform .34s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+  .mealall-layer.open .mealall-panel{transform:none;}
+  .mealall-head{flex-shrink:0;display:flex;align-items:center;gap:13px;padding:54px 20px 14px;}
+  .mealall-back{width:38px;height:38px;flex-shrink:0;border:none;background:var(--card-bg);border-radius:50%;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;transition:transform .12s;}
+  .mealall-back:active{transform:scale(.94);}
+  .mealall-title{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.4px;}
+  .mealall-list{flex:1;overflow-y:auto;padding:4px 20px 30px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none;}
+  .mealall-list::-webkit-scrollbar{display:none;}
+  .mealall-list .mp-sg{flex:0 0 auto;width:100%;}
   .meal-head{display:flex;align-items:center;gap:14px;}
   .meal-ic{width:58px;height:58px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03);}
   .meal-ic svg{width:30px;height:30px;}
@@ -883,7 +895,7 @@
             <div class="mealplan">
               <div class="act-header">
                 <div class="htitle"><h2>Meal Suggestions</h2></div>
-                <span class="mp-day" onclick="openMeal(0)">See all</span>
+                <span class="mp-day" onclick="openMealAll()">See all</span>
               </div>
               <div class="mp-card" id="mpList"></div>
             </div>
@@ -960,6 +972,17 @@
         <div class="meal-about" id="mealAbout"></div>
         <div class="meal-portion"><span class="mp-lbl">How much to give</span><span class="mp-val" id="mealPortion"></span></div>
         <div class="meal-tip" id="mealTip"></div>
+      </div>
+    </div>
+
+    <div class="mealall-layer" id="mealAllSheet">
+      <div class="meal-bd" onclick="closeMealAll()"></div>
+      <div class="mealall-panel">
+        <div class="mealall-head">
+          <button class="mealall-back" onclick="closeMealAll()" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="mealall-title">Meal Suggestions</div>
+        </div>
+        <div class="mealall-list" id="mealAllList"></div>
       </div>
     </div>
 
@@ -1631,6 +1654,21 @@
       document.getElementById('mealSheet').classList.add('open');
     }
     function closeMeal(){ document.getElementById('mealSheet').classList.remove('open'); }
+    function openMealAll(){
+      var c=CHILDREN[CURRENT_KEY]; if(!c||!c.meals) return;
+      document.getElementById('mealAllList').innerHTML=c.meals.map(function(ml,i){
+        var a=mealArt(ml,i);
+        return '<div class="mp-sg" style="--mealc:'+a.c+'" onclick="closeMealAll();openMeal('+i+')">'+
+          '<span class="mp-sg-time">'+ml.t+'</span>'+
+          '<div class="mp-sg-tx"><span class="mp-sg-pill">'+ml.m+'</span>'+
+          '<div class="mp-sg-title">'+ml.f+'</div>'+
+          '<div class="mp-sg-desc">'+(ml.about||'')+'</div></div>'+
+          '<div class="mp-sg-img">'+a.svg+'</div></div>';
+      }).join('');
+      document.getElementById('mealAllList').scrollTop=0;
+      document.getElementById('mealAllSheet').classList.add('open');
+    }
+    function closeMealAll(){ document.getElementById('mealAllSheet').classList.remove('open'); }
     function setTab(el){
       document.querySelectorAll('.bottom-nav .nav-item').forEach(function(i){ i.classList.remove('active'); });
       el.classList.add('active');
