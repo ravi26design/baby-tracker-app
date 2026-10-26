@@ -1731,12 +1731,12 @@
     }
     function mealArt(ml, i){
       var e=ml.e||'', t=(ml.f||'').toLowerCase();
-      if(e==='🍼'||t.indexOf('milk')>-1||t.indexOf('formula')>-1) return {c:'#efb24c', svg:mealBottle()};
-      if(e==='🥣'||t.indexOf('oat')>-1||t.indexOf('porridge')>-1||t.indexOf('cereal')>-1&&t.indexOf('rice')<0) return {c:'#e9a94f', svg:mealBowl('#f6cf7a','#fff3d6','#eca23f')};
+      if(e==='🍼'||t.indexOf('milk')>-1||t.indexOf('formula')>-1) return {c:'#6aa6e0', svg:mealBottle()};
+      if(e==='🥣'||t.indexOf('oat')>-1||t.indexOf('porridge')>-1||t.indexOf('cereal')>-1&&t.indexOf('rice')<0) return {c:'#e8b24e', svg:mealBowl('#f6cf7a','#fff3d6','#eca23f')};
       if(e==='🥕'||t.indexOf('carrot')>-1||t.indexOf('veg')>-1||t.indexOf('potato')>-1) return {c:'#ef8a3a', svg:mealCarrot()};
-      if(e==='🍎'||t.indexOf('apple')>-1||t.indexOf('fruit')>-1||t.indexOf('pear')>-1||t.indexOf('banana')>-1) return {c:'#ec7088', svg:mealApple()};
-      if(e==='🍚'||t.indexOf('rice')>-1||t.indexOf('pea')>-1) return {c:'#7cbf55', svg:mealRice()};
-      var fb=[{c:'#e9a94f',b:'#f6cf7a',f:'#fff3d6',d:'#eca23f'},{c:'#ec7088',b:'#f4aebb',f:'#fff0f2',d:'#e87690'},{c:'#7cbf55',b:'#b9df92',f:'#f3fade',d:'#74bb4e'}];
+      if(e==='🍎'||t.indexOf('apple')>-1||t.indexOf('fruit')>-1||t.indexOf('pear')>-1||t.indexOf('banana')>-1) return {c:'#ec6f88', svg:mealApple()};
+      if(e==='🍚'||t.indexOf('rice')>-1||t.indexOf('pea')>-1) return {c:'#64c08a', svg:mealRice()};
+      var fb=[{c:'#6aa6e0',b:'#b7d6f2',f:'#eef6ff',d:'#5a96d4'},{c:'#e8b24e',b:'#f6cf7a',f:'#fff3d6',d:'#eca23f'},{c:'#b083d6',b:'#dcc2f0',f:'#f6effc',d:'#9a6fce'},{c:'#ec6f88',b:'#f4aebb',f:'#fff0f2',d:'#e87690'},{c:'#64c08a',b:'#b3e3c6',f:'#eefaf2',d:'#58b57d'}];
       var p=fb[i%fb.length];
       return {c:p.c, svg:mealBowl(p.b,p.f,p.d)};
     }
