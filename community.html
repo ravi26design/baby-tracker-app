@@ -678,6 +678,33 @@
   .chat-input input{flex:1;border:none;outline:none;background:#f3eef0;border-radius:22px;padding:12px 16px;font-family:inherit;font-size:14px;color:var(--ink);}
   .chat-input input::placeholder{color:#b3adae;}
   .chat-send{width:44px;height:44px;flex-shrink:0;border:none;border-radius:50%;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -7px rgba(140,116,181,.7);}
+  .chat-attach{width:40px;height:40px;flex-shrink:0;border:none;border-radius:50%;cursor:pointer;background:#efeaf7;color:#8574b5;display:flex;align-items:center;justify-content:center;transition:transform .1s,background .15s;}
+  .chat-attach:active{transform:scale(.92);background:#e7e0f3;}
+  /* attachment sheet */
+  .attach-sheet{position:absolute;inset:0;z-index:55;visibility:hidden;pointer-events:none;}
+  .attach-sheet.open{visibility:visible;pointer-events:auto;}
+  .attach-bd{position:absolute;inset:0;background:rgba(35,22,12,.4);opacity:0;transition:opacity .25s;}
+  .attach-sheet.open .attach-bd{opacity:1;}
+  .attach-panel{position:absolute;left:10px;right:10px;bottom:10px;background:var(--card-bg);border-radius:26px;padding:8px 10px 12px;transform:translateY(135%);transition:transform .34s cubic-bezier(.32,.72,0,1);box-shadow:0 -12px 46px -14px rgba(60,40,70,.38);}
+  .attach-sheet.open .attach-panel{transform:none;}
+  .attach-grab{padding:4px 0 8px;} .attach-grab span{display:block;width:40px;height:5px;border-radius:3px;background:#e9e3ee;margin:0 auto;}
+  .attach-title{font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbe;padding:2px 12px 8px;}
+  .attach-opt{display:flex;align-items:center;gap:14px;width:100%;border:none;background:none;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--ink);padding:10px;border-radius:16px;cursor:pointer;text-align:left;}
+  .attach-opt:active{background:#f1ecf8;}
+  .ao-ic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ac,#8574b5) 15%,#fff);color:var(--ac,#8574b5);}
+  .ao-ic svg{width:22px;height:22px;}
+  .attach-cancel{width:100%;border:none;background:#f3eef9;color:#6f6880;font-family:inherit;font-size:15px;font-weight:800;padding:13px;border-radius:16px;cursor:pointer;margin-top:6px;}
+  .attach-cancel:active{background:#ece7f2;}
+  /* attachment bubbles */
+  .msg.me .bub.att{padding:5px 5px 4px;}
+  .att-img{width:192px;height:150px;border-radius:11px;background-size:cover;background-position:center;}
+  .att-file{display:flex;align-items:center;gap:11px;padding:5px 10px 5px 5px;min-width:172px;}
+  .af-ic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
+  .af-ic svg{width:21px;height:21px;}
+  .af-tx{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .af-tx b{font-size:13.5px;color:#fff;font-weight:700;letter-spacing:-.2px;}
+  .af-tx small{font-size:11px;color:rgba(255,255,255,.82);font-weight:600;}
+  .msg.me .bub.att .foot{padding:3px 4px 0;}
 
   /* details / profile */
   .pn-bar{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:8px 16px 12px;}
@@ -1250,8 +1277,22 @@
           <button class="rb-x" onclick="cancelReply()" aria-label="Cancel">&times;</button>
         </div>
         <div class="chat-input">
+          <button class="chat-attach" onclick="openAttach()" aria-label="Attach"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 11.3 12.2 20.4a5.4 5.4 0 0 1-7.6-7.6l9.2-9.2a3.6 3.6 0 0 1 5.1 5.1l-9.1 9.1a1.8 1.8 0 0 1-2.5-2.5l8.4-8.4"/></svg></button>
           <input type="text" id="chatInput" placeholder="Message..." />
           <button class="chat-send" onclick="sendMsg()" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button>
+        </div>
+        <!-- attachment sheet -->
+        <div class="attach-sheet" id="attachSheet">
+          <div class="attach-bd" onclick="closeAttach()"></div>
+          <div class="attach-panel">
+            <div class="attach-grab"><span></span></div>
+            <div class="attach-title">Add to chat</div>
+            <button class="attach-opt" onclick="pickAttach('photo')"><span class="ao-ic" style="--ac:#6aa6e0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m21 16-5-5-9 8"/></svg></span><span class="ao-l">Photo &amp; Video</span></button>
+            <button class="attach-opt" onclick="pickAttach('camera')"><span class="ao-ic" style="--ac:#ef8a3a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2a1 1 0 0 1 .8-.4h5.2a1 1 0 0 1 .8.4L17 8h3a1 1 0 0 1 1 1v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg></span><span class="ao-l">Camera</span></button>
+            <button class="attach-opt" onclick="pickAttach('document')"><span class="ao-ic" style="--ac:#9b5fd6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M13 3v5h5"/><path d="M8 13h8M8 16.5h5"/></svg></span><span class="ao-l">Document</span></button>
+            <button class="attach-opt" onclick="pickAttach('report')"><span class="ao-ic" style="--ac:#36a06a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V5a2 2 0 0 1 2-2h9l5 5v12a0 0 0 0 1 0 0H4z"/><path d="M7.5 15.5l2.5-3 2.5 2.5 3-4.5"/></svg></span><span class="ao-l">Baby’s report</span></button>
+            <button class="attach-cancel" onclick="closeAttach()">Cancel</button>
+          </div>
         </div>
       </div>
 
@@ -1892,6 +1933,27 @@
       var div=document.createElement('div'); div.innerHTML=incoming(m,text,'');
       body.insertBefore(div.firstChild, sb);
       body.scrollTop=body.scrollHeight;
+    }
+    function openAttach(){ document.getElementById('attachSheet').classList.add('open'); }
+    function closeAttach(){ document.getElementById('attachSheet').classList.remove('open'); }
+    var ATT_PHOTO='https://images.pexels.com/photos/32989520/pexels-photo-32989520.jpeg?auto=compress&cs=tinysrgb&w=400&h=320&fit=crop';
+    var ATT_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M13 3v5h5"/></svg>';
+    function mineAtt(inner){ return '<div class="msg me"><div class="bub att">'+inner+'<div class="foot"><span class="tm">now</span>'+TK_S+'</div></div></div>'; }
+    function pickAttach(type){
+      closeAttach();
+      var inner;
+      if(type==='photo'||type==='camera'){ inner='<div class="att-img" style="background-image:url(\''+ATT_PHOTO+'\')"></div>'; }
+      else { var name=type==='report'?'Baby_growth_report.pdf':'Document.pdf'; var size=type==='report'?'248 KB · PDF':'180 KB · PDF';
+        inner='<div class="att-file"><span class="af-ic">'+ATT_DOC+'</span><span class="af-tx"><b>'+name+'</b><small>'+size+'</small></span></div>'; }
+      var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy');
+      var wrap=document.createElement('div'); wrap.innerHTML=mineAtt(inner);
+      var node=wrap.firstChild; body.insertBefore(node, sb);
+      sb.classList.remove('show'); body.scrollTop=body.scrollHeight;
+      setTimeout(function(){ setTick(node,'delivered'); },700);
+      setTimeout(function(){ setTick(node,'read'); sb.textContent='Seen by +20 people'; sb.classList.add('show'); body.scrollTop=body.scrollHeight; },1900);
+      var rep=curExpert||MEMBERS[1];
+      setTimeout(function(){ showTyping(rep); },2500);
+      setTimeout(function(){ hideTyping(); addIncoming(rep,'Thanks for sharing that 👍 I’ll take a look.'); },4500);
     }
     function sendMsg(){
       var inp=document.getElementById('chatInput'), t=(inp.value||'').trim(); if(!t) return;
