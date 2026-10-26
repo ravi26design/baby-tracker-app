@@ -687,6 +687,15 @@
   .dt-row .dtr-s{font-size:12px;color:#9a8fb3;font-weight:600;margin-top:1px;}
   .dt-row .dtr-n{font-size:12.5px;font-weight:800;color:#8574b5;background:#efe9f7;padding:2px 9px;border-radius:9px;flex-shrink:0;}
   .dt-row .dtr-chev{color:#c9c0d8;display:flex;flex-shrink:0;}
+  .dt-row .dtr-ic.geo{background:linear-gradient(150deg,#d9efe0,#bfe6cf);}
+  .dt-row .dtr-ic.geo svg{fill:#36a06a;}
+  .sw{width:46px;height:28px;border-radius:16px;background:#e2dcee;flex-shrink:0;position:relative;transition:background .22s;}
+  .sw.on{background:#36a06a;}
+  .sw-dot{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.22);transition:transform .22s;}
+  .sw.on .sw-dot{transform:translateX(18px);}
+  .geo-banner{align-self:center;display:inline-flex;align-items:center;gap:6px;background:#eaf4ed;color:#3d7a54;font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:14px;margin:0 auto 2px;box-shadow:inset 0 0 0 1px rgba(90,150,110,.22);}
+  .geo-banner b{font-weight:800;}
+  .geo-banner svg{width:13px;height:13px;fill:#3d7a54;}
   .st-list{padding:8px 18px 24px;display:flex;flex-direction:column;gap:11px;}
   .st-item{background:var(--card-bg);border-radius:16px;padding:13px 15px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
   .st-item:active{transform:scale(.99);}
@@ -1253,6 +1262,11 @@
             <span class="dtr-n" id="dtStarCount">0</span>
             <span class="dtr-chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
           </div>
+          <div class="dt-row geo-row" onclick="toggleGeo()">
+            <span class="dtr-ic geo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.1 7 13 7 13s7-7.9 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg></span>
+            <div class="dtr-info"><div class="dtr-t">Nearby Messages Only</div><div class="dtr-s" id="geoSub">Show posts from parents near you</div></div>
+            <span class="sw" id="geoSw"><span class="sw-dot"></span></span>
+          </div>
           <div class="mem-head"><span class="pn-sec" id="dtMemCount"></span><div class="mem-filter" id="memFilter"><button class="mem-chip sel" data-f="all" onclick="setMemFilter('all')">All</button><button class="mem-chip" data-f="online" onclick="setMemFilter('online')">Online</button></div></div>
           <div id="dtMembers"></div>
           <div id="memMore"></div>
@@ -1788,11 +1802,28 @@
       var tk = state==='read' ? TK_D.replace('class="tk"','class="tk read"') : (state==='delivered'?TK_D:TK_S);
       return '<div class="msg me"><div class="bub" onclick="openMsgMenu(this)"><div class="txt">'+esc(text)+'</div><div class="foot"><span class="tm">'+tm+'</span>'+tk+'</div></div></div>';
     }
+    /* --- geography filter: show only posts from parents in the user's area --- */
+    var USER_REGION='London';
+    var GEO_REGION=['London','London','Manchester','London','Bristol','London','Leeds','London','Manchester','Bristol','London','London'];
+    function memRegion(i){ return GEO_REGION[i] || USER_REGION; }
+    function geoOn(gid){ try{ return !!(JSON.parse(localStorage.getItem('bt_geo_only')||'{}')[gid]); }catch(e){ return false; } }
+    function setGeo(gid,v){ try{ var o=JSON.parse(localStorage.getItem('bt_geo_only')||'{}'); o[gid]=v; localStorage.setItem('bt_geo_only',JSON.stringify(o)); }catch(e){} }
+    var GEO_PIN='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.1 7 13 7 13s7-7.9 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg>';
+    function toggleGeo(){
+      var gid=curGid; if(!gid) return;
+      var v=!geoOn(gid); setGeo(gid,v);
+      var sw=document.getElementById('geoSw'); if(sw) sw.classList.toggle('on',v);
+      renderChat(gid);
+      showToast(v?('Showing posts from parents near '+USER_REGION+' 📍'):'Showing posts from everyone');
+    }
     function renderChat(gid){
-      var body=document.getElementById('chatBody'), html='<div class="chat-day">Today</div>';
+      var body=document.getElementById('chatBody'), on=geoOn(gid), hidden=0;
+      var html='<div class="chat-day">Today</div>';
+      if(on) html+='<div class="geo-banner">'+GEO_PIN+'Nearby only · parents near <b>'+USER_REGION+'</b></div>';
       MSGS[gid].forEach(function(m){
-        if(m[0]===-1) html+=mine(m[1],m[3],'read');
-        else html+=incoming(MEMBERS[m[0]],m[1],m[2]);
+        if(m[0]===-1){ html+=mine(m[1],m[3],'read'); return; }
+        if(on && memRegion(m[0])!==USER_REGION){ hidden++; return; }
+        html+=incoming(MEMBERS[m[0]],m[1],m[2]);
       });
       html+='<div class="seenby" id="seenBy"></div>';
       body.innerHTML=html;
@@ -1825,6 +1856,7 @@
     }
     function hideTyping(){ var t=document.getElementById('typingRow'); if(t) t.remove(); if(curGid) document.getElementById('chatPres').textContent=GROUPS[curGid].online+' online · tap for info'; }
     function addIncoming(m,text){
+      if(curGid && geoOn(curGid)){ var i=MEMBERS.indexOf(m); if(i>-1 && memRegion(i)!==USER_REGION) return; }  // respect nearby-only filter
       var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy');
       var div=document.createElement('div'); div.innerHTML=incoming(m,text,'');
       body.insertBefore(div.firstChild, sb);
@@ -1857,6 +1889,8 @@
       document.getElementById('dtName').textContent=g.name;
       document.getElementById('dtSub').textContent=g.members+' members · '+g.online+' online';
       document.getElementById('dtDesc').textContent=g.desc;
+      var _gs=document.getElementById('geoSw'); if(_gs) _gs.classList.toggle('on', geoOn(curGid));
+      var _gsub=document.getElementById('geoSub'); if(_gsub) _gsub.textContent='Only show posts from parents near '+USER_REGION;
       updateStarCount();
       MEM_LIST=MEMBERS.slice();
       var _extra=['Olivia Brown','Ethan Clark','Ava Lewis','Mason Hall','Isla Young','Leo Walker','Mia Turner','Noah Green','Zoe Adams','Kai Nelson','Ruby Carter','Finn Baker'];
