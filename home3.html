@@ -417,6 +417,82 @@
   .meal-portion .mp-lbl{font-size:13px;font-weight:700;color:#8a8296;}
   .meal-portion .mp-val{font-size:14px;font-weight:800;color:var(--ink);}
   .meal-tip{font-size:13px;line-height:1.5;font-weight:600;color:#6a9a4e;background:#eef7e8;border-radius:14px;padding:13px 15px;margin-top:10px;box-shadow:inset 0 0 0 1px rgba(110,160,80,.16);}
+  /* ---------- Recipe detail page ---------- */
+  .rcp-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:64;visibility:hidden;pointer-events:none;}
+  .rcp-layer.open{visibility:visible;pointer-events:auto;}
+  .rcp-panel{position:absolute;inset:0;background:var(--card-bg,#faf9fe);transform:translateX(100%);transition:transform .34s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+  .rcp-layer.open .rcp-panel{transform:none;}
+  .rcp-scroll{flex:1;overflow-y:auto;scrollbar-width:none;}
+  .rcp-scroll::-webkit-scrollbar{display:none;}
+  .rcp-hero{position:relative;height:234px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,color-mix(in srgb,var(--rc,#e8c184) 30%,#fff),color-mix(in srgb,var(--rc,#e8c184) 60%,#fff));overflow:hidden;}
+  .rcp-hero::after{content:'';position:absolute;top:-50px;right:-40px;width:170px;height:170px;border-radius:50%;background:color-mix(in srgb,var(--rc,#e8c184) 34%,#fff);opacity:.5;}
+  .rcp-hero svg{width:154px;height:154px;position:relative;z-index:1;filter:drop-shadow(0 10px 14px rgba(43,53,69,.14));}
+  .rcp-hbar{position:absolute;top:50px;left:18px;right:18px;z-index:3;display:flex;align-items:center;justify-content:space-between;}
+  .rcp-hbtn{width:40px;height:40px;border:none;border-radius:50%;background:rgba(255,255,255,.82);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px -2px rgba(43,53,69,.2);transition:transform .12s;}
+  .rcp-hbtn:active{transform:scale(.92);}
+  .rcp-hbtn svg{width:19px;height:19px;}
+  .rcp-hbtn.on{color:#ef6b7f;}
+  .rcp-hright{display:flex;gap:9px;}
+  .rcp-age{position:absolute;left:18px;bottom:16px;z-index:3;font-size:11.5px;font-weight:800;letter-spacing:-.1px;color:#3b8a63;background:#e4f5ea;padding:6px 13px;border-radius:20px;box-shadow:0 2px 6px -2px rgba(43,53,69,.14);}
+  .rcp-body{padding:20px 22px 8px;}
+  .rcp-title{font-size:23px;font-weight:800;letter-spacing:-.5px;color:var(--ink);}
+  .rcp-desc{font-size:13.5px;line-height:1.55;color:#8a8296;font-weight:500;margin-top:8px;}
+  .rcp-meta{display:flex;align-items:stretch;margin:20px 0 4px;}
+  .rcp-mitem{flex:1;display:flex;flex-direction:column;gap:5px;}
+  .rcp-mitem+.rcp-mitem{border-left:1px solid rgba(139,116,181,.12);padding-left:15px;}
+  .rcp-mic{width:26px;height:26px;color:#9a8fb3;}
+  .rcp-mic svg{width:22px;height:22px;}
+  .rcp-mv{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .rcp-ml{font-size:11.5px;color:#a99fbb;font-weight:600;}
+  .rcp-div{height:1px;background:rgba(139,116,181,.1);margin:18px 0;}
+  .rcp-sech{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}
+  .rcp-sech h3{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin:0;}
+  .rcp-serv{font-size:13px;font-weight:800;color:#7d6ab0;}
+  .rcp-ing{display:flex;align-items:center;gap:13px;padding:11px 0;border-bottom:1px solid rgba(139,116,181,.07);}
+  .rcp-ing:last-child{border-bottom:none;}
+  .rcp-ing-ic{width:38px;height:38px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#e8c184) 20%,#fff);}
+  .rcp-ing-ic svg{width:30px;height:30px;}
+  .rcp-ing-tx{flex:1;min-width:0;}
+  .rcp-ing-n{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.1px;}
+  .rcp-ing-q{font-size:12px;color:#a99fbb;font-weight:700;margin-top:1px;}
+  .rcp-ing-chev{color:#cfc7dc;flex-shrink:0;}
+  .rcp-ing-chev svg{width:18px;height:18px;}
+  .rcp-tabs{display:flex;gap:4px;background:#f1edf8;border-radius:14px;padding:4px;margin:4px 0 16px;}
+  .rcp-tab{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;letter-spacing:-.2px;color:#8a8296;background:transparent;border-radius:11px;padding:10px;transition:background .14s,color .14s;}
+  .rcp-tab.on{background:#fff;color:#7d6ab0;box-shadow:0 2px 6px -2px rgba(0,0,0,.14);}
+  .rcp-step{display:flex;gap:14px;padding:4px 0 18px;}
+  .rcp-step-n{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a99adf,#8f7cc9);}
+  .rcp-step-tx{flex:1;min-width:0;}
+  .rcp-step-t{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .rcp-step-d{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;margin-top:3px;}
+  .rcp-step-th{width:66px;height:66px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#e8c184) 18%,#fff);box-shadow:inset 0 0 0 1px rgba(43,53,69,.05);}
+  .rcp-step-th svg{width:46px;height:46px;}
+  .rcp-ntiles{display:flex;gap:9px;margin-bottom:16px;}
+  .rcp-ntile{flex:1;min-width:0;background:color-mix(in srgb,var(--nc,#9b8bc4) 12%,#fff);border-radius:17px;padding:14px 6px;text-align:center;}
+  .rcp-ntile svg{width:24px;height:24px;color:var(--nc,#9b8bc4);}
+  .rcp-ntile-v{font-size:17px;font-weight:800;color:var(--ink);margin-top:6px;letter-spacing:-.3px;}
+  .rcp-ntile-l{font-size:11px;color:#8b8296;font-weight:600;margin-top:1px;}
+  .rcp-note{border-radius:20px;padding:16px 17px;margin-bottom:14px;}
+  .rcp-note.good{background:#fdf3e4;}
+  .rcp-note.tips{background:#fdeef1;}
+  .rcp-note-h{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin-bottom:12px;}
+  .rcp-note-h svg{width:20px;height:20px;}
+  .rcp-chk{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;font-weight:600;color:#5c5668;line-height:1.4;padding:5px 0;}
+  .rcp-chk svg{width:19px;height:19px;flex-shrink:0;color:#3bab73;margin-top:1px;}
+  .rcp-intro{display:flex;align-items:center;gap:13px;background:#eef0fb;border-radius:18px;padding:15px 16px;cursor:pointer;transition:transform .12s;}
+  .rcp-intro:active{transform:scale(.99);}
+  .rcp-intro-ic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;color:#7d6ab0;}
+  .rcp-intro-ic svg{width:22px;height:22px;}
+  .rcp-intro-tx{flex:1;min-width:0;}
+  .rcp-intro-t{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .rcp-intro-s{font-size:12px;color:#8b8296;font-weight:600;margin-top:2px;}
+  .rcp-intro-chev{color:#b4abc8;flex-shrink:0;}
+  .rcp-intro-chev svg{width:19px;height:19px;}
+  .rcp-foot{flex-shrink:0;padding:12px 22px calc(14px + env(safe-area-inset-bottom));background:var(--card-bg,#faf9fe);box-shadow:0 -6px 18px -10px rgba(43,53,69,.18);}
+  .rcp-cta{width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;letter-spacing:-.2px;color:#fff;background:linear-gradient(135deg,#8f7cff,#7d6ab0);border-radius:20px;padding:17px;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .12s;}
+  .rcp-cta:active{transform:scale(.98);}
+  .rcp-cta svg{width:20px;height:20px;}
+  .rcp-cta.tried{background:#eaf5ee;color:#3b8a63;box-shadow:inset 0 0 0 1px rgba(59,138,99,.22);}
   .act-card{
     position:relative;flex:0 0 calc((91% - 14px) / 2);aspect-ratio:9/16;border-radius:26px;overflow:hidden;
     scroll-snap-align:start;
@@ -1167,6 +1243,47 @@
           <div class="mealall-title">Meal Suggestions</div>
         </div>
         <div class="mealall-list" id="mealAllList"></div>
+      </div>
+    </div>
+
+    <!-- Recipe detail page -->
+    <div class="rcp-layer" id="recipeLayer">
+      <div class="rcp-panel">
+        <div class="rcp-scroll" id="recipeScroll">
+          <div class="rcp-hero" id="rcpHero">
+            <div class="rcp-hbar">
+              <button class="rcp-hbtn" onclick="closeRecipe()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+              <div class="rcp-hright">
+                <button class="rcp-hbtn" id="rcpHeart" onclick="rcpHeart(this)" aria-label="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                <button class="rcp-hbtn" onclick="toast&&toast('Share coming soon')" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></button>
+              </div>
+            </div>
+            <div id="rcpHeroArt"></div>
+            <span class="rcp-age" id="rcpAge"></span>
+          </div>
+          <div class="rcp-body">
+            <div class="rcp-title" id="rcpTitle"></div>
+            <div class="rcp-desc" id="rcpDesc"></div>
+            <div class="rcp-meta">
+              <div class="rcp-mitem"><span class="rcp-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="rcp-mv" id="rcpPrep"></span><span class="rcp-ml">Prep time</span></div>
+              <div class="rcp-mitem"><span class="rcp-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12a7 7 0 0 1 14 0"/><path d="M3 12h18M4 16h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/><path d="M12 5V3"/></svg></span><span class="rcp-mv" id="rcpCook"></span><span class="rcp-ml">Cook time</span></div>
+              <div class="rcp-mitem"><span class="rcp-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3 5 5.3 5 9a5 5 0 0 1-10 0c0-1.3.4-2.4 1-3.4"/></svg></span><span class="rcp-mv" id="rcpDiff"></span><span class="rcp-ml">Difficulty</span></div>
+            </div>
+            <div class="rcp-div"></div>
+            <div class="rcp-sech"><h3>Ingredients</h3><span class="rcp-serv" id="rcpServ"></span></div>
+            <div id="rcpIngList"></div>
+            <div class="rcp-div"></div>
+            <div class="rcp-tabs">
+              <button class="rcp-tab on" id="rcpTabSteps" onclick="recipeTab('steps')">Steps</button>
+              <button class="rcp-tab" id="rcpTabNutri" onclick="recipeTab('nutri')">Nutrition</button>
+            </div>
+            <div id="rcpSteps"></div>
+            <div id="rcpNutri" style="display:none"></div>
+          </div>
+        </div>
+        <div class="rcp-foot">
+          <button class="rcp-cta" id="rcpCta" onclick="rcpTried(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Mark as Tried</span></button>
+        </div>
       </div>
     </div>
 
@@ -2298,18 +2415,116 @@
       else p='<path d="M3.5 11.5h17"/><path d="M4.5 11.5a7.5 7.5 0 0 0 15 0"/><path d="M8 11.5c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/>';
       return '<svg viewBox="0 0 24 24" fill="none" stroke="'+stroke+'" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
     }
+    // ---------- Recipe detail ----------
+    var RCP_TAB='steps';
+    function rcpCap(s){s=(s||'').trim();return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+    function ingArt(name){
+      var n=(name||'').toLowerCase();
+      if(/milk|formula/.test(n)) return mealBottle();
+      if(/carrot|sweet.?potato|pumpkin|squash|veg/.test(n)) return mealCarrot();
+      if(/apple|banana|fruit|pear|berry|mango|straw/.test(n)) return mealApple();
+      if(/rice|dal|lentil|khichdi|cereal|oat|grain|pea|spinach|green/.test(n)) return mealRice();
+      return mealBowl('#e7e0f2','#f3eefb','#b9a9db');
+    }
+    function mealRecipe(ml){
+      var f=ml.f||'', t=f.toLowerCase();
+      var isMilk=/formula/.test(t)||(/milk/.test(t)&&!/banana|&/.test(t));
+      var toddler=/omelette|yoghurt|yogurt|curd|toast|khichdi|dal|egg/.test(t);
+      var age=ml.age||(isMilk?'From birth':toddler?'8+ months':'6+ months');
+      var prep=ml.prep||(isMilk?'2 mins':'10 mins');
+      var cook=ml.cook||(isMilk?'—':'15 mins');
+      var diff=ml.diff||'Easy';
+      var servings=ml.servings||(isMilk?1:2);
+      var ings=ml.ingredients;
+      if(!ings){
+        if(isMilk){ ings=[{n:'Breast milk or formula',q:ml.portion||'150–180 ml'},{n:'Warm water (if formula)',q:'as needed'}]; }
+        else {
+          var base=f.replace(/pur[ée|e]+e?/gi,'').replace(/&/g,',').replace(/\band\b/gi,',');
+          var parts=base.split(',').map(function(s){return rcpCap(s.trim());}).filter(Boolean);
+          var qtys=['2 tbsp','2 tbsp','1 tbsp','½ cup','1 tsp'];
+          ings=parts.map(function(p,idx){return {n:p,q:qtys[idx%qtys.length]};});
+          ings.push({n:'Water',q:'1.5 cups'});
+        }
+      }
+      var steps=ml.steps;
+      if(!steps){
+        if(isMilk){
+          steps=[
+            {t:'Boil & cool water',d:'If using formula, boil fresh water and let it cool to a safe, warm temperature.'},
+            {t:'Measure formula',d:'Add the right number of scoops as per the tin — never add extra.'},
+            {t:'Mix well',d:'Seal and swirl gently until fully dissolved with no lumps.'},
+            {t:'Check & feed',d:'Test a drop on your wrist, then hold baby upright to feed.'}
+          ];
+        } else {
+          steps=[
+            {t:'Rinse & prep',d:'Wash and peel the ingredients, then chop into small, even pieces.'},
+            {t:'Cook until soft',d:'Steam or pressure-cook until everything is tender and easily mashable.'},
+            {t:'Blend or mash',d:'Mash to a smooth, lump-free consistency suitable for your baby.'},
+            {t:'Cool down',d:'Let it cool to a comfortable, lukewarm temperature.'},
+            {t:'Serve',d:'Serve fresh'+(ml.portion?' — about '+ml.portion+' per meal.':'.')}
+          ];
+        }
+      }
+      var nutri=ml.nutri||(isMilk?{cal:'120',protein:'3g',fat:'6g',carbs:'13g'}:toddler?{cal:'140',protein:'6g',fat:'4g',carbs:'18g'}:{cal:'110',protein:'4g',fat:'2g',carbs:'18g'});
+      var good=ml.good||(isMilk?['Complete nutrition for the early months','Gentle and easy to digest','Supports steady, healthy weight gain','Keeps baby hydrated']:['Easy to digest','Rich in vitamins for growth','Good for gut health','Can be customised with seasonal produce']);
+      var tips=(ml.tips||[]).slice();
+      if(!tips.length){
+        if(ml.tip) tips.push(ml.tip);
+        (isMilk?['Always prepare a fresh feed','Never reuse leftover milk','Hold baby close and upright']:['Make it thinner for younger babies','Use seasonal vegetables','Avoid adding salt or sugar']).forEach(function(x){if(tips.indexOf(x)<0)tips.push(x);});
+      }
+      tips=tips.slice(0,4);
+      return {age:age,prep:prep,cook:cook,diff:diff,servings:servings,ings:ings,steps:steps,nutri:nutri,good:good,tips:tips,desc:ml.about||'',intro:'Suitable from '+age.toLowerCase()};
+    }
+    var RCP_CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    var RCP_CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
     function openMeal(i){
       var c=CHILDREN[CURRENT_KEY]; if(!c||!c.meals||!c.meals[i]) return;
-      var ml=c.meals[i], tints=['#ef9a4e','#6f93d6','#45b487','#e07a9e','#9b8bc4'], strokes=tints;
-      var ic=document.getElementById('mealIc'); ic.innerHTML=mealIcon(ml.m,strokes[i%strokes.length]); ic.style.background='color-mix(in srgb, '+tints[i%tints.length]+' 17%, #fff)';
-      document.getElementById('mealM').textContent=ml.m;
-      document.getElementById('mealTime').textContent=ml.t;
-      document.getElementById('mealFood').textContent=ml.f;
-      document.getElementById('mealAbout').textContent=ml.about||'';
-      document.getElementById('mealPortion').textContent=ml.portion||'—';
-      document.getElementById('mealTip').textContent=(ml.tip||'');
-      document.getElementById('mealSheet').classList.add('open');
+      var ml=c.meals[i], a=mealArt(ml,i), r=mealRecipe(ml);
+      var layer=document.getElementById('recipeLayer'); layer.style.setProperty('--rc',a.c);
+      document.getElementById('rcpHeroArt').innerHTML=a.svg;
+      document.getElementById('rcpAge').textContent=r.age;
+      document.getElementById('rcpTitle').textContent=ml.f;
+      document.getElementById('rcpDesc').textContent=r.desc;
+      document.getElementById('rcpPrep').textContent=r.prep;
+      document.getElementById('rcpCook').textContent=r.cook;
+      document.getElementById('rcpDiff').textContent=r.diff;
+      document.getElementById('rcpServ').textContent=r.servings+' serving'+(r.servings>1?'s':'');
+      document.getElementById('rcpIngList').innerHTML=r.ings.map(function(g){
+        return '<div class="rcp-ing"><span class="rcp-ing-ic">'+ingArt(g.n)+'</span><div class="rcp-ing-tx"><div class="rcp-ing-n">'+g.n+'</div><div class="rcp-ing-q">'+g.q+'</div></div><span class="rcp-ing-chev">'+RCP_CHEV+'</span></div>';
+      }).join('');
+      document.getElementById('rcpSteps').innerHTML=r.steps.map(function(s,idx){
+        return '<div class="rcp-step"><span class="rcp-step-n">'+(idx+1)+'</span><div class="rcp-step-tx"><div class="rcp-step-t">'+s.t+'</div><div class="rcp-step-d">'+s.d+'</div></div><span class="rcp-step-th">'+a.svg+'</span></div>';
+      }).join('');
+      var NT=[
+        {k:'cal',l:'Calories',c:'#ef6b53',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3 5 5.3 5 9a5 5 0 0 1-10 0c0-1.3.4-2.4 1-3.4"/><path d="M12 21a3 3 0 0 0 3-3c0-1.6-1.5-2.6-3-4.5-1.5 1.9-3 2.9-3 4.5a3 3 0 0 0 3 3z"/></svg>'},
+        {k:'protein',l:'Protein',c:'#3bab73',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 5-14 16-14 0 11-6 16-14 16"/><path d="M4.5 19.5c2-6 6-9 11-10"/></svg>'},
+        {k:'fat',l:'Fat',c:'#ef9a4e',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 2.5-6.5 6-11z"/></svg>'},
+        {k:'carbs',l:'Carbs',c:'#5a96d4',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M12 7c-2-2-5-2-5-2s0 3 2 4 3 0 3 0"/><path d="M12 7c2-2 5-2 5-2s0 3-2 4-3 0-3 0"/><path d="M12 13c-2-2-5-2-5-2s0 3 2 4 3 0 3 0"/><path d="M12 13c2-2 5-2 5-2s0 3-2 4-3 0-3 0"/></svg>'}
+      ];
+      var tiles=NT.map(function(n){return '<div class="rcp-ntile" style="--nc:'+n.c+'">'+n.ic+'<div class="rcp-ntile-v">'+r.nutri[n.k]+'</div><div class="rcp-ntile-l">'+n.l+'</div></div>';}).join('');
+      var bulb='<svg viewBox="0 0 24 24" fill="none" stroke="#f0b429" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 4 10.5c-.6.6-1 1.3-1 2.1H9c0-.8-.4-1.5-1-2.1A6 6 0 0 1 12 3z"/></svg>';
+      var fire='<svg viewBox="0 0 24 24" fill="none" stroke="#ef6b53" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3 5 5.3 5 9a5 5 0 0 1-10 0c0-1.3.4-2.4 1-3.4"/><path d="M12 21a3 3 0 0 0 3-3c0-1.6-1.5-2.6-3-4.5-1.5 1.9-3 2.9-3 4.5a3 3 0 0 0 3 3z"/></svg>';
+      var cal='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>';
+      var good='<div class="rcp-note good"><div class="rcp-note-h">'+bulb+'Why it’s good for your baby</div>'+r.good.map(function(x){return '<div class="rcp-chk">'+RCP_CHK+'<span>'+x+'</span></div>';}).join('')+'</div>';
+      var tipsHtml='<div class="rcp-note tips"><div class="rcp-note-h">'+fire+'Tips</div>'+r.tips.map(function(x){return '<div class="rcp-chk">'+RCP_CHK+'<span>'+x+'</span></div>';}).join('')+'</div>';
+      var introCard='<div class="rcp-intro"><span class="rcp-intro-ic">'+cal+'</span><div class="rcp-intro-tx"><div class="rcp-intro-t">When to introduce</div><div class="rcp-intro-s">'+rcpCap(r.intro)+'</div></div><span class="rcp-intro-chev">'+RCP_CHEV+'</span></div>';
+      document.getElementById('rcpNutri').innerHTML='<div style="font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:2px 2px 12px">Nutrition (per serving · approx)</div>'+'<div class="rcp-ntiles">'+tiles+'</div>'+good+tipsHtml+introCard;
+      recipeTab('steps');
+      var cta=document.getElementById('rcpCta'); cta.classList.remove('tried'); cta.querySelector('span').textContent='Mark as Tried';
+      var hb=document.getElementById('rcpHeart'); hb.classList.remove('on'); var hp=hb.querySelector('svg'); if(hp) hp.setAttribute('fill','none');
+      document.getElementById('recipeScroll').scrollTop=0;
+      layer.classList.add('open');
     }
+    function closeRecipe(){ document.getElementById('recipeLayer').classList.remove('open'); }
+    function recipeTab(k){
+      RCP_TAB=k;
+      document.getElementById('rcpTabSteps').classList.toggle('on',k==='steps');
+      document.getElementById('rcpTabNutri').classList.toggle('on',k==='nutri');
+      document.getElementById('rcpSteps').style.display=k==='steps'?'':'none';
+      document.getElementById('rcpNutri').style.display=k==='nutri'?'':'none';
+    }
+    function rcpHeart(b){ var on=b.classList.toggle('on'); var p=b.querySelector('svg'); if(p) p.setAttribute('fill',on?'currentColor':'none'); }
+    function rcpTried(b){ var on=b.classList.toggle('tried'); b.querySelector('span').textContent=on?'Added to Tried':'Mark as Tried'; }
     function closeMeal(){ document.getElementById('mealSheet').classList.remove('open'); }
     function openMealAll(){
       var c=CHILDREN[CURRENT_KEY]; if(!c||!c.meals) return;
