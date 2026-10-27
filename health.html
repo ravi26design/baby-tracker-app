@@ -114,7 +114,7 @@
   .chips{display:flex;flex-wrap:wrap;gap:9px;}
   .chip{padding:10px 14px;border-radius:13px;font-size:12.5px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .14s;flex-shrink:0;}
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
-  .chip.has-ic{display:inline-flex;align-items:center;gap:6px;}
+  .chip.has-ic{display:inline-flex;align-items:center;gap:6px;font-weight:600;}
   .chip.off,.bt-chip.off,.nt-chip.off,.vac-tab.off{background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
   .chip.on,.bt-chip.on,.nt-chip.on,.vac-tab.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
   .chip.on:active,.bt-chip.on:active,.nt-chip.on:active,.vac-tab.on:active{transform:scale(.96);}
@@ -285,20 +285,25 @@
   .vs-panel::-webkit-scrollbar{display:none;}
   .vs-layer.open .vs-panel{transform:none;}
   .vs-grab{width:40px;height:5px;border-radius:3px;background:#e2dcec;margin:2px auto 14px;}
-  .vs-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
-  .vs-cat{display:inline-block;font-size:10px;font-weight:800;padding:4px 11px;border-radius:20px;margin-bottom:8px;}
-  .vs-name{font-size:17px;font-weight:800;letter-spacing:-.3px;line-height:1.25;}
-  .vs-close{width:32px;height:32px;border-radius:50%;background:#efe9f3;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9a8fb3;flex-shrink:0;}
+  .vs-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .vs-hic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:color-mix(in srgb,var(--vc,#1fb0a4) 16%,#fff);color:var(--vc,#1fb0a4);}
+  .vs-hic svg{width:25px;height:25px;}
+  .vs-ht{flex:1;min-width:0;}
+  .vs-cat{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:4px 11px;border-radius:20px;margin-bottom:7px;}
+  .vs-name{font-size:17px;font-weight:800;letter-spacing:-.3px;line-height:1.2;}
+  .vs-close{width:32px;height:32px;border-radius:50%;background:#efe9f3;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9a8fb3;flex-shrink:0;align-self:flex-start;}
   .vs-close svg{width:16px;height:16px;}
   .hs-add{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:none;transition:transform .12s;}
   .hs-add:active{transform:scale(.93);}
   .hs-add svg{width:17px;height:17px;}
-  .vs-block{border-radius:14px;padding:13px 14px;margin-bottom:11px;}
-  .vs-bl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#8b8296;margin-bottom:5px;}
+  .vs-block{border-radius:16px;padding:13px 15px 14px;margin-bottom:11px;}
+  .vs-bl{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#8b8296;margin-bottom:6px;}
+  .vs-bl svg{width:14px;height:14px;flex-shrink:0;}
   .vs-bt{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.4;}
   .vs-bt.reg{font-weight:500;color:#5a5360;}
   .vs-se{display:flex;flex-wrap:wrap;gap:7px;}
-  .vs-se span{font-size:11px;font-weight:600;padding:6px 11px;border-radius:20px;background:#f3eff6;color:#7d7488;}
+  .vs-se span{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 12px;border-radius:12px;background:#fff;color:#7d7488;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+  .vs-se span::before{content:'';width:6px;height:6px;border-radius:50%;background:#e8a93f;flex-shrink:0;}
 
   /* bottom nav */
   .bottom-nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:#fff;border-radius:30px 30px 0 0;
@@ -1206,16 +1211,24 @@
   function onDocFile(inp){
     if(inp.files&&inp.files[0]){ var f=inp.files[0]; var nm=document.getElementById('dName'); if(nm&&!nm.value.trim()) nm.value=f.name.replace(/\.[^.]+$/,''); toast('File attached ✓'); }
   }
+  var VAC_CATCOL={mandatory:'#e8663f','good-to-have':'#36a578',specific:'#9b5fd6'};
+  var VAC_SYRINGE='<svg viewBox="0 0 24 24" fill="none"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" x="7" y="9" width="10" height="6" rx="1.3"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg>';
+  var VAC_SHIELD='<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.8v4.7c0 4.5-3 7.4-7 8.7-4-1.3-7-4.2-7-8.7V5.8z"/><path fill="none" d="M9 11.8l2 2 4-4.2"/></svg>';
+  var VAC_INFO='<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path fill="none" d="M12 11v5M12 7.6h.01"/></svg>';
+  var VAC_WARN='<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.6 20a1 1 0 0 0 .9 1.5h17a1 1 0 0 0 .9-1.5z"/><path fill="none" d="M12 10v4.2M12 17.6h.01"/></svg>';
   function openVacInfo(id){
     var v=VACCINES.find(function(x){return x.id===id;});
     var cat=VAC_CAT.filter(function(c){return c.key===v.category;})[0];
+    var cc=VAC_CATCOL[v.category]||'#7a68ad';
     document.getElementById('vacInfoPanel').innerHTML=
       '<div class="vs-grab"></div>'+
-      '<div class="vs-head"><div><span class="vs-cat" style="background:#f1ecf8;color:#7a68ad">'+cat.label+'</span><div class="vs-name">'+esc(v.name)+'</div></div>'+
+      '<div class="vs-head" style="--vc:#1fb0a4">'+
+      '<div class="vs-hic">'+VAC_SYRINGE+'</div>'+
+      '<div class="vs-ht"><span class="vs-cat" style="background:color-mix(in srgb,'+cc+' 14%,#fff);color:'+cc+'">'+cat.label+'</span><div class="vs-name">'+esc(v.name)+'</div></div>'+
       '<button class="vs-close" onclick="closeVacInfo()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'+
-      '<div class="vs-block" style="background:#f6f3fb"><div class="vs-bl">Protects against</div><div class="vs-bt">'+esc(v.protects)+'</div></div>'+
-      '<div class="vs-block" style="background:#f1ecf8"><div class="vs-bl">Why it matters</div><div class="vs-bt reg">'+esc(v.why)+'</div></div>'+
-      '<div class="vs-bl" style="margin:2px 2px 9px">Common side effects</div><div class="vs-se">'+v.sideEffects.map(function(s){return '<span>'+esc(s)+'</span>';}).join('')+'</div>';
+      '<div class="vs-block" style="background:#e9f5f0"><div class="vs-bl" style="color:#2f9a74">'+VAC_SHIELD+'Protects against</div><div class="vs-bt">'+esc(v.protects)+'</div></div>'+
+      '<div class="vs-block" style="background:#f0edfa"><div class="vs-bl" style="color:#8574b5">'+VAC_INFO+'Why it matters</div><div class="vs-bt reg">'+esc(v.why)+'</div></div>'+
+      '<div class="vs-bl" style="color:#c2881f;margin:4px 2px 9px">'+VAC_WARN+'Common side effects</div><div class="vs-se">'+v.sideEffects.map(function(s){return '<span>'+esc(s)+'</span>';}).join('')+'</div>';
     document.getElementById('vacInfo').classList.add('open');
   }
   function closeVacInfo(){document.getElementById('vacInfo').classList.remove('open');}
