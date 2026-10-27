@@ -708,16 +708,20 @@
   .af-tx small{font-size:11px;color:rgba(255,255,255,.82);font-weight:600;}
   .msg.me .bub.att .foot{padding:3px 4px 0;}
   /* expert session paywall bubble */
-  .bub.pw{background:#f5f1fb;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);}
-  .bub.pw .pw-row{display:flex;align-items:center;gap:10px;margin:7px 0 5px;}
-  .bub.pw .pw-ic{width:36px;height:36px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,#8574b5 16%,#fff);color:#8574b5;}
-  .bub.pw .pw-ic svg{width:18px;height:18px;}
-  .bub.pw .pw-tx{display:flex;flex-direction:column;gap:1px;}
-  .bub.pw .pw-tx b{font-size:13.5px;color:var(--ink);font-weight:800;letter-spacing:-.2px;}
-  .bub.pw .pw-tx span{font-size:11.5px;color:#9a8fb3;font-weight:600;}
-  .bub.pw .txt{font-size:13px;color:#6a6477;line-height:1.45;}
-  .bub.pw .pw-btn{margin-top:11px;width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-size:13.5px;font-weight:800;padding:11px;border-radius:14px;transition:transform .1s;}
+  .bub.pw{position:relative;overflow:hidden;background:linear-gradient(162deg,#fcfaff,#f1ebfb);border-radius:20px;padding:15px 16px 16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16),0 12px 26px -16px rgba(122,95,208,.55);}
+  .bub.pw::after{content:'';position:absolute;top:-34px;right:-28px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(165,143,216,.24),transparent 70%);pointer-events:none;}
+  .bub.pw .pw-row{display:flex;align-items:center;gap:12px;margin:4px 0 11px;position:relative;z-index:1;}
+  .bub.pw .pw-ic{width:42px;height:42px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#a994e2,#8872c2);color:#fff;box-shadow:0 7px 15px -6px rgba(122,95,208,.75);}
+  .bub.pw .pw-ic svg{width:21px;height:21px;}
+  .bub.pw .pw-tx{display:flex;flex-direction:column;gap:4px;min-width:0;}
+  .bub.pw .pw-tx b{font-size:15px;color:var(--ink);font-weight:800;letter-spacing:-.3px;white-space:nowrap;}
+  .bub.pw .pw-tx span{align-self:flex-start;font-size:10.5px;font-weight:800;color:#b4762f;background:#fdeacc;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .bub.pw .txt{font-size:13px;color:#6a6477;line-height:1.5;position:relative;z-index:1;}
+  .bub.pw .pw-btn{margin-top:14px;width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#9b84dc,#7d68b8);color:#fff;font-size:14.5px;font-weight:800;letter-spacing:-.2px;padding:14px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 10px 20px -9px rgba(122,95,208,.8);transition:transform .1s;position:relative;z-index:1;}
+  .bub.pw .pw-btn svg{width:18px;height:18px;}
   .bub.pw .pw-btn:active{transform:scale(.98);}
+  .bub.pw .pw-note{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:9px;font-size:11px;font-weight:600;color:#9a8fb3;position:relative;z-index:1;}
+  .bub.pw .pw-note svg{width:13px;height:13px;}
 
   /* details / profile */
   .pn-bar{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:8px 16px 12px;}
@@ -1656,7 +1660,7 @@
           +'<span class="grp-av round" style="background:radial-gradient(circle at 45% 35%,'+(e.c1||'#efe9f7')+','+(e.c2||'#d5c8ef')+')">'+(e.e||'👩‍⚕️')+'</span>'
           +'<div class="grp-main"><div class="grp-top"><span class="grp-name">'+c.expert+'</span><span class="grp-time">'+c.time+'</span></div>'
           +'<div class="grp-msg">'+c.preview+(c.detail?' · '+esc(c.detail):'')+'</div>'
-          +'<div class="grp-sub"><span class="grp-online"><i></i>'+(e.on?'Online':'Away')+'</span><span class="grp-count">· '+(e.spec||'Expert')+'</span>'+(c.unread?'<span class="grp-badge">'+c.unread+'</span>':'')+'</div></div></div>';
+          +'<div class="grp-sub"><span class="grp-count">'+(e.spec||'Expert')+'</span>'+(c.unread?'<span class="grp-badge">'+c.unread+'</span>':'')+'</div></div></div>';
       }).join('');
     }
     function openExpertChat(i){ var c=EXP_CHATS[i]; if(!c) return; c.unread=0; renderExpertChats(); openExpertChatByName(c.expert); }
@@ -2034,7 +2038,8 @@
         +'<div class="who">'+esc(e.n)+tag+'</div>'
         +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your free intro is used up</span></div></div>'
         +'<div class="txt">To keep chatting with '+esc(first)+' and get personalised guidance, unlock a full session.</div>'
-        +'<button class="pw-btn" onclick="unlockSession()">Unlock session · £'+fee+'</button>'
+        +'<button class="pw-btn" onclick="unlockSession()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · £'+fee+'</button>'
+        +'<div class="pw-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 8.8-4-1.2-7-4.4-7-8.8V6z"/><path d="m9 12 2 2 4-4"/></svg>Secure one-time payment · cancel anytime</div>'
         +'</div></div>';
     }
     function unlockSession(){
