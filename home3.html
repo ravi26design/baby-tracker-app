@@ -1259,7 +1259,6 @@
               </div>
             </div>
             <div id="rcpHeroArt"></div>
-            <span class="rcp-age" id="rcpAge"></span>
           </div>
           <div class="rcp-body">
             <div class="rcp-title" id="rcpTitle"></div>
@@ -2482,7 +2481,6 @@
       var ml=c.meals[i], a=mealArt(ml,i), r=mealRecipe(ml);
       var layer=document.getElementById('recipeLayer'); layer.style.setProperty('--rc',a.c);
       document.getElementById('rcpHeroArt').innerHTML=a.svg;
-      document.getElementById('rcpAge').textContent=r.age;
       document.getElementById('rcpTitle').textContent=ml.f;
       document.getElementById('rcpDesc').textContent=r.desc;
       document.getElementById('rcpPrep').textContent=r.prep;
