@@ -203,6 +203,13 @@
   .row-s{font-size:11.5px;color:#8b8296;font-weight:500;margin-top:2px;line-height:1.35;}
   .row-date{font-size:10.5px;color:#b3aac2;font-weight:700;flex-shrink:0;margin-left:8px;white-space:nowrap;}
   .row-bdate{font-size:11px;color:#b3aac2;font-weight:700;margin-top:7px;}
+  /* doctor-visit row (richer hierarchy) */
+  .vrow-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+  .vrow-top .row-t{flex:1;min-width:0;}
+  .vrow-top .row-date{margin-left:0;}
+  .vrow-doc{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;margin-top:4px;letter-spacing:-.1px;}
+  .vrow-doc svg{width:13px;height:13px;flex-shrink:0;}
+  .vrow-note{font-size:11.5px;color:#8b8296;font-weight:500;line-height:1.4;margin-top:6px;}
   .row-more{width:30px;height:30px;border-radius:50%;border:none;background:transparent;color:#c0b8cf;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:2px;transition:background .14s,color .14s;}
   .row-more:active{background:#f1ecf8;color:#8f7cff;}
   .row-more svg{width:18px;height:18px;}
@@ -985,13 +992,18 @@
     var t=document.getElementById('hsTitle'); if(t&&curSheet==='visits') t.textContent='Edit Visit';
   }
   function renderVisits(){
-    var STETH='<path d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3"/><path d="M6 3H4.6M15 3h1.4"/><path d="M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle cx="19.1" cy="12.8" r="2.3"/>';
-    var PILL='<path d="M10.5 3.5 3.5 10.5a5 5 0 0 0 7 7l7-7a5 5 0 0 0-7-7z"/><path d="M7 7l7 7"/>';
+    var STETH='<path fill="none" d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path fill="none" d="M6 3.2H4.8M14 3.2h1.2"/><path fill="none" d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle cx="19.4" cy="13.2" r="2.6"/>';
+    var PILL='<g transform="rotate(-45 12 12)"><rect x="2.5" y="8.5" width="19" height="7" rx="3.5"/><path fill="none" d="M12 8.5v7"/></g>';
+    var DOCIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.3"/><path d="M5.6 19.5c0-3.4 2.9-5.3 6.4-5.3s6.4 1.9 6.4 5.3"/></svg>';
     document.getElementById('visitsList').innerHTML=VISITS.map(function(v,i){
       var sick=/sick|infection|ill|fever|flu|cold|rash|cough/i.test(v.title||'');
       var col=sick?'#ef7a66':'#45b487', ic=sick?PILL:STETH;
-      return '<div class="row"><div class="row-ic" style="--rowc:'+col+'"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
-        '<div class="row-main"><div class="row-t">'+esc(v.title)+'</div><div class="row-s">'+esc(v.doctor)+(v.note?' · '+esc(v.note):'')+'</div><div class="row-bdate">'+esc(v.date)+'</div></div>'+rowMoreBtn('visit',i)+'</div>';
+      return '<div class="row vrow"><div class="row-ic" style="--rowc:'+col+'"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
+        '<div class="row-main">'+
+          '<div class="vrow-top"><div class="row-t">'+esc(v.title)+'</div><span class="row-date">'+esc(v.date)+'</span></div>'+
+          '<div class="vrow-doc" style="color:'+col+'">'+DOCIC+esc(v.doctor)+'</div>'+
+          (v.note?'<div class="vrow-note">'+esc(v.note)+'</div>':'')+
+        '</div>'+rowMoreBtn('visit',i)+'</div>';
     }).join('');
     renderHub();
   }
