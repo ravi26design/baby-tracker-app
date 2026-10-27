@@ -763,7 +763,7 @@
   .hm-tv span{font-size:11px;font-weight:700;color:#a99fbb;margin-left:3px;}
   .hm-tl{font-size:11px;font-weight:600;color:#8b8296;margin-top:1px;}
   .hm-card{background:var(--card-bg,#faf9fe);border-radius:18px;padding:3px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
-  .hm-arow{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid rgba(139,116,181,.1);}
+  .hm-arow{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid rgba(139,116,181,.055);}
   .hm-arow:last-child{border-bottom:none;}
   .hm-arow-tx{flex:1;min-width:0;}
   .hm-arow-n{font-size:13px;font-weight:700;color:var(--ink);}
@@ -796,7 +796,7 @@
   .hm-ov-see{border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--oc,#8574b5);flex-shrink:0;}
   .hm-stats{display:flex;gap:6px;}
   .hm-stat{flex:1;min-width:0;}
-  .hm-stat+.hm-stat{border-left:1px solid rgba(139,116,181,.12);padding-left:11px;}
+  .hm-stat+.hm-stat{border-left:1px solid rgba(139,116,181,.07);padding-left:11px;}
   .hm-stat-v{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
   .hm-stat-v span{font-size:11px;font-weight:700;color:#a99fbb;margin-left:2px;}
   .hm-stat-l{font-size:10.5px;color:#8b8296;font-weight:600;margin-top:2px;}
@@ -809,7 +809,7 @@
   .hm-mtab:active{transform:scale(.97);}
   .hm-pbar{height:8px;border-radius:5px;background:#ece7f2;overflow:hidden;margin-top:13px;}
   .hm-pbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9ddcb4,#5bb87f);}
-  .hm-li{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid rgba(139,116,181,.1);}
+  .hm-li{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid rgba(139,116,181,.055);}
   .hm-li:last-child{border-bottom:none;}
   .hm-li-ic{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--lc,#9b8bc4) 15%,#fff);color:var(--lc,#9b8bc4);}
   .hm-li-ic svg{width:18px;height:18px;}
@@ -843,7 +843,14 @@
   .hm-add:active{transform:scale(.99);}
   .hm-add svg{width:16px;height:16px;}
   .hm-addf{margin-top:12px;display:none;}
-  .hm-addf.open{display:block;position:absolute;left:0;right:0;bottom:0;z-index:92;margin:0;background:#fff;border-radius:26px 26px 0 0;padding:12px 22px 26px;box-shadow:0 -16px 44px -14px rgba(90,60,70,.34);animation:hmSlideUp .32s cubic-bezier(.32,.72,0,1);}
+  .hm-addf.open{display:block;position:absolute;left:0;right:0;bottom:0;z-index:92;margin:0;max-height:84%;overflow-y:auto;background:#fff;border-radius:26px 26px 0 0;padding:12px 22px 26px;box-shadow:0 -16px 44px -14px rgba(90,60,70,.34);animation:hmSlideUp .32s cubic-bezier(.32,.72,0,1);}
+  .hm-addf.open::-webkit-scrollbar{display:none;}
+  .hm-nlbl{font-size:13px;font-weight:800;color:var(--ink);margin:4px 2px 11px;letter-spacing:-.1px;}
+  .hm-nchips{display:flex;flex-wrap:wrap;gap:9px;}
+  .hm-nchip{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:11px 15px;border-radius:14px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s,background .14s,color .14s;}
+  .hm-nchip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
+  .hm-nchip svg{width:15px;height:15px;flex-shrink:0;}
+  .hm-nchip:active{transform:scale(.97);}
   .hm-addf.open::before{content:'';display:block;width:40px;height:5px;border-radius:3px;background:#e4ddee;margin:0 auto 16px;}
   @keyframes hmSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
   .hm-bsbd{position:absolute;inset:0;background:rgba(30,20,26,.42);opacity:0;visibility:hidden;transition:opacity .26s;z-index:90;}
@@ -1430,12 +1437,10 @@
               <div id="hmNoteList" style="margin-top:4px"></div>
               <button class="hm-add" id="hmNoteBtn" onclick="hmNoteShow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Note</button>
               <div class="hm-addf" id="hmNoteForm">
-                <input class="hm-in" id="hmNoteText" placeholder="What are you noting?" autocomplete="off" style="margin-bottom:8px">
-                <div class="hm-addf-row" style="grid-template-columns:1fr 1fr">
-                  <select class="hm-in" id="hmNoteType"><option>Symptom</option><option>Measurement</option><option>Observation</option><option>Sleep</option><option>Feed</option></select>
-                  <select class="hm-in" id="hmNoteSev"><option value="">—</option><option>Mild</option><option>Moderate</option><option>Severe</option></select>
-                </div>
-                <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmNoteHide()">Cancel</button><button class="hm-addf-save" onclick="hmNoteSave()">Save</button></div>
+                <div class="hm-nlbl">What are you noting?</div>
+                <div class="hm-nchips" id="hmNoteTypes"></div>
+                <div id="hmNoteFields"></div>
+                <div class="hm-addf-act" style="margin-top:16px"><button class="hm-addf-cancel" onclick="hmNoteHide()">Cancel</button><button class="hm-addf-save" onclick="hmNoteSave()">Save Note</button></div>
               </div>
             </div>
           </div>
@@ -1710,13 +1715,51 @@
     var HM_NOTE_COL={Symptom:'#ef7a66',Measurement:'#5a78d4',Observation:'#45b487',Sleep:'#8f7cff',Feed:'#ef9a4e',Reaction:'#f0a53c'};
     function hmBs(on){ var bd=document.getElementById('hmBsBd'); if(bd) bd.classList.toggle('show', !!on); }
     function hmCloseForms(){ hmAddHide(); hmNoteHide(); hmVisitHide(); hmDocHide(); }
-    function hmNoteShow(){ var f=document.getElementById('hmNoteForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display='none'; }
-    function hmNoteHide(){ var f=document.getElementById('hmNoteForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display=''; var i=document.getElementById('hmNoteText'); if(i) i.value=''; }
+    var HM_NTYPE=null, HM_NSEL={};
+    function hmNoteShow(){ HM_NTYPE=null; HM_NSEL={}; var f=document.getElementById('hmNoteForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display='none'; renderHmNoteTypes(); document.getElementById('hmNoteFields').innerHTML=''; }
+    function hmNoteHide(){ var f=document.getElementById('hmNoteForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display=''; }
+    function renderHmNoteTypes(){
+      var el=document.getElementById('hmNoteTypes'); if(!el) return;
+      el.innerHTML=['Symptom','Measurement','Observation','Reaction','Sleep','Feed'].map(function(t){
+        var on=t===HM_NTYPE;
+        return '<button class="hm-nchip'+(on?' on':'')+'" onclick="hmPickNoteType(\''+t+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(HM_NOTE_IC[t]||'')+'</svg>'+t+'</button>';
+      }).join('');
+    }
+    function hmPickNoteType(t){ HM_NTYPE=t; HM_NSEL={}; renderHmNoteTypes(); renderHmNoteFields(); }
+    function hmNch(v,on,oc){ return '<button class="hm-nchip'+(on?' on':'')+'" onclick="'+oc+'">'+v+'</button>'; }
+    function hmNTog(k,v){ var a=HM_NSEL[k]||[]; HM_NSEL[k]=a.indexOf(v)>-1?a.filter(function(x){return x!==v;}):a.concat([v]); renderHmNoteFields(); }
+    function hmNSet(k,v){ HM_NSEL[k]=v; renderHmNoteFields(); }
+    function renderHmNoteFields(){
+      var d=HM_NSEL, h='', L=function(t){return '<div class="hm-nlbl" style="margin:16px 2px 10px">'+t+'</div>';};
+      if(HM_NTYPE==='Symptom'){
+        h+=L('Symptoms')+'<div class="hm-nchips">'+['Fever','Cough','Runny nose','Rash','Vomiting','Diarrhoea','Ear pain','Other'].map(function(s){return hmNch(s,(d.symptoms||[]).indexOf(s)>-1,"hmNTog('symptoms','"+s+"')");}).join('')+'</div>';
+        h+=L('Severity')+'<div class="hm-nchips">'+['Mild','Moderate','Called doctor'].map(function(s){return hmNch(s,d.severity===s,"hmNSet('severity','"+s+"')");}).join('')+'</div>';
+      }else if(HM_NTYPE==='Measurement'){
+        h+='<div class="hm-addf-row" style="margin-top:14px"><input class="hm-in" placeholder="Temp °C" value="'+(d.temp||'')+'" inputmode="decimal" oninput="HM_NSEL.temp=this.value"><input class="hm-in" placeholder="kg" value="'+(d.weight||'')+'" inputmode="decimal" oninput="HM_NSEL.weight=this.value"><input class="hm-in" placeholder="cm" value="'+(d.height||'')+'" inputmode="decimal" oninput="HM_NSEL.height=this.value"></div>';
+      }else if(HM_NTYPE==='Observation'){
+        h+=L('Mood')+'<div class="hm-nchips">'+['😊 Happy','😤 Fussy','🏃 Active','😴 Tired','😢 Cranky'].map(function(m){return hmNch(m,d.mood===m,"hmNSet('mood','"+m+"')");}).join('')+'</div>';
+      }else if(HM_NTYPE==='Reaction'){
+        h+=L('Trigger')+'<div class="hm-nchips">'+['Food','Medicine','Environment'].map(function(r){return hmNch(r,d.reactTo===r,"hmNSet('reactTo','"+r+"')");}).join('')+'</div>';
+        h+=L('Reaction')+'<div class="hm-nchips">'+['Mild rash','Hives','Swelling','Vomiting','Breathing concern'].map(function(r){return hmNch(r,(d.reaction||[]).indexOf(r)>-1,"hmNTog('reaction','"+r+"')");}).join('')+'</div>';
+      }else if(HM_NTYPE==='Sleep'){
+        h+=L('Duration')+'<div class="hm-nchips">'+['<5h','6h','7h','8h','9h','10h+'].map(function(x){return hmNch(x,d.duration===x,"hmNSet('duration','"+x+"')");}).join('')+'</div>';
+        h+=L('Quality')+'<div class="hm-nchips">'+['Good','Disrupted','Poor'].map(function(q){return hmNch(q,d.quality===q,"hmNSet('quality','"+q+"')");}).join('')+'</div>';
+      }else if(HM_NTYPE==='Feed'){
+        h+=L('Type')+'<div class="hm-nchips">'+['Breast','Formula','Solids','Mixed'].map(function(f){return hmNch(f,d.feedType===f,"hmNSet('feedType','"+f+"')");}).join('')+'</div>';
+        h+=L('How did it go?')+'<div class="hm-nchips">'+['Well','Refused','Less than usual'].map(function(x){return hmNch(x,d.how===x,"hmNSet('how','"+x+"')");}).join('')+'</div>';
+      }
+      document.getElementById('hmNoteFields').innerHTML=h;
+    }
     function hmNoteSave(){
-      var txt=(document.getElementById('hmNoteText').value||'').trim();
-      if(!txt){ hToast('Add a note'); return; }
-      var tag=document.getElementById('hmNoteType').value, sev=document.getElementById('hmNoteSev').value;
-      HM_NOTES.unshift({summary:txt+(sev?' · '+sev:''),tag:tag,date:'Today',c:HM_NOTE_COL[tag]||'#1fb0a4'});
+      if(!HM_NTYPE){ hToast('Pick what you’re noting'); return; }
+      var d=HM_NSEL, summary='';
+      if(HM_NTYPE==='Symptom'){ var s=d.symptoms||[]; if(!s.length||!d.severity){ hToast('Pick a symptom & severity'); return; } summary=s.join(', ')+' · '+d.severity; }
+      else if(HM_NTYPE==='Measurement'){ var p=[d.temp&&d.temp+'°C',d.weight&&d.weight+' kg',d.height&&d.height+' cm'].filter(Boolean); if(!p.length){ hToast('Add a measurement'); return; } summary=p.join(' · '); }
+      else if(HM_NTYPE==='Observation'){ if(!d.mood){ hToast('Pick a mood'); return; } summary=d.mood; }
+      else if(HM_NTYPE==='Reaction'){ if(!d.reactTo){ hToast('Pick a trigger'); return; } summary=d.reactTo+' · '+((d.reaction||[]).join(', ')||'reaction'); }
+      else if(HM_NTYPE==='Sleep'){ if(!d.duration){ hToast('Pick a duration'); return; } summary=d.duration+(d.quality?' · '+d.quality:''); }
+      else if(HM_NTYPE==='Feed'){ if(!d.feedType){ hToast('Pick a feed type'); return; } summary=d.feedType+(d.how?' · '+d.how:''); }
+      HM_NOTES.unshift({summary:summary,tag:HM_NTYPE,date:'Today',c:HM_NOTE_COL[HM_NTYPE]||'#1fb0a4'});
       renderHmNotes(); hmNoteHide(); hToast('Note added ✓');
     }
     /* ---- Documents ---- */
