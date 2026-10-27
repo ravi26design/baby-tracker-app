@@ -115,8 +115,8 @@
   .chip{padding:11px 16px;border-radius:13px;font-size:13.5px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .14s;flex-shrink:0;}
   .chip .x{margin-left:5px;opacity:.5;font-weight:800;}
   .chip.has-ic{display:inline-flex;align-items:center;gap:6px;}
-  .chip.off,.bt-chip.off,.nt-chip.off,.vac-tab.off{background:#f1ecf8;color:#7a68ad;}
-  .chip.on,.bt-chip.on,.nt-chip.on,.vac-tab.on{background:#a28cdb;color:#fff;box-shadow:0 7px 16px -7px rgba(140,116,181,.75);}
+  .chip.off,.bt-chip.off,.nt-chip.off,.vac-tab.off{background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+  .chip.on,.bt-chip.on,.nt-chip.on,.vac-tab.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
   .chip.on:active,.bt-chip.on:active,.nt-chip.on:active,.vac-tab.on:active{transform:scale(.96);}
   .chip-ic{width:14px;height:14px;flex-shrink:0;}
   .sug-chip{display:inline-flex;align-items:center;gap:7px;border-radius:13px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.22);padding:9px 16px;font-weight:800;}
@@ -190,7 +190,7 @@
   .form-actions{display:flex;gap:8px;margin-top:18px;}
   .btn{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;padding:15px;border-radius:26px;transition:transform .12s;}
   .btn-cancel{background:#efe9f3;color:#9a8fb3;}
-  .btn-save{background:linear-gradient(155deg,#b0a2d8,#9b8bc4)!important;color:#fff;box-shadow:0 14px 24px -9px rgba(140,116,181,.65);}
+  .btn-save{background:linear-gradient(155deg,#b0a2d8,#9b8bc4)!important;color:#fff;box-shadow:none;}
   .btn-save:active{transform:scale(.99);}
 
   /* list rows */
