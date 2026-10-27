@@ -160,7 +160,7 @@
   .al-add-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);border-radius:12px;padding:0 20px;box-shadow:none;}
   .al-add-btn:active{transform:scale(.98);}
   /* allergy icon chips (design-system style) */
-  .al-opt2{display:inline-flex;align-items:center;gap:9px;padding:7px 15px 7px 7px;border-radius:15px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.1px;transition:transform .12s,background .14s,box-shadow .14s;}
+  .al-opt2{display:inline-flex;align-items:center;gap:9px;padding:10px 16px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.1px;transition:transform .12s,background .14s,box-shadow .14s;}
   .al-opt2:active{transform:scale(.96);}
   .al-opt2 .ae{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s;}
   .al-opt2 .ae svg{width:16px;height:16px;}
@@ -767,9 +767,8 @@
     var customs=sel.filter(function(a){return common.indexOf(a)<0;});
     var options=common.concat(customs);
     document.getElementById('allergyChips').innerHTML = options.map(function(n){
-      var on=sel.indexOf(n)>-1, m=allergyMeta(n);
-      var ae='<span class="ae"'+(on?'':' style="background:color-mix(in srgb,'+m.c+' 15%,#fff);color:'+m.c+'"')+'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+m.svg+'</svg></span>';
-      return '<button class="al-opt2 '+(on?'on':'off')+'" onclick="toggleAllergy(\''+esc(n).replace(/'/g,"")+'\')">'+ae+esc(n)+'</button>';
+      var on=sel.indexOf(n)>-1;
+      return '<button class="al-opt2 '+(on?'on':'off')+'" onclick="toggleAllergy(\''+esc(n).replace(/'/g,"")+'\')">'+esc(n)+'</button>';
     }).join('');
     var ac=document.getElementById('allergyCount'); if(ac) ac.textContent = sel.length ? (sel.length+(sel.length>1?' allergies':' allergy')) : 'None';
     renderHub();
