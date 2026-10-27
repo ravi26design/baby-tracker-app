@@ -207,6 +207,7 @@
   .vrow-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
   .vrow-top .row-t{flex:1;min-width:0;}
   .vrow-top .row-date{margin-left:0;}
+  .vrow-date{font-size:10.5px;color:#b3aac2;font-weight:700;margin-top:3px;}
   .vrow-doc{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;margin-top:4px;letter-spacing:-.1px;}
   .vrow-doc svg{width:13px;height:13px;flex-shrink:0;}
   .vrow-note{font-size:11.5px;color:#8b8296;font-weight:500;line-height:1.4;margin-top:6px;}
@@ -975,8 +976,8 @@
       var ic=noteIcon(n.tag), col=NOTE_COLOR[n.tag]||'#9b8bc4';
       var icHTML=ic?'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg>':(n.emoji||'');
       return '<div class="row"><div class="row-ic" style="--rowc:'+col+'">'+icHTML+'</div>'+
-        '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div>'+(n.tag?'<div class="row-s">'+esc(n.tag)+'</div>':'')+'</div>'+
-        '<div class="row-date">'+esc(n.date)+'</div>'+rowMoreBtn('note',i)+'</div>';
+        '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div><div class="row-s">'+(n.tag?esc(n.tag)+' · ':'')+esc(n.date)+'</div></div>'+
+        rowMoreBtn('note',i)+'</div>';
     }).join('');
     renderHub();
   }
@@ -1010,7 +1011,8 @@
       var col=sick?'#ef7a66':'#45b487', ic=sick?PILL:STETH;
       return '<div class="row vrow"><div class="row-ic" style="--rowc:'+col+'"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
         '<div class="row-main">'+
-          '<div class="vrow-top"><div class="row-t">'+esc(v.title)+'</div><span class="row-date">'+esc(v.date)+'</span></div>'+
+          '<div class="row-t">'+esc(v.title)+'</div>'+
+          '<div class="vrow-date">'+esc(v.date)+'</div>'+
           '<div class="vrow-doc" style="color:'+col+'">'+DOCIC+esc(v.doctor)+'</div>'+
           (v.note?'<div class="vrow-note">'+esc(v.note)+'</div>':'')+
         '</div>'+rowMoreBtn('visit',i)+'</div>';
