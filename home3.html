@@ -819,6 +819,17 @@
   .hm-achip .x{cursor:pointer;display:inline-flex;width:16px;height:16px;align-items:center;justify-content:center;border-radius:50%;background:rgba(194,136,31,.18);color:#c2881f;}
   .hm-achip .x svg{width:9px;height:9px;}
   .hm-achip.none{color:#a99fbb;background:#f3eff9;padding:7px 13px;}
+  .hm-btgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .hm-btchip{padding:11px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;background:#fff;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s,background .14s,color .14s;}
+  .hm-btchip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
+  .hm-btchip:active{transform:scale(.96);}
+  .hm-alrow{display:flex;gap:8px;margin-bottom:11px;}
+  .hm-alrow .hm-in{flex:1;}
+  .hm-alladd{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);border-radius:12px;padding:0 20px;transition:transform .12s;}
+  .hm-alladd:active{transform:scale(.97);}
+  .hm-algchip{padding:10px 15px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s,background .14s,color .14s;}
+  .hm-algchip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
+  .hm-algchip:active{transform:scale(.96);}
   .hm-vchk{width:28px;height:28px;border-radius:50%;border:2px solid #e0dbea;background:transparent;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;padding:0;}
   .hm-vchk svg{width:14px;height:14px;color:#fff;}
   .hm-vchk.done{border-color:transparent;background:color-mix(in srgb,#36a578 16%,#fff);}
@@ -1425,19 +1436,15 @@
             <div class="hm-ov" style="--oc:#e8663f">
               <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="11" r="2.1"/><path d="M14 10h4M14 13.5h3M5.3 16c.5-1.5 1.6-2.2 3.2-2.2s2.7.7 3.2 2.2"/></svg></span><div class="hm-ov-t">Health Profile</div></div></div>
               <div class="hm-stats">
-                <div class="hm-stat"><div class="hm-stat-v">O+</div><div class="hm-stat-l">Blood type</div><div class="hm-stat-d" style="color:#8574b5">Confirmed</div></div>
+                <div class="hm-stat"><div class="hm-stat-v" id="hmBloodStat">O+</div><div class="hm-stat-l">Blood type</div><div class="hm-stat-d" style="color:#8574b5">Confirmed</div></div>
                 <div class="hm-stat"><div class="hm-stat-v" id="hmAlgCount">1</div><div class="hm-stat-l">Allergies</div><div class="hm-stat-d" style="color:#c2881f">Tracked</div></div>
                 <div class="hm-stat"><div class="hm-stat-v" style="font-size:15px;margin-top:4px">15 Jul</div><div class="hm-stat-l">Born</div><div class="hm-stat-d" style="color:#3ea06e">2025</div></div>
               </div>
-              <div class="hm-li" style="--lc:#e8663f;margin-top:4px"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.4c3.1 3.4 5.5 6.3 5.5 9.2A5.5 5.5 0 0 1 12 18a5.5 5.5 0 0 1-5.5-5.4c0-2.9 2.4-5.8 5.5-9.2z"/></svg></span><div class="hm-li-tx"><div class="hm-li-n">Blood Type</div></div><span class="hm-li-r" style="color:#3a332e">O+</span></div>
-              <div class="hm-li" style="--lc:#45b487"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle fill="currentColor" fill-opacity=".2" cx="12" cy="8" r="3.3"/><path d="M5.6 19.5c0-3.4 2.9-5.3 6.4-5.3s6.4 1.9 6.4 5.3"/></svg></span><div class="hm-li-tx"><div class="hm-li-n">Pediatrician</div></div><span class="hm-li-r" style="color:#3a332e">Dr. Priya Menon</span></div>
+              <div class="hm-allbl">Blood Type</div>
+              <div class="hm-btgrid" id="hmBtGrid"></div>
               <div class="hm-allbl">Allergies</div>
+              <div class="hm-alrow"><input class="hm-in" id="hmAlgInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();hmAlgAdd();}"><button class="hm-alladd" onclick="hmAlgAdd()">Add</button></div>
               <div id="hmAllergyChips" class="hm-chips"></div>
-              <button class="hm-add" id="hmAlgBtn" onclick="hmAlgShow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Allergy</button>
-              <div class="hm-addf" id="hmAlgForm">
-                <input class="hm-in" id="hmAlgInput" placeholder="e.g. Dairy, Eggs, Soy" autocomplete="off">
-                <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmAlgHide()">Cancel</button><button class="hm-addf-save" onclick="hmAlgSave()">Add</button></div>
-              </div>
             </div>
           </div>
 
@@ -1655,7 +1662,7 @@
       }).join('');
     }
     function hmChild(key){ try{ selectChild(key); }catch(e){} renderHmChild(); }
-    function openHealthMonitor(){ closeProfileMenu(); hmTabReset(); renderHmChild(); document.getElementById('hmSheet').classList.add('open'); renderHmChart(); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmAllergies(); }
+    function openHealthMonitor(){ closeProfileMenu(); hmTabReset(); renderHmChild(); document.getElementById('hmSheet').classList.add('open'); renderHmChart(); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies(); }
     function closeHealthMonitor(){ document.getElementById('hmSheet').classList.remove('open'); }
     function hmToggle(el){ el.classList.toggle('on'); }
     var HM_KEYS=['growth','vac','visits','records','profile','documents'];
@@ -1664,7 +1671,7 @@
       HM_KEYS.forEach(function(k){ var p=document.getElementById('hmp-'+k); if(p) p.style.display=(k===key)?'':'none'; });
       var cards=el.parentNode.querySelectorAll('.hm-feat'); for(var i=0;i<cards.length;i++) cards[i].classList.remove('sel');
       el.classList.add('sel');
-      if(key==='growth') renderHmChart(); else if(key==='vac') renderHmVax(); else if(key==='visits') renderHmVisits(); else if(key==='records') renderHmNotes(); else if(key==='documents') renderHmDocs(); else if(key==='profile') renderHmAllergies();
+      if(key==='growth') renderHmChart(); else if(key==='vac') renderHmVax(); else if(key==='visits') renderHmVisits(); else if(key==='records') renderHmNotes(); else if(key==='documents') renderHmDocs(); else if(key==='profile'){ renderHmBlood(); renderHmAllergies(); }
     }
     /* ---- Health Notes ---- */
     var HM_NOTES=[
@@ -1725,20 +1732,28 @@
       HM_DOCS.unshift({name:n,meta:t+' · Just now',fmt:f,c:'#b05fd6'});
       renderHmDocs(); hmDocHide(); hToast('Document uploaded ✓');
     }
-    /* ---- Allergies ---- */
+    /* ---- Blood type + Allergies ---- */
+    var HM_BLOOD_TYPES=['A+','A−','B+','B−','O+','O−','AB+','AB−'];
+    var HM_BLOOD='O+';
+    function renderHmBlood(){
+      var el=document.getElementById('hmBtGrid'); if(!el) return;
+      el.innerHTML=HM_BLOOD_TYPES.map(function(bt){ return '<button class="hm-btchip'+(bt===HM_BLOOD?' on':'')+'" onclick="hmBloodSel(\''+bt+'\')">'+bt+'</button>'; }).join('');
+    }
+    function hmBloodSel(bt){ HM_BLOOD=bt; renderHmBlood(); var s=document.getElementById('hmBloodStat'); if(s) s.textContent=bt; }
+    var HM_ALG_SUGGEST=['Peanuts','Tree nuts','Dairy','Eggs','Soy','Wheat','Fish','Shellfish'];
     var HM_ALLERGIES=['Peanuts'];
     function renderHmAllergies(){
       var c=document.getElementById('hmAlgCount'); if(c) c.textContent=HM_ALLERGIES.length;
       var el=document.getElementById('hmAllergyChips'); if(!el) return;
-      if(!HM_ALLERGIES.length){ el.innerHTML='<span class="hm-achip none">No known allergies</span>'; return; }
-      el.innerHTML=HM_ALLERGIES.map(function(a,i){
-        return '<span class="hm-achip">'+a+'<span class="x" onclick="hmAlgRemove('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span></span>';
+      var customs=HM_ALLERGIES.filter(function(a){return HM_ALG_SUGGEST.indexOf(a)<0;});
+      var options=HM_ALG_SUGGEST.concat(customs);
+      el.innerHTML=options.map(function(a){
+        var on=HM_ALLERGIES.indexOf(a)>-1;
+        return '<button class="hm-algchip'+(on?' on':'')+'" onclick="hmAlgToggle(\''+a.replace(/'/g,'')+'\')">'+a+'</button>';
       }).join('');
     }
-    function hmAlgShow(){ var f=document.getElementById('hmAlgForm'); if(f) f.classList.add('open'); var b=document.getElementById('hmAlgBtn'); if(b) b.style.display='none'; }
-    function hmAlgHide(){ var f=document.getElementById('hmAlgForm'); if(f) f.classList.remove('open'); var b=document.getElementById('hmAlgBtn'); if(b) b.style.display=''; var i=document.getElementById('hmAlgInput'); if(i) i.value=''; }
-    function hmAlgSave(){ var v=(document.getElementById('hmAlgInput').value||'').trim(); if(!v){ hToast('Type an allergy'); return; } HM_ALLERGIES.push(v); renderHmAllergies(); hmAlgHide(); hToast('Allergy added ✓'); }
-    function hmAlgRemove(i){ HM_ALLERGIES.splice(i,1); renderHmAllergies(); }
+    function hmAlgToggle(a){ var i=HM_ALLERGIES.indexOf(a); if(i>-1) HM_ALLERGIES.splice(i,1); else HM_ALLERGIES.push(a); renderHmAllergies(); }
+    function hmAlgAdd(){ var el=document.getElementById('hmAlgInput'); if(!el) return; var v=(el.value||'').trim(); if(!v) return; if(HM_ALLERGIES.indexOf(v)<0) HM_ALLERGIES.push(v); el.value=''; renderHmAllergies(); hToast('Allergy added ✓'); }
     var VSYR2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/></g></svg>';
     function hmShortMon(d){ var p=(''+d).trim().split(/\s+/); return p.length>=2?(p[0]+' '+p[1]):(''+d); }
     function renderHmVax(){
