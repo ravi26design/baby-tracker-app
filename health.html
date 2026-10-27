@@ -45,15 +45,20 @@
   .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
   .child-tab.active .ct-name{color:#fff;}
 
-  .rec-hero{position:relative;overflow:hidden;border-radius:20px;padding:16px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;
+  .rec-hero{position:relative;overflow:hidden;border-radius:22px;padding:15px 16px;margin-bottom:18px;display:flex;align-items:center;gap:13px;cursor:pointer;
     background:linear-gradient(150deg,#ece7f8,#e0d8f2);color:#5a5160;
-    box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+    box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s;}
+  .rec-hero:active{transform:scale(.99);}
   .rec-hero::after{content:'';position:absolute;top:-44px;right:-32px;width:154px;height:154px;border-radius:50%;background:rgba(139,116,181,.10);}
-  .rec-hero .rh-ic{position:relative;z-index:1;width:50px;height:50px;border-radius:16px;background:rgba(139,116,181,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .rec-hero .rh-ic svg{width:25px;height:25px;}
-  .rec-hero .rh-txt{position:relative;z-index:1;}
-  .rec-hero .rh-t{font-size:15px;font-weight:800;letter-spacing:-.3px;}
-  .rec-hero .rh-s{font-size:12.5px;color:#6f6683;font-weight:500;margin-top:3px;line-height:1.4;}
+  .rec-hero .rh-ic{position:relative;z-index:1;width:48px;height:48px;border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);}
+  .rec-hero .rh-ic svg{width:26px;height:26px;}
+  .rec-hero .rh-txt{position:relative;z-index:1;flex:1;min-width:0;}
+  .rec-hero .rh-k{font-size:9.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#8a7fb0;margin-bottom:3px;}
+  .rec-hero .rh-t{font-size:14.5px;font-weight:800;letter-spacing:-.3px;color:#44405a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rec-hero .rh-s{font-size:12px;color:#6f6683;font-weight:600;margin-top:2px;line-height:1.35;}
+  .rec-hero .rh-chev{position:relative;z-index:1;flex-shrink:0;color:#a79bc8;display:flex;}
+  .rec-hero .rh-chev svg{width:19px;height:19px;}
+  .rec-hero.allclear .rh-ic{background:#e7f6ef;box-shadow:none;color:#36a578;}
 
   /* record card */
   .rc{background:var(--card);border-radius:24px;overflow:hidden;margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);}
@@ -62,8 +67,19 @@
   .rc-ic svg{width:27px;height:27px;}
   .rc-ic svg{width:24px;height:24px;position:relative;z-index:1;}
   .rc-ic::before{content:'';position:absolute;inset:0;border-radius:50%;background:inherit;filter:blur(8px);opacity:.42;z-index:-1;transform:translateY(4px) scale(.84);}
-  .rc-title{font-size:14px;font-weight:800;letter-spacing:-.2px;flex:1;}
-  .rc-chev{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#b9b0c4;transition:transform .25s;}
+  .rc-tx{flex:1;min-width:0;}
+  .rc-title{font-size:14.5px;font-weight:800;letter-spacing:-.2px;}
+  .rc-sub{font-size:11.5px;font-weight:600;color:#9a90a8;margin-top:3px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rc-sub b{color:#6a6175;font-weight:800;}
+  .rc-meta{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px;margin-right:4px;}
+  .rc-pill{font-size:10.5px;font-weight:800;padding:5px 10px;border-radius:20px;white-space:nowrap;letter-spacing:-.1px;}
+  .rc-prog{width:50px;height:6px;border-radius:4px;background:#ece7f2;overflow:hidden;}
+  .rc-prog i{display:block;height:100%;border-radius:4px;transition:width .4s;}
+  .rc-spark{display:block}
+  /* in-sheet the head collapses back to a single title line */
+  .hs-head .rc-sub,.hs-head .rc-meta{display:none;}
+  .rc-title{font-size:14px;font-weight:800;letter-spacing:-.2px;}
+  .rc-chev{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#c6bed2;transition:transform .25s;flex-shrink:0;}
   .rc.open .rc-chev{transform:rotate(180deg);}
   .rc-chev svg{width:17px;height:17px;}
   .rc-add{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;background:linear-gradient(155deg,#b0a2d8,#9b8bc4)!important;box-shadow:0 9px 16px -6px rgba(140,116,181,.6);}
@@ -298,15 +314,18 @@
         <div class="content">
           <div class="h-title">Health</div>
           <div class="child-tabs" id="childTabs"></div>
-          <div class="rec-hero">
-            <div class="rh-txt"><div class="rh-s">Everything in one place, always organised.</div></div>
+          <div class="rec-hero" id="focusCard" onclick="focusTap()">
+            <div class="rh-ic" id="focusIc"></div>
+            <div class="rh-txt"><div class="rh-k" id="focusK">Up next</div><div class="rh-t" id="focusT">—</div><div class="rh-s" id="focusS"></div></div>
+            <div class="rh-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
           </div>
 
           <!-- Health Profile -->
           <div class="rc" id="cardProfile">
             <div class="rc-head" onclick="openSheet('profile')">
               <div class="rc-ic" style="--rcc:#f2744e"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" stroke="#2a333f" stroke-width="1.6" stroke-linejoin="round" d="M12 3.6c3 3.3 5.4 6.2 5.4 9.1A5.4 5.4 0 0 1 12 18a5.4 5.4 0 0 1-5.4-5.3c0-2.9 2.4-5.8 5.4-9.1z"/><path stroke="#fff" stroke-opacity=".7" stroke-width="1.4" stroke-linecap="round" d="M9.8 13a2.4 2.4 0 0 0 2.2 1.8"/></svg></div>
-              <div class="rc-title">Health Profile</div>
+              <div class="rc-tx"><div class="rc-title">Health Profile</div><div class="rc-sub" id="subProfile"></div></div>
+              <div class="rc-meta" id="metaProfile"></div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="profileBody">
@@ -325,7 +344,8 @@
           <div class="rc" id="cardGrowth">
             <div class="rc-head" onclick="openSheet('growth')">
               <div class="rc-ic" style="--rcc:#3f7fe0"><svg viewBox="0 0 24 24" fill="none"><rect fill="currentColor" stroke="#2a333f" stroke-width="1.5" stroke-linejoin="round" x="4" y="12" width="4" height="8" rx="1.3"/><rect fill="currentColor" stroke="#2a333f" stroke-width="1.5" stroke-linejoin="round" x="10" y="8.5" width="4" height="11.5" rx="1.3"/><rect fill="currentColor" stroke="#2a333f" stroke-width="1.5" stroke-linejoin="round" x="16" y="5" width="4" height="15" rx="1.3"/></svg></div>
-              <div class="rc-title">Growth</div>
+              <div class="rc-tx"><div class="rc-title">Growth</div><div class="rc-sub" id="subGrowth"></div></div>
+              <div class="rc-meta" id="metaGrowth"></div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="growthBody">
@@ -355,7 +375,8 @@
           <div class="rc" id="cardNotes">
             <div class="rc-head" onclick="openSheet('notes')">
               <div class="rc-ic" style="--rcc:#28b082"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" stroke="#2a333f" stroke-width="1.6" stroke-linejoin="round" d="M16.3 3.6a2 2 0 0 1 2.8 2.8L7.6 17.9l-4 1.1 1.1-4z"/><path stroke="#2a333f" stroke-width="1.5" stroke-linecap="round" d="M14.4 5.5l2.8 2.8"/></svg></div>
-              <div class="rc-title">Health Notes</div>
+              <div class="rc-tx"><div class="rc-title">Health Notes</div><div class="rc-sub" id="subNotes"></div></div>
+              <div class="rc-meta" id="metaNotes"></div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="notesBody">
@@ -373,7 +394,8 @@
           <div class="rc" id="cardVisits">
             <div class="rc-head" onclick="openSheet('visits')">
               <div class="rc-ic" style="--rcc:#6355d6"><svg viewBox="0 0 24 24" fill="none"><path stroke="#2a333f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M6 3v4.5a4.5 4.5 0 0 0 9 0V3M6 3H4.6M15 3h1.4M10.5 16.8v1.2a4.3 4.3 0 0 0 8.6 0V15"/><circle fill="currentColor" stroke="#2a333f" stroke-width="1.8" cx="18.8" cy="13.6" r="2.8"/></svg></div>
-              <div class="rc-title">Doctor Visits</div>
+              <div class="rc-tx"><div class="rc-title">Doctor Visits</div><div class="rc-sub" id="subVisits"></div></div>
+              <div class="rc-meta" id="metaVisits"></div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="visitsBody">
@@ -399,7 +421,8 @@
           <div class="rc" id="cardDocs">
             <div class="rc-head" onclick="openSheet('docs')">
               <div class="rc-ic" style="--rcc:#9b5fd6"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" stroke="#2a333f" stroke-width="1.6" stroke-linejoin="round" d="M6 3h7l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path fill="#fff" fill-opacity=".85" stroke="#2a333f" stroke-width="1.5" stroke-linejoin="round" d="M13 3v5h5z"/><path stroke="#fff" stroke-width="1.4" stroke-linecap="round" d="M8 13.5h7M8 16.8h5"/></svg></div>
-              <div class="rc-title">Documents</div>
+              <div class="rc-tx"><div class="rc-title">Documents</div><div class="rc-sub" id="subDocs"></div></div>
+              <div class="rc-meta" id="metaDocs"></div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="docsBody">
@@ -425,7 +448,8 @@
           <div class="rc" id="cardVac">
             <div class="rc-head" onclick="openSheet('vac')">
               <div class="rc-ic" style="--rcc:#1fb0a4"><svg viewBox="0 0 24 24" fill="none"><g transform="rotate(-45 12 12)"><rect fill="currentColor" stroke="#2a333f" stroke-width="1.6" stroke-linejoin="round" x="7" y="9" width="10" height="6" rx="1.3"/><path stroke="#2a333f" stroke-width="1.6" stroke-linecap="round" d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path stroke="#fff" stroke-width="1.3" stroke-linecap="round" d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg></div>
-              <div class="rc-title">Vaccinations</div>
+              <div class="rc-tx"><div class="rc-title">Vaccinations</div><div class="rc-sub" id="subVac"></div></div>
+              <div class="rc-meta" id="metaVac"></div>
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="vacBody">
@@ -710,6 +734,7 @@
       var on=bt===bloodType;
       return '<button class="bt-chip '+(on?'on':'off')+'" onclick="selectBlood(\''+bt+'\')">'+bt+'</button>';
     }).join('');
+    renderHub();
   }
   function selectBlood(bt){bloodType=bt;renderBlood();}
   var ALLERGY_SUGGEST=[
@@ -731,6 +756,7 @@
       var on=sel.indexOf(n)>-1;
       return '<button class="bt-chip al-opt '+(on?'on':'off')+'" onclick="toggleAllergy(\''+esc(n).replace(/'/g,"")+'\')">'+esc(n)+'</button>';
     }).join('');
+    renderHub();
   }
   function toggleAllergy(name){
     name=(name||'').trim(); if(!name) return;
@@ -801,6 +827,7 @@
       '<path d="'+areaP+'" fill="url(#'+gid+')" stroke="none"/>'+
       '<path d="'+lineP+'" fill="none" stroke="'+col+'" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>'+
       dots+labels+tag+'</svg>';
+    renderHub();
   }
   function saveGrowth(){
     var age=document.getElementById('gAge').value.trim();
@@ -889,6 +916,7 @@
         '<div class="row-main"><div class="row-t">'+esc(n.summary)+'</div>'+(n.tag?'<div class="row-s">'+esc(n.tag)+'</div>':'')+'</div>'+
         '<div class="row-date">'+esc(n.date)+'</div>'+rowMoreBtn('note',i)+'</div>';
     }).join('');
+    renderHub();
   }
 
   /* ---------- Doctor Visits ---------- */
@@ -920,6 +948,7 @@
       return '<div class="row"><div class="row-ic" style="--rowc:'+col+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'+
         '<div class="row-main"><div class="row-t">'+esc(v.title)+'</div><div class="row-s">'+esc(v.doctor)+(v.note?' · '+esc(v.note):'')+'</div><div class="row-bdate">'+esc(v.date)+'</div></div>'+rowMoreBtn('visit',i)+'</div>';
     }).join('');
+    renderHub();
   }
 
   /* ---------- Documents ---------- */
@@ -954,6 +983,7 @@
       return '<div class="row"><div class="row-ic" style="--rowc:#9b5fd6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11V7a2 2 0 0 0-2-2h-3.2l-1.3-1.6A2 2 0 0 0 10.9 3H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7"/><circle cx="18" cy="17.5" r="3"/><path d="M18 16v1.5l1 .8"/></svg></div>'+
         '<div class="row-main"><div class="row-t">'+esc(d.name)+'</div><div class="row-s">'+esc(d.type)+' · '+esc(d.date)+'</div></div>'+rowMoreBtn('doc',i)+'</div>';
     }).join('');
+    renderHub();
   }
 
   /* ---------- Row edit / delete ---------- */
@@ -994,6 +1024,7 @@
       h+='</div>'+checkBtn+'</div></div>';
       return h;
     }).join('') || '<div class="row-s" style="padding:10px 2px">No vaccines in this group.</div>';
+    renderHub();
   }
   function toggleVacMark(id){var v=VACCINES.find(function(x){return x.id===id;});if(v.done)return;vacMarkId=vacMarkId===id?null:id;vacMarkDate=TODAY;reminderEdit=null;renderVac();}
   function markVacDone(id){var d=document.getElementById('vacMarkInput').value.trim()||TODAY;VACCINES.find(function(x){return x.id===id;}).done=true;VACCINES.find(function(x){return x.id===id;}).doneDate=d;vacMarkId=null;renderVac();toast('Marked done ✓');}
@@ -1118,6 +1149,70 @@
     document.getElementById('vacInfo').classList.add('open');
   }
   function closeVacInfo(){document.getElementById('vacInfo').classList.remove('open');}
+
+  /* ---------- glanceable hub previews ---------- */
+  function shortD(s){ var p=(''+s).trim().split(/\s+/); return p.length>=2?p[0]+' '+p[1]:(''+s); }
+  function allergyLabel(){
+    var sel=allergies.filter(function(a){return a!=='None known';});
+    if(!sel.length) return 'No known allergies';
+    if(sel.length<=2) return sel.join(', ');
+    return sel[0]+' +'+(sel.length-1)+' more';
+  }
+  function sparkline(vals,col){
+    if(!vals||vals.length<2) return '';
+    var W=54,H=26,p=3,n=vals.length;
+    var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),sp=(mx-mn)||1;
+    var X=function(i){return (p+(W-2*p)*(i/(n-1))).toFixed(1);};
+    var Y=function(v){return (p+(H-2*p)*(1-(v-mn)/sp)).toFixed(1);};
+    var d='M'+X(0)+' '+Y(vals[0]);
+    for(var i=1;i<n;i++) d+=' L'+X(i)+' '+Y(vals[i]);
+    return '<svg class="rc-spark" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" fill="none">'+
+      '<path d="'+d+'" stroke="'+col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<circle cx="'+X(n-1)+'" cy="'+Y(vals[n-1])+'" r="2.6" fill="'+col+'"/></svg>';
+  }
+  function setHub(id,html){var e=document.getElementById(id);if(e)e.innerHTML=html;}
+  var _hubBusy=false;
+  function renderHub(){
+    if(_hubBusy) return; _hubBusy=true;
+    setHub('subProfile','<b>'+esc(bloodType)+'</b> · '+esc(allergyLabel()));
+    var lg=GROWTH[GROWTH.length-1];
+    setHub('subGrowth', lg?('<b>'+lg.weight+' kg</b> · '+lg.height+' cm'):'No entries yet');
+    setHub('metaGrowth', sparkline(GROWTH.map(function(g){return g.weight;}),'#c4705a'));
+    var ln=NOTES[0];
+    setHub('subNotes', ln?(esc(ln.summary)+' · '+esc(shortD(ln.date))):'No notes yet');
+    setHub('metaNotes', NOTES.length?'<span class="rc-pill" style="background:#e8f5f1;color:#2f9a74">'+NOTES.length+'</span>':'');
+    var lv=VISITS[0];
+    setHub('subVisits', lv?(esc(lv.title)+' · '+esc(shortD(lv.date))):'No visits yet');
+    var ld=DOCS[0];
+    setHub('subDocs', ld?esc(ld.name):'No documents yet');
+    setHub('metaDocs', DOCS.length?'<span class="rc-pill" style="background:#f0eafe;color:#8a4fd0">'+DOCS.length+'</span>':'');
+    var done=VACCINES.filter(function(v){return v.done;}).length, total=VACCINES.length;
+    var next=VACCINES.filter(function(v){return !v.done;})[0];
+    setHub('subVac', done+' of '+total+' done'+(next?' · Next '+esc(shortD(next.dueDate)):''));
+    var pct=total?Math.round(done/total*100):0;
+    setHub('metaVac','<div class="rc-prog"><i style="width:'+pct+'%;background:#1fb0a4"></i></div>');
+    renderFocus(next);
+    _hubBusy=false;
+  }
+  var FOCUS_SYRINGE='<svg viewBox="0 0 24 24" fill="none"><g transform="rotate(-45 12 12)"><rect fill="#1fb0a4" fill-opacity=".18" stroke="#1fb0a4" stroke-width="1.7" stroke-linejoin="round" x="7" y="9" width="10" height="6" rx="1.3"/><path stroke="#1fb0a4" stroke-width="1.7" stroke-linecap="round" d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path stroke="#1fb0a4" stroke-width="1.3" stroke-linecap="round" d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg>';
+  var FOCUS_CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="#36a578" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  function renderFocus(next){
+    var card=document.getElementById('focusCard'); if(!card) return;
+    if(next){
+      card.classList.remove('allclear');
+      setHub('focusIc',FOCUS_SYRINGE);
+      document.getElementById('focusK').textContent='Next vaccination';
+      document.getElementById('focusT').textContent=next.name;
+      document.getElementById('focusS').textContent='Due '+next.dueDate+' · '+next.dueAge;
+    }else{
+      card.classList.add('allclear');
+      setHub('focusIc',FOCUS_CHECK);
+      document.getElementById('focusK').textContent='All caught up';
+      document.getElementById('focusT').textContent='Vaccinations up to date';
+      document.getElementById('focusS').textContent='Nicely done — nothing due right now';
+    }
+  }
+  function focusTap(){ openSheet('vac'); }
 
   /* ---------- init ---------- */
   renderChildTabs();
