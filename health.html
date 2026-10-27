@@ -710,7 +710,7 @@
     var card=document.getElementById(s.card);
     var ic=card.querySelector('.rc-ic');
     var hsIc=document.getElementById('hsIc');
-    hsIc.innerHTML=ic.innerHTML; hsIc.style.background=ic.style.background;
+    hsIc.innerHTML=ic.innerHTML; hsIc.style.setProperty('--rcc', ic.style.getPropertyValue('--rcc')||'#9b8bc4'); hsIc.style.background='';
     document.getElementById('hsTitle').textContent=s.title;
     document.getElementById('hsSub').textContent=s.sub||'';
     document.getElementById('hsContent').appendChild(document.getElementById(s.body));
