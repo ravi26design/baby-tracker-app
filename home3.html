@@ -775,10 +775,15 @@
   .hm-feat span{font-size:9.5px;font-weight:700;color:#6c6478;letter-spacing:-.1px;text-align:center;line-height:1.2;}
   .hm-feat.sel{background:linear-gradient(155deg,color-mix(in srgb,var(--fc,#e0547c) 84%,#fff),var(--fc,#e0547c));box-shadow:0 10px 20px -11px var(--fc,#e0547c);}
   .hm-feat.sel .hmf-ic,.hm-feat.sel span{color:#fff;}
-  .hm-ov{background:#fff;border-radius:20px;padding:15px 15px 12px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
-  .hm-ov-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .hm-ov{position:relative;overflow:hidden;background:#fff;border-radius:20px;padding:15px 15px 12px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .hm-ov::before{content:'';position:absolute;top:-34px;right:-30px;width:120px;height:120px;border-radius:50%;background:color-mix(in srgb,var(--oc,#9b8bc4) 8%,#fff);z-index:0;}
+  .hm-ov>*{position:relative;z-index:1;}
+  .hm-ov-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;}
+  .hm-ov-h{display:flex;align-items:center;gap:10px;min-width:0;}
+  .hm-ov-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--oc,#9b8bc4) 16%,#fff);color:var(--oc,#9b8bc4);flex-shrink:0;}
+  .hm-ov-ic svg{width:18px;height:18px;}
   .hm-ov-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
-  .hm-ov-see{border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;}
+  .hm-ov-see{border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--oc,#8574b5);flex-shrink:0;}
   .hm-stats{display:flex;gap:6px;}
   .hm-stat{flex:1;min-width:0;}
   .hm-stat+.hm-stat{border-left:1px solid rgba(139,116,181,.12);padding-left:11px;}
@@ -802,7 +807,7 @@
   .hm-vchk svg{width:14px;height:14px;color:#fff;}
   .hm-vchk.done{border-color:#5bb87f;background:#5bb87f;}
   .hm-vchk:active{transform:scale(.92);}
-  .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#8574b5;background:#f3eff9;border-radius:14px;padding:11px;margin-top:12px;transition:transform .12s;}
+  .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:var(--oc,#8574b5);background:color-mix(in srgb,var(--oc,#9b8bc4) 10%,#fff);border-radius:14px;padding:11px;margin-top:12px;transition:transform .12s;}
   .hm-add:active{transform:scale(.99);}
   .hm-add svg{width:16px;height:16px;}
   .hm-addf{margin-top:12px;display:none;}
@@ -1309,8 +1314,8 @@
 
           <!-- Growth tab -->
           <div class="hm-panel" id="hmp-growth">
-            <div class="hm-ov">
-              <div class="hm-ov-top"><div class="hm-ov-t">Growth Overview</div><button class="hm-ov-see" onclick="location.href='health.html'">See Details</button></div>
+            <div class="hm-ov" style="--oc:#e0547c">
+              <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5-5 3.5 3.5L20 7.5"/><path d="M15 7.5h5v5"/></svg></span><div class="hm-ov-t">Growth Overview</div></div><button class="hm-ov-see" onclick="location.href='health.html'">See Details</button></div>
               <div class="hm-stats">
                 <div class="hm-stat"><div class="hm-stat-v">12.4<span>kg</span></div><div class="hm-stat-l">Weight</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+0.8 kg</div></div>
                 <div class="hm-stat"><div class="hm-stat-v">88<span>cm</span></div><div class="hm-stat-l">Height</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+2.1 cm</div></div>
@@ -1331,8 +1336,8 @@
 
           <!-- Vaccination tab -->
           <div class="hm-panel" id="hmp-vac" style="display:none">
-            <div class="hm-ov">
-              <div class="hm-ov-top"><div class="hm-ov-t">Vaccination</div><button class="hm-ov-see" onclick="location.href='health.html'">See All</button></div>
+            <div class="hm-ov" style="--oc:#3f8fd0">
+              <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg></span><div class="hm-ov-t">Vaccination</div></div><button class="hm-ov-see" onclick="location.href='health.html'">See All</button></div>
               <div class="hm-stats">
                 <div class="hm-stat"><div class="hm-stat-v" id="hmvComp">7<span>/ 9</span></div><div class="hm-stat-l">Completed</div><div class="hm-stat-d" style="color:#8574b5">On schedule</div></div>
                 <div class="hm-stat"><div class="hm-stat-v" id="hmvUp">2</div><div class="hm-stat-l">Upcoming</div><div class="hm-stat-d" style="color:#c2881f">Due soon</div></div>
@@ -1345,8 +1350,8 @@
 
           <!-- Doctor Visits tab -->
           <div class="hm-panel" id="hmp-visits" style="display:none">
-            <div class="hm-ov">
-              <div class="hm-ov-top"><div class="hm-ov-t">Doctor Visits</div><button class="hm-ov-see" onclick="location.href='health.html'">See All</button></div>
+            <div class="hm-ov" style="--oc:#7a5fd0">
+              <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle cx="19.4" cy="13.2" r="2.6"/></svg></span><div class="hm-ov-t">Doctor Visits</div></div><button class="hm-ov-see" onclick="location.href='health.html'">See All</button></div>
               <div class="hm-stats">
                 <div class="hm-stat"><div class="hm-stat-v" id="hmdTot">6</div><div class="hm-stat-l">Total visits</div><div class="hm-stat-d" style="color:#8574b5">This year</div></div>
                 <div class="hm-stat"><div class="hm-stat-v" id="hmdLast" style="font-size:15px;margin-top:4px">12 May</div><div class="hm-stat-l">Last visit</div><div class="hm-stat-d" style="color:#3ea06e">Well check</div></div>
@@ -1367,8 +1372,8 @@
 
           <!-- Health Records tab -->
           <div class="hm-panel" id="hmp-records" style="display:none">
-            <div class="hm-ov">
-              <div class="hm-ov-top"><div class="hm-ov-t">Health Records</div><button class="hm-ov-see" onclick="location.href='health.html'">See All</button></div>
+            <div class="hm-ov" style="--oc:#1fb0a4">
+              <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg></span><div class="hm-ov-t">Health Records</div></div><button class="hm-ov-see" onclick="location.href='health.html'">See All</button></div>
               <div class="hm-stats">
                 <div class="hm-stat"><div class="hm-stat-v">8</div><div class="hm-stat-l">Documents</div><div class="hm-stat-d" style="color:#8574b5">Saved</div></div>
                 <div class="hm-stat"><div class="hm-stat-v">3</div><div class="hm-stat-l">Reports</div><div class="hm-stat-d" style="color:#3f8fd0">Lab &amp; growth</div></div>
