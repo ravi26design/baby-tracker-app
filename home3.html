@@ -654,6 +654,7 @@
   #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:50px 22px 0;display:flex;flex-direction:column;overflow:hidden;}
   #hmSheet .grabber-x{display:none;}
   #hmSheet .ss-head,#hmSheet .hm-fixed{flex-shrink:0;}
+  #hmSheet .hm-feats{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}
   #hmSheet .hm-body{flex:1;min-height:0;overflow-y:auto;padding-bottom:16px;}
   #hmSheet .hm-body::-webkit-scrollbar{display:none;}
   #hmp-growth{min-height:100%;display:flex;flex-direction:column;}
@@ -820,7 +821,8 @@
   .hm-achip.none{color:#a99fbb;background:#f3eff9;padding:7px 13px;}
   .hm-vchk{width:28px;height:28px;border-radius:50%;border:2px solid #e0dbea;background:transparent;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;padding:0;}
   .hm-vchk svg{width:14px;height:14px;color:#fff;}
-  .hm-vchk.done{border-color:#5bb87f;background:#5bb87f;}
+  .hm-vchk.done{border-color:transparent;background:color-mix(in srgb,#36a578 16%,#fff);}
+  .hm-vchk.done svg{color:#36a578;}
   .hm-vchk:active{transform:scale(.92);}
   .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:var(--oc,#8574b5);background:color-mix(in srgb,var(--oc,#9b8bc4) 10%,#fff);border-radius:14px;padding:11px;margin-top:12px;transition:transform .12s;}
   .hm-add:active{transform:scale(.99);}
@@ -1428,7 +1430,7 @@
                 <div class="hm-stat"><div class="hm-stat-v" style="font-size:15px;margin-top:4px">15 Jul</div><div class="hm-stat-l">Born</div><div class="hm-stat-d" style="color:#3ea06e">2025</div></div>
               </div>
               <div class="hm-li" style="--lc:#e8663f;margin-top:4px"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.4c3.1 3.4 5.5 6.3 5.5 9.2A5.5 5.5 0 0 1 12 18a5.5 5.5 0 0 1-5.5-5.4c0-2.9 2.4-5.8 5.5-9.2z"/></svg></span><div class="hm-li-tx"><div class="hm-li-n">Blood Type</div></div><span class="hm-li-r" style="color:#3a332e">O+</span></div>
-              <div class="hm-li" style="--lc:#45b487"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.3"/><path d="M5.6 19.5c0-3.4 2.9-5.3 6.4-5.3s6.4 1.9 6.4 5.3"/></svg></span><div class="hm-li-tx"><div class="hm-li-n">Pediatrician</div></div><span class="hm-li-r" style="color:#3a332e">Dr. Priya Menon</span></div>
+              <div class="hm-li" style="--lc:#45b487"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle fill="currentColor" fill-opacity=".2" cx="12" cy="8" r="3.3"/><path d="M5.6 19.5c0-3.4 2.9-5.3 6.4-5.3s6.4 1.9 6.4 5.3"/></svg></span><div class="hm-li-tx"><div class="hm-li-n">Pediatrician</div></div><span class="hm-li-r" style="color:#3a332e">Dr. Priya Menon</span></div>
               <div class="hm-allbl">Allergies</div>
               <div id="hmAllergyChips" class="hm-chips"></div>
               <button class="hm-add" id="hmAlgBtn" onclick="hmAlgShow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Allergy</button>
@@ -1678,7 +1680,7 @@
       var el=document.getElementById('hmNoteList'); if(!el) return;
       el.innerHTML=HM_NOTES.map(function(nt){
         var ic=HM_NOTE_IC[nt.tag]||HM_NOTE_IC.Symptom;
-        return '<div class="hm-li" style="--lc:'+(nt.c||'#1fb0a4')+'"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span><div class="hm-li-tx"><div class="hm-li-n">'+nt.summary+'</div><div class="hm-li-s">'+nt.tag+'</div></div><span class="hm-li-r">'+nt.date+'</span></div>';
+        return '<div class="hm-li" style="--lc:'+(nt.c||'#1fb0a4')+'"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span><div class="hm-li-tx"><div class="hm-li-n">'+nt.summary+'</div><div class="hm-li-s">'+nt.tag+'</div></div><span class="hm-li-r">'+nt.date+'</span></div>';
       }).join('');
     }
     var HM_NOTE_COL={Symptom:'#ef7a66',Measurement:'#5a78d4',Observation:'#45b487',Sleep:'#8f7cff',Feed:'#ef9a4e',Reaction:'#f0a53c'};
@@ -1697,7 +1699,7 @@
       {name:'Insurance Card',meta:'Added 2 Aug 2025',fmt:'JPG',c:'#3f8fd0'},
       {name:'Vaccine Card',meta:'Updated 10 Apr 2026',fmt:'PDF',c:'#1fb0a4'}
     ];
-    var HM_DOCIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg>';
+    var HM_DOCIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" fill-opacity=".18" d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg>';
     function renderHmDocs(){
       var el=document.getElementById('hmDocList'); if(!el) return;
       el.innerHTML=HM_DOCS.map(function(d){
@@ -1752,13 +1754,13 @@
         return '<div class="hm-li" style="--lc:'+col+'">'+
           '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>'+
           '<div class="hm-li-tx"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</div></div>'+
-          '<span class="hm-li-r" style="color:'+(v.done?'#2f9a74':'#c2881f')+'">'+(v.done?'Done':'Upcoming')+'</span>'+
+          (v.done?'':'<span class="hm-li-r" style="color:#c2881f">Upcoming</span>')+
         '</div>';
       }).join('');
     }
     function hmVaxToggle(i){ HM_VAX[i].done=!HM_VAX[i].done; renderHmVax(); hToast(HM_VAX[i].done?'Marked done ✓':'Marked as due'); }
-    var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle cx="19.4" cy="13.2" r="2.4"/></svg>';
-    var VPILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="4" y="9" width="16" height="6" rx="3"/><path d="M12 9v6"/></g></svg>';
+    var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle fill="currentColor" fill-opacity=".2" cx="19.4" cy="13.2" r="2.5"/></svg>';
+    var VPILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".2" x="4" y="9" width="16" height="6" rx="3"/><path d="M12 9v6"/></g></svg>';
     function renderHmVisits(){
       var t=document.getElementById('hmdTot'); if(t) t.textContent=HM_VISITS.length;
       var la=document.getElementById('hmdLast'); if(la && HM_VISITS[0]) la.textContent=HM_VISITS[0].date;
