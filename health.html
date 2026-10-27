@@ -152,12 +152,23 @@
   .bt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
   .bt-chip{padding:12px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:transform .12s;}
   .bt-chip:active{transform:scale(.95);}
+  .bt-grid .bt-chip{border-radius:14px;}
+  .bt-grid .bt-chip.off{background:#f5f1fa;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .bt-grid .bt-chip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 9px 18px -8px rgba(140,116,181,.7);}
   .al-wrap{gap:9px;}
   .al-opt{padding:11px 17px;}
   /* add-allergy input */
   .al-input-row{display:flex;gap:8px;}
   .al-add-btn{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);border-radius:12px;padding:0 20px;box-shadow:0 10px 18px -8px rgba(140,116,181,.6);}
   .al-add-btn:active{transform:scale(.98);}
+  /* allergy icon chips (design-system style) */
+  .al-opt2{display:inline-flex;align-items:center;gap:9px;padding:7px 15px 7px 7px;border-radius:15px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.1px;transition:transform .12s,background .14s,box-shadow .14s;}
+  .al-opt2:active{transform:scale(.96);}
+  .al-opt2 .ae{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s;}
+  .al-opt2 .ae svg{width:16px;height:16px;}
+  .al-opt2.off{background:#f5f1fa;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .al-opt2.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 9px 18px -8px rgba(140,116,181,.7);}
+  .al-opt2.on .ae{background:rgba(255,255,255,.24)!important;color:#fff!important;}
 
   /* inline add form */
   .form{margin-bottom:8px;}
@@ -738,23 +749,26 @@
   }
   function selectBlood(bt){bloodType=bt;renderBlood();}
   var ALLERGY_SUGGEST=[
-    {n:'Peanuts',svg:'<path d="M12 3.2a2.8 2.8 0 0 0-1.3 5.3c.6.3 1 .9 1 1.5s-.4 1.2-1 1.5a2.8 2.8 0 1 0 2.6 0c-.6-.3-1-.9-1-1.5s.4-1.2 1-1.5A2.8 2.8 0 0 0 12 3.2z"/>'},
-    {n:'Tree nuts',svg:'<path d="M7 8.5h10"/><path d="M7.5 8.5a4.5 4.8 0 0 0 9 0"/><path d="M8.2 8.5c0-2.1 1.7-3.8 3.8-3.8s3.8 1.7 3.8 3.8"/><path d="M12 4.7V3.4"/>'},
-    {n:'Dairy',svg:'<path d="M7.6 3.5h8.8l-.8 15.6a1.6 1.6 0 0 1-1.6 1.5h-3.4a1.6 1.6 0 0 1-1.6-1.5z"/><path d="M8 8.5h8"/>'},
-    {n:'Eggs',svg:'<path d="M12 3.2c3.1 0 5.5 5 5.5 9A5.5 5.5 0 0 1 12 17.6 5.5 5.5 0 0 1 6.5 12.2c0-4 2.4-9 5.5-9z"/>'},
-    {n:'Soy',svg:'<path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M11 13 5 19"/>'},
-    {n:'Wheat',svg:'<path d="M12 21v-13"/><path d="M12 8c0-1.8 1.5-3.3 3.3-3.3M12 8c0-1.8-1.5-3.3-3.3-3.3M12 12c0-1.8 1.5-3.3 3.3-3.3M12 12c0-1.8-1.5-3.3-3.3-3.3M12 4.9c0-1.4 1.1-2.4 2.5-2.4"/>'},
-    {n:'Fish',svg:'<path d="M2.8 12S6 7.4 11 7.4s6.8 2.7 6.8 2.7 1.7-1.4 3.4-1.4c0 1.7-.7 3.3-.7 3.3s.7 1.6.7 3.3c-1.7 0-3.4-1.4-3.4-1.4s-1.8 2.7-6.8 2.7S2.8 12 2.8 12z"/><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"/>'},
-    {n:'Shellfish',svg:'<path d="M12 4.5c-4.4 0-7.5 3.6-7.5 7.8 0 .5.4.9.9.9h13.2c.5 0 .9-.4.9-.9 0-4.2-3.1-7.8-7.5-7.8z"/><path d="M12 4.5v8.7M8.5 5.2 7.8 13.2M15.5 5.2 16.2 13.2"/>'}
+    {n:'Peanuts',c:'#e0922f',svg:'<path d="M12 3.2a2.8 2.8 0 0 0-1.3 5.3c.6.3 1 .9 1 1.5s-.4 1.2-1 1.5a2.8 2.8 0 1 0 2.6 0c-.6-.3-1-.9-1-1.5s.4-1.2 1-1.5A2.8 2.8 0 0 0 12 3.2z"/>'},
+    {n:'Tree nuts',c:'#a6713f',svg:'<path d="M7 8.5h10"/><path d="M7.5 8.5a4.5 4.8 0 0 0 9 0"/><path d="M8.2 8.5c0-2.1 1.7-3.8 3.8-3.8s3.8 1.7 3.8 3.8"/><path d="M12 4.7V3.4"/>'},
+    {n:'Dairy',c:'#5a9fd4',svg:'<path d="M7.6 3.5h8.8l-.8 15.6a1.6 1.6 0 0 1-1.6 1.5h-3.4a1.6 1.6 0 0 1-1.6-1.5z"/><path d="M8 8.5h8"/>'},
+    {n:'Eggs',c:'#e2a93f',svg:'<path d="M12 3.2c3.1 0 5.5 5 5.5 9A5.5 5.5 0 0 1 12 17.6 5.5 5.5 0 0 1 6.5 12.2c0-4 2.4-9 5.5-9z"/>'},
+    {n:'Soy',c:'#5aa06a',svg:'<path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M11 13 5 19"/>'},
+    {n:'Wheat',c:'#c99a35',svg:'<path d="M12 21v-13"/><path d="M12 8c0-1.8 1.5-3.3 3.3-3.3M12 8c0-1.8-1.5-3.3-3.3-3.3M12 12c0-1.8 1.5-3.3 3.3-3.3M12 12c0-1.8-1.5-3.3-3.3-3.3M12 4.9c0-1.4 1.1-2.4 2.5-2.4"/>'},
+    {n:'Fish',c:'#3fb0a4',svg:'<path d="M2.8 12S6 7.4 11 7.4s6.8 2.7 6.8 2.7 1.7-1.4 3.4-1.4c0 1.7-.7 3.3-.7 3.3s.7 1.6.7 3.3c-1.7 0-3.4-1.4-3.4-1.4s-1.8 2.7-6.8 2.7S2.8 12 2.8 12z"/><circle cx="8" cy="11" r=".7" fill="currentColor" stroke="none"/>'},
+    {n:'Shellfish',c:'#ef7a66',svg:'<path d="M12 4.5c-4.4 0-7.5 3.6-7.5 7.8 0 .5.4.9.9.9h13.2c.5 0 .9-.4.9-.9 0-4.2-3.1-7.8-7.5-7.8z"/><path d="M12 4.5v8.7M8.5 5.2 7.8 13.2M15.5 5.2 16.2 13.2"/>'}
   ];
+  var ALLERGY_DEFAULT_SVG='<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>';
+  function allergyMeta(n){ var s=ALLERGY_SUGGEST.filter(function(x){return x.n===n;})[0]; return s||{n:n,svg:ALLERGY_DEFAULT_SVG,c:'#9b8bc4'}; }
   function renderAllergies(){
     var sel=allergies.filter(function(a){return a!=='None known';});
     var common=ALLERGY_SUGGEST.map(function(s){return s.n;});
     var customs=sel.filter(function(a){return common.indexOf(a)<0;});
     var options=common.concat(customs);
     document.getElementById('allergyChips').innerHTML = options.map(function(n){
-      var on=sel.indexOf(n)>-1;
-      return '<button class="bt-chip al-opt '+(on?'on':'off')+'" onclick="toggleAllergy(\''+esc(n).replace(/'/g,"")+'\')">'+esc(n)+'</button>';
+      var on=sel.indexOf(n)>-1, m=allergyMeta(n);
+      var ae='<span class="ae"'+(on?'':' style="background:color-mix(in srgb,'+m.c+' 15%,#fff);color:'+m.c+'"')+'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+m.svg+'</svg></span>';
+      return '<button class="al-opt2 '+(on?'on':'off')+'" onclick="toggleAllergy(\''+esc(n).replace(/'/g,"")+'\')">'+ae+esc(n)+'</button>';
     }).join('');
     renderHub();
   }
