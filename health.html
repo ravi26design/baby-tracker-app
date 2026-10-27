@@ -151,7 +151,7 @@
   .bt-chip{padding:12px 4px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:transform .12s;}
   .bt-chip:active{transform:scale(.95);}
   .bt-grid .bt-chip{border-radius:14px;}
-  .bt-grid .bt-chip.off{background:#f5f1fa;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .bt-grid .bt-chip.off{background:#fff;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
   .bt-grid .bt-chip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:none;}
   .al-wrap{gap:9px;}
   .al-opt{padding:11px 17px;}
@@ -164,7 +164,7 @@
   .al-opt2:active{transform:scale(.96);}
   .al-opt2 .ae{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s;}
   .al-opt2 .ae svg{width:16px;height:16px;}
-  .al-opt2.off{background:#f5f1fa;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .al-opt2.off{background:#fff;color:#6f6487;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
   .al-opt2.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 9px 18px -8px rgba(140,116,181,.7);}
   .al-opt2.on .ae{background:rgba(255,255,255,.24)!important;color:#fff!important;}
   /* profile section headers (icon + title + live value pill) */
@@ -340,9 +340,9 @@
               <div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
             </div>
             <div class="rc-body" id="profileBody">
-              <div class="pf-h" style="--c:#e8663f"><span class="pf-h-ic"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.4c3.1 3.4 5.5 6.3 5.5 9.2A5.5 5.5 0 0 1 12 18a5.5 5.5 0 0 1-5.5-5.4c0-2.9 2.4-5.8 5.5-9.2z"/></svg></span><span class="pf-h-t">Blood Type</span><span class="pf-h-v" id="bloodVal">O+</span></div>
+              <div class="pf-h" style="--c:#e8663f"><span class="pf-h-t">Blood Type</span><span class="pf-h-v" id="bloodVal">O+</span></div>
               <div class="bt-grid" id="bloodChips"></div>
-              <div class="pf-h sp" style="--c:#e0922f"><span class="pf-h-ic"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 4.2 3.2 19.3a1 1 0 0 0 .9 1.5h15.8a1 1 0 0 0 .9-1.5z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M12 10v4M12 17.2h.01"/></svg></span><span class="pf-h-t">Allergies</span><span class="pf-h-v" id="allergyCount">None</span></div>
+              <div class="pf-h sp" style="--c:#e0922f"><span class="pf-h-t">Allergies</span><span class="pf-h-v" id="allergyCount">None</span></div>
               <div class="al-input-row">
                 <input class="fld" id="allergyInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter')confirmAllergy()">
                 <button class="al-add-btn" onclick="confirmAllergy()">Add</button>
