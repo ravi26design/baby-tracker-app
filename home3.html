@@ -734,6 +734,35 @@
   .doc-foot{margin-top:18px;font-weight:700;color:#8a8296;}
   .doc-agree{width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:18px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15px;font-weight:800;padding:15px;border-radius:16px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);}
   .doc-agree:active{transform:scale(.99);}
+  /* Health Monitoring */
+  .hm-device{display:flex;align-items:center;gap:12px;background:linear-gradient(150deg,#ece7f8,#e0d8f2);border-radius:18px;padding:14px 15px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);}
+  .hm-dev-ic{width:44px;height:44px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;color:#8574b5;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .hm-dev-ic svg{width:24px;height:24px;}
+  .hm-dev-tx{flex:1;min-width:0;}
+  .hm-dev-n{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .hm-dev-s{font-size:11.5px;color:#6f6683;font-weight:600;margin-top:2px;}
+  .hm-live{font-size:9px;font-weight:800;letter-spacing:.5px;color:#fff;background:#2fa96f;padding:4px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;}
+  .hm-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;animation:hmpulse 1.4s ease-in-out infinite;}
+  @keyframes hmpulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .hm-lbl{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:20px 2px 11px;}
+  .hm-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .hm-tile{background:var(--card-bg,#faf9fe);border-radius:18px;padding:13px 14px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .hm-tile-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--tc,#9b8bc4) 15%,#fff);color:var(--tc,#9b8bc4);}
+  .hm-tile-ic svg{width:19px;height:19px;}
+  .hm-tv{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.4px;margin-top:9px;}
+  .hm-tv span{font-size:11px;font-weight:700;color:#a99fbb;margin-left:3px;}
+  .hm-tl{font-size:11px;font-weight:600;color:#8b8296;margin-top:1px;}
+  .hm-card{background:var(--card-bg,#faf9fe);border-radius:18px;padding:3px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .hm-arow{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid rgba(139,116,181,.1);}
+  .hm-arow:last-child{border-bottom:none;}
+  .hm-arow-tx{flex:1;min-width:0;}
+  .hm-arow-n{font-size:13px;font-weight:700;color:var(--ink);}
+  .hm-arow-s{font-size:11px;color:#8b8296;font-weight:500;margin-top:2px;line-height:1.35;}
+  .hm-sw{width:44px;height:26px;border-radius:20px;background:#e2dcee;position:relative;flex-shrink:0;cursor:pointer;transition:background .2s;border:none;padding:0;}
+  .hm-sw.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);}
+  .hm-sw-dot{position:absolute;top:2.5px;left:2.5px;width:21px;height:21px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 2px 5px rgba(0,0,0,.18);}
+  .hm-sw.on .hm-sw-dot{transform:translateX(18px);}
+  .hm-note{font-size:11.5px;color:#a99fbb;font-weight:600;text-align:center;line-height:1.5;margin-top:18px;padding:0 10px;}
   /* Notifications */
   .nt-clear{margin-left:auto;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;}
   .nt-day{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:16px 2px 10px;}
@@ -1051,6 +1080,10 @@
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
           <span>My Profile</span>
         </button>
+        <button class="pf-item" onclick="openHealthMonitor()">
+          <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+          <span>Health Monitoring</span>
+        </button>
         <button class="pf-item" onclick="openHelp()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9.2 9.5a2.8 2.8 0 0 1 5.4.9c0 1.9-2.8 2.8-2.8 2.8M12 16.5h.01"/></svg></span>
           <span>Help &amp; Support</span>
@@ -1205,6 +1238,39 @@
           <p class="doc-foot">Want a copy of your data or have a question? Contact us through Help &amp; Support.</p>
         </div>
         <button class="doc-agree" onclick="closePrivacy()">Got it</button>
+      </div>
+    </div>
+
+    <!-- Health Monitoring -->
+    <div class="pf-sheet-layer ss-layer" id="hmSheet">
+      <div class="pf-sheet-bd" onclick="closeHealthMonitor()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeHealthMonitor()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Health Monitoring</div></div>
+        <div style="overflow-y:auto;padding-bottom:10px">
+          <div class="hm-device">
+            <div class="hm-dev-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v5a4 4 0 0 1-1.2 2.9L13 12.6V17a3 3 0 0 1-6 0v-1.5a3.2 3.2 0 0 1 1-2.3L8.2 11A4 4 0 0 1 8 8.2z"/><path fill="none" d="M8 7h8"/><circle cx="10" cy="19.5" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+            <div class="hm-dev-tx"><div class="hm-dev-n">Smart Baby Sock</div><div class="hm-dev-s">Connected · 82% battery</div></div>
+            <span class="hm-live">LIVE</span>
+          </div>
+
+          <div class="hm-lbl">Live vitals</div>
+          <div class="hm-grid">
+            <div class="hm-tile" style="--tc:#e8658a"><span class="hm-tile-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 20 12 20z"/><path fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" d="M6 12h2l1.2-2 1.8 4 1.2-2h3.8"/></svg></span><div class="hm-tv">128<span>bpm</span></div><div class="hm-tl">Heart rate</div></div>
+            <div class="hm-tile" style="--tc:#3f8fd0"><span class="hm-tile-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4c3.1 3.4 5.5 6.3 5.5 9.2A5.5 5.5 0 0 1 12 18a5.5 5.5 0 0 1-5.5-5.4c0-2.9 2.4-5.8 5.5-9.2z"/><path fill="none" d="M9.6 13a2.4 2.4 0 0 0 2.2 1.8"/></svg></span><div class="hm-tv">98<span>%</span></div><div class="hm-tl">Oxygen (SpO₂)</div></div>
+            <div class="hm-tile" style="--tc:#e8933f"><span class="hm-tile-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 14.8V5.5a1.5 1.5 0 0 0-3 0v9.3a3.2 3.2 0 1 0 3 0z"/><path fill="none" d="M11.5 9.2v4"/></svg></span><div class="hm-tv">36.6<span>°C</span></div><div class="hm-tl">Skin temp</div></div>
+            <div class="hm-tile" style="--tc:#8574b5"><span class="hm-tile-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></span><div class="hm-tv" style="font-size:16px;margin-top:11px">Asleep</div><div class="hm-tl">Sleep state</div></div>
+          </div>
+
+          <div class="hm-lbl">Alerts</div>
+          <div class="hm-card">
+            <div class="hm-arow"><div class="hm-arow-tx"><div class="hm-arow-n">Heart rate out of range</div><div class="hm-arow-s">Notify if below 90 or above 160 bpm</div></div><button class="hm-sw on" onclick="hmToggle(this)"><span class="hm-sw-dot"></span></button></div>
+            <div class="hm-arow"><div class="hm-arow-tx"><div class="hm-arow-n">Oxygen drops</div><div class="hm-arow-s">Notify if SpO₂ falls below 95%</div></div><button class="hm-sw on" onclick="hmToggle(this)"><span class="hm-sw-dot"></span></button></div>
+            <div class="hm-arow"><div class="hm-arow-tx"><div class="hm-arow-n">Unusual temperature</div><div class="hm-arow-s">Notify on sudden skin-temp changes</div></div><button class="hm-sw" onclick="hmToggle(this)"><span class="hm-sw-dot"></span></button></div>
+            <div class="hm-arow"><div class="hm-arow-tx"><div class="hm-arow-n">Rollover detection</div><div class="hm-arow-s">Alert when baby rolls onto their tummy</div></div><button class="hm-sw on" onclick="hmToggle(this)"><span class="hm-sw-dot"></span></button></div>
+          </div>
+          <div class="hm-note">Readings are for guidance only and are not a medical device. In an emergency, contact your local services.</div>
+        </div>
       </div>
     </div>
 
@@ -1369,6 +1435,9 @@
     function closeTerms(){ document.getElementById('termsSheet').classList.remove('open'); }
     function openPrivacy(){ closeProfileMenu(); document.getElementById('privacySheet').classList.add('open'); }
     function closePrivacy(){ document.getElementById('privacySheet').classList.remove('open'); }
+    function openHealthMonitor(){ closeProfileMenu(); document.getElementById('hmSheet').classList.add('open'); }
+    function closeHealthMonitor(){ document.getElementById('hmSheet').classList.remove('open'); }
+    function hmToggle(el){ el.classList.toggle('on'); }
     function openNotif(){ document.getElementById('notifSheet').classList.add('open'); var b=document.getElementById('notifDot'); if(b) b.style.display='none'; }
     function closeNotif(){ document.getElementById('notifSheet').classList.remove('open'); }
     var _hT; function hToast(msg){ var t=document.getElementById('hToast'); if(!t) return; t.textContent=msg; t.classList.add('show'); clearTimeout(_hT); _hT=setTimeout(function(){ t.classList.remove('show'); },1900); }
