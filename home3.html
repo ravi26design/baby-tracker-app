@@ -866,6 +866,13 @@
   .hm-swbtn{border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:-.1px;padding:7px 18px;border-radius:10px;background:transparent;color:#8a8296;transition:background .14s,color .14s;}
   .hm-swbtn.on{background:#fff;color:#7a5fd0;box-shadow:0 2px 7px -2px rgba(0,0,0,.14);}
   .hm-swbtn:active{transform:scale(.97);}
+  .hm-prof-health{display:inline-flex;align-items:center;gap:9px;margin-top:16px;max-width:90%;border:none;cursor:pointer;font-family:inherit;background:#fff;border-radius:16px;padding:8px 13px 8px 8px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
+  .hm-prof-health:active{transform:scale(.98);}
+  .hm-prof-health-ic{width:34px;height:34px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,#e8663f 14%,#fff);color:#e8663f;}
+  .hm-prof-health-ic svg{width:19px;height:19px;}
+  .hm-prof-health-tx{font-size:13px;font-weight:700;color:#8b8296;letter-spacing:-.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-prof-health-tx b{color:var(--ink);font-weight:800;}
+  .hm-prof-health-ch{width:16px;height:16px;color:#ccc4d8;flex-shrink:0;}
   /* next vaccination card */
   .hm-next{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:none;cursor:pointer;background:#fff;border-radius:20px;padding:14px 15px;margin-top:14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);transition:transform .12s;}
   .hm-next:active{transform:scale(.99);}
@@ -1529,6 +1536,7 @@
             <div class="hm-prof-name" id="hmProfName"></div>
             <div class="hm-prof-age" id="hmProfAge"></div>
             <div class="hm-switch" id="hmChild"></div>
+            <button class="hm-prof-health" id="hmProfHealth" onclick="hmTab('profile')" aria-label="Health Profile"></button>
           </div>
           <div class="hm-hub" id="hmHub"></div>
         </div>
@@ -1892,6 +1900,9 @@
       var ph=document.getElementById('hmProfPhoto'); if(ph) ph.style.backgroundImage=c.photo?("url('"+c.photo+"')"):'';
       var nm=document.getElementById('hmProfName'); if(nm) nm.textContent=c.name||'Baby';
       var ag=document.getElementById('hmProfAge'); if(ag) ag.textContent=hmAgePretty(c.age);
+      var hp=document.getElementById('hmProfHealth');
+      if(hp){ var alg=(HM_ALLERGIES&&HM_ALLERGIES.length)?HM_ALLERGIES.join(', '):'No known allergies';
+        hp.innerHTML='<span class="hm-prof-health-ic">'+HMI.drop+'</span><span class="hm-prof-health-tx"><b>'+HM_BLOOD+'</b> · '+alg+'</span><svg class="hm-prof-health-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>'; }
       var sw=document.getElementById('hmChild'); if(!sw) return;
       var keys=Object.keys(CHILDREN);
       sw.style.display=keys.length>1?'':'none';
@@ -1925,7 +1936,6 @@
       var pct=tot?Math.round(done/tot*100):0;
       var alg=(HM_ALLERGIES&&HM_ALLERGIES.length)?HM_ALLERGIES.join(', '):'No known allergies';
       var rows=[
-        {k:'profile',c:'#e8663f',ic:HMI.drop,t:'Health Profile',s:HM_BLOOD+' · '+alg},
         {k:'growth',c:'#3f8fd0',ic:HMI.bars,t:'Growth',s:wv[wv.length-1]+' kg · '+hv[hv.length-1]+' cm',right:hmSpark(wv,'#3f8fd0')},
         {k:'records',c:'#39a876',ic:HMI.note,t:'Health Notes',s:(n0.summary?n0.summary+' · '+n0.date:'No notes yet'),right:'<span class="hm-hub-badge" style="--bc:#39a876">'+HM_NOTES.length+'</span>'},
         {k:'visits',c:'#7a5fd0',ic:HMI.bag,t:'Doctor Visits',s:(v0.title?v0.title+' · '+v0.date:'No visits yet')},
