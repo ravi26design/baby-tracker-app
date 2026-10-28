@@ -726,8 +726,9 @@
     transform:translateY(110%);transition:transform .34s cubic-bezier(.32,.72,0,1);}
   .pf-sheet::-webkit-scrollbar{display:none;}
   .pf-sheet-layer.open .pf-sheet{transform:none;}
-  /* Health Monitoring = full screen */
-  #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:50px 22px 0;display:flex;flex-direction:column;overflow:hidden;}
+  /* Health Monitoring = full screen tab (appears like a page, no slide-up/backdrop) */
+  #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:50px 22px 0;display:flex;flex-direction:column;overflow:hidden;transform:none;transition:none;}
+  #hmSheet .pf-sheet-bd{display:none;}
   #hmSheet .grabber-x{display:none;}
   #hmSheet .ss-head,#hmSheet .hm-fixed{flex-shrink:0;}
   #hmSheet .hm-feats{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}
@@ -2767,6 +2768,8 @@
     buildChildCards();
     buildChildTabs();
     selectChild(Object.keys(CHILDREN)[0]);
+    /* arrive from another tab's Health button (home3.html#health) -> open the Health screen */
+    try{ if(location.hash==='#health'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(openHealthMonitor,0); } }catch(e){}
     /* demo: home opens in the empty memory state on a normal load; a just-posted memory (redirected with #posted) is kept so the user sees it */
     try{
       if(location.hash==='#posted'){ history.replaceState(null,'',location.pathname+location.search); }
