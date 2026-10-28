@@ -740,7 +740,7 @@
   #hmSheet .hm-nav,#hmSheet .hm-navadd,#hmSheet .hm-hi{position:absolute;}
   #hmSheet .hm-navadd{z-index:8;} #hmSheet .hm-hi{z-index:7;} #hmSheet .hm-nav{z-index:6;}
   #hmSheet .hm-body::-webkit-scrollbar{display:none;}
-  #hmp-growth{display:block;}
+  #hmp-growth{display:block;margin-bottom:12px;}
   #hmp-growth .hm-chart{height:150px;}
   .grabber-x{padding:11px 0 6px;} .grabber-x span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
   .pf-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 0 20px;}
@@ -1557,19 +1557,11 @@
             <div class="hm-switch" id="hmChild"></div>
             <button class="hm-prof-health" id="hmProfHealth" onclick="hmTab('profile')" aria-label="Health Profile"></button>
           </div>
-          <div class="hm-hub" id="hmHub"></div>
-        </div>
 
-        <!-- Section bottom sheet -->
-        <div class="hm-secbd" id="hmSecBd" onclick="hmCloseSec()"></div>
-        <div class="hm-sec" id="hmSec">
-          <div class="hm-sec-grab"></div>
-          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><button class="hm-sec-x" onclick="hmCloseSec()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-          <div class="hm-sec-body">
-
-          <!-- Growth -->
-          <div class="hm-panel" id="hmp-growth" style="display:none">
+          <!-- Growth (inline) -->
+          <div class="hm-panel" id="hmp-growth">
             <div class="hm-ov" style="--oc:#e0547c">
+              <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l5-5 3.5 3.5L20 7.5"/><path d="M15 7.5h5v5"/></svg></span><div class="hm-ov-t">Growth Overview</div></div></div>
               <div class="hm-stats">
                 <div class="hm-stat"><div class="hm-stat-v">12.4<span>kg</span></div><div class="hm-stat-l">Weight</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+0.8 kg</div></div>
                 <div class="hm-stat"><div class="hm-stat-v">88<span>cm</span></div><div class="hm-stat-l">Height</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+2.1 cm</div></div>
@@ -1580,6 +1572,16 @@
               <button class="hm-add" id="hmAddBtn" onclick="hmAddShow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Growth</button>
             </div>
           </div>
+
+          <div class="hm-hub" id="hmHub"></div>
+        </div>
+
+        <!-- Section bottom sheet -->
+        <div class="hm-secbd" id="hmSecBd" onclick="hmCloseSec()"></div>
+        <div class="hm-sec" id="hmSec">
+          <div class="hm-sec-grab"></div>
+          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><button class="hm-sec-x" onclick="hmCloseSec()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+          <div class="hm-sec-body">
 
           <!-- Vaccination tab -->
           <div class="hm-panel" id="hmp-vac" style="display:none">
@@ -1930,7 +1932,7 @@
       }).join('');
     }
     function hmChild(key){ try{ selectChild(key); }catch(e){} renderHmChild(); renderHmHub(); renderHmChart(); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies(); }
-    function openHealthMonitor(){ closeProfileMenu(); hmTabReset(); renderHmChild(); renderHmHub(); document.getElementById('hmSheet').classList.add('open'); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies(); }
+    function openHealthMonitor(){ closeProfileMenu(); hmTabReset(); renderHmChild(); renderHmHub(); document.getElementById('hmSheet').classList.add('open'); renderHmChart(); setTimeout(renderHmChart,30); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies(); }
     /* ---- Glanceable hub list ---- */
     var HMI={
       drop:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2s6 6.3 6 10.3a6 6 0 0 1-12 0C6 9.5 12 3.2 12 3.2z"/></svg>',
@@ -1952,12 +1954,6 @@
       var n0=HM_NOTES[0]||{},v0=HM_VISITS[0]||{},d0=HM_DOCS[0]||{};
       var done=HM_VAX.filter(function(v){return v.done;}).length,tot=HM_VAX.length;
       var nx=HM_VAX.filter(function(v){return !v.done;})[0];
-      var growthRow='<button class="hm-hub-row" style="--rc:#3f8fd0" onclick="hmTab(\'growth\')">'+
-        '<span class="hm-hub-ic">'+HMI.bars+'</span>'+
-        '<span class="hm-hub-tx"><b>Growth</b><span>'+wv[wv.length-1]+' kg · '+hv[hv.length-1]+' cm</span></span>'+
-        '<span class="hm-hub-right">'+hmSpark(wv,'#3f8fd0')+'</span>'+
-        '<span class="hm-hub-ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>'+
-      '</button>';
       var tiles=[
         {k:'records',c:'#39a876',ic:HMI.note,t:'Health Notes',badge:HM_NOTES.length},
         {k:'visits',c:'#7a5fd0',ic:HMI.bag,t:'Doctor Visits',badge:HM_VISITS.length},
@@ -1970,12 +1966,12 @@
           '<span>'+r.t+'</span>'+
         '</button>';
       }).join('');
-      el.innerHTML=growthRow+'<div class="hm-hub-grid">'+tiles+'</div>';
+      el.innerHTML='<div class="hm-hub-grid">'+tiles+'</div>';
     }
     function closeHealthMonitor(){ hmCloseSec(); document.getElementById('hmSheet').classList.remove('open'); }
     function hmToggle(el){ el.classList.toggle('on'); }
-    var HM_SEC_KEYS=['growth','vac','visits','records','profile','documents'];
-    var HM_SEC_TITLE={growth:'Growth',vac:'Vaccination',visits:'Doctor Visits',records:'Health Notes',profile:'Health Profile',documents:'Documents'};
+    var HM_SEC_KEYS=['vac','visits','records','profile','documents'];
+    var HM_SEC_TITLE={vac:'Vaccination',visits:'Doctor Visits',records:'Health Notes',profile:'Health Profile',documents:'Documents'};
     function hmTabReset(){ hmCloseForms(); var s=document.getElementById('hmSec'); if(s) s.classList.remove('open'); var b=document.getElementById('hmSecBd'); if(b) b.classList.remove('show'); HM_SEC_KEYS.forEach(function(k){ var p=document.getElementById('hmp-'+k); if(p) p.style.display='none'; }); var body=document.getElementById('hmSheet'); var sb=body?body.querySelector('.hm-body'):null; if(sb) sb.scrollTop=0; }
     function hmCloseSec(){ hmCloseForms(); var s=document.getElementById('hmSec'); if(s) s.classList.remove('open'); var b=document.getElementById('hmSecBd'); if(b) b.classList.remove('show'); }
     function hmTab(key){
