@@ -917,6 +917,13 @@
   .hm-hub-prog i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#5bc3a0,#2fa987);}
   .hm-hub-ch{color:#ccc4d8;flex-shrink:0;}
   .hm-hub-ch svg{width:19px;height:19px;}
+  .hm-hub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .hm-hub-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 4px 12px;border:none;cursor:pointer;background:#fff;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
+  .hm-hub-tile:active{transform:scale(.96);}
+  .hm-hub-tile-ic{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 14%,#fff);color:var(--rc,#9b8bc4);}
+  .hm-hub-tile-ic svg{width:22px;height:22px;}
+  .hm-hub-tile>span:last-child{font-size:10px;font-weight:700;color:#6c6478;text-align:center;line-height:1.2;letter-spacing:-.1px;}
+  .hm-hub-tile-badge{position:absolute;top:7px;right:7px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;color:var(--rc,#8574b5);background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);}
   .hm-feats{display:flex;gap:9px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;}
   .hm-feats::-webkit-scrollbar{display:none;}
   .hm-feat{flex:0 0 84px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);cursor:pointer;transition:transform .12s;}
@@ -1945,23 +1952,25 @@
       var n0=HM_NOTES[0]||{},v0=HM_VISITS[0]||{},d0=HM_DOCS[0]||{};
       var done=HM_VAX.filter(function(v){return v.done;}).length,tot=HM_VAX.length;
       var nx=HM_VAX.filter(function(v){return !v.done;})[0];
-      var pct=tot?Math.round(done/tot*100):0;
-      var alg=(HM_ALLERGIES&&HM_ALLERGIES.length)?HM_ALLERGIES.join(', '):'No known allergies';
-      var rows=[
-        {k:'growth',c:'#3f8fd0',ic:HMI.bars,t:'Growth',s:wv[wv.length-1]+' kg · '+hv[hv.length-1]+' cm',right:hmSpark(wv,'#3f8fd0')},
-        {k:'records',c:'#39a876',ic:HMI.note,t:'Health Notes',s:(n0.summary?n0.summary+' · '+n0.date:'No notes yet'),right:'<span class="hm-hub-badge" style="--bc:#39a876">'+HM_NOTES.length+'</span>'},
-        {k:'visits',c:'#7a5fd0',ic:HMI.bag,t:'Doctor Visits',s:(v0.title?v0.title+' · '+v0.date:'No visits yet')},
-        {k:'documents',c:'#b05fd6',ic:HMI.doc,t:'Documents',s:(d0.name||'No documents yet'),right:'<span class="hm-hub-badge" style="--bc:#b05fd6">'+HM_DOCS.length+'</span>'},
-        {k:'vac',c:'#2fa987',ic:HMI.syr,t:'Vaccinations',s:done+' of '+tot+' done · '+(nx?'Next '+nx.date:'All done'),right:'<span class="hm-hub-prog"><i style="width:'+pct+'%"></i></span>'}
-      ];
-      el.innerHTML=rows.map(function(r){
-        return '<button class="hm-hub-row" style="--rc:'+r.c+'" onclick="hmTab(\''+r.k+'\')">'+
-          '<span class="hm-hub-ic">'+r.ic+'</span>'+
-          '<span class="hm-hub-tx"><b>'+r.t+'</b><span>'+r.s+'</span></span>'+
-          (r.right?'<span class="hm-hub-right">'+r.right+'</span>':'')+
-          '<span class="hm-hub-ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>'+
+      var growthRow='<button class="hm-hub-row" style="--rc:#3f8fd0" onclick="hmTab(\'growth\')">'+
+        '<span class="hm-hub-ic">'+HMI.bars+'</span>'+
+        '<span class="hm-hub-tx"><b>Growth</b><span>'+wv[wv.length-1]+' kg · '+hv[hv.length-1]+' cm</span></span>'+
+        '<span class="hm-hub-right">'+hmSpark(wv,'#3f8fd0')+'</span>'+
+        '<span class="hm-hub-ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>'+
+      '</button>';
+      var tiles=[
+        {k:'records',c:'#39a876',ic:HMI.note,t:'Health Notes',badge:HM_NOTES.length},
+        {k:'visits',c:'#7a5fd0',ic:HMI.bag,t:'Doctor Visits',badge:HM_VISITS.length},
+        {k:'documents',c:'#b05fd6',ic:HMI.doc,t:'Documents',badge:HM_DOCS.length},
+        {k:'vac',c:'#2fa987',ic:HMI.syr,t:'Vaccinations',badge:done+'/'+tot}
+      ].map(function(r){
+        return '<button class="hm-hub-tile" style="--rc:'+r.c+'" onclick="hmTab(\''+r.k+'\')">'+
+          (r.badge?'<span class="hm-hub-tile-badge">'+r.badge+'</span>':'')+
+          '<span class="hm-hub-tile-ic">'+r.ic+'</span>'+
+          '<span>'+r.t+'</span>'+
         '</button>';
       }).join('');
+      el.innerHTML=growthRow+'<div class="hm-hub-grid">'+tiles+'</div>';
     }
     function closeHealthMonitor(){ hmCloseSec(); document.getElementById('hmSheet').classList.remove('open'); }
     function hmToggle(el){ el.classList.toggle('on'); }
