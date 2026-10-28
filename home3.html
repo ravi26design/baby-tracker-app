@@ -727,7 +727,10 @@
   .pf-sheet::-webkit-scrollbar{display:none;}
   .pf-sheet-layer.open .pf-sheet{transform:none;}
   /* Health Monitoring = full screen tab (appears like a page, no slide-up/backdrop) */
-  #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:50px 22px 0;display:flex;flex-direction:column;overflow:hidden;transform:none;transition:none;}
+  #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:0 22px 0;display:flex;flex-direction:column;overflow:hidden;transform:none;transition:none;}
+  #hmSheet .statusbar{flex-shrink:0;margin:0 -22px;}
+  #hmSheet .hm-head{margin-top:2px;}
+  #hmSheet .ss-title{font-size:23px;letter-spacing:-.5px;}
   #hmSheet .pf-sheet-bd{display:none;}
   #hmSheet .grabber-x{display:none;}
   #hmSheet .ss-head,#hmSheet .hm-fixed{flex-shrink:0;}
@@ -1525,6 +1528,15 @@
       <div class="pf-sheet-bd" onclick="closeHealthMonitor()"></div>
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <div class="notch"></div>
+          <div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
+          </div>
+        </div>
         <div class="ss-head hm-head"><div class="ss-title">Health Monitoring</div></div>
         <div class="hm-body">
           <!-- Child profile header -->
