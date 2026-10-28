@@ -871,13 +871,11 @@
   .hm-swbtn{border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:-.1px;padding:7px 18px;border-radius:10px;background:transparent;color:#8a8296;transition:background .14s,color .14s;}
   .hm-swbtn.on{background:#fff;color:#7a5fd0;box-shadow:0 2px 7px -2px rgba(0,0,0,.14);}
   .hm-swbtn:active{transform:scale(.97);}
-  .hm-prof-health{display:inline-flex;align-items:center;gap:9px;margin-top:16px;max-width:90%;border:none;cursor:pointer;font-family:inherit;background:#fff;border-radius:16px;padding:8px 13px 8px 8px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
-  .hm-prof-health:active{transform:scale(.98);}
-  .hm-prof-health-ic{width:34px;height:34px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,#e8663f 14%,#fff);color:#e8663f;}
-  .hm-prof-health-ic svg{width:19px;height:19px;}
-  .hm-prof-health-tx{font-size:13px;font-weight:700;color:#8b8296;letter-spacing:-.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .hm-prof-health-tx b{color:var(--ink);font-weight:800;}
-  .hm-prof-health-ch{width:16px;height:16px;color:#ccc4d8;flex-shrink:0;}
+  .hm-prof-health{display:inline-flex;align-items:center;gap:6px;margin-top:7px;border:none;cursor:pointer;font-family:inherit;background:none;padding:2px 4px;}
+  .hm-prof-health-ic{display:flex;align-items:center;color:#e0795a;}
+  .hm-prof-health-ic svg{width:15px;height:15px;}
+  .hm-prof-health-tx{font-size:13.5px;font-weight:600;color:#9a8fb3;letter-spacing:-.1px;}
+  .hm-prof-health-tx b{color:#6f6683;font-weight:800;}
   /* next vaccination card */
   .hm-next{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:none;cursor:pointer;background:#fff;border-radius:20px;padding:14px 15px;margin-top:14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);transition:transform .12s;}
   .hm-next:active{transform:scale(.99);}
@@ -919,13 +917,17 @@
   .hm-hub-prog i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#5bc3a0,#2fa987);}
   .hm-hub-ch{color:#ccc4d8;flex-shrink:0;}
   .hm-hub-ch svg{width:19px;height:19px;}
-  .hm-hub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
-  .hm-hub-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 4px 12px;border:none;cursor:pointer;background:#fff;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);transition:transform .12s;}
-  .hm-hub-tile:active{transform:scale(.96);}
-  .hm-hub-tile-ic{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 14%,#fff);color:var(--rc,#9b8bc4);}
-  .hm-hub-tile-ic svg{width:22px;height:22px;}
-  .hm-hub-tile>span:last-child{font-size:10px;font-weight:700;color:#6c6478;text-align:center;line-height:1.2;letter-spacing:-.1px;}
-  .hm-hub-tile-badge{position:absolute;top:7px;right:7px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;color:var(--rc,#8574b5);background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);}
+  /* ring widgets (milestone style) */
+  .hm-rings{display:flex;background:#fff;border-radius:22px;padding:16px 4px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .hm-ring-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:9px;border:none;background:none;cursor:pointer;font-family:inherit;padding:0 2px;transition:transform .12s;}
+  .hm-ring-item:active{transform:scale(.95);}
+  .hm-ring-circle{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
+  .hm-ring-svg{position:absolute;inset:0;transform:rotate(-90deg);}
+  .hm-ring-track{fill:none;stroke:rgba(0,0,0,.07);stroke-width:3.4;}
+  .hm-ring-prog{fill:none;stroke:var(--rc,#9b8bc4);stroke-width:3.4;stroke-linecap:round;transition:stroke-dashoffset .7s cubic-bezier(.3,.9,.3,1);}
+  .hm-ring-ico{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);color:var(--rc,#9b8bc4);box-shadow:0 8px 16px -9px rgba(90,80,90,.22);}
+  .hm-ring-ico svg{width:22px;height:22px;}
+  .hm-ring-name{font-size:10.5px;font-weight:700;color:#8a8790;letter-spacing:.1px;text-align:center;line-height:1.2;}
   .hm-feats{display:flex;gap:9px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;}
   .hm-feats::-webkit-scrollbar{display:none;}
   .hm-feat{flex:0 0 84px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);cursor:pointer;transition:transform .12s;}
@@ -1556,8 +1558,8 @@
             </div>
             <div class="hm-prof-name" id="hmProfName"></div>
             <div class="hm-prof-age" id="hmProfAge"></div>
-            <div class="hm-switch" id="hmChild"></div>
             <button class="hm-prof-health" id="hmProfHealth" onclick="hmTab('profile')" aria-label="Health Profile"></button>
+            <div class="hm-switch" id="hmChild"></div>
           </div>
 
           <div class="hm-hub" id="hmHub"></div>
@@ -1925,7 +1927,7 @@
       var ag=document.getElementById('hmProfAge'); if(ag) ag.textContent=hmAgePretty(c.age);
       var hp=document.getElementById('hmProfHealth');
       if(hp){ var alg=(HM_ALLERGIES&&HM_ALLERGIES.length)?HM_ALLERGIES.join(', '):'No known allergies';
-        hp.innerHTML='<span class="hm-prof-health-ic">'+HMI.drop+'</span><span class="hm-prof-health-tx"><b>'+HM_BLOOD+'</b> · '+alg+'</span><svg class="hm-prof-health-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>'; }
+        hp.innerHTML='<span class="hm-prof-health-ic">'+HMI.drop+'</span><span class="hm-prof-health-tx"><b>'+HM_BLOOD+'</b> · '+alg+'</span>'; }
       var sw=document.getElementById('hmChild'); if(!sw) return;
       var keys=Object.keys(CHILDREN);
       sw.style.display=keys.length>1?'':'none';
@@ -1955,21 +1957,20 @@
       var wv=HM_GROWTH.weight.vals,hv=HM_GROWTH.height.vals;
       var n0=HM_NOTES[0]||{},v0=HM_VISITS[0]||{},d0=HM_DOCS[0]||{};
       var done=HM_VAX.filter(function(v){return v.done;}).length,tot=HM_VAX.length;
-      var nx=HM_VAX.filter(function(v){return !v.done;})[0];
-      var tiles=[
-        {k:'records',c:'#39a876',ic:HMI.note,t:'Health Notes',badge:HM_NOTES.length},
-        {k:'visits',c:'#7a5fd0',ic:HMI.bag,t:'Doctor Visits',badge:HM_VISITS.length},
-        {k:'documents',c:'#b05fd6',ic:HMI.doc,t:'Documents',badge:HM_DOCS.length},
-        {k:'vac',c:'#2fa987',ic:HMI.syr,t:'Vaccinations',badge:done+'/'+tot}
+      var items=[
+        {k:'records',c:'#39a876',ic:HMI.note,t:'Health Notes',p:66},
+        {k:'visits',c:'#7a5fd0',ic:HMI.bag,t:'Doctor Visits',p:80},
+        {k:'documents',c:'#b05fd6',ic:HMI.doc,t:'Documents',p:50},
+        {k:'vac',c:'#2fa987',ic:HMI.syr,t:'Vaccinations',p:tot?Math.round(done/tot*100):0}
       ].map(function(r){
-        return '<button class="hm-hub-tile" style="--rc:'+r.c+'" onclick="hmTab(\''+r.k+'\')">'+
-          (r.badge?'<span class="hm-hub-tile-badge">'+r.badge+'</span>':'')+
-          '<span class="hm-hub-tile-ic">'+r.ic+'</span>'+
-          '<span>'+r.t+'</span>'+
+        return '<button class="hm-ring-item" style="--rc:'+r.c+'" onclick="hmTab(\''+r.k+'\')">'+
+          '<span class="hm-ring-circle">'+hmRingSvg(r.p)+'<span class="hm-ring-ico">'+r.ic+'</span></span>'+
+          '<span class="hm-ring-name">'+r.t+'</span>'+
         '</button>';
       }).join('');
-      el.innerHTML='<div class="hm-hub-grid">'+tiles+'</div>';
+      el.innerHTML='<div class="hm-rings">'+items+'</div>';
     }
+    function hmRingSvg(p){ var C=188.5,o=(C*(1-(p||0)/100)).toFixed(1); return '<svg class="hm-ring-svg" viewBox="0 0 64 64"><circle class="hm-ring-track" cx="32" cy="32" r="30"/><circle class="hm-ring-prog" cx="32" cy="32" r="30" style="stroke-dasharray:'+C+';stroke-dashoffset:'+o+'"/></svg>'; }
     function closeHealthMonitor(){ hmCloseSec(); document.getElementById('hmSheet').classList.remove('open'); }
     function hmToggle(el){ el.classList.toggle('on'); }
     var HM_SEC_KEYS=['vac','visits','records','profile','documents'];
