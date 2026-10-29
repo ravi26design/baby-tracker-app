@@ -929,8 +929,8 @@
   .hm-ring-svg{position:absolute;inset:0;transform:rotate(-90deg);}
   .hm-ring-track{fill:none;stroke:rgba(0,0,0,.07);stroke-width:3.4;}
   .hm-ring-prog{fill:none;stroke:var(--rc,#9b8bc4);stroke-width:3.4;stroke-linecap:round;transition:stroke-dashoffset .7s cubic-bezier(.3,.9,.3,1);}
-  .hm-ring-ico{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);color:var(--rc,#9b8bc4);box-shadow:0 8px 16px -9px rgba(90,80,90,.22);}
-  .hm-ring-ico svg{width:22px;height:22px;}
+  .hm-ring-ico{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);color:var(--rc,#9b8bc4);box-shadow:0 8px 16px -9px rgba(90,80,90,.22);}
+  .hm-ring-ico svg{width:26px;height:26px;}
   .hm-ring-name{font-size:10.5px;font-weight:700;color:#8a8790;letter-spacing:.1px;text-align:center;line-height:1.2;}
   .hm-feats{display:flex;gap:9px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;}
   .hm-feats::-webkit-scrollbar{display:none;}
@@ -2013,7 +2013,7 @@
         {k:'vac',c:'#2fa987',ic:HMI.syr,t:'Vaccinations',p:tot?Math.round(done/tot*100):0}
       ].map(function(r){
         return '<button class="hm-ring-item" style="--rc:'+r.c+'" onclick="hmTab(\''+r.k+'\')">'+
-          '<span class="hm-ring-circle">'+hmRingSvg(r.p)+'<span class="hm-ring-ico">'+r.ic+'</span></span>'+
+          '<span class="hm-ring-circle"><span class="hm-ring-ico">'+r.ic+'</span></span>'+
           '<span class="hm-ring-name">'+r.t+'</span>'+
         '</button>';
       }).join('');
