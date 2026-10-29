@@ -1024,6 +1024,11 @@
   .hm-filebtn .hm-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .hm-filebtn.has{border-style:solid;border-color:rgba(95,175,125,.5);color:var(--ink);background:#f4faf6;}
   .hm-filebtn.has svg{color:#4bab77;}
+  .hm-ephoto{display:flex;flex-direction:column;align-items:center;gap:11px;margin:2px 0 4px;}
+  .hm-ephoto-av{width:88px;height:88px;border-radius:50%;background:linear-gradient(150deg,#e8dcf6,#d9c8ef) center/cover no-repeat;box-shadow:0 9px 20px -11px rgba(120,90,160,.5),0 0 0 3px #fff,0 0 0 4px rgba(139,116,181,.14);}
+  .hm-ephoto-btn{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;background:#f3eef9;border-radius:11px;padding:9px 16px;transition:background .14s,transform .12s;}
+  .hm-ephoto-btn:active{transform:scale(.97);background:#ece4f6;}
+  .hm-ephoto-btn svg{width:15px;height:15px;}
   /* Notifications */
   .nt-clear{margin-left:auto;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;}
   .nt-day{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:16px 2px 10px;}
@@ -1693,6 +1698,24 @@
           </div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmDocHide()">Cancel</button><button class="hm-addf-save" onclick="hmDocSave()">Upload</button></div>
         </div>
+        <div class="hm-addf" id="hmEditForm">
+          <div class="hm-nlbl">Edit Profile</div>
+          <div class="hm-ephoto">
+            <div class="hm-ephoto-av" id="hmEditAv"></div>
+            <button class="hm-ephoto-btn" onclick="document.getElementById('hmEditFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V7"/><path d="M8.5 10.5 12 7l3.5 3.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Change photo</button>
+            <input type="file" id="hmEditFile" accept="image/*" style="display:none" onchange="hmEditPhoto(this)">
+          </div>
+          <div class="hm-allbl" style="margin-top:4px">Name</div>
+          <input class="hm-in" id="hmEditName" placeholder="Child's name" autocomplete="off">
+          <div class="hm-allbl">Date of birth / Age</div>
+          <input class="hm-in" id="hmEditDob" placeholder="e.g. 2 years 5 months" autocomplete="off">
+          <div class="hm-allbl">Blood Type</div>
+          <div class="hm-btgrid" id="hmEditBtGrid"></div>
+          <div class="hm-allbl">Allergies</div>
+          <div class="hm-alrow"><input class="hm-in" id="hmEditAlgInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();hmEditAlgAdd();}"><button class="hm-alladd" onclick="hmEditAlgAdd()">Add</button></div>
+          <div id="hmEditAlgChips" class="hm-chips"></div>
+          <div class="hm-addf-act" style="margin-top:16px"><button class="hm-addf-cancel" onclick="hmEditHide()">Cancel</button><button class="hm-addf-save" onclick="hmEditSave()">Save Changes</button></div>
+        </div>
         <div class="hm-bsbd" id="hmBsBd" onclick="hmCloseForms()"></div>
 
         <!-- Bottom nav (Health screen) -->
@@ -1925,7 +1948,7 @@
       return '<div class="hm-prof" data-key="'+key+'">'+
           '<div class="hm-prof-av">'+
             '<div class="hm-prof-photo" style="'+bg+'"></div>'+
-            '<button class="hm-prof-edit" onclick="hToast(\'Edit profile ✎\')" aria-label="Edit profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>'+
+            '<button class="hm-prof-edit" onclick="hmEditShow()" aria-label="Edit profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>'+
           '</div>'+
           '<div class="hm-prof-name">'+(c.name||'Baby')+'</div>'+
           '<div class="hm-prof-age">'+hmAgePretty(c.age)+'</div>'+
@@ -2029,7 +2052,7 @@
     }
     var HM_NOTE_COL={Symptom:'#ef7a66',Measurement:'#5a78d4',Observation:'#45b487',Sleep:'#8f7cff',Feed:'#ef9a4e',Reaction:'#f0a53c'};
     function hmBs(on){ var bd=document.getElementById('hmBsBd'); if(bd) bd.classList.toggle('show', !!on); }
-    function hmCloseForms(){ hmAddHide(); hmNoteHide(); hmVisitHide(); hmDocHide(); }
+    function hmCloseForms(){ hmAddHide(); hmNoteHide(); hmVisitHide(); hmDocHide(); hmEditHide(); }
     var HM_NTYPE=null, HM_NSEL={};
     function hmNoteShow(){ HM_NTYPE=null; HM_NSEL={}; var f=document.getElementById('hmNoteForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display='none'; renderHmNoteTypes(); document.getElementById('hmNoteFields').innerHTML=''; }
     function hmNoteHide(){ var f=document.getElementById('hmNoteForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display=''; }
@@ -2131,6 +2154,40 @@
     }
     function hmAlgToggle(a){ var i=HM_ALLERGIES.indexOf(a); if(i>-1) HM_ALLERGIES.splice(i,1); else HM_ALLERGIES.push(a); renderHmAllergies(); }
     function hmAlgAdd(){ var el=document.getElementById('hmAlgInput'); if(!el) return; var v=(el.value||'').trim(); if(!v) return; if(HM_ALLERGIES.indexOf(v)<0) HM_ALLERGIES.push(v); el.value=''; renderHmAllergies(); hToast('Allergy added ✓'); }
+    /* ---- Edit Profile (pencil on the avatar) ---- */
+    var HM_E=null;
+    function hmEditShow(){
+      var c=CHILDREN[CURRENT_KEY]||{};
+      HM_E={ photo:c.photo||'', blood:HM_BLOOD, allergies:HM_ALLERGIES.slice() };
+      var nm=document.getElementById('hmEditName'); if(nm) nm.value=c.name||'';
+      var db=document.getElementById('hmEditDob'); if(db) db.value=hmAgePretty(c.age)||'';
+      hmEditRenderAv(); hmEditRenderBlood(); hmEditRenderAlg();
+      var f=document.getElementById('hmEditForm'); if(f){ f.scrollTop=0; f.classList.add('open'); } hmBs(true);
+    }
+    function hmEditHide(){ var f=document.getElementById('hmEditForm'); if(f) f.classList.remove('open'); hmBs(false); HM_E=null; }
+    function hmEditRenderAv(){ var a=document.getElementById('hmEditAv'); if(a) a.style.backgroundImage=(HM_E&&HM_E.photo)?("url('"+HM_E.photo+"')"):''; }
+    function hmEditPhoto(inp){ var f=inp.files&&inp.files[0]; if(!f||!HM_E) return; var r=new FileReader(); r.onload=function(e){ HM_E.photo=e.target.result; hmEditRenderAv(); }; r.readAsDataURL(f); inp.value=''; }
+    function hmEditRenderBlood(){ var el=document.getElementById('hmEditBtGrid'); if(!el||!HM_E) return; el.innerHTML=HM_BLOOD_TYPES.map(function(bt){ return '<button class="hm-btchip'+(bt===HM_E.blood?' on':'')+'" onclick="hmEditBlood(\''+bt+'\')">'+bt+'</button>'; }).join(''); }
+    function hmEditBlood(bt){ if(HM_E) HM_E.blood=bt; hmEditRenderBlood(); }
+    function hmEditRenderAlg(){ var el=document.getElementById('hmEditAlgChips'); if(!el||!HM_E) return; var customs=HM_E.allergies.filter(function(a){return HM_ALG_SUGGEST.indexOf(a)<0;}); var options=HM_ALG_SUGGEST.concat(customs); el.innerHTML=options.map(function(a){ var on=HM_E.allergies.indexOf(a)>-1; return '<button class="hm-algchip'+(on?' on':'')+'" onclick="hmEditAlgToggle(\''+a.replace(/'/g,'')+'\')">'+a+'</button>'; }).join(''); }
+    function hmEditAlgToggle(a){ if(!HM_E) return; var i=HM_E.allergies.indexOf(a); if(i>-1) HM_E.allergies.splice(i,1); else HM_E.allergies.push(a); hmEditRenderAlg(); }
+    function hmEditAlgAdd(){ var el=document.getElementById('hmEditAlgInput'); if(!el||!HM_E) return; var v=(el.value||'').trim(); if(!v) return; if(HM_E.allergies.indexOf(v)<0) HM_E.allergies.push(v); el.value=''; hmEditRenderAlg(); }
+    function hmEditSave(){
+      if(!HM_E){ hmEditHide(); return; }
+      var c=CHILDREN[CURRENT_KEY];
+      if(c){
+        var nm=(document.getElementById('hmEditName').value||'').trim(); if(nm) c.name=nm;
+        var db=(document.getElementById('hmEditDob').value||'').trim(); if(db) c.age=db;
+        if(HM_E.photo) c.photo=HM_E.photo;
+      }
+      HM_BLOOD=HM_E.blood;
+      HM_ALLERGIES=HM_E.allergies.slice();
+      hmEditHide();
+      renderHmChild(); renderHmBlood(); renderHmAllergies();
+      var s=document.getElementById('hmBloodStat'); if(s) s.textContent=HM_BLOOD;
+      try{ updateWelcome(CURRENT_KEY); }catch(e){}
+      hToast('Profile updated ✓');
+    }
     var VSYR2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/></g></svg>';
     function hmShortMon(d){ var p=(''+d).trim().split(/\s+/); return p.length>=2?(p[0]+' '+p[1]):(''+d); }
     function renderHmVax(){
