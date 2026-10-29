@@ -1580,7 +1580,7 @@
           <div class="hm-panel" id="hmp-growth">
             <div class="hm-ov" style="--oc:#e0547c">
               <div class="hm-ov-top"><div class="hm-ov-h"><div class="hm-ov-t">Growth Overview</div></div></div>
-              <div class="hm-stats">
+              <div class="hm-stats" id="hmGrowthStats">
                 <div class="hm-stat"><div class="hm-stat-v">12.4<span>kg</span></div><div class="hm-stat-l">Weight</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+0.8 kg</div></div>
                 <div class="hm-stat"><div class="hm-stat-v">88<span>cm</span></div><div class="hm-stat-l">Height</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+2.1 cm</div></div>
                 <div class="hm-stat"><div class="hm-stat-v">50<span>cm</span></div><div class="hm-stat-l">Head Circ.</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+0.5 cm</div></div>
@@ -1923,11 +1923,7 @@
     function openPrivacy(){ closeProfileMenu(); document.getElementById('privacySheet').classList.add('open'); }
     function closePrivacy(){ document.getElementById('privacySheet').classList.remove('open'); }
     var HM_LABELS=['Jan','Feb','Mar','Apr','May','Jun'];
-    var HM_GROWTH={
-      weight:{vals:[8.0,9.1,9.4,10.4,11.3,12.4],unit:'kg'},
-      height:{vals:[68,73,76,80,84,88],unit:'cm'},
-      head:{vals:[43,45,46.5,48,49,50],unit:'cm'}
-    };
+    var HM_GROWTH;
     var HM_METRIC='weight';
     var HM_CHART_COL={
       weight:{a:'#e0547c',b:'#9b6fd0',area:'#d06bc9',halo:'#cf5bb0',guide:'#c98fbf'},
@@ -1935,27 +1931,99 @@
       head:{a:'#1fab8e',b:'#2a9bca',area:'#22aeb0',halo:'#1fab9c',guide:'#82cfc6'}
     };
     function hmMetric(m,el){ HM_METRIC=m; var ts=el.parentNode.querySelectorAll('.hm-mtab'); var col=HM_CHART_COL[m]||HM_CHART_COL.weight; for(var i=0;i<ts.length;i++){ ts[i].classList.remove('on'); ts[i].style.color=''; } el.classList.add('on'); el.style.color=col.a; renderHmChart(); }
-    var HM_VAX=[
-      {name:'Hepatitis B',age:'Birth',date:'15 Jul 2025',done:true},
-      {name:'DTaP, Hib, IPV, PCV13',age:'2 months',date:'18 Sep 2025',done:true},
-      {name:'DTaP, Hib, IPV, PCV13',age:'4 months',date:'20 Nov 2025',done:true},
-      {name:'DTaP, Hib, PCV13, Influenza',age:'6 months',date:'14 Jan 2026',done:true},
-      {name:'Hepatitis B (2nd dose)',age:'6 months',date:'14 Jan 2026',done:true},
-      {name:'Influenza',age:'9 months',date:'10 Apr 2026',done:true},
-      {name:'MMR (early)',age:'9 months',date:'10 Apr 2026',done:true},
-      {name:'MMR, Varicella, HepA, DTaP',age:'12 months',date:'15 Jul 2026',done:false},
-      {name:'HepA (2nd dose)',age:'18 months',date:'Jan 2027',done:false}
-    ];
-    var HM_VISITS=[
-      {title:'9-Month Well Visit',doctor:'Dr. Priya Menon',date:'12 May',sick:false},
-      {title:'Sick Visit — Ear Infection',doctor:'Dr. Priya Menon',date:'3 Apr',sick:true},
-      {title:'6-Month Well Visit',doctor:'Dr. Priya Menon',date:'14 Jan',sick:false},
-      {title:'Sick Visit — Cold',doctor:'Dr. S. Rao',date:'2 Dec',sick:true}
-    ];
+    var HM_VAX;
+    var HM_VISITS;
     function hmAgePretty(a){ if(!a) return ''; return a.replace(/\s*old\s*$/,'').replace(/\band\b/,'').replace(/months?\b/,'months').replace(/\s{2,}/g,' ').trim(); }
+    /* ---- Per-child health data (switches with the pager) ---- */
+    var HM_DATA={
+      mark:{
+        blood:'O+', allergies:['Peanuts'],
+        growth:{
+          weight:{vals:[8.0,9.1,9.4,10.4,11.3,12.4],unit:'kg',delta:'+0.8 kg'},
+          height:{vals:[68,73,76,80,84,88],unit:'cm',delta:'+2.1 cm'},
+          head:{vals:[43,45,46.5,48,49,50],unit:'cm',delta:'+0.5 cm'}
+        },
+        vax:[
+          {name:'Hepatitis B',age:'Birth',date:'15 Jul 2025',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',age:'2 months',date:'18 Sep 2025',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',age:'4 months',date:'20 Nov 2025',done:true},
+          {name:'DTaP, Hib, PCV13, Influenza',age:'6 months',date:'14 Jan 2026',done:true},
+          {name:'Hepatitis B (2nd dose)',age:'6 months',date:'14 Jan 2026',done:true},
+          {name:'Influenza',age:'9 months',date:'10 Apr 2026',done:true},
+          {name:'MMR (early)',age:'9 months',date:'10 Apr 2026',done:true},
+          {name:'MMR, Varicella, HepA, DTaP',age:'12 months',date:'15 Jul 2026',done:false},
+          {name:'HepA (2nd dose)',age:'18 months',date:'Jan 2027',done:false}
+        ],
+        visits:[
+          {title:'9-Month Well Visit',doctor:'Dr. Priya Menon',date:'12 May',sick:false},
+          {title:'Sick Visit — Ear Infection',doctor:'Dr. Priya Menon',date:'3 Apr',sick:true},
+          {title:'6-Month Well Visit',doctor:'Dr. Priya Menon',date:'14 Jan',sick:false},
+          {title:'Sick Visit — Cold',doctor:'Dr. S. Rao',date:'2 Dec',sick:true}
+        ],
+        notes:[
+          {summary:'Fever · Mild',tag:'Symptom',date:'24 Jun',c:'#ef7a66'},
+          {summary:'Food · Mild rash',tag:'Reaction',date:'10 Jun',c:'#f0a53c'},
+          {summary:'38.1°C · 9.6 kg',tag:'Measurement',date:'3 Jun',c:'#5a78d4'},
+          {summary:'7h · Good',tag:'Sleep',date:'28 May',c:'#8f7cff'}
+        ],
+        docs:[
+          {name:'Birth Certificate',meta:'Added 18 Jul 2025',fmt:'PDF',c:'#b05fd6'},
+          {name:'Insurance Card',meta:'Added 2 Aug 2025',fmt:'JPG',c:'#3f8fd0'},
+          {name:'Vaccine Card',meta:'Updated 10 Apr 2026',fmt:'PDF',c:'#1fb0a4'}
+        ]
+      },
+      lily:{
+        blood:'A+', allergies:['Dairy','Eggs'],
+        growth:{
+          weight:{vals:[13.5,14.2,15.0,15.6,16.3,17.0],unit:'kg',delta:'+0.7 kg'},
+          height:{vals:[96,99,101,103,105,106],unit:'cm',delta:'+1.8 cm'},
+          head:{vals:[48.5,49,49.3,49.6,49.8,50.2],unit:'cm',delta:'+0.3 cm'}
+        },
+        vax:[
+          {name:'Hepatitis B',age:'Birth',date:'10 Jun 2021',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',age:'2 months',date:'15 Aug 2021',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',age:'4 months',date:'18 Oct 2021',done:true},
+          {name:'DTaP, Hib, PCV13',age:'6 months',date:'20 Dec 2021',done:true},
+          {name:'MMR, Varicella',age:'12 months',date:'14 Jun 2022',done:true},
+          {name:'Hib, PCV13 booster',age:'15 months',date:'10 Sep 2022',done:true},
+          {name:'DTaP booster',age:'18 months',date:'12 Dec 2022',done:true},
+          {name:'Hepatitis A',age:'2 years',date:'15 Jun 2023',done:true},
+          {name:'Influenza (annual)',age:'3 years',date:'10 Oct 2024',done:true},
+          {name:'DTaP, IPV, MMR booster',age:'4–6 years',date:'Due Aug 2026',done:false}
+        ],
+        visits:[
+          {title:'4-Year Well Visit',doctor:'Dr. Priya Menon',date:'8 Jun',sick:false},
+          {title:'Sick Visit — Flu',doctor:'Dr. S. Rao',date:'20 Feb',sick:true},
+          {title:'Dental Check-up',doctor:'Dr. A. Kapoor',date:'5 Jan',sick:false}
+        ],
+        notes:[
+          {summary:'Cough · Mild',tag:'Symptom',date:'18 Jun',c:'#ef7a66'},
+          {summary:'106 cm · 17 kg',tag:'Measurement',date:'8 Jun',c:'#5a78d4'},
+          {summary:'Playground scrape',tag:'Observation',date:'22 May',c:'#1fb0a4'}
+        ],
+        docs:[
+          {name:'Birth Certificate',meta:'Added 12 Jun 2021',fmt:'PDF',c:'#b05fd6'},
+          {name:'School Health Form',meta:'Added 1 Sep 2025',fmt:'PDF',c:'#3f8fd0'}
+        ]
+      }
+    };
+    function hmLoadChildData(key){
+      var d=HM_DATA[key]||HM_DATA.mark; if(!d) return;
+      HM_GROWTH=d.growth; HM_VAX=d.vax; HM_VISITS=d.visits; HM_NOTES=d.notes; HM_DOCS=d.docs;
+      HM_BLOOD=d.blood; HM_ALLERGIES=d.allergies;
+    }
+    function renderHmGrowthStats(){
+      var el=document.getElementById('hmGrowthStats'); if(!el||!HM_GROWTH) return;
+      var up='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+      var rows=[['weight','Weight'],['height','Height'],['head','Head Circ.']];
+      el.innerHTML=rows.map(function(r){ var g=HM_GROWTH[r[0]]||{vals:[0],unit:''}; var cur=g.vals[g.vals.length-1]; return '<div class="hm-stat"><div class="hm-stat-v">'+cur+'<span>'+g.unit+'</span></div><div class="hm-stat-l">'+r[1]+'</div><div class="hm-stat-d">'+up+(g.delta||'')+'</div></div>'; }).join('');
+    }
+    hmLoadChildData('mark');
     function hmProfCardHtml(key){
       var c=CHILDREN[key]||{};
-      var alg=(HM_ALLERGIES&&HM_ALLERGIES.length)?HM_ALLERGIES.join(', '):'No known allergies';
+      var d=HM_DATA[key]||{};
+      var blood=d.blood||HM_BLOOD||'';
+      var alg=(d.allergies&&d.allergies.length)?d.allergies.join(', '):'No known allergies';
       var bg=c.photo?("background-image:url('"+c.photo+"')"):'';
       return '<div class="hm-prof" data-key="'+key+'">'+
           '<div class="hm-prof-av">'+
@@ -1964,7 +2032,7 @@
           '</div>'+
           '<div class="hm-prof-name">'+(c.name||'Baby')+'</div>'+
           '<div class="hm-prof-age">'+hmAgePretty(c.age)+'</div>'+
-          '<button class="hm-prof-health" onclick="hmTab(\'profile\')" aria-label="Health Profile"><span class="hm-prof-health-tx"><b>'+HM_BLOOD+'</b> · '+alg+'</span></button>'+
+          '<button class="hm-prof-health" onclick="hmTab(\'profile\')" aria-label="Health Profile"><span class="hm-prof-health-tx"><b>'+blood+'</b> · '+alg+'</span></button>'+
         '</div>';
     }
     function renderHmChild(){
@@ -1997,11 +2065,12 @@
     /* update the active child everywhere EXCEPT rebuilding the slider (preserves scroll position) */
     function hmSelectChild(key){
       try{ selectChild(key); }catch(e){}
+      hmLoadChildData(key);
       var dots=document.getElementById('hmProfDots');
       if(dots){ var ks=Object.keys(CHILDREN); Array.prototype.forEach.call(dots.children,function(d,i){ d.classList.toggle('on', ks[i]===key); }); }
-      renderHmHub(); renderHmChart(); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies();
+      renderHmHub(); renderHmGrowthStats(); renderHmChart(); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies();
     }
-    function openHealthMonitor(){ closeProfileMenu(); hmTabReset(); renderHmChild(); renderHmHub(); document.getElementById('hmSheet').classList.add('open'); renderHmChart(); setTimeout(renderHmChart,30); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies(); }
+    function openHealthMonitor(){ closeProfileMenu(); hmLoadChildData(CURRENT_KEY); hmTabReset(); renderHmChild(); renderHmHub(); renderHmGrowthStats(); document.getElementById('hmSheet').classList.add('open'); renderHmChart(); setTimeout(renderHmChart,30); renderHmVax(); renderHmVisits(); renderHmNotes(); renderHmDocs(); renderHmBlood(); renderHmAllergies(); }
     /* ---- Glanceable hub list ---- */
     var HMI={
       drop:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2s6 6.3 6 10.3a6 6 0 0 1-12 0C6 9.5 12 3.2 12 3.2z"/></svg>',
@@ -2057,12 +2126,7 @@
       if(key==='growth') setTimeout(renderHmChart,30);
     }
     /* ---- Health Notes ---- */
-    var HM_NOTES=[
-      {summary:'Fever · Mild',tag:'Symptom',date:'24 Jun',c:'#ef7a66'},
-      {summary:'Food · Mild rash',tag:'Reaction',date:'10 Jun',c:'#f0a53c'},
-      {summary:'38.1°C · 9.6 kg',tag:'Measurement',date:'3 Jun',c:'#5a78d4'},
-      {summary:'7h · Good',tag:'Sleep',date:'28 May',c:'#8f7cff'}
-    ];
+    var HM_NOTES;
     var HM_NOTE_IC={Symptom:'<path d="M13 15.3V5a1.5 1.5 0 0 0-3 0v10.3a3 3 0 1 0 3 0z"/><path d="M11.5 8.5v4"/>',Measurement:'<path d="M15.5 3.4 20.6 8.5a1 1 0 0 1 0 1.4L9.9 20.6a1 1 0 0 1-1.4 0L3.4 15.5a1 1 0 0 1 0-1.4L14.1 3.4a1 1 0 0 1 1.4 0z"/><path d="M7.5 11 9 12.5"/>',Observation:'<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>',Sleep:'<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>',Feed:'<rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/>',Reaction:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'};
     function renderHmNotes(){
       var t=document.getElementById('hmNoteTot'); if(t) t.textContent=HM_NOTES.length;
@@ -2124,11 +2188,7 @@
       renderHmNotes(); hmNoteHide(); hToast('Note added ✓');
     }
     /* ---- Documents ---- */
-    var HM_DOCS=[
-      {name:'Birth Certificate',meta:'Added 18 Jul 2025',fmt:'PDF',c:'#b05fd6'},
-      {name:'Insurance Card',meta:'Added 2 Aug 2025',fmt:'JPG',c:'#3f8fd0'},
-      {name:'Vaccine Card',meta:'Updated 10 Apr 2026',fmt:'PDF',c:'#1fb0a4'}
-    ];
+    var HM_DOCS;
     var HM_DOCIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" fill-opacity=".18" d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg>';
     function renderHmDocs(){
       var el=document.getElementById('hmDocList'); if(!el) return;
@@ -2157,14 +2217,14 @@
     }
     /* ---- Blood type + Allergies ---- */
     var HM_BLOOD_TYPES=['A+','A−','B+','B−','O+','O−','AB+','AB−'];
-    var HM_BLOOD='O+';
+    var HM_BLOOD;
     function renderHmBlood(){
       var el=document.getElementById('hmBtGrid'); if(!el) return;
       el.innerHTML=HM_BLOOD_TYPES.map(function(bt){ return '<button class="hm-btchip'+(bt===HM_BLOOD?' on':'')+'" onclick="hmBloodSel(\''+bt+'\')">'+bt+'</button>'; }).join('');
     }
     function hmBloodSel(bt){ HM_BLOOD=bt; renderHmBlood(); var s=document.getElementById('hmBloodStat'); if(s) s.textContent=bt; }
     var HM_ALG_SUGGEST=['Peanuts','Tree nuts','Dairy','Eggs','Soy','Wheat','Fish','Shellfish'];
-    var HM_ALLERGIES=['Peanuts'];
+    var HM_ALLERGIES;
     function renderHmAllergies(){
       var c=document.getElementById('hmAlgCount'); if(c) c.textContent=HM_ALLERGIES.length;
       var el=document.getElementById('hmAllergyChips'); if(!el) return;
@@ -2203,6 +2263,7 @@
         var db=(document.getElementById('hmEditDob').value||'').trim(); if(db) c.age=db;
         if(HM_E.photo) c.photo=HM_E.photo;
       }
+      var dd=HM_DATA[CURRENT_KEY]; if(dd){ dd.blood=HM_E.blood; dd.allergies=HM_E.allergies.slice(); }
       HM_BLOOD=HM_E.blood;
       HM_ALLERGIES=HM_E.allergies.slice();
       hmEditHide();
@@ -2263,7 +2324,7 @@
       var W=HM_GROWTH.weight.vals, H=HM_GROWTH.height.vals, HC=HM_GROWTH.head.vals;
       W.push(wt||W[W.length-1]); H.push(ht||H[H.length-1]); HC.push(HC[HC.length-1]); HM_LABELS.push(lab||('M'+HM_LABELS.length));
       [W,H,HC,HM_LABELS].forEach(function(a){ if(a.length>7) a.shift(); });
-      renderHmChart(); hmAddHide(); hToast('Growth entry added ✓');
+      renderHmChart(); renderHmGrowthStats(); hmAddHide(); hToast('Growth entry added ✓');
     }
     function renderHmChart(){
       var el=document.getElementById('hmChart'); if(!el) return;
