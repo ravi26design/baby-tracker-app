@@ -899,9 +899,13 @@
   .hm-sec-grab{width:40px;height:5px;border-radius:3px;background:#e4ddee;margin:10px auto 2px;flex-shrink:0;}
   .hm-sec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 22px 12px;flex-shrink:0;}
   .hm-sec-head span{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .hm-sec-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .hm-sec-x{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:#f1ecf8;color:#8a8296;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s;}
   .hm-sec-x:active{transform:scale(.92);}
   .hm-sec-x svg{width:15px;height:15px;}
+  .hm-sec-add{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 5px 12px -5px rgba(120,90,160,.6);transition:transform .12s;}
+  .hm-sec-add:active{transform:scale(.92);}
+  .hm-sec-add svg{width:16px;height:16px;}
   .hm-sec-body{flex:1;min-height:0;overflow-y:auto;padding:0 22px 28px;}
   .hm-sec-body::-webkit-scrollbar{display:none;}
   .hm-sec-body .hm-ov{box-shadow:none;padding:0;background:transparent;}
@@ -1589,7 +1593,7 @@
         <div class="hm-secbd" id="hmSecBd" onclick="hmCloseSec()"></div>
         <div class="hm-sec" id="hmSec">
           <div class="hm-sec-grab"></div>
-          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><button class="hm-sec-x" onclick="hmCloseSec()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><div class="hm-sec-actions"><button class="hm-sec-add" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button><button class="hm-sec-x" onclick="hmCloseSec()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>
           <div class="hm-sec-body">
 
           <!-- Vaccination tab -->
@@ -2031,9 +2035,14 @@
     var HM_SEC_TITLE={vac:'Vaccination',visits:'Doctor Visits',records:'Health Notes',profile:'Health Profile',documents:'Documents'};
     function hmTabReset(){ hmCloseForms(); var s=document.getElementById('hmSec'); if(s) s.classList.remove('open'); var b=document.getElementById('hmSecBd'); if(b) b.classList.remove('show'); HM_SEC_KEYS.forEach(function(k){ var p=document.getElementById('hmp-'+k); if(p) p.style.display='none'; }); var body=document.getElementById('hmSheet'); var sb=body?body.querySelector('.hm-body'):null; if(sb) sb.scrollTop=0; }
     function hmCloseSec(){ hmCloseForms(); var s=document.getElementById('hmSec'); if(s) s.classList.remove('open'); var b=document.getElementById('hmSecBd'); if(b) b.classList.remove('show'); }
+    var HM_SEC_CUR=null;
+    var HM_SEC_ADD={records:hmNoteShow,visits:hmVisitShow,documents:hmDocShow};
+    function hmSecAdd(){ var fn=HM_SEC_ADD[HM_SEC_CUR]; if(typeof fn==='function') fn(); }
     function hmTab(key){
+      HM_SEC_CUR=key;
       HM_SEC_KEYS.forEach(function(k){ var p=document.getElementById('hmp-'+k); if(p) p.style.display=(k===key)?'':'none'; });
       var t=document.getElementById('hmSecTitle'); if(t) t.textContent=HM_SEC_TITLE[key]||'';
+      var add=document.getElementById('hmSecAdd'); if(add) add.style.display=HM_SEC_ADD[key]?'':'none';
       if(key==='growth') renderHmChart(); else if(key==='vac') renderHmVax(); else if(key==='visits') renderHmVisits(); else if(key==='records') renderHmNotes(); else if(key==='documents') renderHmDocs(); else if(key==='profile'){ renderHmBlood(); renderHmAllergies(); }
       var s=document.getElementById('hmSec'); if(s) s.classList.add('open');
       var b=document.getElementById('hmSecBd'); if(b) b.classList.add('show');
