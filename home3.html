@@ -1603,7 +1603,7 @@
         <div class="hm-secbd" id="hmSecBd" onclick="hmCloseSec()"></div>
         <div class="hm-sec" id="hmSec">
           <div class="hm-sec-grab"></div>
-          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><div class="hm-sec-actions"><button class="hm-sec-add" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button><button class="hm-sec-x" onclick="hmCloseSec()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>
+          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><div class="hm-sec-actions"><button class="hm-sec-add" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
           <div class="hm-sec-body">
 
           <!-- Vaccination tab -->
@@ -1932,12 +1932,13 @@
     var HM_LABELS=['Jan','Feb','Mar','Apr','May','Jun'];
     var HM_GROWTH;
     var HM_METRIC='weight';
+    var HM_CHART_SEL=null;
     var HM_CHART_COL={
       weight:{a:'#e0547c',b:'#9b6fd0',area:'#d06bc9',halo:'#cf5bb0',guide:'#c98fbf'},
       height:{a:'#3f8fd0',b:'#6a62d8',area:'#4f8fd8',halo:'#4f7fd0',guide:'#95a9e0'},
       head:{a:'#1fab8e',b:'#2a9bca',area:'#22aeb0',halo:'#1fab9c',guide:'#82cfc6'}
     };
-    function hmMetric(m,el){ HM_METRIC=m; var ts=el.parentNode.querySelectorAll('.hm-mtab'); var col=HM_CHART_COL[m]||HM_CHART_COL.weight; for(var i=0;i<ts.length;i++){ ts[i].classList.remove('on'); ts[i].style.color=''; } el.classList.add('on'); el.style.color=col.a; renderHmChart(); }
+    function hmMetric(m,el){ HM_METRIC=m; HM_CHART_SEL=null; var ts=el.parentNode.querySelectorAll('.hm-mtab'); var col=HM_CHART_COL[m]||HM_CHART_COL.weight; for(var i=0;i<ts.length;i++){ ts[i].classList.remove('on'); ts[i].style.color=''; } el.classList.add('on'); el.style.color=col.a; renderHmChart(); }
     var HM_VAX;
     var HM_VISITS;
     function hmAgePretty(a){ if(!a) return ''; return a.replace(/\s*old\s*$/,'').replace(/\band\b/,'').replace(/months?\b/,'months').replace(/\s{2,}/g,' ').trim(); }
@@ -2017,7 +2018,7 @@
     function hmLoadChildData(key){
       var d=HM_DATA[key]||HM_DATA.mark; if(!d) return;
       HM_GROWTH=d.growth; HM_VAX=d.vax; HM_VISITS=d.visits; HM_NOTES=d.notes; HM_DOCS=d.docs;
-      HM_BLOOD=d.blood; HM_ALLERGIES=d.allergies;
+      HM_BLOOD=d.blood; HM_ALLERGIES=d.allergies; HM_CHART_SEL=null;
     }
     function renderHmGrowthStats(){
       var el=document.getElementById('hmGrowthStats'); if(!el||!HM_GROWTH) return;
@@ -2110,7 +2111,7 @@
       note:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 6a2.5 2.5 0 0 1 2.5-2.5h10A2.5 2.5 0 0 1 19.5 6v7a2.5 2.5 0 0 1-2.5 2.5h-4.2L8 20.2V15.5H7A2.5 2.5 0 0 1 4.5 13z"/><path d="M8.5 9.4h7M8.5 12.4h4.5"/></svg>',
       bag:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M12 11v4M10 13h4"/></svg>',
       doc:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg>',
-      syr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".2" x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg>'
+      syr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg>'
     };
     function hmSpark(vals,color){
       var n=vals.length,mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),sp=(mx-mn)||1,W=52,H=26;
@@ -2155,7 +2156,24 @@
       var s=document.getElementById('hmSec'); if(s) s.classList.add('open');
       var b=document.getElementById('hmSecBd'); if(b) b.classList.add('show');
       var sb=s?s.querySelector('.hm-sec-body'):null; if(sb) sb.scrollTop=0;
+      hmWireSecDismiss();
       if(key==='growth') setTimeout(renderHmChart,30);
+    }
+    /* close the section sheet on a pull-down (drag/scroll down while at the top) */
+    function hmWireSecDismiss(){
+      var s=document.getElementById('hmSec'); if(!s||s._dw) return;
+      var sb=s.querySelector('.hm-sec-body'); if(!sb) return; s._dw=true;
+      var startY=null;
+      sb.addEventListener('touchstart',function(e){ startY=sb.scrollTop<=0?e.touches[0].clientY:null; },{passive:true});
+      sb.addEventListener('touchmove',function(e){ if(startY==null) return; if(sb.scrollTop<=0 && e.touches[0].clientY-startY>72){ startY=null; hmCloseSec(); } },{passive:true});
+      sb.addEventListener('touchend',function(){ startY=null; },{passive:true});
+      sb.addEventListener('wheel',function(e){ if(sb.scrollTop<=0 && e.deltaY<-42){ hmCloseSec(); } },{passive:true});
+      // dragging the grab handle down also closes
+      var grab=s.querySelector('.hm-sec-grab');
+      if(grab){ var gy=null;
+        grab.addEventListener('touchstart',function(e){ gy=e.touches[0].clientY; },{passive:true});
+        grab.addEventListener('touchmove',function(e){ if(gy!=null && e.touches[0].clientY-gy>46){ gy=null; hmCloseSec(); } },{passive:true});
+      }
     }
     /* ---- Health Notes ---- */
     var HM_NOTES;
@@ -2373,27 +2391,31 @@
       // soft baseline gridlines (Apple Health style)
       var GL=3, grid='';
       for(var gi=0;gi<=GL;gi++){ var gy=(padT+cH*gi/GL).toFixed(1); grid+='<line x1="'+padL+'" y1="'+gy+'" x2="'+(padL+cW).toFixed(1)+'" y2="'+gy+'" stroke="#f1eff7" stroke-width="1"/>'; }
-      // intermediate points: clean white nodes with a coloured ring
-      var dots=pts.map(function(p,i){ return i===last?'':'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#fff" stroke="url(#hml)" stroke-width="2.4"/>'; }).join('');
-      // latest point: dotted guide + halo + ring + value bubble
-      var lp=pts[last];
+      // selected point — defaults to the latest; tap any node to move it
+      var sel=(HM_CHART_SEL==null||HM_CHART_SEL<0||HM_CHART_SEL>last)?last:HM_CHART_SEL;
+      // intermediate points: clean white nodes with a coloured ring (skip the selected one)
+      var dots=pts.map(function(p,i){ return i===sel?'':'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#fff" stroke="url(#hml)" stroke-width="2.4"/>'; }).join('');
+      // selected point: dotted guide + halo + ring + value bubble
+      var lp=pts[sel];
       var guide='<line x1="'+lp[0].toFixed(1)+'" y1="'+(lp[1]+7).toFixed(1)+'" x2="'+lp[0].toFixed(1)+'" y2="'+base+'" stroke="'+col.guide+'" stroke-width="1.4" stroke-dasharray="2 3.5" opacity=".6"/>';
       var halo='<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="9.5" fill="'+col.halo+'" opacity=".13"/>';
-      var lastDot='<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="5" fill="#fff" stroke="url(#hml)" stroke-width="3"/>';
-      var valTxt=vals[last]+' '+unit;
+      var selDot='<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="5" fill="#fff" stroke="url(#hml)" stroke-width="3"/>';
+      var valTxt=vals[sel]+' '+unit;
       var pillW=valTxt.length*6.2+16, pillH=20, pillX=Math.max(padL, Math.min(W-padR-pillW, lp[0]-pillW/2)), pillY=Math.max(2, lp[1]-pillH-11);
       var pill='<g><rect x="'+pillX.toFixed(1)+'" y="'+pillY.toFixed(1)+'" width="'+pillW.toFixed(1)+'" height="'+pillH+'" rx="'+(pillH/2)+'" fill="#3a2f44"/><text x="'+(pillX+pillW/2).toFixed(1)+'" y="'+(pillY+pillH/2+3.6).toFixed(1)+'" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="800" font-family="inherit" letter-spacing="-.1">'+valTxt+'</text></g>';
-      var labs=labels.map(function(l,i){return '<text x="'+x(i).toFixed(1)+'" y="'+(H-6)+'" font-size="9.5" fill="#b3aac2" text-anchor="middle" font-weight="600" font-family="inherit">'+l+'</text>';}).join('');
+      var labs=labels.map(function(l,i){return '<text x="'+x(i).toFixed(1)+'" y="'+(H-6)+'" font-size="9.5" fill="'+(i===sel?'#6c6478':'#b3aac2')+'" text-anchor="middle" font-weight="'+(i===sel?'800':'600')+'" font-family="inherit">'+l+'</text>';}).join('');
+      // transparent tap targets over every point
+      var hits=pts.map(function(p,i){ return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="15" fill="transparent" style="cursor:pointer" onclick="hmChartPoint('+i+')"/>'; }).join('');
       el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="100%" preserveAspectRatio="none" style="display:block"><defs>'+
         '<linearGradient id="hmg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+col.area+'" stop-opacity=".30"/><stop offset=".5" stop-color="'+col.b+'" stop-opacity=".10"/><stop offset="1" stop-color="'+col.b+'" stop-opacity="0"/></linearGradient>'+
         '<linearGradient id="hml" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="'+col.a+'"/><stop offset="1" stop-color="'+col.b+'"/></linearGradient>'+
-        '<filter id="hmGlow" x="-15%" y="-25%" width="130%" height="160%"><feDropShadow dx="0" dy="3.5" stdDeviation="4.5" flood-color="'+col.b+'" flood-opacity="0.28"/></filter>'+
         '</defs>'+
         grid+
         '<path d="'+area+'" fill="url(#hmg)"/>'+
-        '<path d="'+line+'" fill="none" stroke="url(#hml)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#hmGlow)"/>'+
-        dots+guide+halo+lastDot+pill+labs+'</svg>';
+        '<path d="'+line+'" fill="none" stroke="url(#hml)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>'+
+        dots+guide+halo+selDot+pill+labs+hits+'</svg>';
     }
+    function hmChartPoint(i){ HM_CHART_SEL=i; renderHmChart(); }
     function openNotif(){ document.getElementById('notifSheet').classList.add('open'); var b=document.getElementById('notifDot'); if(b) b.style.display='none'; }
     function closeNotif(){ document.getElementById('notifSheet').classList.remove('open'); }
     var _hT; function hToast(msg){ var t=document.getElementById('hToast'); if(!t) return; t.textContent=msg; t.classList.add('show'); clearTimeout(_hT); _hT=setTimeout(function(){ t.classList.remove('show'); },1900); }
