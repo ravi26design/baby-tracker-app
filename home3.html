@@ -861,7 +861,7 @@
   .hm-prof-slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:12px;}
   .hm-prof-slider::-webkit-scrollbar{display:none;}
   .hm-prof-slider .hm-prof{flex:0 0 100%;scroll-snap-align:center;margin:0;}
-  .hm-prof-dots{display:flex;justify-content:center;align-items:center;gap:7px;margin:16px 0 34px;}
+  .hm-prof-dots{display:flex;justify-content:center;align-items:center;gap:7px;margin:12px 0 2px;}
   .hm-prof-dots:empty{display:none;}
   .hm-prof-dots .hm-dot{width:7px;height:7px;border-radius:50%;border:none;padding:0;cursor:pointer;background:rgba(139,116,181,.28);transition:width .22s,background .22s;}
   .hm-prof-dots .hm-dot.on{width:20px;background:#8574b5;}
@@ -1570,6 +1570,7 @@
           <!-- Child profile header (swipeable, one card per child) -->
           <div class="hm-prof-wrap">
             <div class="hm-prof-slider" id="hmProfSlider"></div>
+            <div class="hm-prof-dots" id="hmProfDots"></div>
           </div>
 
           <div class="hm-hub" id="hmHub"></div>
@@ -1588,9 +1589,6 @@
               <button class="hm-add" id="hmAddBtn" onclick="hmAddShow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Growth</button>
             </div>
           </div>
-
-          <!-- Child pager dots (below all info) -->
-          <div class="hm-prof-dots" id="hmProfDots"></div>
         </div>
 
         <!-- Section bottom sheet -->
