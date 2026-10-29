@@ -727,14 +727,14 @@
   .pf-sheet::-webkit-scrollbar{display:none;}
   .pf-sheet-layer.open .pf-sheet{transform:none;}
   /* Health Monitoring = full screen tab (appears like a page, no slide-up/backdrop) */
-  #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:0 22px 0;display:flex;flex-direction:column;overflow:hidden;transform:none;transition:none;}
-  #hmSheet .statusbar{flex-shrink:0;margin:0 -22px;}
-  #hmSheet .hm-head{margin:10px 0 4px;padding:0 4px;}
+  #hmSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:0 16px 0;display:flex;flex-direction:column;overflow:hidden;transform:none;transition:none;}
+  #hmSheet .statusbar{flex-shrink:0;margin:0 -16px;}
+  #hmSheet .hm-head{margin:10px 0 4px;padding:0;}
   #hmSheet .ss-title{font-size:23px;letter-spacing:-.5px;}
   #hmSheet .pf-sheet-bd{display:none;}
   #hmSheet .grabber-x{display:none;}
   #hmSheet .ss-head,#hmSheet .hm-fixed{flex-shrink:0;}
-  #hmSheet .hm-feats{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}
+  #hmSheet .hm-feats{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;}
   #hmSheet .hm-body{flex:1;min-height:0;overflow-y:auto;padding-bottom:118px;}
   /* in-sheet bottom nav sits inside the Health screen's stacking context so section sheets cover it */
   #hmSheet .hm-nav,#hmSheet .hm-navadd,#hmSheet .hm-hi{position:absolute;}
@@ -897,7 +897,7 @@
   .hm-sec{position:absolute;left:0;right:0;bottom:0;z-index:84;background:#fff;border-radius:28px 28px 0 0;max-height:90%;display:flex;flex-direction:column;transform:translateY(110%);transition:transform .36s cubic-bezier(.32,.72,0,1);box-shadow:0 -14px 44px -14px rgba(90,60,70,.3);}
   .hm-sec.open{transform:translateY(0);}
   .hm-sec-grab{width:40px;height:5px;border-radius:3px;background:#e4ddee;margin:10px auto 2px;flex-shrink:0;}
-  .hm-sec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 22px 12px;flex-shrink:0;}
+  .hm-sec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 16px 12px;flex-shrink:0;}
   .hm-sec-head span{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
   .hm-sec-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .hm-sec-x{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:#f1ecf8;color:#8a8296;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s;}
@@ -906,7 +906,7 @@
   .hm-sec-add{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s;}
   .hm-sec-add:active{transform:scale(.92);}
   .hm-sec-add svg{width:16px;height:16px;}
-  .hm-sec-body{flex:1;min-height:0;overflow-y:auto;padding:0 22px 28px;}
+  .hm-sec-body{flex:1;min-height:0;overflow-y:auto;padding:0 16px 28px;}
   .hm-sec-body::-webkit-scrollbar{display:none;}
   .hm-sec-body .hm-ov{box-shadow:none;padding:0;background:transparent;}
   .hm-sec-body .hm-ov-top{display:none;}
@@ -1004,7 +1004,7 @@
   .hm-add:active{transform:scale(.99);}
   .hm-add svg{width:16px;height:16px;}
   .hm-addf{margin-top:12px;display:none;}
-  .hm-addf.open{display:block;position:absolute;left:0;right:0;bottom:0;z-index:92;margin:0;max-height:84%;overflow-y:auto;background:#fff;border-radius:26px 26px 0 0;padding:12px 22px 26px;box-shadow:0 -16px 44px -14px rgba(90,60,70,.34);animation:hmSlideUp .32s cubic-bezier(.32,.72,0,1);}
+  .hm-addf.open{display:block;position:absolute;left:0;right:0;bottom:0;z-index:92;margin:0;max-height:84%;overflow-y:auto;background:#fff;border-radius:26px 26px 0 0;padding:12px 16px 26px;box-shadow:0 -16px 44px -14px rgba(90,60,70,.34);animation:hmSlideUp .32s cubic-bezier(.32,.72,0,1);}
   .hm-addf.open::-webkit-scrollbar{display:none;}
   .hm-nlbl{font-size:13px;font-weight:800;color:var(--ink);margin:4px 2px 11px;letter-spacing:-.1px;}
   .hm-nchips{display:flex;flex-wrap:wrap;gap:9px;}
