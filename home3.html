@@ -886,6 +886,8 @@
   .hm-prof-tx{min-width:0;display:flex;flex-direction:column;}
   .hm-prof-tl{display:block;font-size:10.5px;font-weight:600;color:#a99fbb;letter-spacing:-.1px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .hm-prof-tv{display:block;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;line-height:1.15;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-prof-tile--wide{grid-column:1 / -1;}
+  .hm-prof-tile--wide .hm-prof-tv{white-space:normal;}
   /* next vaccination card */
   .hm-next{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:none;cursor:pointer;background:#fff;border-radius:20px;padding:14px 15px;margin-top:14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);transition:transform .12s;}
   .hm-next:active{transform:scale(.99);}
@@ -2029,7 +2031,8 @@
       female:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="5.2"/><path d="M12 13.7V21M8.6 18h6.8"/></svg>',
       blood:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.1 6 10.2a6 6 0 0 1-12 0C6 9.1 12 3 12 3z"/></svg>',
       weight:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="4.5"/><path d="M8 10.5a4 4 0 0 1 8 0"/><path d="M12 10.5l2.4-1.8"/></svg>',
-      height:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="10" rx="2.6"/><path d="M7.5 7v3M11 7v4M14.5 7v3M18 7v4"/></svg>'
+      height:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="10" rx="2.6"/><path d="M7.5 7v3M11 7v4M14.5 7v3M18 7v4"/></svg>',
+      allergy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.2 2.6 17.5a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4"/><path d="M12 17h.01"/></svg>'
     };
     function hmProfTile(tc,ic,label,val){
       return '<div class="hm-prof-tile"><span class="hm-prof-tico" style="--tc:'+tc+'">'+ic+'</span>'+
@@ -2044,6 +2047,7 @@
       var fem=/^f/i.test(gender);
       var wt=(g.weight&&g.weight.vals&&g.weight.vals.length)?(g.weight.vals[g.weight.vals.length-1]+' '+(g.weight.unit||'')):(c.weight||'—');
       var ht=(g.height&&g.height.vals&&g.height.vals.length)?(g.height.vals[g.height.vals.length-1]+' '+(g.height.unit||'')):'—';
+      var alg=(d.allergies&&d.allergies.length)?d.allergies.join(', '):'None';
       var bg=c.photo?("background-image:url('"+c.photo+"')"):'';
       return '<div class="hm-prof" data-key="'+key+'">'+
           '<div class="hm-prof-top">'+
@@ -2061,6 +2065,7 @@
             hmProfTile('#d1799a',HM_PI.blood,'Blood Type',blood)+
             hmProfTile('#5f8bd6',HM_PI.weight,'Weight',wt)+
             hmProfTile('#4fa98c',HM_PI.height,'Height',ht)+
+            '<div class="hm-prof-tile hm-prof-tile--wide"><span class="hm-prof-tico" style="--tc:#e0955a">'+HM_PI.allergy+'</span><span class="hm-prof-tx"><span class="hm-prof-tl">Allergies</span><span class="hm-prof-tv">'+alg+'</span></span></div>'+
           '</div>'+
         '</div>';
     }
