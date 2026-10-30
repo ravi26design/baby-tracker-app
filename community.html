@@ -1369,7 +1369,12 @@
           .pay-in-wrap{position:relative;margin-bottom:14px;}
           .pay-in-wrap input{margin-bottom:0;}
           .pay-brand{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:800;color:#8574b5;letter-spacing:.3px;}
-          .pay-verify{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:none;background:#efe9f8;color:#7a68ad;font-family:inherit;font-weight:800;font-size:12.5px;padding:9px 13px;border-radius:10px;cursor:pointer;}
+          .pay-verify{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:none;background:#efe9f8;color:#7a68ad;font-family:inherit;font-weight:800;font-size:12.5px;padding:9px 13px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+          .pay-verify svg{width:13px;height:13px;}
+          .pay-verify.ok{background:#e3f5ec;color:#2fa96f;}
+          .pay-upi-ok{display:none;align-items:center;gap:6px;margin:-6px 2px 14px;font-size:12px;font-weight:700;color:#2fa96f;}
+          .pay-upi-ok.show{display:flex;}
+          .pay-upi-ok svg{width:14px;height:14px;}
           .pay-row2{display:flex;gap:12px;}
           .pay-row2>div{flex:1;}
           .pay-or{text-align:center;font-size:12px;font-weight:600;color:#a99fbb;margin:4px 0 13px;}
@@ -1426,7 +1431,8 @@
             </div>
             <div class="pay-form" id="payUpiForm" style="display:none">
               <label>UPI ID</label>
-              <div class="pay-in-wrap"><input id="payUpi" autocomplete="off" placeholder="yourname@bank" style="padding-right:84px"><button class="pay-verify" onclick="showToast('UPI ID verified ✓')">Verify</button></div>
+              <div class="pay-in-wrap"><input id="payUpi" autocomplete="off" placeholder="yourname@bank" style="padding-right:104px" oninput="payUpiEdited()"><button class="pay-verify" id="payUpiVerify" onclick="payVerifyUpi()">Verify</button></div>
+              <div class="pay-upi-ok" id="payUpiOk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 7"/></svg><span id="payUpiOkName">Verified</span></div>
               <div class="pay-or">or pay using an app</div>
               <div class="pay-apps">
                 <button onclick="payPickApp('Google Pay')"><span class="pay-logo"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#fff"/><g transform="translate(9 9) scale(.625)"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></g></svg></span>Google Pay</button>
@@ -2160,6 +2166,7 @@
       document.getElementById('payCta').textContent='Pay £'+PAY_FEE;
       ['payCardNum','payExp','payCvv','payName','payUpi'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; });
       var br=document.getElementById('payBrand'); if(br) br.textContent='';
+      payUpiReset();
       payMethod('credit');
       var st=document.getElementById('payStatus'); st.classList.remove('show','success');
       var pn=document.querySelector('#paySheet .pay-panel'); if(pn) pn.scrollTop=0;
@@ -2177,7 +2184,21 @@
     function payFmtCard(el){ var v=el.value.replace(/\D/g,'').slice(0,16); el.value=v.replace(/(.{4})/g,'$1 ').trim(); payBrand(v); }
     function payBrand(v){ var b=''; if(/^4/.test(v))b='VISA'; else if(/^(5[1-5]|2[2-7])/.test(v))b='MASTERCARD'; else if(/^3[47]/.test(v))b='AMEX'; else if(/^(6|8)/.test(v))b='RuPay'; var el=document.getElementById('payBrand'); if(el) el.textContent=b; }
     function payFmtExp(el){ var v=el.value.replace(/\D/g,'').slice(0,4); if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2); el.value=v; }
-    function payPickApp(name){ var u=document.getElementById('payUpi'); if(u) u.value=''; payGo(name); }
+    function payPickApp(name){ var u=document.getElementById('payUpi'); if(u) u.value=''; payUpiEdited(); payGo(name); }
+    function payUpiReset(){ var b=document.getElementById('payUpiVerify'); if(b){ b.classList.remove('ok'); b.textContent='Verify'; } var ok=document.getElementById('payUpiOk'); if(ok) ok.classList.remove('show'); }
+    function payUpiEdited(){ var b=document.getElementById('payUpiVerify'); if(b && b.classList.contains('ok')) payUpiReset(); }
+    function payVerifyUpi(){
+      var u=(document.getElementById('payUpi').value||'').trim();
+      if(!u){ showToast('Enter a UPI ID first'); return; }
+      if(!/^[\w.\-]{2,}@[\w.\-]{2,}$/.test(u)){ showToast('Enter a valid UPI ID like name@bank'); return; }
+      var handle=u.split('@')[0].replace(/[._\-]+/g,' ').trim();
+      var name=handle.replace(/\b\w/g,function(c){return c.toUpperCase();}) || 'Account holder';
+      var b=document.getElementById('payUpiVerify'); if(b){ b.classList.add('ok'); b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 7"/></svg>Verified'; }
+      var ok=document.getElementById('payUpiOk'), nm=document.getElementById('payUpiOkName');
+      if(nm) nm.textContent='Verified · '+name;
+      if(ok) ok.classList.add('show');
+      showToast('UPI ID verified ✓');
+    }
     function payNow(){
       if(PAY_BUSY) return;
       if(PAY_METHOD==='upi'){
