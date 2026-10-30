@@ -1603,6 +1603,45 @@
       .acdp-item.on{color:var(--ink);font-weight:800;}
       .acdp-done{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#8574b5);padding:16px;border-radius:16px;box-shadow:0 12px 26px -12px rgba(133,116,181,.7);}
       .acdp-done:active{transform:scale(.98);}
+      /* milestone Q&A (onboarding style) */
+      .cc-mile-item{cursor:pointer;}
+      .cc-mile-item:active{transform:scale(.96);}
+      #msSheet .pf-sheet{display:flex;flex-direction:column;}
+      .ms-top{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+      .ms-back{width:34px;height:34px;flex:0 0 auto;border:none;background:#f3eef9;border-radius:11px;color:#6f5aa6;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+      .ms-prog{flex:1;height:7px;border-radius:4px;background:#ece6f4;overflow:hidden;}
+      .ms-prog-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,#b0a2d8,#8574b5);width:0;transition:width .3s;}
+      .ms-count{font-size:12.5px;font-weight:800;color:var(--muted);flex:0 0 auto;}
+      .ms-card{background:#fff;border-radius:22px;padding:24px 22px;box-shadow:0 14px 34px -24px rgba(120,90,160,.55);text-align:center;margin-bottom:18px;}
+      .ms-cat{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:var(--mc-tint);margin-bottom:16px;}
+      .ms-cat-ic{display:flex;color:var(--mc);}
+      .ms-cat-ic svg{width:20px;height:20px;}
+      .ms-cat-name{font-size:12.5px;font-weight:800;color:var(--mc);letter-spacing:.02em;}
+      .ms-q-title{font-size:21px;font-weight:800;color:var(--ink);line-height:1.3;letter-spacing:-.3px;}
+      .ms-q-desc{font-size:13.5px;color:var(--muted);line-height:1.55;margin-top:11px;}
+      .ms-opts{display:flex;flex-direction:column;gap:10px;}
+      .ms-pill{display:flex;align-items:center;gap:12px;width:100%;border:1.5px solid #ece6f4;background:#fff;border-radius:16px;padding:15px 16px;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;}
+      .ms-pill svg{width:22px;height:22px;color:#c0b8cf;flex:0 0 auto;}
+      .ms-pill:active{transform:scale(.99);}
+      .ms-pill.on{border-color:var(--mc);background:var(--mc-tint);color:var(--mc-ink);}
+      .ms-pill.on svg{color:var(--mc);}
+      .ms-answered{margin-top:24px;}
+      .ms-ans-h{font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:11px;}
+      .ms-ans-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:14px;background:#faf7fd;margin-bottom:8px;cursor:pointer;}
+      .ms-ans-item:active{background:#f1ebf9;}
+      .ms-ans-tx{flex:1;font-size:13px;font-weight:700;color:var(--ink);}
+      .ms-ans-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;flex:0 0 auto;}
+      .ms-ans-badge.achieved{background:#e3f5ec;color:#2fa96f;}
+      .ms-ans-badge.not_yet{background:#eee8f6;color:#8574b5;}
+      .ms-ans-badge.not_sure{background:#fcf0e2;color:#c9803f;}
+      .ms-done-wrap{text-align:center;padding:12px 0 4px;}
+      .ms-done-ic{width:70px;height:70px;border-radius:50%;background:linear-gradient(150deg,var(--mc),color-mix(in srgb,var(--mc) 72%, #000 6%));display:flex;align-items:center;justify-content:center;margin:6px auto 16px;color:#fff;}
+      .ms-done-ic svg{width:34px;height:34px;}
+      .ms-done-h{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+      .ms-done-p{font-size:14px;color:var(--muted);margin:9px 0 2px;line-height:1.55;}
+      .ms-done-stat{display:inline-flex;align-items:center;gap:7px;margin-top:16px;background:var(--mc-tint);color:var(--mc-ink);font-size:13px;font-weight:800;padding:9px 16px;border-radius:14px;}
+      .ms-done-btn{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(155deg,var(--mc),color-mix(in srgb,var(--mc) 70%, #000 5%));padding:16px;border-radius:16px;margin-top:22px;}
+      .ms-done-btn:active{transform:scale(.98);}
     </style>
     <div class="pf-sheet-layer ss-layer" id="childSheet">
       <div class="pf-sheet-bd" onclick="closeChildren()"></div>
@@ -1694,6 +1733,42 @@
             <div class="acdp-col" id="acdpYear"></div>
           </div>
           <button class="acdp-done" onclick="acDoneDob()">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Milestone Q&A -->
+    <div class="pf-sheet-layer ss-layer" id="msSheet">
+      <div class="pf-sheet-bd" onclick="msClose()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ms-top">
+          <button class="ms-back" onclick="msClose()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="ms-prog"><div class="ms-prog-bar" id="msProgBar"></div></div>
+          <div class="ms-count" id="msCount"></div>
+        </div>
+        <div id="msQuestionView">
+          <div class="ms-card">
+            <div class="ms-cat"><span class="ms-cat-ic" id="msCatIc"></span><span class="ms-cat-name" id="msCatName"></span></div>
+            <div class="ms-q-title" id="msTitle"></div>
+            <div class="ms-q-desc" id="msDesc"></div>
+          </div>
+          <div class="ms-opts">
+            <button class="ms-pill" data-v="not_yet" onclick="msAnswer('not_yet')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12h7"/></svg>Not yet</button>
+            <button class="ms-pill" data-v="not_sure" onclick="msAnswer('not_sure')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a3 3 0 0 1 5.4 1.2c0 1.6-2.4 2.1-2.7 3.4"/><path d="M12 17h.01"/></svg>Not sure</button>
+            <button class="ms-pill" data-v="achieved" onclick="msAnswer('achieved')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.4 12 2.5 2.5 4.7-4.7"/></svg>Achieved</button>
+          </div>
+          <div class="ms-answered" id="msAnswered"></div>
+        </div>
+        <div id="msDoneView" style="display:none">
+          <div class="ms-done-wrap">
+            <div class="ms-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.5l2 2 4.5-4.5"/><circle cx="12" cy="12" r="9.2"/></svg></div>
+            <div class="ms-done-h" id="msDoneH">All done!</div>
+            <div class="ms-done-p" id="msDoneP"></div>
+            <div class="ms-done-stat" id="msDoneStat"></div>
+          </div>
+          <div class="ms-answered" id="msAnswered2"></div>
+          <button class="ms-done-btn" onclick="msClose()">Done</button>
         </div>
       </div>
     </div>
@@ -2248,6 +2323,118 @@
       var mm=('0'+(ACDP_M+1)).slice(-2), dd=('0'+ACDP_D).slice(-2), iso=ACDP_Y+'-'+mm+'-'+dd;
       acSetDob(iso,'');
       acCloseDob();
+    }
+
+    /* ===== Milestone Q&A (onboarding style) ===== */
+    var MILE_CATS={
+      motor:{name:'Motor',color:'#ec9a4e',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.4C4 11.5 3 10.6 3 8.1 3 5.4 4.5 2.1 7.5 2.1 9.4 2.1 10 3.9 10 5.6c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20.5V18c0-2.1 1-3 1-5.5 0-2.7-1.5-6-4.5-6-1.9 0-2.5 1.8-2.5 3.5 0 3.1 2 5.7 2 8.7v1.8a2 2 0 1 0 4 0Z"/></svg>'},
+      idea:{name:'Cognitive',color:'#4f96e6',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M15.1 14c.2-1 .7-1.8 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .25 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></svg>'},
+      lang:{name:'Language',color:'#9c85d4',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.4a7.4 7.4 0 0 1-10.8 6.6L4 19.5l1.4-4.3A7.4 7.4 0 1 1 20 11.4Z"/><path d="M8.5 11.4h.01M12 11.4h.01M15.5 11.4h.01"/></svg>'},
+      social:{name:'Social',color:'#3fbe80',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 20v-1.5a3.5 3.5 0 0 0-3.5-3.5H7a3.5 3.5 0 0 0-3.5 3.5V20"/><circle cx="9.5" cy="7.5" r="3.5"/><path d="M20.5 20v-1.5a3.5 3.5 0 0 0-2.6-3.4"/><path d="M15.5 4.1a3.5 3.5 0 0 1 0 6.8"/></svg>'}
+    };
+    var MILE_Q={
+      motor:[
+        {t:'Lifts head during tummy time',d:'Building neck strength is one of baby’s very first motor milestones.'},
+        {t:'Rolls over both ways',d:'Rolling shows growing core strength and coordination.'},
+        {t:'Sits without support',d:'A big balance milestone that opens up play and feeding.'},
+        {t:'Crawls or scoots around',d:'Getting mobile lets baby explore the world nearby.'},
+        {t:'Pulls up to stand',d:'Strong legs are getting ready for those first steps.'}
+      ],
+      idea:[
+        {t:'Follows moving objects with eyes',d:'Early visual tracking and focused attention.'},
+        {t:'Explores objects with hands and mouth',d:'Learning cause and effect through hands-on play.'},
+        {t:'Looks for a hidden toy',d:'Understanding that things still exist out of sight.'},
+        {t:'Points at things of interest',d:'Sharing attention is a key early thinking skill.'},
+        {t:'Stacks a couple of blocks',d:'Problem-solving and spatial awareness in action.'}
+      ],
+      lang:[
+        {t:'Coos and makes sounds',d:'Baby’s very first steps toward talking.'},
+        {t:'Babbles strings like “ba-ba-ba”',d:'Practising the sounds that build into words.'},
+        {t:'Responds to their name',d:'Connecting a sound with themselves.'},
+        {t:'Says first words (mama / dada)',d:'A huge communication milestone.'},
+        {t:'Follows a simple instruction',d:'Understanding words, not just sounds.'}
+      ],
+      social:[
+        {t:'Smiles back at you',d:'Social smiles are an early sign of bonding.'},
+        {t:'Enjoys peek-a-boo',d:'Loving simple back-and-forth games.'},
+        {t:'Shows awareness of strangers',d:'A normal, healthy sign of attachment.'},
+        {t:'Waves bye-bye',d:'Copying everyday social gestures.'},
+        {t:'Plays near other children',d:'First steps toward social play.'}
+      ]
+    };
+    var MS_CAT=null, MS_I=0;
+    function msEnsure(key,cat){
+      var c=CHILDREN[key]; if(!c) return;
+      if(!c.mileAns) c.mileAns={};
+      var n=MILE_Q[cat].length;
+      if(!c.mileAns[cat] || c.mileAns[cat].length!==n){
+        var arr=[]; for(var i=0;i<n;i++) arr.push(null);
+        var pct=(c.mile&&c.mile[cat])||0, k=Math.round(pct/100*n);
+        for(var j=0;j<k && j<n;j++) arr[j]='achieved';
+        c.mileAns[cat]=arr;
+      }
+    }
+    function msOpen(cat){
+      var key=CURRENT_KEY; if(!key||!MILE_CATS[cat]||!MILE_Q[cat]) return;
+      MS_CAT=cat; msEnsure(key,cat);
+      var ans=CHILDREN[key].mileAns[cat], nxt=ans.indexOf(null);
+      MS_I = nxt<0 ? MILE_Q[cat].length : nxt;
+      var sheet=document.getElementById('msSheet'), col=MILE_CATS[cat].color;
+      sheet.style.setProperty('--mc',col);
+      sheet.style.setProperty('--mc-tint','color-mix(in srgb,'+col+' 15%, #fff)');
+      sheet.style.setProperty('--mc-ink','color-mix(in srgb,'+col+' 70%, #000 10%)');
+      sheet.classList.add('open');
+      var p=sheet.querySelector('.pf-sheet'); if(p) p.scrollTop=0;
+      msRender();
+    }
+    function msClose(){ document.getElementById('msSheet').classList.remove('open'); }
+    function msRenderAnswered(id){
+      var key=CURRENT_KEY, cat=MS_CAT, qs=MILE_Q[cat], ans=CHILDREN[key].mileAns[cat];
+      var el=document.getElementById(id); if(!el) return;
+      var items=[];
+      for(var i=0;i<qs.length;i++){ if(ans[i] && i!==MS_I){ var lbl=ans[i]==='achieved'?'Achieved':(ans[i]==='not_sure'?'Not sure':'Not yet'); items.push('<div class="ms-ans-item" onclick="msJump('+i+')"><span class="ms-ans-tx">'+qs[i].t+'</span><span class="ms-ans-badge '+ans[i]+'">'+lbl+'</span></div>'); } }
+      el.innerHTML = items.length ? ('<div class="ms-ans-h">Answered</div>'+items.join('')) : '';
+    }
+    function msRender(){
+      var key=CURRENT_KEY, cat=MS_CAT; if(!key||!cat) return;
+      var qs=MILE_Q[cat], ans=CHILDREN[key].mileAns[cat], cm=MILE_CATS[cat];
+      var answered=ans.filter(function(a){return a;}).length;
+      var bar=document.getElementById('msProgBar'); if(bar) bar.style.width=Math.round(answered/qs.length*100)+'%';
+      var cnt=document.getElementById('msCount'); if(cnt) cnt.textContent=answered+'/'+qs.length;
+      var qv=document.getElementById('msQuestionView'), dv=document.getElementById('msDoneView');
+      if(MS_I<0 || MS_I>=qs.length){
+        qv.style.display='none'; dv.style.display='';
+        var ach=ans.filter(function(a){return a==='achieved';}).length;
+        document.getElementById('msDoneH').textContent = ach===qs.length?'Amazing! 🎉':(ach>0?'Lovely progress!':'All saved');
+        document.getElementById('msDoneP').textContent = (CHILDREN[key].name||'Your baby')+'’s '+cm.name.toLowerCase()+' milestones are saved — update them any time.';
+        document.getElementById('msDoneStat').innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 7"/></svg>'+ach+' of '+qs.length+' reached';
+        msRenderAnswered('msAnswered2');
+        return;
+      }
+      qv.style.display=''; dv.style.display='none';
+      document.getElementById('msCatIc').innerHTML=cm.ic;
+      document.getElementById('msCatName').textContent=cm.name;
+      document.getElementById('msTitle').textContent=qs[MS_I].t;
+      document.getElementById('msDesc').textContent=qs[MS_I].d;
+      document.querySelectorAll('#msQuestionView .ms-pill').forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-v')===ans[MS_I]); });
+      msRenderAnswered('msAnswered');
+    }
+    function msAnswer(v){
+      var key=CURRENT_KEY, cat=MS_CAT; if(!key||!cat) return;
+      var qs=MILE_Q[cat], ans=CHILDREN[key].mileAns[cat];
+      ans[MS_I]=v; msUpdateRing();
+      var nxt=ans.indexOf(null);
+      MS_I = nxt<0 ? qs.length : nxt;
+      msRender();
+      var p=document.querySelector('#msSheet .pf-sheet'); if(p) p.scrollTop=0;
+    }
+    function msJump(i){ MS_I=i; msRender(); var p=document.querySelector('#msSheet .pf-sheet'); if(p) p.scrollTop=0; }
+    function msUpdateRing(){
+      var key=CURRENT_KEY, cat=MS_CAT, qs=MILE_Q[cat], ans=CHILDREN[key].mileAns[cat];
+      var ach=ans.filter(function(a){return a==='achieved';}).length;
+      if(!CHILDREN[key].mile) CHILDREN[key].mile={};
+      CHILDREN[key].mile[cat]=Math.round(ach/qs.length*100);
+      try{ document.getElementById('childScroll').innerHTML=childCardHTML(key); }catch(e){}
     }
     function acSyncTitle(t,btn){ var h=document.querySelector('#addChildSheet .ss-title'); if(h) h.textContent=t; var b=document.querySelector('#addChildSheet .hm-addf-save'); if(b) b.textContent=btn; }
     function acRenderAll(){ acRenderAvRow(); acRenderGender(); acRenderBlood(); acRenderAlg(); }
@@ -2858,10 +3045,10 @@
       return '<div class="card child-card" data-key="'+key+'" onclick="selectChild(\''+key+'\')">'
         + '<div class="cc-mile cc-mile-top">'
         +   '<div class="cc-mile-grid">'
-        +     '<div class="cc-mile-item m-motor"><div class="mi-circle">'+mRing(mv.motor)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.4C4 11.5 3 10.6 3 8.1 3 5.4 4.5 2.1 7.5 2.1 9.4 2.1 10 3.9 10 5.6c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20.5V18c0-2.1 1-3 1-5.5 0-2.7-1.5-6-4.5-6-1.9 0-2.5 1.8-2.5 3.5 0 3.1 2 5.7 2 8.7v1.8a2 2 0 1 0 4 0Z"/></svg></span></div><span class="mi-name">Motor</span></div>'
-        +     '<div class="cc-mile-item m-idea"><div class="mi-circle">'+mRing(mv.idea)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M15.1 14c.2-1 .7-1.8 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .25 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></svg></span></div><span class="mi-name">Cognitive</span></div>'
-        +     '<div class="cc-mile-item m-lang"><div class="mi-circle">'+mRing(mv.lang)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.4a7.4 7.4 0 0 1-10.8 6.6L4 19.5l1.4-4.3A7.4 7.4 0 1 1 20 11.4Z"/><path d="M8.5 11.4h.01M12 11.4h.01M15.5 11.4h.01"/></svg></span></div><span class="mi-name">Language</span></div>'
-        +     '<div class="cc-mile-item m-social"><div class="mi-circle">'+mRing(mv.social)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 20v-1.5a3.5 3.5 0 0 0-3.5-3.5H7a3.5 3.5 0 0 0-3.5 3.5V20"/><circle cx="9.5" cy="7.5" r="3.5"/><path d="M20.5 20v-1.5a3.5 3.5 0 0 0-2.6-3.4"/><path d="M15.5 4.1a3.5 3.5 0 0 1 0 6.8"/></svg></span></div><span class="mi-name">Social</span></div>'
+        +     '<div class="cc-mile-item m-motor" onclick="event.stopPropagation();msOpen(&quot;motor&quot;)"><div class="mi-circle">'+mRing(mv.motor)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.4C4 11.5 3 10.6 3 8.1 3 5.4 4.5 2.1 7.5 2.1 9.4 2.1 10 3.9 10 5.6c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20.5V18c0-2.1 1-3 1-5.5 0-2.7-1.5-6-4.5-6-1.9 0-2.5 1.8-2.5 3.5 0 3.1 2 5.7 2 8.7v1.8a2 2 0 1 0 4 0Z"/></svg></span></div><span class="mi-name">Motor</span></div>'
+        +     '<div class="cc-mile-item m-idea" onclick="event.stopPropagation();msOpen(&quot;idea&quot;)"><div class="mi-circle">'+mRing(mv.idea)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M15.1 14c.2-1 .7-1.8 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .25 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></svg></span></div><span class="mi-name">Cognitive</span></div>'
+        +     '<div class="cc-mile-item m-lang" onclick="event.stopPropagation();msOpen(&quot;lang&quot;)"><div class="mi-circle">'+mRing(mv.lang)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.4a7.4 7.4 0 0 1-10.8 6.6L4 19.5l1.4-4.3A7.4 7.4 0 1 1 20 11.4Z"/><path d="M8.5 11.4h.01M12 11.4h.01M15.5 11.4h.01"/></svg></span></div><span class="mi-name">Language</span></div>'
+        +     '<div class="cc-mile-item m-social" onclick="event.stopPropagation();msOpen(&quot;social&quot;)"><div class="mi-circle">'+mRing(mv.social)+'<span class="mi-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 20v-1.5a3.5 3.5 0 0 0-3.5-3.5H7a3.5 3.5 0 0 0-3.5 3.5V20"/><circle cx="9.5" cy="7.5" r="3.5"/><path d="M20.5 20v-1.5a3.5 3.5 0 0 0-2.6-3.4"/><path d="M15.5 4.1a3.5 3.5 0 0 1 0 6.8"/></svg></span></div><span class="mi-name">Social</span></div>'
         +   '</div></div>'
         + '</div>';
     }
