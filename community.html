@@ -581,7 +581,7 @@
   .wz-opt.sel .wz-tick{opacity:1;transform:none;}
   .wz-ta{width:100%;min-height:130px;border:none;background:#f7f4fb;border-radius:18px;padding:15px;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink);resize:none;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.14);}
   .wz-ta:focus{outline:none;box-shadow:inset 0 0 0 2px #9b8bc4;}
-  .exp-next{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:8px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15.5px;font-weight:800;padding:16px;border-radius:17px;box-shadow:0 14px 24px -10px rgba(140,116,181,.75);transition:opacity .15s;}
+  .exp-next{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:8px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:15.5px;font-weight:800;padding:16px;border-radius:17px;transition:opacity .15s;}
   .exp-next svg{width:18px;height:18px;}
   .exp-next:disabled{opacity:.4;box-shadow:none;cursor:default;}
   .grp-av.round{border-radius:50%;}
@@ -1653,10 +1653,10 @@
       'Other':'Thanks for reaching out 💛 Tell me a little more about what’s on your mind for {child} and I’ll do my best to help.'
     };
     var WZ_STEPS=['child','topic','urgency','detail','expert'];
-    var EXP={i:0, child:null, topic:null, urgency:null, detail:'', expert:null};
+    var EXP={i:0, child:null, topic:null, topics:[], urgency:null, detail:'', expert:null};
     var EXP_CHATS=[];
 
-    function openExpert(){ EXP={i:0, child:null, topic:null, urgency:null, detail:'', expert:null}; wzRender(); document.getElementById('expertSheet').classList.add('open'); }
+    function openExpert(){ EXP={i:0, child:null, topic:null, topics:[], urgency:null, detail:'', expert:null}; wzRender(); document.getElementById('expertSheet').classList.add('open'); }
     var WZ_GRAD={
       'Feeding':'linear-gradient(145deg,#ffb45a,#ff8a3d)',
       'Sleep':'linear-gradient(145deg,#8f7cff,#6355d6)',
@@ -1691,10 +1691,10 @@
           h+='<div onclick="wzPick(\'child\',\''+c.k+'\')">'+wzOpt(EXP.child===c.k,c.k,c.sub,fig)+'</div>';
         });
       } else if(step==='topic'){
-        h='<div class="wz-q">What do you need help with?</div><div class="wz-sub">Pick the area closest to your question.</div>';
+        h='<div class="wz-q">What do you need help with?</div><div class="wz-sub">Select all that apply.</div>';
         WZ_TOPICS.forEach(function(t){
           var fig=wzTile(WZ_COLOR[t.k]||WZ_COLOR.Other, WZ_IC[t.ic]);
-          h+='<div onclick="wzPick(\'topic\',\''+t.k+'\')">'+wzOpt(EXP.topic===t.k,t.k,t.d,fig)+'</div>';
+          h+='<div onclick="wzToggleTopic(\''+t.k+'\')">'+wzOpt((EXP.topics||[]).indexOf(t.k)>-1,t.k,t.d,fig)+'</div>';
         });
       } else if(step==='urgency'){
         h='<div class="wz-q">How soon do you need advice?</div><div class="wz-sub">This helps us route you to an available expert.</div>';
@@ -1735,6 +1735,7 @@
     function wzValid(){
       var step=WZ_STEPS[EXP.i];
       if(step==='detail') return true;
+      if(step==='topic') return (EXP.topics||[]).length>0;
       return !!EXP[step];
     }
     function wzUpdateBtn(){
@@ -1743,6 +1744,13 @@
       b.innerHTML = last ? 'Start chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' : 'Continue';
     }
     function wzPick(field,val){ EXP[field]=val; wzRender(); }
+    function wzToggleTopic(val){
+      if(!EXP.topics) EXP.topics=[];
+      var i=EXP.topics.indexOf(val);
+      if(i>-1) EXP.topics.splice(i,1); else EXP.topics.push(val);
+      EXP.topic=EXP.topics[0]||null; /* primary — drives expert routing + first reply */
+      wzRender();
+    }
     function expPrev(){ if(EXP.i>0){ EXP.i--; wzRender(); } else { closeExpert(); } }
     function expNext(){
       if(!wzValid()) return;
@@ -1751,7 +1759,8 @@
     }
     function finishExpert(){
       var name=EXP.expert;
-      var entry={expert:name, topic:EXP.topic, child:EXP.child, urgency:EXP.urgency, detail:(EXP.detail||'').trim(), time:'now', unread:0, preview:EXP.topic+' · '+EXP.child};
+      var topicLabel=(EXP.topics&&EXP.topics.length)?EXP.topics.join(', '):(EXP.topic||'');
+      var entry={expert:name, topic:EXP.topic, topics:(EXP.topics||[]).slice(), topicLabel:topicLabel, child:EXP.child, urgency:EXP.urgency, detail:(EXP.detail||'').trim(), time:'now', unread:0, preview:topicLabel+' · '+EXP.child};
       var idx=-1; for(var i=0;i<EXP_CHATS.length;i++){ if(EXP_CHATS[i].expert===name){ idx=i; break; } }
       if(idx>-1) EXP_CHATS.splice(idx,1);
       EXP_CHATS.unshift(entry);
