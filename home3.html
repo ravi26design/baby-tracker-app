@@ -1582,6 +1582,27 @@
       .ch-av .av-emoji{font-size:30px;}
       .hm-prof-photo .av-emoji{font-size:30px;}
       .chrow-av .av-emoji{font-size:24px;}
+      /* DOB field + onboarding-style wheel picker */
+      .ac2-dob{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;cursor:pointer;}
+      .ac2-dob-ph{color:#b4adc0;font-weight:500;}
+      .ac2-dob-ph.set{color:var(--ink);font-weight:600;}
+      .ac2-dob svg{width:19px;height:19px;color:#b0a2d8;flex:0 0 auto;}
+      .acdp-layer{position:absolute;inset:0;z-index:80;display:none;}
+      .acdp-layer.open{display:block;}
+      .acdp-bd{position:absolute;inset:0;background:rgba(44,32,60,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:acdpFade .2s ease;}
+      @keyframes acdpFade{from{opacity:0}to{opacity:1}}
+      .acdp-panel{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 46px 46px;padding:10px 22px 26px;box-shadow:0 -22px 54px -20px rgba(50,30,70,.5);animation:acdpUp .32s cubic-bezier(.2,.9,.3,1.05);}
+      @keyframes acdpUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+      .acdp-grab{width:40px;height:5px;border-radius:3px;background:#e3dcef;margin:4px auto 14px;}
+      .acdp-h{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);margin-bottom:10px;}
+      .acdp-wheels{position:relative;display:flex;height:230px;overflow:hidden;margin:4px 0 18px;}
+      .acdp-band{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:46px;background:#f3eef0;border-radius:14px;z-index:0;}
+      .acdp-col{flex:1;height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;text-align:center;position:relative;z-index:1;padding:92px 0;box-sizing:border-box;}
+      .acdp-col::-webkit-scrollbar{display:none;}
+      .acdp-item{height:46px;line-height:46px;scroll-snap-align:center;font-size:18px;font-weight:600;color:#c3bcce;transition:color .15s,font-weight .15s;}
+      .acdp-item.on{color:var(--ink);font-weight:800;}
+      .acdp-done{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#8574b5);padding:16px;border-radius:16px;box-shadow:0 12px 26px -12px rgba(133,116,181,.7);}
+      .acdp-done:active{transform:scale(.98);}
     </style>
     <div class="pf-sheet-layer ss-layer" id="childSheet">
       <div class="pf-sheet-bd" onclick="closeChildren()"></div>
@@ -1634,11 +1655,12 @@
           <input type="file" id="acFile" accept="image/*" style="display:none" onchange="acPhoto(this)">
         </div>
         <div class="ac2-field">
-          <div class="ac2-lbl">Date of birth / Age</div>
-          <div class="ac2-inwrap">
-            <input class="ac2-in" id="acDob" placeholder="e.g. 8 months" autocomplete="off">
-            <span class="ac2-in-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg></span>
-          </div>
+          <div class="ac2-lbl">Date of birth</div>
+          <button type="button" class="ac2-in ac2-dob" id="acDobField" onclick="acOpenDob()">
+            <span class="ac2-dob-ph" id="acDobText">dd/mm/yyyy</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>
+          </button>
+          <input type="hidden" id="acDobVal">
         </div>
         <div class="ac2-field">
           <div class="ac2-lbl">Gender <span class="ac2-opt">Optional</span></div>
@@ -1658,6 +1680,21 @@
           <div id="acAlgChips" class="hm-chips" style="margin-top:10px"></div>
         </div>
         <div class="hm-addf-act" style="margin-top:22px"><button class="hm-addf-cancel" onclick="addChildHide()">Cancel</button><button class="hm-addf-save" onclick="acSave()">Add Child</button></div>
+      </div>
+      <!-- DOB wheel picker (onboarding style) -->
+      <div class="acdp-layer" id="acDobSheet">
+        <div class="acdp-bd" onclick="acCloseDob()"></div>
+        <div class="acdp-panel">
+          <div class="acdp-grab"></div>
+          <div class="acdp-h">Date of birth</div>
+          <div class="acdp-wheels">
+            <div class="acdp-band"></div>
+            <div class="acdp-col" id="acdpDay"></div>
+            <div class="acdp-col" id="acdpMon"></div>
+            <div class="acdp-col" id="acdpYear"></div>
+          </div>
+          <button class="acdp-done" onclick="acDoneDob()">Done</button>
+        </div>
       </div>
     </div>
 
@@ -2161,8 +2198,56 @@
     var AC_AVATARS=['👶','👶🏻','👶🏽','👶🏿','🍼'];
     function acReset(editKey){
       AC={ photo:'', emoji:'👶', blood:'O+', allergies:[], gender:null, edit:editKey||null };
-      if(editKey){ var c=CHILDREN[editKey]||{}, d=HM_DATA[editKey]||{}; AC.photo=c.photo||''; AC.emoji=c.emoji||'👶'; AC.blood=d.blood||'O+'; AC.allergies=(d.allergies||[]).slice(); var g=chGender(editKey); AC.gender=/^f/i.test(g)?'Female':(g==='—'?null:'Male'); document.getElementById('acName').value=c.name||''; document.getElementById('acDob').value=hmAgePretty(c.age)||''; }
-      else { document.getElementById('acName').value=''; document.getElementById('acDob').value=''; }
+      if(editKey){ var c=CHILDREN[editKey]||{}, d=HM_DATA[editKey]||{}; AC.photo=c.photo||''; AC.emoji=c.emoji||'👶'; AC.blood=d.blood||'O+'; AC.allergies=(d.allergies||[]).slice(); var g=chGender(editKey); AC.gender=/^f/i.test(g)?'Female':(g==='—'?null:'Male'); document.getElementById('acName').value=c.name||''; acSetDob(c.dob||'', c.age||''); }
+      else { document.getElementById('acName').value=''; acSetDob('',''); }
+    }
+    function acSetDob(iso, ageTxt){
+      var val=document.getElementById('acDobVal'), t=document.getElementById('acDobText');
+      if(val) val.value=iso||'';
+      if(!t) return;
+      if(iso){ var p=iso.split('-'); t.textContent=p[2]+'/'+p[1]+'/'+p[0]; t.classList.add('set'); }
+      else if(ageTxt){ t.textContent=ageTxt; t.classList.add('set'); }
+      else { t.textContent='dd/mm/yyyy'; t.classList.remove('set'); }
+    }
+    function acAgeFromDob(iso){
+      if(!iso) return '';
+      var b=new Date(iso+'T00:00:00'), now=new Date();
+      var months=(now.getFullYear()-b.getFullYear())*12+(now.getMonth()-b.getMonth());
+      if(now.getDate()<b.getDate()) months--;
+      if(months<0) return 'On the way';
+      if(months<1){ var d=Math.max(0,Math.round((now-b)/86400000)); return d+' day'+(d===1?'':'s'); }
+      if(months<24) return months+' month'+(months===1?'':'s');
+      var y=Math.floor(months/12), m=months%12; return y+' year'+(y===1?'':'s')+(m?' '+m+' month'+(m===1?'':'s'):'');
+    }
+    /* onboarding-style wheel picker */
+    var ACDP_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var ACDP_D=1, ACDP_M=0, ACDP_Y=(new Date()).getFullYear(), ACDP_YEARS=[];
+    function acdpItems(id, arr){ document.getElementById(id).innerHTML = arr.map(function(t){ return '<div class="acdp-item">'+t+'</div>'; }).join(''); }
+    function acdpScrollTo(id, idx){ var el=document.getElementById(id); el.scrollTop = Math.max(0,idx)*46; }
+    function acdpMark(){ ['acdpDay','acdpMon','acdpYear'].forEach(function(id){ var el=document.getElementById(id); var idx=Math.round(el.scrollTop/46); Array.prototype.forEach.call(el.children,function(c,i){ c.classList.toggle('on', i===idx); }); }); }
+    function acdpAttach(){
+      [['acdpDay',function(i){ACDP_D=i+1;}],['acdpMon',function(i){ACDP_M=i;}],['acdpYear',function(i){ACDP_Y=ACDP_YEARS[i];}]].forEach(function(p){
+        var el=document.getElementById(p[0]); if(el._b) return; el._b=1; var t;
+        el.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ var idx=Math.round(el.scrollTop/46); if(idx<0)idx=0; if(idx>el.children.length-1)idx=el.children.length-1; p[1](idx); acdpMark(); },70); });
+      });
+    }
+    function acOpenDob(){
+      var now=new Date(), i, days=[], years=[];
+      for(i=1;i<=31;i++) days.push(i);
+      for(i=now.getFullYear()-14;i<=now.getFullYear();i++) years.push(i);
+      ACDP_YEARS=years;
+      var prev=(document.getElementById('acDobVal')||{}).value;
+      if(prev){ var pb=prev.split('-'); ACDP_Y=parseInt(pb[0],10); ACDP_M=parseInt(pb[1],10)-1; ACDP_D=parseInt(pb[2],10); }
+      else { ACDP_Y=now.getFullYear(); ACDP_M=now.getMonth(); ACDP_D=now.getDate(); }
+      acdpItems('acdpDay', days); acdpItems('acdpMon', ACDP_MONTHS); acdpItems('acdpYear', years);
+      document.getElementById('acDobSheet').classList.add('open');
+      setTimeout(function(){ acdpScrollTo('acdpDay', ACDP_D-1); acdpScrollTo('acdpMon', ACDP_M); acdpScrollTo('acdpYear', Math.max(0,years.indexOf(ACDP_Y))); acdpMark(); acdpAttach(); }, 30);
+    }
+    function acCloseDob(){ document.getElementById('acDobSheet').classList.remove('open'); }
+    function acDoneDob(){
+      var mm=('0'+(ACDP_M+1)).slice(-2), dd=('0'+ACDP_D).slice(-2), iso=ACDP_Y+'-'+mm+'-'+dd;
+      acSetDob(iso,'');
+      acCloseDob();
     }
     function acSyncTitle(t,btn){ var h=document.querySelector('#addChildSheet .ss-title'); if(h) h.textContent=t; var b=document.querySelector('#addChildSheet .hm-addf-save'); if(b) b.textContent=btn; }
     function acRenderAll(){ acRenderAvRow(); acRenderGender(); acRenderBlood(); acRenderAlg(); }
@@ -2189,17 +2274,18 @@
     function acSave(){
       if(!AC) return;
       var name=(document.getElementById('acName').value||'').trim(); if(!name){ hToast('Enter a name'); return; }
-      var dob=(document.getElementById('acDob').value||'').trim();
+      var iso=(document.getElementById('acDobVal').value||'').trim();
+      var dob=iso?acAgeFromDob(iso):'';
       if(AC.edit){
         var c=CHILDREN[AC.edit], d=HM_DATA[AC.edit];
-        if(c){ c.name=name; c.age=dob; c.emoji=AC.emoji; c.photo=AC.photo||''; var stage=((c.breed||'').split('•')[1]||'Toddler').trim(); c.breed=(AC.gender||'')+' • '+stage; }
+        if(c){ c.name=name; if(iso){ c.dob=iso; c.age=dob; } c.emoji=AC.emoji; c.photo=AC.photo||''; var stage=((c.breed||'').split('•')[1]||'Toddler').trim(); c.breed=(AC.gender||'')+' • '+stage; }
         if(d){ d.blood=AC.blood; d.allergies=AC.allergies.slice(); }
         addChildHide(); childrenRefresh();
         if(CURRENT_KEY===AC.edit){ try{ hmLoadChildData(CURRENT_KEY); }catch(e){} }
         hToast('Child updated ✓');
       } else {
         var key='child'+Date.now();
-        CHILDREN[key]={ name:name, age:dob, breed:(AC.gender||'')+' • Toddler', ageShort:dob||'', photo:AC.photo||'', emoji:AC.emoji||'👶', health:'Healthy', healthDate:'', weight:'—', vacc:'0 / 0', next:'—', hero:name+' is doing great<br>this week', vaccine:'No vaccines logged yet', growth:'No growth data yet', milestone:'No milestones logged yet', mile:{motor:0,idea:0,lang:0,social:0}, meals:[], medication:name+' is not currently taking any medication.', activities:[] };
+        CHILDREN[key]={ name:name, age:dob, dob:iso||'', breed:(AC.gender||'')+' • Toddler', ageShort:dob||'', photo:AC.photo||'', emoji:AC.emoji||'👶', health:'Healthy', healthDate:'', weight:'—', vacc:'0 / 0', next:'—', hero:name+' is doing great<br>this week', vaccine:'No vaccines logged yet', growth:'No growth data yet', milestone:'No milestones logged yet', mile:{motor:0,idea:0,lang:0,social:0}, meals:[], medication:name+' is not currently taking any medication.', activities:[] };
         HM_DATA[key]={ blood:AC.blood, allergies:AC.allergies.slice(), growth:{ weight:{vals:[3.5],unit:'kg',delta:''}, height:{vals:[50],unit:'cm',delta:''}, head:{vals:[35],unit:'cm',delta:''} }, vax:[], visits:[], notes:[], docs:[] };
         addChildHide(); childrenRefresh();
         hToast(name+' added ✓');
