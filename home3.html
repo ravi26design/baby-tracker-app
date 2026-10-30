@@ -1537,6 +1537,51 @@
       .ac-lbl{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:8px;letter-spacing:.01em;}
       .ac-lbl svg{width:15px;height:15px;color:#b0a2d8;}
       #addChildSheet .hm-in{margin-bottom:0;}
+      /* My Children — row action sheet */
+      #chRowLayer .mca-sheet{padding:8px 12px 14px;border-radius:28px;}
+      #chRowLayer .mca-opt{padding:13px 12px;border-radius:18px;margin-bottom:4px;}
+      #chRowLayer .mca-ic{border-radius:14px;}
+      #chRowLayer .mca-opt:not(.danger):not(.cancel) .mca-ic{background:#ece6f6;color:#8574b5;}
+      #chRowLayer .mca-opt:not(.danger):not(.cancel) .mca-t{color:var(--ink);}
+      #chRowLayer .mca-opt:not(.danger):not(.cancel) .mca-s{color:var(--muted);}
+      #chRowLayer .mca-opt:not(.danger):not(.cancel):active{background:#f3eff9;}
+      #chRowLayer .mca-opt.danger{background:#fdeef1;}
+      #chRowLayer .mca-opt.danger .mca-ic{background:#f9dbe3;color:#e0567a;}
+      #chRowLayer .mca-opt.danger .mca-t{color:#d6456c;}
+      #chRowLayer .mca-opt.danger .mca-s{color:#d89aa7;}
+      #chRowLayer .mca-opt.cancel{margin-top:8px;padding:15px;}
+      .chrow-head{display:flex;align-items:center;gap:11px;padding:2px 4px 12px;margin:0 6px 6px;border-bottom:1px solid #efeaf5;}
+      .chrow-av{width:40px;height:40px;border-radius:12px;overflow:hidden;flex:0 0 auto;background:#ece6f6 center/cover no-repeat;}
+      .chrow-nm{font-size:15.5px;font-weight:800;color:var(--ink);line-height:1.1;}
+      .chrow-sub{font-size:12px;font-weight:600;color:var(--muted);margin-top:2px;}
+      /* Add a child — reference-aligned */
+      .ac2-field{margin-bottom:20px;}
+      .ac2-lbl{font-size:13px;font-weight:800;color:#4c4660;margin-bottom:11px;letter-spacing:-.1px;}
+      .ac2-opt{font-weight:600;color:#aaa2bb;margin-left:6px;font-size:12px;}
+      .ac2-in{width:100%;border:none;background:#fff;border-radius:16px;padding:16px;font-size:15px;font-family:inherit;font-weight:600;color:var(--ink);outline:none;}
+      .ac2-in::placeholder{color:#b4adc0;font-weight:500;}
+      .ac2-in:focus{box-shadow:0 0 0 2px #cdbdef;}
+      .ac2-inwrap{position:relative;}
+      .ac2-inwrap .ac2-in{padding-right:46px;}
+      .ac2-in-ic{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#b0a2d8;pointer-events:none;display:flex;}
+      .ac2-in-ic svg{width:19px;height:19px;}
+      .ac2-avrow{display:flex;gap:10px;}
+      .ac2-av{flex:1;aspect-ratio:1/1;border:2px solid transparent;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:border-color .15s, background .15s;}
+      .ac2-av.on{border-color:#b7a6df;background:#efe9f8;}
+      .ac2-av-em{font-size:28px;line-height:1;}
+      .ac2-av-photo{width:72%;height:72%;border-radius:11px;background-position:center;background-size:cover;background-repeat:no-repeat;}
+      .ac2-uplink{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:none;border:none;padding:4px 2px;font-family:inherit;font-size:13px;font-weight:700;color:#8574b5;cursor:pointer;}
+      .ac2-uplink svg{width:16px;height:16px;}
+      .ac2-genrow{display:flex;gap:10px;}
+      .ac2-gen{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1.5px solid transparent;border-radius:14px;padding:14px 6px;font-size:14px;font-weight:800;color:#7a68ad;font-family:inherit;cursor:pointer;}
+      .ac2-gen.on{border-color:#b7a6df;background:#efe9f8;color:#6f5aa6;}
+      .ac2-gen svg{width:16px;height:16px;flex:0 0 auto;}
+      #addChildSheet .hm-alrow .ac2-in{flex:1;}
+      /* emoji avatars across the app */
+      .av-emoji{display:flex;align-items:center;justify-content:center;width:100%;height:100%;line-height:1;background:#f1ecf8;}
+      .ch-av .av-emoji{font-size:30px;}
+      .hm-prof-photo .av-emoji{font-size:30px;}
+      .chrow-av .av-emoji{font-size:24px;}
     </style>
     <div class="pf-sheet-layer ss-layer" id="childSheet">
       <div class="pf-sheet-bd" onclick="closeChildren()"></div>
@@ -1551,6 +1596,7 @@
         <div class="mca-bd" onclick="chRowClose()"></div>
         <div class="mca-sheet">
           <div class="mca-grab"><span></span></div>
+          <div class="chrow-head" id="chRowHead"></div>
           <button class="mca-opt" onclick="chRowEdit()"><span class="mca-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.7 3.3a2.4 2.4 0 0 1 3.4 3.4L8.5 18.3l-4.5 1.2 1.2-4.5z"/></svg></span><span class="mca-tx"><span class="mca-t">Edit details</span><span class="mca-s">Name, photo, blood type, allergies</span></span></button>
           <button class="mca-opt danger" id="chRowDelBtn" onclick="chRowDelete()"><span class="mca-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></span><span class="mca-tx"><span class="mca-t">Remove child</span><span class="mca-s">This can’t be undone</span></span></button>
           <button class="mca-opt cancel" onclick="chRowClose()">Cancel</button>
@@ -1577,40 +1623,41 @@
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
         <div class="ss-head"><button class="ss-back" onclick="addChildHide()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Add a Child</div></div>
-        <div class="ac-intro">Add your little one to start tracking their growth, health and milestones — all in one place.</div>
-        <div class="ac-photo-wrap">
-          <button class="ac-photo" onclick="document.getElementById('acFile').click()" aria-label="Add photo">
-            <div class="ac-photo-av" id="acAv"></div>
-            <span class="ac-photo-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
-          </button>
-          <div class="ac-photo-cap">Add a photo</div>
+        <div class="ac2-field">
+          <div class="ac2-lbl">Baby's name</div>
+          <input class="ac2-in" id="acName" placeholder="e.g. Mark" autocomplete="off">
+        </div>
+        <div class="ac2-field">
+          <div class="ac2-lbl">Choose an avatar</div>
+          <div class="ac2-avrow" id="acAvRow"></div>
+          <button class="ac2-uplink" id="acUpLink" onclick="document.getElementById('acFile').click()"></button>
           <input type="file" id="acFile" accept="image/*" style="display:none" onchange="acPhoto(this)">
         </div>
-        <div class="ac-field">
-          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6"/></svg>Name</div>
-          <input class="hm-in" id="acName" placeholder="Child's name" autocomplete="off">
+        <div class="ac2-field">
+          <div class="ac2-lbl">Date of birth / Age</div>
+          <div class="ac2-inwrap">
+            <input class="ac2-in" id="acDob" placeholder="e.g. 8 months" autocomplete="off">
+            <span class="ac2-in-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg></span>
+          </div>
         </div>
-        <div class="ac-field">
-          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>Date of birth / Age</div>
-          <input class="hm-in" id="acDob" placeholder="e.g. 8 months" autocomplete="off">
+        <div class="ac2-field">
+          <div class="ac2-lbl">Gender <span class="ac2-opt">Optional</span></div>
+          <div class="ac2-genrow" id="acGenRow">
+            <button class="ac2-gen" data-g="Female" onclick="acGender('Female')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="5.2"/><path d="M12 13.7V21M8.6 18h6.8"/></svg>Girl</button>
+            <button class="ac2-gen" data-g="Male" onclick="acGender('Male')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5.2"/><path d="M14 10l5.5-5.5M14.5 4.5H20V10"/></svg>Boy</button>
+            <button class="ac2-gen" data-g="" onclick="acGender('')">Prefer not</button>
+          </div>
         </div>
-        <div class="ac-field">
-          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="4.4"/><path d="M13.5 10.5 19 5M15 4.5h4.5V9"/></svg>Gender</div>
-        <div class="hm-gendrow" id="acGenRow">
-          <button class="hm-genbtn on" data-g="Male" onclick="acGender('Male')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5.2"/><path d="M14 10l5.5-5.5M14.5 4.5H20V10"/></svg>Male</button>
-          <button class="hm-genbtn" data-g="Female" onclick="acGender('Female')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="5.2"/><path d="M12 13.7V21M8.6 18h6.8"/></svg>Female</button>
-        </div>
-        </div>
-        <div class="ac-field">
-          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.1 6 10.2a6 6 0 0 1-12 0C6 9.1 12 3 12 3z"/></svg>Blood Type</div>
+        <div class="ac2-field">
+          <div class="ac2-lbl">Blood Type</div>
           <div class="hm-btgrid" id="acBtGrid"></div>
         </div>
-        <div class="ac-field">
-          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.2 2.6 17.5a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></svg>Allergies</div>
-          <div class="hm-alrow"><input class="hm-in" id="acAlgInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();acAlgAdd();}"><button class="hm-alladd" onclick="acAlgAdd()">Add</button></div>
+        <div class="ac2-field">
+          <div class="ac2-lbl">Allergies</div>
+          <div class="hm-alrow"><input class="ac2-in" id="acAlgInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();acAlgAdd();}"><button class="hm-alladd" onclick="acAlgAdd()">Add</button></div>
           <div id="acAlgChips" class="hm-chips" style="margin-top:10px"></div>
         </div>
-        <div class="hm-addf-act" style="margin-top:20px"><button class="hm-addf-cancel" onclick="addChildHide()">Cancel</button><button class="hm-addf-save" onclick="acSave()">Add Child</button></div>
+        <div class="hm-addf-act" style="margin-top:22px"><button class="hm-addf-cancel" onclick="addChildHide()">Cancel</button><button class="hm-addf-save" onclick="acSave()">Add Child</button></div>
       </div>
     </div>
 
@@ -2077,7 +2124,7 @@
         var nAlg=(d.allergies&&d.allergies.length)||0;
         var alg=nAlg?(nAlg+' '+(nAlg===1?'allergy':'allergies')):'No allergies';
         var av=c.photo?(' style="background-image:url(\''+c.photo+'\')"'):'';
-        var photo=c.photo?'':DUMMY_AV;
+        var photo=c.photo?'':(c.emoji?'<span class="av-emoji">'+c.emoji+'</span>':DUMMY_AV);
         return '<div class="ch-card" onclick="openChildDetails(\''+k+'\')">'+
             '<div class="ch-av"'+av+'>'+photo+'</div>'+
             '<div class="ch-main">'+
@@ -2093,7 +2140,14 @@
     function childrenRefresh(){ renderChildrenList(); try{ buildChildTabs(); updateTabs(CURRENT_KEY); }catch(e){} try{ renderHmChild(); }catch(e){} }
 
     /* row action sheet */
-    function chRowOpen(key){ CH_MENU_KEY=key; var only=Object.keys(CHILDREN).length<=1; var db=document.getElementById('chRowDelBtn'); if(db) db.style.display=only?'none':''; document.getElementById('chRowLayer').classList.add('open'); }
+    function chRowOpen(key){
+      CH_MENU_KEY=key;
+      var c=CHILDREN[key]||{};
+      var hd=document.getElementById('chRowHead');
+      if(hd){ var inner=c.photo?'':(c.emoji?'<span class="av-emoji">'+c.emoji+'</span>':DUMMY_AV); var st=c.photo?' style="background-image:url(\''+c.photo+'\')"':''; var av='<div class="chrow-av"'+st+'>'+inner+'</div>'; hd.innerHTML=av+'<div><div class="chrow-nm">'+(c.name||'Baby')+'</div><div class="chrow-sub">'+(hmAgePretty(c.age)||'—')+'</div></div>'; }
+      var only=Object.keys(CHILDREN).length<=1; var db=document.getElementById('chRowDelBtn'); if(db) db.style.display=only?'none':'';
+      document.getElementById('chRowLayer').classList.add('open');
+    }
     function chRowClose(){ var l=document.getElementById('chRowLayer'); if(l) l.classList.remove('open'); }
     function chRowEdit(){ var k=CH_MENU_KEY; chRowClose(); if(k) acEditShow(k); }
     function chRowDelete(){ var k=CH_MENU_KEY; chRowClose(); if(!k) return; if(Object.keys(CHILDREN).length<=1){ hToast('At least one child is required'); return; } setTimeout(function(){ chDelOpen(k); },120); }
@@ -2104,18 +2158,27 @@
     function chDelConfirm(){ var k=CH_MENU_KEY; if(!k||!CHILDREN[k]){ chDelClose(); return; } if(Object.keys(CHILDREN).length<=1){ chDelClose(); hToast('At least one child is required'); return; } var nm=CHILDREN[k].name||'Child'; delete CHILDREN[k]; delete HM_DATA[k]; if(CURRENT_KEY===k){ var nk=Object.keys(CHILDREN)[0]; try{ selectChild(nk); }catch(e){ CURRENT_KEY=nk; } try{ hmLoadChildData(CURRENT_KEY); }catch(e){} } chDelClose(); childrenRefresh(); hToast(nm+' removed'); }
 
     /* add / edit child sheet */
+    var AC_AVATARS=['👶','👶🏻','👶🏽','👶🏿','🍼'];
     function acReset(editKey){
-      AC={ photo:'', blood:'O+', allergies:[], gender:'Male', edit:editKey||null };
-      if(editKey){ var c=CHILDREN[editKey]||{}, d=HM_DATA[editKey]||{}; AC.photo=c.photo||''; AC.blood=d.blood||'O+'; AC.allergies=(d.allergies||[]).slice(); var g=chGender(editKey); AC.gender=/^f/i.test(g)?'Female':'Male'; document.getElementById('acName').value=c.name||''; document.getElementById('acDob').value=hmAgePretty(c.age)||''; }
+      AC={ photo:'', emoji:'👶', blood:'O+', allergies:[], gender:null, edit:editKey||null };
+      if(editKey){ var c=CHILDREN[editKey]||{}, d=HM_DATA[editKey]||{}; AC.photo=c.photo||''; AC.emoji=c.emoji||'👶'; AC.blood=d.blood||'O+'; AC.allergies=(d.allergies||[]).slice(); var g=chGender(editKey); AC.gender=/^f/i.test(g)?'Female':(g==='—'?null:'Male'); document.getElementById('acName').value=c.name||''; document.getElementById('acDob').value=hmAgePretty(c.age)||''; }
       else { document.getElementById('acName').value=''; document.getElementById('acDob').value=''; }
     }
     function acSyncTitle(t,btn){ var h=document.querySelector('#addChildSheet .ss-title'); if(h) h.textContent=t; var b=document.querySelector('#addChildSheet .hm-addf-save'); if(b) b.textContent=btn; }
-    function acRenderAll(){ acRenderAv(); acRenderGender(); acRenderBlood(); acRenderAlg(); }
+    function acRenderAll(){ acRenderAvRow(); acRenderGender(); acRenderBlood(); acRenderAlg(); }
     function addChildShow(){ acReset(null); acSyncTitle('Add a Child','Add Child'); acRenderAll(); var s=document.getElementById('addChildSheet'); s.classList.add('open'); var p=s.querySelector('.pf-sheet'); if(p) p.scrollTop=0; }
     function acEditShow(key){ acReset(key); acSyncTitle('Edit Child','Save Changes'); acRenderAll(); var s=document.getElementById('addChildSheet'); s.classList.add('open'); var p=s.querySelector('.pf-sheet'); if(p) p.scrollTop=0; }
     function addChildHide(){ document.getElementById('addChildSheet').classList.remove('open'); AC=null; }
-    function acRenderAv(){ var a=document.getElementById('acAv'); if(!a) return; if(AC&&AC.photo){ a.style.backgroundImage="url('"+AC.photo+"')"; a.innerHTML=''; } else { a.style.backgroundImage=''; a.innerHTML=DUMMY_AV; } }
-    function acPhoto(inp){ var f=inp.files&&inp.files[0]; if(!f||!AC) return; var r=new FileReader(); r.onload=function(e){ AC.photo=e.target.result; acRenderAv(); }; r.readAsDataURL(f); inp.value=''; }
+    function acRenderAvRow(){
+      var row=document.getElementById('acAvRow'); if(!row||!AC) return;
+      var tiles=AC_AVATARS.map(function(em){ var on=(!AC.photo && AC.emoji===em); return '<button class="ac2-av'+(on?' on':'')+'" onclick="acPickEmoji(\''+em+'\')"><span class="ac2-av-em">'+em+'</span></button>'; });
+      if(AC.photo){ tiles.push('<button class="ac2-av on" onclick="document.getElementById(\'acFile\').click()" aria-label="Change photo"><span class="ac2-av-photo" style="background-image:url(\''+AC.photo+'\')"></span></button>'); }
+      row.innerHTML=tiles.join('');
+      var lk=document.getElementById('acUpLink'); if(lk) lk.textContent=AC.photo?'Change photo':'';
+      if(lk){ lk.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V7"/><path d="M8.5 10.5 12 7l3.5 3.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>'+(AC.photo?'Change photo':'Upload a photo'); }
+    }
+    function acPickEmoji(em){ if(!AC) return; AC.emoji=em; AC.photo=''; acRenderAvRow(); }
+    function acPhoto(inp){ var f=inp.files&&inp.files[0]; if(!f||!AC) return; var r=new FileReader(); r.onload=function(e){ AC.photo=e.target.result; acRenderAvRow(); }; r.readAsDataURL(f); inp.value=''; }
     function acGender(g){ if(AC) AC.gender=g; acRenderGender(); }
     function acRenderGender(){ var row=document.getElementById('acGenRow'); if(!row||!AC) return; Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-g')===AC.gender); }); }
     function acRenderBlood(){ var el=document.getElementById('acBtGrid'); if(!el||!AC) return; el.innerHTML=HM_BLOOD_TYPES.map(function(bt){ return '<button class="hm-btchip'+(bt===AC.blood?' on':'')+'" onclick="acBlood(\''+bt+'\')">'+bt+'</button>'; }).join(''); }
@@ -2129,14 +2192,14 @@
       var dob=(document.getElementById('acDob').value||'').trim();
       if(AC.edit){
         var c=CHILDREN[AC.edit], d=HM_DATA[AC.edit];
-        if(c){ c.name=name; c.age=dob; if(AC.photo) c.photo=AC.photo; var stage=((c.breed||'').split('•')[1]||'Toddler').trim(); c.breed=AC.gender+' • '+stage; }
+        if(c){ c.name=name; c.age=dob; c.emoji=AC.emoji; c.photo=AC.photo||''; var stage=((c.breed||'').split('•')[1]||'Toddler').trim(); c.breed=(AC.gender||'')+' • '+stage; }
         if(d){ d.blood=AC.blood; d.allergies=AC.allergies.slice(); }
         addChildHide(); childrenRefresh();
         if(CURRENT_KEY===AC.edit){ try{ hmLoadChildData(CURRENT_KEY); }catch(e){} }
         hToast('Child updated ✓');
       } else {
         var key='child'+Date.now();
-        CHILDREN[key]={ name:name, age:dob, breed:AC.gender+' • Toddler', ageShort:dob||'', photo:AC.photo||'', health:'Healthy', healthDate:'', weight:'—', vacc:'0 / 0', next:'—', hero:name+' is doing great<br>this week', vaccine:'No vaccines logged yet', growth:'No growth data yet', milestone:'No milestones logged yet', mile:{motor:0,idea:0,lang:0,social:0}, meals:[], medication:name+' is not currently taking any medication.', activities:[] };
+        CHILDREN[key]={ name:name, age:dob, breed:(AC.gender||'')+' • Toddler', ageShort:dob||'', photo:AC.photo||'', emoji:AC.emoji||'👶', health:'Healthy', healthDate:'', weight:'—', vacc:'0 / 0', next:'—', hero:name+' is doing great<br>this week', vaccine:'No vaccines logged yet', growth:'No growth data yet', milestone:'No milestones logged yet', mile:{motor:0,idea:0,lang:0,social:0}, meals:[], medication:name+' is not currently taking any medication.', activities:[] };
         HM_DATA[key]={ blood:AC.blood, allergies:AC.allergies.slice(), growth:{ weight:{vals:[3.5],unit:'kg',delta:''}, height:{vals:[50],unit:'cm',delta:''}, head:{vals:[35],unit:'cm',delta:''} }, vax:[], visits:[], notes:[], docs:[] };
         addChildHide(); childrenRefresh();
         hToast(name+' added ✓');
@@ -2274,7 +2337,7 @@
       return '<div class="hm-prof" data-key="'+key+'">'+
           '<div class="hm-prof-top">'+
             '<div class="hm-prof-id">'+
-              '<div class="hm-prof-av"><div class="hm-prof-photo" style="'+bg+'">'+(c.photo?'':DUMMY_AV)+'</div></div>'+
+              '<div class="hm-prof-av"><div class="hm-prof-photo" style="'+bg+'">'+(c.photo?'':(c.emoji?'<span class="av-emoji">'+c.emoji+'</span>':DUMMY_AV))+'</div></div>'+
               '<div class="hm-prof-head">'+
                 '<div class="hm-prof-name">'+(c.name||'Baby')+'’s Profile</div>'+
                 '<div class="hm-prof-age">'+hmAgePretty(c.age)+'</div>'+
