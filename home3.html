@@ -1049,15 +1049,17 @@
   .nt-clear{margin-left:auto;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;}
   .nt-day{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:16px 2px 10px;}
   .nt-day:first-of-type{margin-top:2px;}
-  .nt-item{display:flex;align-items:center;gap:13px;background:var(--card-bg);border-radius:18px;padding:14px 15px;margin-bottom:11px;position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
-  .nt-item.unread{background:linear-gradient(180deg,#fbf9ff,#fff);box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
-  .nt-ic{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:color-mix(in srgb, var(--ntc,#9b8bc4) 17%, #fff);color:var(--ntc,#9b8bc4);box-shadow:0 8px 16px -10px color-mix(in srgb, var(--ntc,#9b8bc4) 50%, transparent);}
-  .nt-ic svg{width:22px;height:22px;stroke:currentColor;}
+  .nt-item{display:flex;align-items:flex-start;gap:13px;background:#fff;border-radius:18px;padding:15px 16px;margin-bottom:11px;position:relative;overflow:hidden;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .1s;}
+  .nt-item:active{transform:scale(.992);}
+  .nt-item.unread{background:color-mix(in srgb, var(--ntc,#9b8bc4) 7%, #fff);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--ntc,#9b8bc4) 22%, transparent);}
+  .nt-item.unread::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ntc,#9b8bc4);}
+  .nt-ic{width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:color-mix(in srgb, var(--ntc,#9b8bc4) 16%, #fff);color:var(--ntc,#9b8bc4);}
+  .nt-ic svg{width:23px;height:23px;stroke:currentColor;}
   .nt-tx{flex:1;min-width:0;}
-  .nt-t{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
-  .nt-d{font-size:12.8px;line-height:1.45;color:#8a8296;font-weight:500;margin-top:2px;}
-  .nt-tm{font-size:11px;font-weight:700;color:#b3aac2;margin-top:6px;}
-  .nt-dot{position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:linear-gradient(150deg,#f08a8a,#e26868);box-shadow:0 0 0 3px #fff;}
+  .nt-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;padding-right:18px;}
+  .nt-d{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;margin-top:3px;}
+  .nt-tm{font-size:11px;font-weight:700;color:#b3aac2;margin-top:8px;}
+  .nt-dot{position:absolute;top:17px;right:16px;width:8px;height:8px;border-radius:50%;background:#f0806e;}
   .h-toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(10px);background:rgba(35,22,12,.9);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:80;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:80%;text-align:center;}
   .h-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .addmenu-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
@@ -2066,30 +2068,30 @@
         <div class="ss-head"><button class="ss-back" onclick="closeNotif()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Notifications</div><button class="nt-clear" onclick="hToast('All caught up ✓')">Mark all read</button></div>
 
         <div class="nt-day">Today</div>
-        <div class="nt-item unread">
-          <div class="nt-ic" style="--ntc:#39a876"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 5H5.2a1.8 1.8 0 0 0 0 3.6H7M17 5h1.8a1.8 1.8 0 0 1 0 3.6H17"/></svg></div>
+        <div class="nt-item unread" style="--ntc:#39a876" onclick="notifGo(this,'memories')">
+          <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 5H5.2a1.8 1.8 0 0 0 0 3.6H7M17 5h1.8a1.8 1.8 0 0 1 0 3.6H17"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Milestone unlocked!</div><div class="nt-d">Mark took his First Walk — add it to his memories.</div><div class="nt-tm">2h ago</div></div>
           <span class="nt-dot"></span>
         </div>
-        <div class="nt-item unread">
-          <div class="nt-ic" style="--ntc:#e78a3f"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2h5M10.5 2v2.2M13.5 2v2.2"/><path d="M8.5 7.3C8.5 5.8 9.6 4.7 11 4.7h2c1.4 0 2.5 1.1 2.5 2.6V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2z"/><path d="M9 11h6M9 14.5h4"/></svg></div>
+        <div class="nt-item unread" style="--ntc:#e78a3f" onclick="notifGo(this,'meals')">
+          <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2h5M10.5 2v2.2M13.5 2v2.2"/><path d="M8.5 7.3C8.5 5.8 9.6 4.7 11 4.7h2c1.4 0 2.5 1.1 2.5 2.6V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2z"/><path d="M9 11h6M9 14.5h4"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Feeding reminder</div><div class="nt-d">Time for Mark’s afternoon meal — Veggie purée.</div><div class="nt-tm">4h ago</div></div>
           <span class="nt-dot"></span>
         </div>
 
         <div class="nt-day">Yesterday</div>
-        <div class="nt-item">
-          <div class="nt-ic" style="--ntc:#6070d8"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9 11.5h.01M12.5 11.5h.01M16 11.5h.01"/></svg></div>
+        <div class="nt-item" style="--ntc:#6070d8" onclick="notifGo(this,'community')">
+          <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9 11.5h.01M12.5 11.5h.01M16 11.5h.01"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Dr. Meera replied</div><div class="nt-d">“That’s completely normal at this age — here’s what to…”</div><div class="nt-tm">1d ago</div></div>
         </div>
-        <div class="nt-item">
-          <div class="nt-ic" style="--ntc:#8f78c4"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="m8.5 12 2.4 2.4L15.5 9.5"/></svg></div>
+        <div class="nt-item" style="--ntc:#8f78c4" onclick="notifGo(this,'checklist')">
+          <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="m8.5 12 2.4 2.4L15.5 9.5"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Checklist complete</div><div class="nt-d">You ticked off everything in Baby Essentials 🎉</div><div class="nt-tm">1d ago</div></div>
         </div>
 
         <div class="nt-day">Earlier</div>
-        <div class="nt-item">
-          <div class="nt-ic" style="--ntc:#e0a51f"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14.5" r="5.5"/><path d="M8.5 9.6 6 3h4M15.5 9.6 18 3h-4"/><path d="m12 12 .9 1.8 2 .3-1.45 1.4.35 2-1.8-1-1.8 1 .35-2L10.1 14.1l2-.3z"/></svg></div>
+        <div class="nt-item" style="--ntc:#e0a51f" onclick="notifGo(this,'checklist')">
+          <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14.5" r="5.5"/><path d="M8.5 9.6 6 3h4M15.5 9.6 18 3h-4"/><path d="m12 12 .9 1.8 2 .3-1.45 1.4.35 2-1.8-1-1.8 1 .35-2L10.1 14.1l2-.3z"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Badge earned</div><div class="nt-d">You unlocked the 7-Day Streak badge — keep it up!</div><div class="nt-tm">3d ago</div></div>
         </div>
       </div>
@@ -3051,6 +3053,17 @@
     function hmChartPoint(i){ HM_CHART_SEL=i; renderHmChart(); }
     function openNotif(){ document.getElementById('notifSheet').classList.add('open'); var b=document.getElementById('notifDot'); if(b) b.style.display='none'; }
     function closeNotif(){ document.getElementById('notifSheet').classList.remove('open'); }
+    function notifGo(el, action){
+      if(el){ el.classList.remove('unread'); var d=el.querySelector('.nt-dot'); if(d) d.remove(); }
+      closeNotif();
+      setTimeout(function(){
+        if(action==='meals'){ try{ openMealAll(); return; }catch(e){} location.href='checklist.html'; }
+        else if(action==='memories'){ location.href='memories.html#add'; }
+        else if(action==='community'){ location.href='community.html'; }
+        else if(action==='checklist'){ location.href='checklist.html'; }
+        else if(action==='health'){ try{ openHealthMonitor(); }catch(e){} }
+      }, 200);
+    }
     var _hT; function hToast(msg){ var t=document.getElementById('hToast'); if(!t) return; t.textContent=msg; t.classList.add('show'); clearTimeout(_hT); _hT=setTimeout(function(){ t.classList.remove('show'); },1900); }
     /* ---- per-child data ---- */
     var CHILDREN = {
