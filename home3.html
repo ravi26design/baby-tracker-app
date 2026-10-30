@@ -1402,6 +1402,10 @@
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
           <span>My Profile</span>
         </button>
+        <button class="pf-item" onclick="openChildren()">
+          <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.1"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17.5" cy="9" r="2.3"/><path d="M16 14.4c2.2.2 4 1.8 4 4.1"/></svg></span>
+          <span>My Children</span>
+        </button>
         <button class="pf-item" onclick="openHelp()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9.2 9.5a2.8 2.8 0 0 1 5.4.9c0 1.9-2.8 2.8-2.8 2.8M12 16.5h.01"/></svg></span>
           <span>Help &amp; Support</span>
@@ -1484,6 +1488,129 @@
         <div class="set-row"><span class="set-ic">🌙</span><span class="set-t">Dark mode</span><span class="tgl" onclick="this.classList.toggle('on')"><i></i></span></div>
         <div class="set-row rowtap"><span class="set-ic">🌐</span><span class="set-t">Language</span><span class="set-val">English</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
         <div class="set-row rowtap"><span class="set-ic">📏</span><span class="set-t">Units</span><span class="set-val">Metric · kg, cm</span><span class="pf-rchev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
+      </div>
+    </div>
+
+    <!-- My Children -->
+    <style>
+      .ch-head{margin-bottom:18px;}
+      .ch-list{display:flex;flex-direction:column;gap:12px;}
+      .ch-card{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:13px 12px 13px 13px;position:relative;cursor:pointer;}
+      .ch-card:active{transform:scale(.993);}
+      .ch-av{width:52px;height:52px;border-radius:15px;flex:0 0 auto;background:#e7e1f4 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;color:#8574b5;overflow:hidden;}
+      .ch-main{flex:1 1 auto;min-width:0;}
+      .ch-name{font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .ch-meta{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:2px;}
+      .ch-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+      .ch-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:#f4f0fa;color:#8574b5;}
+      .ch-tag.alg{background:#fbeee2;color:#c9803f;}
+      .ch-more{flex:0 0 auto;width:30px;height:30px;border-radius:10px;border:none;background:none;color:#b7aec6;display:flex;align-items:center;justify-content:center;}
+      .ch-more:active{background:#f3eef9;}
+      .ch-add{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:16px;padding:15px;border-radius:18px;border:2px dashed #cdc0e4;background:#faf7fd;color:#7a68ad;font-size:14.5px;font-weight:700;cursor:pointer;}
+      .ch-add:active{background:#f2ecfa;}
+      .ch-add svg{width:19px;height:19px;}
+      .hm-gendrow{display:flex;gap:9px;}
+      .hm-genbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:13px;border:1.5px solid #ece6f4;background:#faf8fd;color:#8a7fa0;font-size:13.5px;font-weight:700;}
+      .hm-genbtn svg{width:17px;height:17px;}
+      .hm-genbtn.on{border-color:#b7a6df;background:#efe9f8;color:#6f5aa6;}
+      .ch-del-card{position:fixed;left:0;right:0;bottom:0;z-index:5;transform:translateY(100%);transition:transform .28s cubic-bezier(.22,.9,.3,1);background:#fff;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -14px 40px -18px rgba(80,50,120,.45);}
+      .ch-del-layer.open .ch-del-card{transform:translateY(0);}
+      .ch-del-ic{width:52px;height:52px;border-radius:16px;background:#fdecec;color:#e0567a;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+      .ch-del-ic svg{width:26px;height:26px;}
+      .ch-del-t{font-size:17px;font-weight:700;color:var(--ink);text-align:center;}
+      .ch-del-s{font-size:13.5px;color:var(--muted);text-align:center;margin:6px 0 18px;line-height:1.45;}
+      .ch-del-act{display:flex;flex-direction:column;gap:9px;}
+      .ch-del-del{padding:14px;border-radius:14px;border:none;background:#e0567a;color:#fff;font-size:15px;font-weight:700;}
+      .ch-del-cancel{padding:14px;border-radius:14px;border:none;background:#f3eef9;color:#6f5aa6;font-size:15px;font-weight:700;}
+      /* Add a child — polished */
+      .ac-intro{font-size:13.5px;line-height:1.5;color:var(--muted);font-weight:600;margin:-4px 0 18px;}
+      .ac-photo-wrap{display:flex;flex-direction:column;align-items:center;gap:9px;margin-bottom:22px;}
+      .ac-photo{position:relative;width:96px;height:96px;border:none;background:none;padding:0;cursor:pointer;}
+      .ac-photo-av{width:96px;height:96px;border-radius:50%;overflow:hidden;background:linear-gradient(150deg,#efe9f8,#e3dbf3);background-position:center;background-size:cover;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;color:#a99bd0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7), 0 12px 26px -16px rgba(120,90,160,.55);}
+      .ac-photo-av .ac-ph{width:100%;height:100%;display:block;}
+      .dummy-av{width:100%;height:100%;display:block;}
+      .ac-photo-av.has-photo .ac-ph{display:none;}
+      .ac-photo-badge{position:absolute;right:2px;bottom:2px;width:30px;height:30px;border-radius:50%;background:#8574b5;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px -3px rgba(120,90,160,.7);border:2.5px solid #f4f1fa;}
+      .ac-photo-badge svg{width:15px;height:15px;}
+      .ac-photo-cap{font-size:13px;font-weight:700;color:#8574b5;}
+      .ac-field{margin-bottom:15px;}
+      .ac-lbl{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:8px;letter-spacing:.01em;}
+      .ac-lbl svg{width:15px;height:15px;color:#b0a2d8;}
+      #addChildSheet .hm-in{margin-bottom:0;}
+    </style>
+    <div class="pf-sheet-layer ss-layer" id="childSheet">
+      <div class="pf-sheet-bd" onclick="closeChildren()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head ch-head"><div class="ss-title">My Children</div></div>
+        <div class="ch-list" id="chList"></div>
+        <button class="ch-add" onclick="addChildShow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add a child</button>
+      </div>
+      <!-- row action sheet -->
+      <div class="mca-layer" id="chRowLayer">
+        <div class="mca-bd" onclick="chRowClose()"></div>
+        <div class="mca-sheet">
+          <div class="mca-grab"><span></span></div>
+          <button class="mca-opt" onclick="chRowEdit()"><span class="mca-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.7 3.3a2.4 2.4 0 0 1 3.4 3.4L8.5 18.3l-4.5 1.2 1.2-4.5z"/></svg></span><span class="mca-tx"><span class="mca-t">Edit details</span><span class="mca-s">Name, photo, blood type, allergies</span></span></button>
+          <button class="mca-opt danger" id="chRowDelBtn" onclick="chRowDelete()"><span class="mca-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></span><span class="mca-tx"><span class="mca-t">Remove child</span><span class="mca-s">This can’t be undone</span></span></button>
+          <button class="mca-opt cancel" onclick="chRowClose()">Cancel</button>
+        </div>
+      </div>
+      <!-- delete confirm -->
+      <div class="pf-sheet-bd ch-del-layer" id="chDelLayer" style="display:none">
+        <div class="pf-sheet-bd" onclick="chDelClose()" style="position:absolute;inset:0;background:transparent"></div>
+        <div class="ch-del-card">
+          <div class="ch-del-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></div>
+          <div class="ch-del-t" id="chDelT">Remove child?</div>
+          <div class="ch-del-s" id="chDelS"></div>
+          <div class="ch-del-act">
+            <button class="ch-del-del" onclick="chDelConfirm()">Remove</button>
+            <button class="ch-del-cancel" onclick="chDelClose()">Keep</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add child -->
+    <div class="pf-sheet-layer ss-layer" id="addChildSheet">
+      <div class="pf-sheet-bd" onclick="addChildHide()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="addChildHide()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Add a Child</div></div>
+        <div class="ac-intro">Add your little one to start tracking their growth, health and milestones — all in one place.</div>
+        <div class="ac-photo-wrap">
+          <button class="ac-photo" onclick="document.getElementById('acFile').click()" aria-label="Add photo">
+            <div class="ac-photo-av" id="acAv"></div>
+            <span class="ac-photo-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="ac-photo-cap">Add a photo</div>
+          <input type="file" id="acFile" accept="image/*" style="display:none" onchange="acPhoto(this)">
+        </div>
+        <div class="ac-field">
+          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6"/></svg>Name</div>
+          <input class="hm-in" id="acName" placeholder="Child's name" autocomplete="off">
+        </div>
+        <div class="ac-field">
+          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>Date of birth / Age</div>
+          <input class="hm-in" id="acDob" placeholder="e.g. 8 months" autocomplete="off">
+        </div>
+        <div class="ac-field">
+          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="4.4"/><path d="M13.5 10.5 19 5M15 4.5h4.5V9"/></svg>Gender</div>
+        <div class="hm-gendrow" id="acGenRow">
+          <button class="hm-genbtn on" data-g="Male" onclick="acGender('Male')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5.2"/><path d="M14 10l5.5-5.5M14.5 4.5H20V10"/></svg>Male</button>
+          <button class="hm-genbtn" data-g="Female" onclick="acGender('Female')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="5.2"/><path d="M12 13.7V21M8.6 18h6.8"/></svg>Female</button>
+        </div>
+        </div>
+        <div class="ac-field">
+          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.1 6 10.2a6 6 0 0 1-12 0C6 9.1 12 3 12 3z"/></svg>Blood Type</div>
+          <div class="hm-btgrid" id="acBtGrid"></div>
+        </div>
+        <div class="ac-field">
+          <div class="ac-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.2 2.6 17.5a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></svg>Allergies</div>
+          <div class="hm-alrow"><input class="hm-in" id="acAlgInput" placeholder="Add an allergy…" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();acAlgAdd();}"><button class="hm-alladd" onclick="acAlgAdd()">Add</button></div>
+          <div id="acAlgChips" class="hm-chips" style="margin-top:10px"></div>
+        </div>
+        <div class="hm-addf-act" style="margin-top:20px"><button class="hm-addf-cancel" onclick="addChildHide()">Cancel</button><button class="hm-addf-save" onclick="acSave()">Add Child</button></div>
       </div>
     </div>
 
@@ -1922,6 +2049,100 @@
     }
     function openSettings(){ closeProfileMenu(); document.getElementById('setSheet').classList.add('open'); }
     function closeSettings(){ document.getElementById('setSheet').classList.remove('open'); }
+
+    /* ===== My Children ===== */
+    var AC=null, CH_MENU_KEY=null;
+    var DUMMY_AV='<svg class="dummy-av" viewBox="0 0 64 64" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">'
+      +'<rect width="64" height="64" fill="#ece6f6"/>'
+      +'<circle cx="32" cy="37.5" r="17" fill="#f7d7c0"/>'
+      +'<path d="M17 31c1-9 8-14.5 15-14.5S46 22 47 31c-3-5.5-8-7.5-15-7.5S20 25.5 17 31z" fill="#9a7a62"/>'
+      +'<path d="M30 16c0-2.2 4-2.2 4 0" fill="none" stroke="#9a7a62" stroke-width="2.2" stroke-linecap="round"/>'
+      +'<circle cx="25.8" cy="37.5" r="1.9" fill="#5b4636"/>'
+      +'<circle cx="38.2" cy="37.5" r="1.9" fill="#5b4636"/>'
+      +'<circle cx="22.5" cy="42" r="2.7" fill="#f3a893" opacity=".55"/>'
+      +'<circle cx="41.5" cy="42" r="2.7" fill="#f3a893" opacity=".55"/>'
+      +'<path d="M28.5 43.5c2 2 5 2 7 0" fill="none" stroke="#7a5a46" stroke-width="2" stroke-linecap="round"/>'
+      +'</svg>';
+    function chGender(key){ var c=CHILDREN[key]||{}; return ((c.breed||'').split('•')[0]||'').trim()||'—'; }
+    function openChildren(){ closeProfileMenu(); renderChildrenList(); document.getElementById('childSheet').classList.add('open'); }
+    function closeChildren(){ document.getElementById('childSheet').classList.remove('open'); chRowClose(); chDelClose(); }
+    function renderChildrenList(){
+      var keys=Object.keys(CHILDREN);
+      var sub=document.getElementById('chSub'); if(sub) sub.textContent=keys.length+(keys.length===1?' child':' children')+' on this account';
+      var list=document.getElementById('chList'); if(!list) return;
+      list.innerHTML=keys.map(function(k){
+        var c=CHILDREN[k]||{}, d=HM_DATA[k]||{};
+        var gender=chGender(k);
+        var blood=d.blood||'—';
+        var nAlg=(d.allergies&&d.allergies.length)||0;
+        var alg=nAlg?(nAlg+' '+(nAlg===1?'allergy':'allergies')):'No allergies';
+        var av=c.photo?(' style="background-image:url(\''+c.photo+'\')"'):'';
+        var photo=c.photo?'':DUMMY_AV;
+        return '<div class="ch-card" onclick="openChildDetails(\''+k+'\')">'+
+            '<div class="ch-av"'+av+'>'+photo+'</div>'+
+            '<div class="ch-main">'+
+              '<div class="ch-name">'+(c.name||'Baby')+'</div>'+
+              '<div class="ch-meta">'+(hmAgePretty(c.age)||'—')+' · '+gender+'</div>'+
+              '<div class="ch-tags"><span class="ch-tag">Blood '+blood+'</span><span class="ch-tag'+(nAlg?' alg':'')+'">'+alg+'</span></div>'+
+            '</div>'+
+            '<button class="ch-more" onclick="event.stopPropagation();chRowOpen(\''+k+'\')" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>'+
+          '</div>';
+      }).join('');
+    }
+    function openChildDetails(key){ try{ selectChild(key); }catch(e){} closeChildren(); openHealthMonitor(); }
+    function childrenRefresh(){ renderChildrenList(); try{ buildChildTabs(); updateTabs(CURRENT_KEY); }catch(e){} try{ renderHmChild(); }catch(e){} }
+
+    /* row action sheet */
+    function chRowOpen(key){ CH_MENU_KEY=key; var only=Object.keys(CHILDREN).length<=1; var db=document.getElementById('chRowDelBtn'); if(db) db.style.display=only?'none':''; document.getElementById('chRowLayer').classList.add('open'); }
+    function chRowClose(){ var l=document.getElementById('chRowLayer'); if(l) l.classList.remove('open'); }
+    function chRowEdit(){ var k=CH_MENU_KEY; chRowClose(); if(k) acEditShow(k); }
+    function chRowDelete(){ var k=CH_MENU_KEY; chRowClose(); if(!k) return; if(Object.keys(CHILDREN).length<=1){ hToast('At least one child is required'); return; } setTimeout(function(){ chDelOpen(k); },120); }
+
+    /* delete confirm */
+    function chDelOpen(key){ CH_MENU_KEY=key; var c=CHILDREN[key]||{}; var t=document.getElementById('chDelT'); if(t) t.textContent='Remove '+(c.name||'this child')+'?'; var s=document.getElementById('chDelS'); if(s) s.textContent='This permanently removes '+(c.name||'this child')+' and all of their health records. This can’t be undone.'; var L=document.getElementById('chDelLayer'); if(!L) return; L.style.display='block'; requestAnimationFrame(function(){ L.classList.add('open'); }); }
+    function chDelClose(){ var L=document.getElementById('chDelLayer'); if(!L) return; L.classList.remove('open'); setTimeout(function(){ L.style.display='none'; },280); }
+    function chDelConfirm(){ var k=CH_MENU_KEY; if(!k||!CHILDREN[k]){ chDelClose(); return; } if(Object.keys(CHILDREN).length<=1){ chDelClose(); hToast('At least one child is required'); return; } var nm=CHILDREN[k].name||'Child'; delete CHILDREN[k]; delete HM_DATA[k]; if(CURRENT_KEY===k){ var nk=Object.keys(CHILDREN)[0]; try{ selectChild(nk); }catch(e){ CURRENT_KEY=nk; } try{ hmLoadChildData(CURRENT_KEY); }catch(e){} } chDelClose(); childrenRefresh(); hToast(nm+' removed'); }
+
+    /* add / edit child sheet */
+    function acReset(editKey){
+      AC={ photo:'', blood:'O+', allergies:[], gender:'Male', edit:editKey||null };
+      if(editKey){ var c=CHILDREN[editKey]||{}, d=HM_DATA[editKey]||{}; AC.photo=c.photo||''; AC.blood=d.blood||'O+'; AC.allergies=(d.allergies||[]).slice(); var g=chGender(editKey); AC.gender=/^f/i.test(g)?'Female':'Male'; document.getElementById('acName').value=c.name||''; document.getElementById('acDob').value=hmAgePretty(c.age)||''; }
+      else { document.getElementById('acName').value=''; document.getElementById('acDob').value=''; }
+    }
+    function acSyncTitle(t,btn){ var h=document.querySelector('#addChildSheet .ss-title'); if(h) h.textContent=t; var b=document.querySelector('#addChildSheet .hm-addf-save'); if(b) b.textContent=btn; }
+    function acRenderAll(){ acRenderAv(); acRenderGender(); acRenderBlood(); acRenderAlg(); }
+    function addChildShow(){ acReset(null); acSyncTitle('Add a Child','Add Child'); acRenderAll(); var s=document.getElementById('addChildSheet'); s.classList.add('open'); var p=s.querySelector('.pf-sheet'); if(p) p.scrollTop=0; }
+    function acEditShow(key){ acReset(key); acSyncTitle('Edit Child','Save Changes'); acRenderAll(); var s=document.getElementById('addChildSheet'); s.classList.add('open'); var p=s.querySelector('.pf-sheet'); if(p) p.scrollTop=0; }
+    function addChildHide(){ document.getElementById('addChildSheet').classList.remove('open'); AC=null; }
+    function acRenderAv(){ var a=document.getElementById('acAv'); if(!a) return; if(AC&&AC.photo){ a.style.backgroundImage="url('"+AC.photo+"')"; a.innerHTML=''; } else { a.style.backgroundImage=''; a.innerHTML=DUMMY_AV; } }
+    function acPhoto(inp){ var f=inp.files&&inp.files[0]; if(!f||!AC) return; var r=new FileReader(); r.onload=function(e){ AC.photo=e.target.result; acRenderAv(); }; r.readAsDataURL(f); inp.value=''; }
+    function acGender(g){ if(AC) AC.gender=g; acRenderGender(); }
+    function acRenderGender(){ var row=document.getElementById('acGenRow'); if(!row||!AC) return; Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-g')===AC.gender); }); }
+    function acRenderBlood(){ var el=document.getElementById('acBtGrid'); if(!el||!AC) return; el.innerHTML=HM_BLOOD_TYPES.map(function(bt){ return '<button class="hm-btchip'+(bt===AC.blood?' on':'')+'" onclick="acBlood(\''+bt+'\')">'+bt+'</button>'; }).join(''); }
+    function acBlood(bt){ if(AC) AC.blood=bt; acRenderBlood(); }
+    function acRenderAlg(){ var el=document.getElementById('acAlgChips'); if(!el||!AC) return; var customs=AC.allergies.filter(function(a){return HM_ALG_SUGGEST.indexOf(a)<0;}); var options=HM_ALG_SUGGEST.concat(customs); el.innerHTML=options.map(function(a){ var on=AC.allergies.indexOf(a)>-1; return '<button class="hm-algchip'+(on?' on':'')+'" onclick="acAlgToggle(\''+a.replace(/'/g,'')+'\')">'+a+'</button>'; }).join(''); }
+    function acAlgToggle(a){ if(!AC) return; var i=AC.allergies.indexOf(a); if(i>-1) AC.allergies.splice(i,1); else AC.allergies.push(a); acRenderAlg(); }
+    function acAlgAdd(){ var el=document.getElementById('acAlgInput'); if(!el||!AC) return; var v=(el.value||'').trim(); if(!v) return; if(AC.allergies.indexOf(v)<0) AC.allergies.push(v); el.value=''; acRenderAlg(); }
+    function acSave(){
+      if(!AC) return;
+      var name=(document.getElementById('acName').value||'').trim(); if(!name){ hToast('Enter a name'); return; }
+      var dob=(document.getElementById('acDob').value||'').trim();
+      if(AC.edit){
+        var c=CHILDREN[AC.edit], d=HM_DATA[AC.edit];
+        if(c){ c.name=name; c.age=dob; if(AC.photo) c.photo=AC.photo; var stage=((c.breed||'').split('•')[1]||'Toddler').trim(); c.breed=AC.gender+' • '+stage; }
+        if(d){ d.blood=AC.blood; d.allergies=AC.allergies.slice(); }
+        addChildHide(); childrenRefresh();
+        if(CURRENT_KEY===AC.edit){ try{ hmLoadChildData(CURRENT_KEY); }catch(e){} }
+        hToast('Child updated ✓');
+      } else {
+        var key='child'+Date.now();
+        CHILDREN[key]={ name:name, age:dob, breed:AC.gender+' • Toddler', ageShort:dob||'', photo:AC.photo||'', health:'Healthy', healthDate:'', weight:'—', vacc:'0 / 0', next:'—', hero:name+' is doing great<br>this week', vaccine:'No vaccines logged yet', growth:'No growth data yet', milestone:'No milestones logged yet', mile:{motor:0,idea:0,lang:0,social:0}, meals:[], medication:name+' is not currently taking any medication.', activities:[] };
+        HM_DATA[key]={ blood:AC.blood, allergies:AC.allergies.slice(), growth:{ weight:{vals:[3.5],unit:'kg',delta:''}, height:{vals:[50],unit:'cm',delta:''}, head:{vals:[35],unit:'cm',delta:''} }, vax:[], visits:[], notes:[], docs:[] };
+        addChildHide(); childrenRefresh();
+        hToast(name+' added ✓');
+      }
+    }
+
     function openHelp(){ closeProfileMenu(); document.getElementById('helpSheet').classList.add('open'); }
     function closeHelp(){ document.getElementById('helpSheet').classList.remove('open'); }
     function toggleFaq(q){ var f=q.parentNode; f.classList.toggle('open'); var a=q.nextElementSibling; a.style.maxHeight = a.style.maxHeight ? '' : (a.scrollHeight+'px'); }
@@ -2053,7 +2274,7 @@
       return '<div class="hm-prof" data-key="'+key+'">'+
           '<div class="hm-prof-top">'+
             '<div class="hm-prof-id">'+
-              '<div class="hm-prof-av"><div class="hm-prof-photo" style="'+bg+'"></div></div>'+
+              '<div class="hm-prof-av"><div class="hm-prof-photo" style="'+bg+'">'+(c.photo?'':DUMMY_AV)+'</div></div>'+
               '<div class="hm-prof-head">'+
                 '<div class="hm-prof-name">'+(c.name||'Baby')+'’s Profile</div>'+
                 '<div class="hm-prof-age">'+hmAgePretty(c.age)+'</div>'+
