@@ -56,14 +56,13 @@
   .intro-body::before{content:'';position:absolute;width:230px;height:230px;border-radius:50%;top:6%;left:-78px;background:radial-gradient(circle,#ffd7e6,transparent 70%);opacity:.55;pointer-events:none;}
   .intro-body::after{content:'';position:absolute;width:210px;height:210px;border-radius:50%;bottom:12%;right:-66px;background:radial-gradient(circle,#d5c8ef,transparent 70%);opacity:.5;pointer-events:none;}
   .intro-track{flex:1;display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1);position:relative;z-index:1;}
-  .slide{flex:0 0 100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 34px 0;}
-  .slide-art{position:relative;width:196px;height:196px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:90px;margin-bottom:40px;
-    box-shadow:0 30px 56px -20px rgba(120,80,140,.55),inset 0 0 0 1px rgba(255,255,255,.75),0 0 0 13px rgba(255,255,255,.5),0 0 0 26px rgba(255,255,255,.28);
-    animation:artFloat 4.5s ease-in-out infinite;}
+  .slide{flex:0 0 100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:0 34px 18px;overflow:hidden;}
+  .slide-art{position:absolute;top:0;left:0;width:100%;height:66%;border-radius:0;overflow:hidden;margin:0;box-shadow:none;display:block;z-index:0;
+    -webkit-mask-image:linear-gradient(to bottom,#000 36%,rgba(0,0,0,.6) 72%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 36%,rgba(0,0,0,.6) 72%,transparent 100%);}
   .slide-art img{width:100%;height:100%;object-fit:cover;display:block;}
-  @keyframes artFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-  .slide h2{font-size:25px;font-weight:800;letter-spacing:-.4px;line-height:1.2;}
-  .slide p{margin-top:14px;font-size:14.5px;line-height:1.6;color:#7d7770;font-weight:500;max-width:280px;}
+  .slide h2{position:relative;z-index:1;font-size:25px;font-weight:800;letter-spacing:-.4px;line-height:1.2;}
+  .slide p{position:relative;z-index:1;margin-top:14px;font-size:14.5px;line-height:1.6;color:#7d7770;font-weight:500;max-width:280px;}
   .intro-foot{padding:0 26px 30px;}
   .dots{display:flex;justify-content:center;gap:8px;margin-bottom:24px;}
   .dots i{width:8px;height:8px;border-radius:50%;background:#d8cfe6;transition:.25s;}
