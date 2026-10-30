@@ -1335,6 +1335,114 @@
             <button class="attach-cancel" onclick="closeAttach()">Cancel</button>
           </div>
         </div>
+
+        <!-- payment sheet -->
+        <style>
+          .pay-sheet{position:absolute;inset:0;z-index:70;visibility:hidden;pointer-events:none;}
+          .pay-sheet.open{visibility:visible;pointer-events:auto;}
+          .pay-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .28s;}
+          .pay-sheet.open .pay-bd{opacity:1;}
+          .pay-panel{position:absolute;left:0;right:0;bottom:0;max-height:94%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--card-bg);border-radius:28px 28px 46px 46px;padding:10px 22px 28px;transform:translateY(114%);transition:transform .4s cubic-bezier(.32,.72,0,1);box-shadow:0 -22px 50px -14px rgba(80,50,120,.42);}
+          .pay-sheet.open .pay-panel{transform:none;}
+          .pay-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e7ddee;margin:2px auto 14px;}
+          .pay-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+          .pay-title{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+          .pay-x{width:30px;height:30px;border:none;background:#f1ecf5;border-radius:10px;color:#8a7fa0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+          .pay-x svg{width:15px;height:15px;}
+          .pay-sum{display:flex;align-items:center;gap:12px;background:linear-gradient(150deg,#efe9f8,#e7dff4);border-radius:18px;padding:14px 15px;margin-bottom:20px;}
+          .pay-sum-ic{width:42px;height:42px;border-radius:13px;background:#fff;color:#8574b5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+          .pay-sum-ic svg{width:21px;height:21px;}
+          .pay-sum-tx{flex:1;min-width:0;}
+          .pay-sum-tx b{display:block;font-size:14.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+          .pay-sum-tx span{font-size:12px;color:#8a7fa0;font-weight:600;}
+          .pay-sum-amt{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+          .pay-lbl{font-size:12.5px;font-weight:800;color:var(--ink);margin-bottom:11px;}
+          .pay-methods{display:flex;gap:9px;margin-bottom:20px;}
+          .pay-method{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;border:1.5px solid #ece6f4;background:#fff;border-radius:15px;padding:13px 4px;font-family:inherit;font-size:11px;font-weight:800;color:#6f6880;cursor:pointer;}
+          .pay-method svg{width:22px;height:22px;color:#b0a2d8;}
+          .pay-method.on{border-color:#b7a6df;background:#f3eff9;color:#6f5aa6;}
+          .pay-method.on svg{color:#8574b5;}
+          .pay-form label{display:block;font-size:12px;font-weight:800;color:#6f6880;margin:0 2px 7px;}
+          .pay-form input{width:100%;box-sizing:border-box;border:1.5px solid #ece6f4;background:#fff;border-radius:14px;padding:14px 15px;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);outline:none;margin-bottom:14px;}
+          .pay-form input:focus{border-color:#b7a6df;}
+          .pay-form input::placeholder{color:#bdb5c8;font-weight:500;}
+          .pay-in-wrap{position:relative;margin-bottom:14px;}
+          .pay-in-wrap input{margin-bottom:0;}
+          .pay-brand{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:800;color:#8574b5;letter-spacing:.3px;}
+          .pay-verify{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:none;background:#efe9f8;color:#7a68ad;font-family:inherit;font-weight:800;font-size:12.5px;padding:9px 13px;border-radius:10px;cursor:pointer;}
+          .pay-row2{display:flex;gap:12px;}
+          .pay-row2>div{flex:1;}
+          .pay-or{text-align:center;font-size:12px;font-weight:600;color:#a99fbb;margin:4px 0 13px;}
+          .pay-apps{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+          .pay-apps button{display:flex;align-items:center;justify-content:center;gap:9px;border:1.5px solid #ece6f4;background:#fff;border-radius:14px;padding:13px;font-family:inherit;font-size:13.5px;font-weight:800;color:var(--ink);cursor:pointer;}
+          .pay-apps button:active{background:#f3eff9;}
+          .pay-adot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+          .pay-cta{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(155deg,#b0a2d8,#8574b5);padding:16px;border-radius:16px;margin-top:22px;box-shadow:0 14px 28px -12px rgba(133,116,181,.7);}
+          .pay-cta:active{transform:scale(.98);}
+          .pay-secure{display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;font-weight:600;color:#a99fbb;margin-top:14px;}
+          .pay-secure svg{width:14px;height:14px;}
+          .pay-status{position:absolute;inset:0;background:rgba(250,249,254,.98);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:3;}
+          .pay-sheet .pay-status.show{display:flex;}
+          .pay-spin{width:52px;height:52px;border-radius:50%;border:4px solid #ece6f4;border-top-color:#8574b5;animation:paySpin .8s linear infinite;margin-bottom:18px;}
+          @keyframes paySpin{to{transform:rotate(360deg)}}
+          .pay-done-ic{display:none;width:66px;height:66px;border-radius:50%;background:linear-gradient(150deg,#5ac98b,#36a06a);align-items:center;justify-content:center;color:#fff;margin-bottom:18px;animation:payPop .5s cubic-bezier(.2,.9,.3,1.5);}
+          .pay-done-ic svg{width:32px;height:32px;}
+          @keyframes payPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+          .pay-status.success .pay-spin{display:none;}
+          .pay-status.success .pay-done-ic{display:flex;}
+          .pay-status-t{font-size:18px;font-weight:800;color:var(--ink);}
+          .pay-status-s{font-size:13px;font-weight:600;color:#8a7fa0;margin-top:5px;}
+        </style>
+        <div class="pay-sheet" id="paySheet">
+          <div class="pay-bd" onclick="closePay()"></div>
+          <div class="pay-panel">
+            <div class="pay-grab"><span></span></div>
+            <div class="pay-head">
+              <div class="pay-title">Checkout</div>
+              <button class="pay-x" onclick="closePay()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+            </div>
+            <div class="pay-sum">
+              <span class="pay-sum-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></span>
+              <span class="pay-sum-tx"><b id="paySumName">Full session</b><span>One-to-one guidance · cancel anytime</span></span>
+              <span class="pay-sum-amt" id="paySumAmt">£25</span>
+            </div>
+            <div class="pay-lbl">Pay with</div>
+            <div class="pay-methods" id="payMethods">
+              <button class="pay-method on" data-m="credit" onclick="payMethod('credit')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19"/></svg>Credit card</button>
+              <button class="pay-method" data-m="debit" onclick="payMethod('debit')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19M6 15h3"/></svg>Debit card</button>
+              <button class="pay-method" data-m="upi" onclick="payMethod('upi')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 7.5h6M9 11h6M13.5 7.5c0 3.2-2.5 3.6-4.5 3.6l5 5.4"/></svg>UPI</button>
+            </div>
+            <div class="pay-form" id="payCardForm">
+              <label>Card number</label>
+              <div class="pay-in-wrap"><input id="payCardNum" inputmode="numeric" autocomplete="off" placeholder="1234 5678 9012 3456" maxlength="19" oninput="payFmtCard(this)"><span class="pay-brand" id="payBrand"></span></div>
+              <div class="pay-row2">
+                <div><label>Expiry</label><input id="payExp" inputmode="numeric" autocomplete="off" placeholder="MM/YY" maxlength="5" oninput="payFmtExp(this)"></div>
+                <div><label>CVV</label><input id="payCvv" inputmode="numeric" autocomplete="off" placeholder="123" maxlength="4" oninput="payDigits(this)"></div>
+              </div>
+              <label>Name on card</label>
+              <input id="payName" autocomplete="off" placeholder="e.g. A Rao">
+            </div>
+            <div class="pay-form" id="payUpiForm" style="display:none">
+              <label>UPI ID</label>
+              <div class="pay-in-wrap"><input id="payUpi" autocomplete="off" placeholder="yourname@bank" style="padding-right:84px"><button class="pay-verify" onclick="showToast('UPI ID verified ✓')">Verify</button></div>
+              <div class="pay-or">or pay using an app</div>
+              <div class="pay-apps">
+                <button onclick="payPickApp('Google Pay')"><span class="pay-adot" style="background:#4285f4"></span>Google Pay</button>
+                <button onclick="payPickApp('PhonePe')"><span class="pay-adot" style="background:#5f259f"></span>PhonePe</button>
+                <button onclick="payPickApp('Paytm')"><span class="pay-adot" style="background:#00baf2"></span>Paytm</button>
+                <button onclick="payPickApp('BHIM')"><span class="pay-adot" style="background:#00a0e3"></span>BHIM</button>
+              </div>
+            </div>
+            <button class="pay-cta" id="payCta" onclick="payNow()">Pay £25</button>
+            <div class="pay-secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Secured · 256-bit encryption</div>
+          </div>
+          <div class="pay-status" id="payStatus">
+            <div class="pay-spin"></div>
+            <div class="pay-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <div class="pay-status-t" id="payStatusT">Processing payment…</div>
+            <div class="pay-status-s" id="payStatusS"></div>
+          </div>
+        </div>
       </div>
 
       <!-- group details panel -->
@@ -2032,7 +2140,7 @@
         +'<div class="who">'+esc(e.n)+tag+'</div>'
         +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your free intro is used up</span></div></div>'
         +'<div class="txt">To keep chatting with '+esc(first)+' and get personalised guidance, unlock a full session.</div>'
-        +'<button class="pw-btn" onclick="unlockSession()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · £'+fee+'</button>'
+        +'<button class="pw-btn" onclick="openPay()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · £'+fee+'</button>'
         +'<div class="pw-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 8.8-4-1.2-7-4.4-7-8.8V6z"/><path d="m9 12 2 2 4-4"/></svg>Secure one-time payment · cancel anytime</div>'
         +'</div></div>';
     }
@@ -2040,6 +2148,64 @@
       EXP_UNLOCKED=true;
       showToast('Session unlocked 🎉 Keep chatting');
       if(curExpert){ addIncoming(curExpert,'You’re all set 💛 Ask me anything — I’m here to help.'); }
+    }
+    /* ===== Payment flow (mock) ===== */
+    var PAY_FEE=25, PAY_METHOD='credit', PAY_BUSY=false;
+    function openPay(){
+      PAY_FEE=(curExpert && expertFee(curExpert)) || 25; PAY_BUSY=false;
+      document.getElementById('paySumName').textContent = (curExpert && curExpert.n) ? ('Full session with '+String(curExpert.n).split(' ')[0]) : 'Full session';
+      document.getElementById('paySumAmt').textContent='£'+PAY_FEE;
+      document.getElementById('payCta').textContent='Pay £'+PAY_FEE;
+      ['payCardNum','payExp','payCvv','payName','payUpi'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; });
+      var br=document.getElementById('payBrand'); if(br) br.textContent='';
+      payMethod('credit');
+      var st=document.getElementById('payStatus'); st.classList.remove('show','success');
+      var pn=document.querySelector('#paySheet .pay-panel'); if(pn) pn.scrollTop=0;
+      document.getElementById('paySheet').classList.add('open');
+    }
+    function closePay(){ if(PAY_BUSY) return; document.getElementById('paySheet').classList.remove('open'); }
+    function payMethod(m){
+      PAY_METHOD=m;
+      document.querySelectorAll('#payMethods .pay-method').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-m')===m); });
+      var isUpi=(m==='upi');
+      document.getElementById('payCardForm').style.display=isUpi?'none':'';
+      document.getElementById('payUpiForm').style.display=isUpi?'':'none';
+    }
+    function payDigits(el){ el.value=el.value.replace(/\D/g,''); }
+    function payFmtCard(el){ var v=el.value.replace(/\D/g,'').slice(0,16); el.value=v.replace(/(.{4})/g,'$1 ').trim(); payBrand(v); }
+    function payBrand(v){ var b=''; if(/^4/.test(v))b='VISA'; else if(/^(5[1-5]|2[2-7])/.test(v))b='MASTERCARD'; else if(/^3[47]/.test(v))b='AMEX'; else if(/^(6|8)/.test(v))b='RuPay'; var el=document.getElementById('payBrand'); if(el) el.textContent=b; }
+    function payFmtExp(el){ var v=el.value.replace(/\D/g,'').slice(0,4); if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2); el.value=v; }
+    function payPickApp(name){ var u=document.getElementById('payUpi'); if(u) u.value=''; payGo(name); }
+    function payNow(){
+      if(PAY_BUSY) return;
+      if(PAY_METHOD==='upi'){
+        var u=(document.getElementById('payUpi').value||'').trim();
+        if(!/^[\w.\-]{2,}@[\w.\-]{2,}$/.test(u)){ showToast('Enter a valid UPI ID'); return; }
+        payGo('UPI'); return;
+      }
+      var num=(document.getElementById('payCardNum').value||'').replace(/\s/g,'');
+      var exp=(document.getElementById('payExp').value||''); var cvv=(document.getElementById('payCvv').value||'');
+      if(num.length<15){ showToast('Enter a valid card number'); return; }
+      if(!/^\d\d\/\d\d$/.test(exp)){ showToast('Enter card expiry (MM/YY)'); return; }
+      if(cvv.length<3){ showToast('Enter the CVV'); return; }
+      payGo(PAY_METHOD==='debit'?'Debit card':'Credit card');
+    }
+    function payGo(method){
+      if(PAY_BUSY) return; PAY_BUSY=true;
+      var st=document.getElementById('payStatus'); st.classList.add('show'); st.classList.remove('success');
+      document.getElementById('payStatusT').textContent='Processing payment…';
+      document.getElementById('payStatusS').textContent=method+' · £'+PAY_FEE;
+      setTimeout(function(){
+        st.classList.add('success');
+        document.getElementById('payStatusT').textContent='Payment successful';
+        document.getElementById('payStatusS').textContent='£'+PAY_FEE+' paid · '+method;
+        setTimeout(function(){
+          PAY_BUSY=false;
+          document.getElementById('paySheet').classList.remove('open');
+          st.classList.remove('show','success');
+          unlockSession();
+        }, 1300);
+      }, 1600);
     }
     function setTick(node,state){
       var foot=node.querySelector('.foot'); var old=foot.querySelector('.tk'); if(old) old.remove();
