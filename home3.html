@@ -1049,6 +1049,12 @@
   .nt-clear{margin-left:auto;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;}
   .nt-day{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin:16px 2px 10px;}
   .nt-day:first-of-type{margin-top:2px;}
+  .nt-filters{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 6px;margin:2px 0 2px;scrollbar-width:none;}
+  .nt-filters::-webkit-scrollbar{display:none;}
+  .nt-chip{flex:0 0 auto;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:8px 15px;border-radius:20px;background:#efeaf7;color:#8574b5;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);transition:background .15s,color .15s,transform .1s;}
+  .nt-chip:active{transform:scale(.96);}
+  .nt-chip.on{background:#8574b5;color:#fff;box-shadow:none;}
+  .nt-empty{display:none;text-align:center;color:#a99fbb;font-size:13.5px;font-weight:600;padding:34px 10px;}
   .nt-item{display:flex;align-items:flex-start;gap:13px;background:#fff;border-radius:18px;padding:15px 16px;margin-bottom:11px;position:relative;overflow:hidden;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .1s;}
   .nt-item:active{transform:scale(.992);}
   .nt-item.unread{background:color-mix(in srgb, var(--ntc,#9b8bc4) 7%, #fff);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--ntc,#9b8bc4) 22%, transparent);}
@@ -2070,33 +2076,43 @@
         <div class="grabber-x"><span></span></div>
         <div class="ss-head"><button class="ss-back" onclick="closeNotif()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Notifications</div><button class="nt-clear" onclick="hToast('All caught up ✓')">Mark all read</button></div>
 
+        <div class="nt-filters" id="notifFilters">
+          <button class="nt-chip on" onclick="notifFilter('all',this)">All</button>
+          <button class="nt-chip" onclick="notifFilter('unread',this)">Unread</button>
+          <button class="nt-chip" onclick="notifFilter('milestone',this)">Milestones</button>
+          <button class="nt-chip" onclick="notifFilter('feeding',this)">Feeding</button>
+          <button class="nt-chip" onclick="notifFilter('community',this)">Community</button>
+          <button class="nt-chip" onclick="notifFilter('checklist',this)">Checklist</button>
+        </div>
+
         <div class="nt-day">Today</div>
-        <div class="nt-item unread" style="--ntc:#39a876" onclick="notifGo(this,'memories')">
+        <div class="nt-item unread" data-cat="milestone" style="--ntc:#39a876" onclick="notifGo(this,'memories')">
           <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 5H5.2a1.8 1.8 0 0 0 0 3.6H7M17 5h1.8a1.8 1.8 0 0 1 0 3.6H17"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Milestone unlocked!</div><div class="nt-d">Mark took his First Walk — add it to his memories.</div><div class="nt-tm">2h ago</div></div>
           <span class="nt-dot"></span>
         </div>
-        <div class="nt-item unread" style="--ntc:#e78a3f" onclick="notifGo(this,'meals')">
+        <div class="nt-item unread" data-cat="feeding" style="--ntc:#e78a3f" onclick="notifGo(this,'meals')">
           <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2h5M10.5 2v2.2M13.5 2v2.2"/><path d="M8.5 7.3C8.5 5.8 9.6 4.7 11 4.7h2c1.4 0 2.5 1.1 2.5 2.6V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2z"/><path d="M9 11h6M9 14.5h4"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Feeding reminder</div><div class="nt-d">Time for Mark’s afternoon meal — Veggie purée.</div><div class="nt-tm">4h ago</div></div>
           <span class="nt-dot"></span>
         </div>
 
         <div class="nt-day">Yesterday</div>
-        <div class="nt-item" style="--ntc:#6070d8" onclick="notifGo(this,'community')">
+        <div class="nt-item" data-cat="community" style="--ntc:#6070d8" onclick="notifGo(this,'community')">
           <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9 11.5h.01M12.5 11.5h.01M16 11.5h.01"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Dr. Meera replied</div><div class="nt-d">“That’s completely normal at this age — here’s what to…”</div><div class="nt-tm">1d ago</div></div>
         </div>
-        <div class="nt-item" style="--ntc:#8f78c4" onclick="notifGo(this,'checklist')">
+        <div class="nt-item" data-cat="checklist" style="--ntc:#8f78c4" onclick="notifGo(this,'checklist')">
           <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="m8.5 12 2.4 2.4L15.5 9.5"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Checklist complete</div><div class="nt-d">You ticked off everything in Baby Essentials 🎉</div><div class="nt-tm">1d ago</div></div>
         </div>
 
         <div class="nt-day">Earlier</div>
-        <div class="nt-item" style="--ntc:#e0a51f" onclick="notifGo(this,'checklist')">
+        <div class="nt-item" data-cat="checklist" style="--ntc:#e0a51f" onclick="notifGo(this,'checklist')">
           <div class="nt-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14.5" r="5.5"/><path d="M8.5 9.6 6 3h4M15.5 9.6 18 3h-4"/><path d="m12 12 .9 1.8 2 .3-1.45 1.4.35 2-1.8-1-1.8 1 .35-2L10.1 14.1l2-.3z"/></svg></div>
           <div class="nt-tx"><div class="nt-t">Badge earned</div><div class="nt-d">You unlocked the 7-Day Streak badge — keep it up!</div><div class="nt-tm">3d ago</div></div>
         </div>
+        <div class="nt-empty" id="notifEmpty">No notifications here yet.</div>
       </div>
     </div>
 
@@ -3055,6 +3071,29 @@
     }
     function hmChartPoint(i){ HM_CHART_SEL=i; renderHmChart(); }
     function openNotif(){ document.getElementById('notifSheet').classList.add('open'); var b=document.getElementById('notifDot'); if(b) b.style.display='none'; }
+    function notifFilter(f, el){
+      var chips=document.querySelectorAll('#notifFilters .nt-chip');
+      for(var i=0;i<chips.length;i++) chips[i].classList.remove('on');
+      if(el) el.classList.add('on');
+      var items=document.querySelectorAll('#notifSheet .nt-item');
+      for(var j=0;j<items.length;j++){
+        var it=items[j], show = f==='all' ? true : (f==='unread' ? it.classList.contains('unread') : it.getAttribute('data-cat')===f);
+        it.style.display = show ? '' : 'none';
+      }
+      // hide day headers whose group is now empty
+      var days=document.querySelectorAll('#notifSheet .nt-day');
+      for(var d=0;d<days.length;d++){
+        var sib=days[d].nextElementSibling, any=false;
+        while(sib && !sib.classList.contains('nt-day')){
+          if(sib.classList.contains('nt-item') && sib.style.display!=='none'){ any=true; break; }
+          sib=sib.nextElementSibling;
+        }
+        days[d].style.display = any ? '' : 'none';
+      }
+      var visible=0; for(var k=0;k<items.length;k++){ if(items[k].style.display!=='none') visible++; }
+      var empty=document.getElementById('notifEmpty'); if(empty) empty.style.display = visible ? 'none' : 'block';
+      var p=document.querySelector('#notifSheet .pf-sheet'); if(p) p.scrollTop=0;
+    }
     function closeNotif(){ document.getElementById('notifSheet').classList.remove('open'); }
     function notifGo(el, action){
       if(el){ el.classList.remove('unread'); var d=el.querySelector('.nt-dot'); if(d) d.remove(); }
