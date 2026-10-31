@@ -702,6 +702,54 @@
   .rx-pdf:active{transform:scale(.97);}
   .rx-foot{display:flex;align-items:center;gap:4px;justify-content:flex-end;padding:0 13px 10px;}
   .rx-foot .tm{font-size:9.5px;color:#b3adae;font-weight:600;}
+
+  /* ---- question widget (expert asks the parent) ---- */
+  .bub.qw{--qc:#7a5fd0;padding:0;overflow:hidden;width:272px;max-width:100%;background:#fff;border-radius:16px 16px 16px 6px;box-shadow:0 6px 18px -8px rgba(70,60,90,.26),inset 0 0 0 1px color-mix(in srgb,var(--qc) 18%,transparent);}
+  .qw-head{display:flex;align-items:center;gap:9px;padding:12px 13px 7px;}
+  .qw-ic{width:30px;height:30px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--qc) 15%,#fff);color:var(--qc);}
+  .qw-ic svg{width:17px;height:17px;}
+  .qw-lbl{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--qc);}
+  .qw-q{padding:0 14px 11px;font-size:14px;font-weight:800;color:#39332e;line-height:1.35;letter-spacing:-.2px;}
+  .qw-opts{display:flex;flex-wrap:wrap;gap:8px;padding:0 13px 9px;}
+  .qw-opt{display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#5a5168;background:color-mix(in srgb,var(--qc) 8%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--qc) 22%,transparent);padding:9px 13px;border-radius:12px;transition:transform .1s,background .15s,opacity .2s;}
+  .qw-opt .em{font-size:14px;line-height:1;}
+  .qw-opt:active{transform:scale(.96);}
+  .qw-opt.sel{background:var(--qc);color:#fff;box-shadow:none;}
+  .qw-opt.dim{opacity:.38;}
+  .bub.qw.done .qw-opt:not(.sel){pointer-events:none;}
+  .qw-hint{padding:0 14px 12px;font-size:10.5px;font-weight:700;color:#aba4b8;display:flex;align-items:center;gap:5px;}
+  .qw-hint svg{width:13px;height:13px;}
+  .qw-hint.done{color:var(--qc);}
+
+  /* ---- suggestion widget (actionable tips) ---- */
+  .bub.sw{--sc:#e0932f;padding:0;overflow:hidden;width:272px;height:auto;max-width:100%;background:#fff;border-radius:16px 16px 16px 6px;box-shadow:0 6px 18px -8px rgba(90,70,40,.22),inset 0 0 0 1px color-mix(in srgb,var(--sc) 20%,transparent);}
+  .sw-head{display:flex;align-items:center;gap:9px;padding:12px 13px 4px;}
+  .sw-ic{width:30px;height:30px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--sc) 15%,#fff);color:var(--sc);}
+  .sw-ic svg{width:17px;height:17px;}
+  .sw-lbl{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--sc);}
+  .sw-list{padding:3px 11px 11px;}
+  .sw-item{display:flex;align-items:center;gap:11px;width:100%;border:none;cursor:pointer;font-family:inherit;text-align:left;background:#faf8f3;box-shadow:inset 0 0 0 1px rgba(0,0,0,.045);border-radius:13px;padding:10px 11px;margin-top:7px;transition:transform .1s,opacity .2s;}
+  .sw-item:active{transform:scale(.98);}
+  .sw-si{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--si,#e0932f) 16%,#fff);color:var(--si,#e0932f);}
+  .sw-si svg{width:18px;height:18px;}
+  .sw-stx{flex:1;min-width:0;}
+  .sw-stx b{display:block;font-size:12.5px;font-weight:800;color:#39332e;}
+  .sw-stx span{display:block;font-size:11px;font-weight:600;color:#8a857e;margin-top:1px;line-height:1.3;}
+  .sw-act{flex-shrink:0;color:#c3bcae;display:flex;}
+  .sw-act svg{width:18px;height:18px;}
+  .sw-item.added{opacity:.72;}
+  .sw-item.added .sw-act{color:#2b9d78;}
+
+  /* ---- close-the-loop (resolution) ---- */
+  .chat-sys{align-self:center;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#2b9d78;background:color-mix(in srgb,#2b9d78 12%,#fff);padding:5px 13px;border-radius:14px;margin:7px 0 3px;}
+  .chat-sys svg{width:13px;height:13px;}
+  .chat-closed{flex-shrink:0;display:none;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px 24px;background:var(--card-bg);}
+  .chat-closed .cc-tx{font-size:12.5px;font-weight:700;color:#8a857e;display:flex;align-items:center;gap:7px;min-width:0;}
+  .chat-closed .cc-tx svg{width:16px;height:16px;flex-shrink:0;color:#2b9d78;}
+  .chat-closed .cc-re{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#8574b5;background:#efeaf7;padding:9px 16px;border-radius:12px;transition:transform .1s;}
+  .chat-closed .cc-re:active{transform:scale(.97);}
+  #chat.closed .chat-input{display:none;}
+  #chat.closed .chat-closed{display:flex;}
   .typing{display:flex;gap:9px;align-items:flex-end;}
   .typing .bub{display:flex;align-items:center;gap:4px;padding:11px 13px;}
   .typing .who2{font-size:11px;color:#8574b5;font-weight:700;margin-right:3px;}
@@ -1354,6 +1402,10 @@
           <input type="text" id="chatInput" placeholder="Message..." />
           <button class="chat-send" onclick="sendMsg()" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button>
         </div>
+        <div class="chat-closed">
+          <span class="cc-tx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-4.5"/></svg>You marked this chat as resolved</span>
+          <button class="cc-re" onclick="reopenChat()">Reopen</button>
+        </div>
         <!-- attachment sheet -->
         <div class="attach-sheet" id="attachSheet">
           <div class="attach-bd" onclick="closeAttach()"></div>
@@ -1820,6 +1872,7 @@
       if(!entry) entry={topic:'Other',child:'',detail:''};
       var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',msg:'Hi! How can I help you today?'};
       curExpert=e; curGid=null; EXP_UNLOCKED=false; EXP_SENT=0; clearTimeout(typingTimer); hideTyping();
+      document.getElementById('chat').classList.remove('closed');
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
       document.getElementById('chatPres').textContent=e.spec;
@@ -1833,9 +1886,10 @@
       var askHTML='Hi 💛 Here’s a quick summary of what I’d like help with —<br>'+sum.join('<br>');
       var _tk=TK_D.replace('class="tk"','class="tk read"');
       var askBubble='<div class="msg me"><div class="bub" onclick="openMsgMenu(this)"><div class="txt">'+askHTML+'</div><div class="foot"><span class="tm">Just now</span>'+_tk+'</div></div></div>';
-      var reply=(WZ_REPLY[entry.topic]||WZ_REPLY.Other).replace(/\{child\}/g, who||'your little one');
-      var rxBubble=rxCard(m, expertRx(e, who));
-      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+askBubble+incoming(m,reply,'')+rxBubble+'<div class="seenby" id="seenBy"></div>';
+      var reply='Thanks for sharing 💛 Let me ask a couple of quick things so I can guide you properly.';
+      CHAT_CHILD=who; QW_STEP=0; QW_SET=expertQuestions(e, who);
+      var qw=qWidget(m, QW_SET[0]);
+      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+askBubble+incoming(m,reply,'')+qw+'<div class="seenby" id="seenBy"></div>';
       document.getElementById('chatBody').innerHTML=html;
       var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
       document.getElementById('chat').classList.add('open');
@@ -1851,6 +1905,7 @@
       var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,verified:true,level:'Verified Expert',tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',answers:0,helpful:'5.0',points:0,topics:['Baby care'],badges:[['✅','Verified','#e2f5e8','#2fa96f']],bio:'Verified paediatric expert here to help.',msg:'Hi! How can I help you today?'};
       curExpert=e; curGid=null; EXP_UNLOCKED=false; EXP_SENT=0;
       clearTimeout(typingTimer); hideTyping();
+      document.getElementById('chat').classList.remove('closed');
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
       document.getElementById('chatPres').textContent=e.spec;
@@ -2113,6 +2168,154 @@
     }
     function rxSave(btn){ if(btn.classList.contains('saved')) return; btn.classList.add('saved'); btn.innerHTML=IC_RXCHECK+'Saved to Health'; try{showToast('Saved to your baby’s Health records 💚');}catch(e){} }
     function rxPdf(){ try{showToast('Opening prescription PDF…');}catch(e){} }
+
+    /* ===== chat widgets: question + suggestion ===== */
+    var IC_QW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12Z"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.3 1.1c0 1.9-2.8 2.4-2.8 2.4"/><path d="M12 16.4h.01"/></svg>';
+    var IC_TAP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11V6a1.8 1.8 0 0 1 3.6 0v4.5"/><path d="M11.6 10.5V9a1.7 1.7 0 0 1 3.4 0v1.6"/><path d="M15 10.6v-.4a1.7 1.7 0 0 1 3.4 0V15c0 3-2 5-5 5h-1c-1.6 0-2.6-.5-3.6-1.9L6.2 15a1.7 1.7 0 0 1 2.8-1.9l1 1.1"/></svg>';
+    var IC_IDEA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M15.1 14c.2-1 .7-1.8 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .25 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></svg>';
+    var IC_BELL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10.4 20a1.9 1.9 0 0 0 3.2 0"/></svg>';
+    var IC_BOOK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>';
+    var IC_HEART='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9Z"/></svg>';
+    var IC_PLUS='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
+    var IC_ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
+    var CHAT_CHILD='', QW_STEP=0, QW_SET=[];
+    function expertQuestions(e, who){
+      who=who||'your baby';
+      if(/pa?ediatric|doctor|paediatrician/i.test((e.spec||'')+' '+(e.level||''))){
+        return [
+          {label:'Quick question', q:'Is '+who+' running a temperature?', opts:[{em:'🌡️',t:'Yes'},{t:'No'},{t:'Not sure'}]},
+          {label:'One more', q:'Any change in feeding or nappies?', opts:[{t:'Feeding less'},{t:'Fewer nappies'},{t:'All normal'}]}
+        ];
+      }
+      if(/lactation|feed/i.test(e.spec||'')){
+        return [
+          {label:'Quick question', q:'How is '+who+' feeding right now?', opts:[{em:'🤱',t:'Breast'},{em:'🍼',t:'Bottle'},{em:'🔄',t:'Both'}]},
+          {label:'One more', q:'Roughly how often in 24 hours?', opts:[{t:'Under 6'},{t:'6–8'},{t:'8 or more'}]}
+        ];
+      }
+      return [
+        {label:'Quick question', q:'How does '+who+' fall asleep now?', opts:[{em:'🤱',t:'Fed to sleep'},{em:'🤗',t:'Rocked'},{em:'🛏️',t:'Self-settles'}]},
+        {label:'One more', q:'How many night wakes, usually?', opts:[{t:'1–2'},{t:'3–4'},{t:'5+'}]}
+      ];
+    }
+    function qWidget(m, data){
+      var opts=(data.opts||[]).map(function(o){
+        return '<button class="qw-opt" data-v="'+esc(o.t)+'" onclick="event.stopPropagation();qwAnswer(this)">'+(o.em?'<span class="em">'+o.em+'</span>':'')+esc(o.t)+'</button>';
+      }).join('');
+      var card='<div class="bub qw" onclick="openMsgMenu(this)">'
+        +'<div class="qw-head"><span class="qw-ic">'+IC_QW+'</span><span class="qw-lbl">'+esc(data.label||'Quick question')+'</span></div>'
+        +'<div class="qw-q">'+esc(data.q)+'</div>'
+        +'<div class="qw-opts">'+opts+'</div>'
+        +'<div class="qw-hint">'+IC_TAP+'<span>Tap one to answer</span></div>'
+      +'</div>';
+      return '<div class="msg">'+av(m)+card+'</div>';
+    }
+    function qwAnswer(btn){
+      var card=btn.closest('.bub.qw'); if(!card||card.classList.contains('done')) return;
+      card.classList.add('done');
+      [].forEach.call(card.querySelectorAll('.qw-opt'),function(b){ if(b!==btn) b.classList.add('dim'); });
+      btn.classList.add('sel');
+      var hint=card.querySelector('.qw-hint'); if(hint){ hint.classList.add('done'); hint.innerHTML=IC_RXCHECK+'<span>Answered</span>'; }
+      postMine(btn.getAttribute('data-v')||btn.textContent.trim());
+      if(!curExpert) return;
+      var e=curExpert, m={n:e.n,e:e.e,c1:e.c1,c2:e.c2,tag:e.tag,tagKind:e.tagKind,tagBg:e.tagBg,tagFg:e.tagFg};
+      QW_STEP++;
+      if(QW_STEP < QW_SET.length){
+        setTimeout(function(){ showTyping(e); },700);
+        setTimeout(function(){ hideTyping(); addWidget(qWidget(m, QW_SET[QW_STEP])); },2000);
+      } else {
+        setTimeout(function(){ showTyping(e); },700);
+        setTimeout(function(){ hideTyping(); addWidget(incoming(m,'Thank you 💛 Based on that, here are a few suggestions —','')); addWidget(sWidget(e, CHAT_CHILD)); },2200);
+        setTimeout(function(){ addWidget(rxCard({n:e.n,e:e.e,c1:e.c1,c2:e.c2}, expertRx(e, CHAT_CHILD))); },3600);
+        setTimeout(function(){ addWidget(closeWidget(m)); },4800);
+      }
+    }
+    function expertSuggest(e, who){
+      who=who||'your baby';
+      if(/pa?ediatric|doctor|paediatrician/i.test((e.spec||'')+' '+(e.level||''))){
+        return [
+          {ic:IC_BELL,c:'#e0932f',t:'Set a temperature check',d:'Every 4 hours · log it',act:IC_PLUS},
+          {ic:IC_BOOK,c:'#6070d8',t:'Read: Fever in babies',d:'3 min · when to worry',act:IC_ARROW},
+          {ic:IC_HEART,c:'#2b9d78',t:'Save to Health records',d:'Keep for '+who+'’s history',act:IC_PLUS}
+        ];
+      }
+      if(/lactation|feed/i.test(e.spec||'')){
+        return [
+          {ic:IC_BELL,c:'#e0932f',t:'Set a feeding reminder',d:'Every 3 hours',act:IC_PLUS},
+          {ic:IC_BOOK,c:'#6070d8',t:'Read: Cluster feeding',d:'3 min · why it happens',act:IC_ARROW},
+          {ic:IC_HEART,c:'#2b9d78',t:'Save this feeding plan',d:'Add to '+who+'’s notes',act:IC_PLUS}
+        ];
+      }
+      return [
+        {ic:IC_BELL,c:'#e0932f',t:'Set a bedtime reminder',d:'7:00 pm · wind-down',act:IC_PLUS},
+        {ic:IC_BOOK,c:'#6070d8',t:'Read: Gentle self-settling',d:'4 min · step by step',act:IC_ARROW},
+        {ic:IC_HEART,c:'#2b9d78',t:'Save this sleep plan',d:'Add to '+who+'’s notes',act:IC_PLUS}
+      ];
+    }
+    function sWidget(e, who){
+      var items=expertSuggest(e, who).map(function(it){
+        return '<button class="sw-item" onclick="event.stopPropagation();swTap(this)"><span class="sw-si" style="--si:'+it.c+'">'+it.ic+'</span>'
+          +'<span class="sw-stx"><b>'+esc(it.t)+'</b><span>'+esc(it.d)+'</span></span><span class="sw-act">'+it.act+'</span></button>';
+      }).join('');
+      var m={n:e.n,e:e.e,c1:e.c1,c2:e.c2};
+      var card='<div class="bub sw" onclick="openMsgMenu(this)">'
+        +'<div class="sw-head"><span class="sw-ic">'+IC_IDEA+'</span><span class="sw-lbl">Suggestions for you</span></div>'
+        +'<div class="sw-list">'+items+'</div>'
+      +'</div>';
+      return '<div class="msg">'+av(m)+card+'</div>';
+    }
+    function swTap(btn){ if(btn.classList.contains('added')) return; btn.classList.add('added'); var a=btn.querySelector('.sw-act'); if(a) a.innerHTML=IC_RXCHECK; try{showToast('Added 💛');}catch(e){} }
+    function postMine(text){ var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy'); if(!body) return; var d=document.createElement('div'); d.innerHTML=mine(text,'now','read'); body.insertBefore(d.firstChild, sb); body.scrollTop=body.scrollHeight; }
+    function addWidget(html){ var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy'); if(!body) return; var d=document.createElement('div'); d.innerHTML=html; if(d.firstChild){ body.insertBefore(d.firstChild, sb); body.scrollTop=body.scrollHeight; } }
+
+    /* close-the-loop (resolution) widget */
+    var IC_CHECKC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-4.5"/></svg>';
+    function closeWidget(m){
+      var first=(m.n||'the expert').split(' ')[0];
+      var card='<div class="bub qw cl" style="--qc:#2b9d78" onclick="openMsgMenu(this)">'
+        +'<div class="qw-head"><span class="qw-ic">'+IC_CHECKC+'</span><span class="qw-lbl">Close the loop</span></div>'
+        +'<div class="qw-q">Did this answer your question?</div>'
+        +'<div class="qw-opts"><button class="qw-opt" data-ans="yes" onclick="event.stopPropagation();clResolve(this)"><span class="em">💛</span>Yes, this helped</button>'
+          +'<button class="qw-opt" data-ans="no" onclick="event.stopPropagation();clResolve(this)"><span class="em">🙋</span>Not yet</button></div>'
+        +'<div class="qw-hint">'+IC_TAP+'<span>Let '+esc(first)+' know</span></div>'
+      +'</div>';
+      return '<div class="msg">'+av(m)+card+'</div>';
+    }
+    function clResolve(btn){
+      var card=btn.closest('.bub.qw'); if(!card||card.classList.contains('done')) return;
+      card.classList.add('done');
+      [].forEach.call(card.querySelectorAll('.qw-opt'),function(b){ if(b!==btn) b.classList.add('dim'); });
+      btn.classList.add('sel');
+      var hint=card.querySelector('.qw-hint'); if(hint){ hint.classList.add('done'); hint.innerHTML=IC_RXCHECK+'<span>Thanks for the feedback</span>'; }
+      var ans=btn.getAttribute('data-ans');
+      postMine(btn.textContent.trim());
+      if(!curExpert) return;
+      var e=curExpert, m={n:e.n,e:e.e,c1:e.c1,c2:e.c2,tag:e.tag,tagKind:e.tagKind,tagBg:e.tagBg,tagFg:e.tagFg};
+      if(ans==='yes'){
+        setTimeout(function(){ showTyping(e); },700);
+        setTimeout(function(){ hideTyping(); addWidget(incoming(m,'So glad I could help 💛 I’ll close this for now — reopen any time if you need me.','')); },2200);
+        setTimeout(function(){ markChatClosed(); },3100);
+      } else {
+        setTimeout(function(){ showTyping(e); },700);
+        setTimeout(function(){ hideTyping(); addWidget(incoming(m,'No problem at all — tell me a bit more and we’ll keep going. 💛','')); },2200);
+      }
+    }
+    function markChatClosed(){
+      var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy');
+      if(body && !body.querySelector('.chat-sys')){
+        var d=document.createElement('div'); d.className='chat-sys'; d.innerHTML=IC_CHECKC+'<span>Chat closed · resolved</span>';
+        body.insertBefore(d, sb); body.scrollTop=body.scrollHeight;
+      }
+      document.getElementById('chat').classList.add('closed');
+      var pres=document.getElementById('chatPres'); if(pres) pres.textContent='Chat closed · resolved';
+    }
+    function reopenChat(){
+      document.getElementById('chat').classList.remove('closed');
+      var pres=document.getElementById('chatPres'); if(pres && curExpert) pres.textContent=curExpert.spec;
+      var body=document.getElementById('chatBody'); var s=body?body.querySelector('.chat-sys'):null; if(s) s.remove();
+      try{showToast('Chat reopened 💛');}catch(e){}
+      var ci=document.getElementById('chatInput'); if(ci) ci.focus();
+    }
     /* --- geography filter: show only posts from parents in the user's area --- */
     var USER_REGION='London';
     var GEO_REGION=['London','London','Manchester','London','Bristol','London','Leeds','London','Manchester','Bristol','London','London'];
@@ -2147,6 +2350,7 @@
     }
     function openGroup(gid){
       curGid=gid; curExpert=null; var g=GROUPS[gid];
+      document.getElementById('chat').classList.remove('closed');
       document.getElementById('chatAv').textContent=g.emoji;
       document.getElementById('chatAv').style.background=g.bg;
       document.getElementById('chatName').textContent=g.name;
