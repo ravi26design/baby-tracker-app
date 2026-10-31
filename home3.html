@@ -3023,7 +3023,7 @@
       var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals), sp=(mx-mn)||1; mn-=sp*0.34; mx+=sp*0.30;
       var n=vals.length, last=n-1, x=function(i){return padL+cW*(i/(n-1));}, y=function(v){return padT+cH*(1-(v-mn)/(mx-mn));};
       var pts=vals.map(function(v,i){return [x(i),y(v)];});
-      function sm(P){var d='M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1);for(var i=0;i<P.length-1;i++){var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,t=0.17;d+=' C'+(p1[0]+(p2[0]-p0[0])*t).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])*t).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])*t).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])*t).toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);}return d;}
+      function sm(P){var d='M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1);for(var i=0;i<P.length-1;i++){var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,t=0.38;d+=' C'+(p1[0]+(p2[0]-p0[0])*t).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])*t).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])*t).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])*t).toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);}return d;}
       var line=sm(pts), base=(padT+cH).toFixed(1);
       var area=line+' L'+x(last).toFixed(1)+' '+base+' L'+x(0).toFixed(1)+' '+base+' Z';
       // soft baseline gridlines (Apple Health style)

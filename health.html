@@ -861,7 +861,7 @@
     var unit=growthTab==='weight'?'kg':'cm';
     var base=padT+cH;
     var pts=GROWTH.map(function(g,i){return [x(i), y(growthTab==='weight'?g.weight:g.height)];});
-    function sp(P){ if(P.length<2) return 'M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1); var d='M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1); for(var i=0;i<P.length-1;i++){var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,t=0.16; var c1x=p1[0]+(p2[0]-p0[0])*t,c1y=p1[1]+(p2[1]-p0[1])*t,c2x=p2[0]-(p3[0]-p1[0])*t,c2y=p2[1]-(p3[1]-p1[1])*t; d+=' C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+' '+c2x.toFixed(1)+' '+c2y.toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);} return d; }
+    function sp(P){ if(P.length<2) return 'M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1); var d='M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1); for(var i=0;i<P.length-1;i++){var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,t=0.38; var c1x=p1[0]+(p2[0]-p0[0])*t,c1y=p1[1]+(p2[1]-p0[1])*t,c2x=p2[0]-(p3[0]-p1[0])*t,c2y=p2[1]-(p3[1]-p1[1])*t; d+=' C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+' '+c2x.toFixed(1)+' '+c2y.toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);} return d; }
     var lineP=sp(pts);
     var areaP=lineP+' L'+x(n-1).toFixed(1)+' '+base.toFixed(1)+' L'+x(0).toFixed(1)+' '+base.toFixed(1)+' Z';
     // y-axis gridlines + labels
