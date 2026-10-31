@@ -1721,7 +1721,7 @@
               +'<span class="wz-name"><span style="white-space:nowrap">'+n+'</span>'+(n===rec?'<span class="wz-rec">Recommended</span>':'')+'</span>'
               +'<span class="wz-desc">'+(e.spec||'Expert')+' · '+(e.on?'Online now':'Replies in ~10 min')+'</span>'
               +'<span class="wz-exp-foot">'
-                +(fee!=null?'<span class="wz-fee">£'+fee+' <span>/ session</span></span>':'')
+                +(fee!=null?'<span class="wz-fee">£'+fee+' <span>/ 10 messages</span></span>':'')
                 +'<button class="wz-prof" onclick="event.stopPropagation();showProfile(EXPERTS[\''+nEsc+'\'])">View profile</button>'
               +'</span>'
             +'</span>'
@@ -2292,7 +2292,7 @@
     function showProfile(m){
       var _fee=expertFee(m), _fx=document.getElementById('prFee');
       if(_fx){ if(_fee!=null && isExpertM(m)){ _fx.style.display='flex';
-          _fx.innerHTML='<span class="pf-main"><span class="pf-amt">£'+_fee+'</span><span class="pf-per">per session</span></span>'+
+          _fx.innerHTML='<span class="pf-main"><span class="pf-amt">£'+_fee+'</span><span class="pf-per">per 10 messages</span></span>'+
             '<span class="pf-note"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Free until the expert replies</span>';
         } else { _fx.style.display='none'; } }
       var a=document.getElementById('prAv'); a.textContent=m.e; a.style.background='radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')';
