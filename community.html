@@ -672,6 +672,36 @@
   .tk.read{color:#5fd0ff;}
   .seenby{align-self:center;text-align:center;font-size:10.5px;color:#9a8fb3;font-weight:600;margin:-4px 4px 2px;display:none;}
   .seenby.show{display:block;}
+
+  /* ---- prescription / recommendation card (from an expert) ---- */
+  .bub.rx{--rxc:#2b9d78;padding:0;overflow:hidden;width:270px;max-width:100%;background:#fff;border-radius:16px 16px 16px 6px;box-shadow:0 6px 18px -8px rgba(60,80,70,.28),inset 0 0 0 1px color-mix(in srgb,var(--rxc) 20%,transparent);}
+  .rx-head{display:flex;align-items:center;gap:10px;padding:12px 13px;background:color-mix(in srgb,var(--rxc) 9%,#fff);border-bottom:1px solid color-mix(in srgb,var(--rxc) 14%,transparent);}
+  .rx-ic{width:36px;height:36px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rxc) 17%,#fff);color:var(--rxc);}
+  .rx-ic svg{width:20px;height:20px;}
+  .rx-htx{flex:1;min-width:0;}
+  .rx-htx b{display:block;font-size:13.5px;font-weight:850;color:#2d3832;letter-spacing:-.2px;}
+  .rx-htx span{display:block;font-size:11px;font-weight:600;color:#7c877f;margin-top:1px;}
+  .rx-vfy{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;font-size:9.5px;font-weight:800;color:var(--rxc);background:color-mix(in srgb,var(--rxc) 13%,#fff);padding:3px 7px;border-radius:8px;}
+  .rx-vfy svg{width:10px;height:10px;}
+  .rx-items{padding:4px 13px 2px;}
+  .rx-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed #ebe8e2;}
+  .rx-item:last-child{border-bottom:none;}
+  .rx-num{width:20px;height:20px;flex-shrink:0;border-radius:7px;background:color-mix(in srgb,var(--rxc) 13%,#fff);color:var(--rxc);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .rx-itx{flex:1;min-width:0;}
+  .rx-itx b{display:block;font-size:13px;font-weight:800;color:#39332e;}
+  .rx-itx span{display:block;font-size:11.5px;font-weight:600;color:#8a857e;margin-top:2px;line-height:1.35;}
+  .rx-note{display:flex;gap:7px;align-items:flex-start;margin:4px 13px 0;padding:9px 11px;border-radius:11px;background:#fbf7ef;font-size:11.5px;font-weight:600;color:#7a6f52;line-height:1.4;}
+  .rx-note svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#c79a3a;}
+  .rx-acts{display:flex;gap:8px;padding:11px 13px 13px;}
+  .rx-save{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:10px;border-radius:12px;background:var(--rxc);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .1s,filter .15s;}
+  .rx-save svg{width:15px;height:15px;}
+  .rx-save:active{transform:scale(.97);}
+  .rx-save.saved{background:color-mix(in srgb,var(--rxc) 14%,#fff);color:var(--rxc);}
+  .rx-pdf{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:10px 13px;border-radius:12px;background:#f1efe9;color:#6a645b;display:flex;align-items:center;gap:6px;transition:transform .1s;}
+  .rx-pdf svg{width:15px;height:15px;}
+  .rx-pdf:active{transform:scale(.97);}
+  .rx-foot{display:flex;align-items:center;gap:4px;justify-content:flex-end;padding:0 13px 10px;}
+  .rx-foot .tm{font-size:9.5px;color:#b3adae;font-weight:600;}
   .typing{display:flex;gap:9px;align-items:flex-end;}
   .typing .bub{display:flex;align-items:center;gap:4px;padding:11px 13px;}
   .typing .who2{font-size:11px;color:#8574b5;font-weight:700;margin-right:3px;}
@@ -1804,7 +1834,8 @@
       var _tk=TK_D.replace('class="tk"','class="tk read"');
       var askBubble='<div class="msg me"><div class="bub" onclick="openMsgMenu(this)"><div class="txt">'+askHTML+'</div><div class="foot"><span class="tm">Just now</span>'+_tk+'</div></div></div>';
       var reply=(WZ_REPLY[entry.topic]||WZ_REPLY.Other).replace(/\{child\}/g, who||'your little one');
-      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+askBubble+incoming(m,reply,'')+'<div class="seenby" id="seenBy"></div>';
+      var rxBubble=rxCard(m, expertRx(e, who));
+      var html='<div class="chat-day">Today</div>'+incoming(m,e.msg,'')+askBubble+incoming(m,reply,'')+rxBubble+'<div class="seenby" id="seenBy"></div>';
       document.getElementById('chatBody').innerHTML=html;
       var body=document.getElementById('chatBody'); body.scrollTop=body.scrollHeight;
       document.getElementById('chat').classList.add('open');
@@ -2042,6 +2073,46 @@
       var tk = state==='read' ? TK_D.replace('class="tk"','class="tk read"') : (state==='delivered'?TK_D:TK_S);
       return '<div class="msg me"><div class="bub" onclick="openMsgMenu(this)"><div class="txt">'+esc(text)+'</div><div class="foot"><span class="tm">'+tm+'</span>'+tk+'</div></div></div>';
     }
+    /* ---- prescription / care-plan card shared by an expert ---- */
+    var IC_PILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 20.5 10.5a5 5 0 0 0-7-7L3.5 13.5a5 5 0 0 0 7 7Z"/><path d="M8.5 5.5l10 10"/></svg>';
+    var IC_PLAN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4.6a1.6 1.6 0 0 1 1.6-1.6h2.8A1.6 1.6 0 0 1 15 4.6V5a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z"/><path d="M9 11h6M9 15h4"/></svg>';
+    var IC_RXCHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    var IC_RXNOTE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>';
+    var IC_RXPDF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10m0 0 4-4m-4 4-4-4"/><path d="M5 19h14"/></svg>';
+    function expertRx(e, child){
+      var who=child||'your baby';
+      if(/pa?ediatric|doctor|paediatrician/i.test((e.spec||'')+' '+(e.level||''))){
+        return {kind:'Prescription', ic:IC_PILL, c:'#2b9d78', vfy:'Verified', who:who,
+          items:[{t:'Vitamin D drops',d:'400 IU · once daily · 4 weeks'},{t:'Paracetamol (only if fever)',d:'60 mg · up to 4× a day'}],
+          note:'Give the vitamin D with the morning feed. Call us if a fever lasts over 48 hours.'};
+      }
+      if(/lactation|feed/i.test(e.spec||'')){
+        return {kind:'Feeding plan', ic:IC_PLAN, c:'#8574b5', vfy:'Expert', who:who,
+          items:[{t:'Day feeds',d:'Every 2.5–3 h · offer both sides'},{t:'Latch',d:'Deep latch — chin to breast, wide mouth'},{t:'Top-up',d:'Only if wet nappies drop below 6 a day'}],
+          note:'Try gentle breast compressions near the end of each feed to keep baby active.'};
+      }
+      return {kind:'Sleep plan', ic:IC_PLAN, c:'#3f7fd0', vfy:'Expert', who:who,
+        items:[{t:'Bedtime',d:'7:00 pm · keep it consistent'},{t:'Wind-down',d:'20 min · dim lights, calm play'},{t:'Night wakes',d:'Pause 2 min before responding'}],
+        note:'Keep the room at 18–20°C and fully dark for naps and bedtime.'};
+    }
+    function rxCard(m, data){
+      var items=data.items.map(function(it,i){
+        return '<div class="rx-item"><span class="rx-num">'+(i+1)+'</span><div class="rx-itx"><b>'+esc(it.t)+'</b><span>'+esc(it.d)+'</span></div></div>';
+      }).join('');
+      var card='<div class="bub rx" style="--rxc:'+data.c+'" onclick="openMsgMenu(this)">'
+        +'<div class="rx-head"><span class="rx-ic">'+data.ic+'</span>'
+          +'<div class="rx-htx"><b>'+esc(data.kind)+'</b><span>From '+esc(m.n)+' · for '+esc(data.who)+'</span></div>'
+          +'<span class="rx-vfy">'+IC_RXCHECK+esc(data.vfy)+'</span></div>'
+        +'<div class="rx-items">'+items+'</div>'
+        +'<div class="rx-note">'+IC_RXNOTE+'<span>'+esc(data.note)+'</span></div>'
+        +'<div class="rx-acts"><button class="rx-save" onclick="event.stopPropagation();rxSave(this)">'+IC_RXCHECK+'Save to Health</button>'
+          +'<button class="rx-pdf" onclick="event.stopPropagation();rxPdf()">'+IC_RXPDF+'PDF</button></div>'
+        +'<div class="rx-foot"><span class="tm">Just now</span></div>'
+      +'</div>';
+      return '<div class="msg">'+av(m)+card+'</div>';
+    }
+    function rxSave(btn){ if(btn.classList.contains('saved')) return; btn.classList.add('saved'); btn.innerHTML=IC_RXCHECK+'Saved to Health'; try{showToast('Saved to your baby’s Health records 💚');}catch(e){} }
+    function rxPdf(){ try{showToast('Opening prescription PDF…');}catch(e){} }
     /* --- geography filter: show only posts from parents in the user's area --- */
     var USER_REGION='London';
     var GEO_REGION=['London','London','Manchester','London','Bristol','London','Leeds','London','Manchester','Bristol','London','London'];
