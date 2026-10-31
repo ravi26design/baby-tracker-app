@@ -3070,14 +3070,14 @@
       var posts = memPosts(), pkeys = Object.keys(posts);
       if(pkeys.length){   // map the card to the latest captured memory
         var lastTitle = pkeys[pkeys.length-1], rec = posts[lastTitle]||{};
-        if(t) t.innerHTML = '🎉 You marked <b>'+lastTitle+'</b>!';
-        if(x) x.innerHTML = 'Here’s a quick checklist to support '+(her?'her':'his')+' '+lastTitle.toLowerCase()+'.';
+        if(t) t.innerHTML = '🎉 '+(c.name||'Baby')+'’s <b>'+lastTitle+'</b> is marked!';
+        if(x) x.innerHTML = 'Here’s a quick checklist to support '+(c.name||'your baby')+'’s '+lastTitle.toLowerCase()+'.';
         if(l) l.textContent = 'View Checklist';
         window.WC_CTA_HREF = 'checklist.html';
       } else {
         var act = (c.activities && c.activities[0]) || {};
-        if(t) t.innerHTML = 'Loving <b>'+(act.title||'play time')+'</b> this week';
-        if(x) x.innerHTML = 'Add a few details to personalise '+(her?'her':'his')+' milestones &amp; reminders.';
+        if(t) t.innerHTML = '<b>'+(c.name||'Baby')+'</b> is loving <b>'+(act.title||'play time')+'</b> this week';
+        if(x) x.innerHTML = 'Add a few details to personalise '+(c.name||'your baby')+'’s milestones &amp; reminders.';
         if(l) l.textContent = 'View Checklist';
         window.WC_CTA_HREF = 'checklist.html';
       }
