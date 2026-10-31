@@ -2265,7 +2265,17 @@
       return '<div class="msg">'+av(m)+card+'</div>';
     }
     function swTap(btn){ if(btn.classList.contains('added')) return; btn.classList.add('added'); var a=btn.querySelector('.sw-act'); if(a) a.innerHTML=IC_RXCHECK; try{showToast('Added 💛');}catch(e){} }
-    function postMine(text){ var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy'); if(!body) return; var d=document.createElement('div'); d.innerHTML=mine(text,'now','read'); body.insertBefore(d.firstChild, sb); body.scrollTop=body.scrollHeight; }
+    function registerParentMsg(){
+      EXP_SENT++;
+      if(curExpert && !EXP_UNLOCKED && EXP_SENT>=EXP_FREE && !document.querySelector('#chatBody .bub.pw')){
+        var e=curExpert;
+        setTimeout(function(){ showTyping(e); }, 900);
+        setTimeout(function(){ hideTyping(); addWidget(expertPaywall(e)); }, 2600);
+        return true;
+      }
+      return false;
+    }
+    function postMine(text, opts){ var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy'); if(!body) return; var d=document.createElement('div'); d.innerHTML=mine(text,'now','read'); body.insertBefore(d.firstChild, sb); body.scrollTop=body.scrollHeight; if(!(opts&&opts.noCount)) registerParentMsg(); }
     function addWidget(html){ var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy'); if(!body) return; var d=document.createElement('div'); d.innerHTML=html; if(d.firstChild){ body.insertBefore(d.firstChild, sb); body.scrollTop=body.scrollHeight; } }
 
     /* close-the-loop (resolution) widget */
@@ -2288,7 +2298,7 @@
       btn.classList.add('sel');
       var hint=card.querySelector('.qw-hint'); if(hint){ hint.classList.add('done'); hint.innerHTML=IC_RXCHECK+'<span>Thanks for the feedback</span>'; }
       var ans=btn.getAttribute('data-ans');
-      postMine(btn.textContent.trim());
+      postMine(btn.textContent.trim(), {noCount:true});
       if(!curExpert) return;
       var e=curExpert, m={n:e.n,e:e.e,c1:e.c1,c2:e.c2,tag:e.tag,tagKind:e.tagKind,tagBg:e.tagBg,tagFg:e.tagFg};
       if(ans==='yes'){
@@ -2415,22 +2425,11 @@
           setTimeout(function(){ hideTyping(); addIncoming(curExpert,'Thanks 💛 Let me look at that and I’ll share some guidance.'); },4200);
           return;
         }
-        EXP_SENT++;
-        if(EXP_SENT < EXP_FREE){
-          // still within the free allowance — normal expert reply
-          var rp=EXP_FREE_REPLIES[(EXP_SENT-1)%EXP_FREE_REPLIES.length];
-          setTimeout(function(){ showTyping(curExpert); },2200);
-          setTimeout(function(){ hideTyping(); addIncoming(curExpert,rp); },4200);
-        } else if(!document.querySelector('#chatBody .bub.pw')){
-          // 5 free messages used — reply once more, then show the session paywall
-          setTimeout(function(){ showTyping(curExpert); },1800);
-          setTimeout(function(){ hideTyping(); addIncoming(curExpert,EXP_FREE_REPLIES[EXP_FREE_REPLIES.length-1]); },3600);
-          setTimeout(function(){ var b2=document.getElementById('chatBody'), sb2=document.getElementById('seenBy');
-            var d=document.createElement('div'); d.innerHTML=expertPaywall(curExpert); b2.insertBefore(d.firstChild, sb2); b2.scrollTop=b2.scrollHeight; },5200);
-        } else {
-          // paywall already shown — keep messages behind the gate
-          setTimeout(function(){ var b2=document.getElementById('chatBody'); b2.scrollTop=b2.scrollHeight; },60);
-        }
+        // count this message; at the 5th the payment widget shows instead of a reply
+        if(registerParentMsg()) return;
+        var rp=EXP_FREE_REPLIES[(EXP_SENT-1)%EXP_FREE_REPLIES.length];
+        setTimeout(function(){ showTyping(curExpert); },2200);
+        setTimeout(function(){ hideTyping(); addIncoming(curExpert,rp); },4200);
         return;
       }
       // group: a reply after you send
