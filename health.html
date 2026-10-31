@@ -363,7 +363,7 @@
 
         <div class="content">
           <div class="h-title">Health</div>
-          <div class="child-tabs" id="childTabs"></div>
+          
 
           <!-- Health Profile -->
           <div class="rc" id="cardProfile">
@@ -557,7 +557,7 @@
       </div>
 
       <div class="bottom-nav">
-        <div class="nav-item" onclick="location.href='home3.html'">
+        <div class="nav-item" onclick="location.href='index.html'">
           <span class="tab-ic"><svg class="ic-line" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg></span>
           <span class="lbl">Home</span>
         </div>
@@ -690,24 +690,12 @@
   /* ---------- per-child records ---------- */
   var CHILDREN={
     mark:{name:'Mark', bloodType:bloodType, allergies:allergies, growth:GROWTH, notes:NOTES, visits:VISITS, docs:DOCS, vaccines:VACCINES},
-    lily:{name:'Lily', bloodType:'A+', allergies:['Peanuts'],
-      growth:[{age:'Birth',weight:3.2,height:49},{age:'3M',weight:5.8,height:60},{age:'6M',weight:7.4,height:66},{age:'9M',weight:8.6,height:71},{age:'12M',weight:9.4,height:75},{age:'17M',weight:10.8,height:80}],
-      notes:[{date:'2 Oct 2026',summary:'Runny nose · Mild',tag:'Symptom'},{date:'20 Sep 2026',summary:'10h · Good',tag:'Sleep'},{date:'12 Sep 2026',summary:'Solids · Well',tag:'Feed'},{date:'1 Sep 2026',summary:'Active · Lots of walking',tag:'Observation'}],
-      visits:[{title:'15-Month Well Visit',date:'18 Sep 2026',doctor:'Dr. Priya Menon',note:'Wt 10.8 kg, Ht 80 cm. Thriving.'}],
-      docs:[{name:'Growth Chart Sep 2026',type:'Report',date:'18 Sep 2026'}],
-      vaccines:[
-        {id:'lv1',category:'mandatory',name:'MMR, Varicella',dueAge:'12 months',dueDate:'10 Apr 2026',done:true,doneDate:'10 Apr 2026',protects:'Measles, mumps, rubella, chickenpox',why:'First doses at 12 months protect against highly contagious childhood diseases.',sideEffects:['Mild fever 7–10 days later','Faint rash','Mild fussiness']},
-        {id:'lv2',category:'mandatory',name:'DTaP, Hib, PCV13 (booster)',dueAge:'15 months',dueDate:'10 Jul 2026',done:true,doneDate:'12 Jul 2026',protects:'Diphtheria, tetanus, whooping cough, Hib, pneumonia',why:'Booster reinforces the primary infant series for longer-lasting immunity.',sideEffects:['Injection site soreness','Low-grade fever','Irritability']},
-        {id:'lv3',category:'mandatory',name:'HepA (2nd dose)',dueAge:'18 months',dueDate:'10 Oct 2026',done:false,protects:'Hepatitis A',why:'Second dose completes long-lasting protection against hepatitis A.',sideEffects:['Soreness','Headache','Low appetite 1–2 days']},
-        {id:'lv4',category:'good-to-have',name:'Influenza (annual)',dueAge:'Yearly',dueDate:'Oct 2026',done:false,protects:'Seasonal flu',why:'Reformulated yearly; young children are at higher risk of flu complications.',sideEffects:['Soreness','Low-grade fever','Mild fatigue']},
-        {id:'lv5',category:'specific',name:'Typhoid',dueAge:'2 years+',dueDate:'2027',done:false,protects:'Typhoid fever',why:'Recommended in regions with water-safety concerns or for travel.',sideEffects:['Soreness','Mild fever']}
-      ]}
   };
   var CUR_CHILD='mark';
   function loadChild(k){var c=CHILDREN[k];bloodType=c.bloodType;allergies=c.allergies;GROWTH=c.growth;NOTES=c.notes;VISITS=c.visits;DOCS=c.docs;VACCINES=c.vaccines;}
   function saveCurrent(){var c=CHILDREN[CUR_CHILD];c.bloodType=bloodType;c.allergies=allergies;}
   function renderChildTabs(){
-    document.getElementById('childTabs').innerHTML=Object.keys(CHILDREN).map(function(k){
+    var ct=document.getElementById('childTabs'); if(!ct) return; ct.innerHTML=Object.keys(CHILDREN).map(function(k){
       return '<button class="child-tab'+(k===CUR_CHILD?' active':'')+'" onclick="switchChild(\''+k+'\')"><span class="ct-name">'+CHILDREN[k].name+'</span></button>';
     }).join('');
   }
