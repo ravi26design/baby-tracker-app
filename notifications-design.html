@@ -89,9 +89,9 @@
 
   /* ---------- pop-up banner (foreground push) ---------- */
   .stage.dark{background:linear-gradient(180deg,#efeaf6,#e7e0f2);}
-  .popb{position:absolute;left:12px;right:12px;top:12px;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    border-radius:20px;padding:11px 13px 14px;box-shadow:0 20px 38px -14px rgba(70,45,80,.4),inset 0 0 0 1px rgba(255,255,255,.7);
-    transform:translateY(-140%);opacity:0;transition:transform .55s cubic-bezier(.22,.9,.3,1.25),opacity .35s;}
+  .popb{position:absolute;left:12px;right:12px;bottom:12px;top:auto;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-radius:20px;padding:16px 13px 13px;box-shadow:0 -14px 38px -14px rgba(70,45,80,.4),inset 0 0 0 1px rgba(255,255,255,.7);
+    transform:translateY(140%);opacity:0;transition:transform .55s cubic-bezier(.22,.9,.3,1.25),opacity .35s;}
   .popb.in{transform:translateY(0);opacity:1;}
   .popb-row{display:flex;align-items:center;gap:10px;}
   .popb-ic{width:34px;height:34px;border-radius:9px;flex-shrink:0;background:#fff url('cucu-parent-logo.webp') no-repeat;background-size:330%;background-position:45% 1%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);}
@@ -99,7 +99,12 @@
   .popb-time{font-size:11px;font-weight:600;color:#8a8296;flex-shrink:0;}
   .popb-title{font-size:14px;font-weight:850;color:#2e2838;margin-top:7px;letter-spacing:-.2px;}
   .popb-body{font-size:13px;font-weight:500;color:#524c60;margin-top:2px;line-height:1.4;}
-  .popb-grab{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:36px;height:4px;border-radius:3px;background:rgba(120,110,135,.28);}
+  .popb-acts{display:flex;gap:8px;margin-top:12px;}
+  .popb-cta{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:10px;border-radius:12px;
+    background:rgba(120,110,145,.12);color:#5a5168;transition:transform .1s,filter .15s;}
+  .popb-cta.primary{background:linear-gradient(145deg,#9b84dc,#7d68b8);color:#fff;}
+  .popb-cta:active{transform:scale(.97);}
+  .popb-grab{position:absolute;left:50%;top:6px;transform:translateX(-50%);width:36px;height:4px;border-radius:3px;background:rgba(120,110,135,.28);}
 
   /* ---------- 2 · INBOX ---------- */
   .inbox{border-radius:24px;background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);padding:14px 13px 6px;}
@@ -117,6 +122,16 @@
   .nt-d{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;margin-top:3px;}
   .nt-tm{font-size:11px;font-weight:700;color:#b3aac2;margin-top:8px;}
   .nt-dot{position:absolute;top:16px;right:15px;width:8px;height:8px;border-radius:50%;background:var(--ntc);}
+  /* read state */
+  .nt-item.read{background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .nt-item.read::before{display:none;}
+  .nt-item.read .nt-ic{background:#f2f0f6;color:#aba3bb;}
+  .nt-item.read .nt-t{color:#6a6478;font-weight:750;}
+  .nt-check{position:absolute;top:15px;right:14px;color:#c6bfd2;display:flex;}
+  .nt-check svg{width:15px;height:15px;}
+  .nt-state{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:7px;margin-left:7px;vertical-align:1px;}
+  .nt-state.un{background:color-mix(in srgb,var(--ntc) 15%,#fff);color:color-mix(in srgb,var(--ntc) 70%,#000 8%);}
+  .nt-state.rd{background:#f0eef5;color:#9a93a8;}
 
   /* ---------- 3 · LOCK SCREEN (push) ---------- */
   .lock{position:relative;border-radius:30px;overflow:hidden;height:420px;padding:20px 14px;
@@ -182,53 +197,10 @@
             <p>How one reminder reaches a parent — the same event across every surface.</p>
           </div>
 
-          <!-- the single source event -->
-          <div class="evt">
-            <div class="evt-ic">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
-            </div>
-            <div class="evt-tx">
-              <b>The event</b>
-              <span>Feeding reminder · Mark’s afternoon meal</span>
-            </div>
-          </div>
-
-          <!-- 1 · TOAST -->
+          <!-- 1 · INBOX -->
           <div class="sec">
             <div class="sec-head">
               <span class="sec-n">1</span>
-              <span class="sec-k">Toast</span>
-              <span class="sec-s">In-app</span>
-            </div>
-            <div class="stage">
-              <div class="stage-bar"><span>Home</span><div class="stage-dots"><i></i><i></i><i></i></div></div>
-              <div class="skel">
-                <div class="ln w1"></div>
-                <div class="cardrow"><div></div><div></div></div>
-                <div class="ln w2" style="margin-top:14px"></div>
-                <div class="ln w3"></div>
-              </div>
-              <div class="toast" id="toast">
-                <div class="tic">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
-                </div>
-                <div class="ttx">
-                  <b>Feeding reminder</b>
-                  <span>Time for Mark’s afternoon meal — Veggie purée</span>
-                </div>
-                <div class="tnow">now</div>
-              </div>
-            </div>
-            <button class="replay" onclick="playToast()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4"/></svg>
-              Replay
-            </button>
-          </div>
-
-          <!-- 2 · INBOX -->
-          <div class="sec">
-            <div class="sec-head">
-              <span class="sec-n">2</span>
               <span class="sec-k">Inbox</span>
               <span class="sec-s">Saved in the bell</span>
             </div>
@@ -239,11 +211,22 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
                 </div>
                 <div class="nt-tx">
-                  <div class="nt-t">Feeding reminder</div>
-                  <div class="nt-d">Time for Mark’s afternoon meal — Veggie purée.</div>
+                  <div class="nt-t">Feeding reminder<span class="nt-state un">Unread</span></div>
+                  <div class="nt-d">Time for Mark’s afternoon meal - Veggie purée.</div>
                   <div class="nt-tm">now</div>
                 </div>
                 <div class="nt-dot"></div>
+              </div>
+              <div class="nt-item read" style="--ntc:#9b8bc4">
+                <div class="nt-ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
+                </div>
+                <div class="nt-tx">
+                  <div class="nt-t">Feeding reminder<span class="nt-state rd">Read</span></div>
+                  <div class="nt-d">Mark’s morning feed - oat porridge.</div>
+                  <div class="nt-tm">3h ago</div>
+                </div>
+                <div class="nt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
               </div>
             </div>
           </div>
@@ -251,7 +234,7 @@
           <!-- 3 · LOCK SCREEN -->
           <div class="sec">
             <div class="sec-head">
-              <span class="sec-n">3</span>
+              <span class="sec-n">2</span>
               <span class="sec-k">Lock screen</span>
               <span class="sec-s">Push</span>
             </div>
@@ -275,7 +258,7 @@
                 <div class="ptx">
                   <div class="prow"><span class="pname">CuCu Parent</span><span class="ptime">now</span></div>
                   <div class="ptitle">Feeding reminder</div>
-                  <div class="pbody">Time for Mark’s afternoon meal — Veggie purée.</div>
+                  <div class="pbody">Time for Mark’s afternoon meal - Veggie purée.</div>
                 </div>
               </div>
 
@@ -290,9 +273,9 @@
           <!-- 4 · POP-UP BANNER -->
           <div class="sec">
             <div class="sec-head">
-              <span class="sec-n">4</span>
+              <span class="sec-n">3</span>
               <span class="sec-k">Pop-up</span>
-              <span class="sec-s">Banner over the app</span>
+              <span class="sec-s">Bottom of the app</span>
             </div>
             <div class="stage dark">
               <div class="stage-bar"><span>Home</span><div class="stage-dots"><i></i><i></i><i></i></div></div>
@@ -309,7 +292,11 @@
                   <span class="popb-time">now</span>
                 </div>
                 <div class="popb-title">Feeding reminder</div>
-                <div class="popb-body">Time for Mark’s afternoon meal — Veggie purée.</div>
+                <div class="popb-body">Time for Mark’s afternoon meal - Veggie purée.</div>
+                <div class="popb-acts">
+                  <button class="popb-cta primary" onclick="popbAct(this,'fed')">Mark as fed</button>
+                  <button class="popb-cta" onclick="popbAct(this,'snooze')">Snooze 15m</button>
+                </div>
                 <div class="popb-grab"></div>
               </div>
             </div>
@@ -319,7 +306,7 @@
             </button>
           </div>
 
-          <div class="foot-note">One reminder, delivered four ways — a gentle toast and a banner while they’re in the app, a saved inbox entry, and a push on the lock screen.</div>
+          <div class="foot-note">One reminder, delivered three ways — a saved inbox entry, a push on the lock screen, and a pop-up at the bottom of the app.</div>
         </div>
       </div>
     </div>
@@ -333,9 +320,23 @@
     setTimeout(function(){ t.classList.add('in'); }, delay||60);
   }
   function playToast(){ playIn('toast'); }
-  function playPop(){ playIn('popb'); }
+  function playPop(){
+    var p=document.getElementById('popb'); if(!p) return;
+    p.querySelector('.popb-title').textContent='Feeding reminder';
+    p.querySelector('.popb-body').textContent='Time for Mark’s afternoon meal - Veggie purée.';
+    var acts=p.querySelector('.popb-acts'); if(acts) acts.style.display='flex';
+    playIn('popb');
+  }
+  function popbAct(btn, type){
+    var p=document.getElementById('popb'); if(!p) return;
+    var title=p.querySelector('.popb-title'), body=p.querySelector('.popb-body'), acts=p.querySelector('.popb-acts');
+    if(type==='fed'){ title.textContent='Logged ✓'; body.textContent='Nice — Mark’s afternoon meal is marked as fed.'; }
+    else { title.textContent='Snoozed'; body.textContent='We’ll remind you again in 15 minutes.'; }
+    if(acts) acts.style.display='none';
+    setTimeout(function(){ p.classList.remove('in'); }, 1200);
+  }
   // auto-play on load
-  window.addEventListener('load', function(){ setTimeout(playToast, 450); setTimeout(playPop, 700); });
+  window.addEventListener('load', function(){ setTimeout(playPop, 550); });
 </script>
 </body>
 </html>
