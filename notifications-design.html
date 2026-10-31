@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CuCu Parent — Notifications</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --ink:#3a332e;
+    --muted:#a99c92;
+    --card-bg:#faf9fe;
+    --lav-1:#b0a2d8;--lav-2:#9b8bc4;--lav-3:#8574b5;
+    /* this event's accent — feeding/coral */
+    --ntc:#e78a3f;
+  }
+  html,body{height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#ece7f5;
+    display:flex;align-items:center;justify-content:center;padding:34px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .phone{
+    position:relative;width:390px;height:844px;border-radius:56px;background:#0c0c0c;
+    box-shadow:0 50px 90px -30px rgba(40,20,30,.6),0 12px 30px rgba(40,20,30,.25),inset 0 0 0 2px #2a2a2a;
+    overflow:hidden;
+  }
+  .screen{position:absolute;inset:11px;border-radius:46px;overflow:hidden;background:linear-gradient(180deg,#f6f3fa,#efebf5);}
+  .scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+  .scroll::-webkit-scrollbar{display:none;}
+
+  /* status bar */
+  .statusbar{position:relative;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font-weight:700;color:var(--ink);z-index:3;}
+  .statusbar .time{font-size:16px;letter-spacing:.3px;}
+  .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:20px;}
+  .status-icons{display:flex;align-items:center;gap:7px;}
+  .status-icons svg{display:block;}
+
+  .content{position:relative;z-index:2;padding:4px 22px 40px;}
+
+  /* page header */
+  .hd{padding:10px 4px 6px;}
+  .hd h1{font-size:27px;font-weight:850;letter-spacing:-.6px;color:var(--ink);}
+  .hd p{font-size:14.5px;color:#8a8296;font-weight:500;margin-top:5px;line-height:1.5;}
+
+  /* event chip — the single source event */
+  .evt{display:flex;align-items:center;gap:11px;margin:16px 0 8px;padding:13px 15px;border-radius:18px;
+    background:color-mix(in srgb,var(--ntc) 9%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ntc) 24%,transparent);}
+  .evt-ic{width:40px;height:40px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:color-mix(in srgb,var(--ntc) 18%,#fff);color:var(--ntc);}
+  .evt-ic svg{width:21px;height:21px;}
+  .evt-tx b{display:block;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:color-mix(in srgb,var(--ntc) 65%,#000 12%);}
+  .evt-tx span{font-size:13.5px;color:#7d7589;font-weight:600;}
+
+  /* section */
+  .sec{margin-top:26px;}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin:0 2px 13px;}
+  .sec-n{width:22px;height:22px;flex-shrink:0;border-radius:8px;background:var(--lav-3);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .sec-k{font-size:16.5px;font-weight:850;color:var(--ink);letter-spacing:-.3px;}
+  .sec-s{font-size:12.5px;color:#9a93a6;font-weight:600;margin-left:auto;}
+
+  /* ---------- 1 · TOAST (in-app) ---------- */
+  .stage{position:relative;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,#f3eff9,#ece6f5);
+    box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);height:250px;padding:12px;}
+  .stage-bar{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:800;color:#b3abc2;padding:2px 8px 0;}
+  .stage-dots{display:flex;gap:4px;}
+  .stage-dots i{width:4px;height:4px;border-radius:50%;background:#c6bedd;}
+  .skel{margin:16px 8px 0;}
+  .skel .ln{height:12px;border-radius:7px;background:rgba(139,116,181,.14);margin-bottom:11px;}
+  .skel .ln.w1{width:62%;} .skel .ln.w2{width:88%;} .skel .ln.w3{width:74%;}
+  .skel .cardrow{display:flex;gap:10px;margin-top:4px;}
+  .skel .cardrow div{flex:1;height:58px;border-radius:14px;background:rgba(139,116,181,.11);}
+  .toast{position:absolute;left:14px;right:14px;top:16px;display:flex;align-items:center;gap:12px;
+    background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-radius:20px;padding:13px 14px;box-shadow:0 18px 34px -14px rgba(70,45,80,.42),inset 0 0 0 1px rgba(255,255,255,.7);
+    transform:translateY(-130%);opacity:0;transition:transform .5s cubic-bezier(.22,.9,.3,1.3),opacity .35s;}
+  .toast.in{transform:translateY(0);opacity:1;}
+  .toast .tic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:color-mix(in srgb,var(--ntc) 18%,#fff);color:var(--ntc);}
+  .toast .tic svg{width:21px;height:21px;}
+  .toast .ttx{flex:1;min-width:0;}
+  .toast .ttx b{font-size:13.5px;font-weight:850;color:var(--ink);display:block;letter-spacing:-.2px;}
+  .toast .ttx span{font-size:12px;color:#857e92;font-weight:600;display:block;margin-top:2px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .toast .tnow{font-size:10.5px;font-weight:800;color:#b3abc2;flex-shrink:0;align-self:flex-start;}
+  .replay{display:inline-flex;align-items:center;gap:6px;margin:12px 2px 0;border:none;cursor:pointer;font-family:inherit;
+    background:#efeaf7;color:var(--lav-3);font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:20px;}
+  .replay svg{width:14px;height:14px;}
+
+  /* ---------- 2 · INBOX ---------- */
+  .inbox{border-radius:24px;background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);padding:14px 13px 6px;}
+  .inbox-top{display:flex;align-items:center;justify-content:space-between;padding:2px 6px 12px;}
+  .inbox-top b{font-size:15px;font-weight:850;color:var(--ink);}
+  .inbox-top span{font-size:12px;font-weight:800;color:var(--lav-3);}
+  .nt-item{display:flex;align-items:flex-start;gap:13px;border-radius:18px;padding:14px 14px;margin-bottom:9px;position:relative;overflow:hidden;
+    background:color-mix(in srgb,var(--ntc) 7%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ntc) 22%,transparent);}
+  .nt-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ntc);}
+  .nt-ic{width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    background:color-mix(in srgb,var(--ntc) 16%,#fff);color:var(--ntc);}
+  .nt-ic svg{width:23px;height:23px;}
+  .nt-tx{flex:1;min-width:0;}
+  .nt-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;padding-right:18px;}
+  .nt-d{font-size:13px;line-height:1.5;color:#8a8296;font-weight:500;margin-top:3px;}
+  .nt-tm{font-size:11px;font-weight:700;color:#b3aac2;margin-top:8px;}
+  .nt-dot{position:absolute;top:16px;right:15px;width:8px;height:8px;border-radius:50%;background:var(--ntc);}
+
+  /* ---------- 3 · LOCK SCREEN (push) ---------- */
+  .lock{position:relative;border-radius:30px;overflow:hidden;height:420px;padding:20px 14px;
+    background:
+      radial-gradient(120% 80% at 70% 0%,#efc9d6 0%,transparent 55%),
+      radial-gradient(130% 90% at 10% 100%,#b7a7df 0%,transparent 60%),
+      linear-gradient(170deg,#8f7fc0,#6f5fa6 55%,#4f4080);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 40px 80px -30px rgba(255,255,255,.25);}
+  .lock-sb{display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.92);font-size:13px;font-weight:700;padding:0 10px;}
+  .lock-sb-ic{display:flex;align-items:center;gap:5px;}
+  .lock-sb-ic svg{display:block;}
+  .lock-lk{display:flex;justify-content:center;margin-top:14px;color:rgba(255,255,255,.8);}
+  .lock-lk svg{width:19px;height:19px;}
+  .lock-time{text-align:center;color:#fff;font-weight:300;font-size:72px;letter-spacing:-2px;line-height:1;margin-top:4px;
+    text-shadow:0 2px 20px rgba(60,40,80,.3);}
+  .lock-date{text-align:center;color:rgba(255,255,255,.92);font-size:14px;font-weight:600;margin-top:8px;}
+  .push{display:flex;align-items:flex-start;gap:11px;margin:30px 6px 0;padding:13px 13px;border-radius:20px;
+    background:rgba(255,255,255,.8);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);
+    animation:pushIn .6s cubic-bezier(.22,.9,.3,1.25) both;}
+  @keyframes pushIn{0%{opacity:0;transform:translateY(14px) scale(.96);}100%{opacity:1;transform:none;}}
+  .push .appic{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,#b6a7e0,#8574b5);box-shadow:inset 0 1px 0 rgba(255,255,255,.4);color:#fff;}
+  .push .appic svg{width:22px;height:22px;}
+  .push .ptx{flex:1;min-width:0;}
+  .push .prow{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+  .push .pname{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#6a6277;}
+  .push .ptime{font-size:11px;font-weight:600;color:#8a8296;flex-shrink:0;}
+  .push .ptitle{font-size:14px;font-weight:850;color:#2e2838;margin-top:3px;letter-spacing:-.2px;}
+  .push .pbody{font-size:13px;font-weight:500;color:#524c60;margin-top:2px;line-height:1.4;}
+  .lock-foot{position:absolute;left:0;right:0;bottom:16px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;}
+  .lock-foot .fb{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;color:#fff;}
+  .lock-foot .fb svg{width:18px;height:18px;}
+  .lock-bar{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:120px;height:5px;border-radius:3px;background:rgba(255,255,255,.7);}
+
+  .foot-note{margin:24px 4px 6px;font-size:12px;color:#9a93a6;font-weight:600;line-height:1.6;text-align:center;}
+
+  @media (max-width:600px){
+    html,body{height:auto}
+    body{padding:0!important;margin:0!important;display:block!important;min-height:0!important;background:#f4f1f9!important}
+    .phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}
+    .screen{inset:0!important;border-radius:0!important}
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="screen">
+      <div class="scroll">
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <div class="notch"></div>
+          <div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="var(--ink)"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/><rect x="9" y="2" width="3" height="10" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="var(--ink)"><path d="M8.5 2.5c2.3 0 4.4.9 6 2.4l1.2-1.3A10.4 10.4 0 0 0 8.5.8 10.4 10.4 0 0 0 1.3 3.6l1.2 1.3c1.6-1.5 3.7-2.4 6-2.4Z"/><path d="M8.5 6c1.3 0 2.5.5 3.4 1.4l1.2-1.3A6.6 6.6 0 0 0 8.5 4a6.6 6.6 0 0 0-4.6 2.1l1.2 1.3A4.8 4.8 0 0 1 8.5 6Z"/><circle cx="8.5" cy="10" r="1.6"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13" fill="none"><rect x="1" y="1" width="21" height="11" rx="3" stroke="var(--ink)" stroke-opacity=".4"/><rect x="2.5" y="2.5" width="16" height="8" rx="1.6" fill="var(--ink)"/><rect x="23.5" y="4.5" width="1.6" height="4" rx=".8" fill="var(--ink)" fill-opacity=".4"/></svg>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="hd">
+            <h1>Notifications</h1>
+            <p>How one reminder reaches a parent — the same event across every surface.</p>
+          </div>
+
+          <!-- the single source event -->
+          <div class="evt">
+            <div class="evt-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
+            </div>
+            <div class="evt-tx">
+              <b>The event</b>
+              <span>Feeding reminder · Mark’s afternoon meal</span>
+            </div>
+          </div>
+
+          <!-- 1 · TOAST -->
+          <div class="sec">
+            <div class="sec-head">
+              <span class="sec-n">1</span>
+              <span class="sec-k">Toast</span>
+              <span class="sec-s">In-app</span>
+            </div>
+            <div class="stage">
+              <div class="stage-bar"><span>Home</span><div class="stage-dots"><i></i><i></i><i></i></div></div>
+              <div class="skel">
+                <div class="ln w1"></div>
+                <div class="cardrow"><div></div><div></div></div>
+                <div class="ln w2" style="margin-top:14px"></div>
+                <div class="ln w3"></div>
+              </div>
+              <div class="toast" id="toast">
+                <div class="tic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
+                </div>
+                <div class="ttx">
+                  <b>Feeding reminder</b>
+                  <span>Time for Mark’s afternoon meal — Veggie purée</span>
+                </div>
+                <div class="tnow">now</div>
+              </div>
+            </div>
+            <button class="replay" onclick="playToast()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4"/></svg>
+              Replay
+            </button>
+          </div>
+
+          <!-- 2 · INBOX -->
+          <div class="sec">
+            <div class="sec-head">
+              <span class="sec-n">2</span>
+              <span class="sec-k">Inbox</span>
+              <span class="sec-s">Saved in the bell</span>
+            </div>
+            <div class="inbox">
+              <div class="inbox-top"><b>Notifications</b><span>Mark all read</span></div>
+              <div class="nt-item">
+                <div class="nt-ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg>
+                </div>
+                <div class="nt-tx">
+                  <div class="nt-t">Feeding reminder</div>
+                  <div class="nt-d">Time for Mark’s afternoon meal — Veggie purée.</div>
+                  <div class="nt-tm">now</div>
+                </div>
+                <div class="nt-dot"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 · LOCK SCREEN -->
+          <div class="sec">
+            <div class="sec-head">
+              <span class="sec-n">3</span>
+              <span class="sec-k">Lock screen</span>
+              <span class="sec-s">Push</span>
+            </div>
+            <div class="lock">
+              <div class="lock-sb">
+                <span>9:41</span>
+                <span class="lock-sb-ic">
+                  <svg width="17" height="11" viewBox="0 0 18 12" fill="#fff"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/><rect x="9" y="2" width="3" height="10" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+                  <svg width="16" height="11" viewBox="0 0 17 12" fill="#fff"><path d="M8.5 2.5c2.3 0 4.4.9 6 2.4l1.2-1.3A10.4 10.4 0 0 0 8.5.8 10.4 10.4 0 0 0 1.3 3.6l1.2 1.3c1.6-1.5 3.7-2.4 6-2.4Z"/><path d="M8.5 6c1.3 0 2.5.5 3.4 1.4l1.2-1.3A6.6 6.6 0 0 0 8.5 4a6.6 6.6 0 0 0-4.6 2.1l1.2 1.3A4.8 4.8 0 0 1 8.5 6Z"/><circle cx="8.5" cy="10" r="1.6"/></svg>
+                  <svg width="25" height="12" viewBox="0 0 26 13" fill="none"><rect x="1" y="1" width="21" height="11" rx="3" stroke="#fff" stroke-opacity=".5"/><rect x="2.5" y="2.5" width="18" height="8" rx="1.6" fill="#fff"/><rect x="23.5" y="4.5" width="1.6" height="4" rx=".8" fill="#fff" fill-opacity=".5"/></svg>
+                </span>
+              </div>
+              <div class="lock-lk">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2.4"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+              </div>
+              <div class="lock-time">9:41</div>
+              <div class="lock-date">Friday, 31 October</div>
+
+              <div class="push">
+                <div class="appic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5h6a1 1 0 0 1 1 1.3l-.4 1.4A3 3 0 0 1 14 6H9a3 3 0 0 1-.6-.8L8 3.8a1 1 0 0 1 0-1.3Z"/><path d="M9.5 6l-.6 3.2A4 4 0 0 0 12.8 14h.2a4 4 0 0 0 3.9-4.9L16 6"/><path d="M11 14v5.5A2.5 2.5 0 0 1 8.5 22"/></svg>
+                </div>
+                <div class="ptx">
+                  <div class="prow"><span class="pname">CuCu Parent</span><span class="ptime">now</span></div>
+                  <div class="ptitle">Feeding reminder</div>
+                  <div class="pbody">Time for Mark’s afternoon meal — Veggie purée.</div>
+                </div>
+              </div>
+
+              <div class="lock-foot">
+                <div class="fb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+                <div class="fb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L8 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-4l-1.5-2Z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+              </div>
+              <div class="lock-bar"></div>
+            </div>
+          </div>
+
+          <div class="foot-note">One reminder, delivered three ways — a gentle toast while they’re in the app, a saved inbox entry, and a push on the lock screen.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function playToast(){
+    var t=document.getElementById('toast');
+    t.classList.remove('in');
+    void t.offsetWidth; // reflow to restart transition
+    setTimeout(function(){ t.classList.add('in'); }, 60);
+  }
+  // auto-play on load
+  window.addEventListener('load', function(){ setTimeout(playToast, 450); });
+</script>
+</body>
+</html>
