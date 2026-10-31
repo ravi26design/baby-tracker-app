@@ -1819,7 +1819,7 @@
       var entry=null; for(var i=0;i<EXP_CHATS.length;i++){ if(EXP_CHATS[i].expert===name){ entry=EXP_CHATS[i]; break; } }
       if(!entry) entry={topic:'Other',child:'',detail:''};
       var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',msg:'Hi! How can I help you today?'};
-      curExpert=e; curGid=null; EXP_UNLOCKED=false; clearTimeout(typingTimer); hideTyping();
+      curExpert=e; curGid=null; EXP_UNLOCKED=false; EXP_SENT=0; clearTimeout(typingTimer); hideTyping();
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
       document.getElementById('chatPres').textContent=e.spec;
@@ -1849,7 +1849,7 @@
     function startExpert(name){
       closeExpert();
       var e=EXPERTS[name]||{n:name,spec:'Expert',e:'👩‍⚕️',c1:'#efe9f7',c2:'#d5c8ef',on:true,verified:true,level:'Verified Expert',tag:'Expert',tagKind:'expert',tagBg:'#ede4fb',tagFg:'#7a5fd0',answers:0,helpful:'5.0',points:0,topics:['Baby care'],badges:[['✅','Verified','#e2f5e8','#2fa96f']],bio:'Verified paediatric expert here to help.',msg:'Hi! How can I help you today?'};
-      curExpert=e; curGid=null; EXP_UNLOCKED=false;
+      curExpert=e; curGid=null; EXP_UNLOCKED=false; EXP_SENT=0;
       clearTimeout(typingTimer); hideTyping();
       var avEl=document.getElementById('chatAv'); avEl.textContent=e.e; avEl.style.background='radial-gradient(circle at 45% 35%,'+e.c1+','+e.c2+')';
       document.getElementById('chatName').textContent=name;
@@ -2209,11 +2209,23 @@
         if(EXP_UNLOCKED){
           setTimeout(function(){ showTyping(curExpert); },2200);
           setTimeout(function(){ hideTyping(); addIncoming(curExpert,'Thanks 💛 Let me look at that and I’ll share some guidance.'); },4200);
-        } else {
-          // free intro is used up — show the session paywall
+          return;
+        }
+        EXP_SENT++;
+        if(EXP_SENT < EXP_FREE){
+          // still within the free allowance — normal expert reply
+          var rp=EXP_FREE_REPLIES[(EXP_SENT-1)%EXP_FREE_REPLIES.length];
+          setTimeout(function(){ showTyping(curExpert); },2200);
+          setTimeout(function(){ hideTyping(); addIncoming(curExpert,rp); },4200);
+        } else if(!document.querySelector('#chatBody .bub.pw')){
+          // 5 free messages used — reply once more, then show the session paywall
           setTimeout(function(){ showTyping(curExpert); },1800);
-          setTimeout(function(){ hideTyping(); var b2=document.getElementById('chatBody'), sb2=document.getElementById('seenBy');
-            var d=document.createElement('div'); d.innerHTML=expertPaywall(curExpert); b2.insertBefore(d.firstChild, sb2); b2.scrollTop=b2.scrollHeight; },3600);
+          setTimeout(function(){ hideTyping(); addIncoming(curExpert,EXP_FREE_REPLIES[EXP_FREE_REPLIES.length-1]); },3600);
+          setTimeout(function(){ var b2=document.getElementById('chatBody'), sb2=document.getElementById('seenBy');
+            var d=document.createElement('div'); d.innerHTML=expertPaywall(curExpert); b2.insertBefore(d.firstChild, sb2); b2.scrollTop=b2.scrollHeight; },5200);
+        } else {
+          // paywall already shown — keep messages behind the gate
+          setTimeout(function(){ var b2=document.getElementById('chatBody'); b2.scrollTop=b2.scrollHeight; },60);
         }
         return;
       }
@@ -2221,14 +2233,21 @@
       setTimeout(function(){ showTyping(MEMBERS[1]); },2600);
       setTimeout(function(){ hideTyping(); addIncoming(MEMBERS[1],'Great — let us know how it goes! 🙌'); },4600);
     }
-    var EXP_UNLOCKED=false;
+    var EXP_UNLOCKED=false, EXP_SENT=0, EXP_FREE=5;
+    var EXP_FREE_REPLIES=[
+      'Got it 💛 Thanks for the detail — that really helps.',
+      'That’s really common, so try not to worry. Can you tell me a little more?',
+      'Good question! A few things can cause that — how long has it been going on?',
+      'Thanks for sharing. And how is your little one feeding and sleeping around this?',
+      'This is really helpful 💛 I’ve got a clear picture now.'
+    ];
     var LOCK_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
     function expertPaywall(e){
       var fee=expertFee(e)||25, first=(e.n||'the expert').split(' ')[0];
       var tag='<span class="who-tag icon-only expert" style="background:'+(e.tagBg||'#efeaf7')+';color:'+(e.tagFg||'#8574b5')+'">'+chatTagIcon(e)+'</span>';
       return '<div class="msg">'+av(e)+'<div class="bub pw">'
         +'<div class="who">'+esc(e.n)+tag+'</div>'
-        +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your free intro is used up</span></div></div>'
+        +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your '+EXP_FREE+' free messages are used</span></div></div>'
         +'<div class="txt">To keep chatting with '+esc(first)+' and get personalised guidance, unlock a full session.</div>'
         +'<button class="pw-btn" onclick="openPay()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · £'+fee+'</button>'
         +'<div class="pw-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 8.8-4-1.2-7-4.4-7-8.8V6z"/><path d="m9 12 2 2 4-4"/></svg>Secure one-time payment · cancel anytime</div>'
