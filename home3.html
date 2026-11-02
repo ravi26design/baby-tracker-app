@@ -3045,11 +3045,11 @@
       var list=document.getElementById('hmVaxList'); if(!list) return;
       list.innerHTML=HM_VAX.map(function(v,i){
         var col=v.done?'#36a578':'#1fb0a4';
-        return hmWrap('<div class="hm-li" style="--lc:'+col+'">'+
-          '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="event.stopPropagation();hmVaxToggle('+i+')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>'+
+        return '<div class="hm-li" style="--lc:'+col+'">'+
+          '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>'+
           '<div class="hm-li-tx"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</div></div>'+
           (v.done?'':'<span class="hm-li-r" style="color:#c2881f">Upcoming</span>')+
-        '</div>','vax',i);
+        '</div>';
       }).join('');
     }
     function hmVaxToggle(i){ HM_VAX[i].done=!HM_VAX[i].done; renderHmVax(); hToast(HM_VAX[i].done?'Marked done ✓':'Marked as due'); }
