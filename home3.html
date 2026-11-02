@@ -1377,7 +1377,7 @@
               <div class="rcp-mitem"><span class="rcp-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3 5 5.3 5 9a5 5 0 0 1-10 0c0-1.3.4-2.4 1-3.4"/></svg></span><span class="rcp-mv" id="rcpDiff"></span><span class="rcp-ml">Difficulty</span></div>
             </div>
             <div class="rcp-div"></div>
-            <div class="rcp-sech"><h3>Ingredients</h3><span class="rcp-serv" id="rcpServ"></span></div>
+            <div class="rcp-sech"><h3>Ingredients</h3></div>
             <div id="rcpIngList"></div>
             <div class="rcp-div"></div>
             <div class="rcp-tabs">
@@ -3589,7 +3589,7 @@
       document.getElementById('rcpPrep').textContent=r.prep;
       document.getElementById('rcpCook').textContent=r.cook;
       document.getElementById('rcpDiff').textContent=r.diff;
-      document.getElementById('rcpServ').textContent=r.servings+' serving'+(r.servings>1?'s':'');
+      var _sv=document.getElementById('rcpServ'); if(_sv) _sv.textContent=r.servings+' serving'+(r.servings>1?'s':'');
       document.getElementById('rcpIngList').innerHTML=r.ings.map(function(g){
         return '<div class="rcp-ing"><span class="rcp-ing-ic">'+ingArt(g.n)+'</span><div class="rcp-ing-tx"><div class="rcp-ing-n">'+g.n+'</div><div class="rcp-ing-q">'+g.q+'</div></div></div>';
       }).join('');
@@ -3608,8 +3608,7 @@
       var cal='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>';
       var good='<div class="rcp-note good"><div class="rcp-note-h">'+bulb+'Why it’s good for your baby</div>'+r.good.map(function(x){return '<div class="rcp-chk">'+RCP_CHK+'<span>'+x+'</span></div>';}).join('')+'</div>';
       var tipsHtml='<div class="rcp-note tips"><div class="rcp-note-h">'+fire+'Tips</div>'+r.tips.map(function(x){return '<div class="rcp-chk">'+RCP_CHK+'<span>'+x+'</span></div>';}).join('')+'</div>';
-      var introCard='<div class="rcp-intro"><span class="rcp-intro-ic">'+cal+'</span><div class="rcp-intro-tx"><div class="rcp-intro-t">When to introduce</div><div class="rcp-intro-s">'+rcpCap(r.intro)+'</div></div><span class="rcp-intro-chev">'+RCP_CHEV+'</span></div>';
-      document.getElementById('rcpNutri').innerHTML='<div style="font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:2px 2px 12px">Nutrition (per serving · approx)</div>'+'<div class="rcp-ntiles">'+tiles+'</div>'+good+tipsHtml+introCard;
+      document.getElementById('rcpNutri').innerHTML='<div style="font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:2px 2px 12px">Nutrition (per serving · approx)</div>'+'<div class="rcp-ntiles">'+tiles+'</div>'+good+tipsHtml;
       recipeTab('steps');
       var cta=document.getElementById('rcpCta'); cta.classList.remove('tried'); cta.querySelector('span').textContent='Mark as Tried';
       var hb=document.getElementById('rcpHeart'); hb.classList.remove('on'); var hp=hb.querySelector('svg'); if(hp) hp.setAttribute('fill','none');
