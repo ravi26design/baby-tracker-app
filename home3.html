@@ -1053,6 +1053,12 @@
   .hm-fld{display:flex;flex-direction:column;min-width:0;}
   .hm-flbl2{font-size:11px;font-weight:700;color:#8b8296;letter-spacing:-.1px;margin:0 2px 5px;}
   .hm-in{width:100%;border:none;background:#fff;border-radius:11px;padding:11px 11px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.18);outline:none;}
+  .hm-gfld{margin-bottom:11px;}
+  .hm-ginput{display:flex;align-items:center;gap:8px;}
+  .hm-ginput .hm-in{flex:1;min-width:0;}
+  .hm-units{display:inline-flex;flex:0 0 auto;background:#efecf6;border-radius:12px;padding:3px;}
+  .hm-unit{border:none;background:transparent;font-family:inherit;font-size:12.5px;font-weight:700;color:#8a7fa5;padding:8px 13px;border-radius:9px;cursor:pointer;transition:.16s;}
+  .hm-unit.on{background:#fff;color:var(--ink);box-shadow:0 2px 7px -3px rgba(80,60,120,.4);}
   .hm-in:focus{box-shadow:inset 0 0 0 1.6px #9b8bc4;}
   .hm-in::placeholder{color:#b6aec0;}
   .hm-addf-act{display:flex;gap:8px;margin-top:9px;}
@@ -2001,10 +2007,21 @@
         <!-- Add forms (overlay the section sheet, pinned to frame bottom) -->
         <div class="hm-addf" id="hmAddForm">
           <div class="hm-ftitle">Add Growth</div>
-          <div class="hm-addf-row">
-            <div class="hm-fld"><label class="hm-flbl2">Month</label><input class="hm-in" id="hmAge" placeholder="e.g. Jul" autocomplete="off"></div>
-            <div class="hm-fld"><label class="hm-flbl2">Weight</label><input class="hm-in" id="hmWt" placeholder="kg" inputmode="decimal" autocomplete="off"></div>
-            <div class="hm-fld"><label class="hm-flbl2">Height</label><input class="hm-in" id="hmHt" placeholder="cm" inputmode="decimal" autocomplete="off"></div>
+          <div class="hm-fld" style="margin-bottom:11px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmGrowthDate" onclick="hmDateOpen('growth')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <div class="hm-gfld"><label class="hm-flbl2">Weight</label>
+            <div class="hm-ginput"><input class="hm-in" id="hmWt" placeholder="0.0" inputmode="decimal" autocomplete="off">
+              <div class="hm-units" id="hmWtUnits"><button type="button" class="hm-unit on" data-u="kg" onclick="hmUnitPick('wt','kg',this)">kg</button><button type="button" class="hm-unit" data-u="lb" onclick="hmUnitPick('wt','lb',this)">lb</button></div>
+            </div>
+          </div>
+          <div class="hm-gfld"><label class="hm-flbl2">Height</label>
+            <div class="hm-ginput"><input class="hm-in" id="hmHt" placeholder="0.0" inputmode="decimal" autocomplete="off">
+              <div class="hm-units" id="hmHtUnits"><button type="button" class="hm-unit on" data-u="cm" onclick="hmUnitPick('ht','cm',this)">cm</button><button type="button" class="hm-unit" data-u="in" onclick="hmUnitPick('ht','in',this)">in</button></div>
+            </div>
+          </div>
+          <div class="hm-gfld"><label class="hm-flbl2">Head Circ.</label>
+            <div class="hm-ginput"><input class="hm-in" id="hmHC" placeholder="0.0" inputmode="decimal" autocomplete="off">
+              <div class="hm-units" id="hmHCUnits"><button type="button" class="hm-unit on" data-u="cm" onclick="hmUnitPick('head','cm',this)">cm</button><button type="button" class="hm-unit" data-u="in" onclick="hmUnitPick('head','in',this)">in</button></div>
+            </div>
           </div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmAddHide()">Cancel</button><button class="hm-addf-save" onclick="hmAddSave()">Save</button></div>
         </div>
@@ -2374,7 +2391,7 @@
 
     /* ===== generic date picker for the health add-forms ===== */
     var HMD={which:null,d:1,m:0,y:2025}, HMD_YEARS=[], HMD_DATES={};
-    var HMD_FIELD={note:'hmNoteDate',visit:'hmVisitDate',doc:'hmDocDate'};
+    var HMD_FIELD={note:'hmNoteDate',visit:'hmVisitDate',doc:'hmDocDate',growth:'hmGrowthDate'};
     function hmDateTxt(d,m){ return d+' '+ACDP_MONTHS[m].slice(0,3); }
     function hmDateInit(which){ var n=new Date(); HMD_DATES[which]={iso:n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2)+'-'+('0'+n.getDate()).slice(-2),txt:hmDateTxt(n.getDate(),n.getMonth())}; var f=document.getElementById(HMD_FIELD[which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent='Today'; } }
     function hmdpMark(){ ['hmdpDay','hmdpMon','hmdpYear'].forEach(function(id){ var el=document.getElementById(id); if(!el) return; var idx=Math.round(el.scrollTop/46); Array.prototype.forEach.call(el.children,function(c,i){ c.classList.toggle('on', i===idx); }); }); }
@@ -3093,15 +3110,29 @@
       HM_VISITS.unshift({title:reason,doctor:doc,date:date,sick:sick});
       renderHmVisits(); hmVisitHide(); hToast('Visit added ✓');
     }
-    function hmAddShow(){ var f=document.getElementById('hmAddForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmAddBtn'); if(b) b.style.display='none'; }
-    function hmAddHide(){ var f=document.getElementById('hmAddForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmAddBtn'); if(b) b.style.display=''; ['hmAge','hmWt','hmHt'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; }); }
+    var HM_ADD_UNITS={wt:'kg',ht:'cm',head:'cm'};
+    function hmUnitSync(metric,unit){ var map={wt:'hmWtUnits',ht:'hmHtUnits',head:'hmHCUnits'}; var row=document.getElementById(map[metric]); if(!row) return; Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-u')===unit); }); }
+    function hmUnitPick(metric,unit,el){ HM_ADD_UNITS[metric]=unit; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } }
+    function hmGrowthLabel(){ var dt=HMD_DATES['growth']; if(dt&&dt.iso){ var m=+dt.iso.split('-')[1]-1; return ACDP_MONTHS[m].slice(0,3); } return 'M'+HM_LABELS.length; }
+    function hmAddShow(){
+      var f=document.getElementById('hmAddForm'); if(f) f.classList.add('open'); hmBs(true);
+      var b=document.getElementById('hmAddBtn'); if(b) b.style.display='none';
+      hmDateInit('growth');
+      HM_ADD_UNITS.wt=(HM_GROWTH&&HM_GROWTH.weight&&HM_GROWTH.weight.unit)||'kg';
+      HM_ADD_UNITS.ht=(HM_GROWTH&&HM_GROWTH.height&&HM_GROWTH.height.unit)||'cm';
+      HM_ADD_UNITS.head=(HM_GROWTH&&HM_GROWTH.head&&HM_GROWTH.head.unit)||'cm';
+      hmUnitSync('wt',HM_ADD_UNITS.wt); hmUnitSync('ht',HM_ADD_UNITS.ht); hmUnitSync('head',HM_ADD_UNITS.head);
+    }
+    function hmAddHide(){ var f=document.getElementById('hmAddForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmAddBtn'); if(b) b.style.display=''; ['hmWt','hmHt','hmHC'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; }); }
     function hmAddSave(){
       var wt=parseFloat(document.getElementById('hmWt').value);
       var ht=parseFloat(document.getElementById('hmHt').value);
-      var lab=(document.getElementById('hmAge').value||'').trim();
-      if(!wt&&!ht){ hToast('Add a weight or height'); return; }
+      var hc=parseFloat(document.getElementById('hmHC').value);
+      if(!wt&&!ht&&!hc){ hToast('Add a weight, height or head measurement'); return; }
       var W=HM_GROWTH.weight.vals, H=HM_GROWTH.height.vals, HC=HM_GROWTH.head.vals;
-      W.push(wt||W[W.length-1]); H.push(ht||H[H.length-1]); HC.push(HC[HC.length-1]); HM_LABELS.push(lab||('M'+HM_LABELS.length));
+      W.push(wt||W[W.length-1]); H.push(ht||H[H.length-1]); HC.push(hc||HC[HC.length-1]);
+      HM_GROWTH.weight.unit=HM_ADD_UNITS.wt; HM_GROWTH.height.unit=HM_ADD_UNITS.ht; HM_GROWTH.head.unit=HM_ADD_UNITS.head;
+      HM_LABELS.push(hmGrowthLabel());
       [W,H,HC,HM_LABELS].forEach(function(a){ if(a.length>7) a.shift(); });
       renderHmChart(); renderHmGrowthStats(); hmAddHide(); hToast('Growth entry added ✓');
     }
