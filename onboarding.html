@@ -63,6 +63,10 @@
   .slide{flex:0 0 100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:0 34px 18px;overflow:hidden;}
   .slide-art{position:absolute;top:0;left:0;width:100%;height:76%;border-radius:0;overflow:hidden;margin:0;box-shadow:none;display:block;z-index:0;pointer-events:none;}
   .slide-art img{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;user-select:none;}
+  /* illustration slide: contained, floating on the background (not full-bleed) */
+  .slide-art.illus{background:transparent;height:66%;top:3%;display:flex;align-items:center;justify-content:center;overflow:visible;}
+  .slide-art.illus img{width:124%;height:auto;max-height:100%;object-fit:contain;}
+  .slide-art.illus::before{display:none;}
   .slide h2{position:relative;z-index:1;font-size:25px;font-weight:800;letter-spacing:-.4px;line-height:1.2;}
   .slide p{position:relative;z-index:1;margin-top:14px;font-size:14.5px;line-height:1.6;color:#7d7770;font-weight:500;max-width:280px;}
   /* intro: let the photo fill behind the status bar */
@@ -244,7 +248,7 @@
         <div class="intro-body">
           <div class="intro-track" id="introTrack">
             <div class="slide">
-              <div class="slide-art" style="background:linear-gradient(150deg,#ffe0ea,#ffc9db)"><img src="https://images.pexels.com/photos/1648377/pexels-photo-1648377.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop" alt="A baby smiling"></div>
+              <div class="slide-art illus"><img src="capture-memories.webp" alt="A family capturing precious memories"></div>
               <h2>Capture precious memories</h2>
               <p>Save photos and little notes for every moment as your baby grows.</p>
             </div>
