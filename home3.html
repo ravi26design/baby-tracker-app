@@ -1574,8 +1574,9 @@
       .ac2-inwrap .ac2-in{padding-right:46px;}
       .ac2-in-ic{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#b0a2d8;pointer-events:none;display:flex;}
       .ac2-in-ic svg{width:19px;height:19px;}
-      .ac2-avrow{display:flex;gap:10px;}
-      .ac2-av{flex:1;aspect-ratio:1/1;border:2px solid transparent;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:border-color .15s, background .15s;}
+      .ac2-avrow{display:flex;gap:10px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none;}
+      .ac2-avrow::-webkit-scrollbar{display:none;}
+      .ac2-av{flex:0 0 auto;width:56px;height:56px;border:2px solid transparent;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:border-color .15s, background .15s;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
       .ac2-av.on{border-color:#b7a6df;background:#efe9f8;}
       .ac2-av-em{font-size:28px;line-height:1;}
       .ac2-av-photo{width:72%;height:72%;border-radius:11px;background-position:center;background-size:cover;background-repeat:no-repeat;}
@@ -2296,7 +2297,7 @@
     function chDelConfirm(){ var k=CH_MENU_KEY; if(!k||!CHILDREN[k]){ chDelClose(); return; } if(Object.keys(CHILDREN).length<=1){ chDelClose(); hToast('At least one child is required'); return; } var nm=CHILDREN[k].name||'Child'; delete CHILDREN[k]; delete HM_DATA[k]; if(CURRENT_KEY===k){ var nk=Object.keys(CHILDREN)[0]; try{ selectChild(nk); }catch(e){ CURRENT_KEY=nk; } try{ hmLoadChildData(CURRENT_KEY); }catch(e){} } chDelClose(); childrenRefresh(); hToast(nm+' removed'); }
 
     /* add / edit child sheet */
-    var AC_AVATARS=['👶','👶🏻','👶🏽','👶🏿','🍼'];
+    var AC_AVATARS=['👶','👶🏻','👶🏽','👶🏿','🧒','👧','👦','🐻','🐰','🦄','🐥','🐣'];
     function acReset(editKey){
       AC={ photo:'', emoji:'👶', blood:'O+', allergies:[], gender:null, edit:editKey||null };
       if(editKey){ var c=CHILDREN[editKey]||{}, d=HM_DATA[editKey]||{}; AC.photo=c.photo||''; AC.emoji=c.emoji||'👶'; AC.blood=d.blood||'O+'; AC.allergies=(d.allergies||[]).slice(); var g=chGender(editKey); AC.gender=/^f/i.test(g)?'Female':(g==='—'?null:'Male'); document.getElementById('acName').value=c.name||''; acSetDob(c.dob||'', c.age||''); }
