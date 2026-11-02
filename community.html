@@ -1125,7 +1125,7 @@
   .as-opt:last-child{margin-bottom:0;}
   .as-opt:active{transform:scale(.99);}
   .as-ic{width:50px;height:50px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-  .as-ic.mem{background:color-mix(in srgb,#e87fa0 16%,#fff);color:#e87fa0;}
+  .as-ic.mem{background:color-mix(in srgb,#e0638f 17%,#fff);color:#d64d80;}
   .as-ic.feed{background:color-mix(in srgb,#8f78c4 16%,#fff);color:#8f78c4;}
   .as-tx{flex:1;min-width:0;}
   .as-t{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
@@ -1204,7 +1204,7 @@
           <div class="fd-composer" onclick="openPost()">
             <span class="fc-av">🧑</span>
             <span class="fc-ph">Share something with the community…</span>
-            <span class="fc-cam"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+            <span class="fc-cam"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5a2 2 0 0 1 2-2h2l1.4-2.1a1 1 0 0 1 .83-.44h5.54a1 1 0 0 1 .83.44L19 6.5a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
           </div>
           
           <div class="feed" onclick="openPostDetail(this)" style="cursor:pointer">
@@ -1271,7 +1271,7 @@
         <div class="as-grab"><span></span></div>
         <div class="as-title">Create New</div>
         <button class="as-opt" onclick="location.href='memories.html#add'">
-          <span class="as-ic mem"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z" fill="currentColor" fill-opacity=".2"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+          <span class="as-ic mem"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M8.6 4a1.4 1.4 0 0 0-1.16.62L6.4 6.2H4.5A2.5 2.5 0 0 0 2 8.7v8.8A2.5 2.5 0 0 0 4.5 20h15A2.5 2.5 0 0 0 22 17.5V8.7a2.5 2.5 0 0 0-2.5-2.5h-1.9l-1.04-1.58A1.4 1.4 0 0 0 15.4 4z" fill="currentColor"/><circle cx="12" cy="13" r="4" fill="var(--card-bg,#fff)"/><circle cx="12" cy="13" r="2" fill="currentColor"/></svg></span>
           <div class="as-tx"><div class="as-t">Add Memory</div><div class="as-d">Save a photo, video or milestone</div></div>
           <span class="as-chev"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
         </button>
@@ -2020,7 +2020,7 @@
     }
 
     var POST_PHOTOS=[];
-    var PP_CAM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+    var PP_CAM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5a2 2 0 0 1 2-2h2l1.4-2.1a1 1 0 0 1 .83-.44h5.54a1 1 0 0 1 .83.44L19 6.5a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/></svg>';
     function renderPostPhotos(){
       var row=document.getElementById('pPhotos');
       if(!POST_PHOTOS.length){
