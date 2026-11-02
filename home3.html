@@ -1034,10 +1034,11 @@
   .hm-addf.open{display:block;position:absolute;left:0;right:0;bottom:0;z-index:92;margin:0;max-height:84%;overflow-y:auto;background:#fff;border-radius:26px 26px 0 0;padding:12px 16px 26px;box-shadow:0 -16px 44px -14px rgba(90,60,70,.34);animation:hmSlideUp .32s cubic-bezier(.32,.72,0,1);}
   .hm-addf.open::-webkit-scrollbar{display:none;}
   .hm-nlbl{font-size:13px;font-weight:800;color:var(--ink);margin:4px 2px 11px;letter-spacing:-.1px;}
+  .hm-ftitle{font-size:18px;font-weight:850;color:var(--ink);letter-spacing:-.4px;margin:2px 2px 14px;}
   .hm-datefld{width:100%;border:none;background:#fff;border-radius:11px;padding:11px 12px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.18);outline:none;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;text-align:left;}
   .hm-datefld .hm-date-tx{font-weight:700;}
   .hm-datefld svg{width:17px;height:17px;color:#8574b5;flex-shrink:0;}
-  .hmdp-layer{position:fixed;inset:0;z-index:210;display:none;}
+  .hmdp-layer{position:absolute;inset:0;z-index:90;display:none;}
   .hmdp-layer.open{display:block;}
   .hm-nchips{display:flex;flex-wrap:wrap;gap:9px;}
   .hm-nchip{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:11px 15px;border-radius:14px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s,background .14s,color .14s;}
@@ -2012,7 +2013,7 @@
 
         <!-- Add forms (overlay the section sheet, pinned to frame bottom) -->
         <div class="hm-addf" id="hmAddForm">
-          <div class="hm-nlbl">Add Growth</div>
+          <div class="hm-ftitle">Add Growth</div>
           <div class="hm-addf-row">
             <div class="hm-fld"><label class="hm-flbl2">Month</label><input class="hm-in" id="hmAge" placeholder="e.g. Jul" autocomplete="off"></div>
             <div class="hm-fld"><label class="hm-flbl2">Weight</label><input class="hm-in" id="hmWt" placeholder="kg" inputmode="decimal" autocomplete="off"></div>
@@ -2021,13 +2022,14 @@
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmAddHide()">Cancel</button><button class="hm-addf-save" onclick="hmAddSave()">Save</button></div>
         </div>
         <div class="hm-addf" id="hmVisitForm">
-          <input class="hm-in" id="hmVReason" placeholder="Reason (e.g. Well Visit)" autocomplete="off" style="margin-bottom:8px">
-          <input class="hm-in" id="hmVDoc" placeholder="Doctor" value="Dr. Priya Menon" autocomplete="off" style="margin-bottom:8px">
+          <div class="hm-ftitle">Add Doctor Visit</div>
           <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmVisitDate" onclick="hmDateOpen('visit')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <input class="hm-in" id="hmVReason" placeholder="Reason (e.g. Well Visit)" autocomplete="off" style="margin:8px 0">
+          <input class="hm-in" id="hmVDoc" placeholder="Doctor" value="Dr. Priya Menon" autocomplete="off" style="margin-bottom:8px">
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmVisitHide()">Cancel</button><button class="hm-addf-save" onclick="hmVisitSave()">Save</button></div>
         </div>
         <div class="hm-addf" id="hmNoteForm">
-          <div class="hm-nlbl">Add Health Notes</div>
+          <div class="hm-ftitle">Add Health Notes</div>
           <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmNoteDate" onclick="hmDateOpen('note')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-nlbl" style="margin-top:16px">What are you noting?</div>
           <div class="hm-nchips" id="hmNoteTypes"></div>
@@ -2035,6 +2037,8 @@
           <div class="hm-addf-act" style="margin-top:16px"><button class="hm-addf-cancel" onclick="hmNoteHide()">Cancel</button><button class="hm-addf-save" onclick="hmNoteSave()">Save Note</button></div>
         </div>
         <div class="hm-addf" id="hmDocForm">
+          <div class="hm-ftitle">Add Document</div>
+          <div class="hm-fld" style="margin-bottom:8px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose a file to upload</span></button>
           <input type="file" id="hmDocFile" accept="image/*,application/pdf" style="display:none" onchange="hmDocFile(this)">
           <input class="hm-in" id="hmDocName" placeholder="Document name" autocomplete="off" style="margin-bottom:8px">
@@ -2042,11 +2046,10 @@
             <select class="hm-in" id="hmDocType"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select>
             <select class="hm-in" id="hmDocFmt"><option>PDF</option><option>JPG</option><option>PNG</option></select>
           </div>
-          <div class="hm-fld" style="margin-top:8px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmDocHide()">Cancel</button><button class="hm-addf-save" onclick="hmDocSave()">Upload</button></div>
         </div>
         <div class="hm-addf" id="hmEditForm">
-          <div class="hm-nlbl">Edit Profile</div>
+          <div class="hm-ftitle">Edit Profile</div>
           <div class="hm-ephoto">
             <div class="hm-ephoto-av" id="hmEditAv"></div>
             <button class="hm-ephoto-btn" onclick="document.getElementById('hmEditFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V7"/><path d="M8.5 10.5 12 7l3.5 3.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Change photo</button>
@@ -2396,7 +2399,8 @@
       else { HMD.y=now.getFullYear(); HMD.m=now.getMonth(); HMD.d=now.getDate(); }
       var days=[],years=[],i; for(i=1;i<=31;i++) days.push(i); for(i=now.getFullYear()-5;i<=now.getFullYear();i++) years.push(i); HMD_YEARS=years;
       acdpItems('hmdpDay',days); acdpItems('hmdpMon',ACDP_MONTHS); acdpItems('hmdpYear',years);
-      document.getElementById('hmDateSheet').classList.add('open');
+      var _hs=document.getElementById('hmSheet'), _ds=document.getElementById('hmDateSheet'); if(_hs&&_ds) _hs.appendChild(_ds);
+      _ds.classList.add('open');
       setTimeout(function(){ acdpScrollTo('hmdpDay',HMD.d-1); acdpScrollTo('hmdpMon',HMD.m); acdpScrollTo('hmdpYear',Math.max(0,years.indexOf(HMD.y))); hmdpMark(); hmdpAttach(); },30);
     }
     function hmDateClose(){ document.getElementById('hmDateSheet').classList.remove('open'); }
