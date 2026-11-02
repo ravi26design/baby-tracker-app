@@ -1626,13 +1626,13 @@
       #msSheet .pf-sheet{display:flex;flex-direction:column;}
       .ms-top{display:flex;align-items:center;gap:12px;margin-bottom:2px;}
       .ms-back{width:34px;height:34px;flex:0 0 auto;border:none;background:#f3eef9;border-radius:11px;color:#6f5aa6;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-      .ms-prog{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;}
+      .ms-prog{display:flex;align-items:center;justify-content:center;gap:7px;margin:18px 0 4px;}
       .ms-prog i{position:relative;flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#dcd2ee;transition:width .28s ease,background .25s;}
       .ms-prog i.done{background:color-mix(in srgb,var(--mc) 55%,#dcd2ee);}
       .ms-prog i.tap{cursor:pointer;}
       .ms-prog i.tap::before{content:'';position:absolute;inset:-12px -5px;}
       .ms-prog i.cur{width:24px;border-radius:4px;background:var(--mc);}
-      .ms-card{background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 22px 46px -26px rgba(120,90,150,.5);margin-top:18px;}
+      .ms-card{background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 22px 46px -26px rgba(120,90,150,.5);margin-top:18px;touch-action:pan-y;will-change:transform;}
       .ms-photo{aspect-ratio:1/1;background:#efe9f5 center/cover no-repeat;}
       .ms-photo img{width:100%;height:100%;object-fit:cover;display:block;}
       .ms-cbody{padding:22px 22px 24px;text-align:center;}
@@ -1765,12 +1765,8 @@
       <div class="pf-sheet-bd" onclick="msClose()"></div>
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
-        <div class="ms-top">
-          <button class="ms-back" onclick="msBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-          <div class="ms-prog" id="msProg"></div>
-        </div>
         <div id="msQuestionView">
-          <div class="ms-card">
+          <div class="ms-card" id="msCard">
             <div class="ms-photo"><img id="msImg" src="" alt=""></div>
             <div class="ms-cbody">
               <div class="ms-cat"><span class="ms-cat-ic" id="msCatIc"></span><span class="ms-cat-name" id="msCatName"></span></div>
@@ -1783,6 +1779,7 @@
             <button class="ms-pill" data-v="not_sure" onclick="msAnswer('not_sure')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a3 3 0 0 1 5.4 1.2c0 1.6-2.4 2.1-2.7 3.4"/><path d="M12 17h.01"/></svg>Not sure</button>
             <button class="ms-pill" data-v="achieved" onclick="msAnswer('achieved')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.4 12 2.5 2.5 4.7-4.7"/></svg>Achieved</button>
           </div>
+          <div class="ms-prog" id="msProg"></div>
         </div>
       </div>
     </div>
@@ -2571,6 +2568,39 @@
       },300);
     }
     function msJump(i){ MS_I=i; msRender(); var p=document.querySelector('#msSheet .pf-sheet'); if(p) p.scrollTop=0; }
+    function msNav(dir){
+      var key=CURRENT_KEY,cat=MS_CAT; if(!key||!cat) return;
+      var n=msQs(cat,CHILDREN[key]).length, ni=MS_I+dir;
+      var card=document.getElementById('msCard');
+      if(ni<0||ni>=n){ // nothing there — little bounce for feedback
+        if(card){ card.style.transition='transform .16s ease'; card.style.transform='translateX('+(dir<0?14:-14)+'px)'; setTimeout(function(){ card.style.transform='translateX(0)'; },160); }
+        return;
+      }
+      if(card){ card.style.transition='transform .16s ease, opacity .16s ease'; card.style.transform='translateX('+(-dir*36)+'px)'; card.style.opacity='0'; }
+      setTimeout(function(){
+        MS_I=ni; msRender();
+        if(card){ card.style.transition='none'; card.style.transform='translateX('+(dir*36)+'px)'; card.style.opacity='0';
+          requestAnimationFrame(function(){ card.style.transition='transform .22s ease, opacity .22s ease'; card.style.transform='translateX(0)'; card.style.opacity='1'; }); }
+      },160);
+    }
+    (function(){
+      var card=document.getElementById('msCard'); if(!card) return;
+      var x0=null,y0=null,lock=null,drag=false;
+      card.addEventListener('pointerdown',function(e){ x0=e.clientX; y0=e.clientY; lock=null; drag=false; });
+      card.addEventListener('pointermove',function(e){
+        if(x0==null) return; var dx=e.clientX-x0, dy=e.clientY-y0;
+        if(lock==null && (Math.abs(dx)>7||Math.abs(dy)>7)) lock=Math.abs(dx)>Math.abs(dy)?'x':'y';
+        if(lock==='x'){ drag=true; card.style.transition='none'; card.style.transform='translateX('+(dx*0.5)+'px)'; }
+      });
+      function end(e){
+        if(x0==null) return; var dx=(e&&e.clientX!=null?e.clientX:x0)-x0; var was=drag; x0=null; y0=null; lock=null; drag=false;
+        if(!was){ card.style.transform=''; return; }
+        if(Math.abs(dx)>45){ msNav(dx<0?1:-1); }
+        else { card.style.transition='transform .2s ease'; card.style.transform='translateX(0)'; }
+      }
+      card.addEventListener('pointerup',end);
+      card.addEventListener('pointercancel',function(){ x0=null;y0=null;lock=null;drag=false; card.style.transition='transform .2s ease'; card.style.transform='translateX(0)'; });
+    })();
     function msUpdateRing(){
       var key=CURRENT_KEY, cat=MS_CAT, qs=msQs(cat,CHILDREN[key]), ans=CHILDREN[key].mileAns[cat];
       var ach=ans.filter(function(a){return a==='achieved';}).length;
