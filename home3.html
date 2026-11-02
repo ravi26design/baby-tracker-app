@@ -3151,14 +3151,9 @@
     }
     document.addEventListener('pointerup',hmSwEnd,{passive:true});
     document.addEventListener('pointercancel',hmSwEnd,{passive:true});
-    var HM_DELP=null;
-    function hmDel(cat,i){ HM_DELP={cat:cat,i:i}; var l=document.getElementById('hmDelLayer'); if(l) l.classList.add('open'); }
-    function hmDelCancel(){ HM_DELP=null; var l=document.getElementById('hmDelLayer'); if(l) l.classList.remove('open'); hmCloseSwipes(); }
-    function hmDelOk(){
-      if(!HM_DELP) return; var cat=HM_DELP.cat, i=HM_DELP.i;
+    function hmDel(cat,i){
       var map={note:HM_NOTES,doc:HM_DOCS,visit:HM_VISITS,vax:HM_VAX}, arr=map[cat];
       if(arr && i>=0 && i<arr.length) arr.splice(i,1);
-      HM_DELP=null; var l=document.getElementById('hmDelLayer'); if(l) l.classList.remove('open');
       SW.open=null;
       if(cat==='note') renderHmNotes(); else if(cat==='doc') renderHmDocs(); else if(cat==='visit') renderHmVisits(); else if(cat==='vax') renderHmVax();
       try{ renderHmHub(); }catch(e){}
