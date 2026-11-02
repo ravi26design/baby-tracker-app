@@ -3591,7 +3591,7 @@
       document.getElementById('rcpDiff').textContent=r.diff;
       document.getElementById('rcpServ').textContent=r.servings+' serving'+(r.servings>1?'s':'');
       document.getElementById('rcpIngList').innerHTML=r.ings.map(function(g){
-        return '<div class="rcp-ing"><span class="rcp-ing-ic">'+ingArt(g.n)+'</span><div class="rcp-ing-tx"><div class="rcp-ing-n">'+g.n+'</div><div class="rcp-ing-q">'+g.q+'</div></div><span class="rcp-ing-chev">'+RCP_CHEV+'</span></div>';
+        return '<div class="rcp-ing"><span class="rcp-ing-ic">'+ingArt(g.n)+'</span><div class="rcp-ing-tx"><div class="rcp-ing-n">'+g.n+'</div><div class="rcp-ing-q">'+g.q+'</div></div></div>';
       }).join('');
       document.getElementById('rcpSteps').innerHTML=r.steps.map(function(s,idx){
         return '<div class="rcp-step"><span class="rcp-step-n">'+(idx+1)+'</span><div class="rcp-step-tx"><div class="rcp-step-t">'+s.t+'</div><div class="rcp-step-d">'+s.d+'</div></div><span class="rcp-step-th">'+a.svg+'</span></div>';
