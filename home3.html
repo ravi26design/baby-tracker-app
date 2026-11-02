@@ -1071,6 +1071,13 @@
   .hm-filebtn .hm-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .hm-filebtn.has{border-style:solid;border-color:rgba(95,175,125,.5);color:var(--ink);background:#f4faf6;}
   .hm-filebtn.has svg{color:#4bab77;}
+  .hm-docchips{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+  .hm-docchips:empty{display:none;}
+  .hm-dchip{display:flex;align-items:center;gap:8px;background:#f6f3fb;border-radius:11px;padding:8px 10px;font-size:12.5px;font-weight:600;color:var(--ink);}
+  .hm-dchip svg{width:15px;height:15px;color:#8574b5;flex-shrink:0;}
+  .hm-dchip .hm-dchip-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .hm-dchip .hm-dchip-x{flex:0 0 auto;width:20px;height:20px;border:none;background:transparent;color:#a99c92;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;}
+  .hm-dchip .hm-dchip-x:active{background:#eadff0;}
   .hm-ephoto{display:flex;flex-direction:column;align-items:center;gap:11px;margin:2px 0 4px;}
   .hm-ephoto-av{width:88px;height:88px;border-radius:50%;background:linear-gradient(150deg,#e8dcf6,#d9c8ef) center/cover no-repeat;box-shadow:0 9px 20px -11px rgba(120,90,160,.5),0 0 0 3px #fff,0 0 0 4px rgba(139,116,181,.14);}
   .hm-ephoto-btn{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;background:#f3eef9;border-radius:11px;padding:9px 16px;transition:background .14s,transform .12s;}
@@ -2043,13 +2050,11 @@
         <div class="hm-addf" id="hmDocForm">
           <div class="hm-ftitle">Add Document</div>
           <div class="hm-fld" style="margin-bottom:8px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
-          <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose a file to upload</span></button>
-          <input type="file" id="hmDocFile" accept="image/*,application/pdf" style="display:none" onchange="hmDocFile(this)">
-          <input class="hm-in" id="hmDocName" placeholder="Document name" autocomplete="off" style="margin-bottom:8px">
-          <div class="hm-addf-row" style="grid-template-columns:1fr 1fr">
-            <select class="hm-in" id="hmDocType"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select>
-            <select class="hm-in" id="hmDocFmt"><option>PDF</option><option>JPG</option><option>PNG</option></select>
-          </div>
+          <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose files to upload</span></button>
+          <input type="file" id="hmDocFile" accept="image/*,application/pdf" multiple style="display:none" onchange="hmDocFile(this)">
+          <div id="hmDocChips" class="hm-docchips"></div>
+          <input class="hm-in" id="hmDocName" placeholder="Document name (optional)" autocomplete="off" style="margin-bottom:8px">
+          <select class="hm-in" id="hmDocType" style="margin-bottom:8px"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmDocHide()">Cancel</button><button class="hm-addf-save" onclick="hmDocSave()">Upload</button></div>
         </div>
         <div class="hm-addf" id="hmEditForm">
@@ -2994,21 +2999,37 @@
     }
     function hmDocShow(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmDocBtn'); if(b) b.style.display='none'; hmDateInit('doc'); }
     function hmDocHide(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmDocBtn'); if(b) b.style.display=''; var n=document.getElementById('hmDocName'); if(n) n.value=''; hmDocResetFile(); }
-    function hmDocResetFile(){ var fi=document.getElementById('hmDocFile'); if(fi) fi.value=''; var btn=document.getElementById('hmFileBtn'); if(btn){ btn.classList.remove('has'); btn.querySelector('.hm-fname').textContent='Choose a file to upload'; } }
+    var HM_DOC_FILES=[];
+    function hmDocFmtOf(name){ var ext=(name.split('.').pop()||'').toUpperCase(); if(ext==='JPEG') ext='JPG'; return ['PDF','JPG','PNG'].indexOf(ext)>=0?ext:'FILE'; }
+    function hmDocResetFile(){ HM_DOC_FILES=[]; var fi=document.getElementById('hmDocFile'); if(fi) fi.value=''; var btn=document.getElementById('hmFileBtn'); if(btn){ btn.classList.remove('has'); btn.querySelector('.hm-fname').textContent='Choose files to upload'; } hmDocRenderChips(); }
+    function hmDocRenderChips(){
+      var wrap=document.getElementById('hmDocChips'); if(!wrap) return;
+      wrap.innerHTML=HM_DOC_FILES.map(function(nm,i){ return '<div class="hm-dchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h8l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg><span class="hm-dchip-nm">'+nm+'</span><button type="button" class="hm-dchip-x" onclick="hmDocRemoveFile('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'; }).join('');
+      var btn=document.getElementById('hmFileBtn'); if(btn){ var s=btn.querySelector('.hm-fname'); if(HM_DOC_FILES.length){ btn.classList.add('has'); s.textContent=HM_DOC_FILES.length===1?'1 file selected · add more':(HM_DOC_FILES.length+' files selected · add more'); } else { btn.classList.remove('has'); s.textContent='Choose files to upload'; } }
+    }
+    function hmDocRemoveFile(i){ HM_DOC_FILES.splice(i,1); hmDocRenderChips(); }
     function hmDocFile(inp){
-      if(inp.files && inp.files[0]){
-        var f=inp.files[0];
-        var nm=document.getElementById('hmDocName'); if(nm && !nm.value.trim()) nm.value=f.name.replace(/\.[^.]+$/,'');
-        var ext=(f.name.split('.').pop()||'').toUpperCase(); if(ext==='JPEG') ext='JPG';
-        var fmt=document.getElementById('hmDocFmt'); if(fmt){ for(var i=0;i<fmt.options.length;i++){ if(fmt.options[i].value===ext){ fmt.selectedIndex=i; break; } } }
-        var btn=document.getElementById('hmFileBtn'); if(btn){ btn.classList.add('has'); btn.querySelector('.hm-fname').textContent=f.name; }
+      if(inp.files && inp.files.length){
+        for(var i=0;i<inp.files.length;i++){ HM_DOC_FILES.push(inp.files[i].name); }
+        inp.value='';
+        hmDocRenderChips();
       }
     }
     function hmDocSave(){
       var n=(document.getElementById('hmDocName').value||'').trim();
-      if(!n){ hToast('Add a document name'); return; }
-      var t=document.getElementById('hmDocType').value, f=document.getElementById('hmDocFmt').value;
-      HM_DOCS.unshift({name:n,meta:t+' · '+hmDateVal('doc'),fmt:f,c:'#b05fd6'});
+      var t=document.getElementById('hmDocType').value, date=hmDateVal('doc');
+      if(HM_DOC_FILES.length){
+        var one=HM_DOC_FILES.length===1;
+        for(var i=HM_DOC_FILES.length-1;i>=0;i--){
+          var fn=HM_DOC_FILES[i], base=fn.replace(/\.[^.]+$/,'');
+          var nm=(one && n)?n:base;
+          HM_DOCS.unshift({name:nm,meta:t+' · '+date,fmt:hmDocFmtOf(fn),c:'#b05fd6'});
+        }
+        renderHmDocs(); hmDocHide(); hToast(HM_DOC_FILES.length>1?(HM_DOC_FILES.length+' documents uploaded ✓'):'Document uploaded ✓');
+        return;
+      }
+      if(!n){ hToast('Choose a file or add a name'); return; }
+      HM_DOCS.unshift({name:n,meta:t+' · '+date,fmt:'PDF',c:'#b05fd6'});
       renderHmDocs(); hmDocHide(); hToast('Document uploaded ✓');
     }
     /* ---- Blood type + Allergies ---- */
