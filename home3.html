@@ -362,8 +362,9 @@
   .child-tab .ct-name{font-size:14px;font-weight:700;color:#8a8788;letter-spacing:-.2px;}
   .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:none;}
   .child-tab.active .ct-name{color:#fff;}
-  .hm-docfilter{display:flex;gap:8px;margin:4px 0 2px;}
-  .hm-dfp{flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:15px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;color:#8a8788;letter-spacing:-.2px;background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .15s,box-shadow .2s,background .2s,color .2s;}
+  .hm-docfilter{display:flex;gap:8px;margin:4px 0 2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px;}
+  .hm-docfilter::-webkit-scrollbar{display:none;}
+  .hm-dfp{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;color:#8a8788;letter-spacing:-.2px;white-space:nowrap;background:#fff;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .15s,box-shadow .2s,background .2s,color .2s;}
   .hm-dfp:active{transform:scale(.98);}
   .hm-dfp.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
   .hm-docempty{text-align:center;color:var(--muted);font-size:13px;font-weight:600;padding:22px 0 12px;}
@@ -2009,8 +2010,11 @@
               <div class="hm-ov-top"><div class="hm-ov-h"><span class="hm-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5a2 2 0 0 1 2-2h3.2l2 2H19a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><div class="hm-ov-t">Documents</div></div></div>
               <div class="hm-docfilter" id="hmDocFilter">
                 <button class="hm-dfp on" data-f="all" onclick="hmDocFilterSet('all',this)">All</button>
-                <button class="hm-dfp" data-f="pdf" onclick="hmDocFilterSet('pdf',this)">PDFs</button>
-                <button class="hm-dfp" data-f="img" onclick="hmDocFilterSet('img',this)">Images</button>
+                <button class="hm-dfp" data-f="Report" onclick="hmDocFilterSet('Report',this)">Reports</button>
+                <button class="hm-dfp" data-f="Prescription" onclick="hmDocFilterSet('Prescription',this)">Prescriptions</button>
+                <button class="hm-dfp" data-f="Scan" onclick="hmDocFilterSet('Scan',this)">Scans</button>
+                <button class="hm-dfp" data-f="Certificate" onclick="hmDocFilterSet('Certificate',this)">Certificates</button>
+                <button class="hm-dfp" data-f="Other" onclick="hmDocFilterSet('Other',this)">Other</button>
               </div>
               <div id="hmDocList" style="margin-top:12px"></div>
             </div>
@@ -2733,9 +2737,9 @@
           {summary:'7h · Good',tag:'Sleep',date:'28 May',c:'#8f7cff'}
         ],
         docs:[
-          {name:'Birth Certificate',meta:'Added 18 Jul 2025',fmt:'PDF',c:'#b05fd6'},
-          {name:'Insurance Card',meta:'Added 2 Aug 2025',fmt:'JPG',c:'#3f8fd0'},
-          {name:'Vaccine Card',meta:'Updated 10 Apr 2026',fmt:'PDF',c:'#1fb0a4'}
+          {name:'Birth Certificate',meta:'Added 18 Jul 2025',fmt:'PDF',type:'Certificate',c:'#b05fd6'},
+          {name:'Insurance Card',meta:'Added 2 Aug 2025',fmt:'JPG',type:'Other',c:'#3f8fd0'},
+          {name:'Vaccine Card',meta:'Updated 10 Apr 2026',fmt:'PDF',type:'Certificate',c:'#1fb0a4'}
         ]
       },
       lily:{
@@ -2768,8 +2772,8 @@
           {summary:'Playground scrape',tag:'Observation',date:'22 May',c:'#1fb0a4'}
         ],
         docs:[
-          {name:'Birth Certificate',meta:'Added 12 Jun 2021',fmt:'PDF',c:'#b05fd6'},
-          {name:'School Health Form',meta:'Added 1 Sep 2025',fmt:'PDF',c:'#3f8fd0'}
+          {name:'Birth Certificate',meta:'Added 12 Jun 2021',fmt:'PDF',type:'Certificate',c:'#b05fd6'},
+          {name:'School Health Form',meta:'Added 1 Sep 2025',fmt:'PDF',type:'Report',c:'#3f8fd0'}
         ]
       }
     };
@@ -3001,11 +3005,11 @@
     var HM_DOCFILTER='all';
     function hmDocFilterSet(f,el){ HM_DOCFILTER=f; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmDocs(); }
     function hmDocFilterReset(){ HM_DOCFILTER='all'; var row=document.getElementById('hmDocFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='all'); }); }
-    function hmDocMatch(d){ var f=HM_DOCFILTER||'all'; if(f==='all') return true; var fmt=(d.fmt||'').toUpperCase(); if(f==='pdf') return fmt==='PDF'; if(f==='img') return fmt==='JPG'||fmt==='JPEG'||fmt==='PNG'; return true; }
+    function hmDocMatch(d){ var f=HM_DOCFILTER||'all'; if(f==='all') return true; return (d.type||'Other')===f; }
     function renderHmDocs(){
       var el=document.getElementById('hmDocList'); if(!el) return;
       var rows=HM_DOCS.map(function(d,i){ return {d:d,i:i}; }).filter(function(o){ return hmDocMatch(o.d); });
-      if(!rows.length){ el.innerHTML='<div class="hm-docempty">No '+(HM_DOCFILTER==='pdf'?'PDFs':HM_DOCFILTER==='img'?'images':'documents')+' yet</div>'; return; }
+      if(!rows.length){ el.innerHTML='<div class="hm-docempty">No '+(HM_DOCFILTER==='all'?'documents':HM_DOCFILTER.toLowerCase()+' documents')+' yet</div>'; return; }
       el.innerHTML=rows.map(function(o){ var d=o.d,i=o.i;
         return hmWrap('<div class="hm-li" style="--lc:'+(d.c||'#b05fd6')+'"><span class="hm-li-ic">'+HM_DOCIC+'</span><div class="hm-li-tx"><div class="hm-li-n">'+d.name+'</div><div class="hm-li-s">'+d.meta+'</div></div><span class="hm-li-r">'+d.fmt+'</span></div>','doc',i);
       }).join('');
@@ -3036,13 +3040,13 @@
         for(var i=HM_DOC_FILES.length-1;i>=0;i--){
           var fn=HM_DOC_FILES[i], base=fn.replace(/\.[^.]+$/,'');
           var nm=(one && n)?n:base;
-          HM_DOCS.unshift({name:nm,meta:t+' · '+date,fmt:hmDocFmtOf(fn),c:'#b05fd6'});
+          HM_DOCS.unshift({name:nm,meta:t+' · '+date,fmt:hmDocFmtOf(fn),type:t,c:'#b05fd6'});
         }
         hmDocFilterReset(); renderHmDocs(); hmDocHide(); hToast(HM_DOC_FILES.length>1?(HM_DOC_FILES.length+' documents uploaded ✓'):'Document uploaded ✓');
         return;
       }
       if(!n){ hToast('Choose a file or add a name'); return; }
-      HM_DOCS.unshift({name:n,meta:t+' · '+date,fmt:'PDF',c:'#b05fd6'});
+      HM_DOCS.unshift({name:n,meta:t+' · '+date,fmt:'PDF',type:t,c:'#b05fd6'});
       hmDocFilterReset(); renderHmDocs(); hmDocHide(); hToast('Document uploaded ✓');
     }
     /* ---- Blood type + Allergies ---- */
