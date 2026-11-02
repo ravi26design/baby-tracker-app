@@ -1034,6 +1034,11 @@
   .hm-addf.open{display:block;position:absolute;left:0;right:0;bottom:0;z-index:92;margin:0;max-height:84%;overflow-y:auto;background:#fff;border-radius:26px 26px 0 0;padding:12px 16px 26px;box-shadow:0 -16px 44px -14px rgba(90,60,70,.34);animation:hmSlideUp .32s cubic-bezier(.32,.72,0,1);}
   .hm-addf.open::-webkit-scrollbar{display:none;}
   .hm-nlbl{font-size:13px;font-weight:800;color:var(--ink);margin:4px 2px 11px;letter-spacing:-.1px;}
+  .hm-datefld{width:100%;border:none;background:#fff;border-radius:11px;padding:11px 12px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.18);outline:none;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;text-align:left;}
+  .hm-datefld .hm-date-tx{font-weight:700;}
+  .hm-datefld svg{width:17px;height:17px;color:#8574b5;flex-shrink:0;}
+  .hmdp-layer{position:fixed;inset:0;z-index:210;display:none;}
+  .hmdp-layer.open{display:block;}
   .hm-nchips{display:flex;flex-wrap:wrap;gap:9px;}
   .hm-nchip{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;padding:11px 15px;border-radius:14px;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s,background .14s,color .14s;}
   .hm-nchip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
@@ -1875,6 +1880,20 @@
           <div class="hm-dl-acts"><button class="hm-dl-cancel" onclick="hmDelCancel()">Cancel</button><button class="hm-dl-ok" onclick="hmDelOk()">Delete</button></div>
         </div>
       </div>
+      <div class="hmdp-layer" id="hmDateSheet">
+        <div class="acdp-bd" onclick="hmDateClose()"></div>
+        <div class="acdp-panel">
+          <div class="acdp-grab"></div>
+          <div class="acdp-h">Select date</div>
+          <div class="acdp-wheels">
+            <div class="acdp-band"></div>
+            <div class="acdp-col" id="hmdpDay"></div>
+            <div class="acdp-col" id="hmdpMon"></div>
+            <div class="acdp-col" id="hmdpYear"></div>
+          </div>
+          <button class="acdp-done" onclick="hmDateDone()">Done</button>
+        </div>
+      </div>
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
         <div class="statusbar">
@@ -2003,16 +2022,15 @@
         </div>
         <div class="hm-addf" id="hmVisitForm">
           <input class="hm-in" id="hmVReason" placeholder="Reason (e.g. Well Visit)" autocomplete="off" style="margin-bottom:8px">
-          <div class="hm-addf-row" style="grid-template-columns:1fr 1fr">
-            <input class="hm-in" id="hmVDoc" placeholder="Doctor" value="Dr. Priya Menon" autocomplete="off">
-            <input class="hm-in" id="hmVDate" placeholder="Date (e.g. 8 Aug)" autocomplete="off">
-          </div>
+          <input class="hm-in" id="hmVDoc" placeholder="Doctor" value="Dr. Priya Menon" autocomplete="off" style="margin-bottom:8px">
+          <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmVisitDate" onclick="hmDateOpen('visit')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmVisitHide()">Cancel</button><button class="hm-addf-save" onclick="hmVisitSave()">Save</button></div>
         </div>
         <div class="hm-addf" id="hmNoteForm">
           <div class="hm-nlbl">What are you noting?</div>
           <div class="hm-nchips" id="hmNoteTypes"></div>
           <div id="hmNoteFields"></div>
+          <div class="hm-fld" style="margin-top:16px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmNoteDate" onclick="hmDateOpen('note')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-addf-act" style="margin-top:16px"><button class="hm-addf-cancel" onclick="hmNoteHide()">Cancel</button><button class="hm-addf-save" onclick="hmNoteSave()">Save Note</button></div>
         </div>
         <div class="hm-addf" id="hmDocForm">
@@ -2023,6 +2041,7 @@
             <select class="hm-in" id="hmDocType"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select>
             <select class="hm-in" id="hmDocFmt"><option>PDF</option><option>JPG</option><option>PNG</option></select>
           </div>
+          <div class="hm-fld" style="margin-top:8px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmDocHide()">Cancel</button><button class="hm-addf-save" onclick="hmDocSave()">Upload</button></div>
         </div>
         <div class="hm-addf" id="hmEditForm">
@@ -2361,6 +2380,32 @@
       acSetDob(iso,'');
       acCloseDob();
     }
+
+    /* ===== generic date picker for the health add-forms ===== */
+    var HMD={which:null,d:1,m:0,y:2025}, HMD_YEARS=[], HMD_DATES={};
+    var HMD_FIELD={note:'hmNoteDate',visit:'hmVisitDate',doc:'hmDocDate'};
+    function hmDateTxt(d,m){ return d+' '+ACDP_MONTHS[m].slice(0,3); }
+    function hmDateInit(which){ var n=new Date(); HMD_DATES[which]={iso:n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2)+'-'+('0'+n.getDate()).slice(-2),txt:hmDateTxt(n.getDate(),n.getMonth())}; var f=document.getElementById(HMD_FIELD[which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent='Today'; } }
+    function hmdpMark(){ ['hmdpDay','hmdpMon','hmdpYear'].forEach(function(id){ var el=document.getElementById(id); if(!el) return; var idx=Math.round(el.scrollTop/46); Array.prototype.forEach.call(el.children,function(c,i){ c.classList.toggle('on', i===idx); }); }); }
+    function hmdpAttach(){ [['hmdpDay',function(i){HMD.d=i+1;}],['hmdpMon',function(i){HMD.m=i;}],['hmdpYear',function(i){HMD.y=HMD_YEARS[i];}]].forEach(function(p){ var el=document.getElementById(p[0]); if(!el||el._b) return; el._b=1; var t; el.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ var idx=Math.round(el.scrollTop/46); if(idx<0)idx=0; if(idx>el.children.length-1)idx=el.children.length-1; p[1](idx); hmdpMark(); },70); }); }); }
+    function hmDateOpen(which){
+      HMD.which=which;
+      var cur=HMD_DATES[which], now=new Date();
+      if(cur&&cur.iso){ var pb=cur.iso.split('-'); HMD.y=+pb[0]; HMD.m=+pb[1]-1; HMD.d=+pb[2]; }
+      else { HMD.y=now.getFullYear(); HMD.m=now.getMonth(); HMD.d=now.getDate(); }
+      var days=[],years=[],i; for(i=1;i<=31;i++) days.push(i); for(i=now.getFullYear()-5;i<=now.getFullYear();i++) years.push(i); HMD_YEARS=years;
+      acdpItems('hmdpDay',days); acdpItems('hmdpMon',ACDP_MONTHS); acdpItems('hmdpYear',years);
+      document.getElementById('hmDateSheet').classList.add('open');
+      setTimeout(function(){ acdpScrollTo('hmdpDay',HMD.d-1); acdpScrollTo('hmdpMon',HMD.m); acdpScrollTo('hmdpYear',Math.max(0,years.indexOf(HMD.y))); hmdpMark(); hmdpAttach(); },30);
+    }
+    function hmDateClose(){ document.getElementById('hmDateSheet').classList.remove('open'); }
+    function hmDateDone(){
+      var iso=HMD.y+'-'+('0'+(HMD.m+1)).slice(-2)+'-'+('0'+HMD.d).slice(-2), txt=hmDateTxt(HMD.d,HMD.m);
+      HMD_DATES[HMD.which]={iso:iso,txt:txt};
+      var f=document.getElementById(HMD_FIELD[HMD.which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent=txt; }
+      hmDateClose();
+    }
+    function hmDateVal(which){ return (HMD_DATES[which]&&HMD_DATES[which].txt)||'Today'; }
 
     /* ===== Milestone Q&A (onboarding style) ===== */
     var MILE_CATS={
@@ -2857,7 +2902,7 @@
     function hmBs(on){ var bd=document.getElementById('hmBsBd'); if(bd) bd.classList.toggle('show', !!on); }
     function hmCloseForms(){ hmAddHide(); hmNoteHide(); hmVisitHide(); hmDocHide(); hmEditHide(); }
     var HM_NTYPE=null, HM_NSEL={};
-    function hmNoteShow(){ HM_NTYPE=null; HM_NSEL={}; var f=document.getElementById('hmNoteForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display='none'; renderHmNoteTypes(); document.getElementById('hmNoteFields').innerHTML=''; }
+    function hmNoteShow(){ HM_NTYPE=null; HM_NSEL={}; var f=document.getElementById('hmNoteForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display='none'; renderHmNoteTypes(); document.getElementById('hmNoteFields').innerHTML=''; hmDateInit('note'); }
     function hmNoteHide(){ var f=document.getElementById('hmNoteForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmNoteBtn'); if(b) b.style.display=''; }
     function renderHmNoteTypes(){
       var el=document.getElementById('hmNoteTypes'); if(!el) return;
@@ -2900,7 +2945,7 @@
       else if(HM_NTYPE==='Reaction'){ if(!d.reactTo){ hToast('Pick a trigger'); return; } summary=d.reactTo+' · '+((d.reaction||[]).join(', ')||'reaction'); }
       else if(HM_NTYPE==='Sleep'){ if(!d.duration){ hToast('Pick a duration'); return; } summary=d.duration+(d.quality?' · '+d.quality:''); }
       else if(HM_NTYPE==='Feed'){ if(!d.feedType){ hToast('Pick a feed type'); return; } summary=d.feedType+(d.how?' · '+d.how:''); }
-      HM_NOTES.unshift({summary:summary,tag:HM_NTYPE,date:'Today',c:HM_NOTE_COL[HM_NTYPE]||'#1fb0a4'});
+      HM_NOTES.unshift({summary:summary,tag:HM_NTYPE,date:hmDateVal('note'),c:HM_NOTE_COL[HM_NTYPE]||'#1fb0a4'});
       renderHmNotes(); hmNoteHide(); hToast('Note added ✓');
     }
     /* ---- Documents ---- */
@@ -2912,7 +2957,7 @@
         return hmWrap('<div class="hm-li" style="--lc:'+(d.c||'#b05fd6')+'"><span class="hm-li-ic">'+HM_DOCIC+'</span><div class="hm-li-tx"><div class="hm-li-n">'+d.name+'</div><div class="hm-li-s">'+d.meta+'</div></div><span class="hm-li-r">'+d.fmt+'</span></div>','doc',i);
       }).join('');
     }
-    function hmDocShow(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmDocBtn'); if(b) b.style.display='none'; }
+    function hmDocShow(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmDocBtn'); if(b) b.style.display='none'; hmDateInit('doc'); }
     function hmDocHide(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmDocBtn'); if(b) b.style.display=''; var n=document.getElementById('hmDocName'); if(n) n.value=''; hmDocResetFile(); }
     function hmDocResetFile(){ var fi=document.getElementById('hmDocFile'); if(fi) fi.value=''; var btn=document.getElementById('hmFileBtn'); if(btn){ btn.classList.remove('has'); btn.querySelector('.hm-fname').textContent='Choose a file to upload'; } }
     function hmDocFile(inp){
@@ -2928,7 +2973,7 @@
       var n=(document.getElementById('hmDocName').value||'').trim();
       if(!n){ hToast('Add a document name'); return; }
       var t=document.getElementById('hmDocType').value, f=document.getElementById('hmDocFmt').value;
-      HM_DOCS.unshift({name:n,meta:t+' · Just now',fmt:f,c:'#b05fd6'});
+      HM_DOCS.unshift({name:n,meta:t+' · '+hmDateVal('doc'),fmt:f,c:'#b05fd6'});
       renderHmDocs(); hmDocHide(); hToast('Document uploaded ✓');
     }
     /* ---- Blood type + Allergies ---- */
@@ -3019,13 +3064,13 @@
         return hmWrap('<div class="hm-li" style="--lc:'+col+'"><span class="hm-li-ic">'+(v.sick?VPILL:VSTETH)+'</span><div class="hm-li-tx"><div class="hm-li-n">'+v.title+'</div><div class="hm-li-s">'+v.doctor+'</div></div><span class="hm-li-r">'+v.date+'</span></div>','visit',i);
       }).join('');
     }
-    function hmVisitShow(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display='none'; }
+    function hmVisitShow(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display='none'; hmDateInit('visit'); }
     function hmVisitHide(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display=''; var r=document.getElementById('hmVReason'); if(r) r.value=''; var d=document.getElementById('hmVDate'); if(d) d.value=''; }
     function hmVisitSave(){
       var reason=(document.getElementById('hmVReason').value||'').trim();
       if(!reason){ hToast('Add a reason'); return; }
       var doc=(document.getElementById('hmVDoc').value||'').trim()||'Doctor';
-      var date=(document.getElementById('hmVDate').value||'').trim()||'Today';
+      var date=hmDateVal('visit');
       var sick=/sick|infection|ill|fever|flu|cold|rash|cough/i.test(reason);
       HM_VISITS.unshift({title:reason,doctor:doc,date:date,sick:sick});
       renderHmVisits(); hmVisitHide(); hToast('Visit added ✓');
