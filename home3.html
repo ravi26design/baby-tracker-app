@@ -2027,10 +2027,11 @@
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmVisitHide()">Cancel</button><button class="hm-addf-save" onclick="hmVisitSave()">Save</button></div>
         </div>
         <div class="hm-addf" id="hmNoteForm">
-          <div class="hm-nlbl">What are you noting?</div>
+          <div class="hm-nlbl">Add Health Notes</div>
+          <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmNoteDate" onclick="hmDateOpen('note')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <div class="hm-nlbl" style="margin-top:16px">What are you noting?</div>
           <div class="hm-nchips" id="hmNoteTypes"></div>
           <div id="hmNoteFields"></div>
-          <div class="hm-fld" style="margin-top:16px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmNoteDate" onclick="hmDateOpen('note')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-addf-act" style="margin-top:16px"><button class="hm-addf-cancel" onclick="hmNoteHide()">Cancel</button><button class="hm-addf-save" onclick="hmNoteSave()">Save Note</button></div>
         </div>
         <div class="hm-addf" id="hmDocForm">
