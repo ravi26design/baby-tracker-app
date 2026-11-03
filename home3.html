@@ -2098,14 +2098,14 @@
         <div class="hm-addf" id="hmDocForm">
           <div class="hm-ftitle">Add Document</div>
           <div class="hm-fld"><label class="hm-flbl2">Document Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Document name</label><input class="hm-in" id="hmDocName" placeholder="Document name (optional)" autocomplete="off"></div>
+          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Document type</label><select class="hm-in" id="hmDocType"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select></div>
           <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">File</label>
             <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose files to upload</span></button>
             <input type="file" id="hmDocFile" accept="image/*,application/pdf" multiple style="display:none" onchange="hmDocFile(this)">
             <div class="hm-fhint">Supports PDF, JPG &amp; PNG · up to 10 MB each</div>
             <div id="hmDocChips" class="hm-docchips"></div>
           </div>
-          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Document name</label><input class="hm-in" id="hmDocName" placeholder="Document name (optional)" autocomplete="off"></div>
-          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Document type</label><select class="hm-in" id="hmDocType"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select></div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmDocHide()">Cancel</button><button class="hm-addf-save" onclick="hmDocSave()">Upload</button></div>
         </div>
         <div class="hm-addf" id="hmEditForm">
@@ -2469,6 +2469,7 @@
     function hmDateClose(){ document.getElementById('hmDateSheet').classList.remove('open'); }
     function hmDateDone(){
       var iso=HMD.y+'-'+('0'+(HMD.m+1)).slice(-2)+'-'+('0'+HMD.d).slice(-2), txt=hmDateTxt(HMD.d,HMD.m,HMD.y);
+      if(HMD.which==='vdoc'){ if(HM_VISIT_DOCS[HM_VDATE_I]){ HM_VISIT_DOCS[HM_VDATE_I].docDate=txt; HM_VISIT_DOCS[HM_VDATE_I].docIso=iso; } hmVRenderDocs(); hmDateClose(); return; }
       HMD_DATES[HMD.which]={iso:iso,txt:txt};
       var f=document.getElementById(HMD_FIELD[HMD.which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent=txt; }
       hmDateClose();
@@ -3206,22 +3207,30 @@
     }
     function hmVisitShow(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display='none'; hmDateInit('visit'); hmVResetFiles(); }
     function hmVisitHide(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display=''; var r=document.getElementById('hmVReason'); if(r) r.value=''; var nt=document.getElementById('hmVNotes'); if(nt) nt.value=''; hmVResetFiles(); }
-    var HM_VISIT_DOCS=[], HM_VPEND=-1;
+    var HM_VISIT_DOCS=[], HM_VPEND=-1, HM_VDATE_I=-1;
     var HM_VDOC_TYPES=['Report','Prescription','Scan','Certificate','Other'];
-    function hmVAddDoc(){ HM_VISIT_DOCS.push({type:'Report',name:''}); hmVRenderDocs(); }
+    function hmVAddDoc(){ HM_VISIT_DOCS.push({type:'Report',docName:'',docDate:'Today',docIso:'',file:''}); hmVRenderDocs(); }
     function hmVRemoveDoc(i){ HM_VISIT_DOCS.splice(i,1); hmVRenderDocs(); }
     function hmVDocType(i,v){ if(HM_VISIT_DOCS[i]) HM_VISIT_DOCS[i].type=v; }
+    function hmVDocName(i,v){ if(HM_VISIT_DOCS[i]) HM_VISIT_DOCS[i].docName=v; }
+    function hmVDocDate(i){ HM_VDATE_I=i; var d=HM_VISIT_DOCS[i]; HMD_DATES['vdoc']=(d&&d.docIso)?{iso:d.docIso,txt:d.docDate}:null; hmDateOpen('vdoc'); }
     function hmVDocPick(i){ HM_VPEND=i; var fi=document.getElementById('hmVFile'); if(fi){ fi.value=''; fi.click(); } }
-    function hmVDocFile(inp){ if(HM_VPEND>-1 && inp.files && inp.files[0] && HM_VISIT_DOCS[HM_VPEND]){ HM_VISIT_DOCS[HM_VPEND].name=inp.files[0].name; } inp.value=''; HM_VPEND=-1; hmVRenderDocs(); }
-    function hmVResetFiles(){ HM_VISIT_DOCS=[]; HM_VPEND=-1; var fi=document.getElementById('hmVFile'); if(fi) fi.value=''; hmVRenderDocs(); }
+    function hmVDocFile(inp){ if(HM_VPEND>-1 && inp.files && inp.files[0] && HM_VISIT_DOCS[HM_VPEND]){ HM_VISIT_DOCS[HM_VPEND].file=inp.files[0].name; } inp.value=''; HM_VPEND=-1; hmVRenderDocs(); }
+    function hmVResetFiles(){ HM_VISIT_DOCS=[]; HM_VPEND=-1; HM_VDATE_I=-1; var fi=document.getElementById('hmVFile'); if(fi) fi.value=''; hmVRenderDocs(); }
     function hmVRenderDocs(){
       var wrap=document.getElementById('hmVDocs');
       if(wrap){ wrap.innerHTML=HM_VISIT_DOCS.map(function(d,i){
         var opts=HM_VDOC_TYPES.map(function(t){ return '<option'+(d.type===t?' selected':'')+'>'+t+'</option>'; }).join('');
-        var file=d.name
-          ? '<button type="button" class="hm-vfile has" onclick="hmVDocPick('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h8l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg><span>'+d.name+'</span></button>'
+        var cal='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>';
+        var file=d.file
+          ? '<button type="button" class="hm-vfile has" onclick="hmVDocPick('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h8l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg><span>'+d.file+'</span></button>'
           : '<button type="button" class="hm-vfile" onclick="hmVDocPick('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Choose file</span></button>';
-        return '<div class="hm-vcard"><div class="hm-vcard-top"><select class="hm-in hm-vtype" aria-label="Document type" onchange="hmVDocType('+i+',this.value)">'+opts+'</select><button type="button" class="hm-vcard-x" onclick="hmVRemoveDoc('+i+')" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'+file+'</div>';
+        return '<div class="hm-vcard">'
+          +'<div class="hm-vcard-top"><select class="hm-in hm-vtype" aria-label="Document type" onchange="hmVDocType('+i+',this.value)">'+opts+'</select><button type="button" class="hm-vcard-x" onclick="hmVRemoveDoc('+i+')" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'
+          +'<input class="hm-in" value="'+(d.docName||'').replace(/"/g,'&quot;')+'" placeholder="Document name (optional)" autocomplete="off" oninput="hmVDocName('+i+',this.value)">'
+          +'<button type="button" class="hm-datefld" onclick="hmVDocDate('+i+')"><span class="hm-date-tx">'+(d.docDate||'Today')+'</span>'+cal+'</button>'
+          +file
+        +'</div>';
       }).join(''); }
       var btn=document.getElementById('hmVAddBtn'); if(btn){ var s=btn.querySelector('.hm-fname'); if(s) s.textContent=HM_VISIT_DOCS.length?'Add another document':'Upload documents'; }
     }
@@ -3232,7 +3241,7 @@
       var notes=(document.getElementById('hmVNotes').value||'').trim();
       var date=hmDateVal('visit');
       var sick=/sick|infection|ill|fever|flu|cold|rash|cough/i.test(reason);
-      var docs=HM_VISIT_DOCS.filter(function(d){return d.name;}).map(function(d){return {name:d.name,type:d.type};});
+      var docs=HM_VISIT_DOCS.filter(function(d){return d.file;}).map(function(d){return {name:(d.docName||d.file),type:d.type,date:d.docDate,file:d.file};});
       HM_VISITS.unshift({title:reason,doctor:doc,date:date,sick:sick,notes:notes,docs:docs});
       renderHmVisits(); hmVisitHide(); hToast('Visit added ✓');
     }
