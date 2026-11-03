@@ -2097,7 +2097,7 @@
         </div>
         <div class="hm-addf" id="hmDocForm">
           <div class="hm-ftitle">Add Document</div>
-          <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <div class="hm-fld"><label class="hm-flbl2">Document Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">File</label>
             <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose files to upload</span></button>
             <input type="file" id="hmDocFile" accept="image/*,application/pdf" multiple style="display:none" onchange="hmDocFile(this)">
