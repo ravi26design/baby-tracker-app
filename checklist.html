@@ -514,14 +514,13 @@
   .pd-buy{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:15px;border-radius:16px;margin-top:18px;box-shadow:0 12px 24px -10px rgba(140,116,181,.7);}
   .pd-buy .wa-ic{display:inline-flex;}
   /* shareable link card */
-  .lc-overlay{position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:26px;background:rgba(44,32,60,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+  .lc-overlay{position:absolute;inset:0;z-index:40;display:none;align-items:flex-end;justify-content:center;background:rgba(44,32,60,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
   .lc-overlay.open{display:flex;animation:lcFade .2s ease;}
   @keyframes lcFade{from{opacity:0}to{opacity:1}}
-  .lc-card{width:100%;max-width:300px;background:var(--card-bg);border-radius:26px;padding:20px 18px;box-shadow:0 34px 70px -22px rgba(50,30,70,.65);text-align:center;animation:lcPop .22s cubic-bezier(.2,.9,.3,1.2);}
-  @keyframes lcPop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .lc-card{width:100%;background:var(--card-bg);border-radius:28px 28px 0 0;padding:10px 22px 26px;box-shadow:0 -22px 54px -20px rgba(50,30,70,.5);text-align:center;animation:rsUp .3s cubic-bezier(.2,.9,.3,1.05);}
   .lc-head{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#1f9d57;background:#e2f6ea;padding:5px 12px;border-radius:20px;}
   .lc-head svg{width:15px;height:15px;}
-  .lc-img{width:100%;aspect-ratio:1/1;border-radius:20px;margin-top:14px;background:linear-gradient(160deg,#f6f1fb,#efe9f7);display:flex;align-items:center;justify-content:center;font-size:66px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .lc-img{width:150px;height:150px;border-radius:20px;margin:12px auto 0;background:linear-gradient(160deg,#f6f1fb,#efe9f7);display:flex;align-items:center;justify-content:center;font-size:60px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
   .lc-name{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-top:14px;}
   .lc-link{font-size:11.5px;color:#7a5fd0;font-weight:700;margin-top:10px;word-break:break-all;background:#f6f2fb;padding:10px 12px;border-radius:13px;line-height:1.4;}
   .lc-copy{width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:13px;border-radius:14px;margin-top:14px;box-shadow:0 12px 22px -10px rgba(140,116,181,.7);}
@@ -1044,6 +1043,7 @@
   }
   function showWaNumberCard(){
     document.getElementById('lcCard').innerHTML=
+      '<div class="rs-grab"></div>'+
       '<div class="lc-head">'+WA_SVG+' Send to WhatsApp</div>'+
       '<div class="wa-q">Enter your WhatsApp number</div>'+
       '<div class="wa-sub">We’ll send the buy link straight to your WhatsApp chat.</div>'+
@@ -1067,6 +1067,7 @@
     var img=PD_IMG?'<div class="lc-img" style="background:#fff url(\''+PD_IMG+'\') center/contain no-repeat"></div>':'<div class="lc-img">'+(PD_EMOJI||'🛍️')+'</div>';
     var link=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby'));
     document.getElementById('lcCard').innerHTML=
+      '<div class="rs-grab"></div>'+
       '<div class="lc-head">'+WA_SVG+' Sent to WhatsApp</div>'+img+
       '<div class="lc-name">'+(PD_NAME||'Product')+'</div>'+
       '<div class="lc-sentto">Link sent to <b>'+WA_NUMBER+'</b> 📲</div>'+
