@@ -674,33 +674,34 @@
   .seenby.show{display:block;}
 
   /* ---- prescription / recommendation card (from an expert) ---- */
-  .bub.rx{--rxc:#2b9d78;padding:0;overflow:hidden;width:270px;max-width:100%;background:#fff;border-radius:16px 16px 16px 6px;box-shadow:0 6px 18px -8px rgba(60,80,70,.28),inset 0 0 0 1px color-mix(in srgb,var(--rxc) 20%,transparent);}
-  .rx-head{display:flex;align-items:center;gap:10px;padding:12px 13px;background:color-mix(in srgb,var(--rxc) 9%,#fff);border-bottom:1px solid color-mix(in srgb,var(--rxc) 14%,transparent);}
-  .rx-ic{width:36px;height:36px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rxc) 17%,#fff);color:var(--rxc);}
+  .bub.rx{--rxc:#2b9d78;padding:0;overflow:hidden;width:282px;max-width:100%;background:#fff;border-radius:18px 18px 18px 7px;box-shadow:0 12px 28px -14px rgba(50,70,60,.38),inset 0 0 0 1px color-mix(in srgb,var(--rxc) 15%,transparent);}
+  .rx-head{display:flex;align-items:center;gap:11px;padding:14px 14px 13px;background:linear-gradient(160deg,color-mix(in srgb,var(--rxc) 14%,#fff),color-mix(in srgb,var(--rxc) 4%,#fff));}
+  .rx-ic{width:38px;height:38px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,color-mix(in srgb,var(--rxc) 82%,#fff),var(--rxc));color:#fff;box-shadow:0 6px 14px -5px color-mix(in srgb,var(--rxc) 60%,transparent);}
   .rx-ic svg{width:20px;height:20px;}
   .rx-htx{flex:1;min-width:0;}
-  .rx-htx b{display:block;font-size:13.5px;font-weight:850;color:#2d3832;letter-spacing:-.2px;}
-  .rx-htx span{display:block;font-size:11px;font-weight:600;color:#7c877f;margin-top:1px;}
-  .rx-vfy{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;font-size:9.5px;font-weight:800;color:var(--rxc);background:color-mix(in srgb,var(--rxc) 13%,#fff);padding:3px 7px;border-radius:8px;}
+  .rx-htx b{display:block;font-size:13.5px;font-weight:850;color:#2d3832;letter-spacing:-.25px;white-space:nowrap;}
+  .rx-htx span{display:block;font-size:11px;font-weight:600;color:#7c877f;margin-top:2px;}
+  .rx-vfy{align-self:flex-start;display:inline-flex;align-items:center;gap:3px;flex-shrink:0;font-size:9px;font-weight:800;color:var(--rxc);background:#fff;padding:3px 7px;border-radius:8px;box-shadow:0 2px 5px -2px color-mix(in srgb,var(--rxc) 45%,transparent),inset 0 0 0 1px color-mix(in srgb,var(--rxc) 20%,transparent);}
   .rx-vfy svg{width:10px;height:10px;}
-  .rx-items{padding:4px 13px 2px;}
-  .rx-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed #ebe8e2;}
-  .rx-item:last-child{border-bottom:none;}
-  .rx-num{width:20px;height:20px;flex-shrink:0;border-radius:7px;background:color-mix(in srgb,var(--rxc) 13%,#fff);color:var(--rxc);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;}
-  .rx-itx{flex:1;min-width:0;}
-  .rx-itx b{display:block;font-size:13px;font-weight:800;color:#39332e;}
-  .rx-itx span{display:block;font-size:11.5px;font-weight:600;color:#8a857e;margin-top:2px;line-height:1.35;}
-  .rx-note{display:flex;gap:7px;align-items:flex-start;margin:4px 13px 0;padding:9px 11px;border-radius:11px;background:#fbf7ef;font-size:11.5px;font-weight:600;color:#7a6f52;line-height:1.4;}
-  .rx-note svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#c79a3a;}
-  .rx-acts{display:flex;gap:8px;padding:11px 13px 13px;}
-  .rx-save{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:10px;border-radius:12px;background:var(--rxc);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .1s,filter .15s;}
+  .rx-items{padding:9px 15px 3px;}
+  .rx-item{position:relative;display:flex;align-items:flex-start;gap:12px;padding:7px 0 11px;}
+  .rx-item:not(:last-child)::before{content:'';position:absolute;left:11px;top:31px;bottom:-7px;width:2px;border-radius:2px;background:color-mix(in srgb,var(--rxc) 18%,#ededed);}
+  .rx-num{position:relative;z-index:1;width:24px;height:24px;flex-shrink:0;border-radius:50%;background:color-mix(in srgb,var(--rxc) 14%,#fff);color:var(--rxc);font-size:12px;font-weight:850;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--rxc) 32%,transparent);}
+  .rx-itx{flex:1;min-width:0;padding-top:1px;}
+  .rx-itx b{display:block;font-size:13.5px;font-weight:800;color:#39332e;letter-spacing:-.2px;}
+  .rx-itx span{display:block;font-size:11.5px;font-weight:600;color:#8a857e;margin-top:2px;line-height:1.4;}
+  .rx-note{display:flex;gap:8px;align-items:flex-start;margin:6px 15px 2px;padding:10px 12px;border-radius:13px;background:color-mix(in srgb,var(--rxc) 7%,#fbf9f5);font-size:11.5px;font-weight:600;color:#6f6a62;line-height:1.45;}
+  .rx-note svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:var(--rxc);opacity:.9;}
+  .rx-acts{display:flex;gap:9px;padding:13px 15px 14px;}
+  .rx-save{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.2px;padding:12px;border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--rxc) 86%,#fff),var(--rxc));color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 7px 15px -6px color-mix(in srgb,var(--rxc) 65%,transparent);transition:transform .1s,filter .15s,box-shadow .15s;}
   .rx-save svg{width:15px;height:15px;}
   .rx-save:active{transform:scale(.97);}
-  .rx-save.saved{background:color-mix(in srgb,var(--rxc) 14%,#fff);color:var(--rxc);}
-  .rx-pdf{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;padding:10px 13px;border-radius:12px;background:#f1efe9;color:#6a645b;display:flex;align-items:center;gap:6px;transition:transform .1s;}
+  .rx-save.saved{background:color-mix(in srgb,var(--rxc) 13%,#fff);color:var(--rxc);box-shadow:none;}
+  .rx-pdf{flex-shrink:0;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.2px;padding:12px 15px;border-radius:14px;background:#f4f2ee;color:#6a645b;display:flex;align-items:center;gap:7px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);transition:transform .1s,background .15s;}
   .rx-pdf svg{width:15px;height:15px;}
   .rx-pdf:active{transform:scale(.97);}
-  .rx-foot{display:flex;align-items:center;gap:4px;justify-content:flex-end;padding:0 13px 10px;}
+  .rx-pdf:hover{background:#eeece7;}
+  .rx-foot{display:flex;align-items:center;gap:4px;justify-content:flex-end;padding:0 15px 11px;}
   .rx-foot .tm{font-size:9.5px;color:#b3adae;font-weight:600;}
 
   /* ---- question widget (expert asks the parent) ---- */
@@ -710,6 +711,8 @@
   .qw-ic svg{width:17px;height:17px;}
   .qw-lbl{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--qc);}
   .qw-q{padding:0 14px 11px;font-size:14px;font-weight:800;color:#39332e;line-height:1.35;letter-spacing:-.2px;}
+  .qw-q.tight{padding-bottom:6px;}
+  .qw-sub{padding:0 14px 11px;font-size:11.5px;font-weight:600;color:#8a8494;line-height:1.45;}
   .qw-opts{display:flex;flex-wrap:wrap;gap:8px;padding:0 13px 9px;}
   .qw-opt{display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#5a5168;background:color-mix(in srgb,var(--qc) 8%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--qc) 22%,transparent);padding:9px 13px;border-radius:12px;transition:transform .1s,background .15s,opacity .2s;}
   .qw-opt .em{font-size:14px;line-height:1;}
@@ -2318,10 +2321,33 @@
         setTimeout(function(){ showTyping(e); },700);
         setTimeout(function(){ hideTyping(); addWidget(incoming(m,'So glad I could help 💛 I’ll close this for now — reopen any time if you need me.','')); },2200);
         setTimeout(function(){ markChatClosed(); },3100);
+        setTimeout(function(){ addWidget(consentWidget(m)); },3700);
       } else {
         setTimeout(function(){ showTyping(e); },700);
         setTimeout(function(){ hideTyping(); addWidget(incoming(m,'No problem at all — tell me a bit more and we’ll keep going. 💛','')); },2200);
       }
+    }
+    /* data-consent (training opt-in) widget — shown after the chat is resolved */
+    var IC_SHIELD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 7.6-7 8.5-4.1-.9-7-4.2-7-8.5V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>';
+    function consentWidget(m){
+      var card='<div class="bub qw cs" style="--qc:#8574b5" onclick="openMsgMenu(this)">'
+        +'<div class="qw-head"><span class="qw-ic">'+IC_SHIELD+'</span><span class="qw-lbl">Your privacy</span></div>'
+        +'<div class="qw-q tight">Can we use this chat to improve CuCu?</div>'
+        +'<div class="qw-sub">Anonymised messages help our experts give better answers to other parents. Never shared with your name or '+esc(CHAT_CHILD||'your baby')+'’s details.</div>'
+        +'<div class="qw-opts"><button class="qw-opt" data-ans="yes" onclick="event.stopPropagation();consentPick(this)"><span class="em">💛</span>Yes, that’s fine</button>'
+          +'<button class="qw-opt" data-ans="no" onclick="event.stopPropagation();consentPick(this)"><span class="em">🔒</span>Keep it private</button></div>'
+        +'<div class="qw-hint">'+IC_TAP+'<span>You can change this anytime in Settings</span></div>'
+      +'</div>';
+      return '<div class="msg">'+av(m)+card+'</div>';
+    }
+    function consentPick(btn){
+      var card=btn.closest('.bub.qw'); if(!card||card.classList.contains('done')) return;
+      card.classList.add('done');
+      [].forEach.call(card.querySelectorAll('.qw-opt'),function(b){ if(b!==btn) b.classList.add('dim'); });
+      btn.classList.add('sel');
+      var yes=btn.getAttribute('data-ans')==='yes';
+      var hint=card.querySelector('.qw-hint'); if(hint){ hint.classList.add('done'); hint.innerHTML=IC_RXCHECK+'<span>'+(yes?'Thanks — this helps us improve':'Saved — your chat stays private')+'</span>'; }
+      try{showToast(yes?'Thanks for helping improve CuCu 💛':'Got it — your chat stays private 🔒');}catch(e){}
     }
     function markChatClosed(){
       var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy');
