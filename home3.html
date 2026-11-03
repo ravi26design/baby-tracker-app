@@ -2690,8 +2690,7 @@
     function closeTerms(){ document.getElementById('termsSheet').classList.remove('open'); }
     function openPrivacy(){ closeProfileMenu(); document.getElementById('privacySheet').classList.add('open'); }
     function closePrivacy(){ document.getElementById('privacySheet').classList.remove('open'); }
-    function hmOrd(n){ var s=['th','st','nd','rd'],v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
-    function hmMonthLabel(n){ return hmOrd(n)+' mo'; }
+    function hmMonthLabel(n){ return n+'M'; }
     var HM_MONTH_N=6; // age (in months) of the latest data point
     var HM_LABELS=[hmMonthLabel(1),hmMonthLabel(2),hmMonthLabel(3),hmMonthLabel(4),hmMonthLabel(5),hmMonthLabel(6)];
     var HM_GROWTH;
