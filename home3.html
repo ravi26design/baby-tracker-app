@@ -1042,14 +1042,7 @@
   .hm-vchk.done{border-color:transparent;background:#8574b5;box-shadow:none;}
   .hm-vchk.done svg{color:#fff;}
   .hm-vchk:active{transform:scale(.92);}
-  /* vaccination categories + detail */
-  .hm-vcat{display:flex;align-items:center;gap:10px;margin:20px 0 2px;}
-  .hm-vcat:first-child{margin-top:4px;}
-  .hm-vcat-dot{width:9px;height:9px;border-radius:50%;background:var(--cc);flex-shrink:0;box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 16%,transparent);}
-  .hm-vcat-tx{flex:1;min-width:0;}
-  .hm-vcat-n{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:-.1px;}
-  .hm-vcat-s{font-size:10.5px;color:#9a91a8;font-weight:500;margin-top:1px;}
-  .hm-vcat-ct{font-size:11px;font-weight:800;color:var(--cc);background:color-mix(in srgb,var(--cc) 12%,#fff);padding:3px 9px;border-radius:999px;flex-shrink:0;}
+  /* vaccination rows + detail */
   .hm-vrow{border-bottom:1px solid rgba(139,116,181,.055);}
   .hm-vrow:last-child{border-bottom:none;}
   .hm-vrow > .hm-li{border-bottom:none;}
@@ -2015,8 +2008,7 @@
               </div>
               <div class="hm-pbar"><i id="hmvBar" style="width:78%"></i></div>
               <div class="hm-docfilter" id="hmVaxFilter" style="margin-top:14px">
-                <button class="hm-dfp on" data-f="all" onclick="hmVaxFilterSet('all',this)">All</button>
-                <button class="hm-dfp" data-f="must" onclick="hmVaxFilterSet('must',this)">Must-have</button>
+                <button class="hm-dfp on" data-f="must" onclick="hmVaxFilterSet('must',this)">Must-have</button>
                 <button class="hm-dfp" data-f="good" onclick="hmVaxFilterSet('good',this)">Good to have</button>
                 <button class="hm-dfp" data-f="specific" onclick="hmVaxFilterSet('specific',this)">Specific</button>
               </div>
@@ -3210,7 +3202,7 @@
     }
     var VSYR2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/></g></svg>';
     function hmShortMon(d){ var p=(''+d).trim().split(/\s+/); return p.length>=2?(p[0]+' '+p[1]):(''+d); }
-    var HM_VAX_OPEN=-1, HM_VAX_FILTER='all';
+    var HM_VAX_OPEN=-1, HM_VAX_FILTER='must';
     var HM_VAX_CATS=[
       {k:'must',label:'Must-have',sub:'Essential — national schedule',c:'#8574b5'},
       {k:'good',label:'Good to have',sub:'Recommended for extra protection',c:'#1fb0a4'},
@@ -3258,11 +3250,9 @@
       var list=document.getElementById('hmVaxList'); if(!list) return;
       var html='';
       HM_VAX_CATS.forEach(function(cat){
-        if(HM_VAX_FILTER!=='all' && cat.k!==HM_VAX_FILTER) return;
+        if(cat.k!==HM_VAX_FILTER) return;
         var items=[]; HM_VAX.forEach(function(v,i){ if((v.cat||'must')===cat.k) items.push({v:v,i:i}); });
         if(!items.length) return;
-        var cdone=items.filter(function(x){return x.v.done;}).length;
-        html+='<div class="hm-vcat" style="--cc:'+cat.c+'"><span class="hm-vcat-dot"></span><div class="hm-vcat-tx"><div class="hm-vcat-n">'+cat.label+'</div><div class="hm-vcat-s">'+cat.sub+'</div></div><span class="hm-vcat-ct">'+cdone+' / '+items.length+'</span></div>';
         items.forEach(function(x){
           var v=x.v,i=x.i,info=hmVaxInfo(v),open=(HM_VAX_OPEN===i);
           var col=v.done?'#36a578':cat.c;
@@ -3286,7 +3276,7 @@
     }
     function hmVaxExpand(i){ HM_VAX_OPEN=(HM_VAX_OPEN===i?-1:i); renderHmVax(); }
     function hmVaxFilterSet(f,el){ HM_VAX_FILTER=f; HM_VAX_OPEN=-1; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmVax(); }
-    function hmVaxFilterReset(){ HM_VAX_FILTER='all'; var row=document.getElementById('hmVaxFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='all'); }); }
+    function hmVaxFilterReset(){ HM_VAX_FILTER='must'; var row=document.getElementById('hmVaxFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='must'); }); }
     function hmVaxToggle(i){ HM_VAX[i].done=!HM_VAX[i].done; renderHmVax(); hToast(HM_VAX[i].done?'Marked done ✓':'Marked as due'); }
     function hmVaxReminder(i){ HM_VAX[i].reminder=!HM_VAX[i].reminder; renderHmVax(); hToast(HM_VAX[i].reminder?'Reminder set 🔔':'Reminder removed'); }
     var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle fill="currentColor" fill-opacity=".2" cx="19.4" cy="13.2" r="2.5"/></svg>';
