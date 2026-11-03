@@ -1046,21 +1046,48 @@
   .hm-vrow{border-bottom:1px solid rgba(139,116,181,.055);}
   .hm-vrow:last-child{border-bottom:none;}
   .hm-vrow > .hm-li{border-bottom:none;}
-  .hm-vexp{width:26px;height:26px;border:none;background:transparent;color:#c1b8d0;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .2s;}
+  .hm-vexp{width:26px;height:26px;border:none;background:transparent;color:#c1b8d0;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
   .hm-vexp svg{width:16px;height:16px;}
-  .hm-vrow.open .hm-vexp{transform:rotate(180deg);color:var(--lc);}
-  .hm-vdet{display:none;padding:2px 2px 14px 39px;}
-  .hm-vrow.open .hm-vdet{display:block;animation:hmFade .22s ease;}
   .hm-vd-row{display:flex;gap:10px;padding:5px 0;align-items:flex-start;}
   .hm-vd-k{font-size:10px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.3px;width:90px;flex-shrink:0;padding-top:2px;}
   .hm-vd-v{font-size:12px;font-weight:600;color:var(--ink);flex:1;line-height:1.45;}
   .hm-vd-brand{display:inline-block;background:color-mix(in srgb,var(--lc) 13%,#fff);color:var(--lc);font-weight:800;font-size:11.5px;padding:3px 10px;border-radius:999px;}
-  .hm-vd-done{margin-top:9px;font-size:11.5px;font-weight:800;color:#36a578;}
-  .hm-vrem{margin-top:11px;display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--lc);background:transparent;color:var(--lc);font-size:12px;font-weight:800;padding:8px 15px;border-radius:999px;cursor:pointer;transition:background .15s,transform .1s;font-family:inherit;}
-  .hm-vrem svg{width:15px;height:15px;}
-  .hm-vrem:active{transform:scale(.96);}
-  .hm-vrem.on{background:var(--lc);color:#fff;}
-  @keyframes hmFade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
+  /* vaccine detail bottom sheet */
+  .vx-panel{--lc:#8574b5;}
+  .vx-sh-top{display:flex;align-items:flex-start;gap:10px;margin:2px 0 4px;}
+  .vx-sh-tt{flex:1;min-width:0;font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);line-height:1.22;}
+  .vx-sh-cat{font-size:11px;font-weight:800;color:var(--cc);background:color-mix(in srgb,var(--cc) 13%,#fff);padding:4px 11px;border-radius:999px;white-space:nowrap;}
+  /* polished header */
+  .vx-head2{display:flex;align-items:center;gap:9px;margin:2px 0 13px;}
+  .vx-head-ic{width:40px;height:40px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--cc) 14%,#fff);color:var(--cc);}
+  .vx-head-ic svg{width:22px;height:22px;}
+  .vx-badge{margin-left:auto;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;white-space:nowrap;}
+  .vx-badge.due{color:#c2881f;background:color-mix(in srgb,#c2881f 13%,#fff);}
+  .vx-badge.done{color:#36a578;background:color-mix(in srgb,#36a578 13%,#fff);}
+  .vx-title2{font-size:20px;font-weight:800;letter-spacing:-.35px;color:var(--ink);line-height:1.22;}
+  .vx-meta2{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12.5px;font-weight:600;color:#8b8296;}
+  .vx-meta2 svg{width:15px;height:15px;color:var(--lc);flex-shrink:0;}
+  .vx-divider{height:1px;background:rgba(139,116,181,.12);margin:15px 0 3px;}
+  .vx-sec{margin-top:15px;}
+  .vx-sec-l{font-size:10.5px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;}
+  .vx-sec-p{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5;}
+  .vx-chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .vx-chip{font-size:12px;font-weight:700;color:var(--ink);background:#f5f2fb;border:1px solid rgba(139,116,181,.14);padding:6px 12px;border-radius:999px;}
+  .vx-chip.brand{color:var(--lc);background:color-mix(in srgb,var(--lc) 11%,#fff);border-color:color-mix(in srgb,var(--lc) 24%,transparent);font-weight:800;}
+  .vx-rem-note{margin-top:16px;display:flex;align-items:center;gap:9px;background:color-mix(in srgb,var(--lc) 9%,#fff);border:1px solid color-mix(in srgb,var(--lc) 20%,transparent);border-radius:14px;padding:12px 14px;font-size:12.5px;font-weight:600;color:var(--ink);}
+  .vx-rem-note svg{width:17px;height:17px;color:var(--lc);flex-shrink:0;}
+  .vx-rem-note b{font-weight:800;}
+  .vx-act{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:1.5px solid var(--lc);background:transparent;color:var(--lc);font-family:inherit;font-size:15px;font-weight:800;padding:14px;border-radius:16px;cursor:pointer;transition:background .15s,transform .1s;}
+  .vx-act svg{width:18px;height:18px;}
+  .vx-act:active{transform:scale(.98);}
+  .vx-act.on{background:var(--lc);color:#fff;}
+  .vx-done-note{margin-top:18px;text-align:center;font-size:13px;font-weight:800;color:#36a578;background:color-mix(in srgb,#36a578 10%,#fff);padding:14px;border-radius:14px;}
+  /* reminder picker sheet */
+  .rem-sub{font-size:13px;font-weight:600;color:#8b8296;line-height:1.45;}
+  .rem-sub b{color:var(--ink);font-weight:800;}
+  .rem-in{width:100%;font-family:inherit;}
+  .rem-remove{margin-top:11px;width:100%;border:none;background:transparent;color:#d06565;font-family:inherit;font-size:13.5px;font-weight:800;padding:10px;cursor:pointer;border-radius:12px;}
+  .rem-remove:active{background:rgba(208,101,101,.08);}
   .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:var(--oc,#8574b5);background:color-mix(in srgb,var(--oc,#9b8bc4) 10%,#fff);border-radius:14px;padding:11px;margin-top:12px;transition:transform .12s;}
   .hm-add:active{transform:scale(.99);}
   .hm-add svg{width:16px;height:16px;}
@@ -1951,6 +1978,25 @@
             <div class="acdp-col" id="hmdpYear"></div>
           </div>
           <button class="acdp-done" onclick="hmDateDone()">Done</button>
+        </div>
+      </div>
+      <div class="hmdp-layer" id="hmVaxSheet">
+        <div class="acdp-bd" onclick="hmVaxClose()"></div>
+        <div class="acdp-panel vx-panel">
+          <div class="acdp-grab"></div>
+          <div id="hmVaxSheetBody"></div>
+        </div>
+      </div>
+      <div class="hmdp-layer" id="hmRemSheet">
+        <div class="acdp-bd" onclick="hmRemClose()"></div>
+        <div class="acdp-panel vx-panel" style="--lc:#8574b5">
+          <div class="acdp-grab"></div>
+          <div class="vx-sh-top"><div class="vx-sh-tt">Set a reminder</div></div>
+          <div class="rem-sub">We’ll remind you about <b id="hmRemFor">this vaccine</b></div>
+          <div class="hm-fld" style="margin-top:16px"><label class="hm-flbl2">Reminder date</label><input type="date" class="hm-in rem-in" id="hmRemDate"></div>
+          <div class="hm-fld" style="margin-top:12px"><label class="hm-flbl2">Reminder time</label><input type="time" class="hm-in rem-in" id="hmRemTime"></div>
+          <button class="vx-act on" style="margin-top:20px" onclick="hmRemConfirm()">Confirm reminder</button>
+          <button class="rem-remove" id="hmRemRemoveBtn" onclick="hmRemRemove()" style="display:none">Remove reminder</button>
         </div>
       </div>
       <div class="pf-sheet">
@@ -3202,43 +3248,41 @@
     }
     var VSYR2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/></g></svg>';
     function hmShortMon(d){ var p=(''+d).trim().split(/\s+/); return p.length>=2?(p[0]+' '+p[1]):(''+d); }
-    var HM_VAX_OPEN=-1, HM_VAX_FILTER='must';
+    var HM_VAX_CUR=-1, HM_VAX_FILTER='must';
     var HM_VAX_CATS=[
       {k:'must',label:'Must-have',sub:'Essential — national schedule',c:'#8574b5'},
       {k:'good',label:'Good to have',sub:'Recommended for extra protection',c:'#1fb0a4'},
       {k:'specific',label:'Specific',sub:'Situational — based on risk or region',c:'#c2881f'}
     ];
-    // keyword → {protects, preferred brand, purpose}
-    var VAX_DB={
-      'hepatitis b':{p:'Hepatitis B (liver infection)',b:'Engerix-B',u:'Shields the liver from a lifelong hepatitis B infection.'},
-      'hepb':{p:'Hepatitis B (liver infection)',b:'Engerix-B',u:'Shields the liver from a lifelong hepatitis B infection.'},
-      'dtap':{p:'Diphtheria, tetanus & whooping cough',b:'Pentaxim',u:'Core protection against three serious childhood infections.'},
-      'dtwp':{p:'Diphtheria, tetanus & whooping cough',b:'Easy Five-TT',u:'Core protection against three serious childhood infections.'},
-      'hib':{p:'Hib meningitis',b:'',u:''},
-      'ipv':{p:'Polio',b:'',u:''},
-      'opv':{p:'Polio (oral drops)',b:'',u:''},
-      'pcv':{p:'Pneumococcal disease',b:'Prevenar 13',u:'Guards against pneumonia and ear infections.'},
-      'rotavirus':{p:'Rotavirus diarrhoea',b:'Rotarix',u:'Oral drops that prevent severe diarrhoea.'},
-      'influenza':{p:'Seasonal flu',b:'Vaxigrip Tetra',u:'Yearly flu shot — give before each flu season.'},
-      'mmr':{p:'Measles, mumps & rubella',b:'Tresivac',u:'One shot covering measles, mumps and rubella.'},
-      'measles':{p:'Measles',b:'Tresivac',u:'Protects against measles.'},
-      'varicella':{p:'Chickenpox',b:'Varilrix',u:'Prevents chickenpox and its complications.'},
-      'hepatitis a':{p:'Hepatitis A',b:'Havrix',u:'Protects the liver from hepatitis A.'},
-      'hepa':{p:'Hepatitis A',b:'Havrix',u:'Protects the liver from hepatitis A.'},
-      'typhoid':{p:'Typhoid fever',b:'Typbar-TCV',u:'Advised where typhoid is common.'},
-      'bcg':{p:'Tuberculosis (TB)',b:'',u:'Given at birth to protect against severe TB.'},
-      'meningococcal':{p:'Meningococcal meningitis',b:'Menactra',u:'For travel or outbreak-prone areas.'}
-    };
+    // pattern → {protects, preferred brand, purpose}
+    var VAX_DB=[
+      {re:/hepatitis b|hep b|hepb/, p:'Hepatitis B (liver infection)', b:'Engerix-B', u:'Shields the liver from a lifelong hepatitis B infection.'},
+      {re:/dtap|dtwp/, p:'Diphtheria, tetanus & whooping cough', b:'Pentaxim', u:'Core protection against three serious childhood infections.'},
+      {re:/hib/, p:'Hib meningitis', b:'', u:''},
+      {re:/ipv/, p:'Polio', b:'', u:''},
+      {re:/opv/, p:'Polio (oral drops)', b:'', u:''},
+      {re:/pcv/, p:'Pneumococcal disease', b:'Prevenar 13', u:'Guards against pneumonia and ear infections.'},
+      {re:/rota/, p:'Rotavirus diarrhoea', b:'Rotarix', u:'Oral drops that prevent severe diarrhoea.'},
+      {re:/influenza|flu/, p:'Seasonal flu', b:'Vaxigrip Tetra', u:'Yearly flu shot — give before each flu season.'},
+      {re:/mmr/, p:'Measles, mumps & rubella', b:'Tresivac', u:'One shot covering measles, mumps and rubella.'},
+      {re:/varicella/, p:'Chickenpox', b:'Varilrix', u:'Prevents chickenpox and its complications.'},
+      {re:/hepatitis a|hepa\b/, p:'Hepatitis A', b:'Havrix', u:'Protects the liver from hepatitis A.'},
+      {re:/typhoid/, p:'Typhoid fever', b:'Typbar-TCV', u:'Advised where typhoid is common.'},
+      {re:/bcg/, p:'Tuberculosis (TB)', b:'', u:'Given at birth to protect against severe TB.'},
+      {re:/mening/, p:'Meningococcal meningitis', b:'Menactra', u:'For travel or outbreak-prone areas.'}
+    ];
     function hmVaxInfo(v){
       var name=(v.name||'').toLowerCase(), hits=[];
-      for(var k in VAX_DB){ if(name.indexOf(k)>=0) hits.push(VAX_DB[k]); }
+      VAX_DB.forEach(function(e){ if(e.re.test(name)) hits.push(e); });
       var prot=[],brands=[],sp={},sb={};
       hits.forEach(function(h){ if(h.p&&!sp[h.p]){sp[h.p]=1;prot.push(h.p);} if(h.b&&!sb[h.b]){sb[h.b]=1;brands.push(h.b);} });
       var use=v.use || (hits.length>1 ? 'Combination shot — several vaccines given together in one visit.' : ((hits[0]&&hits[0].u) || 'Protects your child against a serious infection.'));
-      return { use:use, protects:(v.protects||prot.join(', ')||'—'), brand:(v.brand||brands.join(' / ')||'As advised by your doctor') };
+      var protList=v.protects?[v.protects]:(prot.length?prot:['—']);
+      var brandList=v.brand?[v.brand]:(brands.length?brands:['As advised by your doctor']);
+      return { use:use, protects:protList.join(', '), protectsList:protList, brand:brandList.join(' / '), brandList:brandList };
     }
     var VX_CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-    var VX_CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+    var VX_CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
     var VX_BELL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>';
     function renderHmVax(){
       var done=HM_VAX.filter(function(v){return v.done;}).length, total=HM_VAX.length;
@@ -3254,31 +3298,81 @@
         var items=[]; HM_VAX.forEach(function(v,i){ if((v.cat||'must')===cat.k) items.push({v:v,i:i}); });
         if(!items.length) return;
         items.forEach(function(x){
-          var v=x.v,i=x.i,info=hmVaxInfo(v),open=(HM_VAX_OPEN===i);
+          var v=x.v,i=x.i;
           var col=v.done?'#36a578':cat.c;
-          html+='<div class="hm-vrow'+(open?' open':'')+'" style="--lc:'+col+'">'+
+          html+='<div class="hm-vrow" style="--lc:'+col+'">'+
             '<div class="hm-li" style="--lc:'+col+'">'+
               '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?VX_CHK:'')+'</button>'+
-              '<div class="hm-li-tx" onclick="hmVaxExpand('+i+')"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
-              '<button class="hm-vexp" onclick="hmVaxExpand('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
-            '</div>'+
-            '<div class="hm-vdet">'+
-              '<div class="hm-vd-row"><span class="hm-vd-k">Purpose</span><span class="hm-vd-v">'+info.use+'</span></div>'+
-              '<div class="hm-vd-row"><span class="hm-vd-k">Protects against</span><span class="hm-vd-v">'+info.protects+'</span></div>'+
-              '<div class="hm-vd-row"><span class="hm-vd-k">When to give</span><span class="hm-vd-v">'+v.age+' · '+v.date+'</span></div>'+
-              '<div class="hm-vd-row"><span class="hm-vd-k">Preferred brand</span><span class="hm-vd-v"><span class="hm-vd-brand">'+info.brand+'</span></span></div>'+
-              (v.done?'<div class="hm-vd-done">✓ Completed on '+v.date+'</div>':'<button class="hm-vrem'+(v.reminder?' on':'')+'" onclick="hmVaxReminder('+i+')">'+VX_BELL+'<span>'+(v.reminder?'Reminder set':'Set reminder')+'</span></button>')+
+              '<div class="hm-li-tx" onclick="hmVaxOpen('+i+')"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
+              '<button class="hm-vexp" onclick="hmVaxOpen('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
             '</div>'+
           '</div>';
         });
       });
       list.innerHTML=html;
     }
-    function hmVaxExpand(i){ HM_VAX_OPEN=(HM_VAX_OPEN===i?-1:i); renderHmVax(); }
-    function hmVaxFilterSet(f,el){ HM_VAX_FILTER=f; HM_VAX_OPEN=-1; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmVax(); }
+    function hmVaxFilterSet(f,el){ HM_VAX_FILTER=f; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmVax(); }
     function hmVaxFilterReset(){ HM_VAX_FILTER='must'; var row=document.getElementById('hmVaxFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='must'); }); }
-    function hmVaxToggle(i){ HM_VAX[i].done=!HM_VAX[i].done; renderHmVax(); hToast(HM_VAX[i].done?'Marked done ✓':'Marked as due'); }
-    function hmVaxReminder(i){ HM_VAX[i].reminder=!HM_VAX[i].reminder; renderHmVax(); hToast(HM_VAX[i].reminder?'Reminder set 🔔':'Reminder removed'); }
+    function hmVaxToggle(i){ HM_VAX[i].done=!HM_VAX[i].done; renderHmVax(); if(HM_VAX_CUR===i) hmVaxFillSheet(); hToast(HM_VAX[i].done?'Marked done ✓':'Marked as due'); }
+    function hmRemPad(n){ return ('0'+n).slice(-2); }
+    function hmRemDefaultDate(v){
+      var t=Date.parse((v.date||'').replace(/^(Due|Done)\s+/,'')); var d=isNaN(t)?new Date():new Date(t);
+      return d.getFullYear()+'-'+hmRemPad(d.getMonth()+1)+'-'+hmRemPad(d.getDate());
+    }
+    function hmRemFmt(iso,time){
+      var d=new Date(iso+'T'+(time||'09:00')); if(isNaN(d)) return iso+' '+time;
+      var mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      var h=d.getHours(), m=d.getMinutes(), ap=h>=12?'PM':'AM', h12=((h+11)%12)+1;
+      return d.getDate()+' '+mon+' '+d.getFullYear()+' · '+h12+':'+hmRemPad(m)+' '+ap;
+    }
+    function hmVaxRemOpen(i){
+      HM_VAX_CUR=i; var v=HM_VAX[i]; if(!v) return; var r=v.remAt||{};
+      var f=document.getElementById('hmRemFor'); if(f) f.textContent=v.name;
+      document.getElementById('hmRemDate').value=r.iso||hmRemDefaultDate(v);
+      document.getElementById('hmRemTime').value=r.time||'09:00';
+      document.getElementById('hmRemRemoveBtn').style.display=v.reminder?'block':'none';
+      var _hs=document.getElementById('hmSheet'), _s=document.getElementById('hmRemSheet'); if(_hs&&_s) _hs.appendChild(_s); if(_s) _s.classList.add('open');
+    }
+    function hmRemClose(){ var s=document.getElementById('hmRemSheet'); if(s) s.classList.remove('open'); }
+    function hmRemConfirm(){
+      var i=HM_VAX_CUR; if(i<0) return; var v=HM_VAX[i];
+      var dv=document.getElementById('hmRemDate').value, tv=document.getElementById('hmRemTime').value||'09:00';
+      if(!dv){ hToast('Please pick a date'); return; }
+      v.reminder=true; v.remAt={iso:dv,time:tv,txt:hmRemFmt(dv,tv)};
+      renderHmVax(); if(HM_VAX_CUR===i) hmVaxFillSheet(); hmRemClose(); hToast('Reminder set · '+v.remAt.txt+' 🔔');
+    }
+    function hmRemRemove(){ var i=HM_VAX_CUR; if(i<0) return; var v=HM_VAX[i]; v.reminder=false; v.remAt=null; renderHmVax(); if(HM_VAX_CUR===i) hmVaxFillSheet(); hmRemClose(); hToast('Reminder removed'); }
+    function hmVaxOpen(i){ HM_VAX_CUR=i; hmVaxFillSheet(); var _hs=document.getElementById('hmSheet'), _s=document.getElementById('hmVaxSheet'); if(_hs&&_s) _hs.appendChild(_s); if(_s) _s.classList.add('open'); }
+    function hmVaxClose(){ var s=document.getElementById('hmVaxSheet'); if(s) s.classList.remove('open'); HM_VAX_CUR=-1; }
+    var VX_SYR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg>';
+    var VX_CAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>';
+    function hmVaxFillSheet(){
+      var i=HM_VAX_CUR; if(i<0) return; var v=HM_VAX[i]; if(!v) return;
+      var cat=HM_VAX_CATS.filter(function(c){return c.k===(v.cat||'must');})[0]||HM_VAX_CATS[0];
+      var info=hmVaxInfo(v), col=v.done?'#36a578':cat.c;
+      var panel=document.querySelector('#hmVaxSheet .vx-panel'); if(panel) panel.style.setProperty('--lc',col);
+      var body=document.getElementById('hmVaxSheetBody'); if(!body) return;
+      var protChips=info.protectsList.map(function(p){ return '<span class="vx-chip">'+p+'</span>'; }).join('');
+      var brandChips=info.brandList.map(function(b){ return '<span class="vx-chip brand">'+b+'</span>'; }).join('');
+      var badge=v.done?'<span class="vx-badge done">Completed</span>':'<span class="vx-badge due">Due</span>';
+      var remLine=(v.reminder&&v.remAt)?'<div class="vx-rem-note">'+VX_BELL+'<span>Reminder set for <b>'+v.remAt.txt+'</b></span></div>':'';
+      body.innerHTML=
+        '<div class="vx-head2">'+
+          '<span class="vx-head-ic" style="--cc:'+cat.c+'">'+VX_SYR+'</span>'+
+          '<span class="vx-sh-cat" style="--cc:'+cat.c+'">'+cat.label+'</span>'+
+          badge+
+        '</div>'+
+        '<div class="vx-title2">'+v.name+'</div>'+
+        '<div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</span></div>'+
+        '<div class="vx-divider"></div>'+
+        '<div class="vx-sec"><div class="vx-sec-l">Purpose</div><div class="vx-sec-p">'+info.use+'</div></div>'+
+        '<div class="vx-sec"><div class="vx-sec-l">Protects against</div><div class="vx-chips">'+protChips+'</div></div>'+
+        '<div class="vx-sec"><div class="vx-sec-l">Preferred brand</div><div class="vx-chips">'+brandChips+'</div></div>'+
+        remLine+
+        (v.done
+          ? '<div class="vx-done-note">✓ Completed on '+v.date+'</div>'
+          : '<button class="vx-act'+(v.reminder?' on':'')+'" onclick="hmVaxRemOpen('+i+')">'+VX_BELL+'<span>'+(v.reminder?'Edit reminder':'Set reminder')+'</span></button>');
+    }
     var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle fill="currentColor" fill-opacity=".2" cx="19.4" cy="13.2" r="2.5"/></svg>';
     var VPILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".2" x="4" y="9" width="16" height="6" rx="3"/><path d="M12 9v6"/></g></svg>';
     function renderHmVisits(){
