@@ -2097,13 +2097,15 @@
         </div>
         <div class="hm-addf" id="hmDocForm">
           <div class="hm-ftitle">Add Document</div>
-          <div class="hm-fld" style="margin-bottom:8px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
-          <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose files to upload</span></button>
-          <input type="file" id="hmDocFile" accept="image/*,application/pdf" multiple style="display:none" onchange="hmDocFile(this)">
-          <div class="hm-fhint">Supports PDF, JPG &amp; PNG · up to 10 MB each</div>
-          <div id="hmDocChips" class="hm-docchips"></div>
-          <input class="hm-in" id="hmDocName" placeholder="Document name (optional)" autocomplete="off" style="margin-bottom:8px">
-          <select class="hm-in" id="hmDocType" style="margin-bottom:8px"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select>
+          <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">File</label>
+            <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose files to upload</span></button>
+            <input type="file" id="hmDocFile" accept="image/*,application/pdf" multiple style="display:none" onchange="hmDocFile(this)">
+            <div class="hm-fhint">Supports PDF, JPG &amp; PNG · up to 10 MB each</div>
+            <div id="hmDocChips" class="hm-docchips"></div>
+          </div>
+          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Document name</label><input class="hm-in" id="hmDocName" placeholder="Document name (optional)" autocomplete="off"></div>
+          <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Document type</label><select class="hm-in" id="hmDocType"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select></div>
           <div class="hm-addf-act"><button class="hm-addf-cancel" onclick="hmDocHide()">Cancel</button><button class="hm-addf-save" onclick="hmDocSave()">Upload</button></div>
         </div>
         <div class="hm-addf" id="hmEditForm">
