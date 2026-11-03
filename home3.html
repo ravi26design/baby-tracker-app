@@ -3355,11 +3355,11 @@
       var remLine=(v.reminder&&v.remAt)?'<div class="vx-rem-note">'+VX_BELL+'<span>Reminder set for <b>'+v.remAt.txt+'</b></span></div>':'';
       body.innerHTML=
         '<div class="vx-title2">'+v.name+'</div>'+
+        '<div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</span></div>'+
         '<div class="vx-head2">'+
           '<span class="vx-sh-cat" style="--cc:'+cat.c+'">'+cat.label+'</span>'+
           badge+
         '</div>'+
-        '<div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</span></div>'+
         '<div class="vx-divider"></div>'+
         '<div class="vx-sec"><div class="vx-sec-l">Purpose</div><div class="vx-sec-p">'+info.use+'</div></div>'+
         '<div class="vx-sec"><div class="vx-sec-l">Protects against</div><div class="vx-chips">'+protChips+'</div></div>'+
