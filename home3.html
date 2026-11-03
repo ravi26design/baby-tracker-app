@@ -1991,8 +1991,8 @@
           <div class="acdp-grab"></div>
           <div class="vx-sh-top"><div class="vx-sh-tt">Set a reminder</div></div>
           <div class="rem-sub">We’ll remind you about <b id="hmRemFor">this vaccine</b></div>
-          <div class="hm-fld" style="margin-top:16px"><label class="hm-flbl2">Reminder date</label><input type="date" class="hm-in rem-in" id="hmRemDate"></div>
-          <div class="hm-fld" style="margin-top:12px"><label class="hm-flbl2">Reminder time</label><input type="time" class="hm-in rem-in" id="hmRemTime"></div>
+          <div class="hm-fld" style="margin-top:16px"><label class="hm-flbl2">Reminder date</label><input type="date" class="hm-in rem-in" id="hmRemDate" onclick="hmShowPicker(this)" onfocus="hmShowPicker(this)"></div>
+          <div class="hm-fld" style="margin-top:12px"><label class="hm-flbl2">Reminder time</label><input type="time" class="hm-in rem-in" id="hmRemTime" onclick="hmShowPicker(this)" onfocus="hmShowPicker(this)"></div>
           <button class="vx-act on" style="margin-top:20px" onclick="hmRemConfirm()">Confirm reminder</button>
           <button class="rem-remove" id="hmRemRemoveBtn" onclick="hmRemRemove()" style="display:none">Remove reminder</button>
         </div>
@@ -3323,6 +3323,7 @@
       var h=d.getHours(), m=d.getMinutes(), ap=h>=12?'PM':'AM', h12=((h+11)%12)+1;
       return d.getDate()+' '+mon+' '+d.getFullYear()+' · '+h12+':'+hmRemPad(m)+' '+ap;
     }
+    function hmShowPicker(el){ try{ if(el && typeof el.showPicker==='function') el.showPicker(); }catch(e){} }
     function hmVaxRemOpen(i){
       HM_VAX_CUR=i; var v=HM_VAX[i]; if(!v) return; var r=v.remAt||{};
       var f=document.getElementById('hmRemFor'); if(f) f.textContent=v.name;
