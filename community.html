@@ -1508,7 +1508,7 @@
             <div class="pay-sum">
               <span class="pay-sum-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></span>
               <span class="pay-sum-tx"><b id="paySumName">Full session</b><span>One-to-one guidance · cancel anytime</span></span>
-              <span class="pay-sum-amt" id="paySumAmt">£25</span>
+              <span class="pay-sum-amt" id="paySumAmt">₹25</span>
             </div>
             <div class="pay-lbl">Pay with</div>
             <div class="pay-methods" id="payMethods">
@@ -1538,7 +1538,7 @@
                 <button onclick="payPickApp('BHIM')"><span class="pay-logo"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#fff"/><text x="24" y="26" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="800" fill="#1b3a9b" text-anchor="middle">BHIM</text><rect x="13" y="31" width="7.3" height="4" rx="1" fill="#ff9933"/><rect x="20.3" y="31" width="7.3" height="4" fill="#ededed"/><rect x="27.6" y="31" width="7.3" height="4" rx="1" fill="#138808"/></svg></span>BHIM</button>
               </div>
             </div>
-            <button class="pay-cta" id="payCta" onclick="payNow()">Pay £25</button>
+            <button class="pay-cta" id="payCta" onclick="payNow()">Pay ₹25</button>
             <div class="pay-secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Secured · 256-bit encryption</div>
           </div>
           <div class="pay-status" id="payStatus">
@@ -1819,7 +1819,7 @@
               +'<span class="wz-name"><span style="white-space:nowrap">'+n+'</span>'+(n===rec?'<span class="wz-rec">Recommended</span>':'')+'</span>'
               +'<span class="wz-desc">'+(e.spec||'Expert')+' · '+(e.on?'Online now':'Replies in ~10 min')+'</span>'
               +'<span class="wz-exp-foot">'
-                +(fee!=null?'<span class="wz-fee">£'+fee+' <span>/ 10 messages</span></span>':'')
+                +(fee!=null?'<span class="wz-fee">₹'+fee+' <span>/ 10 messages</span></span>':'')
               +'</span>'
             +'</span>'
           +'</div>';
@@ -2465,7 +2465,7 @@
         +'<div class="who">'+esc(e.n)+tag+'</div>'
         +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your '+EXP_FREE+' free messages are used</span></div></div>'
         +'<div class="txt">To keep chatting with '+esc(first)+' and get personalised guidance, unlock a full session.</div>'
-        +'<button class="pw-btn" onclick="openPay()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · £'+fee+'</button>'
+        +'<button class="pw-btn" onclick="openPay()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · ₹'+fee+'</button>'
         +'<div class="pw-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 8.8-4-1.2-7-4.4-7-8.8V6z"/><path d="m9 12 2 2 4-4"/></svg>Secure one-time payment · cancel anytime</div>'
         +'</div></div>';
     }
@@ -2479,8 +2479,8 @@
     function openPay(){
       PAY_FEE=(curExpert && expertFee(curExpert)) || 25; PAY_BUSY=false;
       document.getElementById('paySumName').textContent = (curExpert && curExpert.n) ? ('Full session with '+String(curExpert.n).split(' ')[0]) : 'Full session';
-      document.getElementById('paySumAmt').textContent='£'+PAY_FEE;
-      document.getElementById('payCta').textContent='Pay £'+PAY_FEE;
+      document.getElementById('paySumAmt').textContent='₹'+PAY_FEE;
+      document.getElementById('payCta').textContent='Pay ₹'+PAY_FEE;
       ['payCardNum','payExp','payCvv','payName','payUpi'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; });
       var br=document.getElementById('payBrand'); if(br) br.textContent='';
       payUpiReset();
@@ -2534,11 +2534,11 @@
       if(PAY_BUSY) return; PAY_BUSY=true;
       var st=document.getElementById('payStatus'); st.classList.add('show'); st.classList.remove('success');
       document.getElementById('payStatusT').textContent='Processing payment…';
-      document.getElementById('payStatusS').textContent=method+' · £'+PAY_FEE;
+      document.getElementById('payStatusS').textContent=method+' · ₹'+PAY_FEE;
       setTimeout(function(){
         st.classList.add('success');
         document.getElementById('payStatusT').textContent='Payment successful';
-        document.getElementById('payStatusS').textContent='£'+PAY_FEE+' paid · '+method;
+        document.getElementById('payStatusS').textContent='₹'+PAY_FEE+' paid · '+method;
         setTimeout(function(){
           PAY_BUSY=false;
           document.getElementById('paySheet').classList.remove('open');
@@ -2600,7 +2600,7 @@
     function showProfile(m){
       var _fee=expertFee(m), _fx=document.getElementById('prFee');
       if(_fx){ if(_fee!=null && isExpertM(m)){ _fx.style.display='flex';
-          _fx.innerHTML='<span class="pf-main"><span class="pf-amt">£'+_fee+'</span><span class="pf-per">per 10 messages</span></span>'+
+          _fx.innerHTML='<span class="pf-main"><span class="pf-amt">₹'+_fee+'</span><span class="pf-per">per 10 messages</span></span>'+
             '<span class="pf-note"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Free until the expert replies</span>';
         } else { _fx.style.display='none'; } }
       var a=document.getElementById('prAv'); a.textContent=m.e; a.style.background='radial-gradient(circle at 45% 35%,'+m.c1+','+m.c2+')';
