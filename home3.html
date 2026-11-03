@@ -1061,6 +1061,8 @@
   .hm-bsbd{position:absolute;inset:0;background:rgba(30,20,26,.42);opacity:0;visibility:hidden;transition:opacity .26s;z-index:90;}
   .hm-bsbd.show{opacity:1;visibility:visible;}
   .hm-addf-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .hm-mcol{display:flex;flex-direction:column;gap:6px;min-width:0;}
+  .hm-mlbl{font-size:11px;font-weight:700;color:#8a8494;letter-spacing:-.1px;padding-left:2px;}
   .hm-fld{display:flex;flex-direction:column;min-width:0;}
   .hm-flbl2{font-size:11px;font-weight:700;color:#8b8296;letter-spacing:-.1px;margin:0 2px 5px;}
   .hm-in{width:100%;border:none;background:#fff;border-radius:11px;padding:11px 11px;font-family:inherit;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.18);outline:none;}
@@ -2985,7 +2987,11 @@
         h+=L('Symptoms')+'<div class="hm-nchips">'+['Fever','Cough','Runny nose','Rash','Vomiting','Diarrhoea','Ear pain','Other'].map(function(s){return hmNch(s,(d.symptoms||[]).indexOf(s)>-1,"hmNTog('symptoms','"+s+"')");}).join('')+'</div>';
         h+=L('Severity')+'<div class="hm-nchips">'+['Mild','Moderate','Called doctor'].map(function(s){return hmNch(s,d.severity===s,"hmNSet('severity','"+s+"')");}).join('')+'</div>';
       }else if(HM_NTYPE==='Measurement'){
-        h+='<div class="hm-addf-row" style="margin-top:14px"><input class="hm-in" placeholder="Temp °C" value="'+(d.temp||'')+'" inputmode="decimal" oninput="HM_NSEL.temp=this.value"><input class="hm-in" placeholder="kg" value="'+(d.weight||'')+'" inputmode="decimal" oninput="HM_NSEL.weight=this.value"><input class="hm-in" placeholder="cm" value="'+(d.height||'')+'" inputmode="decimal" oninput="HM_NSEL.height=this.value"></div>';
+        h+='<div class="hm-addf-row" style="margin-top:16px">'
+          +'<div class="hm-mcol"><label class="hm-mlbl">Temperature</label><input class="hm-in" placeholder="°C" value="'+(d.temp||'')+'" inputmode="decimal" oninput="HM_NSEL.temp=this.value"></div>'
+          +'<div class="hm-mcol"><label class="hm-mlbl">Weight</label><input class="hm-in" placeholder="kg" value="'+(d.weight||'')+'" inputmode="decimal" oninput="HM_NSEL.weight=this.value"></div>'
+          +'<div class="hm-mcol"><label class="hm-mlbl">Height</label><input class="hm-in" placeholder="cm" value="'+(d.height||'')+'" inputmode="decimal" oninput="HM_NSEL.height=this.value"></div>'
+        +'</div>';
       }else if(HM_NTYPE==='Observation'){
         h+=L('Mood')+'<div class="hm-nchips">'+['😊 Happy','😤 Fussy','🏃 Active','😴 Tired','😢 Cranky'].map(function(m){return hmNch(m,d.mood===m,"hmNSet('mood','"+m+"')");}).join('')+'</div>';
       }else if(HM_NTYPE==='Reaction'){
