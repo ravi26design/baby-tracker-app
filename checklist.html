@@ -528,6 +528,18 @@
   .lc-copy:active{transform:scale(.97);}
   .lc-note{font-size:11px;color:#9a8fb3;font-weight:600;margin-top:12px;}
   .lc-close{margin-top:6px;border:none;background:none;font-family:inherit;font-size:12.5px;font-weight:800;color:#b3a6cc;cursor:pointer;padding:6px;}
+  .lc-sentto{font-size:12px;color:#1f9d57;font-weight:700;margin-top:10px;}
+  .lc-sentto b{color:#17824a;}
+  .lc-change{margin-top:10px;border:none;background:none;font-family:inherit;font-size:12.5px;font-weight:800;color:#7a5fd0;cursor:pointer;padding:5px;}
+  .wa-q{font-size:17px;font-weight:800;letter-spacing:-.3px;margin-top:15px;}
+  .wa-sub{font-size:12px;color:#8b7fa6;font-weight:600;margin-top:7px;line-height:1.45;padding:0 4px;}
+  .wa-inwrap{display:flex;align-items:center;gap:8px;margin-top:16px;background:#f6f2fb;border:1.5px solid #e6ddf3;border-radius:14px;padding:4px 6px 4px 12px;transition:border-color .15s;}
+  .wa-inwrap.err{border-color:#e4738a;}
+  .wa-cc{font-size:15px;font-weight:800;color:#5b4a7d;flex:none;}
+  .wa-cc:after{content:"";display:inline-block;width:1px;height:18px;background:#d9cde9;margin-left:9px;vertical-align:middle;}
+  .wa-num{flex:1;min-width:0;border:none;background:none;outline:none;font-family:inherit;font-size:16px;font-weight:700;letter-spacing:.4px;color:#2c203c;padding:11px 8px;}
+  .wa-num::placeholder{color:#b3a6cc;font-weight:600;letter-spacing:.2px;}
+  .wa-err{font-size:11.5px;color:#d4556f;font-weight:700;margin-top:8px;min-height:14px;}
   .rs-overlay{position:absolute;inset:0;z-index:40;display:none;align-items:flex-end;justify-content:center;background:rgba(44,32,60,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
   .rs-overlay.open{display:flex;animation:lcFade .2s ease;}
   .rs-sheet{width:100%;background:var(--card-bg);border-radius:28px 28px 0 0;padding:10px 20px 26px;box-shadow:0 -22px 54px -20px rgba(50,30,70,.5);text-align:center;animation:rsUp .3s cubic-bezier(.2,.9,.3,1.05);}
@@ -1025,16 +1037,42 @@
     renderDetail({name:x.name, imgs:x.img?[x.img]:null, fit:x.fit, emoji:x.emoji, bg:x.bg, badge:x.badge, badgecls:x.badgecls, desc:x.desc, meta:x.meta, link:x.link, cat:x.cat, back:openWishlist}); }
 
   /* in-app only — never redirect to another app; show a shareable card */
-  function sendWhatsAppLink(){ showLinkCard(); }
+  var WA_NUMBER=''; try{ WA_NUMBER=localStorage.getItem('bt_wa_number')||''; }catch(e){}
+  function sendWhatsAppLink(){
+    /* first time: ask for the WhatsApp number; after that, send straight to it */
+    if(WA_NUMBER){ showLinkCard(); } else { showWaNumberCard(); }
+  }
+  function showWaNumberCard(){
+    document.getElementById('lcCard').innerHTML=
+      '<div class="lc-head">'+WA_SVG+' Send to WhatsApp</div>'+
+      '<div class="wa-q">Enter your WhatsApp number</div>'+
+      '<div class="wa-sub">We’ll send the buy link straight to your WhatsApp chat.</div>'+
+      '<div class="wa-inwrap" id="waInWrap"><span class="wa-cc">+91</span>'+
+        '<input id="waNumInput" class="wa-num" type="tel" inputmode="numeric" autocomplete="tel" placeholder="98765 43210" oninput="waNumFmt(this)" onkeydown="if(event.key===\'Enter\')submitWaNumber()"></div>'+
+      '<div class="wa-err" id="waErr"></div>'+
+      '<button class="lc-copy" onclick="submitWaNumber()">Send link</button>'+
+      '<button class="lc-close" onclick="closeLinkCard()">Cancel</button>';
+    document.getElementById('linkCard').classList.add('open');
+    var el=document.getElementById('waNumInput'); if(el){ var raw=(WA_NUMBER||'').replace(/\D/g,'').slice(-10); el.value=raw.length>5?raw.slice(0,5)+' '+raw.slice(5):raw; setTimeout(function(){ el.focus(); },120); }
+  }
+  function waNumFmt(el){ var d=el.value.replace(/\D/g,'').slice(0,10); el.value=d.length>5?d.slice(0,5)+' '+d.slice(5):d; document.getElementById('waInWrap').classList.remove('err'); document.getElementById('waErr').textContent=''; }
+  function submitWaNumber(){
+    var el=document.getElementById('waNumInput'); var d=(el?el.value:'').replace(/\D/g,'');
+    if(d.length!==10){ document.getElementById('waInWrap').classList.add('err'); document.getElementById('waErr').textContent='Please enter a valid 10-digit number'; if(el) el.focus(); return; }
+    WA_NUMBER='+91 '+d.slice(0,5)+' '+d.slice(5);
+    try{ localStorage.setItem('bt_wa_number',WA_NUMBER); }catch(e){}
+    showLinkCard(); toast('Link sent to '+WA_NUMBER+' 📲');
+  }
   function showLinkCard(){
     var img=PD_IMG?'<div class="lc-img" style="background:#fff url(\''+PD_IMG+'\') center/contain no-repeat"></div>':'<div class="lc-img">'+(PD_EMOJI||'🛍️')+'</div>';
     var link=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby'));
     document.getElementById('lcCard').innerHTML=
-      '<div class="lc-head">'+WA_SVG+' Ready for WhatsApp</div>'+img+
+      '<div class="lc-head">'+WA_SVG+' Sent to WhatsApp</div>'+img+
       '<div class="lc-name">'+(PD_NAME||'Product')+'</div>'+
+      '<div class="lc-sentto">Link sent to <b>'+WA_NUMBER+'</b> 📲</div>'+
       '<div class="lc-link">'+link+'</div>'+
       '<button class="lc-copy" onclick="copyLink()">Copy buy link</button>'+
-      '<div class="lc-note">We’ll send this card to your WhatsApp 📲</div>'+
+      '<button class="lc-change" onclick="showWaNumberCard()">Change WhatsApp number</button>'+
       '<button class="lc-close" onclick="closeLinkCard()">Close</button>';
     document.getElementById('linkCard').classList.add('open');
   }
