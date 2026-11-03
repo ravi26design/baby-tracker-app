@@ -2690,7 +2690,10 @@
     function closeTerms(){ document.getElementById('termsSheet').classList.remove('open'); }
     function openPrivacy(){ closeProfileMenu(); document.getElementById('privacySheet').classList.add('open'); }
     function closePrivacy(){ document.getElementById('privacySheet').classList.remove('open'); }
-    var HM_LABELS=['Jan','Feb','Mar','Apr','May','Jun'];
+    function hmOrd(n){ var s=['th','st','nd','rd'],v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
+    function hmMonthLabel(n){ return hmOrd(n)+' mo'; }
+    var HM_MONTH_N=6; // age (in months) of the latest data point
+    var HM_LABELS=[hmMonthLabel(1),hmMonthLabel(2),hmMonthLabel(3),hmMonthLabel(4),hmMonthLabel(5),hmMonthLabel(6)];
     var HM_GROWTH;
     var HM_METRIC='weight';
     var HM_CHART_SEL=null;
@@ -3150,7 +3153,7 @@
     var HM_ADD_UNITS={wt:'kg',ht:'cm',head:'cm'};
     function hmUnitSync(metric,unit){ var map={wt:'hmWtUnits',ht:'hmHtUnits',head:'hmHCUnits'}; var row=document.getElementById(map[metric]); if(!row) return; Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-u')===unit); }); }
     function hmUnitPick(metric,unit,el){ HM_ADD_UNITS[metric]=unit; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } }
-    function hmGrowthLabel(){ var dt=HMD_DATES['growth']; if(dt&&dt.iso){ var m=+dt.iso.split('-')[1]-1; return ACDP_MONTHS[m].slice(0,3); } return 'M'+HM_LABELS.length; }
+    function hmGrowthLabel(){ return hmMonthLabel(++HM_MONTH_N); }
     function hmAddShow(){
       var f=document.getElementById('hmAddForm'); if(f) f.classList.add('open'); hmBs(true);
       var b=document.getElementById('hmAddBtn'); if(b) b.style.display='none';
@@ -3200,7 +3203,7 @@
       var valTxt=vals[sel]+' '+unit;
       var pillW=valTxt.length*6.2+16, pillH=20, pillX=Math.max(padL, Math.min(W-padR-pillW, lp[0]-pillW/2)), pillY=Math.max(2, lp[1]-pillH-11);
       var pill='<g><rect x="'+pillX.toFixed(1)+'" y="'+pillY.toFixed(1)+'" width="'+pillW.toFixed(1)+'" height="'+pillH+'" rx="'+(pillH/2)+'" fill="#3a2f44"/><text x="'+(pillX+pillW/2).toFixed(1)+'" y="'+(pillY+pillH/2+3.6).toFixed(1)+'" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="800" font-family="inherit" letter-spacing="-.1">'+valTxt+'</text></g>';
-      var labs=labels.map(function(l,i){return '<text x="'+x(i).toFixed(1)+'" y="'+(H-6)+'" font-size="9.5" fill="'+(i===sel?'#6c6478':'#b3aac2')+'" text-anchor="middle" font-weight="'+(i===sel?'800':'600')+'" font-family="inherit">'+l+'</text>';}).join('');
+      var labs=labels.map(function(l,i){var anc=i===0?'start':(i===last?'end':'middle'),lx=i===0?padL:(i===last?padL+cW:x(i));return '<text x="'+lx.toFixed(1)+'" y="'+(H-6)+'" font-size="9.5" fill="'+(i===sel?'#6c6478':'#b3aac2')+'" text-anchor="'+anc+'" font-weight="'+(i===sel?'800':'600')+'" font-family="inherit">'+l+'</text>';}).join('');
       // transparent tap targets over every point
       var hits=pts.map(function(p,i){ return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="15" fill="transparent" style="cursor:pointer" onclick="hmChartPoint('+i+')"/>'; }).join('');
       el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="100%" preserveAspectRatio="none" style="display:block"><defs>'+
