@@ -2421,8 +2421,8 @@
     /* ===== generic date picker for the health add-forms ===== */
     var HMD={which:null,d:1,m:0,y:2025}, HMD_YEARS=[], HMD_DATES={};
     var HMD_FIELD={note:'hmNoteDate',visit:'hmVisitDate',doc:'hmDocDate',growth:'hmGrowthDate'};
-    function hmDateTxt(d,m){ return d+' '+ACDP_MONTHS[m].slice(0,3); }
-    function hmDateInit(which){ var n=new Date(); HMD_DATES[which]={iso:n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2)+'-'+('0'+n.getDate()).slice(-2),txt:hmDateTxt(n.getDate(),n.getMonth())}; var f=document.getElementById(HMD_FIELD[which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent='Today'; } }
+    function hmDateTxt(d,m,y){ return d+' '+ACDP_MONTHS[m].slice(0,3)+(y?' '+y:''); }
+    function hmDateInit(which){ var n=new Date(); HMD_DATES[which]={iso:n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2)+'-'+('0'+n.getDate()).slice(-2),txt:hmDateTxt(n.getDate(),n.getMonth(),n.getFullYear())}; var f=document.getElementById(HMD_FIELD[which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent='Today'; } }
     function hmdpMark(){ ['hmdpDay','hmdpMon','hmdpYear'].forEach(function(id){ var el=document.getElementById(id); if(!el) return; var idx=Math.round(el.scrollTop/46); Array.prototype.forEach.call(el.children,function(c,i){ c.classList.toggle('on', i===idx); }); }); }
     function hmdpAttach(){ [['hmdpDay',function(i){HMD.d=i+1;}],['hmdpMon',function(i){HMD.m=i;}],['hmdpYear',function(i){HMD.y=HMD_YEARS[i];}]].forEach(function(p){ var el=document.getElementById(p[0]); if(!el||el._b) return; el._b=1; var t; el.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ var idx=Math.round(el.scrollTop/46); if(idx<0)idx=0; if(idx>el.children.length-1)idx=el.children.length-1; p[1](idx); hmdpMark(); },70); }); }); }
     function hmDateOpen(which){
@@ -2438,7 +2438,7 @@
     }
     function hmDateClose(){ document.getElementById('hmDateSheet').classList.remove('open'); }
     function hmDateDone(){
-      var iso=HMD.y+'-'+('0'+(HMD.m+1)).slice(-2)+'-'+('0'+HMD.d).slice(-2), txt=hmDateTxt(HMD.d,HMD.m);
+      var iso=HMD.y+'-'+('0'+(HMD.m+1)).slice(-2)+'-'+('0'+HMD.d).slice(-2), txt=hmDateTxt(HMD.d,HMD.m,HMD.y);
       HMD_DATES[HMD.which]={iso:iso,txt:txt};
       var f=document.getElementById(HMD_FIELD[HMD.which]); if(f){ var s=f.querySelector('.hm-date-tx'); if(s) s.textContent=txt; }
       hmDateClose();
