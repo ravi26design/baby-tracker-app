@@ -1058,13 +1058,11 @@
   .vx-sh-tt{flex:1;min-width:0;font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);line-height:1.22;}
   .vx-sh-cat{font-size:11px;font-weight:800;color:var(--cc);background:color-mix(in srgb,var(--cc) 13%,#fff);padding:4px 11px;border-radius:999px;white-space:nowrap;}
   /* polished header */
-  .vx-head2{display:flex;align-items:center;gap:9px;margin:2px 0 13px;}
-  .vx-head-ic{width:40px;height:40px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--cc) 14%,#fff);color:var(--cc);}
-  .vx-head-ic svg{width:22px;height:22px;}
+  .vx-head2{display:flex;align-items:center;gap:9px;margin:11px 0 0;}
   .vx-badge{margin-left:auto;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;white-space:nowrap;}
   .vx-badge.due{color:#c2881f;background:color-mix(in srgb,#c2881f 13%,#fff);}
   .vx-badge.done{color:#36a578;background:color-mix(in srgb,#36a578 13%,#fff);}
-  .vx-title2{font-size:20px;font-weight:800;letter-spacing:-.35px;color:var(--ink);line-height:1.22;}
+  .vx-title2{margin-top:3px;font-size:20px;font-weight:800;letter-spacing:-.35px;color:var(--ink);line-height:1.22;}
   .vx-meta2{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12.5px;font-weight:600;color:#8b8296;}
   .vx-meta2 svg{width:15px;height:15px;color:var(--lc);flex-shrink:0;}
   .vx-divider{height:1px;background:rgba(139,116,181,.12);margin:15px 0 3px;}
@@ -3344,7 +3342,6 @@
     function hmRemRemove(){ var i=HM_VAX_CUR; if(i<0) return; var v=HM_VAX[i]; v.reminder=false; v.remAt=null; renderHmVax(); if(HM_VAX_CUR===i) hmVaxFillSheet(); hmRemClose(); hToast('Reminder removed'); }
     function hmVaxOpen(i){ HM_VAX_CUR=i; hmVaxFillSheet(); var _hs=document.getElementById('hmSheet'), _s=document.getElementById('hmVaxSheet'); if(_hs&&_s) _hs.appendChild(_s); if(_s) _s.classList.add('open'); }
     function hmVaxClose(){ var s=document.getElementById('hmVaxSheet'); if(s) s.classList.remove('open'); HM_VAX_CUR=-1; }
-    var VX_SYR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg>';
     var VX_CAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>';
     function hmVaxFillSheet(){
       var i=HM_VAX_CUR; if(i<0) return; var v=HM_VAX[i]; if(!v) return;
@@ -3357,12 +3354,11 @@
       var badge=v.done?'<span class="vx-badge done">Completed</span>':'<span class="vx-badge due">Due</span>';
       var remLine=(v.reminder&&v.remAt)?'<div class="vx-rem-note">'+VX_BELL+'<span>Reminder set for <b>'+v.remAt.txt+'</b></span></div>':'';
       body.innerHTML=
+        '<div class="vx-title2">'+v.name+'</div>'+
         '<div class="vx-head2">'+
-          '<span class="vx-head-ic" style="--cc:'+cat.c+'">'+VX_SYR+'</span>'+
           '<span class="vx-sh-cat" style="--cc:'+cat.c+'">'+cat.label+'</span>'+
           badge+
         '</div>'+
-        '<div class="vx-title2">'+v.name+'</div>'+
         '<div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</span></div>'+
         '<div class="vx-divider"></div>'+
         '<div class="vx-sec"><div class="vx-sec-l">Purpose</div><div class="vx-sec-p">'+info.use+'</div></div>'+
