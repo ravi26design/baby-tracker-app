@@ -1042,6 +1042,32 @@
   .hm-vchk.done{border-color:transparent;background:#8574b5;box-shadow:none;}
   .hm-vchk.done svg{color:#fff;}
   .hm-vchk:active{transform:scale(.92);}
+  /* vaccination categories + detail */
+  .hm-vcat{display:flex;align-items:center;gap:10px;margin:20px 0 2px;}
+  .hm-vcat:first-child{margin-top:4px;}
+  .hm-vcat-dot{width:9px;height:9px;border-radius:50%;background:var(--cc);flex-shrink:0;box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 16%,transparent);}
+  .hm-vcat-tx{flex:1;min-width:0;}
+  .hm-vcat-n{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:-.1px;}
+  .hm-vcat-s{font-size:10.5px;color:#9a91a8;font-weight:500;margin-top:1px;}
+  .hm-vcat-ct{font-size:11px;font-weight:800;color:var(--cc);background:color-mix(in srgb,var(--cc) 12%,#fff);padding:3px 9px;border-radius:999px;flex-shrink:0;}
+  .hm-vrow{border-bottom:1px solid rgba(139,116,181,.055);}
+  .hm-vrow:last-child{border-bottom:none;}
+  .hm-vrow > .hm-li{border-bottom:none;}
+  .hm-vexp{width:26px;height:26px;border:none;background:transparent;color:#c1b8d0;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .2s;}
+  .hm-vexp svg{width:16px;height:16px;}
+  .hm-vrow.open .hm-vexp{transform:rotate(180deg);color:var(--lc);}
+  .hm-vdet{display:none;padding:2px 2px 14px 39px;}
+  .hm-vrow.open .hm-vdet{display:block;animation:hmFade .22s ease;}
+  .hm-vd-row{display:flex;gap:10px;padding:5px 0;align-items:flex-start;}
+  .hm-vd-k{font-size:10px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.3px;width:90px;flex-shrink:0;padding-top:2px;}
+  .hm-vd-v{font-size:12px;font-weight:600;color:var(--ink);flex:1;line-height:1.45;}
+  .hm-vd-brand{display:inline-block;background:color-mix(in srgb,var(--lc) 13%,#fff);color:var(--lc);font-weight:800;font-size:11.5px;padding:3px 10px;border-radius:999px;}
+  .hm-vd-done{margin-top:9px;font-size:11.5px;font-weight:800;color:#36a578;}
+  .hm-vrem{margin-top:11px;display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--lc);background:transparent;color:var(--lc);font-size:12px;font-weight:800;padding:8px 15px;border-radius:999px;cursor:pointer;transition:background .15s,transform .1s;font-family:inherit;}
+  .hm-vrem svg{width:15px;height:15px;}
+  .hm-vrem:active{transform:scale(.96);}
+  .hm-vrem.on{background:var(--lc);color:#fff;}
+  @keyframes hmFade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
   .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:var(--oc,#8574b5);background:color-mix(in srgb,var(--oc,#9b8bc4) 10%,#fff);border-radius:14px;padding:11px;margin-top:12px;transition:transform .12s;}
   .hm-add:active{transform:scale(.99);}
   .hm-add svg{width:16px;height:16px;}
@@ -2760,15 +2786,17 @@
           head:{vals:[43,45,46.5,48,49,50],unit:'cm',delta:'+0.5 cm'}
         },
         vax:[
-          {name:'Hepatitis B',age:'Birth',date:'15 Jul 2025',done:true},
-          {name:'DTaP, Hib, IPV, PCV13',age:'2 months',date:'18 Sep 2025',done:true},
-          {name:'DTaP, Hib, IPV, PCV13',age:'4 months',date:'20 Nov 2025',done:true},
-          {name:'DTaP, Hib, PCV13, Influenza',age:'6 months',date:'14 Jan 2026',done:true},
-          {name:'Hepatitis B (2nd dose)',age:'6 months',date:'14 Jan 2026',done:true},
-          {name:'Influenza',age:'9 months',date:'10 Apr 2026',done:true},
-          {name:'MMR (early)',age:'9 months',date:'10 Apr 2026',done:true},
-          {name:'MMR, Varicella, HepA, DTaP',age:'12 months',date:'15 Jul 2026',done:false},
-          {name:'HepA (2nd dose)',age:'18 months',date:'Jan 2027',done:false}
+          {name:'Hepatitis B',cat:'must',age:'Birth',date:'15 Jul 2025',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',cat:'must',age:'2 months',date:'18 Sep 2025',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',cat:'must',age:'4 months',date:'20 Nov 2025',done:true},
+          {name:'DTaP, Hib, PCV13',cat:'must',age:'6 months',date:'14 Jan 2026',done:true},
+          {name:'Hepatitis B (2nd dose)',cat:'must',age:'6 months',date:'14 Jan 2026',done:true},
+          {name:'MMR (early)',cat:'must',age:'9 months',date:'10 Apr 2026',done:true},
+          {name:'MMR, Varicella, HepA, DTaP',cat:'must',age:'12 months',date:'15 Jul 2026',done:false},
+          {name:'Influenza',cat:'good',age:'9 months',date:'10 Apr 2026',done:true},
+          {name:'HepA (2nd dose)',cat:'good',age:'18 months',date:'Jan 2027',done:false},
+          {name:'Typhoid Conjugate',cat:'specific',age:'9–12 months',date:'15 Jul 2026',done:false},
+          {name:'Meningococcal',cat:'specific',age:'2 years',date:'Jul 2027',done:false}
         ],
         visits:[
           {title:'9-Month Well Visit',doctor:'Dr. Priya Menon',date:'12 May',sick:false},
@@ -2796,16 +2824,17 @@
           head:{vals:[48.5,49,49.3,49.6,49.8,50.2],unit:'cm',delta:'+0.3 cm'}
         },
         vax:[
-          {name:'Hepatitis B',age:'Birth',date:'10 Jun 2021',done:true},
-          {name:'DTaP, Hib, IPV, PCV13',age:'2 months',date:'15 Aug 2021',done:true},
-          {name:'DTaP, Hib, IPV, PCV13',age:'4 months',date:'18 Oct 2021',done:true},
-          {name:'DTaP, Hib, PCV13',age:'6 months',date:'20 Dec 2021',done:true},
-          {name:'MMR, Varicella',age:'12 months',date:'14 Jun 2022',done:true},
-          {name:'Hib, PCV13 booster',age:'15 months',date:'10 Sep 2022',done:true},
-          {name:'DTaP booster',age:'18 months',date:'12 Dec 2022',done:true},
-          {name:'Hepatitis A',age:'2 years',date:'15 Jun 2023',done:true},
-          {name:'Influenza (annual)',age:'3 years',date:'10 Oct 2024',done:true},
-          {name:'DTaP, IPV, MMR booster',age:'4–6 years',date:'Due Aug 2026',done:false}
+          {name:'Hepatitis B',cat:'must',age:'Birth',date:'10 Jun 2021',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',cat:'must',age:'2 months',date:'15 Aug 2021',done:true},
+          {name:'DTaP, Hib, IPV, PCV13',cat:'must',age:'4 months',date:'18 Oct 2021',done:true},
+          {name:'DTaP, Hib, PCV13',cat:'must',age:'6 months',date:'20 Dec 2021',done:true},
+          {name:'MMR, Varicella',cat:'must',age:'12 months',date:'14 Jun 2022',done:true},
+          {name:'Hib, PCV13 booster',cat:'must',age:'15 months',date:'10 Sep 2022',done:true},
+          {name:'DTaP booster',cat:'must',age:'18 months',date:'12 Dec 2022',done:true},
+          {name:'DTaP, IPV, MMR booster',cat:'must',age:'4–6 years',date:'Due Aug 2026',done:false},
+          {name:'Hepatitis A',cat:'good',age:'2 years',date:'15 Jun 2023',done:true},
+          {name:'Influenza (annual)',cat:'good',age:'3 years',date:'10 Oct 2024',done:true},
+          {name:'Typhoid Conjugate',cat:'specific',age:'Every 3 years',date:'Jun 2026',done:false}
         ],
         visits:[
           {title:'4-Year Well Visit',doctor:'Dr. Priya Menon',date:'8 Jun',sick:false},
@@ -3175,6 +3204,44 @@
     }
     var VSYR2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect x="7" y="9" width="10" height="6" rx="1.3"/><path d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/></g></svg>';
     function hmShortMon(d){ var p=(''+d).trim().split(/\s+/); return p.length>=2?(p[0]+' '+p[1]):(''+d); }
+    var HM_VAX_OPEN=-1;
+    var HM_VAX_CATS=[
+      {k:'must',label:'Must-have',sub:'Essential — national schedule',c:'#8574b5'},
+      {k:'good',label:'Good to have',sub:'Recommended for extra protection',c:'#1fb0a4'},
+      {k:'specific',label:'Specific',sub:'Situational — based on risk or region',c:'#c2881f'}
+    ];
+    // keyword → {protects, preferred brand, purpose}
+    var VAX_DB={
+      'hepatitis b':{p:'Hepatitis B (liver infection)',b:'Engerix-B',u:'Shields the liver from a lifelong hepatitis B infection.'},
+      'hepb':{p:'Hepatitis B (liver infection)',b:'Engerix-B',u:'Shields the liver from a lifelong hepatitis B infection.'},
+      'dtap':{p:'Diphtheria, tetanus & whooping cough',b:'Pentaxim',u:'Core protection against three serious childhood infections.'},
+      'dtwp':{p:'Diphtheria, tetanus & whooping cough',b:'Easy Five-TT',u:'Core protection against three serious childhood infections.'},
+      'hib':{p:'Hib meningitis',b:'',u:''},
+      'ipv':{p:'Polio',b:'',u:''},
+      'opv':{p:'Polio (oral drops)',b:'',u:''},
+      'pcv':{p:'Pneumococcal disease',b:'Prevenar 13',u:'Guards against pneumonia and ear infections.'},
+      'rotavirus':{p:'Rotavirus diarrhoea',b:'Rotarix',u:'Oral drops that prevent severe diarrhoea.'},
+      'influenza':{p:'Seasonal flu',b:'Vaxigrip Tetra',u:'Yearly flu shot — give before each flu season.'},
+      'mmr':{p:'Measles, mumps & rubella',b:'Tresivac',u:'One shot covering measles, mumps and rubella.'},
+      'measles':{p:'Measles',b:'Tresivac',u:'Protects against measles.'},
+      'varicella':{p:'Chickenpox',b:'Varilrix',u:'Prevents chickenpox and its complications.'},
+      'hepatitis a':{p:'Hepatitis A',b:'Havrix',u:'Protects the liver from hepatitis A.'},
+      'hepa':{p:'Hepatitis A',b:'Havrix',u:'Protects the liver from hepatitis A.'},
+      'typhoid':{p:'Typhoid fever',b:'Typbar-TCV',u:'Advised where typhoid is common.'},
+      'bcg':{p:'Tuberculosis (TB)',b:'',u:'Given at birth to protect against severe TB.'},
+      'meningococcal':{p:'Meningococcal meningitis',b:'Menactra',u:'For travel or outbreak-prone areas.'}
+    };
+    function hmVaxInfo(v){
+      var name=(v.name||'').toLowerCase(), hits=[];
+      for(var k in VAX_DB){ if(name.indexOf(k)>=0) hits.push(VAX_DB[k]); }
+      var prot=[],brands=[],sp={},sb={};
+      hits.forEach(function(h){ if(h.p&&!sp[h.p]){sp[h.p]=1;prot.push(h.p);} if(h.b&&!sb[h.b]){sb[h.b]=1;brands.push(h.b);} });
+      var use=v.use || (hits.length>1 ? 'Combination shot — several vaccines given together in one visit.' : ((hits[0]&&hits[0].u) || 'Protects your child against a serious infection.'));
+      return { use:use, protects:(v.protects||prot.join(', ')||'—'), brand:(v.brand||brands.join(' / ')||'As advised by your doctor') };
+    }
+    var VX_CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    var VX_CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+    var VX_BELL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>';
     function renderHmVax(){
       var done=HM_VAX.filter(function(v){return v.done;}).length, total=HM_VAX.length;
       var next=HM_VAX.filter(function(v){return !v.done;})[0];
@@ -3183,16 +3250,36 @@
       var nx=document.getElementById('hmvNext'); if(nx) nx.textContent= next?hmShortMon(next.date):'—';
       var b=document.getElementById('hmvBar'); if(b) b.style.width=(total?Math.round(done/total*100):0)+'%';
       var list=document.getElementById('hmVaxList'); if(!list) return;
-      list.innerHTML=HM_VAX.map(function(v,i){
-        var col=v.done?'#36a578':'#1fb0a4';
-        return '<div class="hm-li" style="--lc:'+col+'">'+
-          '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>'+
-          '<div class="hm-li-tx"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</div></div>'+
-          (v.done?'':'<span class="hm-li-r" style="color:#c2881f">Upcoming</span>')+
-        '</div>';
-      }).join('');
+      var html='';
+      HM_VAX_CATS.forEach(function(cat){
+        var items=[]; HM_VAX.forEach(function(v,i){ if((v.cat||'must')===cat.k) items.push({v:v,i:i}); });
+        if(!items.length) return;
+        var cdone=items.filter(function(x){return x.v.done;}).length;
+        html+='<div class="hm-vcat" style="--cc:'+cat.c+'"><span class="hm-vcat-dot"></span><div class="hm-vcat-tx"><div class="hm-vcat-n">'+cat.label+'</div><div class="hm-vcat-s">'+cat.sub+'</div></div><span class="hm-vcat-ct">'+cdone+' / '+items.length+'</span></div>';
+        items.forEach(function(x){
+          var v=x.v,i=x.i,info=hmVaxInfo(v),open=(HM_VAX_OPEN===i);
+          var col=v.done?'#36a578':cat.c;
+          html+='<div class="hm-vrow'+(open?' open':'')+'" style="--lc:'+col+'">'+
+            '<div class="hm-li" style="--lc:'+col+'">'+
+              '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?VX_CHK:'')+'</button>'+
+              '<div class="hm-li-tx" onclick="hmVaxExpand('+i+')"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
+              '<button class="hm-vexp" onclick="hmVaxExpand('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
+            '</div>'+
+            '<div class="hm-vdet">'+
+              '<div class="hm-vd-row"><span class="hm-vd-k">Purpose</span><span class="hm-vd-v">'+info.use+'</span></div>'+
+              '<div class="hm-vd-row"><span class="hm-vd-k">Protects against</span><span class="hm-vd-v">'+info.protects+'</span></div>'+
+              '<div class="hm-vd-row"><span class="hm-vd-k">When to give</span><span class="hm-vd-v">'+v.age+' · '+v.date+'</span></div>'+
+              '<div class="hm-vd-row"><span class="hm-vd-k">Preferred brand</span><span class="hm-vd-v"><span class="hm-vd-brand">'+info.brand+'</span></span></div>'+
+              (v.done?'<div class="hm-vd-done">✓ Completed on '+v.date+'</div>':'<button class="hm-vrem'+(v.reminder?' on':'')+'" onclick="hmVaxReminder('+i+')">'+VX_BELL+'<span>'+(v.reminder?'Reminder set':'Set reminder')+'</span></button>')+
+            '</div>'+
+          '</div>';
+        });
+      });
+      list.innerHTML=html;
     }
+    function hmVaxExpand(i){ HM_VAX_OPEN=(HM_VAX_OPEN===i?-1:i); renderHmVax(); }
     function hmVaxToggle(i){ HM_VAX[i].done=!HM_VAX[i].done; renderHmVax(); hToast(HM_VAX[i].done?'Marked done ✓':'Marked as due'); }
+    function hmVaxReminder(i){ HM_VAX[i].reminder=!HM_VAX[i].reminder; renderHmVax(); hToast(HM_VAX[i].reminder?'Reminder set 🔔':'Reminder removed'); }
     var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle fill="currentColor" fill-opacity=".2" cx="19.4" cy="13.2" r="2.5"/></svg>';
     var VPILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".2" x="4" y="9" width="16" height="6" rx="3"/><path d="M12 9v6"/></g></svg>';
     function renderHmVisits(){
