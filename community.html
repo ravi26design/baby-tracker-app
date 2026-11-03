@@ -797,8 +797,8 @@
   .bub.pw .pw-ic{width:42px;height:42px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#a994e2,#8872c2);color:#fff;}
   .bub.pw .pw-ic svg{width:21px;height:21px;}
   .bub.pw .pw-tx{display:flex;flex-direction:column;gap:4px;min-width:0;}
-  .bub.pw .pw-tx b{font-size:15px;color:var(--ink);font-weight:800;letter-spacing:-.3px;white-space:nowrap;}
-  .bub.pw .pw-tx span{align-self:flex-start;font-size:10.5px;font-weight:800;color:#b4762f;background:#fdeacc;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .bub.pw .pw-tx b{font-size:15px;color:var(--ink);font-weight:800;letter-spacing:-.3px;line-height:1.2;}
+  .bub.pw .pw-tx span{align-self:flex-start;max-width:100%;font-size:10.5px;font-weight:800;color:#b4762f;background:#fdeacc;padding:3px 9px;border-radius:20px;white-space:nowrap;}
   .bub.pw .txt{font-size:13px;color:#6a6477;line-height:1.5;position:relative;z-index:1;}
   .bub.pw .pw-btn{margin-top:14px;width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#9b84dc,#7d68b8);color:#fff;font-size:14.5px;font-weight:800;letter-spacing:-.2px;padding:14px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .1s;position:relative;z-index:1;}
   .bub.pw .pw-btn svg{width:18px;height:18px;}
@@ -2489,7 +2489,7 @@
       var tag='<span class="who-tag icon-only expert" style="background:'+(e.tagBg||'#efeaf7')+';color:'+(e.tagFg||'#8574b5')+'">'+chatTagIcon(e)+'</span>';
       return '<div class="msg">'+av(e)+'<div class="bub pw">'
         +'<div class="who">'+esc(e.n)+tag+'</div>'
-        +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>Your '+EXP_FREE+' free messages are used</span></div></div>'
+        +'<div class="pw-row"><span class="pw-ic">'+LOCK_IC+'</span><div class="pw-tx"><b>Continue the session</b><span>'+EXP_FREE+' free messages used</span></div></div>'
         +'<div class="txt">To keep chatting with '+esc(first)+' and get personalised guidance, unlock a full session.</div>'
         +'<button class="pw-btn" onclick="openPay()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>Unlock session · ₹'+fee+'</button>'
         +'<div class="pw-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 8.8-4-1.2-7-4.4-7-8.8V6z"/><path d="m9 12 2 2 4-4"/></svg>Secure one-time payment · cancel anytime</div>'
