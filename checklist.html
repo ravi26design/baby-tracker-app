@@ -539,6 +539,16 @@
   .wa-num{flex:1;min-width:0;border:none;background:none;outline:none;font-family:inherit;font-size:16px;font-weight:700;letter-spacing:.4px;color:#2c203c;padding:11px 8px;}
   .wa-num::placeholder{color:#b3a6cc;font-weight:600;letter-spacing:.2px;}
   .wa-err{font-size:11.5px;color:#d4556f;font-weight:700;margin-top:8px;min-height:14px;}
+  .lc-send{display:flex;align-items:center;justify-content:center;gap:8px;}
+  .lc-send svg{width:17px;height:17px;}
+  .wa-msg{text-align:left;background:#eafbf0;border:1px solid #cdeed9;border-radius:14px 14px 14px 4px;padding:11px 13px;margin-top:14px;font-size:12.5px;line-height:1.5;color:#2c4a38;font-weight:600;white-space:pre-line;}
+  .wa-msg .wa-msg-time{display:block;text-align:right;font-size:9.5px;color:#8fae9b;font-weight:700;margin-top:5px;}
+  .lc-tick{width:66px;height:66px;border-radius:50%;margin:16px auto 0;background:#e2f6ea;display:flex;align-items:center;justify-content:center;animation:lcPopTick .4s cubic-bezier(.2,1.1,.4,1.3);}
+  .lc-tick svg{width:34px;height:34px;}
+  @keyframes lcPopTick{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+  .lc-okttl{font-size:19px;font-weight:800;letter-spacing:-.3px;margin-top:14px;}
+  .lc-oksub{font-size:12.5px;color:#8b7fa6;font-weight:600;margin-top:7px;line-height:1.45;padding:0 6px;}
+  .lc-oksub b{color:#1f9d57;}
   .rs-overlay{position:absolute;inset:0;z-index:40;display:none;align-items:flex-end;justify-content:center;background:rgba(44,32,60,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
   .rs-overlay.open{display:flex;animation:lcFade .2s ease;}
   .rs-sheet{width:100%;background:var(--card-bg);border-radius:28px 28px 0 0;padding:10px 20px 26px;box-shadow:0 -22px 54px -20px rgba(50,30,70,.5);text-align:center;animation:rsUp .3s cubic-bezier(.2,.9,.3,1.05);}
@@ -1050,7 +1060,7 @@
       '<div class="wa-inwrap" id="waInWrap"><span class="wa-cc">+91</span>'+
         '<input id="waNumInput" class="wa-num" type="tel" inputmode="numeric" autocomplete="tel" placeholder="98765 43210" oninput="waNumFmt(this)" onkeydown="if(event.key===\'Enter\')submitWaNumber()"></div>'+
       '<div class="wa-err" id="waErr"></div>'+
-      '<button class="lc-copy" onclick="submitWaNumber()">Send link</button>'+
+      '<button class="lc-copy" onclick="submitWaNumber()">Continue</button>'+
       '<button class="lc-close" onclick="closeLinkCard()">Cancel</button>';
     document.getElementById('linkCard').classList.add('open');
     var el=document.getElementById('waNumInput'); if(el){ var raw=(WA_NUMBER||'').replace(/\D/g,'').slice(-10); el.value=raw.length>5?raw.slice(0,5)+' '+raw.slice(5):raw; setTimeout(function(){ el.focus(); },120); }
@@ -1061,21 +1071,42 @@
     if(d.length!==10){ document.getElementById('waInWrap').classList.add('err'); document.getElementById('waErr').textContent='Please enter a valid 10-digit number'; if(el) el.focus(); return; }
     WA_NUMBER='+91 '+d.slice(0,5)+' '+d.slice(5);
     try{ localStorage.setItem('bt_wa_number',WA_NUMBER); }catch(e){}
-    showLinkCard(); toast('Link sent to '+WA_NUMBER+' 📲');
+    showLinkCard();
   }
+  function waBuyLink(){ return PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby')); }
+  function waMessage(){
+    return 'Hi! 🍼 Here’s the '+(PD_NAME||'product')+' pick you saved on Baby Tracker.\n\n'+(PD_NAME||'Product')+'\n'+waBuyLink()+'\n\nHappy shopping! 💜';
+  }
+  /* ready-to-send card: confirm number, then send the link */
   function showLinkCard(){
     var img=PD_IMG?'<div class="lc-img" style="background:#fff url(\''+PD_IMG+'\') center/contain no-repeat"></div>':'<div class="lc-img">'+(PD_EMOJI||'🛍️')+'</div>';
-    var link=PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby'));
     document.getElementById('lcCard').innerHTML=
       '<div class="rs-grab"></div>'+
-      '<div class="lc-head">'+WA_SVG+' Sent to WhatsApp</div>'+img+
+      '<div class="lc-head">'+WA_SVG+' Send to WhatsApp</div>'+img+
       '<div class="lc-name">'+(PD_NAME||'Product')+'</div>'+
-      '<div class="lc-sentto">Link sent to <b>'+WA_NUMBER+'</b> 📲</div>'+
-      '<div class="lc-link">'+link+'</div>'+
-      '<button class="lc-copy" onclick="copyLink()">Copy buy link</button>'+
+      '<div class="lc-sentto">We’ll send the buy link to <b>'+WA_NUMBER+'</b></div>'+
+      '<div class="lc-link">'+waBuyLink()+'</div>'+
+      '<button class="lc-copy lc-send" onclick="sendTheLink()">'+WA_SVG+'<span>Send the link</span></button>'+
       '<button class="lc-change" onclick="showWaNumberCard()">Change WhatsApp number</button>'+
       '<button class="lc-close" onclick="closeLinkCard()">Close</button>';
     document.getElementById('linkCard').classList.add('open');
+  }
+  /* actually deliver the predefined WhatsApp message, then confirm */
+  function sendTheLink(){ showSentCard(); }
+  function showSentCard(){
+    var TICK='<svg viewBox="0 0 24 24" fill="none" stroke="#1f9d57" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>';
+    var now=new Date(), h=now.getHours(), m=now.getMinutes(), ap=h>=12?'PM':'AM', h12=((h+11)%12)+1, time=h12+':'+('0'+m).slice(-2)+' '+ap;
+    document.getElementById('lcCard').innerHTML=
+      '<div class="rs-grab"></div>'+
+      '<div class="lc-head">'+WA_SVG+' Sent on WhatsApp</div>'+
+      '<div class="lc-tick">'+TICK+'</div>'+
+      '<div class="lc-okttl">Link sent successfully 🎉</div>'+
+      '<div class="lc-oksub">We sent your '+(PD_NAME||'product')+' buy link to <b>'+WA_NUMBER+'</b> on WhatsApp.</div>'+
+      '<div class="wa-msg">'+waMessage()+'<span class="wa-msg-time">'+time+' ✓✓</span></div>'+
+      '<button class="lc-copy" onclick="closeLinkCard()">Done</button>'+
+      '<button class="lc-change" onclick="showWaNumberCard()">Change WhatsApp number</button>';
+    document.getElementById('linkCard').classList.add('open');
+    toast('Link sent to '+WA_NUMBER+' ✓');
   }
   function closeLinkCard(){ document.getElementById('linkCard').classList.remove('open'); }
   function shareLink(){ return PD_LINK||('https://www.amazon.in/s?k='+encodeURIComponent(PD_NAME||'baby')); }
