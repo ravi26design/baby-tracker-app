@@ -1085,6 +1085,7 @@
   .hm-filebtn .hm-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .hm-filebtn.has{border-style:solid;border-color:rgba(95,175,125,.5);color:var(--ink);background:#f4faf6;}
   .hm-filebtn.has svg{color:#4bab77;}
+  .hm-fhint{margin:-3px 0 9px;text-align:center;font-size:11px;font-weight:600;color:#a79fb5;}
   .hm-docchips{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
   .hm-docchips:empty{display:none;}
   .hm-dchip{display:flex;align-items:center;gap:8px;background:#f6f3fb;border-radius:11px;padding:8px 10px;font-size:12.5px;font-weight:600;color:var(--ink);}
@@ -2069,6 +2070,7 @@
           <div class="hm-fld" style="margin-bottom:8px"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmDocDate" onclick="hmDateOpen('doc')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <button class="hm-filebtn" id="hmFileBtn" onclick="document.getElementById('hmDocFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="hm-fname">Choose files to upload</span></button>
           <input type="file" id="hmDocFile" accept="image/*,application/pdf" multiple style="display:none" onchange="hmDocFile(this)">
+          <div class="hm-fhint">Supports PDF, JPG &amp; PNG · up to 10 MB each</div>
           <div id="hmDocChips" class="hm-docchips"></div>
           <input class="hm-in" id="hmDocName" placeholder="Document name (optional)" autocomplete="off" style="margin-bottom:8px">
           <select class="hm-in" id="hmDocType" style="margin-bottom:8px"><option>Report</option><option>Prescription</option><option>Scan</option><option>Certificate</option><option>Other</option></select>
