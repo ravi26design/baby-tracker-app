@@ -1100,6 +1100,14 @@
   .hm-dchip .hm-dchip-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .hm-dchip .hm-dchip-x{flex:0 0 auto;width:20px;height:20px;border:none;background:transparent;color:#a99c92;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;}
   .hm-dchip .hm-dchip-x:active{background:#eadff0;}
+  .hm-vchip{display:flex;flex-direction:column;gap:8px;background:#f6f3fb;border-radius:12px;padding:9px 10px;}
+  .hm-vchip-top{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink);}
+  .hm-vchip-top svg{width:15px;height:15px;color:#8574b5;flex-shrink:0;}
+  .hm-vchip-top .hm-dchip-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .hm-vchip-top .hm-dchip-x{flex:0 0 auto;width:20px;height:20px;border:none;background:transparent;color:#a99c92;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;}
+  .hm-vchip-top .hm-dchip-x:active{background:#eadff0;}
+  .hm-vchip-top .hm-dchip-x svg{width:14px;height:14px;color:inherit;}
+  .hm-vtype{font-size:12px;padding:8px 32px 8px 10px;background-color:#fff;}
   .hm-ephoto{display:flex;flex-direction:column;align-items:center;gap:11px;margin:2px 0 4px;}
   .hm-ephoto-av{width:88px;height:88px;border-radius:50%;background:linear-gradient(150deg,#e8dcf6,#d9c8ef) center/cover no-repeat;box-shadow:0 9px 20px -11px rgba(120,90,160,.5),0 0 0 3px #fff,0 0 0 4px rgba(139,116,181,.14);}
   .hm-ephoto-btn{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8574b5;background:#f3eef9;border-radius:11px;padding:9px 16px;transition:background .14s,transform .12s;}
@@ -2059,7 +2067,7 @@
         </div>
         <div class="hm-addf" id="hmVisitForm">
           <div class="hm-ftitle">Add Doctor Visit</div>
-          <div class="hm-fld"><label class="hm-flbl2">Date</label><button type="button" class="hm-datefld" id="hmVisitDate" onclick="hmDateOpen('visit')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
+          <div class="hm-fld"><label class="hm-flbl2">Visit Date</label><button type="button" class="hm-datefld" id="hmVisitDate" onclick="hmDateOpen('visit')"><span class="hm-date-tx">Today</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button></div>
           <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Doctor</label><input class="hm-in" id="hmVDoc" placeholder="Doctor's name" value="Dr. Priya Menon" autocomplete="off"></div>
           <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Reason</label><select class="hm-in" id="hmVReason"><option value="">Select a reason…</option><option>Well Visit</option><option>Sick Visit</option><option>Follow-up</option><option>Vaccination</option><option>Specialist</option><option>Dental</option><option>Eye check</option><option>Other</option></select></div>
           <div class="hm-fld" style="margin-top:11px"><label class="hm-flbl2">Notes</label><textarea class="hm-in hm-ta" id="hmVNotes" placeholder="Notes (optional)" rows="2"></textarea></div>
@@ -3189,12 +3197,17 @@
     function hmVisitShow(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display='none'; hmDateInit('visit'); hmVResetFiles(); }
     function hmVisitHide(){ var f=document.getElementById('hmVisitForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmVisitBtn'); if(b) b.style.display=''; var r=document.getElementById('hmVReason'); if(r) r.value=''; var nt=document.getElementById('hmVNotes'); if(nt) nt.value=''; hmVResetFiles(); }
     var HM_VISIT_FILES=[];
-    function hmVFile(inp){ if(inp.files&&inp.files.length){ for(var i=0;i<inp.files.length;i++){ HM_VISIT_FILES.push(inp.files[i].name); } inp.value=''; hmVRenderChips(); } }
+    var HM_VDOC_TYPES=['Report','Prescription','Scan','Certificate','Other'];
+    function hmVFile(inp){ if(inp.files&&inp.files.length){ for(var i=0;i<inp.files.length;i++){ HM_VISIT_FILES.push({name:inp.files[i].name,type:'Report'}); } inp.value=''; hmVRenderChips(); } }
     function hmVRemoveFile(i){ HM_VISIT_FILES.splice(i,1); hmVRenderChips(); }
+    function hmVSetType(i,v){ if(HM_VISIT_FILES[i]) HM_VISIT_FILES[i].type=v; }
     function hmVResetFiles(){ HM_VISIT_FILES=[]; var fi=document.getElementById('hmVFile'); if(fi) fi.value=''; hmVRenderChips(); }
     function hmVRenderChips(){
       var wrap=document.getElementById('hmVChips');
-      if(wrap){ wrap.innerHTML=HM_VISIT_FILES.map(function(nm,i){ return '<div class="hm-dchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h8l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg><span class="hm-dchip-nm">'+nm+'</span><button type="button" class="hm-dchip-x" onclick="hmVRemoveFile('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'; }).join(''); }
+      if(wrap){ wrap.innerHTML=HM_VISIT_FILES.map(function(f,i){
+        var opts=HM_VDOC_TYPES.map(function(t){ return '<option'+(f.type===t?' selected':'')+'>'+t+'</option>'; }).join('');
+        return '<div class="hm-vchip"><div class="hm-vchip-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h8l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg><span class="hm-dchip-nm">'+f.name+'</span><button type="button" class="hm-dchip-x" onclick="hmVRemoveFile('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><select class="hm-in hm-vtype" aria-label="Document type" onchange="hmVSetType('+i+',this.value)">'+opts+'</select></div>';
+      }).join(''); }
       var btn=document.getElementById('hmVFileBtn'); if(btn){ var s=btn.querySelector('.hm-fname'); if(HM_VISIT_FILES.length){ btn.classList.add('has'); s.textContent=HM_VISIT_FILES.length===1?'1 file selected · add more':(HM_VISIT_FILES.length+' files selected · add more'); } else { btn.classList.remove('has'); s.textContent='Upload documents'; } }
     }
     function hmVisitSave(){
