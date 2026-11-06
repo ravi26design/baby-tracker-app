@@ -911,9 +911,16 @@
   .hm-sec{position:absolute;left:0;right:0;bottom:0;z-index:84;background:#fff;border-radius:28px 28px 0 0;max-height:90%;display:flex;flex-direction:column;transform:translateY(110%);transition:transform .36s cubic-bezier(.32,.72,0,1);box-shadow:0 -14px 44px -14px rgba(90,60,70,.3);}
   .hm-sec.open{transform:translateY(0);}
   .hm-sec-grab{width:40px;height:5px;border-radius:3px;background:#e4ddee;margin:10px auto 2px;flex-shrink:0;}
-  .hm-sec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 16px 12px;flex-shrink:0;}
-  .hm-sec-head span{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .hm-sec-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 16px 10px;flex-shrink:0;}
+  .hm-sec-head > span{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
   .hm-sec-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .hm-sectabs{display:flex;gap:16px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+  .hm-sectabs::-webkit-scrollbar{display:none;}
+  .hm-stab{flex:0 0 auto;border:none;background:none;font-family:inherit;font-size:14px;font-weight:700;color:#aba4b8;letter-spacing:-.2px;padding:5px 1px 9px;cursor:pointer;position:relative;white-space:nowrap;transition:color .2s;}
+  .hm-stab.on{color:var(--ink);}
+  .hm-stab.on::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:3px;border-radius:3px;background:linear-gradient(90deg,#b0a2d8,#8574b5);}
+  .hm-pan-in{animation:hmPanIn .26s cubic-bezier(.3,.8,.3,1);}
+  @keyframes hmPanIn{from{opacity:.3;transform:translateX(var(--panDir,10px))}to{opacity:1;transform:none}}
   .hm-sec-x{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:#f1ecf8;color:#8a8296;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s;}
   .hm-sec-x:active{transform:scale(.92);}
   .hm-sec-x svg{width:15px;height:15px;}
@@ -2038,7 +2045,7 @@
         <div class="hm-secbd" id="hmSecBd" onclick="hmCloseSec()"></div>
         <div class="hm-sec" id="hmSec">
           <div class="hm-sec-grab"></div>
-          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><div class="hm-sec-actions"><button class="hm-sec-add" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+          <div class="hm-sec-head"><span id="hmSecTitle">Vaccination</span><div class="hm-sectabs" id="hmSecTabs" style="display:none"><button class="hm-stab" data-k="records" onclick="hmTab('records')">Health Notes</button><button class="hm-stab" data-k="visits" onclick="hmTab('visits')">Doctor Visits</button><button class="hm-stab" data-k="documents" onclick="hmTab('documents')">Documents</button><button class="hm-stab" data-k="vac" onclick="hmTab('vac')">Vaccinations</button></div><div class="hm-sec-actions"><button class="hm-sec-add" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
           <div class="hm-sec-body">
 
           <!-- Vaccination tab -->
@@ -3057,10 +3064,20 @@
     var HM_SEC_CUR=null;
     var HM_SEC_ADD={records:hmNoteShow,visits:hmVisitShow,documents:hmDocShow};
     function hmSecAdd(){ var fn=HM_SEC_ADD[HM_SEC_CUR]; if(typeof fn==='function') fn(); }
+    var HM_TAB_KEYS=['records','visits','documents','vac'];
+    var HM_SWIPE_DIR=0;
     function hmTab(key){
       HM_SEC_CUR=key;
       HM_SEC_KEYS.forEach(function(k){ var p=document.getElementById('hmp-'+k); if(p) p.style.display=(k===key)?'':'none'; });
-      var t=document.getElementById('hmSecTitle'); if(t) t.textContent=HM_SEC_TITLE[key]||'';
+      var t=document.getElementById('hmSecTitle'); var tabs=document.getElementById('hmSecTabs');
+      var isTab=HM_TAB_KEYS.indexOf(key)>-1;
+      if(t) t.style.display=isTab?'none':'';
+      if(t && !isTab) t.textContent=HM_SEC_TITLE[key]||'';
+      if(tabs){ tabs.style.display=isTab?'':'none';
+        Array.prototype.forEach.call(tabs.children,function(b){ var on=b.getAttribute('data-k')===key; b.classList.toggle('on',on); if(on&&b.scrollIntoView) b.scrollIntoView({inline:'nearest',block:'nearest'}); }); }
+      var cur=document.getElementById('hmp-'+key);
+      if(cur){ cur.classList.remove('hm-pan-in'); cur.style.setProperty('--panDir',(HM_SWIPE_DIR||10)+'px'); void cur.offsetWidth; cur.classList.add('hm-pan-in'); }
+      HM_SWIPE_DIR=0;
       var add=document.getElementById('hmSecAdd'); if(add) add.style.display=HM_SEC_ADD[key]?'':'none';
       if(key==='growth') renderHmChart(); else if(key==='vac'){ hmVaxFilterReset(); renderHmVax(); } else if(key==='visits') renderHmVisits(); else if(key==='records'){ hmNoteFilterReset(); renderHmNotes(); } else if(key==='documents'){ hmDocFilterReset(); renderHmDocs(); } else if(key==='profile'){ renderHmBlood(); renderHmAllergies(); }
       var s=document.getElementById('hmSec'); if(s) s.classList.add('open');
@@ -3069,6 +3086,32 @@
       hmWireSecDismiss();
       if(key==='growth') setTimeout(renderHmChart,30);
     }
+    /* swipe left/right across the section body to move between the 4 tabs */
+    var TSW={active:false,x0:0,y0:0,dir:0};
+    document.addEventListener('pointerdown',function(e){
+      TSW.active=false;
+      if(HM_TAB_KEYS.indexOf(HM_SEC_CUR)<0) return;
+      var sec=document.getElementById('hmSec'); if(!sec||!sec.classList.contains('open')) return;
+      if(!e.target.closest) return;
+      if(!e.target.closest('.hm-sec-body')) return;
+      if(e.target.closest('.hm-swipe')||e.target.closest('.hm-docfilter')) return; /* rows & filter keep their own gesture */
+      TSW.active=true; TSW.x0=e.clientX; TSW.y0=e.clientY; TSW.dir=0;
+    },{passive:true});
+    document.addEventListener('pointermove',function(e){
+      if(!TSW.active) return;
+      var dx=e.clientX-TSW.x0, dy=e.clientY-TSW.y0;
+      if(TSW.dir===0 && (Math.abs(dx)>8||Math.abs(dy)>8)) TSW.dir=Math.abs(dx)>Math.abs(dy)?1:2;
+    },{passive:true});
+    function hmTabSwipeEnd(e){
+      if(!TSW.active) return; TSW.active=false;
+      if(TSW.dir!==1) return;
+      var dx=e.clientX-TSW.x0; if(Math.abs(dx)<55) return;
+      var i=HM_TAB_KEYS.indexOf(HM_SEC_CUR); if(i<0) return;
+      if(dx<0 && i<HM_TAB_KEYS.length-1){ HM_SWIPE_DIR=30; hmTab(HM_TAB_KEYS[i+1]); }
+      else if(dx>0 && i>0){ HM_SWIPE_DIR=-30; hmTab(HM_TAB_KEYS[i-1]); }
+    }
+    document.addEventListener('pointerup',hmTabSwipeEnd,{passive:true});
+    document.addEventListener('pointercancel',function(){ TSW.active=false; },{passive:true});
     /* close the section sheet on a pull-down (drag/scroll down while at the top) */
     function hmWireSecDismiss(){
       var s=document.getElementById('hmSec'); if(!s||s._dw) return;
