@@ -783,8 +783,8 @@
   .attach-cancel:active{background:#ece7f2;}
   .sp-head{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);padding:2px 4px 0;}
   .sp-sub{font-size:12.5px;color:#8a8296;font-weight:500;padding:6px 4px 14px;}
-  .sp-row{display:flex;align-items:center;gap:13px;width:100%;border:none;background:#f7f4fb;font-family:inherit;padding:12px;border-radius:16px;cursor:pointer;text-align:left;margin-bottom:9px;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.12);transition:box-shadow .15s,background .15s;}
-  .sp-row.on{background:#f1eafc;box-shadow:inset 0 0 0 1.8px #b7a7df;}
+  .sp-row{display:flex;align-items:center;gap:13px;width:100%;border:none;background:#fff;font-family:inherit;padding:12px;border-radius:16px;cursor:pointer;text-align:left;margin-bottom:9px;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.14);transition:box-shadow .15s;}
+  .sp-row.on{background:#fff;box-shadow:inset 0 0 0 1.8px #9b8bc4;}
   .sp-ic{width:38px;height:38px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--sc,#8574b5) 15%,#fff);color:var(--sc,#8574b5);}
   .sp-ic svg{width:20px;height:20px;}
   .sp-l{flex:1;min-width:0;font-size:14.5px;font-weight:700;color:var(--ink);}
@@ -2482,11 +2482,11 @@
     }
     /* ---- Share child profile ---- */
     var SHARE_FEATURES=[
-      {k:'notes', l:'Health Notes',    c:'#1fb0a4', ic:'<path d="M13 15.3V5a1.5 1.5 0 0 0-3 0v10.3a3 3 0 1 0 3 0z"/><path d="M11.5 8.5v4"/>'},
-      {k:'visits',l:'Doctor Visits',   c:'#5a78d4', ic:'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 16.5a4.5 4.5 0 0 0 9 0V15"/><circle cx="19" cy="13" r="2"/>'},
-      {k:'docs',  l:'Documents',       c:'#9b5fd6', ic:'<path d="M6 3h8l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M13 3v5h5"/><path d="M8 13h8M8 16.5h5"/>'},
-      {k:'vax',   l:'Vaccinations',    c:'#ef8a3a', ic:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'},
-      {k:'growth',l:'Growth Overview', c:'#36a06a', ic:'<path d="M4 20V5a2 2 0 0 1 2-2h9l5 5v12H4z"/><path d="M7.5 15.5l2.5-3 2.5 2.5 3-4.5"/>'}
+      {k:'notes', l:'Health Notes',    c:'#39a876', ic:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 6a2.5 2.5 0 0 1 2.5-2.5h10A2.5 2.5 0 0 1 19.5 6v7a2.5 2.5 0 0 1-2.5 2.5h-4.2L8 20.2V15.5H7A2.5 2.5 0 0 1 4.5 13z"/><path d="M8.5 9.4h7M8.5 12.4h4.5"/></svg>'},
+      {k:'visits',l:'Doctor Visits',   c:'#7a5fd0', ic:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M12 11v4M10 13h4"/></svg>'},
+      {k:'docs',  l:'Documents',       c:'#b05fd6', ic:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg>'},
+      {k:'vax',   l:'Vaccinations',    c:'#2fa987', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg>'},
+      {k:'growth',l:'Growth Overview', c:'#5a78d4', ic:'<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="12" width="4" height="8" rx="1.3"/><rect x="10" y="8.5" width="4" height="11.5" rx="1.3"/><rect x="16" y="5" width="4" height="15" rx="1.3"/></svg>'}
     ];
     var SHARE_SEL={};
     function renderShareProf(){
@@ -2494,7 +2494,7 @@
       el.innerHTML=SHARE_FEATURES.map(function(f){
         var on=SHARE_SEL[f.k]!==false; // default all on
         return '<button class="sp-row'+(on?' on':'')+'" onclick="toggleShareFeat(\''+f.k+'\')">'
-          +'<span class="sp-ic" style="--sc:'+f.c+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+f.ic+'</svg></span>'
+          +'<span class="sp-ic" style="--sc:'+f.c+'">'+f.ic+'</span>'
           +'<span class="sp-l">'+f.l+'</span>'
           +'<span class="sp-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>'
         +'</button>';
