@@ -1898,6 +1898,9 @@
       .iv-grow-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
       .iv-grow-n{font-size:15px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
       .iv-grow-s{font-size:12px;font-weight:600;color:#9a90ab;}
+      .iv-edit-btn{margin-left:auto;width:40px;height:40px;border-radius:50%;border:none;background:#efeaf5;color:#7a5fd0;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;transition:transform .1s;}
+      .iv-edit-btn:active{transform:scale(.92);}
+      .iv-edit-btn svg{width:19px;height:19px;}
       /* group detail */
       .iv-dhero{text-align:center;padding:4px 0 2px;margin-top:4px;}
       .iv-dhero-av{display:inline-flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:22px;background:color-mix(in srgb,#8574b5 13%,#fff);font-size:35px;margin-bottom:11px;}
@@ -1908,7 +1911,7 @@
       <div class="pf-sheet-bd" onclick="closeInvite()"></div>
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
-        <div class="ss-head"><button class="ss-back" onclick="ivBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title" id="ivTitle">Invite Friends</div></div>
+        <div class="ss-head"><button class="ss-back" onclick="ivBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title" id="ivTitle">Invite Friends</div><button class="iv-edit-btn" id="ivEditBtn" onclick="ivEditCurrent()" style="display:none" aria-label="Edit group"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.7 3.3a2.4 2.4 0 0 1 3.4 3.4L8.5 18.3l-4.5 1.2 1.2-4.5z"/></svg></button></div>
 
         <!-- VIEW: your groups -->
         <div id="ivView-list">
@@ -1976,7 +1979,7 @@
           <div class="ch-del-t" id="ivDelT">Delete group?</div>
           <div class="ch-del-s" id="ivDelS"></div>
           <div class="ch-del-act">
-            <button class="ch-del-del" onclick="ivDelConfirm()">Delete</button>
+            <button class="ch-del-del" id="ivDelBtn" onclick="ivDelConfirm()">Delete</button>
             <button class="ch-del-cancel" onclick="ivDelClose()">Keep</button>
           </div>
         </div>
@@ -2640,14 +2643,16 @@
       {name:'Close Family', emoji:'❤️', members:[{name:'Papa',phone:'9876500021'},{name:'Mama',phone:'9876500022'}]},
       {name:'Playdate Parents', emoji:'🧸', members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
     ];
-    var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1;
+    var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1, IV_DEL_MODE='group', IV_DEL_MEMBER_IDX=-1;
     function openInvite(){ closeProfileMenu(); IV_EDIT_IDX=-1; renderInviteGroups(); ivShowView('list'); document.getElementById('inviteSheet').classList.add('open'); }
     function closeInvite(){ document.getElementById('inviteSheet').classList.remove('open'); ivRowClose(); ivDelClose(); }
     function ivBack(){ if(IV_VIEW==='list'){ closeInvite(); } else { ivShowView('list'); } }
     function ivShowView(v){ IV_VIEW=v; ['list','create','detail'].forEach(function(x){ var el=document.getElementById('ivView-'+x); if(el) el.style.display=(x===v)?'':'none'; });
       var t=document.getElementById('ivTitle'); if(t) t.textContent=(v==='create')?(IV_EDIT_IDX>-1?'Edit group':'New group'):((v==='detail'&&INVITE_GROUPS[IV_DETAIL_IDX])?INVITE_GROUPS[IV_DETAIL_IDX].name:'Invite Friends');
+      var eb=document.getElementById('ivEditBtn'); if(eb) eb.style.display=(v==='detail')?'':'none';
       var sh=document.querySelector('#inviteSheet .pf-sheet'); if(sh) sh.scrollTop=0;
     }
+    function ivEditCurrent(){ if(IV_DETAIL_IDX<0) return; IV_MENU_IDX=IV_DETAIL_IDX; ivRowEdit(); }
     function renderInviteGroups(){ var el=document.getElementById('ivGroupList'); if(!el) return;
       if(!INVITE_GROUPS.length){ el.innerHTML='<div class="iv-empty"><span class="iv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg></span>No groups yet - create one below.</div>'; return; }
       el.innerHTML=INVITE_GROUPS.map(function(g,i){ var n=g.members.length;
@@ -2665,7 +2670,7 @@
       document.getElementById('ivDSub').textContent=g.members.length+' member'+(g.members.length>1?'s':'');
       var el=document.getElementById('ivDMembers');
       el.innerHTML='<div class="iv-mlist">'+g.members.map(function(m,k){ var col=INVITE_COL[k%INVITE_COL.length];
-        return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span></div>';
+        return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span><button class="iv-mx" onclick="ivMemberRemove('+k+')" aria-label="Remove member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
       }).join('')+'</div>';
       ivShowView('detail');
     }
@@ -2677,13 +2682,31 @@
       document.getElementById('ivCreateTx').textContent='Save changes';
       renderInviteEmojis(); renderInviteMembers(); ivShowView('create');
     }
-    function ivRowDelete(){ var i=IV_MENU_IDX; ivRowClose(); var g=INVITE_GROUPS[i]; if(!g) return; IV_DEL_IDX=i;
+    function ivDelShow(){ setTimeout(function(){ var L=document.getElementById('ivDelLayer'); if(!L) return; L.style.display='block'; requestAnimationFrame(function(){ L.classList.add('open'); }); },120); }
+    function ivRowDelete(){ var i=IV_MENU_IDX; ivRowClose(); var g=INVITE_GROUPS[i]; if(!g) return; IV_DEL_MODE='group'; IV_DEL_IDX=i;
+      var b=document.getElementById('ivDelBtn'); if(b) b.textContent='Delete';
       var t=document.getElementById('ivDelT'); if(t) t.textContent='Delete “'+g.name+'”?';
       var s=document.getElementById('ivDelS'); if(s) s.textContent='This removes the group and its '+g.members.length+' member'+(g.members.length>1?'s':'')+'. This can’t be undone.';
-      setTimeout(function(){ var L=document.getElementById('ivDelLayer'); if(!L) return; L.style.display='block'; requestAnimationFrame(function(){ L.classList.add('open'); }); },120);
+      ivDelShow();
+    }
+    function ivMemberRemove(k){ var g=INVITE_GROUPS[IV_DETAIL_IDX]; if(!g||!g.members[k]) return;
+      if(g.members.length<=1){ hToast('A group needs at least one member'); return; }
+      IV_DEL_MODE='member'; IV_DEL_MEMBER_IDX=k;
+      var b=document.getElementById('ivDelBtn'); if(b) b.textContent='Remove';
+      var t=document.getElementById('ivDelT'); if(t) t.textContent='Remove '+g.members[k].name+'?';
+      var s=document.getElementById('ivDelS'); if(s) s.textContent='They’ll be removed from “'+g.name+'”.';
+      ivDelShow();
     }
     function ivDelClose(){ var L=document.getElementById('ivDelLayer'); if(!L) return; L.classList.remove('open'); setTimeout(function(){ L.style.display='none'; },280); }
-    function ivDelConfirm(){ var i=IV_DEL_IDX; if(i>-1 && INVITE_GROUPS[i]){ var nm=INVITE_GROUPS[i].name; INVITE_GROUPS.splice(i,1); hToast(nm+' deleted'); } ivDelClose(); IV_DEL_IDX=-1; renderInviteGroups(); if(IV_VIEW!=='list') ivShowView('list'); }
+    function ivDelConfirm(){
+      if(IV_DEL_MODE==='member'){
+        var g=INVITE_GROUPS[IV_DETAIL_IDX];
+        if(g && g.members[IV_DEL_MEMBER_IDX]){ var mn=g.members[IV_DEL_MEMBER_IDX].name; g.members.splice(IV_DEL_MEMBER_IDX,1); hToast(mn+' removed'); }
+        ivDelClose(); IV_DEL_MODE='group'; IV_DEL_MEMBER_IDX=-1; renderInviteGroups();
+        if(g && g.members.length) openGroupDetail(IV_DETAIL_IDX); else ivShowView('list');
+        return;
+      }
+      var i=IV_DEL_IDX; if(i>-1 && INVITE_GROUPS[i]){ var nm=INVITE_GROUPS[i].name; INVITE_GROUPS.splice(i,1); hToast(nm+' deleted'); } ivDelClose(); IV_DEL_IDX=-1; renderInviteGroups(); if(IV_VIEW!=='list') ivShowView('list'); }
     function renderInviteEmojis(){
       var el=document.getElementById('ivEmojis'); if(!el) return;
       el.innerHTML=INVITE_EMOJI_OPTS.map(function(e){ return '<button class="iv-emoji'+(e===INVITE_EMOJI?' on':'')+'" onclick="invitePickEmoji(\''+e+'\')">'+e+'</button>'; }).join('');
