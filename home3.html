@@ -1105,7 +1105,8 @@
   .vx-sec-l{font-size:10.5px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;}
   .vx-sec-p{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5;}
   .vx-chips{display:flex;flex-wrap:wrap;gap:7px;}
-  .vx-chip{font-size:12px;font-weight:700;color:var(--ink);background:#f5f2fb;border:1px solid rgba(139,116,181,.14);padding:6px 12px;border-radius:999px;}
+  .vx-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:color-mix(in srgb,var(--chip,#8574b5) 82%,#38333f);background:color-mix(in srgb,var(--chip,#8574b5) 12%,#fff);border:1px solid color-mix(in srgb,var(--chip,#8574b5) 26%,transparent);padding:6px 12px 6px 10px;border-radius:999px;}
+  .vx-chip svg{width:13px;height:13px;flex-shrink:0;color:var(--chip,#8574b5);}
   .vx-chip.brand{color:var(--lc);background:color-mix(in srgb,var(--lc) 11%,#fff);border-color:color-mix(in srgb,var(--lc) 24%,transparent);font-weight:800;}
   .vx-rem-note{margin-top:16px;display:flex;align-items:center;gap:9px;background:color-mix(in srgb,var(--lc) 9%,#fff);border:1px solid color-mix(in srgb,var(--lc) 20%,transparent);border-radius:14px;padding:12px 14px;font-size:12.5px;font-weight:600;color:var(--ink);}
   .vx-rem-note svg{width:17px;height:17px;color:var(--lc);flex-shrink:0;}
@@ -3679,7 +3680,9 @@
       var info=hmVaxInfo(v), col=v.done?'#36a578':cat.c;
       var panel=document.querySelector('#hmVaxSheet .vx-panel'); if(panel) panel.style.setProperty('--lc',col);
       var body=document.getElementById('hmVaxSheetBody'); if(!body) return;
-      var protChips=info.protectsList.map(function(p){ return '<span class="vx-chip">'+p+'</span>'; }).join('');
+      var VX_CHIP_COLS=['#7b6bd0','#4a90d9','#1f9c95','#3fa56a','#c98a2b','#d05f8a','#5b76c9'];
+      var VX_SHIELD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5v5c0 4.3-3 7.4-7 8.6-4-1.2-7-4.3-7-8.6v-5z"/><path d="M9 11.8l2 2 4-4"/></svg>';
+      var protChips=info.protectsList.map(function(p,ci){ return '<span class="vx-chip" style="--chip:'+VX_CHIP_COLS[ci%VX_CHIP_COLS.length]+'">'+VX_SHIELD+p+'</span>'; }).join('');
       var brandChips=info.brandList.map(function(b){ return '<span class="vx-chip brand">'+b+'</span>'; }).join('');
       var badge=v.done?'<span class="vx-badge done">Completed</span>':'<span class="vx-badge due">Due</span>';
       var remLine=(v.reminder&&v.remAt)?'<div class="vx-rem-note">'+VX_BELL+'<span>Reminder set for <b>'+v.remAt.txt+'</b></span></div>':'';
