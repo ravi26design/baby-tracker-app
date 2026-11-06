@@ -934,6 +934,28 @@
   .hm-sec-fab{position:absolute;right:18px;bottom:24px;z-index:6;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#8f78c4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 30px -10px rgba(133,116,181,.75);transition:transform .14s,box-shadow .2s;}
   .hm-sec-fab:active{transform:scale(.93);}
   .hm-sec-fab svg{width:25px;height:25px;}
+  .hm-docviewer{position:absolute;inset:0;z-index:90;background:#eceaf2;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);visibility:hidden;}
+  .hm-docviewer.open{transform:translateX(0);visibility:visible;}
+  .hm-dv-bar{display:flex;align-items:center;gap:12px;padding:52px 16px 12px;background:#fff;box-shadow:0 1px 0 rgba(139,116,181,.12);flex-shrink:0;}
+  .hm-dv-ic{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:#f1ecf8;color:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s,background .15s;}
+  .hm-dv-ic:active{transform:scale(.9);background:#e7e0f3;}
+  .hm-dv-ic svg{width:19px;height:19px;}
+  .hm-dv-ttl{flex:1;min-width:0;}
+  .hm-dv-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-dv-sub{font-size:11.5px;color:#8a8296;font-weight:600;margin-top:1px;}
+  .hm-dv-body{flex:1;min-height:0;overflow-y:auto;padding:22px 20px 40px;}
+  .hm-dv-body::-webkit-scrollbar{display:none;}
+  .dv-paper{background:#fff;border-radius:10px;padding:26px 24px 34px;box-shadow:0 12px 34px -14px rgba(60,40,90,.4);min-height:90%;}
+  .dv-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.4px;color:#fff;background:var(--pc,#b05fd6);padding:3px 9px;border-radius:7px;}
+  .dv-h{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-top:14px;line-height:1.25;}
+  .dv-sub{font-size:12px;color:#9a8fb3;font-weight:600;margin-top:6px;}
+  .dv-rule{height:1px;background:#eee7f2;margin:18px 0 20px;}
+  .dv-ln{height:9px;border-radius:5px;background:#eef0f4;margin-bottom:12px;}
+  .dv-fig{height:120px;border-radius:12px;background:linear-gradient(135deg,#f3f0f9,#eef0f6);margin:18px 0 22px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
+  .dv-photo{min-height:90%;display:flex;align-items:center;justify-content:center;}
+  .dv-photo-in{width:100%;aspect-ratio:3/4;max-height:78vh;border-radius:14px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--pc,#b05fd6);box-shadow:0 12px 34px -14px rgba(60,40,90,.4);}
+  .dv-photo-in svg{width:60px;height:60px;}
+  .dv-photo-in span{font-size:12px;font-weight:700;color:#9a8fb3;letter-spacing:.3px;}
   .hm-sec-body::-webkit-scrollbar{display:none;}
   .hm-sec-body .hm-ov{box-shadow:none;padding:0;background:transparent;}
   .hm-sec-body .hm-ov-top{display:none;}
@@ -2151,6 +2173,16 @@
           <button class="hm-sec-fab" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
         </div>
 
+        <!-- in-app document viewer (full page) -->
+        <div class="hm-docviewer" id="hmDocViewer">
+          <div class="hm-dv-bar">
+            <button class="hm-dv-ic" onclick="hmDocClose()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <div class="hm-dv-ttl"><div class="hm-dv-name" id="hmDvName">File</div><div class="hm-dv-sub" id="hmDvSub"></div></div>
+            <button class="hm-dv-ic" onclick="hmDocDownload()" aria-label="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8 11l4 4 4-4"/><path d="M5 19h14"/></svg></button>
+          </div>
+          <div class="hm-dv-body" id="hmDvBody"></div>
+        </div>
+
         <!-- Add forms (overlay the section sheet, pinned to frame bottom) -->
         <div class="hm-addf" id="hmAddForm">
           <div class="hm-ftitle">Add Growth</div>
@@ -3240,6 +3272,11 @@
     /* ---- Documents ---- */
     var HM_DOCS;
     var HM_DOCIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" fill-opacity=".18" d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg>';
+    var DOC_IC_PDF=HM_DOCIC;
+    var DOC_IC_IMG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.6" fill="currentColor" fill-opacity=".16"/><circle cx="9" cy="9.3" r="1.7"/><path d="M4.3 18l4.2-4.2a1.5 1.5 0 0 1 2.1 0l2 2 2.2-2.2a1.5 1.5 0 0 1 2.1 0l2.6 2.6"/></svg>';
+    var DOC_IC_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" fill-opacity=".18" d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 12h7M8.5 15h7M8.5 18h4"/></svg>';
+    function hmIsImg(fmt){ return ['JPG','JPEG','PNG','GIF','HEIC','WEBP','IMG','IMAGE'].indexOf((fmt||'').toUpperCase())>-1; }
+    function hmDocIcon(fmt){ fmt=(fmt||'').toUpperCase(); if(hmIsImg(fmt)) return DOC_IC_IMG; if(fmt==='DOC'||fmt==='DOCX') return DOC_IC_DOC; return DOC_IC_PDF; }
     var HM_DOCFILTER='all';
     function hmDocFilterSet(f,el){ HM_DOCFILTER=f; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmDocs(); }
     function hmDocFilterReset(){ HM_DOCFILTER='all'; var row=document.getElementById('hmDocFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='all'); }); }
@@ -3249,9 +3286,36 @@
       var rows=HM_DOCS.map(function(d,i){ return {d:d,i:i}; }).filter(function(o){ return hmDocMatch(o.d); });
       if(!rows.length){ el.innerHTML='<div class="hm-docempty">No '+(HM_DOCFILTER==='all'?'documents':HM_DOCFILTER.toLowerCase()+' documents')+' yet</div>'; return; }
       el.innerHTML=rows.map(function(o){ var d=o.d,i=o.i;
-        return hmWrap('<div class="hm-li" style="--lc:'+(d.c||'#b05fd6')+'"><span class="hm-li-ic">'+HM_DOCIC+'</span><div class="hm-li-tx"><div class="hm-li-n">'+d.name+'</div><div class="hm-li-s">'+d.meta+'</div></div><span class="hm-li-r">'+d.fmt+'</span></div>','doc',i);
+        return hmWrap('<div class="hm-li" style="--lc:'+(d.c||'#b05fd6')+'" onclick="hmDocOpen('+i+')"><span class="hm-li-ic">'+hmDocIcon(d.fmt)+'</span><div class="hm-li-tx"><div class="hm-li-n">'+d.name+'</div><div class="hm-li-s">'+d.meta+'</div></div><span class="hm-li-r">'+d.fmt+'</span></div>','doc',i);
       }).join('');
     }
+    /* in-app file viewer */
+    function hmDocOpen(i){
+      var d=HM_DOCS[i]; if(!d) return;
+      if(SW.open) return; /* ignore the tap that closes an open swipe row */
+      var fmt=(d.fmt||'FILE').toUpperCase();
+      document.getElementById('hmDvName').textContent=d.name;
+      document.getElementById('hmDvSub').textContent=(d.type||'Document')+' · '+fmt;
+      var body=document.getElementById('hmDvBody');
+      if(hmIsImg(fmt)){
+        body.innerHTML='<div class="dv-photo"><div class="dv-photo-in" style="--pc:'+(d.c||'#b05fd6')+'">'+DOC_IC_IMG+'<span>'+fmt+' image</span></div></div>';
+      } else {
+        var ln=function(w){ return '<div class="dv-ln" style="width:'+w+'%"></div>'; };
+        body.innerHTML='<div class="dv-paper">'
+          +'<div class="dv-badge" style="--pc:'+(d.c||'#b05fd6')+'">'+fmt+'</div>'
+          +'<div class="dv-h">'+d.name+'</div>'
+          +'<div class="dv-sub">'+(d.type||'Document')+' · '+d.meta+'</div>'
+          +'<div class="dv-rule"></div>'
+          +ln(96)+ln(100)+ln(88)+ln(94)+ln(70)
+          +'<div class="dv-fig"></div>'
+          +ln(100)+ln(92)+ln(98)+ln(64)
+        +'</div>';
+      }
+      document.getElementById('hmDvBody').scrollTop=0;
+      document.getElementById('hmDocViewer').classList.add('open');
+    }
+    function hmDocClose(){ var v=document.getElementById('hmDocViewer'); if(v) v.classList.remove('open'); }
+    function hmDocDownload(){ hToast('Saved to your device ✓'); }
     function hmDocShow(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.add('open'); hmBs(true); var b=document.getElementById('hmDocBtn'); if(b) b.style.display='none'; hmDateInit('doc'); }
     function hmDocHide(){ var f=document.getElementById('hmDocForm'); if(f) f.classList.remove('open'); hmBs(false); var b=document.getElementById('hmDocBtn'); if(b) b.style.display=''; var n=document.getElementById('hmDocName'); if(n) n.value=''; hmDocResetFile(); }
     var HM_DOC_FILES=[];
