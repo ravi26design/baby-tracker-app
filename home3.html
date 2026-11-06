@@ -1579,6 +1579,24 @@
           <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></span>
           <span>Log Out</span>
         </button>
+        <button class="pf-item danger" onclick="openDeleteAccount()">
+          <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></span>
+          <span>Delete Account</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- delete account confirm -->
+    <div class="ch-del-layer del-acct-layer" id="delAcctLayer" style="display:none">
+      <div onclick="delAcctClose()" style="position:absolute;inset:0"></div>
+      <div class="ch-del-card">
+        <div class="ch-del-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></div>
+        <div class="ch-del-t">Delete account?</div>
+        <div class="ch-del-s">This permanently deletes your account, all children and their records. This can't be undone.</div>
+        <div class="ch-del-act">
+          <button class="ch-del-del" onclick="delAcctConfirm()">Delete account</button>
+          <button class="ch-del-cancel" onclick="delAcctClose()">Keep account</button>
+        </div>
       </div>
     </div>
 
@@ -1673,7 +1691,10 @@
       .ch-del-s{font-size:13.5px;color:var(--muted);text-align:center;margin:6px 0 18px;line-height:1.45;}
       .ch-del-act{display:flex;flex-direction:column;gap:9px;}
       .ch-del-del{padding:14px;border-radius:14px;border:none;background:#e0567a;color:#fff;font-size:15px;font-weight:700;}
-      .ch-del-cancel{padding:14px;border-radius:14px;border:none;background:#f3eef9;color:#6f5aa6;font-size:15px;font-weight:700;}
+      .ch-del-cancel{padding:14px;border-radius:14px;border:none;background:none;color:#6f5aa6;font-size:15px;font-weight:700;cursor:pointer;}
+      .ch-del-cancel:active{background:#f3eef9;}
+      .del-acct-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:70;background:rgba(35,22,12,.44);opacity:0;transition:opacity .26s;}
+      .del-acct-layer.open{opacity:1;}
       /* Add a child — polished */
       .ac-intro{font-size:13.5px;line-height:1.5;color:var(--muted);font-weight:600;margin:-4px 0 18px;}
       .ac-photo-wrap{display:flex;flex-direction:column;align-items:center;gap:9px;margin-bottom:22px;}
@@ -2734,6 +2755,9 @@
     function openProfileSheet(){ closeProfileMenu(); document.getElementById('pfSheet').classList.add('open'); }
     function closeProfileSheet(){ document.getElementById('pfSheet').classList.remove('open'); }
     function logout(){ window.location.href='onboarding.html'; }
+    function openDeleteAccount(){ var L=document.getElementById('delAcctLayer'); if(!L) return; L.style.display='block'; requestAnimationFrame(function(){ L.classList.add('open'); }); }
+    function delAcctClose(){ var L=document.getElementById('delAcctLayer'); if(!L) return; L.classList.remove('open'); setTimeout(function(){ L.style.display='none'; },280); }
+    function delAcctConfirm(){ delAcctClose(); hToast('Account deleted'); setTimeout(function(){ window.location.href='onboarding.html'; },700); }
     /* profile sub-sheets */
     function openEdit(){ document.getElementById('epSheet').classList.add('open'); }
     function closeEdit(){ document.getElementById('epSheet').classList.remove('open'); }
