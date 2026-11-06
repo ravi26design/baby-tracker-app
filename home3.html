@@ -2081,7 +2081,16 @@
                 <div class="hm-stat"><div class="hm-stat-v">2</div><div class="hm-stat-l">This week</div><div class="hm-stat-d" style="color:#c2881f">Recent</div></div>
                 <div class="hm-stat"><div class="hm-stat-v" id="hmNoteLast" style="font-size:15px;margin-top:4px">24 Jun</div><div class="hm-stat-l">Latest</div><div class="hm-stat-d" style="color:#3ea06e">Symptom</div></div>
               </div>
-              <div id="hmNoteList" style="margin-top:14px"></div>
+              <div class="hm-docfilter" id="hmNoteFilter" style="margin-top:14px">
+                <button class="hm-dfp on" data-f="all" onclick="hmNoteFilterSet('all',this)">All</button>
+                <button class="hm-dfp" data-f="Symptom" onclick="hmNoteFilterSet('Symptom',this)">Symptom</button>
+                <button class="hm-dfp" data-f="Measurement" onclick="hmNoteFilterSet('Measurement',this)">Measurement</button>
+                <button class="hm-dfp" data-f="Observation" onclick="hmNoteFilterSet('Observation',this)">Observation</button>
+                <button class="hm-dfp" data-f="Reaction" onclick="hmNoteFilterSet('Reaction',this)">Reaction</button>
+                <button class="hm-dfp" data-f="Sleep" onclick="hmNoteFilterSet('Sleep',this)">Sleep</button>
+                <button class="hm-dfp" data-f="Feed" onclick="hmNoteFilterSet('Feed',this)">Feed</button>
+              </div>
+              <div id="hmNoteList" style="margin-top:6px"></div>
             </div>
           </div>
 
@@ -3053,7 +3062,7 @@
       HM_SEC_KEYS.forEach(function(k){ var p=document.getElementById('hmp-'+k); if(p) p.style.display=(k===key)?'':'none'; });
       var t=document.getElementById('hmSecTitle'); if(t) t.textContent=HM_SEC_TITLE[key]||'';
       var add=document.getElementById('hmSecAdd'); if(add) add.style.display=HM_SEC_ADD[key]?'':'none';
-      if(key==='growth') renderHmChart(); else if(key==='vac'){ hmVaxFilterReset(); renderHmVax(); } else if(key==='visits') renderHmVisits(); else if(key==='records') renderHmNotes(); else if(key==='documents'){ hmDocFilterReset(); renderHmDocs(); } else if(key==='profile'){ renderHmBlood(); renderHmAllergies(); }
+      if(key==='growth') renderHmChart(); else if(key==='vac'){ hmVaxFilterReset(); renderHmVax(); } else if(key==='visits') renderHmVisits(); else if(key==='records'){ hmNoteFilterReset(); renderHmNotes(); } else if(key==='documents'){ hmDocFilterReset(); renderHmDocs(); } else if(key==='profile'){ renderHmBlood(); renderHmAllergies(); }
       var s=document.getElementById('hmSec'); if(s) s.classList.add('open');
       var b=document.getElementById('hmSecBd'); if(b) b.classList.add('show');
       var sb=s?s.querySelector('.hm-sec-body'):null; if(sb) sb.scrollTop=0;
@@ -3080,17 +3089,22 @@
     var HM_NOTES;
     var HM_NOTES_PAGE=12, HM_NOTES_SHOWN=12;
     var HM_NOTE_IC={Symptom:'<path d="M13 15.3V5a1.5 1.5 0 0 0-3 0v10.3a3 3 0 1 0 3 0z"/><path d="M11.5 8.5v4"/>',Measurement:'<path d="M15.5 3.4 20.6 8.5a1 1 0 0 1 0 1.4L9.9 20.6a1 1 0 0 1-1.4 0L3.4 15.5a1 1 0 0 1 0-1.4L14.1 3.4a1 1 0 0 1 1.4 0z"/><path d="M7.5 11 9 12.5"/>',Observation:'<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>',Sleep:'<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>',Feed:'<rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/>',Reaction:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'};
+    var HM_NOTEFILTER='all';
+    function hmNoteFilterSet(f,el){ HM_NOTEFILTER=f; HM_NOTES_SHOWN=HM_NOTES_PAGE; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmNotes(); }
+    function hmNoteFilterReset(){ HM_NOTEFILTER='all'; HM_NOTES_SHOWN=HM_NOTES_PAGE; var row=document.getElementById('hmNoteFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='all'); }); }
     function renderHmNotes(){
       var t=document.getElementById('hmNoteTot'); if(t) t.textContent=HM_NOTES.length;
       var la=document.getElementById('hmNoteLast'); if(la && HM_NOTES[0]) la.textContent=HM_NOTES[0].date;
       var el=document.getElementById('hmNoteList'); if(!el) return;
-      if(HM_NOTES_SHOWN>HM_NOTES.length) HM_NOTES_SHOWN=HM_NOTES.length;
-      var shown=Math.min(HM_NOTES_SHOWN||HM_NOTES_PAGE, HM_NOTES.length);
-      var html=HM_NOTES.slice(0,shown).map(function(nt,i){
+      var rows=HM_NOTES.map(function(nt,i){ return {nt:nt,i:i}; }).filter(function(o){ return HM_NOTEFILTER==='all' || o.nt.tag===HM_NOTEFILTER; });
+      if(!rows.length){ el.innerHTML='<div class="hm-docempty">No '+(HM_NOTEFILTER==='all'?'notes':HM_NOTEFILTER.toLowerCase()+' notes')+' yet</div>'; return; }
+      if(HM_NOTES_SHOWN>rows.length) HM_NOTES_SHOWN=rows.length;
+      var shown=Math.min(HM_NOTES_SHOWN||HM_NOTES_PAGE, rows.length);
+      var html=rows.slice(0,shown).map(function(o){ var nt=o.nt, i=o.i;
         var ic=HM_NOTE_IC[nt.tag]||HM_NOTE_IC.Symptom;
         return hmWrap('<div class="hm-li" style="--lc:'+(nt.c||'#1fb0a4')+'"><span class="hm-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span><div class="hm-li-tx"><div class="hm-li-n">'+nt.summary+'</div><div class="hm-li-s">'+nt.tag+'</div></div><span class="hm-li-r">'+nt.date+'</span></div>','note',i);
       }).join('');
-      var remain=HM_NOTES.length-shown;
+      var remain=rows.length-shown;
       if(remain>0){
         html+='<button class="hm-loadmore" onclick="hmNotesMore()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>Load older notes ('+remain+')</button>';
       }
@@ -3149,7 +3163,7 @@
       else if(HM_NTYPE==='Sleep'){ if(!d.duration){ hToast('Pick a duration'); return; } summary=d.duration+(d.quality?' · '+d.quality:''); }
       else if(HM_NTYPE==='Feed'){ if(!d.feedType){ hToast('Pick a feed type'); return; } summary=d.feedType+(d.how?' · '+d.how:''); }
       HM_NOTES.unshift({summary:summary,tag:HM_NTYPE,date:hmDateVal('note'),c:HM_NOTE_COL[HM_NTYPE]||'#1fb0a4'});
-      renderHmNotes(); hmNoteHide(); hToast('Note added ✓');
+      hmNoteFilterReset(); renderHmNotes(); hmNoteHide(); hToast('Note added ✓');
     }
     /* ---- Documents ---- */
     var HM_DOCS;
