@@ -3282,13 +3282,14 @@
       if(t) t.style.display=isTab?'none':'';
       if(t && !isTab) t.textContent=HM_SEC_TITLE[key]||'';
       if(tabs){ tabs.style.display=isTab?'':'none';
-        Array.prototype.forEach.call(tabs.children,function(b){ var on=b.getAttribute('data-k')===key; b.classList.toggle('on',on); if(on&&b.scrollIntoView) b.scrollIntoView({inline:'nearest',block:'nearest'}); }); }
+        Array.prototype.forEach.call(tabs.children,function(b){ var on=b.getAttribute('data-k')===key; b.classList.toggle('on',on); if(on){ try{ var tl=b.offsetLeft-(tabs.clientWidth-b.offsetWidth)/2; tabs.scrollTo({left:Math.max(0,tl),behavior:'smooth'}); }catch(e){ tabs.scrollLeft=b.offsetLeft; } } }); }
       var cur=document.getElementById('hmp-'+key);
       if(cur){ cur.classList.remove('hm-pan-in'); cur.style.setProperty('--panDir',(HM_SWIPE_DIR||10)+'px'); void cur.offsetWidth; cur.classList.add('hm-pan-in'); }
       HM_SWIPE_DIR=0;
       var add=document.getElementById('hmSecAdd'); if(add) add.style.display=HM_SEC_ADD[key]?'':'none';
       if(key==='growth') renderHmChart(); else if(key==='vac'){ hmVaxFilterReset(); renderHmVax(); } else if(key==='visits') renderHmVisits(); else if(key==='records'){ hmNoteFilterReset(); renderHmNotes(); } else if(key==='documents'){ hmDocFilterReset(); renderHmDocs(); } else if(key==='profile'){ renderHmBlood(); renderHmAllergies(); }
       var s=document.getElementById('hmSec'); if(s) s.classList.add('open');
+      var ps=s?s.parentElement:null; if(ps) ps.scrollLeft=0; /* keep the sheet from drifting sideways behind the full-page section */
       var b=document.getElementById('hmSecBd'); if(b) b.classList.add('show');
       var sb=s?s.querySelector('.hm-sec-body'):null; if(sb) sb.scrollTop=0;
       hmWireSecDismiss();
