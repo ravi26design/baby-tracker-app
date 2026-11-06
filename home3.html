@@ -1857,14 +1857,14 @@
       .iv-emoji{flex:0 0 auto;width:42px;height:42px;border-radius:13px;border:none;background:#f6f2fb;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.12);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s,box-shadow .15s,background .15s;}
       .iv-emoji.on{box-shadow:inset 0 0 0 2px #9b8bc4;background:#f1eafc;transform:scale(1.04);}
       .iv-emoji:active{transform:scale(.9);}
-      .iv-addrow{display:flex;gap:8px;margin-top:4px;}
-      .iv-addrow .iv-in{flex:1;min-width:0;}
+      .iv-addrow{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+      .iv-addrow .iv-in{width:100%;}
       .iv-in{border:none;background:#fff;border-radius:16px;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);padding:15px;outline:none;transition:box-shadow .15s;}
       .iv-in:focus{box-shadow:0 0 0 2px #cdbdef;}
       .iv-in::placeholder{color:#b4adc0;font-weight:500;}
-      .iv-addbtn{flex:0 0 auto;width:52px;border:none;border-radius:16px;background:linear-gradient(155deg,#b0a2d8,#8f78c4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .1s;box-shadow:0 8px 16px -9px rgba(140,116,181,.7);}
-      .iv-addbtn:active{transform:scale(.94);}
-      .iv-addbtn svg{width:20px;height:20px;}
+      .iv-addbtn{width:100%;border:none;border-radius:16px;background:#fff;color:#7a5fd0;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer;transition:transform .1s,box-shadow .15s;box-shadow:inset 0 0 0 1.5px #d9cdf2;margin-top:2px;}
+      .iv-addbtn:active{transform:scale(.98);}
+      .iv-addbtn svg{width:19px;height:19px;}
       .iv-mlist{display:flex;flex-direction:column;gap:9px;margin-top:14px;}
       .iv-mrow{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #efeaf5;border-radius:15px;padding:9px 11px;}
       .iv-mav{width:40px;height:40px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;}
@@ -1905,8 +1905,8 @@
         <div class="iv-sec-l" style="margin-top:22px">Invite people</div>
         <div class="iv-addrow">
           <input class="iv-in" id="ivPName" placeholder="Name" autocomplete="off">
-          <input class="iv-in" id="ivPPhone" placeholder="Phone" inputmode="tel" autocomplete="off" style="max-width:120px" onkeydown="if(event.key==='Enter')inviteAddMember()">
-          <button class="iv-addbtn" onclick="inviteAddMember()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <input class="iv-in" id="ivPPhone" placeholder="Phone" inputmode="tel" autocomplete="off" onkeydown="if(event.key==='Enter')inviteAddMember()">
+          <button class="iv-addbtn" onclick="inviteAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add person</span></button>
         </div>
         <div id="ivMembers"></div>
 
