@@ -1891,6 +1891,11 @@
       .iv-create{width:100%;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:15px;cursor:pointer;box-shadow:0 14px 26px -10px rgba(140,116,181,.7);display:flex;align-items:center;justify-content:center;gap:9px;}
       .iv-create:active{transform:scale(.99);}
       .iv-create svg{width:19px;height:19px;}
+      /* full-page (not a bottom sheet) */
+      #inviteSheet .pf-sheet{top:0;max-height:100%;border-radius:0;padding:0 20px calc(12px + env(safe-area-inset-bottom));transform:none;transition:none;}
+      #inviteSheet .pf-sheet-bd{display:none;}
+      #inviteSheet .grabber-x{display:none;}
+      #inviteSheet .statusbar{margin:0 -20px;flex-shrink:0;}
       /* your-groups list */
       .iv-grow{display:flex;align-items:center;gap:13px;width:100%;background:#fff;border:1px solid #efeaf5;border-radius:16px;padding:11px 6px 11px 13px;margin-bottom:10px;cursor:pointer;transition:transform .1s;}
       .iv-grow:active{transform:scale(.99);}
@@ -1911,6 +1916,15 @@
       <div class="pf-sheet-bd" onclick="closeInvite()"></div>
       <div class="pf-sheet">
         <div class="grabber-x"><span></span></div>
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <div class="notch"></div>
+          <div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
+          </div>
+        </div>
         <div class="ss-head"><button class="ss-back" onclick="ivBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title" id="ivTitle">Invite Friends</div><button class="iv-edit-btn" id="ivEditBtn" onclick="ivEditCurrent()" style="display:none" aria-label="Edit group"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.7 3.3a2.4 2.4 0 0 1 3.4 3.4L8.5 18.3l-4.5 1.2 1.2-4.5z"/></svg></button></div>
 
         <!-- VIEW: your groups -->
