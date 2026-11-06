@@ -3690,8 +3690,8 @@
           ? '<div class="vx-done-note">✓ Completed on '+v.date+'</div>'
           : '<button class="vx-act'+(v.reminder?' on':'')+'" onclick="hmVaxRemOpen('+i+')">'+VX_BELL+'<span>'+(v.reminder?'Edit reminder':'Set reminder')+'</span></button>');
     }
-    var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.2v4a4 4 0 0 0 8 0v-4"/><path d="M6 3.2H4.8M14 3.2h1.2"/><path d="M10 15.6V17a3.8 3.8 0 0 0 7.6 0v-1.4"/><circle fill="currentColor" fill-opacity=".2" cx="19.4" cy="13.2" r="2.5"/></svg>';
-    var VPILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".2" x="4" y="9" width="16" height="6" rx="3"/><path d="M12 9v6"/></g></svg>';
+    var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v4a4 4 0 0 0 8 0V3"/><path d="M5 3H3.8M13 3h1.2"/><path d="M9 11v3.2a5.4 5.4 0 0 0 5.4 5.4 3.8 3.8 0 0 0 3.8-3.8v-1.8"/><circle fill="currentColor" fill-opacity=".18" cx="18.2" cy="12" r="2.3"/></svg>';
+    var VPILL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.3V4a2.4 2.4 0 0 0-4.8 0v10.3a4.2 4.2 0 1 0 4.8 0Z"/><path d="M11.6 8.6v6.2"/><circle fill="currentColor" fill-opacity=".2" stroke="none" cx="11.6" cy="16.9" r="2"/><path d="M14 7.3h1.9M14 10.6h1.9"/></svg>';
     function renderHmVisits(){
       var t=document.getElementById('hmdTot'); if(t) t.textContent=HM_VISITS.length;
       var la=document.getElementById('hmdLast'); if(la && HM_VISITS[0]) la.textContent=HM_VISITS[0].date;
