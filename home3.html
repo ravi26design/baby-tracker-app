@@ -1913,7 +1913,7 @@
           <div class="iv-pdiv"></div>
           <div class="iv-prow">
             <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5H9l1.2 3.2-1.6 1.2a11 11 0 0 0 5.4 5.4l1.2-1.6L18.5 15v2.4a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span>
-            <input class="iv-in" id="ivPPhone" placeholder="Phone" inputmode="tel" autocomplete="off" onkeydown="if(event.key==='Enter')inviteAddMember()">
+            <input class="iv-in" id="ivPPhone" placeholder="Phone (10 digits)" inputmode="numeric" maxlength="10" autocomplete="off" oninput="ivPhoneFmt(this)" onkeydown="if(event.key==='Enter')inviteAddMember()">
           </div>
           <div class="iv-pdiv"></div>
           <button class="iv-addbtn" onclick="inviteAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add person</span></button>
@@ -2603,10 +2603,12 @@
           +'<button class="iv-mx" onclick="inviteRemoveMember('+i+')" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
       }).join('')+'</div>';
     }
+    function ivPhoneFmt(el){ el.value=(el.value||'').replace(/\D/g,'').slice(0,10); }
     function inviteAddMember(){
       var ni=document.getElementById('ivPName'), pi=document.getElementById('ivPPhone');
-      var name=(ni.value||'').trim(), phone=(pi.value||'').trim();
+      var name=(ni.value||'').trim(), phone=(pi.value||'').replace(/\D/g,'');
       if(!name){ hToast('Enter a name'); ni.focus(); return; }
+      if(phone.length!==10){ hToast('Enter a 10-digit phone number'); pi.focus(); return; }
       INVITE_MEMBERS.push({name:name, phone:phone});
       ni.value=''; pi.value=''; renderInviteMembers(); ni.focus();
     }
