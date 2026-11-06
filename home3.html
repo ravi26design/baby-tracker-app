@@ -1936,7 +1936,7 @@
       .iv-featchip-ic svg{width:15px;height:15px;color:var(--c,#6a5fb0);}
       /* group detail */
       .iv-dhero{text-align:center;padding:4px 0 2px;margin-top:4px;}
-      .iv-dhero-av{display:inline-flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:22px;background:color-mix(in srgb,#8574b5 13%,#fff);font-size:35px;margin-bottom:11px;}
+      .iv-dhero-av{display:inline-flex;align-items:center;justify-content:center;width:74px;height:74px;border-radius:23px;background:linear-gradient(155deg,color-mix(in srgb,#8574b5 18%,#fff),color-mix(in srgb,#8574b5 7%,#fff));box-shadow:0 14px 28px -15px rgba(90,60,120,.55),inset 0 0 0 1px rgba(139,116,181,.14);font-size:36px;margin-bottom:12px;}
       .iv-dhero-n{font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
       .iv-dhero-s{font-size:12.5px;font-weight:600;color:#9a90ab;margin-top:4px;}
     </style>
@@ -2006,6 +2006,19 @@
           <div class="iv-dhero"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div></div>
           <div class="iv-sec-l" style="margin-top:18px">Members</div>
           <div id="ivDMembers"></div>
+          <div class="iv-pcard" style="margin-top:10px">
+            <div class="iv-prow">
+              <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg></span>
+              <input class="iv-in" id="ivDAddName" placeholder="Name" autocomplete="off">
+            </div>
+            <div class="iv-pdiv"></div>
+            <div class="iv-prow">
+              <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5H9l1.2 3.2-1.6 1.2a11 11 0 0 0 5.4 5.4l1.2-1.6L18.5 15v2.4a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span>
+              <input class="iv-in" id="ivDAddPhone" placeholder="Phone (10 digits)" inputmode="numeric" maxlength="10" autocomplete="off" oninput="ivPhoneFmt(this)" onkeydown="if(event.key==='Enter')ivDetailAddMember()">
+            </div>
+            <div class="iv-pdiv"></div>
+            <button class="iv-addbtn" onclick="ivDetailAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add member</span></button>
+          </div>
           <div class="iv-sec-l" style="margin-top:20px">Shared access</div>
           <div id="ivDFeatures"></div>
         </div>
@@ -2765,6 +2778,16 @@
       var fe=document.getElementById('ivDFeatures');
       if(fe){ var fs=g.features||[]; fe.innerHTML='<div class="iv-featchips">'+(fs.length?fs.map(function(k){ var f=null; for(var j=0;j<IV_FEATURES.length;j++){ if(IV_FEATURES[j].k===k){ f=IV_FEATURES[j]; break; } } return f?'<span class="iv-featchip" style="--c:'+f.c+'"><span class="iv-featchip-ic">'+f.ic+'</span>'+f.t+'</span>':'<span class="iv-featchip">'+k+'</span>'; }).join(''):'<span class="iv-feat-s">No features shared yet</span>')+'</div>'; }
       ivShowView('detail');
+    }
+    function ivDetailAddMember(){ var g=INVITE_GROUPS[IV_DETAIL_IDX]; if(!g) return;
+      var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone');
+      var name=(ni.value||'').trim(), phone=(pi.value||'').replace(/\D/g,'');
+      if(!name){ hToast('Enter a name'); ni.focus(); return; }
+      if(phone.length!==10){ hToast('Enter a 10-digit phone number'); pi.focus(); return; }
+      g.members.push({name:name, phone:phone});
+      ni.value=''; pi.value='';
+      openGroupDetail(IV_DETAIL_IDX); renderInviteGroups(); ni.focus();
+      hToast(name+' added');
     }
     function ivRowOpen(i){ IV_MENU_IDX=i; var g=INVITE_GROUPS[i]; if(!g) return; var h=document.getElementById('ivRowHead'); if(h) h.innerHTML='<span class="iv-grow-av" style="width:40px;height:40px;font-size:21px">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+g.members.length+' member'+(g.members.length>1?'s':'')+'</span></span>'; document.getElementById('ivRowLayer').classList.add('open'); }
     function ivRowClose(){ var l=document.getElementById('ivRowLayer'); if(l) l.classList.remove('open'); }
