@@ -1553,6 +1553,10 @@
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.1"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17.5" cy="9" r="2.3"/><path d="M16 14.4c2.2.2 4 1.8 4 4.1"/></svg></span>
           <span>My Children</span>
         </button>
+        <button class="pf-item" onclick="openInvite()">
+          <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg></span>
+          <span>Invite Friends</span>
+        </button>
         <button class="pf-item" onclick="openHelp()">
           <span class="pf-ic" style="background:#efe9f7;color:#7a68ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M9.2 9.5a2.8 2.8 0 0 1 5.4.9c0 1.9-2.8 2.8-2.8 2.8M12 16.5h.01"/></svg></span>
           <span>Help &amp; Support</span>
@@ -1827,6 +1831,82 @@
             <button class="ch-del-del" onclick="chDelConfirm()">Remove</button>
             <button class="ch-del-cancel" onclick="chDelClose()">Keep</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invite Friends -->
+    <style>
+      .iv-sub{font-size:13px;color:var(--muted);font-weight:600;margin:-6px 0 18px;line-height:1.5;}
+      .iv-sec-l{font-size:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#a99fbe;margin:4px 2px 10px;}
+      .iv-grouprow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:11px 13px;}
+      .iv-gav{width:52px;height:52px;border-radius:15px;flex:0 0 auto;background:linear-gradient(150deg,#b0a2d8,#8f78c4);display:flex;align-items:center;justify-content:center;font-size:25px;cursor:pointer;transition:transform .1s;}
+      .iv-gav:active{transform:scale(.94);}
+      .iv-gin{flex:1;min-width:0;border:none;background:none;outline:none;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);padding:6px 0;}
+      .iv-gin::placeholder{color:#b3a6cc;font-weight:600;}
+      .iv-emojis{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+      .iv-emoji{width:40px;height:40px;border-radius:12px;border:1.5px solid #ece6f4;background:#faf8fd;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s,box-shadow .15s;}
+      .iv-emoji.on{box-shadow:inset 0 0 0 2px #9b8bc4;background:#f1eafc;}
+      .iv-emoji:active{transform:scale(.9);}
+      .iv-addrow{display:flex;gap:8px;margin-top:4px;}
+      .iv-addrow .iv-in{flex:1;min-width:0;}
+      .iv-in{border:1.5px solid #ece6f4;background:#faf8fd;border-radius:13px;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 13px;outline:none;transition:border-color .15s;}
+      .iv-in:focus{border-color:#b7a7df;}
+      .iv-in::placeholder{color:#b3a6cc;font-weight:600;}
+      .iv-addbtn{flex:0 0 auto;width:48px;border:none;border-radius:13px;background:linear-gradient(155deg,#b0a2d8,#8f78c4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .1s;}
+      .iv-addbtn:active{transform:scale(.94);}
+      .iv-addbtn svg{width:20px;height:20px;}
+      .iv-mlist{display:flex;flex-direction:column;gap:9px;margin-top:14px;}
+      .iv-mrow{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #efeaf5;border-radius:15px;padding:9px 11px;}
+      .iv-mav{width:40px;height:40px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;}
+      .iv-mmain{flex:1;min-width:0;display:flex;flex-direction:column;}
+      .iv-mn{font-size:14.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .iv-mp{font-size:12px;color:var(--muted);font-weight:600;margin-top:1px;}
+      .iv-mx{flex:0 0 auto;width:28px;height:28px;border-radius:9px;border:none;background:none;color:#c0b6d2;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+      .iv-mx:active{background:#f3eef9;}
+      .iv-mx svg{width:16px;height:16px;}
+      .iv-empty{font-size:13px;color:#a99fbe;font-weight:600;text-align:center;padding:16px;background:#faf8fd;border-radius:14px;border:1.5px dashed #e2d9f0;margin-top:12px;}
+      .iv-link{display:flex;align-items:center;gap:11px;background:#f6f2fb;border-radius:15px;padding:12px 13px;margin-top:4px;}
+      .iv-link-ic{width:38px;height:38px;border-radius:11px;flex:0 0 auto;background:#ece4fb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;}
+      .iv-link-ic svg{width:19px;height:19px;}
+      .iv-link-tx{flex:1;min-width:0;display:flex;flex-direction:column;}
+      .iv-link-t{font-size:13px;font-weight:700;color:var(--ink);}
+      .iv-link-u{font-size:11.5px;color:#7a5fd0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .iv-copy{flex:0 0 auto;border:none;background:#fff;color:#7a5fd0;font-family:inherit;font-size:12px;font-weight:800;padding:8px 13px;border-radius:11px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.2);}
+      .iv-copy:active{transform:scale(.96);}
+      .iv-cta{position:sticky;bottom:0;background:linear-gradient(to top,var(--card-bg,#faf9fe) 72%,transparent);padding:14px 0 6px;margin-top:22px;}
+      .iv-create{width:100%;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:15px;cursor:pointer;box-shadow:0 14px 26px -10px rgba(140,116,181,.7);display:flex;align-items:center;justify-content:center;gap:9px;}
+      .iv-create:active{transform:scale(.99);}
+      .iv-create svg{width:19px;height:19px;}
+    </style>
+    <div class="pf-sheet-layer ss-layer" id="inviteSheet">
+      <div class="pf-sheet-bd" onclick="closeInvite()"></div>
+      <div class="pf-sheet">
+        <div class="grabber-x"><span></span></div>
+        <div class="ss-head"><button class="ss-back" onclick="closeInvite()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Invite Friends</div></div>
+        <div class="iv-sub">Create a group and invite family &amp; friends to follow along with your little one.</div>
+
+        <div class="iv-sec-l">Group</div>
+        <div class="iv-grouprow"><span class="iv-gav" id="ivGav">👨‍👩‍👧</span><input class="iv-gin" id="ivGroupName" placeholder="Group name (e.g. Mark's Village)" autocomplete="off" maxlength="40"></div>
+        <div class="iv-emojis" id="ivEmojis"></div>
+
+        <div class="iv-sec-l" style="margin-top:22px">Invite people</div>
+        <div class="iv-addrow">
+          <input class="iv-in" id="ivPName" placeholder="Name" autocomplete="off">
+          <input class="iv-in" id="ivPPhone" placeholder="Phone" inputmode="tel" autocomplete="off" style="max-width:120px" onkeydown="if(event.key==='Enter')inviteAddMember()">
+          <button class="iv-addbtn" onclick="inviteAddMember()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+        <div id="ivMembers"></div>
+
+        <div class="iv-sec-l" style="margin-top:22px">Or share an invite link</div>
+        <div class="iv-link">
+          <span class="iv-link-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span>
+          <span class="iv-link-tx"><span class="iv-link-t">Invite link</span><span class="iv-link-u" id="ivLinkU">cucu.app/join/mark-village</span></span>
+          <button class="iv-copy" onclick="inviteCopyLink()">Copy</button>
+        </div>
+
+        <div class="iv-cta">
+          <button class="iv-create" onclick="inviteCreate()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg><span id="ivCreateTx">Create group &amp; invite</span></button>
         </div>
       </div>
     </div>
@@ -2479,6 +2559,52 @@
     function chGender(key){ var c=CHILDREN[key]||{}; return ((c.breed||'').split('•')[0]||'').trim()||'—'; }
     function openChildren(){ closeProfileMenu(); renderChildrenList(); document.getElementById('childSheet').classList.add('open'); }
     function closeChildren(){ document.getElementById('childSheet').classList.remove('open'); chRowClose(); chDelClose(); }
+    /* ===== Invite Friends → create group & invite ===== */
+    var INVITE_MEMBERS=[], INVITE_EMOJI='👨‍👩‍👧';
+    var INVITE_EMOJI_OPTS=['👨‍👩‍👧','👵','👴','🧑‍🤝‍🧑','💛','🏡','🍼','🌟'];
+    var INVITE_COL=['#8574b5','#e0567a','#3f8fd0','#36a06a','#ef8a3a','#1fb0a4','#b05fd6','#c2881f'];
+    function openInvite(){
+      closeProfileMenu();
+      INVITE_MEMBERS=[]; INVITE_EMOJI='👨‍👩‍👧';
+      var gn=document.getElementById('ivGroupName'); if(gn) gn.value='';
+      document.getElementById('ivGav').textContent=INVITE_EMOJI;
+      renderInviteEmojis(); renderInviteMembers();
+      document.getElementById('inviteSheet').classList.add('open');
+    }
+    function closeInvite(){ document.getElementById('inviteSheet').classList.remove('open'); }
+    function renderInviteEmojis(){
+      var el=document.getElementById('ivEmojis'); if(!el) return;
+      el.innerHTML=INVITE_EMOJI_OPTS.map(function(e){ return '<button class="iv-emoji'+(e===INVITE_EMOJI?' on':'')+'" onclick="invitePickEmoji(\''+e+'\')">'+e+'</button>'; }).join('');
+    }
+    function invitePickEmoji(e){ INVITE_EMOJI=e; document.getElementById('ivGav').textContent=e; renderInviteEmojis(); }
+    function inviteInitials(n){ var p=(n||'').trim().split(/\s+/); return ((p[0]||'')[0]||'?').toUpperCase()+((p[1]||'')[0]||'').toUpperCase(); }
+    function renderInviteMembers(){
+      var el=document.getElementById('ivMembers'); if(!el) return;
+      if(!INVITE_MEMBERS.length){ el.innerHTML='<div class="iv-empty">No one added yet — add people above, or share the link below.</div>'; return; }
+      el.innerHTML='<div class="iv-mlist">'+INVITE_MEMBERS.map(function(m,i){
+        var col=INVITE_COL[i%INVITE_COL.length];
+        return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span>'
+          +'<span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span>'
+          +'<button class="iv-mx" onclick="inviteRemoveMember('+i+')" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
+      }).join('')+'</div>';
+    }
+    function inviteAddMember(){
+      var ni=document.getElementById('ivPName'), pi=document.getElementById('ivPPhone');
+      var name=(ni.value||'').trim(), phone=(pi.value||'').trim();
+      if(!name){ hToast('Enter a name'); ni.focus(); return; }
+      INVITE_MEMBERS.push({name:name, phone:phone});
+      ni.value=''; pi.value=''; renderInviteMembers(); ni.focus();
+    }
+    function inviteRemoveMember(i){ INVITE_MEMBERS.splice(i,1); renderInviteMembers(); }
+    function inviteCopyLink(){ var u=document.getElementById('ivLinkU').textContent; try{ navigator.clipboard.writeText('https://'+u); }catch(e){} hToast('Invite link copied ✓'); }
+    function inviteCreate(){
+      var name=(document.getElementById('ivGroupName').value||'').trim();
+      if(!name){ hToast('Name your group first'); document.getElementById('ivGroupName').focus(); return; }
+      if(!INVITE_MEMBERS.length){ hToast('Add at least one person to invite'); return; }
+      var n=INVITE_MEMBERS.length;
+      closeInvite();
+      hToast(INVITE_EMOJI+' '+name+' created · '+n+' invite'+(n>1?'s':'')+' sent 🎉');
+    }
     function renderChildrenList(){
       var keys=Object.keys(CHILDREN);
       var sub=document.getElementById('chSub'); if(sub) sub.textContent=keys.length+(keys.length===1?' child':' children')+' on this account';
