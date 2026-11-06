@@ -1858,7 +1858,10 @@
       .iv-emoji.on{box-shadow:inset 0 0 0 2px #9b8bc4;background:#f1eafc;transform:scale(1.04);}
       .iv-emoji:active{transform:scale(.9);}
       .iv-pcard{background:#fff;border:1px solid #efeaf5;border-radius:20px;padding:2px 15px;margin-top:4px;box-shadow:0 10px 24px -16px rgba(90,60,120,.4);}
-      .iv-in{width:100%;border:none;background:none;border-radius:0;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);padding:15px 0;outline:none;}
+      .iv-prow{display:flex;align-items:center;gap:12px;}
+      .iv-pic{flex:0 0 auto;width:20px;height:20px;color:#a99cc6;}
+      .iv-pic svg{width:20px;height:20px;display:block;}
+      .iv-in{flex:1;min-width:0;width:100%;border:none;background:none;border-radius:0;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);padding:15px 0;outline:none;}
       .iv-in::placeholder{color:#b4adc0;font-weight:500;}
       .iv-pdiv{height:1px;background:#f2eef8;margin:0 -15px;}
       .iv-addbtn{width:100%;border:none;background:none;box-shadow:none;color:#7a5fd0;display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 0;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer;transition:opacity .12s;}
@@ -1903,9 +1906,15 @@
 
         <div class="iv-sec-l" style="margin-top:22px">Invite people</div>
         <div class="iv-pcard">
-          <input class="iv-in" id="ivPName" placeholder="Name" autocomplete="off">
+          <div class="iv-prow">
+            <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg></span>
+            <input class="iv-in" id="ivPName" placeholder="Name" autocomplete="off">
+          </div>
           <div class="iv-pdiv"></div>
-          <input class="iv-in" id="ivPPhone" placeholder="Phone" inputmode="tel" autocomplete="off" onkeydown="if(event.key==='Enter')inviteAddMember()">
+          <div class="iv-prow">
+            <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5H9l1.2 3.2-1.6 1.2a11 11 0 0 0 5.4 5.4l1.2-1.6L18.5 15v2.4a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span>
+            <input class="iv-in" id="ivPPhone" placeholder="Phone" inputmode="tel" autocomplete="off" onkeydown="if(event.key==='Enter')inviteAddMember()">
+          </div>
           <div class="iv-pdiv"></div>
           <button class="iv-addbtn" onclick="inviteAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add person</span></button>
         </div>
@@ -2567,7 +2576,7 @@
     function closeChildren(){ document.getElementById('childSheet').classList.remove('open'); chRowClose(); chDelClose(); }
     /* ===== Invite Friends → create group & invite ===== */
     var INVITE_MEMBERS=[], INVITE_EMOJI='👶';
-    var INVITE_EMOJI_OPTS=['👶','💛','🏡','🍼','🌟','🧸','🌈','🐻'];
+    var INVITE_EMOJI_OPTS=['👶','👪','❤️','🏡','🍼','🧸','⭐','🌈'];
     var INVITE_COL=['#8574b5','#e0567a','#3f8fd0','#36a06a','#ef8a3a','#1fb0a4','#b05fd6','#c2881f'];
     function openInvite(){
       closeProfileMenu();
