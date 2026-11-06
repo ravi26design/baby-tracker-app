@@ -771,16 +771,36 @@
   .attach-sheet.open{visibility:visible;pointer-events:auto;}
   .attach-bd{position:absolute;inset:0;background:rgba(35,22,12,.4);opacity:0;transition:opacity .25s;}
   .attach-sheet.open .attach-bd{opacity:1;}
-  .attach-panel{position:absolute;left:10px;right:10px;bottom:10px;background:var(--card-bg);border-radius:26px;padding:8px 10px 12px;transform:translateY(135%);transition:transform .34s cubic-bezier(.32,.72,0,1);box-shadow:0 -12px 46px -14px rgba(60,40,70,.38);}
+  .attach-panel{position:absolute;left:0;right:0;bottom:0;background:var(--card-bg);border-radius:28px 28px 0 0;padding:10px 20px 24px;transform:translateY(116%);transition:transform .4s cubic-bezier(.32,.72,0,1);box-shadow:0 -18px 50px -14px rgba(60,40,70,.4);}
   .attach-sheet.open .attach-panel{transform:none;}
-  .attach-grab{padding:4px 0 8px;} .attach-grab span{display:block;width:40px;height:5px;border-radius:3px;background:#e9e3ee;margin:0 auto;}
-  .attach-title{font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbe;padding:2px 12px 8px;}
-  .attach-opt{display:flex;align-items:center;gap:14px;width:100%;border:none;background:none;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--ink);padding:10px;border-radius:16px;cursor:pointer;text-align:left;}
+  .attach-grab{padding:2px 0 12px;} .attach-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e7ddee;margin:0 auto;}
+  .attach-title{font-size:11.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbe;padding:2px 4px 8px;}
+  .attach-opt{display:flex;align-items:center;gap:14px;width:100%;border:none;background:none;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--ink);padding:10px 6px;border-radius:16px;cursor:pointer;text-align:left;}
   .attach-opt:active{background:#f1ecf8;}
   .ao-ic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ac,#8574b5) 15%,#fff);color:var(--ac,#8574b5);}
   .ao-ic svg{width:22px;height:22px;}
-  .attach-cancel{width:100%;border:none;background:#f3eef9;color:#6f6880;font-family:inherit;font-size:15px;font-weight:800;padding:13px;border-radius:16px;cursor:pointer;margin-top:6px;}
+  .attach-cancel{width:100%;border:none;background:#f3eef9;color:#6f6880;font-family:inherit;font-size:15px;font-weight:800;padding:13px;border-radius:16px;cursor:pointer;margin-top:10px;}
   .attach-cancel:active{background:#ece7f2;}
+  .sp-head{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink);padding:2px 4px 0;}
+  .sp-sub{font-size:12.5px;color:#8a8296;font-weight:500;padding:6px 4px 14px;}
+  .sp-row{display:flex;align-items:center;gap:13px;width:100%;border:none;background:#f7f4fb;font-family:inherit;padding:12px;border-radius:16px;cursor:pointer;text-align:left;margin-bottom:9px;box-shadow:inset 0 0 0 1.5px rgba(139,116,181,.12);transition:box-shadow .15s,background .15s;}
+  .sp-row.on{background:#f1eafc;box-shadow:inset 0 0 0 1.8px #b7a7df;}
+  .sp-ic{width:38px;height:38px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--sc,#8574b5) 15%,#fff);color:var(--sc,#8574b5);}
+  .sp-ic svg{width:20px;height:20px;}
+  .sp-l{flex:1;min-width:0;font-size:14.5px;font-weight:700;color:var(--ink);}
+  .sp-box{width:23px;height:23px;border-radius:7px;flex-shrink:0;background:#fff;box-shadow:inset 0 0 0 2px #d8cced;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s,box-shadow .15s;}
+  .sp-row.on .sp-box{background:#8574b5;box-shadow:inset 0 0 0 2px #8574b5;}
+  .sp-box svg{width:13px;height:13px;opacity:0;transition:opacity .15s;}
+  .sp-row.on .sp-box svg{opacity:1;}
+  .sp-share{width:100%;border:none;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:14px;border-radius:16px;cursor:pointer;margin-top:6px;box-shadow:0 12px 24px -10px rgba(140,116,181,.7);}
+  .sp-share:active{transform:scale(.99);}
+  .att-profile{min-width:200px;}
+  .ap-top{display:flex;align-items:center;gap:10px;}
+  .ap-ic{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#e9f6ef;font-size:20px;}
+  .ap-top b{font-size:13.5px;font-weight:800;display:block;}
+  .ap-top small{font-size:11px;color:#8a8296;font-weight:600;}
+  .ap-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;}
+  .ap-tag{font-size:10.5px;font-weight:700;color:#5b4a7d;background:#efeaf7;padding:3px 9px;border-radius:20px;}
   /* attachment bubbles */
   .msg.me .bub.att{padding:5px 5px 4px;}
   .att-img{width:192px;height:150px;border-radius:11px;background-size:cover;background-position:center;}
@@ -1429,11 +1449,23 @@
           <div class="attach-panel">
             <div class="attach-grab"><span></span></div>
             <div class="attach-title">Add to chat</div>
-            <button class="attach-opt" onclick="pickAttach('photo')"><span class="ao-ic" style="--ac:#6aa6e0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m21 16-5-5-9 8"/></svg></span><span class="ao-l">Photo &amp; Video</span></button>
             <button class="attach-opt" onclick="pickAttach('camera')"><span class="ao-ic" style="--ac:#ef8a3a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2a1 1 0 0 1 .8-.4h5.2a1 1 0 0 1 .8.4L17 8h3a1 1 0 0 1 1 1v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg></span><span class="ao-l">Camera</span></button>
-            <button class="attach-opt" onclick="pickAttach('document')"><span class="ao-ic" style="--ac:#9b5fd6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M13 3v5h5"/><path d="M8 13h8M8 16.5h5"/></svg></span><span class="ao-l">Document</span></button>
-            <button class="attach-opt" onclick="pickAttach('report')"><span class="ao-ic" style="--ac:#36a06a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V5a2 2 0 0 1 2-2h9l5 5v12a0 0 0 0 1 0 0H4z"/><path d="M7.5 15.5l2.5-3 2.5 2.5 3-4.5"/></svg></span><span class="ao-l">Baby’s report</span></button>
+            <button class="attach-opt" onclick="pickAttach('device')"><span class="ao-ic" style="--ac:#6aa6e0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 15.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5"/></svg></span><span class="ao-l">Upload from Device</span></button>
+            <button class="attach-opt" onclick="pickAttach('profile')"><span class="ao-ic" style="--ac:#36a06a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="ao-l">Share child profile</span></button>
             <button class="attach-cancel" onclick="closeAttach()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- share child profile sheet -->
+        <div class="attach-sheet" id="shareProfSheet">
+          <div class="attach-bd" onclick="closeShareProf()"></div>
+          <div class="attach-panel">
+            <div class="attach-grab"><span></span></div>
+            <div class="sp-head">Share child profile</div>
+            <div class="sp-sub">Choose what to include with the expert</div>
+            <div id="spList"></div>
+            <button class="sp-share" onclick="shareProfConfirm()">Share profile</button>
+            <button class="attach-cancel" onclick="closeShareProf()">Cancel</button>
           </div>
         </div>
 
@@ -2430,11 +2462,14 @@
     var ATT_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M13 3v5h5"/></svg>';
     function mineAtt(inner){ return '<div class="msg me"><div class="bub att">'+inner+'<div class="foot"><span class="tm">now</span>'+TK_S+'</div></div></div>'; }
     function pickAttach(type){
+      if(type==='profile'){ closeAttach(); openShareProf(); return; }
       closeAttach();
       var inner;
-      if(type==='photo'||type==='camera'){ inner='<div class="att-img" style="background-image:url(\''+ATT_PHOTO+'\')"></div>'; }
-      else { var name=type==='report'?'Baby_growth_report.pdf':'Document.pdf'; var size=type==='report'?'248 KB · PDF':'180 KB · PDF';
-        inner='<div class="att-file"><span class="af-ic">'+ATT_DOC+'</span><span class="af-tx"><b>'+name+'</b><small>'+size+'</small></span></div>'; }
+      if(type==='camera'||type==='device'){ inner='<div class="att-img" style="background-image:url(\''+ATT_PHOTO+'\')"></div>'; }
+      else { inner='<div class="att-file"><span class="af-ic">'+ATT_DOC+'</span><span class="af-tx"><b>Document.pdf</b><small>180 KB · PDF</small></span></div>'; }
+      postAttach(inner,'Thanks for sharing that 👍 I’ll take a look.');
+    }
+    function postAttach(inner,reply){
       var body=document.getElementById('chatBody'), sb=document.getElementById('seenBy');
       var wrap=document.createElement('div'); wrap.innerHTML=mineAtt(inner);
       var node=wrap.firstChild; body.insertBefore(node, sb);
@@ -2443,7 +2478,38 @@
       setTimeout(function(){ setTick(node,'read'); sb.textContent='Seen by +20 people'; sb.classList.add('show'); body.scrollTop=body.scrollHeight; },1900);
       var rep=curExpert||MEMBERS[1];
       setTimeout(function(){ showTyping(rep); },2500);
-      setTimeout(function(){ hideTyping(); addIncoming(rep,'Thanks for sharing that 👍 I’ll take a look.'); },4500);
+      setTimeout(function(){ hideTyping(); addIncoming(rep,reply); },4500);
+    }
+    /* ---- Share child profile ---- */
+    var SHARE_FEATURES=[
+      {k:'notes', l:'Health Notes',    c:'#1fb0a4', ic:'<path d="M13 15.3V5a1.5 1.5 0 0 0-3 0v10.3a3 3 0 1 0 3 0z"/><path d="M11.5 8.5v4"/>'},
+      {k:'visits',l:'Doctor Visits',   c:'#5a78d4', ic:'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 16.5a4.5 4.5 0 0 0 9 0V15"/><circle cx="19" cy="13" r="2"/>'},
+      {k:'docs',  l:'Documents',       c:'#9b5fd6', ic:'<path d="M6 3h8l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M13 3v5h5"/><path d="M8 13h8M8 16.5h5"/>'},
+      {k:'vax',   l:'Vaccinations',    c:'#ef8a3a', ic:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'},
+      {k:'growth',l:'Growth Overview', c:'#36a06a', ic:'<path d="M4 20V5a2 2 0 0 1 2-2h9l5 5v12H4z"/><path d="M7.5 15.5l2.5-3 2.5 2.5 3-4.5"/>'}
+    ];
+    var SHARE_SEL={};
+    function renderShareProf(){
+      var el=document.getElementById('spList'); if(!el) return;
+      el.innerHTML=SHARE_FEATURES.map(function(f){
+        var on=SHARE_SEL[f.k]!==false; // default all on
+        return '<button class="sp-row'+(on?' on':'')+'" onclick="toggleShareFeat(\''+f.k+'\')">'
+          +'<span class="sp-ic" style="--sc:'+f.c+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+f.ic+'</svg></span>'
+          +'<span class="sp-l">'+f.l+'</span>'
+          +'<span class="sp-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></span>'
+        +'</button>';
+      }).join('');
+    }
+    function toggleShareFeat(k){ SHARE_SEL[k]=(SHARE_SEL[k]===false); renderShareProf(); }
+    function openShareProf(){ SHARE_FEATURES.forEach(function(f){ SHARE_SEL[f.k]=true; }); renderShareProf(); document.getElementById('shareProfSheet').classList.add('open'); }
+    function closeShareProf(){ document.getElementById('shareProfSheet').classList.remove('open'); }
+    function shareProfConfirm(){
+      var chosen=SHARE_FEATURES.filter(function(f){ return SHARE_SEL[f.k]!==false; });
+      if(!chosen.length){ showToast('Pick at least one to share'); return; }
+      closeShareProf();
+      var tags=chosen.map(function(f){ return '<span class="ap-tag">'+f.l+'</span>'; }).join('');
+      var inner='<div class="att-profile"><div class="ap-top"><span class="ap-ic">👶</span><span><b>Child profile</b><small>Shared '+chosen.length+' section'+(chosen.length>1?'s':'')+'</small></span></div><div class="ap-tags">'+tags+'</div></div>';
+      postAttach(inner,'Got it — thanks for sharing the profile 💛 I’ll review these details and get back to you.');
     }
     function sendMsg(){
       var inp=document.getElementById('chatInput'), t=(inp.value||'').trim(); if(!t) return;
