@@ -930,7 +930,10 @@
   .hm-sec-add{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s;}
   .hm-sec-add:active{transform:scale(.92);}
   .hm-sec-add svg{width:16px;height:16px;}
-  .hm-sec-body{flex:1;min-height:0;overflow-y:auto;padding:0 16px 28px;}
+  .hm-sec-body{flex:1;min-height:0;overflow-y:auto;padding:0 16px 92px;}
+  .hm-sec-fab{position:absolute;right:18px;bottom:24px;z-index:6;width:56px;height:56px;border-radius:19px;border:none;cursor:pointer;background:linear-gradient(155deg,#b0a2d8,#8f78c4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 30px -10px rgba(133,116,181,.75);transition:transform .14s,box-shadow .2s;}
+  .hm-sec-fab:active{transform:scale(.93);}
+  .hm-sec-fab svg{width:25px;height:25px;}
   .hm-sec-body::-webkit-scrollbar{display:none;}
   .hm-sec-body .hm-ov{box-shadow:none;padding:0;background:transparent;}
   .hm-sec-body .hm-ov-top{display:none;}
@@ -2056,7 +2059,7 @@
               <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
             </div>
           </div>
-          <div class="hm-sec-head"><button class="hm-sec-back" onclick="hmCloseSec()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><span id="hmSecTitle">Vaccination</span><div class="hm-sectabs" id="hmSecTabs" style="display:none"><button class="hm-stab" data-k="records" onclick="hmTab('records')">Health Notes</button><button class="hm-stab" data-k="visits" onclick="hmTab('visits')">Doctor Visits</button><button class="hm-stab" data-k="documents" onclick="hmTab('documents')">Documents</button><button class="hm-stab" data-k="vac" onclick="hmTab('vac')">Vaccinations</button></div><div class="hm-sec-actions"><button class="hm-sec-add" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+          <div class="hm-sec-head"><button class="hm-sec-back" onclick="hmCloseSec()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><span id="hmSecTitle">Vaccination</span><div class="hm-sectabs" id="hmSecTabs" style="display:none"><button class="hm-stab" data-k="records" onclick="hmTab('records')">Health Notes</button><button class="hm-stab" data-k="visits" onclick="hmTab('visits')">Doctor Visits</button><button class="hm-stab" data-k="documents" onclick="hmTab('documents')">Documents</button><button class="hm-stab" data-k="vac" onclick="hmTab('vac')">Vaccinations</button></div></div>
           <div class="hm-sec-body">
 
           <!-- Vaccination tab -->
@@ -2145,6 +2148,7 @@
             </div>
           </div>
           </div>
+          <button class="hm-sec-fab" id="hmSecAdd" onclick="hmSecAdd()" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
         </div>
 
         <!-- Add forms (overlay the section sheet, pinned to frame bottom) -->
