@@ -96,6 +96,24 @@
   .auth-h{font-size:26px;font-weight:800;letter-spacing:-.4px;margin-top:30px;}
   .auth-sub{font-size:14.5px;color:#7d7770;font-weight:500;line-height:1.6;margin-top:14px;max-width:300px;}
   .auth-foot{padding:0 26px 30px;}
+  /* notification permission screen */
+  .np-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 30px;overflow-y:auto;}
+  .np-hero{position:relative;width:104px;height:104px;border-radius:32px;background:linear-gradient(150deg,var(--lav-1),var(--lav-2));display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 22px 44px -16px rgba(140,116,181,.7),inset 0 0 0 1px rgba(255,255,255,.35);animation:pop .6s cubic-bezier(.2,.9,.3,1.4) both;}
+  .np-hero svg{width:50px;height:50px;position:relative;z-index:2;}
+  .np-dot{position:absolute;top:25px;right:27px;width:16px;height:16px;border-radius:50%;background:#ff5468;box-shadow:0 0 0 3px #fff;z-index:3;}
+  .np-ring{position:absolute;inset:0;border-radius:32px;border:1.6px solid var(--lav-2);opacity:0;animation:npPulse 2.6s ease-out infinite;}
+  .np-ring.np-ring2{animation-delay:1.3s;}
+  @keyframes npPulse{0%{opacity:.5;transform:scale(1)}70%{opacity:0;transform:scale(1.5)}100%{opacity:0;transform:scale(1.5)}}
+  .np-h{font-size:25px;font-weight:800;letter-spacing:-.4px;margin-top:30px;}
+  .np-sub{font-size:14.5px;color:#7d7770;font-weight:500;line-height:1.6;margin-top:12px;max-width:300px;}
+  .np-list{width:100%;max-width:340px;margin-top:26px;display:flex;flex-direction:column;gap:11px;}
+  .np-item{display:flex;align-items:center;gap:14px;background:#fff;border-radius:18px;padding:13px 15px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);text-align:left;}
+  .np-ic{width:42px;height:42px;border-radius:13px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 15%,#fff);color:var(--c);}
+  .np-ic svg{width:22px;height:22px;}
+  .np-tx{flex:1;min-width:0;}
+  .np-t{font-size:14.5px;font-weight:800;color:var(--ink);}
+  .np-d{font-size:12px;color:#8a8296;font-weight:500;margin-top:2px;}
+  .np-foot{padding:0 26px 30px;}
   .gbtn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:800;color:#3a332e;
     background:#fff;padding:16px;border-radius:18px;box-shadow:0 16px 32px -14px rgba(60,40,70,.42),inset 0 0 0 1.5px rgba(0,0,0,.06);transition:transform .12s;}
   .gbtn:active{transform:scale(.985);}
@@ -289,6 +307,38 @@
           <div class="auth-fine">By continuing you agree to our <b>Terms</b> &amp; <b>Privacy Policy</b>.</div>
           <div class="link-row" id="authSwitch"></div>
           <button class="btn ghost" onclick="startIntro()">Back</button>
+        </div>
+      </div>
+
+      <!-- ============ NOTIFICATION PERMISSION (right after login) ============ -->
+      <div class="view" id="notifPerm">
+        <div class="statusbar" data-sb></div>
+        <div class="np-body">
+          <div class="np-hero">
+            <span class="np-ring"></span><span class="np-ring np-ring2"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 0 0-12 0c0 6.5-2.6 8.5-2.6 8.5h17.2S18 15 18 8.5"/><path d="M13.8 21a2 2 0 0 1-3.6 0"/></svg>
+            <span class="np-dot"></span>
+          </div>
+          <div class="np-h">Turn on notifications</div>
+          <div class="np-sub">We'll only nudge you about what matters for your little one. Never any spam.</div>
+          <div class="np-list">
+            <div class="np-item">
+              <span class="np-ic" style="--c:#2fa987"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9.5v3.5l2.4 1.4"/><path d="M5 3 2.2 5.8M22 5.8 19 3"/></svg></span>
+              <div class="np-tx"><div class="np-t">Vaccination reminders</div><div class="np-d">Never miss an upcoming shot</div></div>
+            </div>
+            <div class="np-item">
+              <span class="np-ic" style="--c:#e0a44e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.6 5.3 5.8.9-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.4 9.4l5.8-.9z"/></svg></span>
+              <div class="np-tx"><div class="np-t">Milestone moments</div><div class="np-d">Celebrate every new first</div></div>
+            </div>
+            <div class="np-item">
+              <span class="np-ic" style="--c:#7a5fd0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.3 8.3 0 0 1-12.4 7.2L3 20.5l1.8-5.4A8.3 8.3 0 1 1 21 11.5Z"/></svg></span>
+              <div class="np-tx"><div class="np-t">Messages from your circle</div><div class="np-d">Family &amp; experts, in one place</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="np-foot">
+          <button class="btn" onclick="allowNotif()">Allow notifications</button>
+          <button class="btn ghost" onclick="skipNotif()">Not now</button>
         </div>
       </div>
 
@@ -494,7 +544,9 @@
 
   /* auth — google only (sign up = sign in) */
   function openAuth(){ document.getElementById('authSwitch').innerHTML=''; show('auth'); }
-  function googleAuth(){ DATA.user='Priya'; goOnb(); } /* real app: name comes from the Google account */
+  function googleAuth(){ DATA.user='Priya'; show('notifPerm'); } /* real app: name comes from the Google account; ask for notifications right after login */
+  function allowNotif(){ /* real app: request the OS notification permission here */ goOnb(); }
+  function skipNotif(){ goOnb(); }
 
   /* onboarding */
   var step=0, SMAX=2, DATA={ava:'👶'};
