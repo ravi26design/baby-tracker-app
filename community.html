@@ -794,13 +794,15 @@
   .sp-row.on .sp-box svg{opacity:1;}
   .sp-share{width:100%;border:none;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:14px;border-radius:16px;cursor:pointer;margin-top:6px;box-shadow:0 12px 24px -10px rgba(140,116,181,.7);}
   .sp-share:active{transform:scale(.99);}
-  .att-profile{min-width:200px;}
-  .ap-top{display:flex;align-items:center;gap:10px;}
-  .ap-ic{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#e9f6ef;font-size:20px;}
-  .ap-top b{font-size:13.5px;font-weight:800;display:block;}
+  .att-profile{min-width:222px;max-width:258px;background:#fff;border-radius:15px;padding:12px 13px 13px;box-shadow:0 5px 16px -7px rgba(55,35,85,.3);}
+  .ap-top{display:flex;align-items:center;gap:11px;}
+  .ap-ic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#ede4fb,#d8ccf1);font-size:22px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);}
+  .ap-htx{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .ap-top b{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;line-height:1.1;}
   .ap-top small{font-size:11px;color:#8a8296;font-weight:600;}
-  .ap-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;}
-  .ap-tag{font-size:10.5px;font-weight:700;color:#5b4a7d;background:#efeaf7;padding:3px 9px;border-radius:20px;}
+  .ap-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px;padding-top:11px;border-top:1px solid #f1edf7;}
+  .ap-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:#4f4464;background:#f6f3fb;padding:4px 9px 4px 7px;border-radius:20px;}
+  .ap-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
   /* attachment bubbles */
   .msg.me .bub.att{padding:5px 5px 4px;}
   .att-img{width:192px;height:150px;border-radius:11px;background-size:cover;background-position:center;}
@@ -2507,8 +2509,11 @@
       var chosen=SHARE_FEATURES.filter(function(f){ return SHARE_SEL[f.k]!==false; });
       if(!chosen.length){ showToast('Pick at least one to share'); return; }
       closeShareProf();
-      var tags=chosen.map(function(f){ return '<span class="ap-tag">'+f.l+'</span>'; }).join('');
-      var inner='<div class="att-profile"><div class="ap-top"><span class="ap-ic">👶</span><span><b>Child profile</b><small>Shared '+chosen.length+' section'+(chosen.length>1?'s':'')+'</small></span></div><div class="ap-tags">'+tags+'</div></div>';
+      var tags=chosen.map(function(f){ return '<span class="ap-tag"><span class="ap-dot" style="background:'+f.c+'"></span>'+f.l+'</span>'; }).join('');
+      var inner='<div class="att-profile">'
+        +'<div class="ap-top"><span class="ap-ic">👶</span><span class="ap-htx"><b>Child profile</b><small>'+chosen.length+' section'+(chosen.length>1?'s':'')+' shared</small></span></div>'
+        +'<div class="ap-tags">'+tags+'</div>'
+      +'</div>';
       postAttach(inner,'Got it — thanks for sharing the profile 💛 I’ll review these details and get back to you.');
     }
     function sendMsg(){
