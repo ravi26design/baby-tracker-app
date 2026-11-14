@@ -1959,6 +1959,11 @@
       .iv-featrow+.iv-featrow{border-top:1px solid #f2eef8;}
       .iv-feat-ic{width:40px;height:40px;border-radius:13px;flex:0 0 auto;background:color-mix(in srgb,var(--c,#8574b5) 14%,#fff);color:var(--c,#8574b5);display:flex;align-items:center;justify-content:center;}
       .iv-feat-ic svg{width:22px;height:22px;}
+      .iv-featopt{cursor:pointer;}
+      .iv-featradio{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #d7cfe6;position:relative;transition:border-color .15s;}
+      .iv-featopt.on .iv-featradio{border-color:#8574b5;}
+      .iv-featopt.on .iv-featradio::after{content:'';position:absolute;inset:4px;border-radius:50%;background:#8574b5;}
+      .iv-featopt.on .iv-feat-t{color:#6a5fb0;}
       .iv-feat-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
       .iv-feat-t{font-size:14.5px;font-weight:700;color:var(--ink);}
       .iv-feat-s{font-size:11.5px;font-weight:500;color:#9a90ab;}
@@ -1979,6 +1984,8 @@
       .iv-addsheet-btn svg{width:19px;height:19px;}
       /* create / edit group bottom sheet */
       #ivCreateSheet .mca-sheet{left:0;right:0;bottom:0;max-height:92%;border-radius:28px 28px 0 0;padding:6px 0 0;background:var(--card-bg,#faf9fe);display:flex;flex-direction:column;}
+      .ivcs-note{display:flex;align-items:flex-start;gap:9px;margin-top:16px;padding:12px 13px;border-radius:14px;background:color-mix(in srgb,#8574b5 7%,#fff);color:#6b6478;font-size:12px;font-weight:600;line-height:1.5;}
+      .ivcs-note svg{width:17px;height:17px;flex:0 0 auto;color:#8574b5;margin-top:1px;}
       .ivcs-head{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:4px 20px 12px;}
       .ivcs-title{font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
       .ivcs-x{width:32px;height:32px;border-radius:50%;border:none;background:#efeaf5;color:#8574b5;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;transition:transform .1s;}
@@ -1992,6 +1999,21 @@
       .iv-dav-mini{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;border:2.5px solid var(--card-bg,#faf9fe);margin-left:-8px;box-shadow:0 2px 6px -3px rgba(60,40,80,.4);}
       .iv-dav-mini:first-child{margin-left:0;}
       .iv-dav-more{background:#ded3ef!important;color:#6a5fb0;}
+      /* invite link + code */
+      .iv-invcard{background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:4px 15px;}
+      .iv-invcode-row{display:flex;align-items:center;gap:12px;padding:13px 0;}
+      .iv-invcode-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+      .iv-inv-lbl{font-size:11px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:#a99fbb;}
+      .iv-inv-code{font-size:19px;font-weight:800;letter-spacing:2px;color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+      .iv-inv-copy{flex:0 0 auto;border:none;background:color-mix(in srgb,#8574b5 12%,#fff);color:#7a5fd0;font-family:inherit;font-size:13px;font-weight:800;padding:9px 16px;border-radius:12px;cursor:pointer;transition:transform .1s;}
+      .iv-inv-copy:active{transform:scale(.96);}
+      .iv-invlink-row{display:flex;align-items:center;gap:10px;padding:12px 0;}
+      .iv-inv-linkic{width:30px;height:30px;border-radius:9px;flex:0 0 auto;background:#ece4fb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;}
+      .iv-inv-linkic svg{width:16px;height:16px;}
+      .iv-inv-link{flex:1;min-width:0;font-size:13px;font-weight:600;color:#7a5fd0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .iv-inv-share{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:11px;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:14px;cursor:pointer;transition:transform .1s;}
+      .iv-inv-share:active{transform:scale(.99);}
+      .iv-inv-share svg{width:18px;height:18px;}
       .iv-dhero-av{display:inline-flex;align-items:center;justify-content:center;width:74px;height:74px;border-radius:23px;background:linear-gradient(155deg,color-mix(in srgb,#8574b5 18%,#fff),color-mix(in srgb,#8574b5 7%,#fff));box-shadow:0 14px 28px -15px rgba(90,60,120,.55),inset 0 0 0 1px rgba(139,116,181,.14);font-size:36px;margin-bottom:12px;}
       .iv-dhero-n{font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
       .iv-dhero-s{font-size:12.5px;font-weight:600;color:#9a90ab;margin-top:4px;}
@@ -2023,7 +2045,17 @@
         <!-- VIEW: group detail -->
         <div id="ivView-detail" style="display:none">
           <div class="iv-dhero"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div><div class="iv-dhero-avs" id="ivDAvatars"></div></div>
-          <div class="iv-dmhead"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+          <div class="iv-sec-l" style="margin-top:16px">Invite link</div>
+          <div class="iv-invcard">
+            <div class="iv-invcode-row">
+              <div class="iv-invcode-tx"><span class="iv-inv-lbl">Join code</span><span class="iv-inv-code" id="ivDCode">—</span></div>
+              <button class="iv-inv-copy" onclick="ivCopyCode()">Copy</button>
+            </div>
+            <div class="iv-pdiv"></div>
+            <div class="iv-invlink-row"><span class="iv-inv-linkic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="iv-inv-link" id="ivDLink">—</span></div>
+          </div>
+          <button class="iv-inv-share" onclick="ivShareLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share invite</span></button>
+          <div class="iv-dmhead" style="margin-top:22px"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="ivDMembers"></div>
           <div class="iv-sec-l" style="margin-top:20px">Shared access</div>
           <div id="ivDFeatures"></div>
@@ -2055,31 +2087,13 @@
               <div class="iv-emojis" id="ivEmojis"></div>
             </div>
 
-            <div class="iv-sec-l" style="margin-top:22px">Invite people</div>
-            <div class="iv-pcard">
-              <div class="iv-prow">
-                <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg></span>
-                <input class="iv-in" id="ivPName" placeholder="Name" autocomplete="off">
-              </div>
-              <div class="iv-pdiv"></div>
-              <div class="iv-prow">
-                <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5H9l1.2 3.2-1.6 1.2a11 11 0 0 0 5.4 5.4l1.2-1.6L18.5 15v2.4a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span>
-                <input class="iv-in" id="ivPPhone" placeholder="Phone (10 digits)" inputmode="numeric" maxlength="10" autocomplete="off" oninput="ivPhoneFmt(this)" onkeydown="if(event.key==='Enter')inviteAddMember()">
-              </div>
-              <div class="iv-pdiv"></div>
-              <button class="iv-addbtn" onclick="inviteAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add person</span></button>
-            </div>
-            <div id="ivMembers"></div>
-
             <div class="iv-sec-l" style="margin-top:22px">Feature access</div>
-            <button class="iv-featselect" onclick="ivFeatOpen()">
-              <span class="iv-featselect-ic">🔑</span>
-              <span class="iv-feat-tx"><span class="iv-feat-t">What they can see</span><span class="iv-feat-s" id="ivFeatSummary">All features</span></span>
-              <span class="iv-grow-ch">›</span>
-            </button>
+            <div class="iv-featsheet-s" style="margin:0 2px 11px">Choose what invited people can see. Everything else stays private.</div>
+            <div class="iv-featcard" id="ivFeatCard"></div>
+            <div class="ivcs-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg><span>You'll get a shareable link &amp; join code once the group is created.</span></div>
           </div>
           <div class="ivcs-foot">
-            <button class="iv-create" onclick="inviteCreate()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg><span id="ivCreateTx">Create group &amp; invite</span></button>
+            <button class="iv-create" onclick="inviteCreate()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg><span id="ivCreateTx">Create group</span></button>
           </div>
         </div>
       </div>
@@ -2101,26 +2115,6 @@
             </div>
           </div>
           <button class="iv-create iv-addsheet-btn" onclick="ivDetailAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add member</span></button>
-        </div>
-      </div>
-      <!-- feature access (full screen) -->
-      <div class="mca-layer" id="ivFeatSheet">
-        <div class="mca-sheet">
-          <div class="statusbar">
-            <span class="time">9:41</span>
-            <div class="notch"></div>
-            <div class="status-icons">
-              <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
-              <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.4 1.8l1.7 1.7c.7-.7 1.7-1.1 2.7-1.1s2 .4 2.7 1.1l1.7-1.7C11.7 6.9 10.2 6.2 8.5 6.2Zm0 4c-.6 0-1.2.3-1.6.7l1.6 1.6 1.6-1.6c-.4-.4-1-.7-1.6-.7Z"/></svg>
-              <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".4"/></svg>
-            </div>
-          </div>
-          <div class="ss-head"><button class="ss-back" onclick="ivFeatClose()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="ss-title">Feature access</div></div>
-          <div class="ivfs-body">
-            <div class="iv-featsheet-s">Choose what invited people can see. Everything else stays private.</div>
-            <div class="iv-featcard" id="ivFeatCard"></div>
-          </div>
-          <div class="ivfs-foot"><button class="iv-featdone" onclick="ivFeatClose()">Done</button></div>
         </div>
       </div>
       <!-- group delete confirm -->
@@ -2809,7 +2803,7 @@
     var INVITE_GROUPS=[
       {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), members:[{name:'Grandma Rao',phone:'9876500011'},{name:'Grandpa Rao',phone:'9876500012'},{name:'Aunt Priya',phone:'9876500013'},{name:'Sam · Nanny',phone:'9876500014'}]},
       {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), members:[{name:'Papa',phone:'9876500021'},{name:'Mama',phone:'9876500022'}]},
-      {name:'Playdate Parents', emoji:'🧸', features:['memories','milestones','growth'], members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
+      {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
     ];
     var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1, IV_DEL_MODE='group', IV_DEL_MEMBER_IDX=-1;
     function openInvite(){ closeProfileMenu(); IV_EDIT_IDX=-1; renderInviteGroups(); ivShowView('list'); document.getElementById('inviteSheet').classList.add('open'); }
@@ -2825,31 +2819,38 @@
     function renderInviteGroups(){ var el=document.getElementById('ivGroupList'); if(!el) return;
       if(!INVITE_GROUPS.length){ el.innerHTML='<div class="iv-empty"><span class="iv-empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg></span>No groups yet - create one below.</div>'; return; }
       el.innerHTML=INVITE_GROUPS.map(function(g,i){ var n=g.members.length;
-        return '<div class="iv-grow" onclick="openGroupDetail('+i+')"><span class="iv-grow-av">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+n+' member'+(n>1?'s':'')+'</span></span><button class="ch-more" onclick="event.stopPropagation();ivRowOpen('+i+')" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></svg></button></div>';
+        return '<div class="iv-grow" onclick="openGroupDetail('+i+')"><span class="iv-grow-av">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+n+' member'+(n!==1?'s':'')+'</span></span><button class="ch-more" onclick="event.stopPropagation();ivRowOpen('+i+')" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></svg></button></div>';
       }).join('');
     }
-    function ivShowCreate(){ IV_EDIT_IDX=-1; INVITE_MEMBERS=[]; INVITE_EMOJI='👶'; INVITE_FEATURES=IV_ALL_FEATURES.slice();
+    function ivShowCreate(){ IV_EDIT_IDX=-1; INVITE_MEMBERS=[]; INVITE_EMOJI='👶'; INVITE_FEATURES=IV_ALL_FEATURES.slice(); IV_FEAT_CHOICE='all';
       document.getElementById('ivGroupName').value=''; document.getElementById('ivGav').textContent=INVITE_EMOJI;
-      document.getElementById('ivCreateTx').textContent='Create group & invite';
+      document.getElementById('ivCreateTx').textContent='Create group';
       document.getElementById('ivCreateTitle').textContent='New group';
       renderInviteEmojis(); renderInviteMembers(); renderInviteFeatures();
       var sb=document.querySelector('#ivCreateSheet .ivcs-body'); if(sb) sb.scrollTop=0;
       document.getElementById('ivCreateSheet').classList.add('open');
     }
-    function renderInviteFeatures(){ var el=document.getElementById('ivFeatCard'); if(el){
-      el.innerHTML=IV_FEATURES.map(function(f){ var on=INVITE_FEATURES.indexOf(f.k)>-1;
-        return '<div class="iv-featrow"><span class="iv-feat-ic" style="--c:'+f.c+'">'+f.ic+'</span><span class="iv-feat-tx"><span class="iv-feat-t">'+f.t+'</span><span class="iv-feat-s">'+f.s+'</span></span><span class="tgl'+(on?' on':'')+'" onclick="ivFeatToggle(\''+f.k+'\',this)"><i></i></span></div>';
-      }).join(''); }
-      ivFeatSummaryUpdate();
+    var IV_FEAT_OPTS=[
+      {k:'all', c:'#7a5fd0', t:'All features', s:'Memories, milestones, growth, health & documents', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.9 4.9 1.8-4.9 1.8L12 16.4l-1.8-4.9-4.9-1.8 4.9-1.8z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>'},
+      {k:'memories', c:'#e0638f', t:'Memories', s:'Just photos & moments', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a2 2 0 0 1 2-2h1.7l1-1.6a1.5 1.5 0 0 1 1.3-.7h4a1.5 1.5 0 0 1 1.3.7l1 1.6H19a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.3"/></svg>'}
+    ];
+    var IV_FEAT_CHOICE='all';
+    function renderInviteFeatures(){ var el=document.getElementById('ivFeatCard'); if(!el) return;
+      el.innerHTML=IV_FEAT_OPTS.map(function(f){ var on=IV_FEAT_CHOICE===f.k;
+        return '<div class="iv-featrow iv-featopt'+(on?' on':'')+'" onclick="ivFeatChoose(\''+f.k+'\')"><span class="iv-feat-ic" style="--c:'+f.c+'">'+f.ic+'</span><span class="iv-feat-tx"><span class="iv-feat-t">'+f.t+'</span><span class="iv-feat-s">'+f.s+'</span></span><span class="iv-featradio"></span></div>';
+      }).join('');
     }
-    function ivFeatSummaryUpdate(){ var el=document.getElementById('ivFeatSummary'); if(!el) return; var n=INVITE_FEATURES.length, tot=IV_FEATURES.length; el.textContent=(n===0)?'No access':((n===tot)?'All features':(n+' of '+tot+' features')); }
-    function ivFeatToggle(k,el){ var i=INVITE_FEATURES.indexOf(k); if(i>-1) INVITE_FEATURES.splice(i,1); else INVITE_FEATURES.push(k); if(el) el.classList.toggle('on'); ivFeatSummaryUpdate(); }
+    function ivFeatChoose(k){ IV_FEAT_CHOICE=k; INVITE_FEATURES=(k==='memories')?['memories']:IV_ALL_FEATURES.slice(); renderInviteFeatures(); }
+    function ivFeatSyncChoice(){ IV_FEAT_CHOICE=(INVITE_FEATURES.length===1 && INVITE_FEATURES[0]==='memories')?'memories':'all'; }
     function ivFeatOpen(){ renderInviteFeatures(); document.getElementById('ivFeatSheet').classList.add('open'); }
     function ivFeatClose(){ var l=document.getElementById('ivFeatSheet'); if(l) l.classList.remove('open'); ivFeatSummaryUpdate(); }
     function openGroupDetail(i){ var g=INVITE_GROUPS[i]; if(!g) return; IV_DETAIL_IDX=i;
       document.getElementById('ivDAv').textContent=g.emoji;
       document.getElementById('ivDName').textContent=g.name;
-      document.getElementById('ivDSub').textContent=g.members.length+' member'+(g.members.length>1?'s':'');
+      document.getElementById('ivDSub').textContent=g.members.length+' member'+(g.members.length!==1?'s':'');
+      if(!g.code) g.code=ivGenCode();
+      var cd=document.getElementById('ivDCode'); if(cd) cd.textContent=g.code;
+      var lk=document.getElementById('ivDLink'); if(lk) lk.textContent=ivGroupLink(g.code);
       var av=document.getElementById('ivDAvatars');
       if(av){ var show=g.members.slice(0,5), extra=g.members.length-show.length;
         av.innerHTML=show.map(function(m,k){ return '<span class="iv-dav-mini" style="background:'+INVITE_COL[k%INVITE_COL.length]+'">'+inviteInitials(m.name)+'</span>'; }).join('')+(extra>0?'<span class="iv-dav-mini iv-dav-more">+'+extra+'</span>':''); }
@@ -2874,11 +2875,11 @@
       openGroupDetail(IV_DETAIL_IDX); renderInviteGroups();
       hToast(name+' added');
     }
-    function ivRowOpen(i){ IV_MENU_IDX=i; var g=INVITE_GROUPS[i]; if(!g) return; var h=document.getElementById('ivRowHead'); if(h) h.innerHTML='<span class="iv-grow-av" style="width:40px;height:40px;font-size:21px">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+g.members.length+' member'+(g.members.length>1?'s':'')+'</span></span>'; document.getElementById('ivRowLayer').classList.add('open'); }
+    function ivRowOpen(i){ IV_MENU_IDX=i; var g=INVITE_GROUPS[i]; if(!g) return; var h=document.getElementById('ivRowHead'); if(h) h.innerHTML='<span class="iv-grow-av" style="width:40px;height:40px;font-size:21px">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+g.members.length+' member'+(g.members.length!==1?'s':'')+'</span></span>'; document.getElementById('ivRowLayer').classList.add('open'); }
     function ivRowClose(){ var l=document.getElementById('ivRowLayer'); if(l) l.classList.remove('open'); }
     function ivRowEdit(){ var i=IV_MENU_IDX; ivRowClose(); var g=INVITE_GROUPS[i]; if(!g) return; IV_EDIT_IDX=i;
       INVITE_MEMBERS=g.members.map(function(m){ return {name:m.name,phone:m.phone}; }); INVITE_EMOJI=g.emoji;
-      INVITE_FEATURES=(g.features?g.features.slice():IV_ALL_FEATURES.slice());
+      INVITE_FEATURES=(g.features?g.features.slice():IV_ALL_FEATURES.slice()); ivFeatSyncChoice();
       document.getElementById('ivGroupName').value=g.name; document.getElementById('ivGav').textContent=g.emoji;
       document.getElementById('ivCreateTx').textContent='Save changes';
       document.getElementById('ivCreateTitle').textContent='Edit group';
@@ -2890,7 +2891,7 @@
     function ivRowDelete(){ var i=IV_MENU_IDX; ivRowClose(); var g=INVITE_GROUPS[i]; if(!g) return; IV_DEL_MODE='group'; IV_DEL_IDX=i;
       var b=document.getElementById('ivDelBtn'); if(b) b.textContent='Delete';
       var t=document.getElementById('ivDelT'); if(t) t.textContent='Delete “'+g.name+'”?';
-      var s=document.getElementById('ivDelS'); if(s) s.textContent='This removes the group and its '+g.members.length+' member'+(g.members.length>1?'s':'')+'. This can’t be undone.';
+      var s=document.getElementById('ivDelS'); if(s) s.textContent='This removes the group and its '+g.members.length+' member'+(g.members.length!==1?'s':'')+'. This can’t be undone.';
       ivDelShow();
     }
     function ivMemberRemove(k){ var g=INVITE_GROUPS[IV_DETAIL_IDX]; if(!g||!g.members[k]) return;
@@ -2941,17 +2942,21 @@
     function inviteCreate(){
       var name=(document.getElementById('ivGroupName').value||'').trim();
       if(!name){ hToast('Name your group first'); document.getElementById('ivGroupName').focus(); return; }
-      if(!INVITE_MEMBERS.length){ hToast('Add at least one person to invite'); return; }
-      var n=INVITE_MEMBERS.length;
       if(IV_EDIT_IDX>-1 && INVITE_GROUPS[IV_EDIT_IDX]){
-        INVITE_GROUPS[IV_EDIT_IDX]={name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), members:INVITE_MEMBERS.slice()};
+        var ex=INVITE_GROUPS[IV_EDIT_IDX];
+        INVITE_GROUPS[IV_EDIT_IDX]={name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), members:INVITE_MEMBERS.slice(), code:ex.code||ivGenCode()};
+        IV_EDIT_IDX=-1; renderInviteGroups(); ivCreateClose(); if(IV_VIEW==='detail') openGroupDetail(IV_DETAIL_IDX);
         hToast(INVITE_EMOJI+' '+name+' updated ✓');
       } else {
-        INVITE_GROUPS.unshift({name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), members:INVITE_MEMBERS.slice()});
-        hToast(INVITE_EMOJI+' '+name+' created · '+n+' invite'+(n>1?'s':'')+' sent 🎉');
+        INVITE_GROUPS.unshift({name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), members:[], code:ivGenCode()});
+        IV_EDIT_IDX=-1; renderInviteGroups(); ivCreateClose(); openGroupDetail(0);
+        hToast(INVITE_EMOJI+' '+name+' created 🎉');
       }
-      IV_EDIT_IDX=-1; renderInviteGroups(); ivCreateClose(); if(IV_VIEW==='detail') openGroupDetail(IV_DETAIL_IDX);
     }
+    function ivGenCode(){ var ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<7;i++) s+=ch[Math.floor(Math.random()*ch.length)]; return s.slice(0,3)+'-'+s.slice(3); }
+    function ivGroupLink(code){ return 'cucu.app/join/'+(code||'').toLowerCase().replace(/-/g,''); }
+    function ivCopyCode(){ var c=document.getElementById('ivDCode').textContent; try{ navigator.clipboard.writeText(c); }catch(e){} hToast('Join code copied ✓'); }
+    function ivShareLink(){ var u=document.getElementById('ivDLink').textContent; try{ navigator.clipboard.writeText('https://'+u); }catch(e){} hToast('Invite link copied — share it to let people join ✓'); }
     function renderChildrenList(){
       var keys=Object.keys(CHILDREN);
       var sub=document.getElementById('chSub'); if(sub) sub.textContent=keys.length+(keys.length===1?' child':' children')+' on this account';
