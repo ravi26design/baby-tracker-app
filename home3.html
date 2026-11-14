@@ -1111,7 +1111,7 @@
   .vx-meta2{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12.5px;font-weight:600;color:#8b8296;}
   .vx-meta2 svg{width:15px;height:15px;color:var(--lc);flex-shrink:0;}
   .vx-divider{height:1px;background:rgba(139,116,181,.12);margin:15px 0 3px;}
-  .vx-infocard{background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:2px 15px;margin-top:4px;}
+  .vx-infocard{background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:2px 15px;margin-top:4px;box-shadow:0 12px 26px -22px rgba(90,60,120,.45);}
   .vx-infodiv{height:1px;background:#f2eef8;margin:0 -15px;}
   .vx-sec{margin-top:15px;}
   .vx-infocard .vx-sec{margin:0;padding:15px 0;}
@@ -1130,7 +1130,9 @@
   .vx-act svg{width:18px;height:18px;}
   .vx-act:active{transform:scale(.98);}
   .vx-act.on{background:var(--lc);color:#fff;}
-  .vx-done-note{margin-top:18px;text-align:center;font-size:13px;font-weight:800;color:#36a578;background:color-mix(in srgb,#36a578 10%,#fff);padding:14px;border-radius:14px;}
+  .vx-done-note{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:13.5px;font-weight:800;color:#2e9c6c;background:color-mix(in srgb,#36a578 9%,#fff);border:1px solid color-mix(in srgb,#36a578 16%,transparent);padding:14px;border-radius:14px;}
+  .vx-done-ic{display:inline-flex;}
+  .vx-done-ic svg{width:19px;height:19px;}
   /* reminder picker sheet */
   .rem-sub{font-size:13px;font-weight:600;color:#8b8296;line-height:1.45;}
   .rem-sub b{color:var(--ink);font-weight:800;}
@@ -4117,7 +4119,7 @@
         '</div>'+
         remLine+
         (v.done
-          ? '<div class="vx-done-note">✓ Completed on '+v.date+'</div>'
+          ? '<div class="vx-done-note"><span class="vx-done-ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#36a578"/><path d="M7.6 12.3l2.9 2.9 6-6.2" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Completed on '+v.date+'</span></div>'
           : '<button class="vx-act'+(v.reminder?' on':'')+'" onclick="hmVaxRemOpen('+i+')">'+VX_BELL+'<span>'+(v.reminder?'Edit reminder':'Set reminder')+'</span></button>');
     }
     var VSTETH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v4a4 4 0 0 0 8 0V3"/><path d="M5 3H3.8M13 3h1.2"/><path d="M9 11v3.2a5.4 5.4 0 0 0 5.4 5.4 3.8 3.8 0 0 0 3.8-3.8v-1.8"/><circle fill="currentColor" fill-opacity=".18" cx="18.2" cy="12" r="2.3"/></svg>';
