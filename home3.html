@@ -2035,6 +2035,20 @@
       .iv-inv-linkic{width:30px;height:30px;border-radius:9px;flex:0 0 auto;background:#ece4fb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;}
       .iv-inv-linkic svg{width:16px;height:16px;}
       .iv-inv-link{flex:1;min-width:0;font-size:13px;font-weight:600;color:#7a5fd0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .iv-inv-linkcopy{flex:0 0 auto;border:none;background:none;color:#8574b5;cursor:pointer;padding:5px;display:flex;border-radius:9px;}
+      .iv-inv-linkcopy:active{background:#f3eef9;}
+      .iv-inv-linkcopy svg{width:17px;height:17px;}
+      #ivShareSheet .mca-sheet{left:0;right:0;bottom:0;border-radius:28px 28px 0 0;padding:8px 10px calc(20px + env(safe-area-inset-bottom));}
+      .ivsh-head{padding:6px 10px 14px;}
+      .ivsh-title{font-size:18px;font-weight:800;color:var(--ink);}
+      .ivsh-sub{font-size:12.5px;font-weight:600;color:#9a90ab;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .ivsh-apps{display:flex;gap:8px;overflow-x:auto;padding:2px 6px 4px;scrollbar-width:none;}
+      .ivsh-apps::-webkit-scrollbar{display:none;}
+      .ivsh-app{flex:0 0 auto;width:68px;border:none;background:none;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;padding:4px 0;}
+      .ivsh-app:active{transform:scale(.94);}
+      .ivsh-app-ic{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -8px rgba(60,40,70,.4);}
+      .ivsh-app-ic svg{width:26px;height:26px;}
+      .ivsh-app-nm{font-size:11.5px;font-weight:700;color:#6b6478;white-space:nowrap;}
       .iv-inv-share{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:11px;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:14px;cursor:pointer;transition:transform .1s;}
       .iv-inv-share:active{transform:scale(.99);}
       .iv-inv-share svg{width:18px;height:18px;}
@@ -2083,11 +2097,11 @@
                 <button class="iv-inv-copy" onclick="ivCopyCode()">Copy</button>
               </div>
               <div class="iv-combo-subdiv"></div>
-              <div class="iv-invlink-row"><span class="iv-inv-linkic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="iv-inv-link" id="ivDLink">—</span></div>
+              <div class="iv-invlink-row"><span class="iv-inv-linkic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="iv-inv-link" id="ivDLink">—</span><button class="iv-inv-linkcopy" onclick="ivCopyLinkOnly()" aria-label="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2.5 2.5 0 0 1 2.5-2.5H16"/></svg></button></div>
             </div>
           </div>
           <button class="iv-inv-share" onclick="ivShareLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share invite</span></button>
-          <div class="iv-dmhead" style="margin-top:16px"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+          <div class="iv-sec-l" style="margin-top:16px">Joined members</div>
           <div id="ivDMembers"></div>
         </div>
       </div>
@@ -2122,6 +2136,22 @@
           </div>
           <div class="ivcs-foot">
             <button class="iv-create" onclick="inviteCreate()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg><span id="ivCreateTx">Create group</span></button>
+          </div>
+        </div>
+      </div>
+      <!-- share invite sheet -->
+      <div class="mca-layer" id="ivShareSheet">
+        <div class="mca-bd" onclick="ivShareClose()"></div>
+        <div class="mca-sheet">
+          <div class="mca-grab"><span></span></div>
+          <div class="ivsh-head"><div class="ivsh-title">Share invite</div><div class="ivsh-sub" id="ivShareSub">cucu.app/join/…</div></div>
+          <div class="ivsh-apps">
+            <button class="ivsh-app" onclick="ivShareVia('WhatsApp')"><span class="ivsh-app-ic" style="background:#25d366"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5H9l1.2 3.2-1.6 1.2a11 11 0 0 0 5.4 5.4l1.2-1.6L18.5 15v2.4a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span><span class="ivsh-app-nm">WhatsApp</span></button>
+            <button class="ivsh-app" onclick="ivShareVia('Messages')"><span class="ivsh-app-ic" style="background:#34c759"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.3 8.3 0 0 1-12.4 7.2L3 20.5l1.8-5.4A8.3 8.3 0 1 1 21 11.5Z"/></svg></span><span class="ivsh-app-nm">Messages</span></button>
+            <button class="ivsh-app" onclick="ivShareVia('Telegram')"><span class="ivsh-app-ic" style="background:#29a9eb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3 2 11l6 2.4L11 21l3-5 6 3.5z"/><path d="M8 13.4 22 3l-8 13"/></svg></span><span class="ivsh-app-nm">Telegram</span></button>
+            <button class="ivsh-app" onclick="ivShareVia('Email')"><span class="ivsh-app-ic" style="background:#ea4c89"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span><span class="ivsh-app-nm">Email</span></button>
+            <button class="ivsh-app" onclick="ivShareVia('Copy')"><span class="ivsh-app-ic" style="background:#8574b5"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="ivsh-app-nm">Copy link</span></button>
+            <button class="ivsh-app" onclick="ivShareVia('More')"><span class="ivsh-app-ic" style="background:#aba3b8"><svg viewBox="0 0 24 24" fill="#fff"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span class="ivsh-app-nm">More</span></button>
           </div>
         </div>
       </div>
@@ -2835,7 +2865,7 @@
     ];
     var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1, IV_DEL_MODE='group', IV_DEL_MEMBER_IDX=-1;
     function openInvite(){ closeProfileMenu(); IV_EDIT_IDX=-1; renderInviteGroups(); ivShowView('list'); document.getElementById('inviteSheet').classList.add('open'); }
-    function closeInvite(){ document.getElementById('inviteSheet').classList.remove('open'); ivRowClose(); ivDelClose(); ivFeatClose(); ivAddMemberClose(); ivCreateClose(); }
+    function closeInvite(){ document.getElementById('inviteSheet').classList.remove('open'); ivRowClose(); ivDelClose(); ivFeatClose(); ivAddMemberClose(); ivCreateClose(); ivShareClose(); }
     function ivBack(){ if(IV_VIEW==='list'){ closeInvite(); } else { ivShowView('list'); } }
     function ivShowView(v){ IV_VIEW=v; ['list','detail'].forEach(function(x){ var el=document.getElementById('ivView-'+x); if(el) el.style.display=(x===v)?'':'none'; });
       var t=document.getElementById('ivTitle'); if(t) t.textContent=((v==='detail'&&INVITE_GROUPS[IV_DETAIL_IDX])?INVITE_GROUPS[IV_DETAIL_IDX].name:'Invite Friends');
@@ -2987,7 +3017,10 @@
     function ivGenCode(){ var ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<7;i++) s+=ch[Math.floor(Math.random()*ch.length)]; return s.slice(0,3)+'-'+s.slice(3); }
     function ivGroupLink(code){ return 'cucu.app/join/'+(code||'').toLowerCase().replace(/-/g,''); }
     function ivCopyCode(){ var c=document.getElementById('ivDCode').textContent; try{ navigator.clipboard.writeText(c); }catch(e){} hToast('Join code copied ✓'); }
-    function ivShareLink(){ var u=document.getElementById('ivDLink').textContent; try{ navigator.clipboard.writeText('https://'+u); }catch(e){} hToast('Invite link copied — share it to let people join ✓'); }
+    function ivCopyLinkOnly(){ var u=document.getElementById('ivDLink').textContent; try{ navigator.clipboard.writeText('https://'+u); }catch(e){} hToast('Invite link copied ✓'); }
+    function ivShareLink(){ var sub=document.getElementById('ivShareSub'); if(sub) sub.textContent=document.getElementById('ivDLink').textContent; document.getElementById('ivShareSheet').classList.add('open'); }
+    function ivShareClose(){ var l=document.getElementById('ivShareSheet'); if(l) l.classList.remove('open'); }
+    function ivShareVia(app){ if(app==='Copy'){ ivCopyLinkOnly(); ivShareClose(); return; } if(app==='More'){ hToast('Opening share options…'); ivShareClose(); return; } ivShareClose(); hToast('Invite shared via '+app+' 🎉'); }
     function renderChildrenList(){
       var keys=Object.keys(CHILDREN);
       var sub=document.getElementById('chSub'); if(sub) sub.textContent=keys.length+(keys.length===1?' child':' children')+' on this account';
