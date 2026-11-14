@@ -1073,9 +1073,12 @@
   .hm-algchip{padding:10px 15px;border-radius:13px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;background:#fff;color:#7a68ad;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);transition:transform .12s,background .14s,color .14s;}
   .hm-algchip.on{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:none;}
   .hm-algchip:active{transform:scale(.96);}
-  .hm-vchk{width:28px;height:28px;border-radius:50%;border:2px solid #e0dbea;background:transparent;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;padding:0;}
+  .hm-vchk{width:28px;height:28px;border-radius:50%;border:2px solid color-mix(in srgb,var(--lc,#9b8bc4) 42%,#eceaf2);background:transparent;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;padding:0;}
   .hm-vchk svg{width:14px;height:14px;color:#fff;}
   .hm-vchk.done{border-color:transparent;background:#8574b5;box-shadow:none;}
+  .hm-vstatus{flex:0 0 auto;font-size:9.5px;font-weight:800;padding:4px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;}
+  .hm-vstatus.done{color:#2e9c6c;background:color-mix(in srgb,#2e9c6c 12%,#fff);}
+  .hm-vstatus.due{color:#c2881f;background:color-mix(in srgb,#c2881f 14%,#fff);}
   .hm-vchk.done svg{color:#fff;}
   .hm-vchk:active{transform:scale(.92);}
   /* vaccination rows + detail */
@@ -4031,7 +4034,8 @@
           html+='<div class="hm-vrow" style="--lc:'+col+'">'+
             '<div class="hm-li" style="--lc:'+col+'">'+
               '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?VX_CHK:'')+'</button>'+
-              '<div class="hm-li-tx" onclick="hmVaxOpen('+i+')"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
+              '<div class="hm-li-tx" onclick="hmVaxOpen('+i+')"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+v.date+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
+              '<span class="hm-vstatus '+(v.done?'done':'due')+'">'+(v.done?'Done':'Due')+'</span>'+
               '<button class="hm-vexp" onclick="hmVaxOpen('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
             '</div>'+
           '</div>';
