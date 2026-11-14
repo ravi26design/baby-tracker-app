@@ -582,6 +582,14 @@
   .fld-date{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:none;cursor:pointer;background:#f3eef0;border-radius:14px;padding:13px 15px;font-family:inherit;font-size:14px;color:var(--ink);text-align:left;}
   .fld-date .fld-date-ph{color:#a79fb0;}
   .fld-date svg{width:18px;height:18px;color:#8574b5;flex-shrink:0;}
+  .am-groups{display:flex;flex-wrap:wrap;gap:8px;}
+  .am-grp{display:inline-flex;align-items:center;gap:8px;background:#f3eef0;border:1.5px solid transparent;border-radius:999px;padding:8px 14px 8px 11px;font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;transition:background .15s,border-color .15s,color .15s;}
+  .am-grp-av{font-size:15px;line-height:1;}
+  .am-grp-ck{width:16px;height:16px;border-radius:50%;background:#8574b5;color:#fff;display:none;align-items:center;justify-content:center;flex-shrink:0;}
+  .am-grp-ck svg{width:10px;height:10px;}
+  .am-grp.on{background:color-mix(in srgb,#8574b5 12%,#fff);border-color:#9b8bc4;color:#5a4a86;}
+  .am-grp.on .am-grp-ck{display:inline-flex;}
+  .am-grp:active{transform:scale(.97);}
   /* custom date picker */
   .dtpk{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:90;visibility:hidden;}
   .dtpk.open{visibility:visible;}
@@ -809,6 +817,7 @@
               <div class="fld"><label>Title</label><input id="afTitle" type="text" placeholder="e.g. First Smile" /></div>
               <div class="fld"><label>Date</label><input id="afDate" type="hidden"><button type="button" class="fld-date" onclick="openMemDate()"><span id="afDateText" class="fld-date-ph">dd/mm/yyyy</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg></button></div>
               <div class="fld"><label>Description</label><textarea id="afDesc" placeholder="Write a little note about this moment..."></textarea></div>
+              <div class="fld"><label>Share with</label><div class="am-groups" id="afGroups"></div></div>
             </div>
           </div>
           <div class="am-foot"><button class="am-save" onclick="saveMemory()">Save</button></div>
@@ -1031,9 +1040,23 @@
     }
     function removeMemPhoto(i){ MEM_PHOTOS.splice(i,1); renderMemPhotos(); }
     var MS_DESC={'First Walk':'The first wobbly steps — so proud! 👣','First Smile':'That first gummy smile melted our hearts. 😊','First Steps':'Off and running — a huge milestone! 🎉','First Word':'The first little word we’ll never forget. 🗣️','First Food':'Messy, happy and a brand-new taste adventure! 🥣','First Bath':'Splashes, giggles and bubbles everywhere. 🛁'};
+    var MEM_GROUPS=[{nm:"Mark's Village",av:'🏡'},{nm:'Close Family',av:'❤️'},{nm:'Playdate Parents',av:'🧸'}];
+    var MEM_GROUP_SEL=[];
+    var GRP_CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg>';
+    function renderMemGroups(){
+      var el=document.getElementById('afGroups'); if(!el) return;
+      el.innerHTML=MEM_GROUPS.map(function(g,i){
+        var on=MEM_GROUP_SEL.indexOf(i)>=0;
+        return '<button type="button" class="am-grp'+(on?' on':'')+'" onclick="toggleMemGroup('+i+')">'+
+          '<span class="am-grp-av">'+g.av+'</span><span class="am-grp-nm">'+g.nm+'</span>'+
+          '<span class="am-grp-ck">'+GRP_CHECK+'</span></button>';
+      }).join('');
+    }
+    function toggleMemGroup(i){ var p=MEM_GROUP_SEL.indexOf(i); if(p>=0) MEM_GROUP_SEL.splice(p,1); else MEM_GROUP_SEL.push(i); renderMemGroups(); }
     function openAdd(title){
       EDIT_CARD=null; var _sb0=document.querySelector('.am-save'); if(_sb0) _sb0.textContent='Save';
       MEM_PHOTOS=[]; renderMemPhotos();
+      MEM_GROUP_SEL=[]; renderMemGroups();
       document.getElementById('afTitle').value = title || '';
       document.getElementById('afDate').value = title ? new Date().toISOString().slice(0,10) : '';
       document.getElementById('afDesc').value = title ? (MS_DESC[title] || ('A special first — '+title.toLowerCase()+'! 💛')) : '';
