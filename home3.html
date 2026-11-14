@@ -1908,6 +1908,13 @@
       .iv-mx{flex:0 0 auto;width:28px;height:28px;border-radius:9px;border:none;background:none;color:#c0b6d2;cursor:pointer;display:flex;align-items:center;justify-content:center;}
       .iv-mx:active{background:#f3eef9;}
       .iv-mx svg{width:16px;height:16px;}
+      .iv-mjoined{flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:800;color:#2e9c6c;background:color-mix(in srgb,#2e9c6c 12%,#fff);padding:4px 9px 4px 7px;border-radius:999px;}
+      .iv-mjoined svg{width:11px;height:11px;}
+      .iv-mempty{text-align:center;padding:26px 20px;border:1.5px dashed #e3dcef;border-radius:18px;}
+      .iv-mempty-ic{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;background:#f2eef8;color:#9b8bc4;margin-bottom:11px;}
+      .iv-mempty-ic svg{width:24px;height:24px;}
+      .iv-mempty-t{font-size:14.5px;font-weight:800;color:var(--ink);}
+      .iv-mempty-s{font-size:12.5px;font-weight:600;color:#9a90ab;line-height:1.5;margin:5px auto 0;max-width:260px;}
       .iv-empty{display:flex;flex-direction:column;align-items:center;gap:9px;font-size:13px;color:#a99fbe;font-weight:600;text-align:center;line-height:1.5;padding:20px 18px;background:#faf8fd;border-radius:16px;border:1.5px dashed #e2d9f0;margin-top:12px;}
       .iv-empty-ic{width:40px;height:40px;border-radius:50%;background:#f1eafc;color:#9b8bc4;display:flex;align-items:center;justify-content:center;}
       .iv-empty-ic svg{width:21px;height:21px;}
@@ -1971,6 +1978,12 @@
       .iv-featchip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:color-mix(in srgb,var(--c,#6a5fb0) 82%,#38333f);background:color-mix(in srgb,var(--c,#8574b5) 12%,#fff);border:1px solid color-mix(in srgb,var(--c,#8574b5) 24%,transparent);padding:6px 12px 6px 9px;border-radius:999px;}
       .iv-featchip-ic{display:inline-flex;}
       .iv-featchip-ic svg{width:15px;height:15px;color:var(--c,#6a5fb0);}
+      .iv-accesspill{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #efeaf5;border-radius:16px;padding:12px 14px;}
+      .iv-accesspill-ic{width:40px;height:40px;border-radius:13px;flex:0 0 auto;background:color-mix(in srgb,var(--c,#8574b5) 14%,#fff);color:var(--c,#8574b5);display:flex;align-items:center;justify-content:center;}
+      .iv-accesspill-ic svg{width:22px;height:22px;}
+      .iv-accesspill-tx{display:flex;flex-direction:column;gap:2px;min-width:0;}
+      .iv-accesspill-t{font-size:14.5px;font-weight:800;color:color-mix(in srgb,var(--c,#6a5fb0) 80%,#38333f);}
+      .iv-accesspill-s{font-size:12px;font-weight:600;color:#9a90ab;}
       /* group detail */
       .iv-dmhead{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 11px;}
       .iv-dmhead .iv-sec-l{margin:0;}
@@ -2046,7 +2059,9 @@
         <!-- VIEW: group detail -->
         <div id="ivView-detail" style="display:none">
           <div class="iv-dhero"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div><div class="iv-dhero-avs" id="ivDAvatars"></div></div>
-          <div class="iv-sec-l" style="margin-top:16px">Invite link</div>
+          <div class="iv-sec-l" style="margin-top:16px">Shared access</div>
+          <div id="ivDFeatures"></div>
+          <div class="iv-sec-l" style="margin-top:20px">Invite link</div>
           <div class="iv-invcard">
             <div class="iv-invcode-row">
               <div class="iv-invcode-tx"><span class="iv-inv-lbl">Join code</span><span class="iv-inv-code" id="ivDCode">—</span></div>
@@ -2058,8 +2073,6 @@
           <button class="iv-inv-share" onclick="ivShareLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share invite</span></button>
           <div class="iv-dmhead" style="margin-top:22px"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="ivDMembers"></div>
-          <div class="iv-sec-l" style="margin-top:20px">Shared access</div>
-          <div id="ivDFeatures"></div>
         </div>
       </div>
 
@@ -2854,11 +2867,14 @@
       if(av){ var show=g.members.slice(0,5), extra=g.members.length-show.length;
         av.innerHTML=show.map(function(m,k){ return '<span class="iv-dav-mini" style="background:'+INVITE_COL[k%INVITE_COL.length]+'">'+inviteInitials(m.name)+'</span>'; }).join('')+(extra>0?'<span class="iv-dav-mini iv-dav-more">+'+extra+'</span>':''); }
       var el=document.getElementById('ivDMembers');
-      el.innerHTML='<div class="iv-mlist">'+g.members.map(function(m,k){ var col=INVITE_COL[k%INVITE_COL.length];
-        return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span><button class="iv-mx" onclick="ivMemberRemove('+k+')" aria-label="Remove member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
-      }).join('')+'</div>';
+      el.innerHTML=g.members.length
+        ? '<div class="iv-mlist">'+g.members.map(function(m,k){ var col=INVITE_COL[k%INVITE_COL.length];
+            return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span><span class="iv-mjoined"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Joined</span><button class="iv-mx" onclick="ivMemberRemove('+k+')" aria-label="Remove member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
+          }).join('')+'</div>'
+        : '<div class="iv-mempty"><span class="iv-mempty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg></span><div class="iv-mempty-t">No one has joined yet</div><div class="iv-mempty-s">Share the invite link and people will appear here once they join.</div></div>';
       var fe=document.getElementById('ivDFeatures');
-      if(fe){ var fs=g.features||[]; fe.innerHTML='<div class="iv-featchips">'+(fs.length?fs.map(function(k){ var f=null; for(var j=0;j<IV_FEATURES.length;j++){ if(IV_FEATURES[j].k===k){ f=IV_FEATURES[j]; break; } } return f?'<span class="iv-featchip" style="--c:'+f.c+'"><span class="iv-featchip-ic">'+f.ic+'</span>'+f.t+'</span>':'<span class="iv-featchip">'+k+'</span>'; }).join(''):'<span class="iv-feat-s">No features shared yet</span>')+'</div>'; }
+      if(fe){ var mem=(g.features && g.features.length===1 && g.features[0]==='memories'); var opt=null; for(var oi=0;oi<IV_FEAT_OPTS.length;oi++){ if(IV_FEAT_OPTS[oi].k===(mem?'memories':'all')){ opt=IV_FEAT_OPTS[oi]; break; } }
+        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-ic">'+opt.ic+'</span><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+opt.s+'</span></span></span>'; }
       ivShowView('detail');
     }
     function ivAddMemberOpen(){ var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone'); if(ni) ni.value=''; if(pi) pi.value=''; document.getElementById('ivAddSheet').classList.add('open'); }
