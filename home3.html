@@ -1089,8 +1089,10 @@
   .hm-vexp svg{width:16px;height:16px;}
   /* vaccination timeline */
   .hm-vtl{position:relative;padding:4px 0 2px;}
-  .hm-vtl-item{position:relative;display:flex;align-items:stretch;gap:13px;padding-bottom:11px;}
+  .hm-vtl-item{position:relative;display:flex;align-items:stretch;gap:10px;padding-bottom:11px;}
   .hm-vtl-item:last-child{padding-bottom:0;}
+  .hm-vtl-age{width:42px;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;text-align:right;font-size:11px;font-weight:800;color:#a49cb4;letter-spacing:-.2px;line-height:1.2;}
+  .hm-vtl-item.done .hm-vtl-age{color:#8574b5;}
   .hm-vtl-rail{position:relative;width:28px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;}
   .hm-vtl-rail::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:-11px;bottom:-11px;width:2px;background:#e8e2f0;z-index:0;}
   .hm-vtl-item:first-child .hm-vtl-rail::before{top:50%;}
@@ -4059,12 +4061,14 @@
         items.forEach(function(x){
           var v=x.v,i=x.i;
           var col=v.done?'#36a578':cat.c;
+          var ageShort=(v.age||'').replace(/\s*months?/i,' mo').replace(/\s*years?/i,' yr');
           html+='<div class="hm-vtl-item'+(v.done?' done':'')+'" style="--lc:'+col+'">'+
+            '<div class="hm-vtl-age">'+ageShort+'</div>'+
             '<div class="hm-vtl-rail">'+
               '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?VX_CHK:'')+'</button>'+
             '</div>'+
             '<div class="hm-vtl-card" onclick="hmVaxOpen('+i+')">'+
-              '<div class="hm-li-tx"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+v.date+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
+              '<div class="hm-li-tx"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.date+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
               '<button class="hm-vexp" onclick="event.stopPropagation();hmVaxOpen('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
             '</div>'+
           '</div>';
