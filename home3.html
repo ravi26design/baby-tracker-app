@@ -719,6 +719,10 @@
   .pf-item{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);padding:13px 11px;border-radius:13px;cursor:pointer;text-align:left;transition:background .12s;}
   .pf-item:active{background:#f5f1fa;}
   .pf-item.danger{color:#e0567a;}
+  .pf-dangerzone{background:#fff;border:1px solid #efeaf5;border-radius:16px;overflow:hidden;box-shadow:0 10px 24px -18px rgba(90,60,120,.35);}
+  .pf-dangerzone .pf-item{border-radius:0;padding:14px 13px;}
+  .pf-dangerzone .pf-item:active{background:#fdf1f4;}
+  .pf-dangerzone .pf-item+.pf-item{border-top:1px solid #f4eef9;}
   .pf-ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .pf-ic svg{width:18px;height:18px;}
   .pf-div{height:1px;background:#f1eaf3;margin:3px 8px;}
@@ -1576,14 +1580,16 @@
           <span>Privacy Policy</span>
         </button>
         <div style="flex:1"></div>
-        <button class="pf-item danger" onclick="logout()">
-          <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></span>
-          <span>Log Out</span>
-        </button>
-        <button class="pf-item danger" onclick="openDeleteAccount()">
-          <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></span>
-          <span>Delete Account</span>
-        </button>
+        <div class="pf-dangerzone">
+          <button class="pf-item danger" onclick="logout()">
+            <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></span>
+            <span>Log Out</span>
+          </button>
+          <button class="pf-item danger" onclick="openDeleteAccount()">
+            <span class="pf-ic" style="background:#fdecec;color:#e0567a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></span>
+            <span>Delete Account</span>
+          </button>
+        </div>
       </div>
     </div>
 
