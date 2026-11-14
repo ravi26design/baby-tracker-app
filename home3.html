@@ -2008,9 +2008,10 @@
       .ivcs-body{flex:1;min-height:0;overflow-y:auto;padding:0 20px 10px;}
       .ivcs-body::-webkit-scrollbar{display:none;}
       .ivcs-foot{flex-shrink:0;padding:12px 20px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 20px -16px rgba(90,60,120,.3);}
-      .iv-dhero{text-align:center;padding:24px 16px 20px;margin:4px 0 2px;border-radius:24px;background:linear-gradient(170deg,color-mix(in srgb,#8574b5 14%,var(--card-bg,#faf9fe)),var(--card-bg,#faf9fe) 72%);box-shadow:inset 0 0 0 1px color-mix(in srgb,#8574b5 9%,transparent);}
-      .iv-dhero-avs{display:flex;justify-content:center;margin-top:14px;}
-      .iv-dav-mini{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;border:2.5px solid var(--card-bg,#faf9fe);margin-left:-8px;box-shadow:0 2px 6px -3px rgba(60,40,80,.4);}
+      .iv-dhero{display:flex;align-items:center;gap:14px;text-align:left;padding:15px 16px;margin:2px 0 0;border-radius:20px;background:linear-gradient(150deg,color-mix(in srgb,#8574b5 15%,var(--card-bg,#faf9fe)),var(--card-bg,#faf9fe) 78%);box-shadow:inset 0 0 0 1px color-mix(in srgb,#8574b5 9%,transparent);}
+      .iv-dhero-info{flex:1;min-width:0;}
+      .iv-dhero-avs{display:flex;justify-content:flex-start;margin-top:8px;}
+      .iv-dav-mini{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;border:2px solid var(--card-bg,#faf9fe);margin-left:-7px;box-shadow:0 2px 6px -3px rgba(60,40,80,.4);}
       .iv-dav-mini:first-child{margin-left:0;}
       .iv-dav-more{background:#ded3ef!important;color:#6a5fb0;}
       /* invite link + code */
@@ -2028,9 +2029,9 @@
       .iv-inv-share{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:11px;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:14px;cursor:pointer;transition:transform .1s;}
       .iv-inv-share:active{transform:scale(.99);}
       .iv-inv-share svg{width:18px;height:18px;}
-      .iv-dhero-av{display:inline-flex;align-items:center;justify-content:center;width:74px;height:74px;border-radius:23px;background:linear-gradient(155deg,color-mix(in srgb,#8574b5 18%,#fff),color-mix(in srgb,#8574b5 7%,#fff));box-shadow:0 14px 28px -15px rgba(90,60,120,.55),inset 0 0 0 1px rgba(139,116,181,.14);font-size:36px;margin-bottom:12px;}
-      .iv-dhero-n{font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
-      .iv-dhero-s{font-size:12.5px;font-weight:600;color:#9a90ab;margin-top:4px;}
+      .iv-dhero-av{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;flex:0 0 auto;border-radius:17px;background:linear-gradient(155deg,color-mix(in srgb,#8574b5 18%,#fff),color-mix(in srgb,#8574b5 7%,#fff));box-shadow:0 10px 22px -13px rgba(90,60,120,.55),inset 0 0 0 1px rgba(139,116,181,.14);font-size:29px;}
+      .iv-dhero-n{font-size:18px;font-weight:800;letter-spacing:-.3px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .iv-dhero-s{font-size:12px;font-weight:600;color:#9a90ab;margin-top:2px;}
     </style>
     <div class="pf-sheet-layer ss-layer" id="inviteSheet">
       <div class="pf-sheet-bd" onclick="closeInvite()"></div>
@@ -2058,10 +2059,10 @@
 
         <!-- VIEW: group detail -->
         <div id="ivView-detail" style="display:none">
-          <div class="iv-dhero"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div><div class="iv-dhero-avs" id="ivDAvatars"></div></div>
-          <div class="iv-sec-l" style="margin-top:16px">Shared access</div>
+          <div class="iv-dhero"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-info"><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div><div class="iv-dhero-avs" id="ivDAvatars"></div></div></div>
+          <div class="iv-sec-l" style="margin-top:15px">Shared access</div>
           <div id="ivDFeatures"></div>
-          <div class="iv-sec-l" style="margin-top:20px">Invite link</div>
+          <div class="iv-sec-l" style="margin-top:16px">Invite link</div>
           <div class="iv-invcard">
             <div class="iv-invcode-row">
               <div class="iv-invcode-tx"><span class="iv-inv-lbl">Join code</span><span class="iv-inv-code" id="ivDCode">—</span></div>
@@ -2071,7 +2072,7 @@
             <div class="iv-invlink-row"><span class="iv-inv-linkic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="iv-inv-link" id="ivDLink">—</span></div>
           </div>
           <button class="iv-inv-share" onclick="ivShareLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share invite</span></button>
-          <div class="iv-dmhead" style="margin-top:22px"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+          <div class="iv-dmhead" style="margin-top:16px"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="ivDMembers"></div>
         </div>
       </div>
