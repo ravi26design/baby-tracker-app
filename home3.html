@@ -1101,6 +1101,12 @@
   .vx-badge{margin-left:auto;font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;white-space:nowrap;}
   .vx-badge.due{color:#c2881f;background:color-mix(in srgb,#c2881f 13%,#fff);}
   .vx-badge.done{color:#36a578;background:color-mix(in srgb,#36a578 13%,#fff);}
+  .vx-hero2{display:flex;align-items:center;gap:13px;margin-bottom:15px;}
+  .vx-hero2-ic{width:52px;height:52px;border-radius:15px;flex:0 0 auto;background:color-mix(in srgb,var(--lc,#8574b5) 15%,#fff);color:var(--lc,#8574b5);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--lc,#8574b5) 16%,transparent);}
+  .vx-hero2-ic svg{width:26px;height:26px;}
+  .vx-hero2-tx{flex:1;min-width:0;}
+  .vx-hero2 .vx-title2{margin:0;}
+  .vx-hero2 .vx-meta2{margin-top:4px;}
   .vx-title2{margin-top:3px;font-size:20px;font-weight:800;letter-spacing:-.35px;color:var(--ink);line-height:1.22;}
   .vx-meta2{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12.5px;font-weight:600;color:#8b8296;}
   .vx-meta2 svg{width:15px;height:15px;color:var(--lc);flex-shrink:0;}
@@ -4091,8 +4097,7 @@
       var badge=v.done?'<span class="vx-badge done">Completed</span>':'<span class="vx-badge due">Due</span>';
       var remLine=(v.reminder&&v.remAt)?'<div class="vx-rem-note">'+VX_BELL+'<span>Reminder set for <b>'+v.remAt.txt+'</b></span></div>':'';
       body.innerHTML=
-        '<div class="vx-title2">'+v.name+'</div>'+
-        '<div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+(v.done?'Done '+v.date:'Due '+v.date)+'</span></div>'+
+        '<div class="vx-hero2"><span class="vx-hero2-ic">'+HMI.syr+'</span><div class="vx-hero2-tx"><div class="vx-title2">'+v.name+'</div><div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+v.date+'</span></div></div></div>'+
         '<div class="vx-head2">'+
           '<span class="vx-sh-cat" style="--cc:'+cat.c+'">'+cat.label+'</span>'+
           badge+
