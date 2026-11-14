@@ -4102,7 +4102,8 @@
       var badge=v.done?'<span class="vx-badge done">Completed</span>':'<span class="vx-badge due">Due</span>';
       var remLine=(v.reminder&&v.remAt)?'<div class="vx-rem-note">'+VX_BELL+'<span>Reminder set for <b>'+v.remAt.txt+'</b></span></div>':'';
       body.innerHTML=
-        '<div class="vx-hero2"><span class="vx-hero2-ic">'+HMI.syr+'</span><div class="vx-hero2-tx"><div class="vx-title2">'+v.name+'</div><div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+v.date+'</span></div></div></div>'+
+        '<div class="vx-title2">'+v.name+'</div>'+
+        '<div class="vx-meta2">'+VX_CAL+'<span>'+v.age+' · '+v.date+'</span></div>'+
         '<div class="vx-head2">'+
           '<span class="vx-sh-cat" style="--cc:'+cat.c+'">'+cat.label+'</span>'+
           badge+
