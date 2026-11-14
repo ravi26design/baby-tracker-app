@@ -1111,11 +1111,14 @@
   .vx-meta2{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12.5px;font-weight:600;color:#8b8296;}
   .vx-meta2 svg{width:15px;height:15px;color:var(--lc);flex-shrink:0;}
   .vx-divider{height:1px;background:rgba(139,116,181,.12);margin:15px 0 3px;}
+  .vx-infocard{background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:2px 15px;margin-top:4px;}
+  .vx-infodiv{height:1px;background:#f2eef8;margin:0 -15px;}
   .vx-sec{margin-top:15px;}
-  .vx-sec-l{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.4px;margin-bottom:9px;}
+  .vx-infocard .vx-sec{margin:0;padding:15px 0;}
+  .vx-sec-l{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;}
   .vx-sec-ic{display:inline-flex;color:var(--lc,#9b8bc4);}
   .vx-sec-ic svg{width:13px;height:13px;}
-  .vx-sec-p{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5;background:color-mix(in srgb,var(--lc,#8574b5) 6%,#fff);border:1px solid color-mix(in srgb,var(--lc,#8574b5) 11%,transparent);border-radius:14px;padding:12px 14px;}
+  .vx-sec-p{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5;}
   .vx-chips{display:flex;flex-wrap:wrap;gap:7px;}
   .vx-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:color-mix(in srgb,var(--chip,#8574b5) 82%,#38333f);background:color-mix(in srgb,var(--chip,#8574b5) 12%,#fff);border:1px solid color-mix(in srgb,var(--chip,#8574b5) 26%,transparent);padding:6px 12px 6px 10px;border-radius:999px;}
   .vx-chip svg{width:13px;height:13px;flex-shrink:0;color:var(--chip,#8574b5);}
@@ -4104,10 +4107,13 @@
           '<span class="vx-sh-cat" style="--cc:'+cat.c+'">'+cat.label+'</span>'+
           badge+
         '</div>'+
-        '<div class="vx-divider"></div>'+
-        '<div class="vx-sec"><div class="vx-sec-l"><span class="vx-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11.5v5M12 7.6h.01"/></svg></span>Purpose</div><div class="vx-sec-p">'+info.use+'</div></div>'+
-        '<div class="vx-sec"><div class="vx-sec-l"><span class="vx-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5v5c0 4.3-3 7.4-7 8.6-4-1.2-7-4.3-7-8.6v-5z"/><path d="M9 11.8l2 2 4-4"/></svg></span>Protects against</div><div class="vx-chips">'+protChips+'</div></div>'+
-        '<div class="vx-sec"><div class="vx-sec-l"><span class="vx-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.1 4.5 4.9.6-3.6 3.4.9 4.9L12 18.6 7.7 16.8l.9-4.9L5 8.5l4.9-.6z"/></svg></span>Preferred brand</div><div class="vx-chips">'+brandChips+'</div></div>'+
+        '<div class="vx-infocard">'+
+          '<div class="vx-sec"><div class="vx-sec-l"><span class="vx-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11.5v5M12 7.6h.01"/></svg></span>Purpose</div><div class="vx-sec-p">'+info.use+'</div></div>'+
+          '<div class="vx-infodiv"></div>'+
+          '<div class="vx-sec"><div class="vx-sec-l"><span class="vx-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5v5c0 4.3-3 7.4-7 8.6-4-1.2-7-4.3-7-8.6v-5z"/><path d="M9 11.8l2 2 4-4"/></svg></span>Protects against</div><div class="vx-chips">'+protChips+'</div></div>'+
+          '<div class="vx-infodiv"></div>'+
+          '<div class="vx-sec"><div class="vx-sec-l"><span class="vx-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.1 4.5 4.9.6-3.6 3.4.9 4.9L12 18.6 7.7 16.8l.9-4.9L5 8.5l4.9-.6z"/></svg></span>Preferred brand</div><div class="vx-chips">'+brandChips+'</div></div>'+
+        '</div>'+
         remLine+
         (v.done
           ? '<div class="vx-done-note">✓ Completed on '+v.date+'</div>'
