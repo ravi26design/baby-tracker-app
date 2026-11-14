@@ -2008,6 +2008,15 @@
       .ivcs-body{flex:1;min-height:0;overflow-y:auto;padding:0 20px 10px;}
       .ivcs-body::-webkit-scrollbar{display:none;}
       .ivcs-foot{flex-shrink:0;padding:12px 20px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 20px -16px rgba(90,60,120,.3);}
+      .iv-combo{background:#fff;border:1px solid #efeaf5;border-radius:18px;padding:14px;margin-top:2px;box-shadow:0 14px 30px -22px rgba(90,60,120,.5);}
+      .iv-combo-head{display:flex;align-items:center;gap:14px;}
+      .iv-combo-div{height:1px;background:#f2eef8;margin:14px -14px;}
+      .iv-combo-sec{}
+      .iv-combo-lbl{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#a99fbb;margin-bottom:11px;}
+      .iv-combo .iv-accesspill{border:none;background:none;padding:0;box-shadow:none;border-radius:0;}
+      .iv-combo .iv-invcode-row{padding:0 0 11px;}
+      .iv-combo .iv-invlink-row{padding:11px 0 2px;}
+      .iv-combo-subdiv{height:1px;background:#f2eef8;}
       .iv-dhero{display:flex;align-items:center;gap:14px;text-align:left;padding:14px;margin:2px 0 0;border-radius:18px;background:#fff;border:1px solid #efeaf5;box-shadow:0 12px 26px -20px rgba(90,60,120,.45);}
       .iv-dhero-info{flex:1;min-width:0;}
       .iv-dhero-avs{display:flex;justify-content:flex-start;margin-top:9px;}
@@ -2059,17 +2068,23 @@
 
         <!-- VIEW: group detail -->
         <div id="ivView-detail" style="display:none">
-          <div class="iv-dhero"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-info"><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div><div class="iv-dhero-avs" id="ivDAvatars"></div></div></div>
-          <div class="iv-sec-l" style="margin-top:15px">Shared access</div>
-          <div id="ivDFeatures"></div>
-          <div class="iv-sec-l" style="margin-top:16px">Invite link</div>
-          <div class="iv-invcard">
-            <div class="iv-invcode-row">
-              <div class="iv-invcode-tx"><span class="iv-inv-lbl">Join code</span><span class="iv-inv-code" id="ivDCode">—</span></div>
-              <button class="iv-inv-copy" onclick="ivCopyCode()">Copy</button>
+          <div class="iv-combo">
+            <div class="iv-combo-head"><span class="iv-dhero-av" id="ivDAv">👪</span><div class="iv-dhero-info"><div class="iv-dhero-n" id="ivDName"></div><div class="iv-dhero-s" id="ivDSub"></div><div class="iv-dhero-avs" id="ivDAvatars"></div></div></div>
+            <div class="iv-combo-div"></div>
+            <div class="iv-combo-sec">
+              <div class="iv-combo-lbl">Shared access</div>
+              <div id="ivDFeatures"></div>
             </div>
-            <div class="iv-pdiv"></div>
-            <div class="iv-invlink-row"><span class="iv-inv-linkic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="iv-inv-link" id="ivDLink">—</span></div>
+            <div class="iv-combo-div"></div>
+            <div class="iv-combo-sec">
+              <div class="iv-combo-lbl">Invite link</div>
+              <div class="iv-invcode-row">
+                <div class="iv-invcode-tx"><span class="iv-inv-lbl">Join code</span><span class="iv-inv-code" id="ivDCode">—</span></div>
+                <button class="iv-inv-copy" onclick="ivCopyCode()">Copy</button>
+              </div>
+              <div class="iv-combo-subdiv"></div>
+              <div class="iv-invlink-row"><span class="iv-inv-linkic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span><span class="iv-inv-link" id="ivDLink">—</span></div>
+            </div>
           </div>
           <button class="iv-inv-share" onclick="ivShareLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share invite</span></button>
           <div class="iv-dmhead" style="margin-top:16px"><div class="iv-sec-l">Members</div><button class="iv-dmadd" onclick="ivAddMemberOpen()" aria-label="Add member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
