@@ -1087,6 +1087,19 @@
   .hm-vrow > .hm-li{border:none;padding:12px 13px;}
   .hm-vexp{width:26px;height:26px;border:none;background:transparent;color:#c1b8d0;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
   .hm-vexp svg{width:16px;height:16px;}
+  /* vaccination timeline */
+  .hm-vtl{position:relative;padding:4px 0 2px;}
+  .hm-vtl-item{position:relative;display:flex;align-items:stretch;gap:13px;padding-bottom:11px;}
+  .hm-vtl-item:last-child{padding-bottom:0;}
+  .hm-vtl-rail{position:relative;width:28px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;}
+  .hm-vtl-rail::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:-11px;bottom:-11px;width:2px;background:#e8e2f0;z-index:0;}
+  .hm-vtl-item:first-child .hm-vtl-rail::before{top:50%;}
+  .hm-vtl-item:last-child .hm-vtl-rail::before{bottom:50%;}
+  .hm-vtl-item.done .hm-vtl-rail::before{background:color-mix(in srgb,#8574b5 32%,#e8e2f0);}
+  .hm-vtl .hm-vchk{position:relative;z-index:1;background:#f6f3fa;box-shadow:0 0 0 4px #f6f3fa;}
+  .hm-vtl .hm-vchk.done{background:#8574b5;box-shadow:0 0 0 4px #f6f3fa;}
+  .hm-vtl-card{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #efeaf5;border-radius:14px;padding:12px 13px;cursor:pointer;transition:transform .1s;}
+  .hm-vtl-card:active{transform:scale(.995);}
   .hm-vd-row{display:flex;gap:10px;padding:5px 0;align-items:flex-start;}
   .hm-vd-k{font-size:10px;font-weight:800;color:#a79fb6;text-transform:uppercase;letter-spacing:.3px;width:90px;flex-shrink:0;padding-top:2px;}
   .hm-vd-v{font-size:12px;font-weight:600;color:var(--ink);flex:1;line-height:1.45;}
@@ -4046,16 +4059,18 @@
         items.forEach(function(x){
           var v=x.v,i=x.i;
           var col=v.done?'#36a578':cat.c;
-          html+='<div class="hm-vrow" style="--lc:'+col+'">'+
-            '<div class="hm-li" style="--lc:'+col+'">'+
+          html+='<div class="hm-vtl-item'+(v.done?' done':'')+'" style="--lc:'+col+'">'+
+            '<div class="hm-vtl-rail">'+
               '<button class="hm-vchk'+(v.done?' done':'')+'" onclick="hmVaxToggle('+i+')">'+(v.done?VX_CHK:'')+'</button>'+
-              '<div class="hm-li-tx" onclick="hmVaxOpen('+i+')"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+v.date+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
-              '<button class="hm-vexp" onclick="hmVaxOpen('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
+            '</div>'+
+            '<div class="hm-vtl-card" onclick="hmVaxOpen('+i+')">'+
+              '<div class="hm-li-tx"><div class="hm-li-n">'+v.name+'</div><div class="hm-li-s">'+v.age+' · '+v.date+(v.reminder?' · 🔔 Reminder on':'')+'</div></div>'+
+              '<button class="hm-vexp" onclick="event.stopPropagation();hmVaxOpen('+i+')" aria-label="Details">'+VX_CHEV+'</button>'+
             '</div>'+
           '</div>';
         });
       });
-      list.innerHTML=html;
+      list.innerHTML=html?('<div class="hm-vtl">'+html+'</div>'):'';
     }
     function hmVaxFilterSet(f,el){ HM_VAX_FILTER=f; if(el&&el.parentNode){ Array.prototype.forEach.call(el.parentNode.children,function(b){ b.classList.toggle('on', b===el); }); } renderHmVax(); }
     function hmVaxFilterReset(){ HM_VAX_FILTER='must'; var row=document.getElementById('hmVaxFilter'); if(row) Array.prototype.forEach.call(row.children,function(b){ b.classList.toggle('on', b.getAttribute('data-f')==='must'); }); }
