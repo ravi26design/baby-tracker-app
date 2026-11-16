@@ -5,95 +5,147 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baby Tracker — First Time</title>
 <style>
-  :root{--ink:#3a332e;--muted:#8b8296;--card-bg:#faf9fe;--lav:#9b8bc4;--lav2:#8574b5;}
+  :root{--ink:#3a332e;--muted:#8b8296;--card-bg:#faf9fe;--card:#fff;--lav:#9b8bc4;--lav2:#8574b5;
+    --radius-lg:24px;--radius-md:20px;--shadow-soft:0 10px 24px -14px rgba(90,60,120,.4);
+    --shadow-card:0 18px 40px -22px rgba(120,80,95,.35);--ring:inset 0 0 0 1px rgba(139,116,181,.08);--orange-3:#d98a3d;}
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:linear-gradient(160deg,#efeaf6,#e6e0f0 55%,#ece6f4);
     display:flex;align-items:safe center;justify-content:center;min-height:100vh;padding:28px 0;
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink);
-  }
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink);}
   .phone{position:relative;width:390px;height:844px;border-radius:56px;background:#0c0c0c;
     box-shadow:0 50px 90px -30px rgba(40,20,30,.6),0 12px 30px rgba(40,20,30,.25),inset 0 0 0 2px #2a2a2a;overflow:hidden;}
   .screen{position:absolute;inset:11px;border-radius:46px;overflow:hidden;background:linear-gradient(180deg,#f6f3fa,#efebf5);}
   .scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:124px;}
   .scroll::-webkit-scrollbar{display:none;}
-  /* status bar */
   .statusbar{position:relative;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font-weight:700;color:var(--ink);z-index:3;}
   .statusbar .time{font-size:16px;letter-spacing:.3px;}
   .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:20px;}
   .status-icons{display:flex;align-items:center;gap:7px;}
   .content{position:relative;z-index:2;padding:4px 22px 30px;}
 
-  .pg-title{font-size:27px;font-weight:800;letter-spacing:-.6px;margin:6px 0 2px;}
-  .pg-sub{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:18px;}
+  /* ===== home header (from app) ===== */
+  .header{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .greet{display:flex;align-items:center;gap:13px;}
+  .avatar{width:48px;height:48px;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 40% 30%,#ffd9a0,#f6b26a) center/cover no-repeat;
+    display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:var(--shadow-soft);}
+  .greet .hi{font-size:23px;font-weight:800;color:var(--ink);line-height:1.05;letter-spacing:-.5px;}
+  .greet .date{font-size:12.5px;color:var(--muted);margin-top:3px;font-weight:500;}
+  .bell{position:relative;width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-soft);cursor:pointer;}
+  .bell .dot{position:absolute;top:12px;right:13px;width:9px;height:9px;border-radius:50%;background:#f0533f;border:2px solid #fff;}
 
-  /* generic empty state */
-  .es{display:flex;flex-direction:column;align-items:center;text-align:center;padding:30px 18px;}
-  .es-ic{width:86px;height:86px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:40px;
+  /* ===== child tabs (single child) ===== */
+  .child-tabs{display:flex;gap:9px;margin:16px 0 0;}
+  .child-tab{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 14px;border-radius:17px;border:none;cursor:pointer;background:#fff;box-shadow:var(--ring);}
+  .child-tab .ct-face{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:#f1ecf8;}
+  .child-tab .ct-t{text-align:left;line-height:1.1;}
+  .child-tab .ct-name{display:block;font-size:14px;font-weight:800;color:#8a8788;letter-spacing:-.2px;white-space:nowrap;}
+  .child-tab .ct-age{display:block;font-size:10.5px;font-weight:700;color:#b3aab8;margin-top:1px;white-space:nowrap;}
+  .child-tab.active{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);box-shadow:0 12px 22px -8px rgba(140,116,181,.6);}
+  .child-tab.active .ct-name{color:#fff;}
+  .child-tab.active .ct-age{color:rgba(255,255,255,.8);}
+  .child-tab.active .ct-face{box-shadow:inset 0 0 0 2px rgba(255,255,255,.9);background:rgba(255,255,255,.25);}
+
+  /* ===== welcome card (from app) ===== */
+  .welcome-card{position:relative;overflow:hidden;background:linear-gradient(150deg,#ece7f8,#e0d8f2);color:var(--ink);border-radius:20px;padding:16px 18px;margin:16px 0 0;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);min-height:118px;}
+  .welcome-card::after{content:'';position:absolute;top:-55px;right:-45px;width:150px;height:150px;border-radius:50%;background:rgba(139,116,181,.10);}
+  .wc-title{position:relative;z-index:1;font-size:14.5px;font-weight:800;letter-spacing:-.3px;line-height:1.2;}
+  .wc-text{position:relative;z-index:1;font-size:12.5px;font-weight:500;color:#6f6683;margin-top:6px;line-height:1.5;max-width:200px;}
+  .wc-cta{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;margin-top:15px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:9px 16px;border-radius:20px;transition:transform .12s;}
+  .wc-cta:active{transform:scale(.97);}
+  .wc-cta svg{width:14px;height:14px;}
+  .welcome-card .wc-illo{position:absolute;right:-6px;bottom:-4px;width:150px;height:auto;z-index:0;pointer-events:none;object-fit:contain;}
+
+  /* ===== milestone rings card (from app) ===== */
+  .card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow-card),var(--ring);}
+  .child-card{padding:18px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#fbf9fd);box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);margin-top:16px;}
+  .cc-mile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .cc-mile-title{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .cc-mile-explore{display:inline-flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700;color:#8574b5;cursor:pointer;}
+  .cc-mile-explore svg{width:15px;height:15px;}
+  .cc-mile-grid{display:flex;padding:10px 2px 2px;}
+  .cc-mile-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;}
+  .cc-mile-item .mi-circle{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
+  .mi-ring{position:absolute;inset:0;transform:rotate(-90deg);}
+  .mi-track{fill:none;stroke:rgba(0,0,0,.07);stroke-width:3.4;}
+  .mi-prog{fill:none;stroke-width:3.4;stroke-linecap:round;}
+  .m-motor .mi-prog{stroke:#ec9a4e;} .m-idea .mi-prog{stroke:#4f96e6;} .m-lang .mi-prog{stroke:#9c85d4;} .m-social .mi-prog{stroke:#3fbe80;}
+  .cc-mile-item .mi-ico{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -9px rgba(90,80,90,.22);}
+  .cc-mile-item .mi-ico svg{width:22px;height:22px;}
+  .m-motor .mi-ico{background:color-mix(in srgb,#ec9a4e 17%,#fff);color:#ec9a4e;}
+  .m-idea .mi-ico{background:color-mix(in srgb,#4f96e6 17%,#fff);color:#4f96e6;}
+  .m-lang .mi-ico{background:color-mix(in srgb,#9c85d4 18%,#fff);color:#9c85d4;}
+  .m-social .mi-ico{background:color-mix(in srgb,#3fbe80 17%,#fff);color:#3fbe80;}
+  .cc-mile-item .mi-name{font-size:11px;font-weight:700;color:#8a8790;letter-spacing:.2px;margin-top:1px;}
+  .cc-mile-foot{margin-top:12px;padding-top:13px;border-top:1px solid #f2eef7;text-align:center;font-size:12px;font-weight:600;color:var(--muted);line-height:1.5;}
+
+  /* ===== featured memory (from app) ===== */
+  .memory{margin-top:30px;}
+  .sec-head{display:flex;align-items:flex-start;justify-content:space-between;}
+  .sec-head h2{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.4px;}
+  .mem-viewall{display:inline-flex;align-items:center;gap:2px;font-size:13px;font-weight:700;color:#8574b5;cursor:pointer;flex-shrink:0;}
+  .mem-viewall svg{width:15px;height:15px;}
+  .mem-cards{display:flex;gap:14px;overflow-x:auto;touch-action:pan-x;scroll-snap-type:x mandatory;margin:16px -22px 0;padding:2px 22px 4px;scroll-padding-left:22px;}
+  .mem-cards::-webkit-scrollbar{display:none;}
+  .mem-card{position:relative;flex:0 0 82%;scroll-snap-align:start;background:var(--card-bg);border-radius:26px;padding:18px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .mem-img{height:190px;border-radius:18px;overflow:hidden;margin-bottom:13px;}
+  .me-empty{position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;}
+  .me-post{background:linear-gradient(160deg,#efe9f8,#e3d8f4);border:2px dashed rgba(139,116,181,.42);}
+  .me-body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:11px;padding:15px;height:100%;}
+  .me-up{width:54px;height:54px;border-radius:16px;background:color-mix(in srgb,var(--mec,#9b8bc4) 20%,#fff);color:var(--mec,#9b8bc4);display:flex;align-items:center;justify-content:center;}
+  .me-up svg{width:26px;height:26px;}
+  .me-msg{font-size:13px;font-weight:600;color:#8a8296;max-width:200px;line-height:1.5;}
+  .me-msg b{color:var(--ink);font-weight:800;}
+  .me-cta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#a58fd8,#8f78c4);padding:9px 15px;border-radius:20px;}
+  .me-cta svg{width:14px;height:14px;}
+  .mem-title{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .mem-desc{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:4px;line-height:1.45;}
+
+  /* ===== page titles (community / health) ===== */
+  .pg-h1{font-size:23px;font-weight:800;color:var(--ink);letter-spacing:-.5px;margin-top:6px;}
+  .pg-sub{font-size:13px;color:var(--muted);font-weight:600;margin-top:3px;}
+
+  /* ===== empty state (community / health) ===== */
+  .es{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 18px 10px;}
+  .es-ic{width:84px;height:84px;border-radius:27px;display:flex;align-items:center;justify-content:center;font-size:38px;
     background:color-mix(in srgb,var(--ec,#9b8bc4) 14%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ec,#9b8bc4) 18%,transparent),0 18px 34px -20px color-mix(in srgb,var(--ec,#9b8bc4) 70%,transparent);margin-bottom:18px;}
   .es-t{font-size:18px;font-weight:800;letter-spacing:-.3px;}
-  .es-d{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55;max-width:270px;margin-top:8px;}
+  .es-d{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55;max-width:265px;margin-top:8px;}
   .es-btns{display:flex;flex-direction:column;gap:10px;margin-top:20px;width:100%;max-width:280px;}
   .btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;padding:14px;border-radius:16px;transition:transform .12s;}
   .btn:active{transform:scale(.98);}
   .btn svg{width:18px;height:18px;}
   .btn.primary{background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;box-shadow:0 14px 26px -10px rgba(140,116,181,.6);}
   .btn.ghost{background:#fff;color:var(--lav2);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--lav) 32%,transparent);}
+  .sec-h{font-size:15px;font-weight:800;letter-spacing:-.3px;margin:22px 0 11px;}
+  .setup-card{display:flex;align-items:center;gap:13px;background:#fff;border-radius:18px;padding:14px 15px;margin-bottom:11px;box-shadow:var(--ring);}
+  .setup-card .sc-ic{width:44px;height:44px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ec,#9b8bc4) 13%,#fff);color:var(--ec,#9b8bc4);}
+  .setup-card .sc-ic svg{width:22px;height:22px;}
+  .setup-card .sc-t{font-size:13.5px;font-weight:800;}
+  .setup-card .sc-d{font-size:11.5px;color:var(--muted);font-weight:500;margin-top:3px;}
+  .setup-card .sc-go{margin-left:auto;color:#c7bdd6;}
+  .setup-card .sc-go svg{width:17px;height:17px;}
 
-  /* home welcome */
-  .hm-top{display:flex;align-items:center;gap:13px;margin:4px 0 16px;}
-  .hm-av{width:52px;height:52px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--lav);
-    background:#fff;border:2px dashed color-mix(in srgb,var(--lav) 45%,#fff);font-size:24px;}
-  .hm-hi{font-size:21px;font-weight:800;letter-spacing:-.4px;}
-  .hm-hid{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:2px;}
-  .hm-bell{margin-left:auto;width:42px;height:42px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#b3aac2;box-shadow:0 8px 18px -10px rgba(90,60,120,.35);}
-  .hm-bell svg{width:19px;height:19px;}
+  /* ===== checklist (from app) ===== */
+  .ck-intro{position:relative;overflow:hidden;display:flex;gap:13px;align-items:center;background:linear-gradient(150deg,#ece7f8,#e0d8f2);border-radius:20px;margin:16px 0 2px;padding:15px 16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.14);}
+  .ck-intro::after{content:'';position:absolute;top:-40px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(139,116,181,.10);}
+  .ck-intro .ci-ic{position:relative;z-index:1;width:42px;height:42px;border-radius:13px;flex-shrink:0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:var(--shadow-soft);}
+  .ck-intro .ci-t{position:relative;z-index:1;font-size:13.5px;font-weight:800;letter-spacing:-.2px;}
+  .ck-intro .ci-d{position:relative;z-index:1;font-size:11.5px;color:#6f6683;font-weight:600;margin-top:3px;line-height:1.4;}
+  .hub-cat{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;background:#fff;border-radius:24px;padding:14px 15px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .13s;margin-top:12px;}
+  .hub-cat:active{transform:scale(.99);}
+  .hub-cat .hc-ic{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:23px;background:color-mix(in srgb,var(--hcc,#9b8bc4) 16%,#fff);}
+  .hub-cat .hc-t{flex:1;min-width:0;}
+  .hub-cat .hc-n{font-size:13px;font-weight:800;letter-spacing:-.2px;}
+  .hub-cat .hc-prog{display:flex;align-items:center;gap:9px;margin-top:9px;}
+  .hub-cat .hc-bar{flex:1;height:5px;border-radius:4px;background:#efeaf6;overflow:hidden;}
+  .hub-cat .hc-bar i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,#e0d7f2,#cfc3ec);}
+  .hub-cat .hc-pct{font-size:11px;font-weight:800;color:#8574b5;flex-shrink:0;min-width:28px;text-align:right;}
+  .hub-cat .hc-chev{width:24px;color:#c2b9d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .hub-cat .hc-chev svg{width:17px;height:17px;}
 
-  .welcome{position:relative;overflow:hidden;background:linear-gradient(150deg,#efe9fb,#e4dcf6);border-radius:24px;padding:20px;margin-bottom:16px;}
-  .welcome .wl-ic{font-size:34px;}
-  .welcome h3{font-size:16.5px;font-weight:800;letter-spacing:-.3px;margin:8px 0 5px;}
-  .welcome p{font-size:13px;color:#6a6079;font-weight:500;line-height:1.5;max-width:230px;}
-  .welcome .btn.primary{margin-top:15px;max-width:180px;}
-  .welcome .wl-orb{position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#fff,transparent 70%);opacity:.5;}
-
-  .sec-h{font-size:15px;font-weight:800;letter-spacing:-.3px;margin:20px 0 11px;}
-  .empty-card{background:#fff;border-radius:20px;padding:22px 18px;text-align:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
-  .empty-card.dashed{background:transparent;box-shadow:none;border:2px dashed color-mix(in srgb,var(--lav) 30%,#fff);}
-  .empty-card .ec-ic{width:52px;height:52px;border-radius:16px;margin:0 auto 11px;display:flex;align-items:center;justify-content:center;font-size:24px;background:color-mix(in srgb,var(--ec,#9b8bc4) 13%,#fff);color:var(--ec,#9b8bc4);}
-  .empty-card .ec-ic svg{width:24px;height:24px;}
-  .empty-card .ec-t{font-size:13.5px;font-weight:800;}
-  .empty-card .ec-d{font-size:12px;color:var(--muted);font-weight:500;margin-top:4px;line-height:1.45;}
-
-  .mile-row{display:flex;gap:10px;}
-  .mile-chip{flex:1;background:#fff;border-radius:18px;padding:14px 8px 12px;text-align:center;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);opacity:.75;}
-  .mile-chip .mc-dot{width:40px;height:40px;border-radius:50%;margin:0 auto 8px;border:2px dashed #d7cfe6;display:flex;align-items:center;justify-content:center;color:#c3b9d8;}
-  .mile-chip .mc-dot svg{width:18px;height:18px;}
-  .mile-chip .mc-l{font-size:10.5px;font-weight:700;color:#a99fb8;}
-
-  /* checklist fresh */
-  .ck-banner{display:flex;gap:12px;align-items:center;background:linear-gradient(150deg,#eef9f1,#e1f3e7);border-radius:18px;padding:14px 15px;margin-bottom:16px;}
-  .ck-banner .cb-ic{width:40px;height:40px;border-radius:12px;flex-shrink:0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;}
-  .ck-banner .cb-t{font-size:13px;font-weight:800;}
-  .ck-banner .cb-d{font-size:11.5px;color:#5f8a6e;font-weight:600;margin-top:2px;}
-  .prog-wrap{background:#fff;border-radius:20px;padding:16px 17px;margin-bottom:16px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
-  .prog-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
-  .prog-top b{font-size:22px;font-weight:800;}
-  .prog-top b span{font-size:14px;color:#b3aac2;font-weight:700;}
-  .prog-top .pt-r{font-size:12px;font-weight:700;color:var(--lav2);}
-  .pbar{height:8px;border-radius:5px;background:#efeaf6;overflow:hidden;}
-  .pbar i{display:block;height:100%;width:0%;border-radius:5px;background:linear-gradient(90deg,#b0a2d8,#9b8bc4);}
-  .cat{display:flex;align-items:center;gap:13px;background:#fff;border-radius:20px;padding:14px 15px;margin-bottom:11px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);}
-  .cat .cat-ic{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;background:color-mix(in srgb,var(--cc,#9b8bc4) 15%,#fff);}
-  .cat .cat-t{flex:1;min-width:0;}
-  .cat .cat-n{font-size:13px;font-weight:800;}
-  .cat .cat-s{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:5px;display:flex;align-items:center;gap:7px;}
-  .cat .cat-bar{flex:1;height:5px;border-radius:4px;background:#efeaf6;overflow:hidden;max-width:120px;}
-  .cat .cat-go{color:#c7bdd6;flex-shrink:0;}
-  .cat .cat-go svg{width:17px;height:17px;}
-
-  /* bottom nav (from app) */
+  /* ===== bottom nav (from app) ===== */
   .bottom-nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:#fff;border-radius:30px 30px 0 0;
     display:flex;align-items:center;justify-content:space-around;padding:16px 26px 24px;z-index:6;
     -webkit-mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);
@@ -112,10 +164,9 @@
   .nav-add:active{transform:translateX(-50%) scale(.94);}
   .home-indicator{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;opacity:.85;z-index:7;}
 
-  .page{display:none;}
-  .page.show{display:block;}
+  .page{display:none;} .page.show{display:block;}
 
-  /* add menu sheet */
+  /* add menu */
   .am-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:40;visibility:hidden;}
   .am-layer.open{visibility:visible;}
   .am-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
@@ -129,7 +180,6 @@
   .am-opt .ao-t{font-size:14px;font-weight:800;}
   .am-opt .ao-d{font-size:11.5px;color:var(--muted);font-weight:500;margin-top:2px;}
 
-  /* toast */
   .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(14px);background:#2e2838;color:#fff;font-size:13px;font-weight:700;padding:11px 18px;border-radius:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
@@ -159,47 +209,80 @@
         <div class="content">
           <!-- ============ HOME (first time) ============ -->
           <div class="page show" id="pg-home">
-            <div class="hm-top">
-              <div class="hm-av">+</div>
-              <div>
-                <div class="hm-hi">Welcome 👋</div>
-                <div class="hm-hid">Let's set up your little one</div>
+            <div class="header">
+              <div class="greet">
+                <div class="avatar">👶</div>
+                <div>
+                  <div class="hi">Hi, Priya</div>
+                  <div class="date">Let's capture Mark's firsts 💛</div>
+                </div>
               </div>
-              <div class="hm-bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+              <div class="bell" onclick="toast('Notifications')"><span class="dot"></span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b2622" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+              </div>
             </div>
 
-            <div class="welcome">
-              <div class="wl-orb"></div>
-              <div class="wl-ic">🍼</div>
-              <h3>Add your baby's profile</h3>
-              <p>Set a name, birth date & photo to unlock milestones, memories and reminders.</p>
-              <button class="btn primary" onclick="toast('Add baby profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Baby</button>
+            <div class="welcome-card">
+              <img class="wc-illo" src="floor-play.webp" alt="">
+              <div class="wc-title">Welcome, Mark! 🎉</div>
+              <div class="wc-text">Add a few details to personalise <b>his milestones</b> &amp; reminders.</div>
+              <button class="wc-cta" onclick="toast('Complete setup')">Complete setup<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
             </div>
 
-            <div class="sec-h">Milestones</div>
-            <div class="mile-row">
-              <div class="mile-chip"><div class="mc-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div><div class="mc-l">Motor</div></div>
-              <div class="mile-chip"><div class="mc-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div><div class="mc-l">Cognitive</div></div>
-              <div class="mile-chip"><div class="mc-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div><div class="mc-l">Language</div></div>
-              <div class="mile-chip"><div class="mc-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div><div class="mc-l">Social</div></div>
+            <div class="child-card">
+              <div class="cc-mile-head">
+                <div class="cc-mile-title">Mark's Milestones</div>
+                <span class="cc-mile-explore" onclick="toast('Explore milestones')">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+              </div>
+              <div class="cc-mile-grid">
+                <div class="cc-mile-item m-motor"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:188.5"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.4C4 11.5 3 10.6 3 8.1 3 5.4 4.5 2.1 7.5 2.1 9.4 2.1 10 3.9 10 5.6c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20.5V18c0-2.1 1-3 1-5.5 0-2.7-1.5-6-4.5-6-1.9 0-2.5 1.8-2.5 3.5 0 3.1 2 5.7 2 8.7v1.8a2 2 0 1 0 4 0Z"/></svg></span></div><span class="mi-name">Motor</span></div>
+                <div class="cc-mile-item m-idea"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:188.5"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M15.1 14c.2-1 .7-1.8 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .25 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></svg></span></div><span class="mi-name">Cognitive</span></div>
+                <div class="cc-mile-item m-lang"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:188.5"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.4a7.4 7.4 0 0 1-10.8 6.6L4 19.5l1.4-4.3A7.4 7.4 0 1 1 20 11.4Z"/><path d="M8.5 11.4h.01M12 11.4h.01M15.5 11.4h.01"/></svg></span></div><span class="mi-name">Language</span></div>
+                <div class="cc-mile-item m-social"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:188.5"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 20v-1.5a3.5 3.5 0 0 0-3.5-3.5H7a3.5 3.5 0 0 0-3.5 3.5V20"/><circle cx="9.5" cy="7.5" r="3.5"/><path d="M20.5 20v-1.5a3.5 3.5 0 0 0-2.6-3.4"/><path d="M15.5 4.1a3.5 3.5 0 0 1 0 6.8"/></svg></span></div><span class="mi-name">Social</span></div>
+              </div>
+              <div class="cc-mile-foot">Log Mark's firsts and these rings will start filling up.</div>
             </div>
 
-            <div class="sec-h">Featured memory</div>
-            <div class="empty-card dashed" style="--ec:#e0638f" onclick="toast('Capture first memory')">
-              <div class="ec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.2-1.6A1 1 0 0 1 10 4h4a1 1 0 0 1 .8.4L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.2"/></svg></div>
-              <div class="ec-t">Capture your first memory</div>
-              <div class="ec-d">Add a photo & a little note — it'll appear here.</div>
+            <div class="memory">
+              <div class="sec-head" style="align-items:center">
+                <h2>Featured Memory</h2>
+                <span class="mem-viewall" onclick="setTab('home')">View All<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+              </div>
+              <div class="mem-cards">
+                <div class="mem-card">
+                  <div class="mem-img me-empty me-post">
+                    <div class="me-body">
+                      <div class="me-up" style="--mec:#e0638f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.2-1.6A1 1 0 0 1 10 4h4a1 1 0 0 1 .8.4L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.2"/></svg></div>
+                      <div class="me-msg">Add Mark's <b>First Smile</b> memory</div>
+                      <div class="me-cta" onclick="toast('Upload photo')">Upload photo</div>
+                    </div>
+                  </div>
+                  <div class="mem-title">First Smile</div>
+                  <div class="mem-desc">Capture this special first and it'll appear here.</div>
+                </div>
+                <div class="mem-card">
+                  <div class="mem-img me-empty me-post">
+                    <div class="me-body">
+                      <div class="me-up" style="--mec:#e0a44e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.2-1.6A1 1 0 0 1 10 4h4a1 1 0 0 1 .8.4L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.2"/></svg></div>
+                      <div class="me-msg">Add Mark's <b>First Steps</b> memory</div>
+                      <div class="me-cta" onclick="toast('Upload photo')">Upload photo</div>
+                    </div>
+                  </div>
+                  <div class="mem-title">First Steps</div>
+                  <div class="mem-desc">Capture this special first and it'll appear here.</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- ============ COMMUNITY (empty) ============ -->
+          <!-- ============ COMMUNITY ============ -->
           <div class="page" id="pg-community">
-            <div class="pg-title">Community</div>
-            <div class="pg-sub">Share moments with family & friends</div>
-            <div class="es" style="--ec:#5aa6e0">
+            <div class="pg-h1">Community</div>
+            <div class="pg-sub">Share Mark's moments with family &amp; friends</div>
+            <div class="es" style="--ec:#5aa6e0;margin-top:14px">
               <div class="es-ic">👨‍👩‍👧</div>
               <div class="es-t">No groups yet</div>
-              <div class="es-d">Create a group or join with an invite link to start sharing memories with the people you love.</div>
+              <div class="es-d">Create a group or join with an invite link to start sharing Mark's memories with the people you love.</div>
               <div class="es-btns">
                 <button class="btn primary" onclick="toast('Create a group')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Create a group</button>
                 <button class="btn ghost" onclick="toast('Join with code')">Join with a code</button>
@@ -207,39 +290,39 @@
             </div>
           </div>
 
-          <!-- ============ CHECKLIST (fresh) ============ -->
+          <!-- ============ CHECKLIST ============ -->
           <div class="page" id="pg-checklist">
-            <div class="pg-title">Checklist</div>
-            <div class="pg-sub">Everything you need, stage by stage</div>
-            <div class="ck-banner">
-              <div class="cb-ic">📋</div>
-              <div><div class="cb-t">Your checklist is ready</div><div class="cb-d">Tick items off as you go — nothing done yet.</div></div>
+            <div class="pg-h1">Checklist</div>
+            <div class="child-tabs">
+              <button class="child-tab active"><span class="ct-face">👶</span><span class="ct-t"><span class="ct-name">Mark</span><span class="ct-age">Newborn</span></span></button>
             </div>
-            <div class="prog-wrap">
-              <div class="prog-top"><b>0<span>/24</span></b><span class="pt-r">0% complete</span></div>
-              <div class="pbar"><i></i></div>
+            <div class="ck-intro">
+              <div class="ci-ic">📋</div>
+              <div><div class="ci-t">Mark's checklist is ready</div><div class="ci-d">Tick items off as you go — nothing done yet.</div></div>
             </div>
-            <div class="cat" style="--cc:#6f93d6" onclick="toast('Open Travel')"><div class="cat-ic">✈️</div><div class="cat-t"><div class="cat-n">Travel</div><div class="cat-s">0/5<div class="cat-bar"><i style="display:block;height:100%;width:0;background:#cfc3ec"></i></div></div></div><span class="cat-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
-            <div class="cat" style="--cc:#ef9a4e" onclick="toast('Open Baby Essentials')"><div class="cat-ic">🍼</div><div class="cat-t"><div class="cat-n">Baby Essentials</div><div class="cat-s">0/8<div class="cat-bar"><i style="display:block;height:100%;width:0;background:#cfc3ec"></i></div></div></div><span class="cat-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
-            <div class="cat" style="--cc:#9b8bc4" onclick="toast('Open Toys')"><div class="cat-ic">🧸</div><div class="cat-t"><div class="cat-n">Toys (age-wise)</div><div class="cat-s">0/6<div class="cat-bar"><i style="display:block;height:100%;width:0;background:#cfc3ec"></i></div></div></div><span class="cat-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
-            <div class="cat" style="--cc:#45b487" onclick="toast('Open Hospital Bag')"><div class="cat-ic">🏥</div><div class="cat-t"><div class="cat-n">Hospital Bag</div><div class="cat-s">0/5<div class="cat-bar"><i style="display:block;height:100%;width:0;background:#cfc3ec"></i></div></div></div><span class="cat-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            <div class="hub-cat" style="--hcc:#6f93d6" onclick="toast('Open Travel')"><span class="hc-ic">✈️</span><div class="hc-t"><div class="hc-n">Travel</div><div class="hc-prog"><div class="hc-bar"><i></i></div><span class="hc-pct">0%</span></div></div><span class="hc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            <div class="hub-cat" style="--hcc:#ef9a4e" onclick="toast('Open Baby Essentials')"><span class="hc-ic">🍼</span><div class="hc-t"><div class="hc-n">Baby Essentials</div><div class="hc-prog"><div class="hc-bar"><i></i></div><span class="hc-pct">0%</span></div></div><span class="hc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            <div class="hub-cat" style="--hcc:#9b8bc4" onclick="toast('Open Toys')"><span class="hc-ic">🧸</span><div class="hc-t"><div class="hc-n">Toys (age-wise)</div><div class="hc-prog"><div class="hc-bar"><i></i></div><span class="hc-pct">0%</span></div></div><span class="hc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            <div class="hub-cat" style="--hcc:#45b487" onclick="toast('Open Hospital Bag')"><span class="hc-ic">🏥</span><div class="hc-t"><div class="hc-n">Hospital Bag</div><div class="hc-prog"><div class="hc-bar"><i></i></div><span class="hc-pct">0%</span></div></div><span class="hc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
           </div>
 
-          <!-- ============ HEALTH (empty) ============ -->
+          <!-- ============ HEALTH ============ -->
           <div class="page" id="pg-health">
-            <div class="pg-title">Health</div>
-            <div class="pg-sub">Growth, vaccinations & visits in one place</div>
-            <div class="es" style="--ec:#39a876">
+            <div class="pg-h1">Health</div>
+            <div class="child-tabs">
+              <button class="child-tab active"><span class="ct-face">👶</span><span class="ct-t"><span class="ct-name">Mark</span><span class="ct-age">Newborn</span></span></button>
+            </div>
+            <div class="es" style="--ec:#39a876;margin-top:16px">
               <div class="es-ic">🩺</div>
-              <div class="es-t">No records yet</div>
-              <div class="es-d">Log your baby's growth measurements, vaccinations and doctor visits to keep everything in one place.</div>
+              <div class="es-t">No records for Mark yet</div>
+              <div class="es-d">Log Mark's growth, vaccinations and doctor visits to keep everything in one place.</div>
               <div class="es-btns">
                 <button class="btn primary" onclick="toast('Add first record')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add a record</button>
               </div>
             </div>
-            <div class="sec-h">Set up</div>
-            <div class="empty-card" style="--ec:#5a78d4;margin-bottom:11px"><div class="ec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg></div><div class="ec-t">Growth chart</div><div class="ec-d">Add weight & height to see the curve.</div></div>
-            <div class="empty-card" style="--ec:#8574b5"><div class="ec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg></div><div class="ec-t">Vaccination schedule</div><div class="ec-d">We'll build it from the birth date.</div></div>
+            <div class="sec-h">Set up for Mark</div>
+            <div class="setup-card" style="--ec:#5a78d4" onclick="toast('Set up growth chart')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg></span><div><div class="sc-t">Growth chart</div><div class="sc-d">Add weight &amp; height to see the curve.</div></div><span class="sc-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
+            <div class="setup-card" style="--ec:#8574b5" onclick="toast('Set up vaccinations')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M5 12h14M5 17h9"/></svg></span><div><div class="sc-t">Vaccination schedule</div><div class="sc-d">We'll build it from Mark's birth date.</div></div><span class="sc-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></div>
           </div>
         </div>
       </div>
@@ -249,8 +332,8 @@
         <div class="am-bd" onclick="closeAdd()"></div>
         <div class="am-sheet">
           <div class="am-grab"></div>
-          <div class="am-opt" style="--ac:#e0638f" onclick="pick('memory')"><div class="ao-ic">📷</div><div><div class="ao-t">Add a memory</div><div class="ao-d">Photo & a little note</div></div></div>
-          <div class="am-opt" style="--ac:#e0a44e" onclick="pick('milestone')"><div class="ao-ic">⭐</div><div><div class="ao-t">Log a milestone</div><div class="ao-d">First smile, first step…</div></div></div>
+          <div class="am-opt" style="--ac:#e0638f" onclick="pick('memory')"><div class="ao-ic">📷</div><div><div class="ao-t">Add a memory</div><div class="ao-d">Capture Mark's first moment</div></div></div>
+          <div class="am-opt" style="--ac:#e0a44e" onclick="pick('milestone')"><div class="ao-ic">⭐</div><div><div class="ao-t">Log a milestone</div><div class="ao-d">Mark's first smile, first step…</div></div></div>
           <div class="am-opt" style="--ac:#39a876" onclick="pick('health')"><div class="ao-ic">🩺</div><div><div class="ao-t">Add a health record</div><div class="ao-d">Growth, vaccine or visit</div></div></div>
         </div>
       </div>
@@ -304,10 +387,7 @@
   function closeAdd(){ document.getElementById('amLayer').classList.remove('open'); }
   function pick(k){ closeAdd(); var m={memory:'Add a memory',milestone:'Log a milestone',health:'Add a health record'}; toast(m[k]||'Add'); }
   var _tt;
-  function toast(msg){
-    var t=document.getElementById('toast'); t.textContent=msg+' · coming soon';
-    t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1700);
-  }
+  function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg+' · coming soon'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1700); }
 </script>
 </body>
 </html>
