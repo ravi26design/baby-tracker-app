@@ -2160,7 +2160,6 @@
             <div class="iv-combo-sec">
               <div class="iv-combo-lbl">Link &amp; code expiry</div>
               <button class="iv-exp-row" onclick="ivExpiryOpen()">
-                <span class="iv-exp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></span>
                 <span class="iv-exp-tx"><span class="iv-exp-t" id="ivDExpiry">Never expires</span><span class="iv-exp-s">Choose when this invite stops working</span></span>
                 <span class="iv-exp-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
               </button>
@@ -3004,7 +3003,7 @@
         : '<div class="iv-mempty"><div class="iv-mempty-illo"><svg viewBox="0 0 140 108" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="70" cy="98" rx="44" ry="5" fill="#5a4a78" opacity=".10"/><circle cx="34" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="106" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="70" cy="55" r="24" fill="#c9bdec" stroke="#3b3550" stroke-width="2.8"/><circle cx="70" cy="48" r="7.6" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><path d="M56 70c0-6.6 6.3-10.5 14-10.5s14 3.9 14 10.5z" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><circle cx="100" cy="30" r="12" fill="#8574b5" stroke="#3b3550" stroke-width="2.4"/><path d="M100 25v10M95 30h10" stroke="#fff" stroke-width="2.4"/><path d="M28 24l1.2 2.6 2.6 1.2-2.6 1.2L28 33.6l-1.2-2.6L23.2 30l2.6-1.2z" fill="#f3c969" stroke="#3b3550" stroke-width="1.3"/></svg></div><div class="iv-mempty-t">No one has joined yet</div><div class="iv-mempty-s">Share the invite link and people will appear here once they join.</div></div>';
       var fe=document.getElementById('ivDFeatures');
       if(fe){ var mem=(g.features && g.features.length===1 && g.features[0]==='memories'); var opt=null; for(var oi=0;oi<IV_FEAT_OPTS.length;oi++){ if(IV_FEAT_OPTS[oi].k===(mem?'memories':'all')){ opt=IV_FEAT_OPTS[oi]; break; } }
-        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-ic">'+opt.ic+'</span><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span></span></span>'; }
+        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span></span></span>'; }
       ivShowView('detail');
     }
     function ivAddMemberOpen(){ var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone'); if(ni) ni.value=''; if(pi) pi.value=''; document.getElementById('ivAddSheet').classList.add('open'); }
