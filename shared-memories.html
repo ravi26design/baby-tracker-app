@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Tracker — Shared (Family Viewer)</title>
+<style>
+  :root{--ink:#3a332e;--muted:#8b8296;--card-bg:#faf9fe;--card:#fff;--lav:#9b8bc4;--lav2:#8574b5;
+    --shadow-soft:0 10px 24px -14px rgba(90,60,120,.4);
+    --shadow-card:0 18px 40px -22px rgba(120,80,95,.35);--ring:inset 0 0 0 1px rgba(139,116,181,.08);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#efeaf6,#e6e0f0 55%,#ece6f4);
+    display:flex;align-items:safe center;justify-content:center;min-height:100vh;padding:28px 0;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink);}
+  .phone{position:relative;width:390px;height:844px;border-radius:56px;background:#0c0c0c;
+    box-shadow:0 50px 90px -30px rgba(40,20,30,.6),0 12px 30px rgba(40,20,30,.25),inset 0 0 0 2px #2a2a2a;overflow:hidden;}
+  .screen{position:absolute;inset:11px;border-radius:46px;overflow:hidden;background:linear-gradient(180deg,#f6f3fa,#efebf5);}
+  .scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:124px;}
+  .scroll::-webkit-scrollbar{display:none;}
+  .statusbar{position:relative;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font-weight:700;color:var(--ink);z-index:3;}
+  .statusbar .time{font-size:16px;letter-spacing:.3px;}
+  .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:20px;}
+  .status-icons{display:flex;align-items:center;gap:7px;}
+  .content{position:relative;z-index:2;padding:4px 22px 30px;}
+
+  .header{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .greet{display:flex;align-items:center;gap:13px;}
+  .avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;
+    background:radial-gradient(circle at 42% 34%,#ffe6c8,#f3b985);box-shadow:var(--shadow-soft);}
+  .greet .hi{font-size:23px;font-weight:800;color:var(--ink);line-height:1.05;letter-spacing:-.5px;}
+  .greet .date{font-size:12.5px;color:var(--muted);margin-top:3px;font-weight:500;}
+  .bell{position:relative;width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-soft);cursor:pointer;}
+  .bell .dot{position:absolute;top:12px;right:13px;width:9px;height:9px;border-radius:50%;background:#f0533f;border:2px solid #fff;}
+
+  /* access banner */
+  .access{position:relative;overflow:hidden;display:flex;gap:13px;align-items:center;background:linear-gradient(150deg,#ece7f8,#e0d8f2);border-radius:20px;padding:15px 16px;margin:18px 0 6px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.16);}
+  .access::after{content:'';position:absolute;top:-40px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(139,116,181,.10);}
+  .ab-ic{position:relative;z-index:1;width:42px;height:42px;border-radius:13px;flex-shrink:0;background:#fff;display:flex;align-items:center;justify-content:center;color:#8574b5;box-shadow:var(--shadow-soft);}
+  .ab-ic svg{width:21px;height:21px;}
+  .ab-tx{position:relative;z-index:1;min-width:0;}
+  .ab-t{font-size:13.5px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:7px;}
+  .ab-pill{font-size:9.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#fff;background:#8574b5;padding:3px 8px;border-radius:20px;}
+  .ab-d{font-size:11.5px;color:#6f6683;font-weight:600;margin-top:4px;line-height:1.45;}
+
+  .sec-head{display:flex;align-items:center;justify-content:space-between;margin:22px 0 14px;}
+  .sec-head h2{font-size:19px;font-weight:800;letter-spacing:-.4px;}
+  .sec-head .sh-sub{font-size:12px;color:var(--muted);font-weight:600;}
+
+  /* memory cards */
+  .mcard{background:#fff;border-radius:24px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);margin-bottom:16px;}
+  .mc-top{display:flex;align-items:center;gap:11px;padding:13px 15px 11px;}
+  .mc-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(150deg,color-mix(in srgb,var(--ac,#9b8bc4) 78%,#fff),var(--ac,#9b8bc4));}
+  .mc-id{min-width:0;flex:1;}
+  .mc-name{font-size:14px;font-weight:800;letter-spacing:-.2px;}
+  .mc-rel{color:var(--lav2);font-weight:700;}
+  .mc-time{font-size:11.5px;color:#a89fbb;font-weight:600;margin-top:2px;}
+  .mc-photo{height:250px;background-size:cover;background-position:center;background-color:#e7dff4;}
+  .mc-cap{font-size:13.5px;font-weight:600;color:#453f52;line-height:1.5;padding:13px 15px 4px;}
+  .mc-acts{display:flex;align-items:center;gap:10px;padding:8px 15px 14px;}
+  .mc-act{display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8b8296;background:#f6f3fa;padding:8px 13px;border-radius:20px;transition:transform .12s;}
+  .mc-act:active{transform:scale(.95);}
+  .mc-act svg{width:16px;height:16px;}
+  .mc-act.like.on{color:#ff5c86;background:#ffe9ef;}
+  .mc-act.like.on svg{fill:#ff5c86;}
+  .mc-act.like svg{fill:#c8bfd4;}
+
+  /* add prompt */
+  .addmem{display:flex;align-items:center;gap:12px;width:100%;border:2px dashed rgba(139,116,181,.4);background:linear-gradient(160deg,#faf7ff,#f1ebfa);border-radius:22px;padding:15px 16px;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:6px;}
+  .addmem-ic{width:44px;height:44px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(150deg,#b0a2d8,#9b8bc4);}
+  .addmem-ic svg{width:22px;height:22px;}
+  .addmem-t{font-size:14px;font-weight:800;}
+  .addmem-d{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px;}
+
+  /* bottom nav */
+  .bottom-nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:#fff;border-radius:30px 30px 0 0;
+    display:flex;align-items:center;justify-content:space-around;padding:16px 26px 24px;z-index:6;
+    -webkit-mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);mask:radial-gradient(38px at 50% 15px,#0000 0 37px,#000 38px);
+    filter:drop-shadow(0 -12px 30px rgba(70,48,80,.26)) drop-shadow(0 -4px 12px rgba(70,48,80,.16)) drop-shadow(0 -1px 3px rgba(70,48,80,.10));}
+  .nav-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;color:#bcb2a8;width:52px;cursor:pointer;}
+  .nav-item .lbl{font-size:9.5px;font-weight:700;letter-spacing:.1px;}
+  .nav-item .tab-ic{display:flex;align-items:center;justify-content:center;height:24px;}
+  .nav-item.active{color:var(--lav);}
+  .nav-item.locked{color:#cfc7d6;}
+  .nav-lock{position:absolute;top:-4px;right:6px;width:15px;height:15px;border-radius:50%;background:#efeaf5;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px -2px rgba(80,60,110,.5);}
+  .nav-lock svg{width:9px;height:9px;color:#9a90a8;}
+  .nav-slot{width:56px;flex-shrink:0;}
+  .nav-add{position:absolute;left:50%;bottom:61px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 22px -6px rgba(140,116,181,.55);z-index:8;cursor:pointer;transition:transform .12s;}
+  .nav-add:active{transform:translateX(-50%) scale(.94);}
+  .home-indicator{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;opacity:.85;z-index:7;}
+
+  .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(14px);background:#2e2838;color:#fff;font-size:12.5px;font-weight:700;padding:11px 18px;border-radius:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:600px){
+    html,body{height:auto}
+    body{padding:0!important;margin:0!important;display:block!important;min-height:0!important;background:#f4f1f9!important}
+    .phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}
+    .screen{inset:0!important;border-radius:0!important}
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="screen">
+      <div class="scroll">
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <div class="notch"></div>
+          <div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.3 1.8l4.3 4.3 4.3-4.3A6 6 0 0 0 8.5 6.2Z"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".5"/></svg>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="header">
+            <div class="greet">
+              <div class="avatar">👵</div>
+              <div>
+                <div class="hi">Hi, Rose</div>
+                <div class="date">Mark's memories, shared by Agnes 💛</div>
+              </div>
+            </div>
+            <div class="bell" onclick="toast('Notifications')"><span class="dot"></span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b2622" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            </div>
+          </div>
+
+          <div class="access">
+            <div class="ab-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div class="ab-tx">
+              <div class="ab-t">You're a family viewer <span class="ab-pill">Memories only</span></div>
+              <div class="ab-d">You can view, love &amp; add Mark's memories. Health, Checklist &amp; Community stay private to Mark's parents.</div>
+            </div>
+          </div>
+
+          <div class="sec-head"><h2>Mark's Memories</h2><span class="sh-sub">3 shared</span></div>
+
+          <button class="addmem" onclick="toast('Add a memory for Mark')">
+            <span class="addmem-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+            <span><span class="addmem-t" style="display:block">Add a memory</span><span class="addmem-d">Share a photo or moment of Mark</span></span>
+          </button>
+
+          <!-- memory 1 -->
+          <div class="mcard">
+            <div class="mc-top">
+              <div class="mc-av" style="--ac:#e0638f">A</div>
+              <div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-time">2 hours ago</div></div>
+            </div>
+            <div class="mc-photo" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+            <div class="mc-cap">Mark's first proper giggle today — it completely melted our hearts 😊</div>
+            <div class="mc-acts">
+              <button class="mc-act like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">12</span></button>
+              <button class="mc-act" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</button>
+            </div>
+          </div>
+
+          <!-- memory 2 -->
+          <div class="mcard">
+            <div class="mc-top">
+              <div class="mc-av" style="--ac:#5a96d4">D</div>
+              <div class="mc-id"><div class="mc-name">David <span class="mc-rel">· Dad</span></div><div class="mc-time">Yesterday</div></div>
+            </div>
+            <div class="mc-photo" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+            <div class="mc-cap">Sitting up all by himself for the first time! 💪 So proud of our little guy.</div>
+            <div class="mc-acts">
+              <button class="mc-act like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">24</span></button>
+              <button class="mc-act" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>6</button>
+            </div>
+          </div>
+
+          <!-- memory 3 -->
+          <div class="mcard">
+            <div class="mc-top">
+              <div class="mc-av" style="--ac:#e0638f">A</div>
+              <div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-time">3 days ago</div></div>
+            </div>
+            <div class="mc-photo" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+            <div class="mc-cap">Bath time splashes 🛁 He loves the water now — such a happy little fish.</div>
+            <div class="mc-acts">
+              <button class="mc-act like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">18</span></button>
+              <button class="mc-act" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>4</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast"></div>
+
+      <!-- bottom nav: Memories unlocked, the rest locked for a family viewer -->
+      <div class="nav-add" onclick="toast('Add a memory for Mark')"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></div>
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <span class="tab-ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4.5" width="18" height="15" rx="2.6"/><circle cx="8.6" cy="9.8" r="1.7" fill="#fff"/><path d="M21 15.5 16 10.5 7.5 19H21z" fill="#fff" fill-opacity=".9"/></svg></span>
+          <span class="lbl">Memories</span>
+        </div>
+        <div class="nav-item locked" onclick="locked()">
+          <span class="nav-lock"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path fill="none" stroke="currentColor" stroke-width="2.4" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="tab-ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.4"/><path d="M2.5 20c0-3.2 2.9-5 6.5-5s6.5 1.8 6.5 5"/><path d="M16 3.3a3.4 3.4 0 0 1 0 6.4"/><path d="M22 20c0-2.5-1.5-4.3-3.6-4.9"/></svg></span>
+          <span class="lbl">Community</span>
+        </div>
+        <div class="nav-slot"></div>
+        <div class="nav-item locked" onclick="locked()">
+          <span class="nav-lock"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path fill="none" stroke="currentColor" stroke-width="2.4" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="tab-ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></span>
+          <span class="lbl">Checklist</span>
+        </div>
+        <div class="nav-item locked" onclick="locked()">
+          <span class="nav-lock"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path fill="none" stroke="currentColor" stroke-width="2.4" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="tab-ic"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg></span>
+          <span class="lbl">Health</span>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+<script>
+  var _tt;
+  function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function locked(){ toast('🔒 Private — only Mark’s parents can open this'); }
+  function like(btn){
+    var n=btn.querySelector('.n'), c=parseInt(n.textContent,10);
+    if(btn.classList.toggle('on')){ n.textContent=c+1; } else { n.textContent=c-1; }
+  }
+</script>
+</body>
+</html>
