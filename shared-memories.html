@@ -132,6 +132,44 @@
     .phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}
     .screen{inset:0!important;border-radius:0!important}
   }
+  /* memory detail page */
+  .md-layer{position:absolute;inset:0;z-index:70;background:linear-gradient(180deg,#f6f3fa,#efebf5);transform:translateX(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;visibility:hidden;}
+  .md-layer.open{transform:none;visibility:visible;}
+  .md-top{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:4px 18px 10px;}
+  .md-back{width:38px;height:38px;border-radius:50%;border:none;background:#fff;box-shadow:var(--shadow-soft);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+  .md-back svg{width:20px;height:20px;}
+  .md-htitle{font-size:18px;font-weight:800;letter-spacing:-.3px;}
+  .md-scroll{flex:1;min-height:0;overflow-y:auto;padding:4px 18px 16px;}
+  .md-scroll::-webkit-scrollbar{display:none;}
+  .md-user{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+  .md-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;background:linear-gradient(150deg,color-mix(in srgb,var(--ac,#9b8bc4) 78%,#fff),var(--ac,#9b8bc4));}
+  .md-name{font-size:14.5px;font-weight:800;letter-spacing:-.2px;}
+  .md-rel{color:var(--lav2);font-weight:700;}
+  .md-when{font-size:11.5px;color:#a89fbb;font-weight:600;margin-top:2px;}
+  .md-photo{width:100%;height:300px;border-radius:20px;background-size:cover;background-position:center;background-color:#e7dff4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .md-cap{font-size:14px;color:#453f52;line-height:1.55;margin-top:14px;}
+  .md-cap b{font-weight:800;color:var(--ink);}
+  .md-acts{display:flex;align-items:center;gap:10px;margin:14px 0 4px;padding-bottom:16px;border-bottom:1px solid #ece7f2;}
+  .md-act{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#8b8296;background:#fff;padding:9px 15px;border-radius:20px;box-shadow:var(--ring);transition:transform .12s;}
+  .md-act:active{transform:scale(.96);}
+  .md-act svg{width:18px;height:18px;}
+  .md-act.like svg{fill:#c8bfd4;}
+  .md-act.like.on{color:#ff5c86;}
+  .md-act.like.on svg{fill:#ff5c86;}
+  .md-clbl{font-size:13px;font-weight:800;color:var(--ink);margin:16px 0 12px;}
+  .md-cmt{display:flex;gap:10px;margin-bottom:14px;}
+  .md-cmt-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(150deg,color-mix(in srgb,var(--ac,#9b8bc4) 78%,#fff),var(--ac,#9b8bc4));}
+  .md-cmt-b{flex:1;min-width:0;background:#fff;border-radius:5px 16px 16px 16px;padding:10px 13px;box-shadow:var(--ring);}
+  .md-cmt-top{display:flex;align-items:baseline;gap:8px;}
+  .md-cmt-n{font-size:12.5px;font-weight:800;color:var(--ink);}
+  .md-cmt-t{font-size:10.5px;color:#a89fbb;font-weight:600;}
+  .md-cmt-x{font-size:13px;color:#4a4458;line-height:1.5;margin-top:3px;}
+  .md-cbar{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:10px 16px calc(12px + env(safe-area-inset-bottom));background:#fff;box-shadow:0 -6px 18px -12px rgba(60,40,70,.3);}
+  .md-cav{width:36px;height:36px;border-radius:50%;flex-shrink:0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:18px;background-color:#f1ecf8;}
+  .md-cin{flex:1;min-width:0;border:none;background:#f3eff9;border-radius:20px;padding:11px 14px;font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;}
+  .md-send{width:40px;height:40px;border-radius:50%;border:none;flex-shrink:0;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;}
+  .md-send:active{transform:scale(.92);}
+  .md-send svg{width:18px;height:18px;}
 </style>
 </head>
 <body>
@@ -341,6 +379,39 @@
         </div>
       </div>
 
+      <!-- memory detail -->
+      <div class="md-layer" id="memDetail">
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <div class="notch"></div>
+          <div class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="#2b2622"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="#2b2622"><path d="M8.5 2C5.4 2 2.6 3.2.5 5.2l1.6 1.6C3.8 5.1 6 4.2 8.5 4.2s4.7.9 6.4 2.6l1.6-1.6C14.4 3.2 11.6 2 8.5 2Zm0 4.2c-1.7 0-3.2.7-4.3 1.8l4.3 4.3 4.3-4.3A6 6 0 0 0 8.5 6.2Z"/></svg>
+            <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#2b2622" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2" fill="#2b2622"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="#2b2622" fill-opacity=".5"/></svg>
+          </div>
+        </div>
+        <div class="md-top">
+          <button class="md-back" onclick="closeMemDetail()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="md-htitle">Memory</div>
+        </div>
+        <div class="md-scroll">
+          <div class="md-user"><div class="md-av" id="mdAv"></div><div><div class="md-name" id="mdName"></div><div class="md-when" id="mdWhen"></div></div></div>
+          <div class="md-photo" id="mdPhoto"></div>
+          <div class="md-cap" id="mdCap"></div>
+          <div class="md-acts">
+            <button class="md-act like" id="mdLike" onclick="toggleLikeDetail()"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span id="mdLikeN">0</span></button>
+            <button class="md-act" onclick="focusComment()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><span id="mdCmtN">0</span></button>
+          </div>
+          <div class="md-clbl" id="mdClbl">Comments</div>
+          <div id="mdComments"></div>
+        </div>
+        <div class="md-cbar">
+          <span class="md-cav">👵</span>
+          <input class="md-cin" id="mdCin" placeholder="Add a comment…" autocomplete="off" onkeydown="if(event.key==='Enter')addComment()">
+          <button class="md-send" onclick="addComment()" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button>
+        </div>
+      </div>
+
       <div class="toast" id="toast"></div>
 
       <div class="home-indicator"></div>
@@ -352,9 +423,85 @@
   function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
   function toggleGroup(lbl){ lbl.classList.toggle('collapsed'); var g=lbl.nextElementSibling; if(g&&g.classList.contains('tgroup')) g.classList.toggle('collapsed'); }
   function locked(){ toast('🔒 Private — only Mark’s parents can open this'); }
-  function like(btn){
-    var n=btn.querySelector('.n'), c=parseInt(n.textContent,10);
-    if(btn.classList.toggle('on')){ n.textContent=c+1; } else { n.textContent=c-1; }
+  /* ---- memories + comments model ---- */
+  var MEMS=[], DETAIL_IDX=-1;
+  var CPOOL=[
+    {ac:'#5a96d4',ini:'D',name:'David',rel:'Dad',when:'1h ago',text:'So precious 😍'},
+    {ac:'#39a876',ini:'P',name:'Priya',rel:'Aunt',when:'2h ago',text:'He is getting so big! 💛'},
+    {ac:'#e0a44e',ini:'S',name:'Sam',rel:'Nanny',when:'4h ago',text:'Such a happy little guy.'},
+    {ac:'#9b8bc4',ini:'G',name:'Grandpa',rel:'',when:'6h ago',text:'Can’t wait to visit!'}
+  ];
+  function seedComments(i){ var n=2+(i%2), out=[]; for(var k=0;k<n;k++){ out.push(Object.assign({},CPOOL[(i+k)%CPOOL.length])); } return out; }
+
+  (function initMems(){
+    document.querySelectorAll('.mcard').forEach(function(card,i){
+      card.dataset.mem=i;
+      var img=card.querySelector('.mc-img'); var bg=img?getComputedStyle(img).backgroundImage:'';
+      var nameEl=card.querySelector('.mc-name');
+      var name=nameEl?(nameEl.childNodes[0].textContent||'').trim():'';
+      var relEl=nameEl?nameEl.querySelector('.mc-rel'):null;
+      var rel=relEl?relEl.textContent.replace(/·/,'').trim():'';
+      var avEl=card.querySelector('.mc-av');
+      var ac=avEl?(avEl.style.getPropertyValue('--ac')||'#9b8bc4'):'#9b8bc4';
+      var ini=avEl?avEl.textContent.trim():'';
+      var when=card.querySelector('.mc-when')?card.querySelector('.mc-when').textContent:'';
+      var title=card.querySelector('.mc-title')?card.querySelector('.mc-title').innerHTML:'';
+      var desc=card.querySelector('.mc-desc')?card.querySelector('.mc-desc').textContent:'';
+      var likeChip=card.querySelector('.fo.like');
+      var likes=likeChip?parseInt(likeChip.querySelector('.n').textContent,10)||0:0;
+      MEMS[i]={bg:bg,name:name,rel:rel,ac:ac,ini:ini,when:when,title:title,desc:desc,likes:likes,liked:false,comments:seedComments(i)};
+      // sync the comment chip count on the card to the seeded comments
+      var cChip=Array.prototype.slice.call(card.querySelectorAll('.fo')).filter(function(f){return !f.classList.contains('like');})[0];
+      if(cChip){ cChip.childNodes[cChip.childNodes.length-1].textContent=MEMS[i].comments.length; cChip.onclick=null; }
+      card.style.cursor='pointer';
+      card.addEventListener('click', function(e){ if(e.target.closest('.fo.like')||e.target.closest('.mc-menu')) return; openMemDetail(i); });
+      if(likeChip){ likeChip.onclick=function(e){ e.stopPropagation(); toggleLike(i); }; }
+    });
+  })();
+
+  function toggleLike(i){
+    var m=MEMS[i]; m.liked=!m.liked; m.likes+=m.liked?1:-1;
+    var card=document.querySelector('.mcard[data-mem="'+i+'"]');
+    if(card){ var chip=card.querySelector('.fo.like'); chip.classList.toggle('on',m.liked); chip.querySelector('.n').textContent=m.likes; }
+    if(DETAIL_IDX===i) renderDetailMeta();
+  }
+  function toggleLikeDetail(){ if(DETAIL_IDX>=0) toggleLike(DETAIL_IDX); }
+
+  function openMemDetail(i){
+    DETAIL_IDX=i; var m=MEMS[i];
+    var av=document.getElementById('mdAv'); av.style.setProperty('--ac',m.ac); av.textContent=m.ini;
+    document.getElementById('mdName').innerHTML=m.name+' <span class="md-rel">· '+m.rel+'</span>';
+    document.getElementById('mdWhen').textContent=m.when;
+    document.getElementById('mdPhoto').style.backgroundImage=m.bg;
+    document.getElementById('mdCap').innerHTML='<b>'+m.title+'</b> &nbsp;'+m.desc;
+    renderDetailMeta(); renderComments();
+    document.getElementById('memDetail').classList.add('open');
+    document.querySelector('#memDetail .md-scroll').scrollTop=0;
+  }
+  function closeMemDetail(){ document.getElementById('memDetail').classList.remove('open'); DETAIL_IDX=-1; }
+  function renderDetailMeta(){
+    var m=MEMS[DETAIL_IDX]; var b=document.getElementById('mdLike');
+    b.classList.toggle('on',m.liked); document.getElementById('mdLikeN').textContent=m.likes;
+    document.getElementById('mdCmtN').textContent=m.comments.length;
+  }
+  function renderComments(){
+    var m=MEMS[DETAIL_IDX];
+    document.getElementById('mdClbl').textContent=m.comments.length+' comment'+(m.comments.length!==1?'s':'');
+    document.getElementById('mdComments').innerHTML=m.comments.map(function(c){
+      return '<div class="md-cmt"><div class="md-cmt-av" style="--ac:'+c.ac+'">'+c.ini+'</div>'+
+        '<div class="md-cmt-b"><div class="md-cmt-top"><span class="md-cmt-n">'+c.name+(c.rel?' · '+c.rel:'')+'</span><span class="md-cmt-t">'+c.when+'</span></div>'+
+        '<div class="md-cmt-x">'+c.text+'</div></div></div>';
+    }).join('');
+  }
+  function focusComment(){ document.getElementById('mdCin').focus(); }
+  function addComment(){
+    if(DETAIL_IDX<0) return; var inp=document.getElementById('mdCin'); var v=inp.value.trim(); if(!v) return;
+    var m=MEMS[DETAIL_IDX];
+    m.comments.push({ac:'#8574b5',ini:'R',name:'You',rel:'',when:'Just now',text:v.replace(/</g,'&lt;')});
+    inp.value=''; renderComments(); renderDetailMeta();
+    var card=document.querySelector('.mcard[data-mem="'+DETAIL_IDX+'"]');
+    if(card){ var c=Array.prototype.slice.call(card.querySelectorAll('.fo')).filter(function(f){return !f.classList.contains('like');})[0]; if(c) c.childNodes[c.childNodes.length-1].textContent=m.comments.length; }
+    var sc=document.querySelector('#memDetail .md-scroll'); sc.scrollTop=sc.scrollHeight;
   }
 </script>
 </body>
