@@ -1946,11 +1946,28 @@
       .iv-mx svg{width:16px;height:16px;}
       .iv-mjoined{flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:800;color:#2e9c6c;background:color-mix(in srgb,#2e9c6c 12%,#fff);padding:4px 9px 4px 7px;border-radius:999px;}
       .iv-mjoined svg{width:11px;height:11px;}
-      .iv-mempty{text-align:center;padding:26px 20px;border:1.5px dashed #e3dcef;border-radius:18px;}
-      .iv-mempty-ic{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;background:#f2eef8;color:#9b8bc4;margin-bottom:11px;}
-      .iv-mempty-ic svg{width:24px;height:24px;}
-      .iv-mempty-t{font-size:14.5px;font-weight:800;color:var(--ink);}
-      .iv-mempty-s{font-size:12.5px;font-weight:600;color:#9a90ab;line-height:1.5;margin:5px auto 0;max-width:260px;}
+      .iv-mempty{text-align:center;padding:24px 20px 26px;border:1.5px dashed #ddd3ee;border-radius:22px;background:linear-gradient(180deg,#fbf9ff,#f3eefb);}
+      .iv-mempty-illo{width:130px;height:100px;margin:0 auto 8px;}
+      .iv-mempty-illo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 12px rgba(120,90,160,.14));}
+      .iv-mempty-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+      .iv-mempty-s{font-size:12.5px;font-weight:600;color:#9a90ab;line-height:1.5;margin:5px auto 0;max-width:252px;}
+      .iv-exp-row{display:flex;align-items:center;gap:11px;width:100%;border:none;cursor:pointer;font-family:inherit;text-align:left;background:#f7f4fb;border-radius:16px;padding:11px 13px;margin-top:2px;transition:transform .12s;}
+      .iv-exp-row:active{transform:scale(.99);}
+      .iv-exp-ic{width:38px;height:38px;border-radius:11px;flex:0 0 auto;background:#ece4fb;color:#7a5fd0;display:flex;align-items:center;justify-content:center;}
+      .iv-exp-ic svg{width:19px;height:19px;}
+      .iv-exp-tx{flex:1;min-width:0;display:flex;flex-direction:column;}
+      .iv-exp-t{font-size:13px;font-weight:800;color:var(--ink);}
+      .iv-exp-s{font-size:11.5px;color:#9a90ab;font-weight:600;margin-top:2px;}
+      .iv-exp-chev{color:#b9b0c4;flex-shrink:0;display:flex;}
+      .iv-exp-chev svg{width:18px;height:18px;}
+      .exp-sh-title{font-size:16px;font-weight:800;text-align:center;letter-spacing:-.3px;}
+      .exp-sh-sub{font-size:12px;font-weight:600;color:#9a90ab;text-align:center;margin:5px auto 14px;max-width:258px;line-height:1.45;}
+      .exp-opt{display:flex;align-items:center;justify-content:space-between;width:100%;border:none;cursor:pointer;font-family:inherit;text-align:left;background:#faf8fc;border-radius:16px;padding:14px 16px;margin-bottom:9px;font-size:15px;font-weight:800;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.08);transition:transform .12s;}
+      .exp-opt:active{transform:scale(.99);}
+      .exp-opt.on{background:color-mix(in srgb,#8574b5 9%,#fff);box-shadow:inset 0 0 0 1.5px #9b8bc4;}
+      .exp-opt-ck{width:22px;height:22px;border-radius:50%;background:#8574b5;color:#fff;display:none;align-items:center;justify-content:center;flex-shrink:0;}
+      .exp-opt.on .exp-opt-ck{display:flex;}
+      .exp-opt-ck svg{width:13px;height:13px;}
       .iv-empty{display:flex;flex-direction:column;align-items:center;gap:9px;font-size:13px;color:#a99fbe;font-weight:600;text-align:center;line-height:1.5;padding:20px 18px;background:#faf8fd;border-radius:16px;border:1.5px dashed #e2d9f0;margin-top:12px;}
       .iv-empty-ic{width:40px;height:40px;border-radius:50%;background:#f1eafc;color:#9b8bc4;display:flex;align-items:center;justify-content:center;}
       .iv-empty-ic svg{width:21px;height:21px;}
@@ -2138,6 +2155,15 @@
               <div class="iv-combo-subdiv"></div>
               <div class="iv-invlink-row"><span class="iv-inv-link" id="ivDLink">—</span><button class="iv-inv-linkcopy" onclick="ivCopyLinkOnly()" aria-label="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2.5 2.5 0 0 1 2.5-2.5H16"/></svg></button></div>
             </div>
+            <div class="iv-combo-div"></div>
+            <div class="iv-combo-sec">
+              <div class="iv-combo-lbl">Link &amp; code expiry</div>
+              <button class="iv-exp-row" onclick="ivExpiryOpen()">
+                <span class="iv-exp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></span>
+                <span class="iv-exp-tx"><span class="iv-exp-t" id="ivDExpiry">Never expires</span><span class="iv-exp-s">Choose when this invite stops working</span></span>
+                <span class="iv-exp-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+              </button>
+            </div>
           </div>
           <button class="iv-inv-share" onclick="ivShareLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Share invite</span></button>
           <div class="iv-sec-l" style="margin-top:16px">Joined members</div>
@@ -2145,6 +2171,21 @@
         </div>
       </div>
 
+      <!-- invite expiry picker -->
+      <div class="mca-layer" id="ivExpirySheet">
+        <div class="mca-bd" onclick="ivExpiryClose()"></div>
+        <div class="mca-sheet">
+          <div class="mca-grab"><span></span></div>
+          <div class="exp-sh-title">Link &amp; code expiry</div>
+          <div class="exp-sh-sub">After this, the invite link and code stop working — you can always generate a new one.</div>
+          <button class="exp-opt on" onclick="ivSetExpiry('Never expires',this)"><span>Never</span><span class="exp-opt-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></button>
+          <button class="exp-opt" onclick="ivSetExpiry('Expires in 24 hours',this)"><span>24 hours</span><span class="exp-opt-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></button>
+          <button class="exp-opt" onclick="ivSetExpiry('Expires in 7 days',this)"><span>7 days</span><span class="exp-opt-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></button>
+          <button class="exp-opt" onclick="ivSetExpiry('Expires in 30 days',this)"><span>30 days</span><span class="exp-opt-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></button>
+          <button class="exp-opt" onclick="ivSetExpiry('Custom date',this)"><span>Custom date…</span><span class="exp-opt-ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></button>
+          <button class="mca-opt cancel" onclick="ivExpiryClose()">Done</button>
+        </div>
+      </div>
       <!-- group row action sheet -->
       <div class="mca-layer" id="ivRowLayer">
         <div class="mca-bd" onclick="ivRowClose()"></div>
@@ -2903,6 +2944,9 @@
       {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
     ];
     var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1, IV_DEL_MODE='group', IV_DEL_MEMBER_IDX=-1;
+    function ivExpiryOpen(){ document.getElementById('ivExpirySheet').classList.add('open'); }
+    function ivExpiryClose(){ document.getElementById('ivExpirySheet').classList.remove('open'); }
+    function ivSetExpiry(label,btn){ var e=document.getElementById('ivDExpiry'); if(e) e.textContent=label; document.querySelectorAll('#ivExpirySheet .exp-opt').forEach(function(o){ o.classList.remove('on'); }); if(btn) btn.classList.add('on'); ivExpiryClose(); }
     function openInvite(){ closeProfileMenu(); IV_EDIT_IDX=-1; renderInviteGroups(); ivShowView('list'); document.getElementById('inviteSheet').classList.add('open'); }
     function closeInvite(){ document.getElementById('inviteSheet').classList.remove('open'); ivRowClose(); ivDelClose(); ivFeatClose(); ivAddMemberClose(); ivCreateClose(); ivShareClose(); }
     function ivBack(){ if(IV_VIEW==='list'){ closeInvite(); } else { ivShowView('list'); } }
@@ -2956,7 +3000,7 @@
         ? '<div class="iv-mlist">'+g.members.map(function(m,k){ var col=INVITE_COL[k%INVITE_COL.length];
             return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span><span class="iv-mjoined"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Joined</span><button class="iv-mx" onclick="ivMemberRemove('+k+')" aria-label="Remove member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
           }).join('')+'</div>'
-        : '<div class="iv-mempty"><span class="iv-mempty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.4-5.2 5.5-5.2 1.3 0 2.5.4 3.4 1"/><path d="M18 8.5v5M20.5 11h-5"/></svg></span><div class="iv-mempty-t">No one has joined yet</div><div class="iv-mempty-s">Share the invite link and people will appear here once they join.</div></div>';
+        : '<div class="iv-mempty"><div class="iv-mempty-illo"><svg viewBox="0 0 140 108" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="70" cy="98" rx="44" ry="5" fill="#5a4a78" opacity=".10"/><circle cx="34" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="106" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="70" cy="55" r="24" fill="#c9bdec" stroke="#3b3550" stroke-width="2.8"/><circle cx="70" cy="48" r="7.6" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><path d="M56 70c0-6.6 6.3-10.5 14-10.5s14 3.9 14 10.5z" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><circle cx="100" cy="30" r="12" fill="#8574b5" stroke="#3b3550" stroke-width="2.4"/><path d="M100 25v10M95 30h10" stroke="#fff" stroke-width="2.4"/><path d="M28 24l1.2 2.6 2.6 1.2-2.6 1.2L28 33.6l-1.2-2.6L23.2 30l2.6-1.2z" fill="#f3c969" stroke="#3b3550" stroke-width="1.3"/></svg></div><div class="iv-mempty-t">No one has joined yet</div><div class="iv-mempty-s">Share the invite link and people will appear here once they join.</div></div>';
       var fe=document.getElementById('ivDFeatures');
       if(fe){ var mem=(g.features && g.features.length===1 && g.features[0]==='memories'); var opt=null; for(var oi=0;oi<IV_FEAT_OPTS.length;oi++){ if(IV_FEAT_OPTS[oi].k===(mem?'memories':'all')){ opt=IV_FEAT_OPTS[oi]; break; } }
         fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-ic">'+opt.ic+'</span><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+opt.s+'</span></span></span>'; }
