@@ -48,23 +48,27 @@
   .sec-head h2{font-size:19px;font-weight:800;letter-spacing:-.4px;}
   .sec-head .sh-sub{font-size:12px;color:var(--muted);font-weight:600;}
 
-  /* memory cards */
-  .mcard{background:#fff;border-radius:24px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);margin-bottom:16px;}
-  .mc-top{display:flex;align-items:center;gap:11px;padding:13px 15px 11px;}
-  .mc-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(150deg,color-mix(in srgb,var(--ac,#9b8bc4) 78%,#fff),var(--ac,#9b8bc4));}
+  /* memory cards — app Memories component */
+  .mcard{position:relative;background:#fff;border-radius:22px;padding:12px 12px 15px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);margin-bottom:16px;}
+  .mc-user{display:flex;align-items:center;gap:10px;padding:2px 2px 0;margin-bottom:11px;}
+  .mc-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(150deg,color-mix(in srgb,var(--ac,#9b8bc4) 78%,#fff),var(--ac,#9b8bc4));}
   .mc-id{min-width:0;flex:1;}
-  .mc-name{font-size:14px;font-weight:800;letter-spacing:-.2px;}
+  .mc-name{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .mc-rel{color:var(--lav2);font-weight:700;}
-  .mc-time{font-size:11.5px;color:#a89fbb;font-weight:600;margin-top:2px;}
-  .mc-photo{height:250px;background-size:cover;background-position:center;background-color:#e7dff4;}
-  .mc-cap{font-size:13.5px;font-weight:600;color:#453f52;line-height:1.5;padding:13px 15px 4px;}
-  .mc-acts{display:flex;align-items:center;gap:10px;padding:8px 15px 14px;}
-  .mc-act{display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:800;color:#8b8296;background:#f6f3fa;padding:8px 13px;border-radius:20px;transition:transform .12s;}
-  .mc-act:active{transform:scale(.95);}
-  .mc-act svg{width:16px;height:16px;}
-  .mc-act.like.on{color:#ff5c86;background:#ffe9ef;}
-  .mc-act.like.on svg{fill:#ff5c86;}
-  .mc-act.like svg{fill:#c8bfd4;}
+  .mc-when{font-size:10.5px;color:var(--muted);font-weight:500;margin-top:1px;}
+  .mc-menu{position:absolute;top:12px;right:12px;width:30px;height:30px;border:none;background:transparent;border-radius:50%;color:#a99fbb;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;}
+  .mc-menu svg{width:17px;height:17px;}
+  .mc-menu:active{opacity:.6;}
+  .mc-imgwrap{position:relative;border-radius:16px;overflow:hidden;}
+  .mc-img{height:210px;background-size:cover;background-position:center;background-color:#e7dff4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .mc-fover{position:absolute;left:11px;right:11px;bottom:11px;display:flex;gap:9px;align-items:center;}
+  .mc-fover .fo{display:inline-flex;align-items:center;gap:6px;background:rgba(20,16,26,.42);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);color:#fff;font-size:12px;font-weight:700;padding:6px 11px 6px 10px;border-radius:20px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);transition:transform .12s;}
+  .mc-fover .fo:active{transform:scale(.94);}
+  .mc-fover .fo svg{width:14px;height:14px;}
+  .mc-fover .fo.like svg{fill:#ff8fab;color:#ff8fab;}
+  .mc-fover .fo.like.on svg{fill:#ff5c86;color:#ff5c86;}
+  .mc-title{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-top:12px;padding:0 2px;}
+  .mc-desc{font-size:12.5px;font-weight:400;color:#6a645f;line-height:1.5;margin-top:5px;padding:0 2px;}
 
   /* add prompt */
   .addmem{display:flex;align-items:center;gap:12px;width:100%;border:2px dashed rgba(139,116,181,.4);background:linear-gradient(160deg,#faf7ff,#f1ebfa);border-radius:22px;padding:15px 16px;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:6px;}
@@ -146,46 +150,44 @@
             <span><span class="addmem-t" style="display:block">Add a memory</span><span class="addmem-d">Share a photo or moment of Mark</span></span>
           </button>
 
-          <!-- memory 1 -->
           <div class="mcard">
-            <div class="mc-top">
-              <div class="mc-av" style="--ac:#e0638f">A</div>
-              <div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-time">2 hours ago</div></div>
+            <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+            <div class="mc-user"><div class="mc-av" style="--ac:#e0638f">A</div><div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-when">2 hours ago</div></div></div>
+            <div class="mc-imgwrap">
+              <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+              <div class="mc-fover">
+                <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">12</span></span>
+                <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</span>
+              </div>
             </div>
-            <div class="mc-photo" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-            <div class="mc-cap">Mark's first proper giggle today — it completely melted our hearts 😊</div>
-            <div class="mc-acts">
-              <button class="mc-act like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">12</span></button>
-              <button class="mc-act" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</button>
-            </div>
+            <div class="mc-title">First giggle 😊</div>
+            <div class="mc-desc">Mark’s first proper giggle today — it completely melted our hearts.</div>
           </div>
-
-          <!-- memory 2 -->
           <div class="mcard">
-            <div class="mc-top">
-              <div class="mc-av" style="--ac:#5a96d4">D</div>
-              <div class="mc-id"><div class="mc-name">David <span class="mc-rel">· Dad</span></div><div class="mc-time">Yesterday</div></div>
+            <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+            <div class="mc-user"><div class="mc-av" style="--ac:#5a96d4">D</div><div class="mc-id"><div class="mc-name">David <span class="mc-rel">· Dad</span></div><div class="mc-when">Yesterday</div></div></div>
+            <div class="mc-imgwrap">
+              <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+              <div class="mc-fover">
+                <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">24</span></span>
+                <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>6</span>
+              </div>
             </div>
-            <div class="mc-photo" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-            <div class="mc-cap">Sitting up all by himself for the first time! 💪 So proud of our little guy.</div>
-            <div class="mc-acts">
-              <button class="mc-act like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">24</span></button>
-              <button class="mc-act" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>6</button>
-            </div>
+            <div class="mc-title">Sitting up! 💪</div>
+            <div class="mc-desc">Sitting up all by himself for the first time. So proud of our little guy.</div>
           </div>
-
-          <!-- memory 3 -->
           <div class="mcard">
-            <div class="mc-top">
-              <div class="mc-av" style="--ac:#e0638f">A</div>
-              <div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-time">3 days ago</div></div>
+            <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+            <div class="mc-user"><div class="mc-av" style="--ac:#e0638f">A</div><div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-when">3 days ago</div></div></div>
+            <div class="mc-imgwrap">
+              <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+              <div class="mc-fover">
+                <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">18</span></span>
+                <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>4</span>
+              </div>
             </div>
-            <div class="mc-photo" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-            <div class="mc-cap">Bath time splashes 🛁 He loves the water now — such a happy little fish.</div>
-            <div class="mc-acts">
-              <button class="mc-act like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">18</span></button>
-              <button class="mc-act" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>4</button>
-            </div>
+            <div class="mc-title">Bath time 🛁</div>
+            <div class="mc-desc">Bath time splashes — he loves the water now, such a happy little fish.</div>
           </div>
         </div>
       </div>
