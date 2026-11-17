@@ -233,8 +233,15 @@
     .am-layer{inset:0!important;border-radius:0!important}
   }
 
-  /* community feeds composer */
+  /* community feeds composer + empty state */
   .fd-composer{display:flex;align-items:center;gap:11px;background:var(--card-bg);border-radius:20px;padding:12px 14px;box-shadow:var(--ring);margin-bottom:16px;cursor:pointer;}
+  .feed-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;background:linear-gradient(170deg,#fbf9ff,#f2ecfb);border-radius:28px;padding:34px 24px 30px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .fe-illo{width:128px;height:118px;}
+  .fe-illo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 14px rgba(90,74,120,.14));}
+  .feed-empty .ge-t{font-size:16.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .feed-empty .ge-d{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.55;max-width:248px;}
+  .feed-empty .ge-btns{display:flex;gap:9px;margin-top:6px;}
+  .feed-empty .ge-btn.p{padding:12px 24px;border-radius:22px;box-shadow:0 10px 18px -8px rgba(140,116,181,.55);}
   .fc-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;background:radial-gradient(circle at 45% 35%,#e3daf6,#c9b8ef);}
   .fc-ph{flex:1;font-size:13.5px;color:#a89fbb;font-weight:500;}
   .fc-cam{width:36px;height:36px;border-radius:50%;background:#efeaf7;color:#8574b5;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -490,8 +497,28 @@
                 <span class="fc-ph">Share something with the community…</span>
                 <span class="fc-cam"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5a2 2 0 0 1 2-2h1.3l1-1.6A1 1 0 0 1 9.1 4h5.8a1 1 0 0 1 .85.5l1 1.6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg></span>
               </div>
-              <div class="grp-empty">
-                <div class="ge-ic">📣</div>
+              <div class="feed-empty">
+                <div class="fe-illo">
+                  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round">
+                    <ellipse cx="60" cy="105" rx="33" ry="5" fill="#5a4a78" opacity=".14"/>
+                    <!-- back post card -->
+                    <rect x="32" y="42" width="60" height="52" rx="13" transform="rotate(7 62 68)" fill="#e7def7" stroke="#3b3550" stroke-width="2.6"/>
+                    <!-- front post card -->
+                    <rect x="23" y="37" width="64" height="55" rx="13" fill="#ffffff" stroke="#3b3550" stroke-width="2.8"/>
+                    <circle cx="39" cy="53" r="7" fill="#b0a2d8" stroke="#3b3550" stroke-width="2.4"/>
+                    <rect x="50" y="48.5" width="25" height="4.2" rx="2.1" fill="#cbc0e6"/>
+                    <rect x="50" y="56" width="15" height="3.8" rx="1.9" fill="#e4ddf0"/>
+                    <rect x="33" y="69" width="44" height="4.6" rx="2.3" fill="#ded6ee"/>
+                    <rect x="33" y="78.5" width="31" height="4.6" rx="2.3" fill="#ece7f5"/>
+                    <!-- heart chat bubble -->
+                    <path d="M74 44 70 53 82 48z" fill="#9b8bc4" stroke="#3b3550" stroke-width="2.6"/>
+                    <rect x="62" y="9" width="46" height="31" rx="13" fill="#9b8bc4" stroke="#3b3550" stroke-width="2.6"/>
+                    <path d="M85 33c-6-4-9-7-9-10.6 0-2.3 1.9-4 4.1-4 1.7 0 2.9.9 4.9 2.7 2-1.8 3.2-2.7 4.9-2.7 2.2 0 4.1 1.7 4.1 4C98 26 95 29 89 33z" fill="#ffffff"/>
+                    <!-- sparkles -->
+                    <path d="M16 30l1.5 3.3 3.3 1.5-3.3 1.5L16 41l-1.5-3.3L11.2 36l3.3-1.5z" fill="#f3c969" stroke="#3b3550" stroke-width="1.6"/>
+                    <path d="M104 62l1.1 2.4 2.4 1.1-2.4 1.1-1.1 2.4-1.1-2.4-2.4-1.1 2.4-1.1z" fill="#b0a2d8" stroke="#3b3550" stroke-width="1.5"/>
+                  </svg>
+                </div>
                 <div class="ge-t">No posts yet</div>
                 <div class="ge-d">Join a group to see its feed, or share Mark's first update with the community.</div>
                 <div class="ge-btns">
