@@ -235,7 +235,7 @@
 
   /* community feeds composer + empty state */
   .fd-composer{display:flex;align-items:center;gap:11px;background:var(--card-bg);border-radius:20px;padding:12px 14px;box-shadow:var(--ring);margin-bottom:16px;cursor:pointer;}
-  .feed-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;background:#fff;border-radius:28px;padding:34px 24px 30px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .feed-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;background:#fff;border-radius:28px;padding:34px 24px 30px;box-shadow:none;}
   .fe-illo{width:128px;height:118px;}
   .fe-illo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 14px rgba(90,74,120,.14));}
   .feed-empty .ge-t{font-size:16.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
@@ -522,7 +522,7 @@
                 <div class="ge-t">No posts yet</div>
                 <div class="ge-d">Join a group to see its feed, or share Mark's first update with the community.</div>
                 <div class="ge-btns">
-                  <button class="ge-btn p" onclick="ftCommTab('groups')">Discover groups</button>
+                  <button class="ge-btn p" onclick="toast('Post a feed')">Post a feeds</button>
                 </div>
               </div>
             </div>
