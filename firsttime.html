@@ -307,6 +307,50 @@
   .mp-sg-desc{font-size:12px;font-weight:500;color:#8c8192;line-height:1.45;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   .mp-sg-img{position:relative;z-index:1;flex-shrink:0;width:94px;height:94px;display:flex;align-items:center;justify-content:center;}
   .mp-sg-img svg{width:82px;height:82px;filter:drop-shadow(0 6px 7px rgba(43,53,69,.14));}
+
+  /* Health Monitoring (ported from main Home) */
+  .hm-prof{position:relative;overflow:hidden;display:block;text-align:left;margin:0 0 14px;padding:15px 16px 16px;border-radius:24px;background:#e7e1f4;box-shadow:0 10px 26px -17px rgba(120,90,160,.35);}
+  .hm-prof-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;}
+  .hm-prof-id{display:flex;align-items:center;gap:11px;min-width:0;flex:1 1 auto;}
+  .hm-prof-head{min-width:0;}
+  .hm-prof-name{font-size:17px;font-weight:800;letter-spacing:-.5px;color:var(--ink);line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-prof-age{font-size:12.5px;font-weight:600;color:#9a8fb3;margin-top:3px;letter-spacing:-.1px;white-space:nowrap;}
+  .hm-prof-update{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:34px;height:34px;border:none;cursor:pointer;color:#9b8bc4;background:none;padding:0;transition:transform .12s;}
+  .hm-prof-update:active{transform:scale(.9);}
+  .hm-prof-update svg{width:19px;height:19px;}
+  .hm-prof-av{position:relative;flex:0 0 auto;width:54px;height:54px;}
+  .hm-prof-photo{width:100%;height:100%;border-radius:50%;background:linear-gradient(150deg,#e8dcf6,#d9c8ef) center/cover no-repeat;display:flex;align-items:center;justify-content:center;box-shadow:0 7px 16px -9px rgba(120,90,160,.5),0 0 0 3px #fff,0 0 0 4px rgba(139,116,181,.14);}
+  .hm-prof-photo .av-emoji{font-size:30px;}
+  .hm-prof-grid{min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;border-top:1px solid rgba(255,255,255,.65);padding-top:15px;}
+  .hm-prof-tile{display:flex;align-items:center;gap:8px;min-width:0;}
+  .hm-prof-tico{flex:0 0 auto;width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:#fff;color:var(--tc,#8574b5);}
+  .hm-prof-tico svg{width:17px;height:17px;}
+  .hm-prof-tx{min-width:0;display:flex;flex-direction:column;}
+  .hm-prof-tl{display:block;font-size:10.5px;font-weight:600;color:#a99fbb;letter-spacing:-.1px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-prof-tv{display:block;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;line-height:1.15;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hm-prof-tv.empty{color:#b1a6c6;font-weight:700;}
+  .hm-prof-tile--wide{grid-column:1 / -1;}
+  .hm-prof-tile--wide .hm-prof-tv{white-space:normal;}
+  .hm-hub{display:flex;flex-direction:column;gap:12px;margin-bottom:12px;}
+  .hm-rings{display:flex;background:#fff;border-radius:22px;padding:16px 4px 14px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);}
+  .hm-ring-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:9px;border:none;background:none;cursor:pointer;font-family:inherit;padding:0 2px;transition:transform .12s;}
+  .hm-ring-item:active{transform:scale(.95);}
+  .hm-ring-circle{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
+  .hm-ring-ico{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);color:var(--rc,#9b8bc4);}
+  .hm-ring-ico svg{width:26px;height:26px;}
+  .hm-ring-name{font-size:10.5px;font-weight:700;color:#8a8790;letter-spacing:.1px;text-align:center;line-height:1.2;}
+  .hm-ov{background:#fff;border-radius:20px;padding:15px 15px 15px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .hm-ov-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+  .hm-ov-h{display:flex;align-items:center;gap:10px;min-width:0;}
+  .hm-ov-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .hm-ov-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:14px 10px 6px;}
+  .hmo-ic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--oc,#9b8bc4) 12%,#fff);color:var(--oc,#9b8bc4);margin-bottom:2px;}
+  .hmo-ic svg{width:27px;height:27px;}
+  .hmo-t{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .hmo-d{font-size:12px;color:var(--muted);font-weight:500;line-height:1.5;max-width:230px;}
+  .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:var(--oc,#8574b5);background:color-mix(in srgb,var(--oc,#9b8bc4) 10%,#fff);border-radius:14px;padding:11px;margin-top:10px;transition:transform .12s;}
+  .hm-add:active{transform:scale(.99);}
+  .hm-add svg{width:16px;height:16px;}
 </style>
 </head>
 <body>
@@ -565,13 +609,36 @@
 
           <!-- ============ HEALTH ============ -->
           <div class="page" id="pg-health">
-            <div class="pg-h1" style="margin-bottom:16px">Health</div>
-            <div class="rc"><div class="rc-head" onclick="rcToggle(this)"><div class="rc-ic" style="--rcc:#f2744e"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.4c3.1 3.4 5.5 6.3 5.5 9.2A5.5 5.5 0 0 1 12 18a5.5 5.5 0 0 1-5.5-5.4c0-2.9 2.4-5.8 5.5-9.2z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M9.7 13a2.4 2.4 0 0 0 2.2 1.8"/></svg></div><div class="rc-tx"><div class="rc-title">Health Profile</div><div class="rc-sub">Add blood group &amp; allergies</div></div><div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></div></div><div class="rc-body"><div class="rc-empty"><div class="rce-t">No blood type or allergies added yet.</div><button class="rce-btn" onclick="toast('Add health profile')">+ Add health profile</button></div></div></div>
-            <div class="rc"><div class="rc-head" onclick="rcToggle(this)"><div class="rc-ic" style="--rcc:#3f7fe0"><svg viewBox="0 0 24 24" fill="none"><rect fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" x="4" y="12" width="4" height="8" rx="1.3"/><rect fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" x="10" y="8.5" width="4" height="11.5" rx="1.3"/><rect fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" x="16" y="5" width="4" height="15" rx="1.3"/></svg></div><div class="rc-tx"><div class="rc-title">Growth</div><div class="rc-sub">Add Mark's weight &amp; height</div></div><div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></div></div><div class="rc-body"><div class="rc-empty"><div class="rce-t">No growth entries yet — start tracking Mark's weight &amp; height.</div><button class="rce-btn" onclick="toast('Add measurement')">+ Add measurement</button></div></div></div>
-            <div class="rc"><div class="rc-head" onclick="rcToggle(this)"><div class="rc-ic" style="--rcc:#28b082"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M4.5 6a2.5 2.5 0 0 1 2.5-2.5h10A2.5 2.5 0 0 1 19.5 6v7a2.5 2.5 0 0 1-2.5 2.5h-4.2L8 20.2V15.5H7A2.5 2.5 0 0 1 4.5 13z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M7.3 9.7h2l1-2 1.7 4 1.1-2h3.6"/></svg></div><div class="rc-tx"><div class="rc-title">Health Notes</div><div class="rc-sub">No notes yet</div></div><div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></div></div><div class="rc-body"><div class="rc-empty"><div class="rce-t">No notes yet — log symptoms, sleep or feeds as they happen.</div><button class="rce-btn" onclick="toast('Add a note')">+ Add a note</button></div></div></div>
-            <div class="rc"><div class="rc-head" onclick="rcToggle(this)"><div class="rc-ic" style="--rcc:#6355d6"><svg viewBox="0 0 24 24" fill="none"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M9 7.5V6a2.2 2.2 0 0 1 2.2-2.2h1.6A2.2 2.2 0 0 1 15 6v1.5"/><rect fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" x="3.4" y="7.5" width="17.2" height="12" rx="2.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 11.2v4.6M9.7 13.5h4.6"/></svg></div><div class="rc-tx"><div class="rc-title">Doctor Visits</div><div class="rc-sub">No visits logged</div></div><div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></div></div><div class="rc-body"><div class="rc-empty"><div class="rce-t">No visits logged yet — add appointments &amp; checkups.</div><button class="rce-btn" onclick="toast('Add a visit')">+ Add a visit</button></div></div></div>
-            <div class="rc"><div class="rc-head" onclick="rcToggle(this)"><div class="rc-ic" style="--rcc:#9b5fd6"><svg viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M6 3h7l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M13 3.2V8h4.8"/><path fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" d="M8 13.5h7M8 16.8h5"/></svg></div><div class="rc-tx"><div class="rc-title">Documents</div><div class="rc-sub">No documents yet</div></div><div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></div></div><div class="rc-body"><div class="rc-empty"><div class="rce-t">No documents yet — save reports &amp; prescriptions here.</div><button class="rce-btn" onclick="toast('Add document')">+ Add document</button></div></div></div>
-            <div class="rc"><div class="rc-head" onclick="rcToggle(this)"><div class="rc-ic" style="--rcc:#1fb0a4"><svg viewBox="0 0 24 24" fill="none"><g transform="rotate(-45 12 12)"><rect fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" x="7" y="9" width="10" height="6" rx="1.3"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M3.8 12H7M17 12h2.2M19 9.6v4.8"/><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M10 9.5v5M12.3 9.5v5M14.6 9.5v5"/></g></svg></div><div class="rc-tx"><div class="rc-title">Vaccinations</div><div class="rc-sub">Set up Mark's schedule</div></div><div class="rc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></div></div><div class="rc-body"><div class="rc-empty"><div class="rce-t">Vaccination schedule not set up yet.</div><button class="rce-btn" onclick="toast('Set up schedule')">+ Set up schedule</button></div></div></div>
+            <div class="pg-h1" style="margin-bottom:14px">Health Monitoring</div>
+            <div class="hm-prof">
+              <div class="hm-prof-top">
+                <div class="hm-prof-id">
+                  <div class="hm-prof-av"><div class="hm-prof-photo"><span class="av-emoji">👶</span></div></div>
+                  <div class="hm-prof-head"><div class="hm-prof-name">Mark’s Profile</div><div class="hm-prof-age">Newborn</div></div>
+                </div>
+                <button class="hm-prof-update" onclick="toast('Edit profile')" aria-label="Edit profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.7 3.3a2.4 2.4 0 0 1 3.4 3.4L8.5 18.3l-4.5 1.2 1.2-4.5z"/><path d="M15 5l3.4 3.4"/></svg></button>
+              </div>
+              <div class="hm-prof-grid">
+                <div class="hm-prof-tile"><span class="hm-prof-tico" style="--tc:#9b8bc4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5.2"/><path d="M14 10l5.5-5.5M14.5 4.5H20V10"/></svg></span><span class="hm-prof-tx"><span class="hm-prof-tl">Gender</span><span class="hm-prof-tv empty">Add</span></span></div>
+                <div class="hm-prof-tile"><span class="hm-prof-tico" style="--tc:#d1799a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.1 6 10.2a6 6 0 0 1-12 0C6 9.1 12 3 12 3z"/></svg></span><span class="hm-prof-tx"><span class="hm-prof-tl">Blood Type</span><span class="hm-prof-tv empty">Add</span></span></div>
+                <div class="hm-prof-tile hm-prof-tile--wide"><span class="hm-prof-tico" style="--tc:#e0955a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.2 2.6 17.5a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4"/><path d="M12 17h.01"/></svg></span><span class="hm-prof-tx"><span class="hm-prof-tl">Allergies</span><span class="hm-prof-tv empty">None added yet</span></span></div>
+              </div>
+            </div>
+            <div class="hm-hub"><div class="hm-rings">
+              <button class="hm-ring-item" style="--rc:#39a876" onclick="toast('Health Notes')"><span class="hm-ring-circle"><span class="hm-ring-ico"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 6a2.5 2.5 0 0 1 2.5-2.5h10A2.5 2.5 0 0 1 19.5 6v7a2.5 2.5 0 0 1-2.5 2.5h-4.2L8 20.2V15.5H7A2.5 2.5 0 0 1 4.5 13z"/><path d="M8.5 9.4h7M8.5 12.4h4.5"/></svg></span></span><span class="hm-ring-name">Health Notes</span></button>
+              <button class="hm-ring-item" style="--rc:#7a5fd0" onclick="toast('Doctor Visits')"><span class="hm-ring-circle"><span class="hm-ring-ico"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M12 11v4M10 13h4"/></svg></span></span><span class="hm-ring-name">Doctor Visits</span></button>
+              <button class="hm-ring-item" style="--rc:#b05fd6" onclick="toast('Documents')"><span class="hm-ring-circle"><span class="hm-ring-ico"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg></span></span><span class="hm-ring-name">Documents</span></button>
+              <button class="hm-ring-item" style="--rc:#2fa987" onclick="toast('Vaccinations')"><span class="hm-ring-circle"><span class="hm-ring-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg></span></span><span class="hm-ring-name">Vaccinations</span></button>
+            </div></div>
+            <div class="hm-ov" style="--oc:#e0547c">
+              <div class="hm-ov-top"><div class="hm-ov-h"><div class="hm-ov-t">Growth Overview</div></div></div>
+              <div class="hm-ov-empty">
+                <div class="hmo-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="12" width="4" height="8" rx="1.3"/><rect x="10" y="8.5" width="4" height="11.5" rx="1.3"/><rect x="16" y="5" width="4" height="15" rx="1.3"/></svg></div>
+                <div class="hmo-t">No growth data yet</div>
+                <div class="hmo-d">Add Mark’s first weight &amp; height to start tracking the chart.</div>
+                <button class="hm-add" onclick="toast('Add measurement')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add measurement</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
