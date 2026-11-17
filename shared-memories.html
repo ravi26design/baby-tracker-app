@@ -69,6 +69,23 @@
   .mc-fover .fo.like.on svg{fill:#ff5c86;color:#ff5c86;}
   .mc-title{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-top:12px;padding:0 2px;}
   .mc-desc{font-size:12.5px;font-weight:400;color:#6a645f;line-height:1.5;margin-top:5px;padding:0 2px;}
+  /* All-Memories timeline style */
+  .tgroup-label{display:flex;align-items:center;gap:12px;margin:18px 0 14px;padding:11px 13px;cursor:pointer;user-select:none;background:linear-gradient(180deg,#ffffff,#faf8fc);border-radius:18px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.10);transition:transform .1s;}
+  .tgroup-label:active{transform:scale(.99);}
+  .tg-ic{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;background:color-mix(in srgb,#8574b5 16%,#fff);}
+  .tg-tx{display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .tgl-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.15px;}
+  .tg-sub{font-size:12px;font-weight:600;color:#a39bb0;}
+  .tg-chev{margin-left:auto;width:24px;height:26px;color:#b9b0c4;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .25s;}
+  .tgroup-label.collapsed .tg-chev{transform:rotate(-90deg);}
+  .tgroup{position:relative;overflow:hidden;transition:max-height .35s ease;}
+  .tgroup.collapsed{max-height:0!important;}
+  .titem{position:relative;display:flex;gap:15px;padding-bottom:20px;}
+  .titem::before{content:'';position:absolute;left:20px;top:46px;bottom:-4px;width:2px;background:linear-gradient(#e4def0,#ece7f4);}
+  .titem:last-child::before{display:none;}
+  .tnode{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;z-index:1;box-shadow:inset 0 0 0 2px rgba(255,255,255,.65);}
+  .tcontent{flex:1;min-width:0;padding-top:1px;}
+  .tcontent .mcard{margin-bottom:0;}
 
   /* add prompt */
   .addmem{display:flex;align-items:center;gap:12px;width:100%;border:2px dashed rgba(139,116,181,.4);background:linear-gradient(160deg,#faf7ff,#f1ebfa);border-radius:22px;padding:15px 16px;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:6px;}
@@ -150,44 +167,66 @@
             <span><span class="addmem-t" style="display:block">Add a memory</span><span class="addmem-d">Share a photo or moment of Mark</span></span>
           </button>
 
-          <div class="mcard">
-            <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-            <div class="mc-user"><div class="mc-av" style="--ac:#e0638f">A</div><div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-when">2 hours ago</div></div></div>
-            <div class="mc-imgwrap">
-              <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-              <div class="mc-fover">
-                <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">12</span></span>
-                <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</span>
-              </div>
-            </div>
-            <div class="mc-title">First giggle 😊</div>
-            <div class="mc-desc">Mark’s first proper giggle today — it completely melted our hearts.</div>
+          <div class="tgroup-label" onclick="toggleGroup(this)">
+            <span class="tg-ic">📸</span>
+            <div class="tg-tx"><span class="tgl-name">This Week</span><span class="tg-sub">3 memories of Mark</span></div>
+            <span class="tg-chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
           </div>
-          <div class="mcard">
-            <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-            <div class="mc-user"><div class="mc-av" style="--ac:#5a96d4">D</div><div class="mc-id"><div class="mc-name">David <span class="mc-rel">· Dad</span></div><div class="mc-when">Yesterday</div></div></div>
-            <div class="mc-imgwrap">
-              <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-              <div class="mc-fover">
-                <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">24</span></span>
-                <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>6</span>
+          <div class="tgroup">
+          <div class="titem">
+            <span class="tnode" style="background:linear-gradient(150deg,#ffe3c0,#ffcf9c)">😊</span>
+            <div class="tcontent">
+              <div class="mcard">
+                <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+                <div class="mc-user"><div class="mc-av" style="--ac:#e0638f">A</div><div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-when">2 hours ago</div></div></div>
+                <div class="mc-imgwrap">
+                  <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+                  <div class="mc-fover">
+                    <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">12</span></span>
+                    <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</span>
+                  </div>
+                </div>
+                <div class="mc-title">First giggle 😊</div>
+                <div class="mc-desc">Mark’s first proper giggle today — it completely melted our hearts.</div>
               </div>
             </div>
-            <div class="mc-title">Sitting up! 💪</div>
-            <div class="mc-desc">Sitting up all by himself for the first time. So proud of our little guy.</div>
           </div>
-          <div class="mcard">
-            <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-            <div class="mc-user"><div class="mc-av" style="--ac:#e0638f">A</div><div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-when">3 days ago</div></div></div>
-            <div class="mc-imgwrap">
-              <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-              <div class="mc-fover">
-                <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">18</span></span>
-                <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>4</span>
+          <div class="titem">
+            <span class="tnode" style="background:linear-gradient(150deg,#d5e6ff,#c3daff)">🧸</span>
+            <div class="tcontent">
+              <div class="mcard">
+                <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+                <div class="mc-user"><div class="mc-av" style="--ac:#5a96d4">D</div><div class="mc-id"><div class="mc-name">David <span class="mc-rel">· Dad</span></div><div class="mc-when">Yesterday</div></div></div>
+                <div class="mc-imgwrap">
+                  <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+                  <div class="mc-fover">
+                    <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">24</span></span>
+                    <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>6</span>
+                  </div>
+                </div>
+                <div class="mc-title">Sitting up! 💪</div>
+                <div class="mc-desc">Sitting up all by himself for the first time. So proud of our little guy.</div>
               </div>
             </div>
-            <div class="mc-title">Bath time 🛁</div>
-            <div class="mc-desc">Bath time splashes — he loves the water now, such a happy little fish.</div>
+          </div>
+          <div class="titem">
+            <span class="tnode" style="background:linear-gradient(150deg,#cfeefb,#b7e2f5)">🛁</span>
+            <div class="tcontent">
+              <div class="mcard">
+                <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+                <div class="mc-user"><div class="mc-av" style="--ac:#e0638f">A</div><div class="mc-id"><div class="mc-name">Agnes <span class="mc-rel">· Mum</span></div><div class="mc-when">3 days ago</div></div></div>
+                <div class="mc-imgwrap">
+                  <div class="mc-img" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+                  <div class="mc-fover">
+                    <span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">18</span></span>
+                    <span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>4</span>
+                  </div>
+                </div>
+                <div class="mc-title">Bath time 🛁</div>
+                <div class="mc-desc">Bath time splashes — he loves the water now, such a happy little fish.</div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </div>
@@ -225,6 +264,7 @@
 <script>
   var _tt;
   function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function toggleGroup(lbl){ lbl.classList.toggle('collapsed'); var g=lbl.nextElementSibling; if(g&&g.classList.contains('tgroup')) g.classList.toggle('collapsed'); }
   function locked(){ toast('🔒 Private — only Mark’s parents can open this'); }
   function like(btn){
     var n=btn.querySelector('.n'), c=parseInt(n.textContent,10);
