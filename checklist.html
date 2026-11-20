@@ -102,9 +102,16 @@
   .hub-cat:active{transform:scale(.99);}
   .hub-cat .hc-ic{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:23px;background:color-mix(in srgb, var(--hcc,#9b8bc4) 16%, #fff);color:var(--hcc,#9b8bc4);}
   .hub-cat .hc-ic svg{width:26px;height:26px;stroke:currentColor;}
+  /* icon with circular progress ring */
+  .hub-cat .hc-icwrap{position:relative;width:54px;height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .hub-cat .hc-icwrap .hc-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+  .hub-cat .hc-icwrap .hc-ring-tr{fill:none;stroke:rgba(90,74,120,.12);stroke-width:3;}
+  .hub-cat .hc-icwrap .hc-ring-pr{fill:none;stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.3,.9,.3,1);}
+  .hub-cat .hc-icwrap .hc-ic{width:42px;height:42px;}
+  .hub-cat .hc-icwrap .hc-ic svg{width:23px;height:23px;}
   .hub-cat .hc-t{flex:1;min-width:0;}
-  .hub-cat .hc-n{font-size:13px;font-weight:800;letter-spacing:-.2px;}
-  .hub-cat .hc-d{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .hub-cat .hc-n{font-size:14px;font-weight:800;letter-spacing:-.2px;}
+  .hub-cat .hc-d{font-size:12px;color:var(--muted);font-weight:600;margin-top:3px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .hub-cat .hc-prog{display:flex;align-items:center;gap:9px;margin-top:9px;}
   .hub-cat .hc-bar{flex:1;height:5px;border-radius:4px;background:#efeaf6;overflow:hidden;}
   .hub-cat .hc-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#e0d7f2,#cfc3ec);transition:width .4s ease;}
@@ -804,20 +811,33 @@
     '<circle cx="20" cy="118" r="4.8" fill="#6f93d6" opacity=".5"/><circle cx="20" cy="118" r="1.9" fill="#fff"/>'+
     '<g transform="translate(196 48) rotate(-34) scale(1.05)" opacity=".62"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4z" fill="#6f93d6" stroke="#6f93d6" stroke-width="1.4" stroke-linejoin="round"/></g>'+
     '</svg></span>';
+  var HUB_SUB={
+    essentials:'Daily must-haves for baby',
+    toys:'Age-right toys for this stage',
+    books:'First books & sensory finds',
+    hospital:'Packed and ready for the big day',
+    diaperbag:'Grab-and-go changing kit',
+    diy:'Easy at-home play ideas',
+    travel:'Pack smart for every trip',
+    food:'Gentle first-food picks',
+    feeding:'Feeding & nursing must-haves',
+    recovery:'Care for you after birth'
+  };
   function renderHub(){
     updateWishIcon();
     var ci=document.getElementById('ckIntro'); if(ci){ var cc=CHILDREN[CUR_CHILD]; var itx=(cc&&cc.intro)||''; document.getElementById('ckIntroTx').textContent=itx; ci.style.display=itx?'flex':'none'; }
     var normal = activeCats().map(function(c){
       var p=catProgress(c);
       var full=p.total>0 && p.done>=p.total;
-      var body = '';
-      if(p.total>0){
-        body = full
-          ? '<div class="hc-prog"><div class="hc-bar" style="background:#dcefe2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div>'
-          : '<div class="hc-prog"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>';
-      }
-      return '<div class="hub-cat'+(full?' d2':'')+(c.key==='travel'?' hub-cat--tint':'')+'" style="--tcc:'+c.tint+'" onclick="openCat(\''+c.key+'\')">'+(c.key==='travel'?TRAVEL_DECO:'')+'<span class="hc-ic" style="--hcc:'+c.tint+'">'+(c.key==='travel'?TRAVEL_ICON:c.ic)+'</span>'+
-        '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+body+'</div>'+
+      var pct=p.total?Math.round(p.done/p.total*100):0;
+      var C=138.23, off=(C*(1-pct/100)).toFixed(1);
+      var ringCol=full?'#5bb87f':c.tint;
+      var ring='<svg class="hc-ring" viewBox="0 0 48 48"><circle class="hc-ring-tr" cx="24" cy="24" r="22"/>'+
+        (p.total?'<circle class="hc-ring-pr" cx="24" cy="24" r="22" style="stroke:'+ringCol+';stroke-dasharray:'+C+';stroke-dashoffset:'+off+'"/>':'')+'</svg>';
+      var desc=HUB_SUB[c.key]||CAT_GUIDE[c.key]||'';
+      return '<div class="hub-cat'+(full?' d2':'')+(c.key==='travel'?' hub-cat--tint':'')+'" style="--tcc:'+c.tint+'" onclick="openCat(\''+c.key+'\')">'+(c.key==='travel'?TRAVEL_DECO:'')+
+        '<span class="hc-icwrap">'+ring+'<span class="hc-ic" style="--hcc:'+c.tint+'">'+(c.key==='travel'?TRAVEL_ICON:c.ic)+'</span></span>'+
+        '<div class="hc-t"><div class="hc-n">'+c.name+'</div><div class="hc-d">'+desc+'</div></div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
     document.getElementById('hub').innerHTML = normal;
