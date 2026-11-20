@@ -395,6 +395,28 @@
   .hd-ctabtn:active{transform:scale(.98);}
   .hd-ctabtn svg{width:18px;height:18px;}
   .hd-layer.has-list #hdEmpty{display:none;}
+
+  /* ===== Add Note overlay (bottom sheet form) ===== */
+  .hn-sheet-layer{position:absolute;inset:0;z-index:20;visibility:hidden;}
+  .hn-sheet-layer.open{visibility:visible;}
+  .hn-bd{position:absolute;inset:0;background:rgba(35,22,12,.44);opacity:0;transition:opacity .3s;}
+  .hn-sheet-layer.open .hn-bd{opacity:1;}
+  .hn-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 0 0;padding:12px 20px 26px;transform:translateY(100%);transition:transform .34s cubic-bezier(.22,.9,.3,1);box-shadow:0 -12px 40px -14px rgba(60,40,70,.3);}
+  .hn-sheet-layer.open .hn-sheet{transform:none;}
+  .hn-stitle{font-size:17px;font-weight:800;letter-spacing:-.3px;text-align:center;margin:4px 0 18px;color:var(--ink);}
+  .hn-lbl{font-size:11.5px;font-weight:700;color:#9a8fb3;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;}
+  .hn-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .hn-chip{display:inline-flex;align-items:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;color:#6b6475;background:#f4f1f8;border-radius:13px;padding:9px 13px;transition:transform .12s,background .15s,color .15s;}
+  .hn-chip:active{transform:scale(.96);}
+  .hn-chip .dot{width:9px;height:9px;border-radius:50%;background:var(--cc,#9b8bc4);flex:0 0 auto;}
+  .hn-chip.on{color:#fff;background:var(--cc,#9b8bc4);}
+  .hn-chip.on .dot{background:rgba(255,255,255,.92);}
+  .hn-input{width:100%;border:none;background:#f4f1f8;border-radius:15px;padding:14px 15px;font-family:inherit;font-size:14px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);margin-bottom:18px;}
+  .hn-input::placeholder{color:#b1a6c6;}
+  .hn-input:focus{outline:none;box-shadow:inset 0 0 0 1.6px #9b8bc4;}
+  .hn-save{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#4fb783,#39a876);border-radius:16px;padding:15px;box-shadow:0 14px 26px -10px rgba(57,168,118,.6);transition:transform .12s;}
+  .hn-save:active{transform:scale(.98);}
+  .hn-save svg{width:17px;height:17px;}
 </style>
 </head>
 <body>
@@ -733,6 +755,19 @@
         <div class="hd-ctabar" id="hdCtaBar">
           <button class="hd-ctabtn" id="hdCtaBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdCtaTx"></span></button>
         </div>
+        <!-- Add Note overlay -->
+        <div class="hn-sheet-layer" id="hnSheet">
+          <div class="hn-bd" onclick="closeHnAdd()"></div>
+          <div class="hn-sheet">
+            <div class="am-grab"></div>
+            <div class="hn-stitle">Add note</div>
+            <div class="hn-lbl">What are you noting?</div>
+            <div class="hn-chips" id="hnChips"></div>
+            <div class="hn-lbl">Note</div>
+            <input class="hn-input" id="hnText" placeholder="e.g. Slept well after the evening feed…">
+            <button class="hn-save" onclick="saveHnNote()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Save note</button>
+          </div>
+        </div>
       </div>
 
       <div class="toast" id="toast"></div>
@@ -868,7 +903,7 @@
     if(hasList){
       renderHdList(k);
       document.getElementById('hdCtaTx').textContent=d.cta;
-      document.getElementById('hdCtaBtn').onclick=function(){ toast(d.cta); };
+      document.getElementById('hdCtaBtn').onclick = (k==='notes') ? openHnAdd : function(){ toast(d.cta); };
       L.classList.add('has-list');
     } else {
       document.getElementById('hdList').innerHTML='';
@@ -882,7 +917,29 @@
     var b=L.querySelector('.hd-body'); if(b) b.scrollTop=0;
     L.classList.add('open');
   }
-  function closeHd(){ document.getElementById('hdLayer').classList.remove('open'); }
+  function closeHd(){ document.getElementById('hdLayer').classList.remove('open'); closeHnAdd(); }
+
+  /* ---- Add Note overlay ---- */
+  var HN_SEL=null;
+  var HN_ORDER=['Symptom','Feed','Sleep','Observation','Measurement','Reaction'];
+  function renderHnChips(){
+    document.getElementById('hnChips').innerHTML=HN_ORDER.map(function(t){
+      return '<button class="hn-chip'+(HN_SEL===t?' on':'')+'" style="--cc:'+(HD_NOTE_COL[t]||'#9b8bc4')+'" onclick="hnPick(\''+t+'\')"><span class="dot"></span>'+t+'</button>';
+    }).join('');
+  }
+  function hnPick(t){ HN_SEL=t; renderHnChips(); }
+  function openHnAdd(){ HN_SEL=null; renderHnChips(); var i=document.getElementById('hnText'); i.value=''; document.getElementById('hnSheet').classList.add('open'); }
+  function closeHnAdd(){ var s=document.getElementById('hnSheet'); if(s) s.classList.remove('open'); }
+  function saveHnNote(){
+    var txt=document.getElementById('hnText').value.trim();
+    var tag=HN_SEL||'Observation';
+    var summary=txt||(tag+' note');
+    HD_DATA.notes.items.unshift({t:summary, s:tag, r:'Just now', c:HD_NOTE_COL[tag]||'#9b8bc4', ic:HD_NOTE_IC[tag]||HD_NOTE_IC.Observation});
+    HD_DATA.notes.lastLbl='Last updated just now';
+    renderHdList('notes');
+    closeHnAdd();
+    toast('Note added');
+  }
 
   var _tt;
   function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg+' · coming soon'; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1700); }
