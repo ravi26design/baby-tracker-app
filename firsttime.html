@@ -365,7 +365,9 @@
   .hd-htx{min-width:0;}
   .hd-title{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--ink);line-height:1.08;}
   .hd-sub{font-size:12px;font-weight:600;color:#9a90a8;margin-top:3px;letter-spacing:-.1px;}
-  .hd-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 32px 96px;}
+  .hd-body{flex:1;overflow-y:auto;position:relative;}
+  /* empty state (centered) */
+  .hd-empty{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 32px 96px;}
   .hd-illo{width:152px;height:136px;margin-bottom:18px;}
   .hd-illo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 13px 16px color-mix(in srgb,var(--oc,#9b8bc4) 22%, transparent));}
   .hd-et{font-size:18px;font-weight:800;letter-spacing:-.3px;color:var(--ink);}
@@ -373,6 +375,26 @@
   .hd-add{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(150deg, color-mix(in srgb,var(--oc,#9b8bc4) 74%,#fff), var(--oc,#9b8bc4));padding:13px 26px;border-radius:16px;margin-top:24px;box-shadow:0 15px 28px -11px color-mix(in srgb,var(--oc,#9b8bc4) 72%, transparent);transition:transform .12s;}
   .hd-add:active{transform:scale(.97);}
   .hd-add svg{width:17px;height:17px;}
+  /* populated list */
+  .hd-list{padding:2px 20px 120px;}
+  .hd-lhead{display:flex;align-items:baseline;justify-content:space-between;margin:2px 2px 12px;}
+  .hd-lcount{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:-.1px;}
+  .hd-llast{font-size:11px;font-weight:600;color:#a99fbb;}
+  .hd-li{display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:13px 14px;margin-bottom:10px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);cursor:pointer;transition:transform .12s;}
+  .hd-li:active{transform:scale(.992);}
+  .hd-li-ic{width:42px;height:42px;border-radius:13px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--lc,#9b8bc4) 15%,#fff);color:var(--lc,#9b8bc4);}
+  .hd-li-ic svg{width:22px;height:22px;}
+  .hd-li-tx{flex:1;min-width:0;}
+  .hd-li-n{font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hd-li-s{font-size:11.5px;font-weight:600;color:#9a90a8;margin-top:2px;}
+  .hd-li-r{font-size:11px;font-weight:700;color:#b3a9c2;flex:0 0 auto;white-space:nowrap;margin-left:2px;}
+  /* floating Add CTA overlay (list mode) */
+  .hd-ctabar{position:absolute;left:0;right:0;bottom:0;padding:16px 20px 24px;display:none;background:linear-gradient(to top, var(--hd-bg,#f1ecf7) 58%, transparent);z-index:3;}
+  .hd-layer.has-list .hd-ctabar{display:block;}
+  .hd-ctabtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg, color-mix(in srgb,var(--oc,#9b8bc4) 74%,#fff), var(--oc,#9b8bc4));padding:15px;border-radius:17px;box-shadow:0 16px 30px -10px color-mix(in srgb,var(--oc,#9b8bc4) 72%, transparent);transition:transform .12s;}
+  .hd-ctabtn:active{transform:scale(.98);}
+  .hd-ctabtn svg{width:18px;height:18px;}
+  .hd-layer.has-list #hdEmpty{display:none;}
 </style>
 </head>
 <body>
@@ -700,10 +722,16 @@
           <div class="hd-htx"><div class="hd-title" id="hdTitle"></div><div class="hd-sub" id="hdSub"></div></div>
         </div>
         <div class="hd-body">
-          <div class="hd-illo" id="hdIllo"></div>
-          <div class="hd-et" id="hdEt"></div>
-          <div class="hd-ed" id="hdEd"></div>
-          <button class="hd-add" id="hdAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdAddTx"></span></button>
+          <div class="hd-empty" id="hdEmpty">
+            <div class="hd-illo" id="hdIllo"></div>
+            <div class="hd-et" id="hdEt"></div>
+            <div class="hd-ed" id="hdEd"></div>
+            <button class="hd-add" id="hdAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdAddTx"></span></button>
+          </div>
+          <div class="hd-list" id="hdList"></div>
+        </div>
+        <div class="hd-ctabar" id="hdCtaBar">
+          <button class="hd-ctabtn" id="hdCtaBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdCtaTx"></span></button>
         </div>
       </div>
 
@@ -771,15 +799,56 @@
     vac:{c:'#2fa987',title:'Vaccinations',sub:'Schedule & records',et:'No vaccinations recorded',ed:'Track Mark’s vaccination schedule and keep a record of every dose.',cta:'Add record',
       illo:HD_SHADOW+'<path d="M74 28l34 12v22c0 23-17 35-34 42-17-7-34-19-34-42V40z" fill="#e4f5ef" stroke="#3b3550" stroke-width="2.6" stroke-linejoin="round"/><path d="M60 72l10 10 20-23" fill="none" stroke="#2fa987" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>'+HD_SPARK+hdBadge('#2fa987')}
   };
+  /* note types → icon + colour (matches main-flow Health Notes) */
+  var HD_NOTE_IC={
+    Symptom:'<path d="M13 15.3V5a1.5 1.5 0 0 0-3 0v10.3a3 3 0 1 0 3 0z"/><path d="M11.5 8.5v4"/>',
+    Feed:'<rect x="7.3" y="5" width="9.4" height="3" rx="1.4"/><path d="M8.2 8h7.6v10a3 3 0 0 1-3 3h-1.6a3 3 0 0 1-3-3z"/>',
+    Sleep:'<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>',
+    Observation:'<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>',
+    Measurement:'<path d="M15.5 3.4 20.6 8.5a1 1 0 0 1 0 1.4L9.9 20.6a1 1 0 0 1-1.4 0L3.4 15.5a1 1 0 0 1 0-1.4L14.1 3.4a1 1 0 0 1 1.4 0z"/><path d="M7.5 11 9 12.5"/>',
+    Reaction:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'
+  };
+  var HD_NOTE_COL={Symptom:'#ef7a66',Feed:'#ef9a4e',Sleep:'#8f7cff',Observation:'#45b487',Measurement:'#5a78d4',Reaction:'#f0a53c'};
+  /* dummy Health Notes shown in the first-time flow */
+  var HD_NOTES=[
+    {tag:'Symptom',summary:'Slight fever — 37.8°C',date:'2h ago'},
+    {tag:'Feed',summary:'Breastfed 20 min, both sides',date:'5h ago'},
+    {tag:'Sleep',summary:'Afternoon nap — 1h 45m',date:'Yesterday'},
+    {tag:'Observation',summary:'First proper smile 🥰',date:'Yesterday'},
+    {tag:'Measurement',summary:'Weight 4.2 kg · Height 54 cm',date:'2 days ago'},
+    {tag:'Reaction',summary:'Mild rash after new lotion',date:'3 days ago'}
+  ];
+  function renderHdNotes(){
+    var el=document.getElementById('hdList'); if(!el) return;
+    var head='<div class="hd-lhead"><span class="hd-lcount">'+HD_NOTES.length+' notes</span><span class="hd-llast">Last updated '+HD_NOTES[0].date+'</span></div>';
+    var rows=HD_NOTES.map(function(n){
+      var c=HD_NOTE_COL[n.tag]||'#9b8bc4', ic=HD_NOTE_IC[n.tag]||HD_NOTE_IC.Observation;
+      return '<div class="hd-li" style="--lc:'+c+'" onclick="toast(\'Open note\')">'+
+        '<span class="hd-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span>'+
+        '<div class="hd-li-tx"><div class="hd-li-n">'+n.summary+'</div><div class="hd-li-s">'+n.tag+'</div></div>'+
+        '<span class="hd-li-r">'+n.date+'</span></div>';
+    }).join('');
+    el.innerHTML=head+rows;
+  }
   function openHd(k){ var d=HD_DATA[k]; if(!d) return;
     var L=document.getElementById('hdLayer'); L.style.setProperty('--oc',d.c);
     document.getElementById('hdTitle').textContent=d.title;
     document.getElementById('hdSub').textContent=d.sub;
-    document.getElementById('hdIllo').innerHTML='<svg viewBox="0 0 150 136" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">'+d.illo+'</svg>';
-    document.getElementById('hdEt').textContent=d.et;
-    document.getElementById('hdEd').textContent=d.ed;
-    document.getElementById('hdAddTx').textContent=d.cta;
-    document.getElementById('hdAdd').onclick=function(){ toast(d.cta); };
+    var hasList = (k==='notes'); /* only Health Notes carries dummy data for now */
+    if(hasList){
+      renderHdNotes();
+      document.getElementById('hdCtaTx').textContent=d.cta;
+      document.getElementById('hdCtaBtn').onclick=function(){ toast(d.cta); };
+      L.classList.add('has-list');
+    } else {
+      document.getElementById('hdList').innerHTML='';
+      document.getElementById('hdIllo').innerHTML='<svg viewBox="0 0 150 136" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">'+d.illo+'</svg>';
+      document.getElementById('hdEt').textContent=d.et;
+      document.getElementById('hdEd').textContent=d.ed;
+      document.getElementById('hdAddTx').textContent=d.cta;
+      document.getElementById('hdAdd').onclick=function(){ toast(d.cta); };
+      L.classList.remove('has-list');
+    }
     var b=L.querySelector('.hd-body'); if(b) b.scrollTop=0;
     L.classList.add('open');
   }
