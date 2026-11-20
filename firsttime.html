@@ -371,18 +371,31 @@
   .hm-add{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:var(--oc,#8574b5);background:color-mix(in srgb,var(--oc,#9b8bc4) 10%,#fff);border-radius:14px;padding:11px;margin-top:10px;transition:transform .12s;}
   .hm-add:active{transform:scale(.99);}
   .hm-add svg{width:16px;height:16px;}
-  /* populated growth chart */
-  .hm-ov-sub{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px;}
-  .hm-ov-delta{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:800;color:#2f9f6b;background:color-mix(in srgb,#2f9f6b 12%,#fff);padding:4px 9px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
-  .hm-ov-delta svg{width:12px;height:12px;}
-  .hm-ov-valrow{display:flex;align-items:baseline;gap:9px;margin:2px 2px 10px;}
-  .hm-ov-num{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.6px;line-height:1;}
-  .hm-ov-unit{font-size:13px;font-weight:700;color:var(--muted);margin-left:2px;}
-  .hm-ov-gain{font-size:11.5px;font-weight:600;color:var(--muted);}
-  .hm-chart{position:relative;border-radius:16px;overflow:hidden;background:color-mix(in srgb,var(--oc,#e0547c) 6%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--oc,#e0547c) 11%,transparent);}
-  .hm-chart>svg{display:block;width:100%;height:auto;}
-  .hm-chart-scrim{position:absolute;left:0;right:0;bottom:0;height:40px;pointer-events:none;background:linear-gradient(to top, color-mix(in srgb,var(--oc,#e0547c) 7%,#fff), transparent);}
-  .hm-ov .hm-add{box-shadow:0 12px 22px -14px color-mix(in srgb,var(--oc,#e0547c) 55%,transparent);}
+  /* rich growth card (ported from main flow) */
+  .hm-stats{display:flex;gap:6px;margin-top:12px;}
+  .hm-stat{flex:1;min-width:0;}
+  .hm-stat+.hm-stat{border-left:1px solid rgba(139,116,181,.10);padding-left:11px;}
+  .hm-stat-v{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
+  .hm-stat-v span{font-size:11px;font-weight:700;color:#a99fbb;margin-left:2px;}
+  .hm-stat-l{font-size:10.5px;color:#8b8296;font-weight:600;margin-top:2px;}
+  .hm-stat-d{display:inline-flex;align-items:center;gap:2px;font-size:10px;font-weight:800;color:#3ea06e;margin-top:7px;}
+  .hm-stat-d svg{width:11px;height:11px;}
+  .hm-mtabs{display:flex;gap:4px;background:#f3eff9;border-radius:12px;padding:4px;margin:14px 0 2px;}
+  .hm-mtab{flex:1;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;letter-spacing:-.1px;color:#8a8296;background:transparent;border-radius:9px;padding:7px 8px;transition:background .14s,color .14s;}
+  .hm-mtab.on{background:#fff;color:#7a5fd0;box-shadow:0 2px 6px -2px rgba(0,0,0,.14);}
+  .hm-mtab:active{transform:scale(.97);}
+  .hm-chartwrap{position:relative;margin-top:6px;border-radius:16px;overflow:hidden;}
+  .hm-gchart{position:relative;height:150px;}
+  .hm-gchart svg{display:block;}
+  /* empty-state overlay CTA over the graph (Featured-Memory style) */
+  .hm-chart-ov{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:16px;background:linear-gradient(180deg, rgba(248,246,252,.55), rgba(248,246,252,.82));-webkit-backdrop-filter:blur(2.5px);backdrop-filter:blur(2.5px);}
+  .hm-chart-ov-ic{width:48px;height:48px;border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px -10px rgba(90,74,120,.4);}
+  .hm-chart-ov-ic svg{width:25px;height:25px;color:#7a5fd0;}
+  .hm-chart-ov-msg{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.2px;}
+  .hm-chart-ov-msg b{font-weight:800;}
+  .hm-chart-ov-cta{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#9b86de,#7a5fd0);padding:12px 24px;border-radius:14px;box-shadow:0 14px 26px -11px rgba(122,95,208,.7);transition:transform .12s;}
+  .hm-chart-ov-cta:active{transform:scale(.97);}
+  .hm-chart-ov-cta svg{width:16px;height:16px;}
 
   /* ===== health detail sub-screen (Notes / Visits / Documents / Vaccinations) ===== */
   .hd-layer{position:absolute;inset:11px;border-radius:46px;overflow:hidden;z-index:42;background:linear-gradient(180deg,#f6f3fa,#efebf5);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .34s cubic-bezier(.22,.9,.3,1);visibility:hidden;}
@@ -725,21 +738,22 @@
               <button class="hm-ring-item" style="--rc:#b05fd6" onclick="openHd('docs')"><span class="hm-ring-circle"><span class="hm-ring-ico"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/></svg></span></span><span class="hm-ring-name">Documents</span></button>
               <button class="hm-ring-item" style="--rc:#2fa987" onclick="openHd('vac')"><span class="hm-ring-circle"><span class="hm-ring-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg></span></span><span class="hm-ring-name">Vaccinations</span></button>
             </div></div>
-            <div class="hm-ov" style="--oc:#e0547c">
-              <div class="hm-ov-top"><div class="hm-ov-h"><div><div class="hm-ov-t">Growth Overview</div><div class="hm-ov-sub">Weight · last 5 months</div></div></div><span class="hm-ov-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16 10 10l4 4 6-7"/><path d="M15 6h5v5"/></svg>On track</span></div>
-              <div class="hm-ov-valrow"><span class="hm-ov-num">7.1<span class="hm-ov-unit">kg</span></span><span class="hm-ov-gain">+0.6 kg this month · 62nd percentile</span></div>
-              <div class="hm-chart">
-                <svg viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs><linearGradient id="govFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0547c" stop-opacity=".24"/><stop offset="1" stop-color="#e0547c" stop-opacity="0"/></linearGradient></defs>
-                  <g stroke="#e0547c" stroke-opacity=".14" stroke-width="1.4"><line x1="18" y1="30" x2="282" y2="30"/><line x1="18" y1="60" x2="282" y2="60"/><line x1="18" y1="90" x2="282" y2="90"/><line x1="18" y1="120" x2="282" y2="120"/></g>
-                  <path d="M24 118 76 102 128 86 180 66 232 48 282 34 L282 150 L24 150 Z" fill="url(#govFill)"/>
-                  <path d="M24 118 76 102 128 86 180 66 232 48 282 34" stroke="#e0547c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
-                  <g fill="#fff" stroke="#e0547c" stroke-width="2.4"><circle cx="24" cy="118" r="3.2"/><circle cx="76" cy="102" r="3.2"/><circle cx="128" cy="86" r="3.2"/><circle cx="180" cy="66" r="3.2"/><circle cx="232" cy="48" r="3.2"/></g>
-                  <circle cx="282" cy="34" r="5" fill="#e0547c" stroke="#fff" stroke-width="2.4"/>
-                </svg>
-                <div class="hm-chart-scrim"></div>
+            <div class="hm-ov" style="--oc:#7a5fd0">
+              <div class="hm-ov-top"><div class="hm-ov-h"><div class="hm-ov-t">Growth Overview</div></div></div>
+              <div class="hm-stats">
+                <div class="hm-stat"><div class="hm-stat-v">12.4<span>kg</span></div><div class="hm-stat-l">Weight</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+0.8 kg</div></div>
+                <div class="hm-stat"><div class="hm-stat-v">88<span>cm</span></div><div class="hm-stat-l">Height</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+2.1 cm</div></div>
+                <div class="hm-stat"><div class="hm-stat-v">50<span>cm</span></div><div class="hm-stat-l">Head Circ.</div><div class="hm-stat-d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>+0.5 cm</div></div>
               </div>
-              <button class="hm-add" onclick="toast('Add measurement')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add measurement</button>
+              <div class="hm-mtabs"><button class="hm-mtab on" onclick="ftMetric('weight',this)">Weight</button><button class="hm-mtab" onclick="ftMetric('height',this)">Height</button><button class="hm-mtab" onclick="ftMetric('head',this)">Head Circ.</button></div>
+              <div class="hm-chartwrap">
+                <div id="ftChart" class="hm-gchart"></div>
+                <div class="hm-chart-ov">
+                  <span class="hm-chart-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg></span>
+                  <div class="hm-chart-ov-msg">Start tracking <b>Mark's</b> growth</div>
+                  <button class="hm-chart-ov-cta" onclick="toast('Add measurement')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add measurement</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -850,6 +864,7 @@
     document.querySelectorAll('.page').forEach(function(p){ p.classList.toggle('show', p.id==='pg-'+pg); });
     document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.toggle('active', n.getAttribute('data-pg')===pg); });
     var sc=document.querySelector('.scroll'); if(sc) sc.scrollTop=0;
+    if(pg==='health' && typeof ftRenderChart==='function'){ requestAnimationFrame(ftRenderChart); }
   }
   function rcToggle(head){ head.closest('.rc').classList.toggle('open'); }
   function openAdd(){ document.getElementById('amLayer').classList.add('open'); }
@@ -1062,6 +1077,55 @@
         '<div class="mp-sg-img">'+a.svg+'</div></div>';
     }).join('');
   })();
+
+  /* ---- Growth Overview chart (self-contained, ported from main flow) ---- */
+  var FT_GROWTH={
+    weight:{vals:[8.0,9.1,9.4,10.4,11.3,12.4],unit:'kg'},
+    height:{vals:[68,73,76,80,84,88],unit:'cm'},
+    head:{vals:[43,45,46.5,48,49,50],unit:'cm'}
+  };
+  var FT_LABELS=['1M','2M','3M','4M','5M','6M'];
+  var FT_METRIC='weight', FT_SEL=null;
+  var FT_COL={
+    weight:{a:'#7a5fd0',b:'#7a5fd0',area:'#7a5fd0',halo:'#7a5fd0',guide:'#b3a0e0'},
+    height:{a:'#3f8fd0',b:'#6a62d8',area:'#4f8fd8',halo:'#4f7fd0',guide:'#95a9e0'},
+    head:{a:'#1fab8e',b:'#2a9bca',area:'#22aeb0',halo:'#1fab9c',guide:'#82cfc6'}
+  };
+  function ftMetric(m,el){ FT_METRIC=m; FT_SEL=null; var ts=el.parentNode.querySelectorAll('.hm-mtab'); var col=FT_COL[m]||FT_COL.weight; for(var i=0;i<ts.length;i++){ ts[i].classList.remove('on'); ts[i].style.color=''; } el.classList.add('on'); el.style.color=col.a; ftRenderChart(); }
+  function ftChartPoint(i){ FT_SEL=i; ftRenderChart(); }
+  function ftRenderChart(){
+    var el=document.getElementById('ftChart'); if(!el) return;
+    var W=Math.round(el.clientWidth)||326, H=Math.round(el.clientHeight)||150; if(H<120) H=150;
+    var padL=14,padR=14,padT=34,padB=26, cW=W-padL-padR, cH=H-padT-padB;
+    var g=FT_GROWTH[FT_METRIC], vals=g.vals, unit=g.unit||'', labels=FT_LABELS;
+    var col=FT_COL[FT_METRIC]||FT_COL.weight;
+    var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals), sp=(mx-mn)||1; mn-=sp*0.34; mx+=sp*0.30;
+    var n=vals.length, last=n-1, x=function(i){return padL+cW*(i/(n-1));}, y=function(v){return padT+cH*(1-(v-mn)/(mx-mn));};
+    var pts=vals.map(function(v,i){return [x(i),y(v)];});
+    function sm(P){var d='M'+P[0][0].toFixed(1)+' '+P[0][1].toFixed(1);for(var i=0;i<P.length-1;i++){var p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,t=0.38;d+=' C'+(p1[0]+(p2[0]-p0[0])*t).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])*t).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])*t).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])*t).toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);}return d;}
+    var line=sm(pts), base=(padT+cH).toFixed(1);
+    var GL=3, grid='';
+    for(var gi=0;gi<=GL;gi++){ var gy=(padT+cH*gi/GL).toFixed(1); grid+='<line x1="'+padL+'" y1="'+gy+'" x2="'+(padL+cW).toFixed(1)+'" y2="'+gy+'" stroke="#f1eff7" stroke-width="1"/>'; }
+    var sel=(FT_SEL==null||FT_SEL<0||FT_SEL>last)?last:FT_SEL;
+    var HIDE={2:1,3:1,4:1};
+    var dots=pts.map(function(p,i){ return (i===sel||HIDE[i])?'':'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#fff" stroke="'+col.a+'" stroke-width="2.4"/>'; }).join('');
+    var lp=pts[sel];
+    var guide='<line x1="'+lp[0].toFixed(1)+'" y1="'+(lp[1]+7).toFixed(1)+'" x2="'+lp[0].toFixed(1)+'" y2="'+base+'" stroke="'+col.guide+'" stroke-width="1.4" stroke-dasharray="2 3.5" opacity=".6"/>';
+    var halo='<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="9.5" fill="'+col.halo+'" opacity=".13"/>';
+    var selDot='<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="5" fill="#fff" stroke="'+col.a+'" stroke-width="3"/>';
+    var valTxt=vals[sel]+' '+unit;
+    var pillW=valTxt.length*6.2+16, pillH=20, pillX=Math.max(padL, Math.min(W-padR-pillW, lp[0]-pillW/2)), pillY=Math.max(2, lp[1]-pillH-11);
+    var pill='<g><rect x="'+pillX.toFixed(1)+'" y="'+pillY.toFixed(1)+'" width="'+pillW.toFixed(1)+'" height="'+pillH+'" rx="'+(pillH/2)+'" fill="#3a2f44"/><text x="'+(pillX+pillW/2).toFixed(1)+'" y="'+(pillY+pillH/2+3.6).toFixed(1)+'" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="800" font-family="inherit" letter-spacing="-.1">'+valTxt+'</text></g>';
+    var labs=labels.map(function(l,i){var anc=i===0?'start':(i===last?'end':'middle'),lx=i===0?padL:(i===last?padL+cW:x(i));return '<text x="'+lx.toFixed(1)+'" y="'+(H-6)+'" font-size="9.5" fill="'+(i===sel?'#6c6478':'#b3aac2')+'" text-anchor="'+anc+'" font-weight="'+(i===sel?'800':'600')+'" font-family="inherit">'+l+'</text>';}).join('');
+    el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="100%" preserveAspectRatio="none" style="display:block"><defs>'+
+      '<linearGradient id="ftg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+col.area+'" stop-opacity=".30"/><stop offset=".5" stop-color="'+col.b+'" stop-opacity=".10"/><stop offset="1" stop-color="'+col.b+'" stop-opacity="0"/></linearGradient>'+
+      '</defs>'+grid+
+      '<path d="'+line+' L'+x(last).toFixed(1)+' '+base+' L'+x(0).toFixed(1)+' '+base+' Z" fill="url(#ftg)"/>'+
+      '<path d="'+line+'" fill="none" stroke="'+col.a+'" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>'+
+      dots+guide+halo+selDot+pill+labs+'</svg>';
+  }
+  ftRenderChart();
+  window.addEventListener('resize', ftRenderChart);
 </script>
 </body>
 </html>
