@@ -107,6 +107,13 @@
 
   /* ===== page titles (community / health) ===== */
   .pg-h1{font-size:23px;font-weight:800;color:var(--ink);letter-spacing:-.5px;margin-top:6px;}
+  .ck-head{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .ck-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .ck-abtn{width:44px;height:44px;border-radius:50%;background:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 20px -10px rgba(90,74,120,.42),inset 0 0 0 1px rgba(139,116,181,.06);transition:transform .12s;}
+  .ck-abtn:active{transform:scale(.92);}
+  .ck-abtn svg{width:22px;height:22px;}
+  .ck-abtn.travel{color:#6f93d6;}
+  .ck-abtn.wish{color:#e8698f;}
   .pg-sub{font-size:13px;color:var(--muted);font-weight:600;margin-top:3px;}
 
   /* ===== empty state (community / health) ===== */
@@ -672,7 +679,7 @@
 
           <!-- ============ CHECKLIST ============ -->
           <div class="page" id="pg-checklist">
-            <div class="pg-h1">Checklist</div>
+            <div class="ck-head"><div class="pg-h1">Checklist</div><div class="ck-actions"><button class="ck-abtn travel" onclick="toast('Open Travel')" aria-label="Travel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.8c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></button><button class="ck-abtn wish" onclick="toast('Wishlist')" aria-label="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 0 1 19.4 13z"/></svg></button></div></div>
             <div class="ck-intro" style="margin-top:16px">
               <div class="cki-tx"><div class="ci-t">Mark's checklist is ready</div><div class="ci-d">Tick items off as you go — nothing done yet.</div></div>
               <img class="cki-illo" src="checklist-hero.webp" alt="">
