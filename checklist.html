@@ -202,6 +202,13 @@
   .cat{position:relative;background:var(--card-bg);border-radius:24px;padding:7px 9px 9px;margin-bottom:16px;box-shadow:var(--shadow-soft),inset 0 0 0 1px rgba(139,116,181,.06);}
   .cat-head{display:flex;align-items:center;gap:12px;padding:9px 7px 11px;cursor:pointer;}
   .cat-ic{width:42px;height:42px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;}
+  /* sub-category icon with circular progress ring */
+  .cat-icwrap{position:relative;width:50px;height:50px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .cat-icwrap .cat-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+  .cat-icwrap .cat-ring-tr{fill:none;stroke:rgba(90,74,120,.12);stroke-width:3;}
+  .cat-icwrap .cat-ring-pr{fill:none;stroke-width:3;stroke-linecap:round;stroke:color-mix(in srgb,var(--catc,#9b8bc4) 58%,#4a3d63);transition:stroke-dashoffset .5s cubic-bezier(.3,.9,.3,1);}
+  .cat-icwrap .cat-ring-pr.is-full{stroke:#5bb87f;}
+  .cat-icwrap .cat-ic{width:40px;height:40px;border-radius:50%;font-size:21px;background:color-mix(in srgb,var(--catc,#9b8bc4) 46%,#fff);}
   .cat-t{flex:1;}
   .cat-n{font-size:13px;font-weight:800;letter-spacing:-.2px;}
   .cat-ben{font-size:12px;color:#8f84a6;font-weight:600;margin-top:3px;line-height:1.3;}
@@ -389,6 +396,12 @@
   .trip-card:active{transform:scale(.99);}
   .trip-ic{width:46px;height:46px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;background:color-mix(in srgb, var(--tic,#9b8bc4) 17%, #fff);color:var(--tic,#9b8bc4);}
   .trip-ic svg{stroke:currentColor;}
+  /* trip icon with circular progress ring */
+  .trip-icwrap{position:relative;width:54px;height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .trip-icwrap .trip-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+  .trip-icwrap .trip-ring-tr{fill:none;stroke:rgba(90,74,120,.12);stroke-width:3;}
+  .trip-icwrap .trip-ring-pr{fill:none;stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.3,.9,.3,1);}
+  .trip-icwrap .trip-ic{width:42px;height:42px;border-radius:50%;}
   .trip-info{flex:1;min-width:0;}
   .trip-nm{font-size:15.5px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .trip-meta{font-size:12px;color:var(--muted);font-weight:600;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -913,7 +926,14 @@
           (it.tag?'<span class="brand-tag '+(it.tagcls||'')+'">'+it.tag+'</span>':'')+
           '<span class="cbox cbox-r" onclick="event.stopPropagation();toggleRow(\''+id+'\',this)">'+CHECK_SVG+'</span></div>';
       }).join('');
-      return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+(c.tint||'#e7d9ff')+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-ic" style="background:'+(c.tint||'#e7d9ff')+'">'+(c.ic||'📦')+'</span>'+
+      var gTint=c.tint||'#e7d9ff';
+      var gTotal=c.items.length, gDone=0;
+      for(var gk=0; gk<gTotal; gk++){ if(CHECKED[idPfx+'|'+ci+'|'+gk]) gDone++; }
+      var gPct=gTotal?Math.round(gDone/gTotal*100):0, gFull=gTotal>0&&gDone>=gTotal;
+      var CC=138.23, coff=(CC*(1-gPct/100)).toFixed(1);
+      var cring='<svg class="cat-ring" viewBox="0 0 48 48"><circle class="cat-ring-tr" cx="24" cy="24" r="22"/>'+
+        (gTotal?'<circle class="cat-ring-pr'+(gFull?' is-full':'')+'" cx="24" cy="24" r="22" style="stroke-dasharray:'+CC+';stroke-dashoffset:'+coff+'"/>':'')+'</svg>';
+      return '<div class="cat'+(collapsed?' collapsed':'')+'" style="--tint:'+gTint+'" data-pfx="'+idPfx+'" data-ci="'+ci+'" data-total="'+gTotal+'"><div class="cat-head" onclick="toggleCat(this)"><span class="cat-icwrap" style="--catc:'+gTint+'">'+cring+'<span class="cat-ic">'+(c.ic||'📦')+'</span></span>'+
         '<div class="cat-t"><div class="cat-n">'+c.cat+'</div>'+(c.desc?'<div class="cat-ben">'+c.desc+'</div>':'')+'</div><span class="cat-chev">'+CHEVD+'</span></div>'+
         '<div class="cat-body">'+rows+'</div></div>';
     }).join('');
@@ -925,7 +945,7 @@
   function toggleRow(id,el){
     var row=el.closest('.ci-row,.bk-row');
     if(CHECKED[id]){ CHECKED[id]=false; delete REMINDERS[id]; if(REM_TIMERS[id]){clearTimeout(REM_TIMERS[id]);delete REM_TIMERS[id];}
-      if(row){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); } }
+      if(row){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); updateCatRing(row); } }
     else if(CUR_CAT==='travel'){ markDone(id,row,null); }  /* travel = packing, no restock reminder */
     else { askReminder(id,row); }
   }
@@ -941,9 +961,17 @@
       '<button class="rem-opt plain" onclick="markDoneNoReminder()">Just mark done</button></div>';
     document.getElementById('reminderOv').classList.add('open');
   }
+  function updateCatRing(row){
+    var cat=(row&&row.closest)?row.closest('.cat'):null;
+    if(!cat||!cat.hasAttribute('data-pfx'))return;
+    var pfx=cat.getAttribute('data-pfx'), ci=cat.getAttribute('data-ci'), total=+cat.getAttribute('data-total')||0, done=0;
+    for(var i=0;i<total;i++){ if(CHECKED[pfx+'|'+ci+'|'+i]) done++; }
+    var pct=total?Math.round(done/total*100):0, full=total>0&&done>=total, pr=cat.querySelector('.cat-ring-pr');
+    if(pr){ pr.style.strokeDashoffset=(138.23*(1-pct/100)).toFixed(1); pr.classList.toggle('is-full', full); }
+  }
   function markDone(id,row,label){ CHECKED[id]=true;
     if(row){ row.classList.add('done'); var old=row.querySelector('.rem-badge'); if(old)old.remove();
-      if(label){ var badge=document.createElement('span'); badge.className='rem-badge'; badge.textContent='⏰ '+label; row.insertBefore(badge, row.querySelector('.cbox')); } } }
+      if(label){ var badge=document.createElement('span'); badge.className='rem-badge'; badge.textContent='⏰ '+label; row.insertBefore(badge, row.querySelector('.cbox')); } updateCatRing(row); } }
   function setReminder(label,days){ if(!PENDING_REM)return; var id=PENDING_REM.id,row=PENDING_REM.row,name=PENDING_REM.name;
     markDone(id,row,label); REMINDERS[id]={label:label,row:row};
     var ms=Math.min(days*86400000, 2147483000); if(REM_TIMERS[id])clearTimeout(REM_TIMERS[id]);
@@ -952,7 +980,7 @@
   }
   function markDoneNoReminder(){ if(!PENDING_REM)return; markDone(PENDING_REM.id,PENDING_REM.row,null); closeReminder(); toast('Marked as done ✓'); }
   function fireReminder(id,name,row){ CHECKED[id]=false; delete REMINDERS[id]; delete REM_TIMERS[id];
-    if(row&&document.contains(row)){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); }
+    if(row&&document.contains(row)){ row.classList.remove('done'); var b=row.querySelector('.rem-badge'); if(b)b.remove(); updateCatRing(row); }
     toast('⏰ Time to restock '+name); }
   function closeReminder(){ document.getElementById('reminderOv').classList.remove('open'); PENDING_REM=null; }
 
@@ -1400,9 +1428,12 @@
       var icol=DEST_ICCOL[t.dest]||'#fff';
       var total=0, packed=0; tripSectionsFor(t).forEach(function(g,gi){ (g.items||[]).forEach(function(_,ii){ total++; if(CHECKED['trip|'+t.id+'|'+gi+'|'+ii]) packed++; }); });
       var pct=total?Math.round(packed/total*100):0, full=total>0&&packed>=total;
-      return '<div class="trip-card'+(full?' done':'')+'" onclick="openTrip(\''+t.id+'\')"><span class="trip-ic" style="--tic:'+tint+'">'+icDest(t.dest,25)+'</span>'+
-        '<div class="trip-info"><div class="trip-nm">'+t.name+'</div><div class="trip-meta">'+t.days+' day'+(t.days>1?'s':'')+' · '+t.season+' · '+t.dest+'</div>'+
-        '<div class="trip-prog'+(full?' full':'')+'"><div class="tp-bar"><i style="width:'+pct+'%"></i></div></div></div>'+
+      var ringCol=full?'#5bb87f':tint;
+      var RC=138.23, roff=(RC*(1-pct/100)).toFixed(1);
+      var ring='<svg class="trip-ring" viewBox="0 0 48 48"><circle class="trip-ring-tr" cx="24" cy="24" r="22"/>'+
+        (total?'<circle class="trip-ring-pr" cx="24" cy="24" r="22" style="stroke:'+ringCol+';stroke-dasharray:'+RC+';stroke-dashoffset:'+roff+'"/>':'')+'</svg>';
+      return '<div class="trip-card'+(full?' done':'')+'" onclick="openTrip(\''+t.id+'\')"><span class="trip-icwrap">'+ring+'<span class="trip-ic" style="--tic:'+tint+'">'+icDest(t.dest,23)+'</span></span>'+
+        '<div class="trip-info"><div class="trip-nm">'+t.name+'</div><div class="trip-meta">'+t.days+' day'+(t.days>1?'s':'')+' · '+t.season+' · '+t.dest+'</div></div>'+
         '<span class="trip-go">'+chev+'</span></div>';
     }).join('');
   }
