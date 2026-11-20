@@ -359,7 +359,7 @@
   .hm-ring-ico{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--rc,#9b8bc4) 16%,#fff);color:var(--rc,#9b8bc4);}
   .hm-ring-ico svg{width:26px;height:26px;}
   .hm-ring-name{font-size:10.5px;font-weight:700;color:#8a8790;letter-spacing:.1px;text-align:center;line-height:1.2;}
-  .hm-ov{background:#fff;border-radius:20px;padding:15px 15px 15px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
+  .hm-ov{position:relative;overflow:hidden;background:#fff;border-radius:20px;padding:15px 15px 15px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);}
   .hm-ov-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
   .hm-ov-h{display:flex;align-items:center;gap:10px;min-width:0;}
   .hm-ov-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
@@ -387,11 +387,11 @@
   .hm-chartwrap{position:relative;margin-top:6px;border-radius:16px;overflow:hidden;}
   .hm-gchart{position:relative;height:150px;}
   .hm-gchart svg{display:block;}
-  /* empty-state overlay CTA over the graph (Featured-Memory style) */
-  .hm-chart-ov{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:16px;background:linear-gradient(180deg, rgba(248,246,252,.55), rgba(248,246,252,.82));-webkit-backdrop-filter:blur(2.5px);backdrop-filter:blur(2.5px);}
-  .hm-chart-ov-ic{width:48px;height:48px;border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px -10px rgba(90,74,120,.4);}
-  .hm-chart-ov-ic svg{width:25px;height:25px;color:#7a5fd0;}
-  .hm-chart-ov-msg{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.2px;}
+  /* empty-state dark overlay CTA over the FULL card (Featured-Memory style) */
+  .hm-chart-ov{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:13px;padding:20px;background:linear-gradient(180deg, rgba(26,18,34,.74), rgba(26,18,34,.84));-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+  .hm-chart-ov-ic{width:50px;height:50px;border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.5);}
+  .hm-chart-ov-ic svg{width:26px;height:26px;color:#7a5fd0;}
+  .hm-chart-ov-msg{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px;}
   .hm-chart-ov-msg b{font-weight:800;}
   .hm-chart-ov-cta{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,#9b86de,#7a5fd0);padding:12px 24px;border-radius:14px;box-shadow:0 14px 26px -11px rgba(122,95,208,.7);transition:transform .12s;}
   .hm-chart-ov-cta:active{transform:scale(.97);}
@@ -748,11 +748,11 @@
               <div class="hm-mtabs"><button class="hm-mtab on" onclick="ftMetric('weight',this)">Weight</button><button class="hm-mtab" onclick="ftMetric('height',this)">Height</button><button class="hm-mtab" onclick="ftMetric('head',this)">Head Circ.</button></div>
               <div class="hm-chartwrap">
                 <div id="ftChart" class="hm-gchart"></div>
-                <div class="hm-chart-ov">
-                  <span class="hm-chart-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg></span>
-                  <div class="hm-chart-ov-msg">Start tracking <b>Mark's</b> growth</div>
-                  <button class="hm-chart-ov-cta" onclick="toast('Add measurement')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add measurement</button>
-                </div>
+              </div>
+              <div class="hm-chart-ov">
+                <span class="hm-chart-ov-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg></span>
+                <div class="hm-chart-ov-msg">Start tracking <b>Mark's</b> growth</div>
+                <button class="hm-chart-ov-cta" onclick="toast('Add measurement')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add measurement</button>
               </div>
             </div>
           </div>
