@@ -422,17 +422,41 @@
   .hd-lhead{display:flex;align-items:baseline;justify-content:space-between;margin:2px 2px 12px;}
   .hd-lcount{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:-.1px;}
   .hd-llast{font-size:11px;font-weight:600;color:#a99fbb;}
-  .hd-li{display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:13px 14px;margin-bottom:10px;box-shadow:inset 0 0 0 1px rgba(139,116,181,.1);cursor:pointer;transition:transform .12s;}
-  .hd-li:active{transform:scale(.992);}
-  .hd-li-ic{width:42px;height:42px;border-radius:13px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--lc,#9b8bc4) 15%,#fff);color:var(--lc,#9b8bc4);}
+  .hd-li{display:flex;align-items:center;gap:13px;padding:12px 4px;cursor:pointer;transition:transform .12s;}
+  .hd-li+.hd-li{border-top:1px solid rgba(139,116,181,.1);}
+  .hd-li:active{transform:scale(.995);}
+  .hd-li-ic{width:44px;height:44px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--lc,#9b8bc4) 16%,#fff);color:var(--lc,#9b8bc4);}
   .hd-li-ic svg{width:22px;height:22px;}
   .hd-li-tx{flex:1;min-width:0;}
-  .hd-li-n{font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .hd-li-s{font-size:11.5px;font-weight:600;color:#9a90a8;margin-top:2px;}
-  .hd-li-r{font-size:11px;font-weight:700;color:#b3a9c2;flex:0 0 auto;white-space:nowrap;margin-left:2px;}
+  .hd-li-n{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hd-li-s{font-size:12px;font-weight:600;color:#9a90a8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hd-li-r{font-size:11.5px;font-weight:700;color:#b3a9c2;flex:0 0 auto;white-space:nowrap;margin-left:4px;}
+  /* top tabs (match main flow) */
+  .hd-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;}
+  .hd-tabs::-webkit-scrollbar{display:none;}
+  .hd-tab{position:relative;border:none;background:transparent;cursor:pointer;font-family:inherit;font-size:17px;font-weight:800;letter-spacing:-.3px;color:#b4abc0;padding:4px 3px 11px;white-space:nowrap;flex:0 0 auto;transition:color .15s;}
+  .hd-tab.on{color:var(--ink);}
+  .hd-tab.on::after{content:"";position:absolute;left:3px;right:3px;bottom:4px;height:3px;border-radius:2px;background:var(--oc,#7a5fd0);}
+  .hd-layer:not(.hd-tabbed) .hd-tabs{display:none;}
+  .hd-layer.hd-tabbed .hd-htx{display:none;}
+  /* stats summary card */
+  .hd-statcard{display:none;background:color-mix(in srgb,var(--oc,#9b8bc4) 9%,#fff);border-radius:16px;padding:14px 15px;margin:2px 0 14px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--oc,#9b8bc4) 14%,transparent);}
+  .hd-statcard.on{display:flex;gap:6px;}
+  .hd-statcard .hm-stat+.hm-stat{border-left-color:color-mix(in srgb,var(--oc,#9b8bc4) 18%,transparent);}
+  /* filter chips */
+  .hd-filter{display:none;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 6px;padding-bottom:2px;}
+  .hd-filter.on{display:flex;}
+  .hd-filter::-webkit-scrollbar{display:none;}
+  .hd-fp{flex:0 0 auto;border:1.5px solid rgba(139,116,181,.22);background:#fff;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;color:#8a8296;border-radius:999px;padding:8px 15px;transition:background .14s,color .14s,border-color .14s;}
+  .hd-fp.on{background:linear-gradient(150deg,#b0a2d8,#8a73c8);border-color:transparent;color:#fff;}
+  /* add FAB */
+  .hd-fab{position:absolute;right:20px;bottom:26px;z-index:6;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(155deg, color-mix(in srgb,var(--oc,#9b8bc4) 68%,#fff), var(--oc,#9b8bc4));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 30px -10px color-mix(in srgb,var(--oc,#9b8bc4) 80%,transparent);transition:transform .14s;}
+  .hd-fab:active{transform:scale(.93);}
+  .hd-fab svg{width:26px;height:26px;}
+  .hd-fempty{text-align:center;color:#a99fbb;font-size:13px;font-weight:600;padding:30px 0;}
   /* floating Add CTA overlay (list mode) */
   .hd-ctabar{position:absolute;left:0;right:0;bottom:0;padding:16px 20px 24px;display:none;background:linear-gradient(to top, var(--hd-bg,#f1ecf7) 58%, transparent);z-index:3;}
-  .hd-layer.has-list .hd-ctabar{display:block;}
+  .hd-ctabar{display:none!important;}
   .hd-ctabtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg, color-mix(in srgb,var(--oc,#9b8bc4) 74%,#fff), var(--oc,#9b8bc4));padding:15px;border-radius:17px;box-shadow:0 16px 30px -10px color-mix(in srgb,var(--oc,#9b8bc4) 72%, transparent);transition:transform .12s;}
   .hd-ctabtn:active{transform:scale(.98);}
   .hd-ctabtn svg{width:18px;height:18px;}
@@ -802,6 +826,11 @@
         </div>
         <div class="hd-top">
           <button class="hd-back" onclick="closeHd()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="hd-tabs" id="hdTabs">
+            <button class="hd-tab" data-k="notes" onclick="openHd('notes')">Health Notes</button>
+            <button class="hd-tab" data-k="visits" onclick="openHd('visits')">Doctor Visits</button>
+            <button class="hd-tab" data-k="docs" onclick="openHd('docs')">Documents</button>
+          </div>
           <div class="hd-htx"><div class="hd-title" id="hdTitle"></div><div class="hd-sub" id="hdSub"></div></div>
         </div>
         <div class="hd-body">
@@ -811,16 +840,11 @@
             <div class="hd-ed" id="hdEd"></div>
             <button class="hd-add" id="hdAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdAddTx"></span></button>
           </div>
+          <div class="hd-statcard" id="hdStats"></div>
+          <div class="hd-filter" id="hdFilter"></div>
           <div class="hd-list" id="hdList"></div>
         </div>
-        <div class="hd-ctabar" id="hdCtaBar">
-          <button class="hd-ctabtn" id="hdCtaBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdCtaTx"></span></button>
-        </div>
-        <div class="hd-ov" id="hdOv">
-          <span class="hd-ov-ic" id="hdOvIc"></span>
-          <div class="hd-ov-msg" id="hdOvMsg"></div>
-          <button class="hd-ov-cta" id="hdOvCta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdOvCtaTx"></span></button>
-        </div>
+        <button class="hd-fab" id="hdFab" aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
         <!-- Add Note overlay -->
         <div class="hn-sheet-layer" id="hnSheet">
           <div class="hn-bd" onclick="closeHnAdd()"></div>
@@ -957,49 +981,50 @@
       '<div class="hd-li-tx"><div class="hd-li-n">'+it.t+'</div><div class="hd-li-s">'+it.s+'</div></div>'+
       '<span class="hd-li-r">'+it.r+'</span></div>';
   }
-  function renderHdList(k){
-    var d=HD_DATA[k], items=d.items||[], el=document.getElementById('hdList'); if(!el) return;
-    var head='<div class="hd-lhead"><span class="hd-lcount">'+items.length+' '+(d.unit||'items')+'</span><span class="hd-llast">'+(d.lastLbl||'')+'</span></div>';
-    el.innerHTML=head+items.map(hdRow).join('');
+  /* ---- Full-match sub-screen: tabs + stats + filters + list + FAB (mirrors main flow) ---- */
+  var HD_TAB_KEYS={notes:1,visits:1,docs:1};
+  var HD_STATS={
+    notes:[{v:'6',l:'Notes',d:'Logged',dc:'#8574b5'},{v:'3',l:'This week',d:'Recent',dc:'#c2881f'},{v:'Today',l:'Latest',d:'Symptom',dc:'#3ea06e'}],
+    visits:[{v:'3',l:'Total visits',d:'This year',dc:'#8574b5'},{v:'2d ago',l:'Last visit',d:'Wellness',dc:'#3ea06e'}]
+  };
+  var HD_FILTERS={
+    notes:[{l:'All'},{l:'Symptom',m:'Symptom'},{l:'Measurement',m:'Measurement'},{l:'Observation',m:'Observation'},{l:'Reaction',m:'Reaction'},{l:'Sleep',m:'Sleep'},{l:'Feed',m:'Feed'}],
+    docs:[{l:'All'},{l:'Reports',m:'Report'},{l:'Prescriptions',m:'Prescription'},{l:'Scans',m:'Scan'},{l:'Certificates',m:'Certificate'},{l:'Other',m:'Other'}]
+  };
+  var HD_CUR='notes', HD_FSEL='All';
+  function renderHdStats(k){
+    var el=document.getElementById('hdStats'), s=HD_STATS[k]; if(!el) return;
+    if(!s){ el.classList.remove('on'); el.innerHTML=''; return; }
+    el.innerHTML=s.map(function(t){ return '<div class="hm-stat"><div class="hm-stat-v">'+t.v+'</div><div class="hm-stat-l">'+t.l+'</div><div class="hm-stat-d" style="color:'+t.dc+'">'+t.d+'</div></div>'; }).join('');
+    el.classList.add('on');
   }
-  var HD_OV_IC={
-    notes:'<path d="M4.5 6a2.5 2.5 0 0 1 2.5-2.5h10A2.5 2.5 0 0 1 19.5 6v7a2.5 2.5 0 0 1-2.5 2.5h-4.2L8 20.2V15.5H7A2.5 2.5 0 0 1 4.5 13z"/><path d="M8.5 9.4h7M8.5 12.4h4.5"/>',
-    visits:'<path d="M3.5 9a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M12 11v4M10 13h4"/>',
-    docs:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/>'
-  };
-  var HD_OV_MSG={
-    notes:"Start logging <b>Mark’s</b> health notes",
-    visits:"Track <b>Mark’s</b> doctor visits",
-    docs:"Keep <b>Mark’s</b> documents in one place"
-  };
-  var HD_OV_KEYS={notes:1,visits:1,docs:1};
+  function renderHdFilter(k){
+    var el=document.getElementById('hdFilter'), f=HD_FILTERS[k]; if(!el) return;
+    if(!f){ el.classList.remove('on'); el.innerHTML=''; return; }
+    el.innerHTML=f.map(function(c){ return '<button class="hd-fp'+(c.l===HD_FSEL?' on':'')+'" onclick="hdFilterSet(\''+c.l+'\')">'+c.l+'</button>'; }).join('');
+    el.classList.add('on');
+  }
+  function hdFilterSet(label){ HD_FSEL=label; renderHdFilter(HD_CUR); renderHdList(HD_CUR); }
+  function hdFilterMatch(k,it){
+    if(HD_FSEL==='All') return true;
+    var f=(HD_FILTERS[k]||[]).filter(function(c){return c.l===HD_FSEL;})[0]; if(!f||!f.m) return true;
+    return (it.s||'').toLowerCase().indexOf(f.m.toLowerCase())>-1;
+  }
+  function renderHdList(k){
+    var d=HD_DATA[k], items=(d.items||[]).filter(function(it){return hdFilterMatch(k,it);}), el=document.getElementById('hdList'); if(!el) return;
+    el.innerHTML = items.length ? items.map(hdRow).join('') : '<div class="hd-fempty">Nothing here yet.</div>';
+  }
   function openHd(k){ var d=HD_DATA[k]; if(!d) return;
     var L=document.getElementById('hdLayer'); L.style.setProperty('--oc',d.c);
+    HD_CUR=k; HD_FSEL='All';
+    L.classList.toggle('hd-tabbed', !!HD_TAB_KEYS[k]);
+    L.classList.remove('hd-dim'); L.classList.add('has-list');
+    var tabs=document.getElementById('hdTabs');
+    if(tabs){ Array.prototype.forEach.call(tabs.children,function(b){ b.classList.toggle('on', b.getAttribute('data-k')===k); }); }
     document.getElementById('hdTitle').textContent=d.title;
     document.getElementById('hdSub').textContent=d.sub;
-    var hasList = !!(d.items && d.items.length);
-    // dark empty-state overlay (Growth-card style) for the listed sub-screens
-    if(HD_OV_KEYS[k]){
-      document.getElementById('hdOvIc').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+HD_OV_IC[k]+'</svg>';
-      document.getElementById('hdOvMsg').innerHTML=HD_OV_MSG[k]||'';
-      document.getElementById('hdOvCtaTx').textContent=d.cta;
-      document.getElementById('hdOvCta').onclick = (k==='notes') ? openHnAdd : function(){ toast(d.cta); };
-      L.classList.add('hd-dim');
-    } else { L.classList.remove('hd-dim'); }
-    if(hasList){
-      renderHdList(k);
-      document.getElementById('hdCtaTx').textContent=d.cta;
-      document.getElementById('hdCtaBtn').onclick = (k==='notes') ? openHnAdd : function(){ toast(d.cta); };
-      L.classList.add('has-list');
-    } else {
-      document.getElementById('hdList').innerHTML='';
-      document.getElementById('hdIllo').innerHTML='<svg viewBox="0 0 150 136" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">'+d.illo+'</svg>';
-      document.getElementById('hdEt').textContent=d.et;
-      document.getElementById('hdEd').textContent=d.ed;
-      document.getElementById('hdAddTx').textContent=d.cta;
-      document.getElementById('hdAdd').onclick=function(){ toast(d.cta); };
-      L.classList.remove('has-list');
-    }
+    renderHdStats(k); renderHdFilter(k); renderHdList(k);
+    var fab=document.getElementById('hdFab'); if(fab){ fab.onclick = (k==='notes') ? openHnAdd : function(){ toast(d.cta); }; }
     var b=L.querySelector('.hd-body'); if(b) b.scrollTop=0;
     L.classList.add('open');
   }
@@ -1022,8 +1047,7 @@
     var summary=txt||(tag+' note');
     HD_DATA.notes.items.unshift({t:summary, s:tag, r:'Just now', c:HD_NOTE_COL[tag]||'#9b8bc4', ic:HD_NOTE_IC[tag]||HD_NOTE_IC.Observation});
     HD_DATA.notes.lastLbl='Last updated just now';
-    renderHdList('notes');
-    document.getElementById('hdLayer').classList.remove('hd-dim');
+    HD_FSEL='All'; renderHdFilter('notes'); renderHdStats('notes'); renderHdList('notes');
     closeHnAdd();
     toast('Note added');
   }
