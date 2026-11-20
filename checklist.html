@@ -136,6 +136,9 @@
   .hub-cat.hub-cat--tint{background:linear-gradient(150deg, color-mix(in srgb,var(--tcc,#6f93d6) 9%,#fff), color-mix(in srgb,var(--tcc,#6f93d6) 18%,#fff));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tcc,#6f93d6) 24%,transparent);}
   .hub-cat.hub-cat--tint .hc-ic{background:#fff;box-shadow:0 6px 14px -8px color-mix(in srgb,var(--tcc,#6f93d6) 80%,transparent);}
   .hub-cat.hub-cat--tint .hc-bar{background:rgba(255,255,255,.65);}
+  .hub-cat.hub-cat--tint .hc-ic,.hub-cat.hub-cat--tint .hc-t,.hub-cat.hub-cat--tint .hc-chev{position:relative;z-index:1;}
+  .hc-deco{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:inherit;}
+  .hc-deco svg{position:absolute;right:-8px;top:0;height:100%;width:auto;}
   .hc-endck{width:18px;height:18px;border-radius:50%;flex-shrink:0;background:linear-gradient(150deg,#86d3a2,#5bb87f);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px -3px rgba(90,170,120,.7);}
   .hc-endck svg{width:11px;height:11px;}
   /* Style 5 — check badge on the icon */
@@ -788,6 +791,15 @@
     });
     CUR_CHILD=savedChild; CUR_STAGE=savedStage;
   }
+  var TRAVEL_DECO='<span class="hc-deco"><svg viewBox="0 0 240 140" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+    '<g fill="#6f93d6">'+
+    '<path opacity=".12" d="M150 98c0-6 5-11 11-11 1.5 0 3 .3 4.4 1C168 82 173 78 180 78c9.5 0 17 7 17.6 16 .3 0 .6-.1 1-.1 5.5 0 10 4.5 10 10s-4.5 10-10 10h-49c-6 0-11-4.8-11-11 0-6 4.8-10.8 11-10.8z"/>'+
+    '<path opacity=".08" d="M198 58c0-5 4-9 9-9 1.2 0 2.4 .3 3.5 .8 2-3.4 5.6-5.6 9.8-5.6 6.6 0 12 5 12.6 11.4 5 .4 8.1 4 8.1 8.4 0 5-4 9-9.4 9h-34.6c-5 0-9-4-9-9z"/>'+
+    '</g>'+
+    '<path d="M20 118 C 80 96, 150 90, 210 60" stroke="#6f93d6" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.5 10" opacity=".45"/>'+
+    '<circle cx="20" cy="118" r="4.8" fill="#6f93d6" opacity=".5"/><circle cx="20" cy="118" r="1.9" fill="#fff"/>'+
+    '<g transform="translate(196 48) rotate(-34) scale(1.05)" opacity=".62"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4z" fill="#6f93d6" stroke="#6f93d6" stroke-width="1.4" stroke-linejoin="round"/></g>'+
+    '</svg></span>';
   function renderHub(){
     updateWishIcon();
     var ci=document.getElementById('ckIntro'); if(ci){ var cc=CHILDREN[CUR_CHILD]; var itx=(cc&&cc.intro)||''; document.getElementById('ckIntroTx').textContent=itx; ci.style.display=itx?'flex':'none'; }
@@ -800,7 +812,7 @@
           ? '<div class="hc-prog"><div class="hc-bar" style="background:#dcefe2"><i style="width:100%;background:linear-gradient(90deg,#9ddcb4,#7fc99a)"></i></div></div>'
           : '<div class="hc-prog"><div class="hc-bar"><i style="width:'+Math.round(p.done/p.total*100)+'%"></i></div></div>';
       }
-      return '<div class="hub-cat'+(full?' d2':'')+(c.key==='travel'?' hub-cat--tint':'')+'" style="--tcc:'+c.tint+'" onclick="openCat(\''+c.key+'\')"><span class="hc-ic" style="--hcc:'+c.tint+'">'+c.ic+'</span>'+
+      return '<div class="hub-cat'+(full?' d2':'')+(c.key==='travel'?' hub-cat--tint':'')+'" style="--tcc:'+c.tint+'" onclick="openCat(\''+c.key+'\')">'+(c.key==='travel'?TRAVEL_DECO:'')+'<span class="hc-ic" style="--hcc:'+c.tint+'">'+c.ic+'</span>'+
         '<div class="hc-t"><div class="hc-n">'+c.name+'</div>'+body+'</div>'+
         '<span class="hc-chev">'+CHEV+'</span></div>';
     }).join('');
