@@ -809,34 +809,64 @@
     Reaction:'<path d="M12 4.5 3 20h18L12 4.5z"/><path d="M12 10.5v4M12 17.3h.01"/>'
   };
   var HD_NOTE_COL={Symptom:'#ef7a66',Feed:'#ef9a4e',Sleep:'#8f7cff',Observation:'#45b487',Measurement:'#5a78d4',Reaction:'#f0a53c'};
-  /* dummy Health Notes shown in the first-time flow */
-  var HD_NOTES=[
+  /* shared row icons (visits / documents / vaccinations) */
+  var HD_IC={
+    bag:'<path d="M3.5 9a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M12 11v4M10 13h4"/>',
+    doc:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/>',
+    syr:'<path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/>'
+  };
+  /* dummy data shown in the first-time flow (each row: t=title, s=subtitle, r=right/date) */
+  HD_DATA.notes.unit='notes'; HD_DATA.notes.lastLbl='Last updated 2h ago';
+  HD_DATA.notes.items=[
     {tag:'Symptom',summary:'Slight fever — 37.8°C',date:'2h ago'},
     {tag:'Feed',summary:'Breastfed 20 min, both sides',date:'5h ago'},
     {tag:'Sleep',summary:'Afternoon nap — 1h 45m',date:'Yesterday'},
     {tag:'Observation',summary:'First proper smile 🥰',date:'Yesterday'},
     {tag:'Measurement',summary:'Weight 4.2 kg · Height 54 cm',date:'2 days ago'},
     {tag:'Reaction',summary:'Mild rash after new lotion',date:'3 days ago'}
-  ];
-  function renderHdNotes(){
-    var el=document.getElementById('hdList'); if(!el) return;
-    var head='<div class="hd-lhead"><span class="hd-lcount">'+HD_NOTES.length+' notes</span><span class="hd-llast">Last updated '+HD_NOTES[0].date+'</span></div>';
-    var rows=HD_NOTES.map(function(n){
-      var c=HD_NOTE_COL[n.tag]||'#9b8bc4', ic=HD_NOTE_IC[n.tag]||HD_NOTE_IC.Observation;
-      return '<div class="hd-li" style="--lc:'+c+'" onclick="toast(\'Open note\')">'+
-        '<span class="hd-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></span>'+
-        '<div class="hd-li-tx"><div class="hd-li-n">'+n.summary+'</div><div class="hd-li-s">'+n.tag+'</div></div>'+
-        '<span class="hd-li-r">'+n.date+'</span></div>';
-    }).join('');
-    el.innerHTML=head+rows;
+  ].map(function(n){ return {t:n.summary, s:n.tag, r:n.date, c:HD_NOTE_COL[n.tag]||'#9b8bc4', ic:HD_NOTE_IC[n.tag]||HD_NOTE_IC.Observation}; });
+
+  HD_DATA.visits.unit='visits'; HD_DATA.visits.lastLbl='Last visit 2 days ago';
+  HD_DATA.visits.items=[
+    {t:'Newborn wellness check', s:'Dr. Mehta · Paediatrics', r:'2 days ago'},
+    {t:'Jaundice follow-up', s:'Dr. Mehta · Paediatrics', r:'1 week ago'},
+    {t:'First paediatric visit', s:'Dr. Rao · Paediatrics', r:'3 weeks ago'}
+  ].map(function(v){ return {t:v.t, s:v.s, r:v.r, c:'#7a5fd0', ic:HD_IC.bag}; });
+
+  HD_DATA.docs.unit='files'; HD_DATA.docs.lastLbl='Last added 2 days ago';
+  HD_DATA.docs.items=[
+    {t:'Birth certificate', s:'Certificate · PDF', r:'2 days ago'},
+    {t:'Discharge summary', s:'Report · PDF', r:'2 days ago'},
+    {t:'Blood test report', s:'Lab report · PDF', r:'1 week ago'},
+    {t:'Vitamin D prescription', s:'Prescription · Image', r:'1 week ago'}
+  ].map(function(v){ return {t:v.t, s:v.s, r:v.r, c:'#b05fd6', ic:HD_IC.doc}; });
+
+  HD_DATA.vac.unit='vaccines'; HD_DATA.vac.lastLbl='3 of 4 given';
+  HD_DATA.vac.items=[
+    {t:'BCG', s:'Given', r:'At birth', c:'#2fa987'},
+    {t:'Hepatitis B — Dose 1', s:'Given', r:'At birth', c:'#2fa987'},
+    {t:'OPV — 0', s:'Given', r:'At birth', c:'#2fa987'},
+    {t:'DTwP — Dose 1', s:'Due soon', r:'In 2 weeks', c:'#e0955a'}
+  ].map(function(v){ return {t:v.t, s:v.s, r:v.r, c:v.c, ic:HD_IC.syr}; });
+
+  function hdRow(it){
+    return '<div class="hd-li" style="--lc:'+it.c+'" onclick="toast(\'Open\')">'+
+      '<span class="hd-li-ic"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+it.ic+'</svg></span>'+
+      '<div class="hd-li-tx"><div class="hd-li-n">'+it.t+'</div><div class="hd-li-s">'+it.s+'</div></div>'+
+      '<span class="hd-li-r">'+it.r+'</span></div>';
+  }
+  function renderHdList(k){
+    var d=HD_DATA[k], items=d.items||[], el=document.getElementById('hdList'); if(!el) return;
+    var head='<div class="hd-lhead"><span class="hd-lcount">'+items.length+' '+(d.unit||'items')+'</span><span class="hd-llast">'+(d.lastLbl||'')+'</span></div>';
+    el.innerHTML=head+items.map(hdRow).join('');
   }
   function openHd(k){ var d=HD_DATA[k]; if(!d) return;
     var L=document.getElementById('hdLayer'); L.style.setProperty('--oc',d.c);
     document.getElementById('hdTitle').textContent=d.title;
     document.getElementById('hdSub').textContent=d.sub;
-    var hasList = (k==='notes'); /* only Health Notes carries dummy data for now */
+    var hasList = !!(d.items && d.items.length);
     if(hasList){
-      renderHdNotes();
+      renderHdList(k);
       document.getElementById('hdCtaTx').textContent=d.cta;
       document.getElementById('hdCtaBtn').onclick=function(){ toast(d.cta); };
       L.classList.add('has-list');
