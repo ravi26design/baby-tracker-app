@@ -437,6 +437,17 @@
   .hd-ctabtn:active{transform:scale(.98);}
   .hd-ctabtn svg{width:18px;height:18px;}
   .hd-layer.has-list #hdEmpty{display:none;}
+  /* dark empty-state overlay over the full sub-screen (matches Growth card) */
+  .hd-ov{position:absolute;left:0;right:0;top:104px;bottom:0;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px;background:linear-gradient(180deg, rgba(26,18,34,.5), rgba(26,18,34,.62));-webkit-backdrop-filter:blur(1.5px);backdrop-filter:blur(1.5px);}
+  .hd-layer.hd-dim .hd-ov{display:flex;}
+  .hd-layer.hd-dim .hd-ctabar{display:none;}
+  .hd-ov-ic{width:56px;height:56px;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--oc,#9b8bc4);box-shadow:0 14px 28px -10px rgba(0,0,0,.5);}
+  .hd-ov-ic svg{width:28px;height:28px;}
+  .hd-ov-msg{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.2px;max-width:260px;line-height:1.4;}
+  .hd-ov-msg b{font-weight:800;}
+  .hd-ov-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:800;color:#fff;background:linear-gradient(150deg, color-mix(in srgb,var(--oc,#9b8bc4) 74%,#fff), var(--oc,#9b8bc4));padding:14px 28px;border-radius:16px;box-shadow:0 16px 30px -11px color-mix(in srgb,var(--oc,#9b8bc4) 75%,transparent);transition:transform .12s;}
+  .hd-ov-cta:active{transform:scale(.97);}
+  .hd-ov-cta svg{width:17px;height:17px;}
 
   /* ===== Add Note overlay (bottom sheet form) ===== */
   .hn-sheet-layer{position:absolute;inset:0;z-index:20;visibility:hidden;}
@@ -805,6 +816,11 @@
         <div class="hd-ctabar" id="hdCtaBar">
           <button class="hd-ctabtn" id="hdCtaBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdCtaTx"></span></button>
         </div>
+        <div class="hd-ov" id="hdOv">
+          <span class="hd-ov-ic" id="hdOvIc"></span>
+          <div class="hd-ov-msg" id="hdOvMsg"></div>
+          <button class="hd-ov-cta" id="hdOvCta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span id="hdOvCtaTx"></span></button>
+        </div>
         <!-- Add Note overlay -->
         <div class="hn-sheet-layer" id="hnSheet">
           <div class="hn-bd" onclick="closeHnAdd()"></div>
@@ -946,11 +962,30 @@
     var head='<div class="hd-lhead"><span class="hd-lcount">'+items.length+' '+(d.unit||'items')+'</span><span class="hd-llast">'+(d.lastLbl||'')+'</span></div>';
     el.innerHTML=head+items.map(hdRow).join('');
   }
+  var HD_OV_IC={
+    notes:'<path d="M4.5 6a2.5 2.5 0 0 1 2.5-2.5h10A2.5 2.5 0 0 1 19.5 6v7a2.5 2.5 0 0 1-2.5 2.5h-4.2L8 20.2V15.5H7A2.5 2.5 0 0 1 4.5 13z"/><path d="M8.5 9.4h7M8.5 12.4h4.5"/>',
+    visits:'<path d="M3.5 9a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M12 11v4M10 13h4"/>',
+    docs:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4.5"/>'
+  };
+  var HD_OV_MSG={
+    notes:"Start logging <b>Mark’s</b> health notes",
+    visits:"Track <b>Mark’s</b> doctor visits",
+    docs:"Keep <b>Mark’s</b> documents in one place"
+  };
+  var HD_OV_KEYS={notes:1,visits:1,docs:1};
   function openHd(k){ var d=HD_DATA[k]; if(!d) return;
     var L=document.getElementById('hdLayer'); L.style.setProperty('--oc',d.c);
     document.getElementById('hdTitle').textContent=d.title;
     document.getElementById('hdSub').textContent=d.sub;
     var hasList = !!(d.items && d.items.length);
+    // dark empty-state overlay (Growth-card style) for the listed sub-screens
+    if(HD_OV_KEYS[k]){
+      document.getElementById('hdOvIc').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+HD_OV_IC[k]+'</svg>';
+      document.getElementById('hdOvMsg').innerHTML=HD_OV_MSG[k]||'';
+      document.getElementById('hdOvCtaTx').textContent=d.cta;
+      document.getElementById('hdOvCta').onclick = (k==='notes') ? openHnAdd : function(){ toast(d.cta); };
+      L.classList.add('hd-dim');
+    } else { L.classList.remove('hd-dim'); }
     if(hasList){
       renderHdList(k);
       document.getElementById('hdCtaTx').textContent=d.cta;
@@ -988,6 +1023,7 @@
     HD_DATA.notes.items.unshift({t:summary, s:tag, r:'Just now', c:HD_NOTE_COL[tag]||'#9b8bc4', ic:HD_NOTE_IC[tag]||HD_NOTE_IC.Observation});
     HD_DATA.notes.lastLbl='Last updated just now';
     renderHdList('notes');
+    document.getElementById('hdLayer').classList.remove('hd-dim');
     closeHnAdd();
     toast('Note added');
   }
