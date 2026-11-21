@@ -1981,7 +1981,7 @@
       .iv-link-u{font-size:11.5px;color:#7a5fd0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
       .iv-copy{flex:0 0 auto;border:none;background:#fff;color:#7a5fd0;font-family:inherit;font-size:12px;font-weight:800;padding:8px 13px;border-radius:11px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(139,116,181,.2);}
       .iv-copy:active{transform:scale(.96);}
-      .iv-cta{position:sticky;bottom:0;background:linear-gradient(to top,var(--card-bg,#faf9fe) 72%,transparent);padding:6px 0;margin-top:6px;}
+      .iv-cta{position:sticky;bottom:0;background:linear-gradient(to top,var(--card-bg,#faf9fe) 72%,transparent);padding:0 0 6px;margin-top:0;}
       .iv-create{width:100%;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;}
       .iv-create:active{transform:scale(.99);}
       .iv-create svg{width:19px;height:19px;}
@@ -2945,7 +2945,7 @@
     var IV_ALL_FEATURES=IV_FEATURES.map(function(f){ return f.k; });
     var INVITE_FEATURES=IV_ALL_FEATURES.slice();
     var INVITE_GROUPS=[
-      {name:'Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), members:[{name:'Ananya · Mum',phone:'9876500001'},{name:'Rohan · Dad',phone:'9876500002'}]},
+      {name:'Co-Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), members:[{name:'Ananya · Mum',phone:'9876500001'},{name:'Rohan · Dad',phone:'9876500002'}]},
       {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), members:[{name:'Grandma Rao',phone:'9876500011'},{name:'Grandpa Rao',phone:'9876500012'},{name:'Aunt Priya',phone:'9876500013'},{name:'Sam · Nanny',phone:'9876500014'}]},
       {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), members:[{name:'Papa',phone:'9876500021'},{name:'Mama',phone:'9876500022'}]},
       {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
