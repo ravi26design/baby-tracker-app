@@ -34,6 +34,8 @@
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
+  /* flat design — no drop shadows anywhere */
+  *,*::before,*::after{box-shadow:none!important;}
   html,body{height:100%;}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -2081,10 +2083,10 @@
       .iv-combo-sec{}
       .iv-combo-lbl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a79cc0;margin-bottom:7px;}
       .iv-combo .iv-accesspill{border:none;background:none;padding:0;box-shadow:none;border-radius:0;}
-      .iv-combo .iv-invcode-row{align-items:flex-start;min-height:26px;padding:0 0 2px;}
-      .iv-combo .iv-invlink-row{align-items:flex-start;min-height:26px;padding:0 0 2px;}
-      .iv-combo .iv-inv-copy,.iv-combo .iv-inv-linkcopy{align-self:center;width:34px;height:34px;position:absolute;right:0;top:50%;transform:translateY(-50%);}
-      .iv-combo .iv-invcode-row,.iv-combo .iv-invlink-row{position:relative;padding-right:44px;}
+      .iv-combo .iv-invcode-row{align-items:flex-start;min-height:0;padding:0 0 2px;}
+      .iv-combo .iv-invlink-row{align-items:flex-start;min-height:0;padding:0 0 2px;}
+      .iv-invblock{position:relative;padding:10px 48px 10px 0;}
+      .iv-invblock .iv-inv-copy,.iv-invblock .iv-inv-linkcopy{width:34px;height:34px;position:absolute;right:0;top:50%;transform:translateY(-50%);}
       .iv-combo-subdiv{height:1px;background:#f2eef8;}
       .iv-dhero{display:flex;align-items:center;gap:14px;text-align:left;padding:14px;margin:2px 0 0;border-radius:18px;background:#fff;border:1px solid #efeaf5;}
       .iv-dhero-info{flex:1;min-width:0;}
@@ -2163,14 +2165,17 @@
             </div>
             <div class="iv-combo-div"></div>
             <div class="iv-combo-sec">
-              <div class="iv-combo-lbl">Invite code</div>
-              <div class="iv-invcode-row">
-                <div class="iv-invcode-tx"><span class="iv-inv-code" id="ivDCode">—</span></div>
+              <div class="iv-invblock">
+                <div class="iv-combo-lbl">Invite code</div>
+                <div class="iv-invcode-row"><div class="iv-invcode-tx"><span class="iv-inv-code" id="ivDCode">—</span></div></div>
                 <button class="iv-inv-copy" onclick="ivCopyCode()" aria-label="Copy code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2.5 2.5 0 0 1 2.5-2.5H16"/></svg></button>
               </div>
               <div class="iv-combo-subdiv"></div>
-              <div class="iv-combo-lbl" style="margin-top:11px">Invite link</div>
-              <div class="iv-invlink-row"><span class="iv-inv-link" id="ivDLink">—</span><button class="iv-inv-linkcopy" onclick="ivCopyLinkOnly()" aria-label="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2.5 2.5 0 0 1 2.5-2.5H16"/></svg></button></div>
+              <div class="iv-invblock">
+                <div class="iv-combo-lbl">Invite link</div>
+                <div class="iv-invlink-row"><span class="iv-inv-link" id="ivDLink">—</span></div>
+                <button class="iv-inv-linkcopy" onclick="ivCopyLinkOnly()" aria-label="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2.5 2.5 0 0 1 2.5-2.5H16"/></svg></button>
+              </div>
             </div>
             <div class="iv-combo-div"></div>
             <div class="iv-combo-sec">
