@@ -167,6 +167,19 @@
   .lock-foot .fb svg{width:18px;height:18px;}
   .lock-bar{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:120px;height:5px;border-radius:3px;background:rgba(255,255,255,.7);}
 
+  /* Apple Watch wrist alert */
+  .watch{position:relative;max-width:286px;margin:0 auto;border-radius:56px;overflow:hidden;padding:24px 24px 24px;
+    background:radial-gradient(135% 90% at 50% -8%, #6f5fb0 0%, transparent 56%), linear-gradient(165deg,#2a2440,#161228 70%,#0d0a1b);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 30px 60px -30px rgba(255,255,255,.18),0 22px 44px -18px rgba(40,30,70,.6);
+    animation:pushIn .6s cubic-bezier(.22,.9,.3,1.25) both;}
+  .watch-top{display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.6);font-size:11px;font-weight:700;}
+  .watch-app{display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px;font-weight:800;color:rgba(255,255,255,.82);}
+  .watch-appic{width:18px;height:18px;border-radius:6px;flex-shrink:0;background:#fff url('cucu-parent-logo.webp') no-repeat;background-size:330%;background-position:45% 1%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
+  .watch-ic{width:44px;height:44px;border-radius:14px;margin:15px 0 12px;display:flex;align-items:center;justify-content:center;color:#ffb27a;background:rgba(255,178,122,.16);box-shadow:inset 0 0 0 1px rgba(255,178,122,.26);}
+  .watch-ic svg{width:23px;height:23px;}
+  .watch-title{font-size:17px;font-weight:850;color:#fff;letter-spacing:-.3px;}
+  .watch-body{font-size:13px;font-weight:500;color:rgba(255,255,255,.72);margin-top:5px;line-height:1.45;}
+  .watch-bar{width:66px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);margin:20px 0 0;}
   .foot-note{margin:24px 4px 6px;font-size:12px;color:#9a93a6;font-weight:600;line-height:1.6;text-align:center;}
 
   @media (max-width:600px){
@@ -306,7 +319,23 @@
             </button>
           </div>
 
-          <div class="foot-note">One reminder, delivered three ways — a saved inbox entry, a push on the lock screen, and a pop-up at the bottom of the app.</div>
+          <!-- 4 · APPLE WATCH -->
+          <div class="sec">
+            <div class="sec-head">
+              <span class="sec-n">4</span>
+              <span class="sec-k">Apple Watch</span>
+              <span class="sec-s">Wrist alert</span>
+            </div>
+            <div class="watch">
+              <div class="watch-top"><span class="watch-app"><span class="watch-appic"></span>CuCu Parent</span><span class="watch-time">now</span></div>
+              <div class="watch-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg></div>
+              <div class="watch-title">Feeding reminder</div>
+              <div class="watch-body">Time for Mark’s afternoon meal — Veggie purée.</div>
+              <div class="watch-bar"></div>
+            </div>
+          </div>
+
+          <div class="foot-note">One reminder, delivered four ways — a saved inbox entry, a push on the lock screen, a pop-up inside the app, and a tap on your wrist.</div>
         </div>
       </div>
     </div>
