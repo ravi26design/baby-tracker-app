@@ -3801,19 +3801,7 @@
     document.addEventListener('pointercancel',function(){ TSW.active=false; },{passive:true});
     /* close the section sheet on a pull-down (drag/scroll down while at the top) */
     function hmWireSecDismiss(){
-      var s=document.getElementById('hmSec'); if(!s||s._dw) return;
-      var sb=s.querySelector('.hm-sec-body'); if(!sb) return; s._dw=true;
-      var startY=null;
-      sb.addEventListener('touchstart',function(e){ startY=sb.scrollTop<=0?e.touches[0].clientY:null; },{passive:true});
-      sb.addEventListener('touchmove',function(e){ if(startY==null) return; if(sb.scrollTop<=0 && e.touches[0].clientY-startY>72){ startY=null; hmCloseSec(); } },{passive:true});
-      sb.addEventListener('touchend',function(){ startY=null; },{passive:true});
-      sb.addEventListener('wheel',function(e){ if(sb.scrollTop<=0 && e.deltaY<-42){ hmCloseSec(); } },{passive:true});
-      // dragging the grab handle down also closes
-      var grab=s.querySelector('.hm-sec-grab');
-      if(grab){ var gy=null;
-        grab.addEventListener('touchstart',function(e){ gy=e.touches[0].clientY; },{passive:true});
-        grab.addEventListener('touchmove',function(e){ if(gy!=null && e.touches[0].clientY-gy>46){ gy=null; hmCloseSec(); } },{passive:true});
-      }
+      /* Close the health section only via the back button — no pull-down / scroll / grab-handle dismissal. */
     }
     /* ---- Health Notes ---- */
     var HM_NOTES;
