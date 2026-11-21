@@ -335,7 +335,7 @@
               </div>
               <div class="fbsheet" id="fbsheet">
                 <div class="fbsheet-grab"></div>
-                <div class="fbsheet-t" id="fbTitle">Tell us what’s not working 💜</div>
+                <div class="fbsheet-t" id="fbTitle">Tell us what you don’t like in our app 💜</div>
                 <textarea class="fbsheet-ta" id="fbTa" placeholder="Write your message…" rows="2"></textarea>
                 <button class="fbsheet-send" onclick="fbSend()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Send to us</button>
               </div>
@@ -377,7 +377,7 @@
   }
   function playFb(){
     var s=document.getElementById('fbsheet'); if(!s) return;
-    document.getElementById('fbTitle').textContent='Tell us what’s not working 💜';
+    document.getElementById('fbTitle').textContent='Tell us what you don’t like in our app 💜';
     var ta=document.getElementById('fbTa'); if(ta){ ta.value=''; ta.disabled=false; ta.style.display=''; }
     var btn=s.querySelector('.fbsheet-send'); if(btn){ btn.style.display=''; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Send to us'; }
     playIn('fbsheet');
