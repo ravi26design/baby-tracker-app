@@ -2077,9 +2077,10 @@
       .iv-combo-sec{}
       .iv-combo-lbl{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#a79cc0;margin-bottom:7px;}
       .iv-combo .iv-accesspill{border:none;background:none;padding:0;box-shadow:none;border-radius:0;}
-      .iv-combo .iv-invcode-row{align-items:flex-start;min-height:40px;padding:0 0 8px;}
-      .iv-combo .iv-invlink-row{align-items:flex-start;min-height:40px;padding:0 0 1px;}
-      .iv-combo .iv-inv-copy,.iv-combo .iv-inv-linkcopy{align-self:center;}
+      .iv-combo .iv-invcode-row{align-items:flex-start;min-height:26px;padding:0 0 2px;}
+      .iv-combo .iv-invlink-row{align-items:flex-start;min-height:26px;padding:0 0 2px;}
+      .iv-combo .iv-inv-copy,.iv-combo .iv-inv-linkcopy{align-self:center;width:34px;height:34px;position:absolute;right:0;top:50%;transform:translateY(-50%);}
+      .iv-combo .iv-invcode-row,.iv-combo .iv-invlink-row{position:relative;padding-right:44px;}
       .iv-combo-subdiv{height:1px;background:#f2eef8;}
       .iv-dhero{display:flex;align-items:center;gap:14px;text-align:left;padding:14px;margin:2px 0 0;border-radius:18px;background:#fff;border:1px solid #efeaf5;}
       .iv-dhero-info{flex:1;min-width:0;}
@@ -2259,8 +2260,8 @@
             </div>
             <div class="iv-pdiv"></div>
             <div class="iv-prow">
-              <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5H9l1.2 3.2-1.6 1.2a11 11 0 0 0 5.4 5.4l1.2-1.6L18.5 15v2.4a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg></span>
-              <input class="iv-in" id="ivDAddPhone" placeholder="Phone (10 digits)" inputmode="numeric" maxlength="10" autocomplete="off" oninput="ivPhoneFmt(this)" onkeydown="if(event.key==='Enter')ivDetailAddMember()">
+              <span class="iv-pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span>
+              <input class="iv-in" id="ivDAddPhone" type="email" placeholder="Email address" inputmode="email" autocomplete="off" onkeydown="if(event.key==='Enter')ivDetailAddMember()">
             </div>
           </div>
           <div class="iv-addsheet-note" id="ivAddNote"></div>
@@ -2951,10 +2952,10 @@
     var IV_ALL_FEATURES=IV_FEATURES.map(function(f){ return f.k; });
     var INVITE_FEATURES=IV_ALL_FEATURES.slice();
     var INVITE_GROUPS=[
-      {name:'Co-Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), members:[{name:'Ananya · Mum',phone:'9876500001'},{name:'Rohan · Dad',phone:'9876500002'}]},
-      {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), members:[{name:'Grandma Rao',phone:'9876500011'},{name:'Grandpa Rao',phone:'9876500012'},{name:'Aunt Priya',phone:'9876500013'},{name:'Sam · Nanny',phone:'9876500014'}]},
-      {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), members:[{name:'Papa',phone:'9876500021'},{name:'Mama',phone:'9876500022'}]},
-      {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
+      {name:'Co-Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), members:[{name:'Ananya Rao',email:'ananya.rao@gmail.com'},{name:'Rohan Rao',email:'rohan.rao@gmail.com'}]},
+      {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), members:[{name:'Grandma Rao',email:'grandma.rao@gmail.com'},{name:'Grandpa Rao',email:'grandpa.rao@gmail.com'},{name:'Aunt Priya',email:'priya.rao@gmail.com'},{name:'Sam',email:'sam.nanny@gmail.com'}]},
+      {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), members:[{name:'Papa',email:'dad.rao@gmail.com'},{name:'Mama',email:'mom.rao@gmail.com'}]},
+      {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',email:'riya.m@gmail.com'},{name:'Daniel K.',email:'daniel.k@gmail.com'},{name:'Sophie L.',email:'sophie.l@gmail.com'}]}
     ];
     var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1, IV_DEL_MODE='group', IV_DEL_MEMBER_IDX=-1;
     function ivExpiryOpen(){ document.getElementById('ivExpirySheet').classList.add('open'); }
@@ -3011,7 +3012,7 @@
       var el=document.getElementById('ivDMembers');
       el.innerHTML=g.members.length
         ? '<div class="iv-mlist">'+g.members.map(function(m,k){ var col=INVITE_COL[k%INVITE_COL.length];
-            return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span><span class="iv-mjoined"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Joined</span><button class="iv-mx" onclick="ivMemberRemove('+k+')" aria-label="Remove member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
+            return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span><span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+((m.email||m.phone)?'<span class="iv-mp">'+(m.email||m.phone)+'</span>':'')+'</span><span class="iv-mjoined"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Joined</span><button class="iv-mx" onclick="ivMemberRemove('+k+')" aria-label="Remove member"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
           }).join('')+'</div>'
         : '<div class="iv-mempty"><div class="iv-mempty-illo"><svg viewBox="0 0 140 108" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="70" cy="98" rx="44" ry="5" fill="#5a4a78" opacity=".10"/><circle cx="34" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="106" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="70" cy="55" r="24" fill="#c9bdec" stroke="#3b3550" stroke-width="2.8"/><circle cx="70" cy="48" r="7.6" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><path d="M56 70c0-6.6 6.3-10.5 14-10.5s14 3.9 14 10.5z" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><circle cx="100" cy="30" r="12" fill="#8574b5" stroke="#3b3550" stroke-width="2.4"/><path d="M100 25v10M95 30h10" stroke="#fff" stroke-width="2.4"/><path d="M28 24l1.2 2.6 2.6 1.2-2.6 1.2L28 33.6l-1.2-2.6L23.2 30l2.6-1.2z" fill="#f3c969" stroke="#3b3550" stroke-width="1.3"/></svg></div><div class="iv-mempty-t">No one has joined yet</div><div class="iv-mempty-s">Share the invite link and people will appear here once they join.</div></div>';
       var fe=document.getElementById('ivDFeatures');
@@ -3030,10 +3031,10 @@
     function ivAddMemberClose(){ var l=document.getElementById('ivAddSheet'); if(l) l.classList.remove('open'); }
     function ivDetailAddMember(){ var g=INVITE_GROUPS[IV_DETAIL_IDX]; if(!g) return;
       var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone');
-      var name=(ni.value||'').trim(), phone=(pi.value||'').replace(/\D/g,'');
+      var name=(ni.value||'').trim(), email=(pi.value||'').trim();
       if(!name){ hToast('Enter a name'); ni.focus(); return; }
-      if(phone.length!==10){ hToast('Enter a 10-digit phone number'); pi.focus(); return; }
-      g.members.push({name:name, phone:phone});
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ hToast('Enter a valid email address'); pi.focus(); return; }
+      g.members.push({name:name, email:email});
       ni.value=''; pi.value='';
       ivAddMemberClose();
       openGroupDetail(IV_DETAIL_IDX); renderInviteGroups();
@@ -3042,7 +3043,7 @@
     function ivRowOpen(i){ IV_MENU_IDX=i; var g=INVITE_GROUPS[i]; if(!g) return; var h=document.getElementById('ivRowHead'); if(h) h.innerHTML='<span class="iv-grow-av" style="width:40px;height:40px;font-size:21px">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+g.members.length+' member'+(g.members.length!==1?'s':'')+'</span></span>'; document.getElementById('ivRowLayer').classList.add('open'); }
     function ivRowClose(){ var l=document.getElementById('ivRowLayer'); if(l) l.classList.remove('open'); }
     function ivRowEdit(){ var i=IV_MENU_IDX; ivRowClose(); var g=INVITE_GROUPS[i]; if(!g) return; IV_EDIT_IDX=i;
-      INVITE_MEMBERS=g.members.map(function(m){ return {name:m.name,phone:m.phone}; }); INVITE_EMOJI=g.emoji;
+      INVITE_MEMBERS=g.members.map(function(m){ return {name:m.name,email:m.email||m.phone}; }); INVITE_EMOJI=g.emoji;
       INVITE_FEATURES=(g.features?g.features.slice():IV_ALL_FEATURES.slice()); ivFeatSyncChoice();
       document.getElementById('ivGroupName').value=g.name; document.getElementById('ivGav').textContent=g.emoji;
       document.getElementById('ivCreateTx').textContent='Save changes';
@@ -3088,17 +3089,17 @@
       el.innerHTML='<div class="iv-mlist">'+INVITE_MEMBERS.map(function(m,i){
         var col=INVITE_COL[i%INVITE_COL.length];
         return '<div class="iv-mrow"><span class="iv-mav" style="background:'+col+'">'+inviteInitials(m.name)+'</span>'
-          +'<span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+(m.phone?'<span class="iv-mp">'+m.phone+'</span>':'')+'</span>'
+          +'<span class="iv-mmain"><span class="iv-mn">'+m.name+'</span>'+((m.email||m.phone)?'<span class="iv-mp">'+(m.email||m.phone)+'</span>':'')+'</span>'
           +'<button class="iv-mx" onclick="inviteRemoveMember('+i+')" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
       }).join('')+'</div>';
     }
     function ivPhoneFmt(el){ el.value=(el.value||'').replace(/\D/g,'').slice(0,10); }
     function inviteAddMember(){
       var ni=document.getElementById('ivPName'), pi=document.getElementById('ivPPhone');
-      var name=(ni.value||'').trim(), phone=(pi.value||'').replace(/\D/g,'');
+      var name=(ni.value||'').trim(), email=(pi.value||'').trim();
       if(!name){ hToast('Enter a name'); ni.focus(); return; }
-      if(phone.length!==10){ hToast('Enter a 10-digit phone number'); pi.focus(); return; }
-      INVITE_MEMBERS.push({name:name, phone:phone});
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ hToast('Enter a valid email address'); pi.focus(); return; }
+      INVITE_MEMBERS.push({name:name, email:email});
       ni.value=''; pi.value=''; renderInviteMembers(); ni.focus();
     }
     function inviteRemoveMember(i){ INVITE_MEMBERS.splice(i,1); renderInviteMembers(); }
