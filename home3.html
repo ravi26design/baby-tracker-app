@@ -2039,6 +2039,8 @@
       .iv-accesspill-tx{display:flex;flex-direction:column;gap:2px;min-width:0;}
       .iv-accesspill-t{font-size:15.5px;font-weight:800;letter-spacing:-.2px;color:color-mix(in srgb,var(--c,#6a5fb0) 80%,#38333f);}
       .iv-accesspill-s{font-size:12px;font-weight:600;color:#9a90ab;}
+      .iv-addsheet-note{display:flex;align-items:flex-start;gap:8px;margin:12px 2px 2px;font-size:12px;font-weight:600;color:#8574b5;line-height:1.45;}
+      .iv-addsheet-note svg{width:15px;height:15px;flex:0 0 auto;margin-top:1px;}
       /* group detail */
       .iv-dmhead{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 11px;}
       .iv-dmhead .iv-sec-l{margin:0;}
@@ -2255,6 +2257,7 @@
               <input class="iv-in" id="ivDAddPhone" placeholder="Phone (10 digits)" inputmode="numeric" maxlength="10" autocomplete="off" oninput="ivPhoneFmt(this)" onkeydown="if(event.key==='Enter')ivDetailAddMember()">
             </div>
           </div>
+          <div class="iv-addsheet-note" id="ivAddNote"></div>
           <button class="iv-create iv-addsheet-btn" onclick="ivDetailAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add member</span></button>
         </div>
       </div>
@@ -2942,6 +2945,7 @@
     var IV_ALL_FEATURES=IV_FEATURES.map(function(f){ return f.k; });
     var INVITE_FEATURES=IV_ALL_FEATURES.slice();
     var INVITE_GROUPS=[
+      {name:'Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), members:[{name:'Ananya · Mum',phone:'9876500001'},{name:'Rohan · Dad',phone:'9876500002'}]},
       {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), members:[{name:'Grandma Rao',phone:'9876500011'},{name:'Grandpa Rao',phone:'9876500012'},{name:'Aunt Priya',phone:'9876500013'},{name:'Sam · Nanny',phone:'9876500014'}]},
       {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), members:[{name:'Papa',phone:'9876500021'},{name:'Mama',phone:'9876500022'}]},
       {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',phone:'9876500031'},{name:'Daniel K.',phone:'9876500032'},{name:'Sophie L.',phone:'9876500033'}]}
@@ -3006,10 +3010,17 @@
         : '<div class="iv-mempty"><div class="iv-mempty-illo"><svg viewBox="0 0 140 108" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="70" cy="98" rx="44" ry="5" fill="#5a4a78" opacity=".10"/><circle cx="34" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="106" cy="62" r="17" fill="#f1ecf9" stroke="#b9abdb" stroke-width="2.2" stroke-dasharray="4 5"/><circle cx="70" cy="55" r="24" fill="#c9bdec" stroke="#3b3550" stroke-width="2.8"/><circle cx="70" cy="48" r="7.6" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><path d="M56 70c0-6.6 6.3-10.5 14-10.5s14 3.9 14 10.5z" fill="#fff" stroke="#3b3550" stroke-width="2.3"/><circle cx="100" cy="30" r="12" fill="#8574b5" stroke="#3b3550" stroke-width="2.4"/><path d="M100 25v10M95 30h10" stroke="#fff" stroke-width="2.4"/><path d="M28 24l1.2 2.6 2.6 1.2-2.6 1.2L28 33.6l-1.2-2.6L23.2 30l2.6-1.2z" fill="#f3c969" stroke="#3b3550" stroke-width="1.3"/></svg></div><div class="iv-mempty-t">No one has joined yet</div><div class="iv-mempty-s">Share the invite link and people will appear here once they join.</div></div>';
       var fe=document.getElementById('ivDFeatures');
       if(fe){ var mem=(g.features && g.features.length===1 && g.features[0]==='memories'); var opt=null; for(var oi=0;oi<IV_FEAT_OPTS.length;oi++){ if(IV_FEAT_OPTS[oi].k===(mem?'memories':'all')){ opt=IV_FEAT_OPTS[oi]; break; } }
-        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span></span></span>'; }
+        var cn=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your child';
+        var asub=mem?('Can view '+cn+'’s memories'):('Complete access to '+cn+'’s data');
+        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+asub+'</span></span></span>'; }
       ivShowView('detail');
     }
-    function ivAddMemberOpen(){ var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone'); if(ni) ni.value=''; if(pi) pi.value=''; document.getElementById('ivAddSheet').classList.add('open'); }
+    function ivAddMemberOpen(){ var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone'); if(ni) ni.value=''; if(pi) pi.value='';
+      var note=document.getElementById('ivAddNote'), g=INVITE_GROUPS[IV_DETAIL_IDX];
+      if(note){ var mem=!!(g&&g.features&&g.features.length===1&&g.features[0]==='memories'); var cn=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your child';
+        var txt=mem?('They’ll be able to view '+cn+'’s memories.'):('They’ll get complete access to '+cn+'’s data — memories, milestones, growth, health & documents.');
+        note.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>'+txt+'</span>'; }
+      document.getElementById('ivAddSheet').classList.add('open'); }
     function ivAddMemberClose(){ var l=document.getElementById('ivAddSheet'); if(l) l.classList.remove('open'); }
     function ivDetailAddMember(){ var g=INVITE_GROUPS[IV_DETAIL_IDX]; if(!g) return;
       var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone');
