@@ -167,19 +167,18 @@
   .lock-foot .fb svg{width:18px;height:18px;}
   .lock-bar{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:120px;height:5px;border-radius:3px;background:rgba(255,255,255,.7);}
 
-  /* Apple Watch wrist alert */
-  .watch{position:relative;max-width:286px;margin:0 auto;border-radius:56px;overflow:hidden;padding:24px 24px 24px;
-    background:radial-gradient(135% 90% at 50% -8%, #6f5fb0 0%, transparent 56%), linear-gradient(165deg,#2a2440,#161228 70%,#0d0a1b);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 30px 60px -30px rgba(255,255,255,.18),0 22px 44px -18px rgba(40,30,70,.6);
-    animation:pushIn .6s cubic-bezier(.22,.9,.3,1.25) both;}
-  .watch-top{display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.6);font-size:11px;font-weight:700;}
-  .watch-app{display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px;font-weight:800;color:rgba(255,255,255,.82);}
-  .watch-appic{width:18px;height:18px;border-radius:6px;flex-shrink:0;background:#fff url('cucu-parent-logo.webp') no-repeat;background-size:330%;background-position:45% 1%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
-  .watch-ic{width:44px;height:44px;border-radius:14px;margin:15px 0 12px;display:flex;align-items:center;justify-content:center;color:#ffb27a;background:rgba(255,178,122,.16);box-shadow:inset 0 0 0 1px rgba(255,178,122,.26);}
-  .watch-ic svg{width:23px;height:23px;}
-  .watch-title{font-size:17px;font-weight:850;color:#fff;letter-spacing:-.3px;}
-  .watch-body{font-size:13px;font-weight:500;color:rgba(255,255,255,.72);margin-top:5px;line-height:1.45;}
-  .watch-bar{width:66px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);margin:20px 0 0;}
+  /* Feedback bottom sheet (pop-up style) */
+  .fbsheet{position:absolute;left:12px;right:12px;bottom:12px;top:auto;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-radius:20px;padding:16px 14px 14px;box-shadow:0 -14px 38px -14px rgba(70,45,80,.4),inset 0 0 0 1px rgba(255,255,255,.7);
+    transform:translateY(140%);opacity:0;transition:transform .55s cubic-bezier(.22,.9,.3,1.25),opacity .35s;}
+  .fbsheet.in{transform:translateY(0);opacity:1;}
+  .fbsheet-grab{position:absolute;left:50%;top:6px;transform:translateX(-50%);width:36px;height:4px;border-radius:3px;background:rgba(120,110,135,.28);}
+  .fbsheet-t{font-size:14px;font-weight:850;color:#2e2838;letter-spacing:-.2px;margin-top:2px;}
+  .fbsheet-ta{width:100%;min-height:48px;resize:none;border:none;background:#f4f1f8;border-radius:13px;padding:11px 12px;font-family:inherit;font-size:12.5px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(139,116,181,.12);margin:9px 0 10px;}
+  .fbsheet-ta::placeholder{color:#a99fbb;}
+  .fbsheet-send{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(145deg,#9b84dc,#7d68b8);border-radius:13px;padding:11px;transition:transform .1s,filter .15s;}
+  .fbsheet-send:active{transform:scale(.98);}
+  .fbsheet-send svg{width:15px;height:15px;}
   .foot-note{margin:24px 4px 6px;font-size:12px;color:#9a93a6;font-weight:600;line-height:1.6;text-align:center;}
 
   @media (max-width:600px){
@@ -319,23 +318,35 @@
             </button>
           </div>
 
-          <!-- 4 · APPLE WATCH -->
+          <!-- 4 · FEEDBACK BOTTOM SHEET -->
           <div class="sec">
             <div class="sec-head">
               <span class="sec-n">4</span>
-              <span class="sec-k">Apple Watch</span>
-              <span class="sec-s">Wrist alert</span>
+              <span class="sec-k">Feedback</span>
+              <span class="sec-s">Bottom Sheet</span>
             </div>
-            <div class="watch">
-              <div class="watch-top"><span class="watch-app"><span class="watch-appic"></span>CuCu Parent</span><span class="watch-time">now</span></div>
-              <div class="watch-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-.4 4.2a4 4 0 0 1-.9 2.2L12 12l-1.7-2.6a4 4 0 0 1-.9-2.2L9 3Z"/><path d="M12 12v7"/><path d="M9.5 21h5"/></svg></div>
-              <div class="watch-title">Feeding reminder</div>
-              <div class="watch-body">Time for Mark’s afternoon meal — Veggie purée.</div>
-              <div class="watch-bar"></div>
+            <div class="stage dark">
+              <div class="stage-bar"><span>Home</span><div class="stage-dots"><i></i><i></i><i></i></div></div>
+              <div class="skel">
+                <div class="ln w1"></div>
+                <div class="cardrow"><div></div><div></div></div>
+                <div class="ln w2" style="margin-top:14px"></div>
+                <div class="ln w3"></div>
+              </div>
+              <div class="fbsheet" id="fbsheet">
+                <div class="fbsheet-grab"></div>
+                <div class="fbsheet-t" id="fbTitle">Tell us what’s not working 💜</div>
+                <textarea class="fbsheet-ta" id="fbTa" placeholder="Write your message…" rows="2"></textarea>
+                <button class="fbsheet-send" onclick="fbSend()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Send to us</button>
+              </div>
             </div>
+            <button class="replay" onclick="playFb()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4"/></svg>
+              Replay
+            </button>
           </div>
 
-          <div class="foot-note">One reminder, delivered four ways — a saved inbox entry, a push on the lock screen, a pop-up inside the app, and a tap on your wrist.</div>
+          <div class="foot-note">One reminder reaches a parent across every surface — and whenever something feels off, they can tell us in a tap.</div>
         </div>
       </div>
     </div>
@@ -364,8 +375,22 @@
     if(acts) acts.style.display='none';
     setTimeout(function(){ p.classList.remove('in'); }, 1200);
   }
+  function playFb(){
+    var s=document.getElementById('fbsheet'); if(!s) return;
+    document.getElementById('fbTitle').textContent='Tell us what’s not working 💜';
+    var ta=document.getElementById('fbTa'); if(ta){ ta.value=''; ta.disabled=false; ta.style.display=''; }
+    var btn=s.querySelector('.fbsheet-send'); if(btn){ btn.style.display=''; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Send to us'; }
+    playIn('fbsheet');
+  }
+  function fbSend(){
+    var s=document.getElementById('fbsheet'); if(!s) return;
+    document.getElementById('fbTitle').textContent='Thanks for your feedback 💜';
+    var ta=document.getElementById('fbTa'); if(ta) ta.style.display='none';
+    var btn=s.querySelector('.fbsheet-send'); if(btn) btn.style.display='none';
+    setTimeout(function(){ s.classList.remove('in'); }, 1400);
+  }
   // auto-play on load
-  window.addEventListener('load', function(){ setTimeout(playPop, 550); });
+  window.addEventListener('load', function(){ setTimeout(playPop, 550); setTimeout(playFb, 1100); });
 </script>
 </body>
 </html>
