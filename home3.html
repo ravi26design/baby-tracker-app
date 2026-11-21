@@ -2017,6 +2017,7 @@
       .iv-featdone{width:100%;border:none;border-radius:16px;background:linear-gradient(150deg,#a58fd8,#8f78c4);color:#fff;font-family:inherit;font-size:15px;font-weight:800;padding:15px;cursor:pointer;transition:transform .1s;}
       .iv-featdone:active{transform:scale(.99);}
       .iv-featcard{background:#fff;border:1px solid #efeaf5;border-radius:20px;padding:3px 15px;}
+      .iv-featcard.locked{pointer-events:none;opacity:.55;}
       .iv-featrow{display:flex;align-items:center;gap:12px;padding:12px 0;}
       .iv-featrow+.iv-featrow{border-top:1px solid #f2eef8;}
       .iv-feat-ic{width:40px;height:40px;border-radius:13px;flex:0 0 auto;background:color-mix(in srgb,var(--c,#8574b5) 14%,#fff);color:var(--c,#8574b5);display:flex;align-items:center;justify-content:center;}
@@ -2224,6 +2225,9 @@
 
             <div class="iv-sec-l" style="margin-top:22px">Feature access</div>
             <div class="iv-featcard" id="ivFeatCard"></div>
+            <div class="iv-sec-l" style="margin-top:20px">Permission</div>
+            <div class="iv-featcard" id="ivPermCard"></div>
+            <div class="ivcs-note" id="ivParentNote" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.4 3 7.4 7 9 4-1.6 7-4.6 7-9V6z"/><path d="m9 12 2 2 4-4.2"/></svg><span>Co-Parents always have full access to everything — this can’t be changed.</span></div>
             <div class="ivcs-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg><span>You'll get a shareable link &amp; join code once the group is created.</span></div>
           </div>
           <div class="ivcs-foot">
@@ -2952,10 +2956,10 @@
     var IV_ALL_FEATURES=IV_FEATURES.map(function(f){ return f.k; });
     var INVITE_FEATURES=IV_ALL_FEATURES.slice();
     var INVITE_GROUPS=[
-      {name:'Co-Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), members:[{name:'Ananya Rao',email:'ananya.rao@gmail.com'},{name:'Rohan Rao',email:'rohan.rao@gmail.com'}]},
-      {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), members:[{name:'Grandma Rao',email:'grandma.rao@gmail.com'},{name:'Grandpa Rao',email:'grandpa.rao@gmail.com'},{name:'Aunt Priya',email:'priya.rao@gmail.com'},{name:'Sam',email:'sam.nanny@gmail.com'}]},
-      {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), members:[{name:'Papa',email:'dad.rao@gmail.com'},{name:'Mama',email:'mom.rao@gmail.com'}]},
-      {name:'Playdate Parents', emoji:'🧸', features:['memories'], members:[{name:'Riya M.',email:'riya.m@gmail.com'},{name:'Daniel K.',email:'daniel.k@gmail.com'},{name:'Sophie L.',email:'sophie.l@gmail.com'}]}
+      {name:'Co-Parents', emoji:'👪', parent:true, features:IV_ALL_FEATURES.slice(), perm:'add', members:[{name:'Ananya Rao',email:'ananya.rao@gmail.com'},{name:'Rohan Rao',email:'rohan.rao@gmail.com'}]},
+      {name:"Mark's Village", emoji:'🏡', features:IV_ALL_FEATURES.slice(), perm:'add', members:[{name:'Grandma Rao',email:'grandma.rao@gmail.com'},{name:'Grandpa Rao',email:'grandpa.rao@gmail.com'},{name:'Aunt Priya',email:'priya.rao@gmail.com'},{name:'Sam',email:'sam.nanny@gmail.com'}]},
+      {name:'Close Family', emoji:'❤️', features:IV_ALL_FEATURES.slice(), perm:'view', members:[{name:'Papa',email:'dad.rao@gmail.com'},{name:'Mama',email:'mom.rao@gmail.com'}]},
+      {name:'Playdate Parents', emoji:'🧸', features:['memories'], perm:'view', members:[{name:'Riya M.',email:'riya.m@gmail.com'},{name:'Daniel K.',email:'daniel.k@gmail.com'},{name:'Sophie L.',email:'sophie.l@gmail.com'}]}
     ];
     var IV_VIEW='list', IV_MENU_IDX=-1, IV_EDIT_IDX=-1, IV_DETAIL_IDX=-1, IV_DEL_IDX=-1, IV_DEL_MODE='group', IV_DEL_MEMBER_IDX=-1;
     function ivExpiryOpen(){ document.getElementById('ivExpirySheet').classList.add('open'); }
@@ -2977,11 +2981,12 @@
         return '<div class="iv-grow" onclick="openGroupDetail('+i+')"><span class="iv-grow-av">'+g.emoji+'</span><span class="iv-grow-tx"><span class="iv-grow-n">'+g.name+'</span><span class="iv-grow-s">'+n+' member'+(n!==1?'s':'')+'</span></span><button class="ch-more" onclick="event.stopPropagation();ivRowOpen('+i+')" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></svg></button></div>';
       }).join('');
     }
-    function ivShowCreate(){ IV_EDIT_IDX=-1; INVITE_MEMBERS=[]; INVITE_EMOJI='👶'; INVITE_FEATURES=IV_ALL_FEATURES.slice(); IV_FEAT_CHOICE='all';
+    function ivShowCreate(){ IV_EDIT_IDX=-1; INVITE_MEMBERS=[]; INVITE_EMOJI='👶'; INVITE_FEATURES=IV_ALL_FEATURES.slice(); IV_FEAT_CHOICE='all'; IV_PERM='add';
       document.getElementById('ivGroupName').value=''; document.getElementById('ivGav').textContent=INVITE_EMOJI;
       document.getElementById('ivCreateTx').textContent='Create group';
       document.getElementById('ivCreateTitle').textContent='New group';
-      renderInviteEmojis(); renderInviteMembers(); renderInviteFeatures();
+      ivLockParent(false);
+      renderInviteEmojis(); renderInviteMembers(); renderInviteFeatures(); renderInvitePerm();
       var sb=document.querySelector('#ivCreateSheet .ivcs-body'); if(sb) sb.scrollTop=0;
       document.getElementById('ivCreateSheet').classList.add('open');
     }
@@ -2996,6 +3001,23 @@
       }).join('');
     }
     function ivFeatChoose(k){ IV_FEAT_CHOICE=k; INVITE_FEATURES=(k==='memories')?['memories']:IV_ALL_FEATURES.slice(); renderInviteFeatures(); }
+    var IV_PERM='add';
+    var IV_PERM_OPTS=[
+      {k:'add', c:'#39a876', t:'View & add', s:'Can view and add new entries', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>'},
+      {k:'view', c:'#5a78d4', t:'View only', s:'Can view, but can’t add or edit', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/></svg>'}
+    ];
+    function renderInvitePerm(){ var el=document.getElementById('ivPermCard'); if(!el) return;
+      el.innerHTML=IV_PERM_OPTS.map(function(f){ var on=IV_PERM===f.k;
+        return '<div class="iv-featrow iv-featopt'+(on?' on':'')+'" onclick="ivPermChoose(\''+f.k+'\')"><span class="iv-feat-ic" style="--c:'+f.c+'">'+f.ic+'</span><span class="iv-feat-tx"><span class="iv-feat-t">'+f.t+'</span><span class="iv-feat-s">'+f.s+'</span></span><span class="iv-featradio"></span></div>';
+      }).join('');
+    }
+    function ivPermChoose(k){ IV_PERM=k; renderInvitePerm(); }
+    function ivLockParent(isParent){
+      var fc=document.getElementById('ivFeatCard'), pc=document.getElementById('ivPermCard'), note=document.getElementById('ivParentNote');
+      if(fc) fc.classList.toggle('locked', !!isParent);
+      if(pc) pc.classList.toggle('locked', !!isParent);
+      if(note) note.style.display=isParent?'':'none';
+    }
     function ivFeatSyncChoice(){ IV_FEAT_CHOICE=(INVITE_FEATURES.length===1 && INVITE_FEATURES[0]==='memories')?'memories':'all'; }
     function ivFeatOpen(){ renderInviteFeatures(); document.getElementById('ivFeatSheet').classList.add('open'); }
     function ivFeatClose(){ var l=document.getElementById('ivFeatSheet'); if(l) l.classList.remove('open'); ivFeatSummaryUpdate(); }
@@ -3018,14 +3040,17 @@
       var fe=document.getElementById('ivDFeatures');
       if(fe){ var mem=(g.features && g.features.length===1 && g.features[0]==='memories'); var opt=null; for(var oi=0;oi<IV_FEAT_OPTS.length;oi++){ if(IV_FEAT_OPTS[oi].k===(mem?'memories':'all')){ opt=IV_FEAT_OPTS[oi]; break; } }
         var cn=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your child';
-        var asub=mem?('Can view '+cn+'’s memories'):('Complete access to '+cn+'’s data');
+        var perm=(g.perm==='view')?'view':'add';
+        var scope=mem?'memories':(cn+'’s data');
+        var asub=(perm==='view'?'Can only view ':'Can view & add ')+scope;
         fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+asub+'</span></span></span>'; }
       ivShowView('detail');
     }
     function ivAddMemberOpen(){ var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone'); if(ni) ni.value=''; if(pi) pi.value='';
       var note=document.getElementById('ivAddNote'), g=INVITE_GROUPS[IV_DETAIL_IDX];
       if(note){ var mem=!!(g&&g.features&&g.features.length===1&&g.features[0]==='memories'); var cn=(CHILDREN[CURRENT_KEY]&&CHILDREN[CURRENT_KEY].name)||'your child';
-        var txt=mem?('They’ll be able to view '+cn+'’s memories.'):('They’ll get complete access to '+cn+'’s data — memories, milestones, growth, health & documents.');
+        var perm=(g&&g.perm==='view')?'view':'add'; var scope=mem?(cn+'’s memories'):(cn+'’s data');
+        var txt=(perm==='view'?'They’ll be able to view ':'They’ll be able to view & add ')+scope+'.';
         note.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>'+txt+'</span>'; }
       document.getElementById('ivAddSheet').classList.add('open'); }
     function ivAddMemberClose(){ var l=document.getElementById('ivAddSheet'); if(l) l.classList.remove('open'); }
@@ -3044,11 +3069,12 @@
     function ivRowClose(){ var l=document.getElementById('ivRowLayer'); if(l) l.classList.remove('open'); }
     function ivRowEdit(){ var i=IV_MENU_IDX; ivRowClose(); var g=INVITE_GROUPS[i]; if(!g) return; IV_EDIT_IDX=i;
       INVITE_MEMBERS=g.members.map(function(m){ return {name:m.name,email:m.email||m.phone}; }); INVITE_EMOJI=g.emoji;
-      INVITE_FEATURES=(g.features?g.features.slice():IV_ALL_FEATURES.slice()); ivFeatSyncChoice();
+      INVITE_FEATURES=(g.features?g.features.slice():IV_ALL_FEATURES.slice()); ivFeatSyncChoice(); IV_PERM=g.perm||'add';
       document.getElementById('ivGroupName').value=g.name; document.getElementById('ivGav').textContent=g.emoji;
       document.getElementById('ivCreateTx').textContent='Save changes';
       document.getElementById('ivCreateTitle').textContent='Edit group';
-      renderInviteEmojis(); renderInviteMembers(); renderInviteFeatures();
+      ivLockParent(!!g.parent);
+      renderInviteEmojis(); renderInviteMembers(); renderInviteFeatures(); renderInvitePerm();
       var sb=document.querySelector('#ivCreateSheet .ivcs-body'); if(sb) sb.scrollTop=0;
       document.getElementById('ivCreateSheet').classList.add('open');
     }
@@ -3109,11 +3135,13 @@
       if(!name){ hToast('Name your group first'); document.getElementById('ivGroupName').focus(); return; }
       if(IV_EDIT_IDX>-1 && INVITE_GROUPS[IV_EDIT_IDX]){
         var ex=INVITE_GROUPS[IV_EDIT_IDX];
-        INVITE_GROUPS[IV_EDIT_IDX]={name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), members:INVITE_MEMBERS.slice(), code:ex.code||ivGenCode()};
+        INVITE_GROUPS[IV_EDIT_IDX]=ex.parent
+          ? {name:name, emoji:INVITE_EMOJI, parent:true, features:IV_ALL_FEATURES.slice(), perm:'add', members:INVITE_MEMBERS.slice(), code:ex.code||ivGenCode()}
+          : {name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), perm:IV_PERM, members:INVITE_MEMBERS.slice(), code:ex.code||ivGenCode()};
         IV_EDIT_IDX=-1; renderInviteGroups(); ivCreateClose(); if(IV_VIEW==='detail') openGroupDetail(IV_DETAIL_IDX);
         hToast(INVITE_EMOJI+' '+name+' updated ✓');
       } else {
-        INVITE_GROUPS.unshift({name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), members:[], code:ivGenCode()});
+        INVITE_GROUPS.unshift({name:name, emoji:INVITE_EMOJI, features:INVITE_FEATURES.slice(), perm:IV_PERM, members:[], code:ivGenCode()});
         IV_EDIT_IDX=-1; renderInviteGroups(); ivCreateClose(); openGroupDetail(0);
         hToast(INVITE_EMOJI+' '+name+' created 🎉');
       }
