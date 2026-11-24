@@ -273,7 +273,7 @@
     .screen{inset:0!important;border-radius:0!important}
     .am-layer{inset:0!important;border-radius:0!important}
     .hd-layer{inset:0!important;border-radius:0!important}
-    .nt-layer{inset:0!important;border-radius:0!important}
+    .nt-layer,.al-layer{inset:0!important;border-radius:0!important}
   }
 
   /* community feeds composer + empty state */
@@ -590,6 +590,26 @@
   .mm-save:active{transform:scale(.98);}
   .mm-save svg{width:17px;height:17px;}
   .me-empty.filled .me-scrim,.me-empty.filled .me-body{display:none;}
+  /* ===== first-time All Memories page ===== */
+  .al-layer{position:absolute;inset:0;border-radius:46px;overflow:hidden;z-index:45;background:#f6f3fa;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .34s cubic-bezier(.22,.9,.3,1);visibility:hidden;}
+  .al-layer.open{transform:none;visibility:visible;}
+  .al-head{display:flex;align-items:center;gap:12px;padding:8px 16px 10px;flex-shrink:0;}
+  .al-back{width:40px;height:40px;border-radius:50%;border:none;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .12s;}
+  .al-back:active{transform:scale(.92);}
+  .al-back svg{width:19px;height:19px;}
+  .al-htitle{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--ink);}
+  .al-htitle span{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0;margin-top:1px;}
+  .al-body{flex:1;overflow-y:auto;padding:4px 16px 24px;}
+  .al-body::-webkit-scrollbar{display:none;}
+  .al-yr{display:flex;align-items:baseline;gap:8px;margin:18px 2px 12px;}
+  .al-yr-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .al-yr-c{font-size:11.5px;font-weight:700;color:#9a8fb3;}
+  .al-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+  .al-card{background:#fff;border-radius:20px;padding:9px;cursor:pointer;transition:transform .12s;}
+  .al-card:active{transform:scale(.98);}
+  .al-img{height:120px;border-radius:14px;background-size:cover;background-position:center;background-color:#e7dff2;}
+  .al-t{font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:9px 3px 0;}
+  .al-d{font-size:11px;color:var(--muted);font-weight:500;margin:3px 3px 2px;line-height:1.35;}
 </style>
 </head>
 <body>
@@ -643,6 +663,7 @@
             <div class="memory">
               <div class="sec-head" style="align-items:center">
                 <h2>Featured Memory</h2>
+                <span class="mem-viewall" onclick="openAllMem()">View All<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
               </div>
               <div class="mem-cards">
                 <div class="mem-card">
@@ -943,6 +964,24 @@
         </div>
       </div>
 
+      <!-- all memories page -->
+      <div class="al-layer" id="alLayer">
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <div class="notch"></div>
+          <span class="status-icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><path d="M8.5 2.3c2.3 0 4.4.9 6 2.4l-1.3 1.4A6.6 6.6 0 0 0 8.5 4.3 6.6 6.6 0 0 0 3.8 6.1L2.5 4.7A8.6 8.6 0 0 1 8.5 2.3Zm0 3.4c1.4 0 2.6.5 3.5 1.4l-1.4 1.4a3 3 0 0 0-4.2 0L5 7.1a4.9 4.9 0 0 1 3.5-1.4Zm0 3.2 1.6 1.6-1.6 1.6-1.6-1.6Z"/></svg>
+            <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1.5" width="21" height="9" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2.5" y="3" width="17" height="6" rx="1.6" fill="currentColor"/><rect x="23.5" y="4.3" width="1.8" height="3.4" rx=".9" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="al-head">
+          <button class="al-back" onclick="closeAllMem()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="al-htitle">All Memories<span>Mark’s little moments</span></div>
+        </div>
+        <div class="al-body" id="alBody"></div>
+      </div>
+
       <!-- add menu -->
       <div class="am-layer" id="amLayer">
         <div class="am-bd" onclick="closeAdd()"></div>
@@ -1169,6 +1208,56 @@
     memToast('Memory saved 💜');
   }
   function memToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(function(){ t.classList.remove('show'); },1700); }
+
+  /* ---- All Memories (first-time) ---- */
+  var FT_MEM_IMG=[
+    'https://images.pexels.com/photos/32989520/pexels-photo-32989520.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop',
+    'https://images.pexels.com/photos/26509771/pexels-photo-26509771.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop',
+    'https://images.pexels.com/photos/7328426/pexels-photo-7328426.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop',
+    'https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop',
+    'https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop',
+    'https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=640&h=520&fit=crop'
+  ];
+  var FT_ALL_MEM=[
+    {yr:'First Year', items:[
+      {t:'First Smile', d:'2 months · that gummy grin', img:0},
+      {t:'First Bath', d:'3 months · splashy fun', img:1},
+      {t:'Tummy Time', d:'4 months · lifting up high', img:2},
+      {t:'First Food', d:'6 months · yogurt everywhere', img:3},
+      {t:'First Tooth', d:'7 months · tiny pearl', img:4},
+      {t:'First Crawl', d:'9 months · on the move', img:5}
+    ]},
+    {yr:'Second Year', items:[
+      {t:'First Steps', d:'13 months · wobbly & proud', img:5},
+      {t:'Birthday Bash', d:'12 months · cake smash', img:0},
+      {t:'Park Adventure', d:'18 months · first swing ride', img:2},
+      {t:'First Words', d:'15 months · “mama!”', img:1}
+    ]},
+    {yr:'Third Year', items:[
+      {t:'Storybook Time', d:'2 yrs · one more book please', img:3},
+      {t:'Finger Paints', d:'2.5 yrs · a messy masterpiece', img:4}
+    ]}
+  ];
+  var _alBuilt=false;
+  function alRender(){
+    var total=0; FT_ALL_MEM.forEach(function(g){ total+=g.items.length; });
+    var html='';
+    FT_ALL_MEM.forEach(function(g){
+      html+='<div class="al-yr"><span class="al-yr-t">'+g.yr+'</span><span class="al-yr-c">'+g.items.length+' memories</span></div>';
+      html+='<div class="al-grid">';
+      g.items.forEach(function(m){
+        html+='<div class="al-card" onclick="memToast(\''+m.t.replace(/'/g,"\\'")+'\')">'+
+          '<div class="al-img" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
+          '<div class="al-t">'+m.t+'</div><div class="al-d">'+m.d+'</div></div>';
+      });
+      html+='</div>';
+    });
+    document.getElementById('alBody').innerHTML=html;
+    document.querySelector('#alLayer .al-htitle span').textContent=total+' moments captured';
+    _alBuilt=true;
+  }
+  function openAllMem(){ if(!_alBuilt) alRender(); var b=document.getElementById('alBody'); if(b) b.scrollTop=0; document.getElementById('alLayer').classList.add('open'); }
+  function closeAllMem(){ document.getElementById('alLayer').classList.remove('open'); }
 
   /* ---- Health detail sub-screens (empty states) ---- */
   var HD_SHADOW='<ellipse cx="76" cy="124" rx="48" ry="6" fill="#5a4a78" opacity=".10"/>';
