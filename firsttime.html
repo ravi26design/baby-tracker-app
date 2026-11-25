@@ -615,6 +615,10 @@
   .al-addmem{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:none;cursor:pointer;font-family:inherit;margin:16px 0 4px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:14.5px;font-weight:800;padding:15px;border-radius:20px;transition:transform .12s;}
   .al-addmem:active{transform:scale(.99);}
   .al-addmem svg{width:19px;height:19px;}
+  /* empty-state starter cards (first-time: nothing uploaded yet) */
+  .al-empties{display:flex;flex-direction:column;gap:18px;margin-top:16px;}
+  .al-empties .mem-card{flex:0 0 auto;width:100%;}
+  .al-empties .mem-img{height:300px;}
   /* year group row (collapsible) — mirrors home-flow .tgroup-label */
   .al-yr{display:flex;align-items:center;gap:12px;margin:14px 0;padding:11px 13px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,#fff,#faf8fc);border-radius:18px;border:1px solid rgba(139,116,181,.10);transition:transform .12s;}
   .al-yr:active{transform:scale(.99);}
@@ -1024,16 +1028,12 @@
           <div class="al-htitle">All Memories</div>
         </div>
         <div class="al-body" id="alBody">
-          <!-- child tabs -->
-          <div class="child-tabs" style="margin:4px 0 2px">
-            <button class="child-tab active"><span class="ct-face">👶🏻</span><span class="ct-t"><span class="ct-name">Mark</span><span class="ct-age">Newborn</span></span></button>
-          </div>
           <!-- milestone starters -->
           <div class="al-strip" id="alStrip"></div>
           <!-- add custom memory -->
           <button class="al-addmem" onclick="openMemAdd(event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add Custom Memory</button>
-          <!-- year groups -->
-          <div id="alGroups"></div>
+          <!-- empty-state starter cards (no memories uploaded yet) -->
+          <div id="alGroups" class="al-empties"></div>
         </div>
       </div>
 
@@ -1305,6 +1305,17 @@
   var CHEV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
   var CAL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg>';
   var YR_CLASS=['g-today','g-week','g-earlier'];
+  /* empty-state "firsts to capture" — no memory uploaded yet */
+  var BOWL_IC='<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5h16c-.3 4.4-3.7 7.8-8 7.8s-7.7-3.4-8-7.8z" fill="#f0a24a" stroke="#273244" stroke-width="2"/><ellipse cx="12" cy="11.5" rx="8" ry="1.7" fill="#f8c98c" stroke="#273244" stroke-width="2"/><path d="M16.3 4.4c-1.2.8-1.2 2 0 2.8s1.2 2 0 2.8" stroke="#273244" stroke-width="1.8" fill="none"/></svg>';
+  var DROP_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c3 3.6 5.5 6.6 5.5 9.6a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-9.6z"/></svg>';
+  var FT_EMPTY=[
+    {t:'First Food',  img:3, c:'#ef9a4e', ic:BOWL_IC},
+    {t:'First Tooth', img:4, c:'#39a876', ic:FT_MS[2].ic},
+    {t:'First Word',  img:1, c:'#8574b5', ic:FT_MS[1].ic},
+    {t:'First Steps', img:5, c:'#3f8fe0', ic:FT_MS[0].ic},
+    {t:'First Smile', img:0, c:'#e0699a', ic:FT_MS[3].ic},
+    {t:'First Bath',  img:2, c:'#5aa0e0', ic:DROP_IC}
+  ];
   var _alBuilt=false;
   function alEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
   function alRenderStrip(){
@@ -1318,29 +1329,21 @@
   }
   function alRender(){
     alRenderStrip();
-    var html='';
-    FT_ALL_MEM.forEach(function(g,gi){
-      var col=g.open?'':' collapsed';
-      var thumbs='';
-      g.items.slice(0,3).forEach(function(m){ thumbs+='<span class="al-th" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></span>'; });
-      if(g.items.length>3) thumbs+='<span class="al-th more">+'+(g.items.length-3)+'</span>';
-      html+='<div class="al-yr '+YR_CLASS[gi%3]+col+'" onclick="alToggle('+gi+')">'+
-        '<span class="al-yr-ic">'+CAL_SVG+'</span>'+
-        '<div class="al-yr-tx"><span class="al-yr-t">'+g.yr+'</span><span class="al-yr-sub">'+g.items.length+' memories</span></div>'+
-        '<span class="al-thumbs">'+thumbs+'</span>'+
-        '<span class="al-chev">'+CHEV_SVG+'</span></div>';
-      html+='<div class="al-grp'+col+'" id="alGrp'+gi+'">';
-      g.items.forEach(function(m){
-        html+='<div class="al-item">'+
-          '<div class="al-meta"><div class="al-age">'+m.age+'</div><div class="al-date">'+m.date+'</div></div>'+
-          '<div class="al-rail"><span class="al-node">'+HEART_SVG+'</span></div>'+
-          '<div class="al-card" onclick="memToast(\''+alEsc(m.t)+'\')">'+
-            '<div class="al-img" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
-            '<div class="al-cbody"><div class="al-t">'+m.t+'</div><div class="al-sub">'+m.sub+'</div></div>'+
-          '</div></div>';
-      });
-      html+='</div>';
-    });
+    var html=FT_EMPTY.map(function(m){
+      return '<div class="mem-card">'+
+        '<div class="mem-img me-empty">'+
+          '<div class="me-photo" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
+          '<div class="me-scrim"></div>'+
+          '<div class="me-body">'+
+            '<div class="me-up me-up-art" style="--mec:'+m.c+'">'+m.ic+'</div>'+
+            '<div class="me-msg">Add Mark’s <b>'+m.t+'</b> memory</div>'+
+            '<div class="me-cta" onclick="openMemAdd(event,\''+alEsc(m.t)+'\')">Upload photo</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="mem-title">'+m.t+'</div>'+
+        '<div class="mem-desc">Capture this special first and it’ll appear here.</div>'+
+      '</div>';
+    }).join('');
     document.getElementById('alGroups').innerHTML=html;
     _alBuilt=true;
   }
