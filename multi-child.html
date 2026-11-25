@@ -126,6 +126,38 @@
   .nav-add:active{transform:translateX(-50%) scale(.94);}
   .home-indicator{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;opacity:.85;z-index:7;}
 
+  /* ===== main-flow home sections: Featured Memory carousel + Today's Activities ===== */
+  .mem-viewall{display:inline-flex;align-items:center;gap:2px;font-size:13px;font-weight:700;color:#8574b5;cursor:pointer;flex-shrink:0;}
+  .mem-viewall svg{width:15px;height:15px;}
+  .mem-cards{display:flex;gap:14px;overflow-x:auto;touch-action:pan-x;scroll-snap-type:x mandatory;margin:14px -22px 0;padding:2px 22px 4px;scroll-padding-left:22px;}
+  .mem-cards::-webkit-scrollbar{display:none;}
+  .mem-card{position:relative;flex:0 0 91%;scroll-snap-align:start;background:#fff;border-radius:26px;padding:16px;border:1px solid rgba(0,0,0,.05);cursor:pointer;}
+  .mem-img{height:210px;border-radius:16px;background-size:cover;background-position:center;background-color:#e7dff4;}
+  .mem-fover{position:absolute;left:28px;right:28px;top:16px;display:flex;gap:9px;align-items:flex-end;height:210px;padding-bottom:12px;pointer-events:none;}
+  .mem-fover .fo{display:inline-flex;align-items:center;gap:6px;background:rgba(20,16,26,.42);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);color:#fff;font-size:12px;font-weight:700;padding:6px 11px 6px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.16);}
+  .mem-fover .fo svg{width:14px;height:14px;}
+  .mem-fover .fo.like svg{fill:#ff5c86;color:#ff5c86;}
+  .mem-ttl{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin:14px 2px 0;}
+  .mem-dsc{font-size:12.5px;font-weight:400;color:#6a645f;line-height:1.5;margin:5px 2px 0;}
+  .activities{margin-top:26px;}
+  .act-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .act-header h2{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.4px;}
+  .act-scroll{display:flex;gap:14px;overflow-x:auto;touch-action:pan-x;margin:0 -22px;padding:4px 22px 10px;scroll-snap-type:x mandatory;scroll-padding-left:22px;}
+  .act-scroll::-webkit-scrollbar{display:none;}
+  .act-card{position:relative;flex:0 0 calc((91% - 14px) / 2);aspect-ratio:9/16;border-radius:26px;overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;}
+  .act-card .photo{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
+  .act-card .scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(14,10,8,.94) 0%,rgba(14,10,8,.74) 22%,rgba(14,10,8,.3) 46%,rgba(14,10,8,.04) 68%,transparent 84%);}
+  .act-fav{position:absolute;top:50%;left:50%;transform:translate(-50%,-64%);width:46px;height:46px;border-radius:50%;background:rgba(15,12,18,.32);backdrop-filter:blur(6px);z-index:4;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.6);}
+  .act-fav::after{content:'';border-left:14px solid #fff;border-top:8.5px solid transparent;border-bottom:8.5px solid transparent;margin-left:3px;}
+  .act-body{position:relative;z-index:4;padding:15px;}
+  .act-pill{display:inline-block;font-size:10px;font-weight:700;color:#fff;padding:5px 12px;border-radius:14px;margin-bottom:9px;}
+  .act-pill.motor{background:#f5883c;}
+  .act-pill.language{background:#6366f1;}
+  .act-pill.social{background:#22b573;}
+  .act-pill.cognitive{background:#a855f7;}
+  .act-pill.sensory{background:#ec4899;}
+  .act-body .title{font-size:14px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
   .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(14px);background:#2e2838;color:#fff;font-size:12.5px;font-weight:700;padding:11px 18px;border-radius:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
@@ -261,25 +293,39 @@
             </div>
             <div class="cc-mile-foot">Lily is right on track this month 🎉</div>
           </div>
-          <div class="sec-head" style="margin:26px 0 14px"><h2>Featured Memory</h2><span class="sh-sub" onclick="toast('View all')">View all</span></div>
-              <div class="mcard">
-                <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-                <div class="mc-user"><div class="mc-av" style="--ac:#e0a44e">E</div><div class="mc-id"><div class="mc-name">Emma <span class="mc-rel">· Mum</span></div><div class="mc-when">3 hours ago</div></div></div>
-                <div class="mc-imgwrap"><div class="mc-img" style="background-image:url('https://images.pexels.com/photos/7328426/pexels-photo-7328426.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-                  <div class="mc-fover"><span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">22</span></span><span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>5</span></div>
-                </div>
-                <div class="mc-title">First crawl 🐛</div>
-                <div class="mc-desc">Lily took off across the living room today — we were NOT ready!</div>
-              </div>
-              <div class="mcard">
-                <button class="mc-menu" onclick="toast('Options')" aria-label="Options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
-                <div class="mc-user"><div class="mc-av" style="--ac:#e0a44e">E</div><div class="mc-id"><div class="mc-name">Emma <span class="mc-rel">· Mum</span></div><div class="mc-when">Yesterday</div></div></div>
-                <div class="mc-imgwrap"><div class="mc-img" style="background-image:url('https://images.pexels.com/photos/32989520/pexels-photo-32989520.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
-                  <div class="mc-fover"><span class="fo like" onclick="like(this)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg><span class="n">17</span></span><span class="fo" onclick="toast('Comments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</span></div>
-                </div>
-                <div class="mc-title">Messy lunch 🥣</div>
-                <div class="mc-desc">Decided the spoon was optional. Sweet potato everywhere, zero regrets.</div>
-              </div>
+          <!-- Featured Memory (main-flow carousel) -->
+          <div class="sec-head" style="margin:26px 0 0;align-items:center"><h2>Featured Memory</h2><span class="mem-viewall" onclick="toast('View all')">View All<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
+          <div class="mem-cards">
+            <div class="mem-card" onclick="toast('Memory')">
+              <div class="mem-img" style="background-image:url('https://images.pexels.com/photos/7328426/pexels-photo-7328426.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+              <div class="mem-fover"><span class="fo like"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>22</span><span class="fo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>5</span></div>
+              <div class="mem-ttl">First crawl 🐛</div>
+              <div class="mem-dsc">Lily took off across the living room today — we were NOT ready!</div>
+            </div>
+            <div class="mem-card" onclick="toast('Memory')">
+              <div class="mem-img" style="background-image:url('https://images.pexels.com/photos/32989520/pexels-photo-32989520.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+              <div class="mem-fover"><span class="fo like"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>17</span><span class="fo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>3</span></div>
+              <div class="mem-ttl">Messy lunch 🥣</div>
+              <div class="mem-dsc">Decided the spoon was optional. Sweet potato everywhere, zero regrets.</div>
+            </div>
+            <div class="mem-card" onclick="toast('Memory')">
+              <div class="mem-img" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=720&h=560&fit=crop')"></div>
+              <div class="mem-fover"><span class="fo like"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>30</span><span class="fo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>7</span></div>
+              <div class="mem-ttl">First steps 👣</div>
+              <div class="mem-dsc">Wobbly but so proud — straight into our arms.</div>
+            </div>
+          </div>
+
+          <!-- Today's Activities (main-flow) -->
+          <div class="activities">
+            <div class="act-header"><h2>Today's Activities</h2></div>
+            <div class="act-scroll">
+              <div class="act-card" onclick="toast('Story Time')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/26509771/pexels-photo-26509771.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill language">Language</span><div class="title">Story Time</div></div></div>
+              <div class="act-card" onclick="toast('Mirror Play')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill social">Social</span><div class="title">Mirror Play</div></div></div>
+              <div class="act-card" onclick="toast('Block Play')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill cognitive">Cognitive</span><div class="title">Block Play</div></div></div>
+              <div class="act-card" onclick="toast('Sand Play')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill sensory">Sensory</span><div class="title">Sand Play</div></div></div>
+            </div>
+          </div>
         </div>
         </div>
 
