@@ -4650,7 +4650,7 @@
       var starter=document.getElementById('memStarter'), feat=document.getElementById('memFeatured');
       var va=document.getElementById('memViewAll');
       if(!starter||!feat) return;
-      feat.style.display='none'; starter.style.display='';
+      feat.style.display=''; starter.style.display='none';
       var posted=memPosts();
       if(va) va.style.display = '';
       renderMemStarter();
