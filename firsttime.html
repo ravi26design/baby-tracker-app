@@ -618,13 +618,19 @@
   /* empty-state starter cards on a timeline (first-time: nothing uploaded yet) */
   .al-etl{margin-top:16px;}
   .al-eitem{position:relative;display:flex;padding-bottom:18px;}
-  .al-eitem .al-erail{position:relative;width:36px;flex-shrink:0;display:flex;justify-content:center;}
+  .al-emeta{width:64px;flex:0 0 64px;text-align:right;padding:2px 10px 0 0;}
+  .al-eage{font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;line-height:1.15;}
+  .al-edate{font-size:11px;font-weight:600;color:var(--muted);margin-top:3px;}
+  .al-eitem .al-erail{position:relative;width:34px;flex-shrink:0;display:flex;justify-content:center;}
   .al-eitem .al-erail::before{content:'';position:absolute;top:6px;bottom:-18px;left:50%;transform:translateX(-50%);width:2px;background:#cbb0a6;}
   .al-eitem:last-child .al-erail::before{bottom:auto;height:34px;}
   .al-enode{position:relative;z-index:1;width:26px;height:26px;border-radius:50%;flex-shrink:0;background:#6f9e86;color:#263029;display:flex;align-items:center;justify-content:center;margin-top:2px;}
   .al-enode svg{width:13px;height:13px;}
-  .al-eitem .mem-card{flex:1;min-width:0;margin-left:14px;}
-  .al-eitem .mem-img{height:290px;}
+  .al-enode.future{background:#dcd6e4;}
+  .al-enode.future svg{display:none;}
+  .al-enode.future::after{content:'';width:9px;height:9px;border-radius:50%;background:#f3f0f7;}
+  .al-eitem .mem-card{flex:1;min-width:0;margin-left:13px;}
+  .al-eitem .mem-img{height:250px;}
   /* year group row (collapsible) — mirrors home-flow .tgroup-label */
   .al-yr{display:flex;align-items:center;gap:12px;margin:14px 0;padding:11px 13px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,#fff,#faf8fc);border-radius:18px;border:1px solid rgba(139,116,181,.10);transition:transform .12s;}
   .al-yr:active{transform:scale(.99);}
@@ -1315,12 +1321,12 @@
   var BOWL_IC='<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5h16c-.3 4.4-3.7 7.8-8 7.8s-7.7-3.4-8-7.8z" fill="#f0a24a" stroke="#273244" stroke-width="2"/><ellipse cx="12" cy="11.5" rx="8" ry="1.7" fill="#f8c98c" stroke="#273244" stroke-width="2"/><path d="M16.3 4.4c-1.2.8-1.2 2 0 2.8s1.2 2 0 2.8" stroke="#273244" stroke-width="1.8" fill="none"/></svg>';
   var DROP_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c3 3.6 5.5 6.6 5.5 9.6a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-9.6z"/></svg>';
   var FT_EMPTY=[
-    {t:'First Food',  img:3, c:'#ef9a4e', ic:BOWL_IC},
-    {t:'First Tooth', img:4, c:'#39a876', ic:FT_MS[2].ic},
-    {t:'First Word',  img:1, c:'#8574b5', ic:FT_MS[1].ic},
-    {t:'First Steps', img:5, c:'#3f8fe0', ic:FT_MS[0].ic},
-    {t:'First Smile', img:0, c:'#e0699a', ic:FT_MS[3].ic},
-    {t:'First Bath',  img:2, c:'#5aa0e0', ic:DROP_IC}
+    {t:'First Bath',  age:'Birth',     date:'Jul 15, 2025', done:true,  img:2, c:'#5aa0e0', ic:DROP_IC},
+    {t:'First Smile', age:'2 months',  date:'Sep 18, 2025', done:true,  img:0, c:'#e0699a', ic:FT_MS[3].ic},
+    {t:'First Food',  age:'6 months',  date:'Jan 15, 2026', done:false, img:3, c:'#ef9a4e', ic:BOWL_IC},
+    {t:'First Tooth', age:'7 months',  date:'Feb 18, 2026', done:false, img:4, c:'#39a876', ic:FT_MS[2].ic},
+    {t:'First Word',  age:'12 months', date:'Jul 15, 2026', done:false, img:1, c:'#8574b5', ic:FT_MS[1].ic},
+    {t:'First Steps', age:'13 months', date:'Aug 20, 2026', done:false, img:5, c:'#3f8fe0', ic:FT_MS[0].ic}
   ];
   var _alBuilt=false;
   function alEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
@@ -1337,7 +1343,8 @@
     alRenderStrip();
     var html=FT_EMPTY.map(function(m){
       return '<div class="al-eitem">'+
-        '<div class="al-erail"><span class="al-enode">'+HEART_SVG+'</span></div>'+
+        '<div class="al-emeta"><div class="al-eage">'+m.age+'</div><div class="al-edate">'+m.date+'</div></div>'+
+        '<div class="al-erail"><span class="al-enode'+(m.done?'':' future')+'">'+HEART_SVG+'</span></div>'+
         '<div class="mem-card">'+
           '<div class="mem-img me-empty">'+
             '<div class="me-photo" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
