@@ -427,6 +427,20 @@
   .msheet-grab{padding:11px 0 8px;flex-shrink:0;cursor:grab;touch-action:none;}
   .msheet-grab span{display:block;width:42px;height:5px;border-radius:3px;background:#e6dfdf;margin:0 auto;}
   .msheet-title{padding:2px 22px 14px;flex-shrink:0;border-bottom:1px solid #f1eded;font-size:16px;font-weight:800;color:var(--ink);text-align:center;letter-spacing:-.2px;}
+  /* invite info sheet */
+  .ii-intro{font-size:13.5px;font-weight:600;color:var(--muted);line-height:1.5;padding:0 2px;}
+  .ii-grp{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid #efeaf5;border-radius:16px;padding:13px;cursor:pointer;transition:transform .12s;}
+  .ii-grp:active{transform:scale(.99);}
+  .ii-grp-ic{width:44px;height:44px;border-radius:14px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;}
+  .ii-grp-ic svg{width:23px;height:23px;}
+  .ii-grp-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .ii-grp-n{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+  .ii-grp-s{font-size:12px;font-weight:600;color:var(--muted);}
+  .ii-grp-chev{flex:0 0 auto;color:#c3b9d2;display:flex;}
+  .ii-grp-chev svg{width:18px;height:18px;}
+  .ii-cta{margin-top:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:14.5px;font-weight:800;padding:15px;border-radius:18px;transition:transform .12s;}
+  .ii-cta:active{transform:scale(.99);}
+  .ii-cta svg{width:19px;height:19px;}
   .msheet-body .lrow{display:flex;align-items:center;gap:13px;}
   .msheet-body .lrow .ln{flex:1;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px;}
   .msheet-body .lrow .lh{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:rgba(224,86,122,.12);color:#e0567a;display:flex;align-items:center;justify-content:center;}
@@ -730,7 +744,7 @@
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             </button>
             <div class="mp-title">All Memories</div>
-            <button class="mp-back mp-invite" style="margin-left:auto" onclick="location.href='home3.html#invite'" aria-label="Invite">
+            <button class="mp-back mp-invite" style="margin-left:auto" onclick="openInviteInfo()" aria-label="Invite">
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
             </button>
           </div>
@@ -829,6 +843,29 @@
           </div>
         </div>
       </div>
+
+          <!-- invite info bottom sheet -->
+          <div class="msheet-layer" id="inviteInfoSheet">
+            <div class="msheet-backdrop" onclick="closeInviteInfo()"></div>
+            <div class="msheet" style="height:auto;max-height:82%">
+              <div class="msheet-grab"><span></span></div>
+              <div class="msheet-title">Invite to Mark’s Memories</div>
+              <div class="msheet-body" style="gap:15px;padding-bottom:26px">
+                <div class="ii-intro">Invite family &amp; friends to follow along with Mark’s journey. Choose what each group can see.</div>
+                <div class="ii-grp" onclick="location.href='home3.html#invite'">
+                  <span class="ii-grp-ic" style="background:color-mix(in srgb,#7a5fd0 14%,#fff);color:#7a5fd0"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3.2"/><circle cx="16" cy="9.2" r="2.7"/><path d="M2.8 19.4c0-3.2 2.6-5.5 5.7-5.5 1.6 0 3 .6 4.1 1.6"/><path d="M13.9 15.1c.7-.4 1.4-.6 2.1-.6 2.8 0 4.9 2 5.1 4.9"/></svg></span>
+                  <span class="ii-grp-tx"><span class="ii-grp-n">Co-Parents</span><span class="ii-grp-s">2 members · full access</span></span>
+                  <span class="ii-grp-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+                </div>
+                <div class="ii-grp" onclick="location.href='home3.html#invite'">
+                  <span class="ii-grp-ic" style="background:color-mix(in srgb,#5a9fc4 14%,#fff);color:#5a9fc4"><svg viewBox="0 0 24 24" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.6"/><circle cx="8.5" cy="10" r="1.7"/><path d="m4 16.5 4.5-4.2 3.5 3.3 3-2.8L20 16"/></svg></span>
+                  <span class="ii-grp-tx"><span class="ii-grp-n">Shared Memory Group</span><span class="ii-grp-s">3 members · memories only</span></span>
+                  <span class="ii-grp-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+                </div>
+                <button class="ii-cta" onclick="location.href='home3.html#invite'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Manage groups &amp; invite</button>
+              </div>
+            </div>
+          </div>
 
           <div class="msheet-layer" id="addSheet">
         <div class="msheet-backdrop" onclick="closeAdd()"></div>
@@ -1331,6 +1368,8 @@
       document.getElementById('msheet').classList.add('open');
     }
     function closeMemSheet(){ document.getElementById('msheet').classList.remove('open'); }
+    function openInviteInfo(){ document.getElementById('inviteInfoSheet').classList.add('open'); }
+    function closeInviteInfo(){ document.getElementById('inviteInfoSheet').classList.remove('open'); }
     (function(){
       var panel=document.getElementById('msheetPanel'),grab=document.getElementById('msheetGrab'),body=document.getElementById('msheetBody');
       if(!panel)return;
