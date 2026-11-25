@@ -691,6 +691,23 @@
   .ms-nav .ms-ic{background:linear-gradient(150deg,#b0a2d8,#9b8bc4)!important;color:#fff;}
   .ms-nav .ms-add{color:#8574b5;}
   [class*="-layer"],.addmenu{inset:0;border-radius:0}
+  /* ===== clean memory timeline (age/date · heart node · photo-top card) ===== */
+  .mtimeline.tlnew .titem{gap:0;align-items:flex-start;}
+  .mtimeline.tlnew .al-meta{width:72px;flex:0 0 72px;text-align:right;padding:2px 12px 0 0;}
+  .mtimeline.tlnew .al-age{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;line-height:1.15;}
+  .mtimeline.tlnew .al-date{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:3px;}
+  .mtimeline.tlnew .tnode{width:26px!important;height:26px!important;flex:0 0 26px;font-size:0!important;background:#6f9e86!important;color:#263029!important;margin-top:2px;box-shadow:none!important;}
+  .mtimeline.tlnew .tnode svg{width:13px!important;height:13px!important;fill:currentColor!important;stroke:none!important;}
+  .mtimeline.tlnew .titem::before{content:'';display:block;position:absolute;left:84px;top:4px;bottom:-24px;width:2px;background:#cbb0a6;}
+  .mtimeline.tlnew .titem.last-visible::before,.mtimeline.tlnew .titem:last-child::before{display:block;bottom:auto;height:30px;}
+  .mtimeline.tlnew .titem.grp-last::before{display:block;bottom:auto;height:30px;}
+  .mtimeline.tlnew .tcontent{flex:1;min-width:0;margin-left:14px;}
+  .mtimeline.tlnew .mcard{display:flex;flex-direction:column;padding:0;overflow:hidden;border-radius:20px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);}
+  .mtimeline.tlnew .mc-menu,.mtimeline.tlnew .mc-user,.mtimeline.tlnew .mc-fover{display:none!important;}
+  .mtimeline.tlnew .mc-imgwrap{order:0;border-radius:0;}
+  .mtimeline.tlnew .mc-img{height:196px;border-radius:0;box-shadow:none;}
+  .mtimeline.tlnew .mc-title{order:1;font-size:18px;font-weight:800;margin:14px 16px 0;padding:0;}
+  .mtimeline.tlnew .mc-desc{order:2;font-size:13.5px;font-weight:500;color:var(--muted);margin:5px 16px 16px;padding:0;line-height:1.35;}
   @media (max-width:600px){html,body{height:auto}body{padding:0!important;margin:0!important;display:block!important;min-height:0!important;background:#f4f1f9!important}.phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}.screen{inset:0!important;border-radius:0!important}[class*="-layer"]{inset:0!important;border-radius:0!important}.addmenu,.dtpk{inset:0!important;border-radius:0!important}}
 </style>
 </head>
@@ -1197,6 +1214,9 @@
       });
       enrichYearRows();
       styleTimelineNodes();
+      if(typeof tlAssign==='function' && document.getElementById('mtimeline').classList.contains('tlnew')){
+        document.querySelectorAll('#mtimeline .titem').forEach(tlAssign);
+      }
     }
     /* timeline nodes: emoji -> bold-outlined milestone icon on a light tile (our icon style) */
     var TNODE_MAP={'👣':['First Walk','#6aa6e0'],'💬':['First Word','#b083d6'],'🦷':['First Tooth','#5aa0e0'],'🎂':['First Birthday','#ec7088'],'✂️':['First Haircut','#e8b23c'],'🧩':['First Puzzle','#b083d6'],'🚽':['Potty Training','#6aa6e0'],'🖍️':['First Scribble','#ef8a3a'],'🏃':['First Run','#ef8a3a'],'🗣️':['First Sentence','#36b0a0'],'🧒':['First Friend','#6aa6e0'],'🔢':['Counting 1-10','#6aa6e0'],'🎵':['First Song','#ec7088']};
@@ -1365,7 +1385,34 @@
         if(grp) grp.insertBefore(it, grp.firstChild);
       });
     })();
+    /* ---- new clean timeline: age/date meta + green heart node + photo-top card ---- */
+    var TL_HEART='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>';
+    var TL_AGES={
+      'Third Year':[['2 years','Aug 2, 2027'],['2.5 years','Feb 10, 2028'],['2 years','Sep 5, 2027'],['2.5 years','Mar 1, 2028'],['2 years','Oct 8, 2027'],['2.5 years','Apr 2, 2028']],
+      'Second Year':[['13 months','Aug 20, 2026'],['15 months','Oct 14, 2026'],['18 months','Jan 18, 2027'],['20 months','Mar 22, 2027'],['22 months','May 9, 2027'],['16 months','Nov 30, 2026']],
+      'First Year':[['Birth','Jul 15, 2025'],['2 months','Sep 18, 2025'],['4 months','Nov 20, 2025'],['6 months','Jan 15, 2026'],['9 months','Apr 12, 2026'],['11 months','Jun 20, 2026']],
+      'Today':[['Just now','Today'],['Just now','Today'],['Just now','Today'],['Just now','Today'],['Just now','Today'],['Just now','Today']]
+    };
+    function tlAssign(it){
+      if(it.querySelector(':scope > .al-meta')) return;
+      var grp=it.getAttribute('data-group')||'';
+      var sib=0, p=it.previousElementSibling;
+      while(p){ if(p.classList&&p.classList.contains('titem')&&p.getAttribute('data-group')===grp) sib++; p=p.previousElementSibling; }
+      var list=TL_AGES[grp]||TL_AGES['First Year'];
+      var pair=list[sib%list.length];
+      var meta=document.createElement('div'); meta.className='al-meta';
+      meta.innerHTML='<div class="al-age">'+pair[0]+'</div><div class="al-date">'+pair[1]+'</div>';
+      it.insertBefore(meta, it.firstChild);
+      var node=it.querySelector('.tnode');
+      if(node){ node.innerHTML=TL_HEART; node.style.background='#6f9e86'; node.setAttribute('data-styled','1'); }
+    }
+    function applyNewTimeline(){
+      var tl=document.getElementById('mtimeline'); if(!tl) return;
+      tl.classList.add('tlnew');
+      document.querySelectorAll('#mtimeline .titem').forEach(tlAssign);
+    }
     switchChild('mark');
+    applyNewTimeline();
     (function(){ var q=null; try{ q=new URLSearchParams(location.search).get('add'); }catch(e){}
       if(q!==null){ if(q){ window.__fromHomeFirst=q; } setTimeout(function(){ if(typeof openAdd==='function') openAdd(q); },250); }
       else if(location.hash==='#add'){ setTimeout(function(){ if(typeof openAdd==='function') openAdd(''); },250); } })();
