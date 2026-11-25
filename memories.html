@@ -702,7 +702,11 @@
   .mtimeline.tlnew .titem.last-visible::before,.mtimeline.tlnew .titem:last-child::before{display:block;bottom:auto;height:30px;}
   .mtimeline.tlnew .titem.grp-last::before{display:block;bottom:auto;height:30px;}
   .mtimeline.tlnew .tcontent{flex:1;min-width:0;margin-left:14px;}
-  /* posted style kept: author (mc-user) + like/comment overlay (mc-fover) + options (mc-menu) stay visible */
+  /* posted style: hide the author row; keep like/comment overlay; move the ⋯ menu beside the title */
+  .mtimeline.tlnew .mc-user{display:none!important;}
+  .mtimeline.tlnew .mc-titlerow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;}
+  .mtimeline.tlnew .mc-titlerow .mc-title{margin-top:0;}
+  .mtimeline.tlnew .mc-menu{position:static;top:auto;right:auto;flex-shrink:0;}
   @media (max-width:600px){html,body{height:auto}body{padding:0!important;margin:0!important;display:block!important;min-height:0!important;background:#f4f1f9!important}.phone{width:100%!important;height:100vh!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}.screen{inset:0!important;border-radius:0!important}[class*="-layer"]{inset:0!important;border-radius:0!important}.addmenu,.dtpk{inset:0!important;border-radius:0!important}}
 </style>
 </head>
@@ -1400,6 +1404,13 @@
       it.insertBefore(meta, it.firstChild);
       var node=it.querySelector('.tnode');
       if(node){ node.innerHTML=TL_HEART; node.style.background='#6f9e86'; node.setAttribute('data-styled','1'); }
+      /* move the ⋯ menu into a row beside the title */
+      var card=it.querySelector('.mcard'), title=card&&card.querySelector('.mc-title'), menu=card&&card.querySelector('.mc-menu');
+      if(title && menu && !(title.parentNode && title.parentNode.classList.contains('mc-titlerow'))){
+        var row=document.createElement('div'); row.className='mc-titlerow';
+        title.parentNode.insertBefore(row, title);
+        row.appendChild(title); row.appendChild(menu);
+      }
     }
     function applyNewTimeline(){
       var tl=document.getElementById('mtimeline'); if(!tl) return;
