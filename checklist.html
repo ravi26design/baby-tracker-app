@@ -846,7 +846,7 @@
   function renderHub(){
     updateWishIcon();
     var ci=document.getElementById('ckIntro'); if(ci){ var cc=CHILDREN[CUR_CHILD]; var itx=(cc&&cc.intro)||''; document.getElementById('ckIntroTx').textContent=itx; ci.style.display=itx?'flex':'none'; }
-    var normal = activeCats().map(function(c){
+    var normal = activeCats().filter(function(c){return c.key!=='travel';}).map(function(c){
       var p=catProgress(c);
       var full=p.total>0 && p.done>=p.total;
       var pct=p.total?Math.round(p.done/p.total*100):0;
