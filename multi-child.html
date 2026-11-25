@@ -157,6 +157,18 @@
   .act-pill.cognitive{background:#a855f7;}
   .act-pill.sensory{background:#ec4899;}
   .act-body .title{font-size:14px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mealplan{margin-top:26px;}
+  .mp-day{font-size:13px;font-weight:700;color:#8574b5;cursor:pointer;}
+  .mp-card{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -22px;padding:2px 22px 8px;scroll-padding-left:22px;scrollbar-width:none;}
+  .mp-card::-webkit-scrollbar{display:none;}
+  .mp-sg{flex:0 0 84%;scroll-snap-align:start;position:relative;display:flex;align-items:center;gap:8px;background:linear-gradient(140deg, color-mix(in srgb,var(--mealc,#e8c184) 24%,#fff), color-mix(in srgb,var(--mealc,#e8c184) 46%,#fff));border-radius:24px;padding:18px 16px 18px 18px;border:1px solid color-mix(in srgb,var(--mealc,#caa06a) 34%, transparent);cursor:pointer;overflow:hidden;}
+  .mp-sg::after{content:'';position:absolute;top:-40px;right:-30px;width:120px;height:120px;border-radius:50%;background:color-mix(in srgb,var(--mealc,#e8c184) 30%, #fff);opacity:.55;}
+  .mp-sg-tx{position:relative;z-index:1;flex:1;min-width:0;}
+  .mp-sg-pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#fff;background:color-mix(in srgb,var(--mealc,#caa06a) 82%, #7a5a38);padding:4px 10px;border-radius:20px;}
+  .mp-sg-title{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.3px;line-height:1.18;margin-top:10px;}
+  .mp-sg-desc{font-size:12px;font-weight:500;color:#8c8192;line-height:1.45;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .mp-sg-img{position:relative;z-index:1;flex-shrink:0;width:94px;height:94px;display:flex;align-items:center;justify-content:center;}
+  .mp-sg-img svg{width:82px;height:82px;filter:drop-shadow(0 6px 7px rgba(43,53,69,.14));}
 
   .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(14px);background:#2e2838;color:#fff;font-size:12.5px;font-weight:700;padding:11px 18px;border-radius:14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -324,6 +336,25 @@
               <div class="act-card" onclick="toast('Mirror Play')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/14941957/pexels-photo-14941957.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill social">Social</span><div class="title">Mirror Play</div></div></div>
               <div class="act-card" onclick="toast('Block Play')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/33653834/pexels-photo-33653834.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill cognitive">Cognitive</span><div class="title">Block Play</div></div></div>
               <div class="act-card" onclick="toast('Sand Play')"><div class="photo" style="background-image:url('https://images.pexels.com/photos/20509003/pexels-photo-20509003.jpeg?auto=compress&cs=tinysrgb&w=480&h=760&fit=crop')"></div><div class="scrim"></div><div class="act-fav"></div><div class="act-body"><span class="act-pill sensory">Sensory</span><div class="title">Sand Play</div></div></div>
+            </div>
+          </div>
+
+          <!-- Meal Suggestions (main-flow) -->
+          <div class="mealplan">
+            <div class="act-header"><h2>Meal Suggestions</h2><span class="mp-day" onclick="toast('See all')">See all</span></div>
+            <div class="mp-card">
+              <div class="mp-sg" style="--mealc:#6aa6e0" onclick="toast('Meal')">
+                <div class="mp-sg-tx"><span class="mp-sg-pill">Morning milk</span><div class="mp-sg-title">Breast / formula</div><div class="mp-sg-desc">A full milk feed to gently start the day.</div></div>
+                <div class="mp-sg-img"><svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="46" cy="83" rx="16" ry="3.2" fill="rgba(43,53,69,.13)"/><path d="M46 7c-3.1 0-5.4 2.3-5.4 5.3 0 2.1 1.3 3.6 1.3 5.4h8.2c0-1.8 1.3-3.3 1.3-5.4C51.4 9.3 49.1 7 46 7z" fill="#f8c85d" stroke="#2b3545" stroke-width="2.4" stroke-linejoin="round"/><rect x="35.2" y="17.2" width="21.6" height="7.4" rx="3.2" fill="#ffe3a6" stroke="#2b3545" stroke-width="2.4"/><rect x="33.3" y="24.3" width="25.4" height="50.4" rx="12.7" fill="#ffffff" stroke="#2b3545" stroke-width="2.7"/><path d="M35 49h22v13.6A11 11 0 0 1 46 73.6 11 11 0 0 1 35 62.6z" fill="#fbe6ad"/><path d="M35 49c3.4 2.1 7.6 2.1 11 0s7.6-2.1 11 0" stroke="#efc570" stroke-width="2.1" stroke-linecap="round"/><path d="M50.6 31.5h5M50.6 37.5h5M50.6 43.5h5" stroke="#2b3545" stroke-width="1.7" stroke-linecap="round" opacity=".45"/><rect x="37.4" y="30" width="3.4" height="18" rx="1.7" fill="#fff" opacity=".7"/></svg></div>
+              </div>
+              <div class="mp-sg" style="--mealc:#e8b24e" onclick="toast('Meal')">
+                <div class="mp-sg-tx"><span class="mp-sg-pill">Breakfast</span><div class="mp-sg-title">Oatmeal mash</div><div class="mp-sg-desc">Smooth oats with mashed banana.</div></div>
+                <div class="mp-sg-img"><svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="46" cy="80" rx="27" ry="3.6" fill="rgba(43,53,69,.13)"/><path d="M18.5 46.5c0 15.6 12.3 25 27.5 25s27.5-9.4 27.5-25z" fill="#f6cf7a" stroke="#2b3545" stroke-width="2.9" stroke-linejoin="round"/><path d="M27 56c1.8 6.6 6.6 11 12.6 13" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/><ellipse cx="46" cy="46.5" rx="27.5" ry="8.6" fill="#ffffff" stroke="#2b3545" stroke-width="2.9"/><ellipse cx="46" cy="45.8" rx="22" ry="6" fill="#fff3d6"/><ellipse cx="40" cy="43.6" rx="6" ry="2.1" fill="#fff" opacity=".5"/><circle cx="38.5" cy="45.4" r="3" fill="#eca23f"/><circle cx="52" cy="47" r="2.5" fill="#eca23f"/><circle cx="46" cy="43.4" r="2.2" fill="#eca23f"/></svg></div>
+              </div>
+              <div class="mp-sg" style="--mealc:#64c08a" onclick="toast('Meal')">
+                <div class="mp-sg-tx"><span class="mp-sg-pill">Lunch</span><div class="mp-sg-title">Veg &amp; rice mash</div><div class="mp-sg-desc">Soft mashed veggies stirred through rice.</div></div>
+                <div class="mp-sg-img"><svg viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="46" cy="80" rx="27" ry="3.6" fill="rgba(43,53,69,.13)"/><path d="M18.5 46.5c0 15.6 12.3 25 27.5 25s27.5-9.4 27.5-25z" fill="#b3e3c6" stroke="#2b3545" stroke-width="2.9" stroke-linejoin="round"/><path d="M27 56c1.8 6.6 6.6 11 12.6 13" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/><ellipse cx="46" cy="46.5" rx="27.5" ry="8.6" fill="#ffffff" stroke="#2b3545" stroke-width="2.9"/><ellipse cx="46" cy="45.8" rx="22" ry="6" fill="#eefaf2"/><ellipse cx="40" cy="43.6" rx="6" ry="2.1" fill="#fff" opacity=".5"/><circle cx="38.5" cy="45.4" r="3" fill="#58b57d"/><circle cx="52" cy="47" r="2.5" fill="#58b57d"/><circle cx="46" cy="43.4" r="2.2" fill="#58b57d"/></svg></div>
+              </div>
             </div>
           </div>
         </div>
