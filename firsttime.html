@@ -615,10 +615,16 @@
   .al-addmem{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:none;cursor:pointer;font-family:inherit;margin:16px 0 4px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:14.5px;font-weight:800;padding:15px;border-radius:20px;transition:transform .12s;}
   .al-addmem:active{transform:scale(.99);}
   .al-addmem svg{width:19px;height:19px;}
-  /* empty-state starter cards (first-time: nothing uploaded yet) */
-  .al-empties{display:flex;flex-direction:column;gap:18px;margin-top:16px;}
-  .al-empties .mem-card{flex:0 0 auto;width:100%;}
-  .al-empties .mem-img{height:300px;}
+  /* empty-state starter cards on a timeline (first-time: nothing uploaded yet) */
+  .al-etl{margin-top:16px;}
+  .al-eitem{position:relative;display:flex;padding-bottom:18px;}
+  .al-eitem .al-erail{position:relative;width:36px;flex-shrink:0;display:flex;justify-content:center;}
+  .al-eitem .al-erail::before{content:'';position:absolute;top:6px;bottom:-18px;left:50%;transform:translateX(-50%);width:2px;background:#cbb0a6;}
+  .al-eitem:last-child .al-erail::before{bottom:auto;height:34px;}
+  .al-enode{position:relative;z-index:1;width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .al-enode svg{width:19px;height:19px;}
+  .al-eitem .mem-card{flex:1;min-width:0;margin-left:14px;}
+  .al-eitem .mem-img{height:290px;}
   /* year group row (collapsible) — mirrors home-flow .tgroup-label */
   .al-yr{display:flex;align-items:center;gap:12px;margin:14px 0;padding:11px 13px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,#fff,#faf8fc);border-radius:18px;border:1px solid rgba(139,116,181,.10);transition:transform .12s;}
   .al-yr:active{transform:scale(.99);}
@@ -1032,8 +1038,8 @@
           <div class="al-strip" id="alStrip"></div>
           <!-- add custom memory -->
           <button class="al-addmem" onclick="openMemAdd(event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add Custom Memory</button>
-          <!-- empty-state starter cards (no memories uploaded yet) -->
-          <div id="alGroups" class="al-empties"></div>
+          <!-- empty-state starter cards on a timeline (no memories uploaded yet) -->
+          <div id="alGroups" class="al-etl"></div>
         </div>
       </div>
 
@@ -1330,18 +1336,21 @@
   function alRender(){
     alRenderStrip();
     var html=FT_EMPTY.map(function(m){
-      return '<div class="mem-card">'+
-        '<div class="mem-img me-empty">'+
-          '<div class="me-photo" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
-          '<div class="me-scrim"></div>'+
-          '<div class="me-body">'+
-            '<div class="me-up me-up-art" style="--mec:'+m.c+'">'+m.ic+'</div>'+
-            '<div class="me-msg">Add Mark’s <b>'+m.t+'</b> memory</div>'+
-            '<div class="me-cta" onclick="openMemAdd(event,\''+alEsc(m.t)+'\')">Upload photo</div>'+
+      return '<div class="al-eitem">'+
+        '<div class="al-erail"><span class="al-enode" style="background:color-mix(in srgb,'+m.c+' 16%,#fff);color:'+m.c+'">'+m.ic+'</span></div>'+
+        '<div class="mem-card">'+
+          '<div class="mem-img me-empty">'+
+            '<div class="me-photo" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
+            '<div class="me-scrim"></div>'+
+            '<div class="me-body">'+
+              '<div class="me-up me-up-art" style="--mec:'+m.c+'">'+m.ic+'</div>'+
+              '<div class="me-msg">Add Mark’s <b>'+m.t+'</b> memory</div>'+
+              '<div class="me-cta" onclick="openMemAdd(event,\''+alEsc(m.t)+'\')">Upload photo</div>'+
+            '</div>'+
           '</div>'+
+          '<div class="mem-title">'+m.t+'</div>'+
+          '<div class="mem-desc">Capture this special first and it’ll appear here.</div>'+
         '</div>'+
-        '<div class="mem-title">'+m.t+'</div>'+
-        '<div class="mem-desc">Capture this special first and it’ll appear here.</div>'+
       '</div>';
     }).join('');
     document.getElementById('alGroups').innerHTML=html;
