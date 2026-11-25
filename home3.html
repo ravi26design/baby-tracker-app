@@ -5073,6 +5073,9 @@
     /* arrive from another tab's Health button (home3.html#health) -> open the Health screen */
     try{ if(location.hash==='#health'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(openHealthMonitor,0); } }catch(e){}
     try{ if(location.hash==='#invite'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(function(){ if(typeof openInvite==='function') openInvite(); },0); } }catch(e){}
+    try{ if(location.hash==='#account'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(function(){ if(typeof openProfileMenu==='function') openProfileMenu(); },0); } }catch(e){}
+    try{ var _gm=location.hash.match(/^#invitegroup-(\d+)$/); if(_gm){ var _gi=parseInt(_gm[1],10); history.replaceState(null,'',location.pathname+location.search); setTimeout(function(){ if(typeof openInvite==='function') openInvite(); if(typeof openGroupDetail==='function') openGroupDetail(_gi); },0); } }catch(e){}
+    try{ if(location.hash==='#invitecreate'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(function(){ if(typeof openInvite==='function') openInvite(); if(typeof ivShowCreate==='function') ivShowCreate(); },0); } }catch(e){}
     /* demo: home opens in the empty memory state on a normal load; a just-posted memory (redirected with #posted) is kept so the user sees it */
     try{
       if(location.hash==='#posted'){ history.replaceState(null,'',location.pathname+location.search); }
