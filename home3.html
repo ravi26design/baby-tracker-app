@@ -2051,6 +2051,9 @@
       .iv-accessnote{display:flex;gap:9px;align-items:flex-start;margin-top:11px;padding:11px 12px;border-radius:13px;background:color-mix(in srgb,#8574b5 8%,#fff);border:1px solid color-mix(in srgb,#8574b5 18%,transparent);font-size:12.5px;font-weight:600;color:#6a5fb0;line-height:1.45;}
       .iv-accessnote svg{width:17px;height:17px;flex:0 0 auto;margin-top:1px;color:#8574b5;}
       .iv-accessnote b{font-weight:800;color:#5a4f9a;}
+      .iv-accessnote.warn{background:color-mix(in srgb,#e0567a 9%,#fff);border-color:color-mix(in srgb,#e0567a 28%,transparent);color:#c23a5a;}
+      .iv-accessnote.warn svg{color:#e0567a;}
+      .iv-accessnote.warn b{color:#a62a48;}
       .iv-accessbadge{display:flex;align-items:center;gap:11px;background:color-mix(in srgb,var(--c,#8574b5) 8%,#fff);border-radius:14px;padding:11px 12px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c,#8574b5) 18%,transparent);}
       .iv-accessbadge-ic{width:38px;height:38px;border-radius:11px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c,#8574b5) 16%,#fff);color:var(--c,#8574b5);}
       .iv-accessbadge-ic svg{width:21px;height:21px;}
@@ -3065,11 +3068,11 @@
         var scope=mem?'memories':(cn+'’s data');
         var asub=(perm==='view'?'Can only view ':'Can view & add ')+scope;
         var noteTxt=mem
-          ? 'Anyone you invite here can '+(perm==='view'?'view':'view &amp; add')+' <b>'+cn+'’s memories only</b> — nothing else is shared.'
-          : 'Heads up — anyone you invite here gets <b>full access to everything</b> about '+cn+': milestones, health, growth, checklist and memories.';
+          ? 'Anyone you invite here can '+(perm==='view'?'view':'view &amp; add')+' <b>'+cn+'’s memories only</b> - nothing else is shared.'
+          : 'Heads up - anyone you invite here gets <b>full access to everything</b> about '+cn+': milestones, health, growth, checklist and memories.';
         var infoSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>';
         fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+asub+'</span></span></span>'
-          +'<div class="iv-accessnote">'+infoSvg+'<span>'+noteTxt+'</span></div>'; }
+          +'<div class="iv-accessnote'+(mem?'':' warn')+'">'+infoSvg+'<span>'+noteTxt+'</span></div>'; }
       ivShowView('detail');
     }
     function ivAddMemberOpen(){ var ni=document.getElementById('ivDAddName'), pi=document.getElementById('ivDAddPhone'); if(ni) ni.value=''; if(pi) pi.value='';
