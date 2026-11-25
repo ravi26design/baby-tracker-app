@@ -99,6 +99,24 @@
   .tnode{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;z-index:1;box-shadow:inset 0 0 0 2px rgba(255,255,255,.65);}
   .tcontent{flex:1;min-width:0;padding-top:1px;}
   .tcontent .mcard{margin-bottom:0;}
+  /* ===== Shared timeline matches main flow: time meta + green heart node + photo-top card ===== */
+  .titem{gap:0;align-items:flex-start;}
+  .al-meta{width:66px;flex:0 0 66px;text-align:right;padding:2px 10px 0 0;}
+  .al-age{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;line-height:1.25;}
+  .titem .tnode{width:26px;height:26px;flex:0 0 26px;background:#6f9e86;color:#263029;font-size:0;margin-top:2px;}
+  .titem .tnode svg{width:13px;height:13px;fill:currentColor;}
+  .titem::before{left:79px;top:4px;bottom:-18px;background:#cbb0a6;}
+  .titem:last-child::before{display:block;bottom:auto;height:30px;}
+  .titem .tcontent{margin-left:14px;}
+  .titem .mcard{display:flex;flex-direction:column;padding:0;overflow:hidden;border-radius:20px;border:1px solid rgba(0,0,0,.05);}
+  .titem .mc-imgwrap{order:0;border-radius:0;}
+  .titem .mc-img{border-radius:0;}
+  .mc-titlerow{order:1;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:13px 15px 0;}
+  .mc-titlerow .mc-title{margin:0;padding:0;}
+  .titem .mc-menu{position:static;top:auto;right:auto;flex-shrink:0;}
+  .titem .mc-user{order:2;margin:8px 15px 0;padding:0;}
+  .titem .mc-av{width:26px;height:26px;font-size:11px;}
+  .titem .mc-desc{order:3;margin:5px 15px 15px;padding:0;}
 
   /* add prompt */
   .addmem{display:flex;align-items:center;gap:12px;width:100%;border:2px dashed rgba(139,116,181,.4);background:linear-gradient(160deg,#faf7ff,#f1ebfa);border-radius:22px;padding:15px 16px;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:6px;}
@@ -191,7 +209,7 @@
   .cc-mile-title{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
   .cc-mile-explore{display:inline-flex;align-items:center;gap:2px;font-size:12.5px;font-weight:700;color:#8574b5;cursor:pointer;}
   .cc-mile-explore svg{width:15px;height:15px;}
-  .cc-mile-grid{display:flex;padding:10px 2px 2px;}
+  .cc-mile-grid{display:flex;padding:6px 2px;}
   .cc-mile-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;}
   .cc-mile-item .mi-circle{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
   .mi-ring{position:absolute;inset:0;transform:rotate(-90deg);}
@@ -299,11 +317,9 @@
             <button class="child-tab" onclick="goShared()">Mark</button>
           </div>
           <div class="child-card">
-            <div class="cc-mile-head"><div class="cc-mile-title">Lily's milestones</div><span class="cc-mile-explore" onclick="toast('Explore milestones')">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
             <div class="cc-mile-grid">
               <div class="cc-mile-item m-motor"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:47.1"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.4C4 11.5 3 10.6 3 8.1 3 5.4 4.5 2.1 7.5 2.1 9.4 2.1 10 3.9 10 5.6c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20.5V18c0-2.1 1-3 1-5.5 0-2.7-1.5-6-4.5-6-1.9 0-2.5 1.8-2.5 3.5 0 3.1 2 5.7 2 8.7v1.8a2 2 0 1 0 4 0Z"/></svg></span></div><span class="mi-name">Motor</span></div><div class="cc-mile-item m-idea"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:75.4"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M15.1 14c.2-1 .7-1.8 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .25 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></svg></span></div><span class="mi-name">Cognitive</span></div><div class="cc-mile-item m-lang"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:103.7"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.4a7.4 7.4 0 0 1-10.8 6.6L4 19.5l1.4-4.3A7.4 7.4 0 1 1 20 11.4Z"/><path d="M8.5 11.4h.01M12 11.4h.01M15.5 11.4h.01"/></svg></span></div><span class="mi-name">Language</span></div><div class="cc-mile-item m-social"><div class="mi-circle"><svg class="mi-ring" viewBox="0 0 64 64"><circle class="mi-track" cx="32" cy="32" r="30"/><circle class="mi-prog" cx="32" cy="32" r="30" style="stroke-dasharray:188.5;stroke-dashoffset:37.7"/></svg><span class="mi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.1"/><path d="M3.5 19c0-3 2.5-4.6 5.5-4.6s5.5 1.6 5.5 4.6"/><path d="M16 5.2a3 3 0 0 1 0 5.6"/><path d="M18.5 19c0-2.2-1.2-3.7-3-4.3"/></svg></span></div><span class="mi-name">Social</span></div>
             </div>
-            <div class="cc-mile-foot">Lily is right on track this month 🎉</div>
           </div>
           <!-- Featured Memory (main-flow carousel) -->
           <div class="sec-head" style="margin:26px 0 0;align-items:center"><h2>Featured Memory</h2><span class="mem-viewall" onclick="toast('View all')">View All<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
@@ -709,6 +725,26 @@
     if(card){ var c=Array.prototype.slice.call(card.querySelectorAll('.fo')).filter(function(f){return !f.classList.contains('like');})[0]; if(c) c.childNodes[c.childNodes.length-1].textContent=m.comments.length; }
     var sc=document.querySelector('#memDetail .md-scroll'); sc.scrollTop=sc.scrollHeight;
   }
+  /* ---- Shared timeline: green heart node + time meta + photo-top card (match main flow) ---- */
+  (function(){
+    var HEART='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.3-9.5-8.5C.9 9.6 2.2 6 5.5 6 7.4 6 8.9 7 12 9.8 15.1 7 16.6 6 18.5 6c3.3 0 4.6 3.6 3 6.5C19 16.7 12 21 12 21z"/></svg>';
+    document.querySelectorAll('.titem').forEach(function(it){
+      var node=it.querySelector('.tnode'); if(node){ node.innerHTML=HEART; node.style.background='#6f9e86'; }
+      var card=it.querySelector('.mcard'); if(!card) return;
+      var when=card.querySelector('.mc-when'); var whenTxt=when?when.textContent.trim():'';
+      if(when) when.parentNode.removeChild(when);
+      if(!it.querySelector(':scope > .al-meta')){
+        var meta=document.createElement('div'); meta.className='al-meta';
+        meta.innerHTML='<div class="al-age">'+whenTxt+'</div>';
+        it.insertBefore(meta, it.firstChild);
+      }
+      var title=card.querySelector('.mc-title'), menu=card.querySelector('.mc-menu');
+      if(title && menu && !(title.parentNode && title.parentNode.classList.contains('mc-titlerow'))){
+        var row=document.createElement('div'); row.className='mc-titlerow';
+        title.parentNode.insertBefore(row, title); row.appendChild(title); row.appendChild(menu);
+      }
+    });
+  })();
 </script>
 </body>
 </html>
