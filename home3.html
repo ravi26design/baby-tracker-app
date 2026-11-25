@@ -5071,6 +5071,7 @@
     selectChild(Object.keys(CHILDREN)[0]);
     /* arrive from another tab's Health button (home3.html#health) -> open the Health screen */
     try{ if(location.hash==='#health'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(openHealthMonitor,0); } }catch(e){}
+    try{ if(location.hash==='#invite'){ history.replaceState(null,'',location.pathname+location.search); setTimeout(function(){ if(typeof openInvite==='function') openInvite(); },0); } }catch(e){}
     /* demo: home opens in the empty memory state on a normal load; a just-posted memory (redirected with #posted) is kept so the user sees it */
     try{
       if(location.hash==='#posted'){ history.replaceState(null,'',location.pathname+location.search); }
