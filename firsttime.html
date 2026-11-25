@@ -610,6 +610,9 @@
   .al-ms-ic svg{width:28px;height:28px;}
   .al-ms-name{font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.2;}
   .al-ms-add{font-size:11px;font-weight:800;color:#8574b5;display:inline-flex;align-items:center;gap:3px;}
+  .al-ms.ms-nav .al-ms-ic{background:linear-gradient(150deg,#b0a2d8,#9b8bc4)!important;color:#fff;}
+  .al-ms.ms-nav .al-ms-ic svg{width:24px;height:24px;}
+  .al-ms.ms-nav .al-ms-add{color:#8574b5;}
   .al-ms-add svg{width:12px;height:12px;}
   /* add custom memory button — mirrors home-flow .add-mem-btn */
   .al-addmem{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:none;cursor:pointer;font-family:inherit;margin:16px 0 4px;background:linear-gradient(155deg,#b0a2d8,#9b8bc4);color:#fff;font-size:14.5px;font-weight:800;padding:15px;border-radius:20px;transition:transform .12s;}
@@ -1344,14 +1347,49 @@
   ];
   var _alBuilt=false;
   function alEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+  /* milestone starters by year (same style as the home flow) */
+  var FT_MS_YEAR='Year 1';
+  var FT_MS_YEARS={
+    'Year 1':[['First Walk','#d5e6ff','#c3daff'],['First Word','#e3daf6','#d5c8ef'],['First Tooth','#d3efdf','#bfe8d0'],['First Birthday','#ffe0ea','#ffc9db'],['First Haircut','#fff0d0','#ffe0a8']],
+    'Year 2':[['First Sentence','#e3daf6','#d5c8ef'],['First Run','#d5e6ff','#c3daff'],['Potty Training','#d3efdf','#bfe8d0'],['Second Birthday','#ffe0ea','#ffc9db'],['First Scribble','#fff0d0','#ffe0a8']],
+    'Year 3':[['First Friend','#d5e6ff','#c3daff'],['First Puzzle','#e3daf6','#d5c8ef'],['Counting 1-10','#d3efdf','#bfe8d0'],['Third Birthday','#ffe0ea','#ffc9db'],['First Song','#fff0d0','#ffe0a8']]
+  };
+  var FT_CAKE_ART='<path d="M5 20v-6.2c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2V20z" fill="#f4aec0" stroke="#273244" stroke-width="2"/><path d="M5.6 14.4c1.1 1.1 2.2 1.1 3.3 0s2.2-1.1 3.3 0 2.2 1.1 3.3 0 2.2-1.1 3.3 0" stroke="#fff" stroke-width="1.9"/><path d="M8 11.8V9M12 11.8V9M16 11.8V9" stroke="#f6c86a" stroke-width="2"/><circle cx="8" cy="7.7" r="1.1" fill="#f7a93c" stroke="#273244" stroke-width="1.1"/><circle cx="12" cy="7.7" r="1.1" fill="#f7a93c" stroke="#273244" stroke-width="1.1"/><circle cx="16" cy="7.7" r="1.1" fill="#f7a93c" stroke="#273244" stroke-width="1.1"/><path d="M4.6 20h14.8" stroke="#273244" stroke-width="2"/>';
+  var FT_MS_ART={
+    'First Walk':'<path d="M3.2 15.1 6.6 14.4 9.1 9.7c.42-.8 1.55-1 2.2-.35l.65.65c.33.33.44.83.26 1.3l-.62 1.6 5.2 1.35c1.75.45 3 2 3 3.8V19a1 1 0 0 1-1 1H4.2a1 1 0 0 1-1-1z" fill="#6aa6e0" stroke="#273244" stroke-width="2"/><path d="M7.2 13.1l-.8 3.1M10 12.2l-.7 3.6" stroke="#fff" stroke-width="1.6"/>',
+    'First Word':'<path d="M21 11.2a8.2 8.2 0 0 1-8.3 8.3 8.8 8.8 0 0 1-3.9-.9L3 20.5l1.8-5.4A8.2 8.2 0 0 1 4 11.2 8.2 8.2 0 0 1 12.4 3 8.2 8.2 0 0 1 21 11.2z" fill="#b083d6" stroke="#273244" stroke-width="2"/><circle cx="8.9" cy="11.3" r="1.1" fill="#fff"/><circle cx="12.4" cy="11.3" r="1.1" fill="#fff"/><circle cx="15.9" cy="11.3" r="1.1" fill="#fff"/>',
+    'First Tooth':'<path d="M12 3.4c-3.4 0-5.7 2.1-5.7 5.2 0 2.7.9 4.8 1.8 7.7.45 1.5 2.3 1.5 2.7 0l.5-2.4c.2-.95 1.25-.95 1.45 0l.5 2.4c.4 1.5 2.25 1.5 2.7 0 .9-2.9 1.8-5 1.8-7.7 0-3.1-2.3-5.2-5.75-5.2z" fill="#ffffff" stroke="#273244" stroke-width="2"/><path d="M8.8 7.4c.9-.8 2.1-1 3.1-.6" stroke="#273244" stroke-width="1.5" opacity=".4"/>',
+    'First Birthday':FT_CAKE_ART,'Second Birthday':FT_CAKE_ART,'Third Birthday':FT_CAKE_ART,
+    'First Haircut':'<circle cx="6" cy="6.3" r="2.4" fill="#8fc9ee" stroke="#273244" stroke-width="1.9"/><circle cx="6" cy="17.7" r="2.4" fill="#8fc9ee" stroke="#273244" stroke-width="1.9"/><path d="M8.1 7.7 20 17M8.1 16.3 20 7" stroke="#273244" stroke-width="2"/><circle cx="12.6" cy="12" r=".9" fill="#273244"/>',
+    'First Sentence':'<path d="M21 11.2a8.2 8.2 0 0 1-8.3 8.3 8.8 8.8 0 0 1-3.9-.9L3 20.5l1.8-5.4A8.2 8.2 0 0 1 4 11.2 8.2 8.2 0 0 1 12.4 3 8.2 8.2 0 0 1 21 11.2z" fill="#56c4b4" stroke="#273244" stroke-width="2"/><path d="M8 10.2h8M8 13h5" stroke="#fff" stroke-width="1.8"/>',
+    'First Run':'<circle cx="15" cy="5.3" r="2.3" fill="#f0a24a" stroke="#273244" stroke-width="1.8"/><path d="M13.8 8.2 10.6 10.9l2.3 2.2-1.3 4.6" stroke="#273244" stroke-width="2.2" fill="none"/><path d="M11.4 12.9l3.4.9 1.9 3.9" stroke="#273244" stroke-width="2.2" fill="none"/><path d="M10.9 10.6 7.4 9.4" stroke="#273244" stroke-width="2.2"/>',
+    'Potty Training':'<rect x="8" y="3.6" width="8" height="3" rx="1.3" fill="#b7defa" stroke="#273244" stroke-width="1.8"/><rect x="4.6" y="8.4" width="14.8" height="2.8" rx="1.4" fill="#b7defa" stroke="#273244" stroke-width="1.8"/><path d="M6.2 11.2h11.6c-.4 3.1-2.1 5.1-4.5 5.8l-.5 2.9h-1.1l-.5-2.9c-2.4-.7-4.1-2.7-4.5-5.8z" fill="#8fc9ee" stroke="#273244" stroke-width="1.8"/>',
+    'First Scribble':'<path d="M16.2 3.3 20.7 7.8 9.6 18.9 4.2 20.4 5.7 15z" fill="#f0845f" stroke="#273244" stroke-width="1.9"/><path d="M14.4 5.1 18.9 9.6" stroke="#273244" stroke-width="1.6"/><path d="M4.2 20.4 6.6 18" stroke="#273244" stroke-width="1.9"/>',
+    'First Friend':'<circle cx="8.5" cy="8" r="2.9" fill="#8fc9ee" stroke="#273244" stroke-width="1.8"/><path d="M3.6 19c0-2.8 2.2-4.9 4.9-4.9s4.9 2.1 4.9 4.9z" fill="#8fc9ee" stroke="#273244" stroke-width="1.8"/><circle cx="16.8" cy="9.2" r="2.3" fill="#9fd98a" stroke="#273244" stroke-width="1.8"/><path d="M14.3 14.5c3-.4 5.5 1.6 5.5 4.5h-3.9" fill="#9fd98a" stroke="#273244" stroke-width="1.8"/>',
+    'First Puzzle':'<path d="M11 4.4a1.6 1.6 0 0 1 3 0c0 .9-.6 1.1-.6 1.5 0 .3.3.5.7.5H17a1 1 0 0 1 1 1v2.4c0 .4.2.7.5.7.4 0 .6-.6 1.5-.6a1.6 1.6 0 0 1 0 3c-.9 0-1.1-.6-1.5-.6-.3 0-.5.3-.5.7V18a1 1 0 0 1-1 1h-2.4c-.4 0-.7-.2-.7-.5 0-.4.6-.6.6-1.5a1.6 1.6 0 0 0-3 0c0 .9.6 1.1.6 1.5 0 .3-.3.5-.7.5H8a1 1 0 0 1-1-1v-2.4c0-.4-.2-.7-.5-.7-.4 0-.6.6-1.5.6a1.6 1.6 0 0 1 0-3c.9 0 1.1.6 1.5.6.3 0 .5-.3.5-.7V7.4a1 1 0 0 1 1-1h2.4c.4 0 .7-.2.7-.5 0-.4-.6-.6-.6-1.5z" fill="#b083d6" stroke="#273244" stroke-width="1.9"/>',
+    'Counting 1-10':'<rect x="3.5" y="12.5" width="7" height="7" rx="1.6" fill="#6aa6e0" stroke="#273244" stroke-width="1.8"/><rect x="13.5" y="12.5" width="7" height="7" rx="1.6" fill="#f6c86a" stroke="#273244" stroke-width="1.8"/><rect x="8.5" y="4" width="7" height="7" rx="1.6" fill="#ec8aa0" stroke="#273244" stroke-width="1.8"/>',
+    'First Song':'<path d="M9 18V5l10-2v13" fill="none" stroke="#273244" stroke-width="2"/><circle cx="6.3" cy="18" r="2.7" fill="#ec8aa0" stroke="#273244" stroke-width="1.8"/><circle cx="16.3" cy="16" r="2.7" fill="#ec8aa0" stroke="#273244" stroke-width="1.8"/><path d="M9 8l10-2" stroke="#273244" stroke-width="2"/>'
+  };
+  function setFtMsYear(y){ FT_MS_YEAR=y; alRenderStrip(); }
   function alRenderStrip(){
     var s=document.getElementById('alStrip'); if(!s) return;
-    s.innerHTML=FT_MS.map(function(m){
-      return '<div class="al-ms" onclick="openMemAdd(event,\''+alEsc(m.n)+'\')">'+
-        '<span class="al-ms-ic" style="background:color-mix(in srgb,'+m.c+' 15%,#fff);color:'+m.c+'">'+m.ic+'</span>'+
-        '<span class="al-ms-name">'+m.n+'</span>'+
-        '<span class="al-ms-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add</span></div>';
+    var order=['Year 1','Year 2','Year 3'], idx=order.indexOf(FT_MS_YEAR);
+    var prev=idx>0?order[idx-1]:null, next=idx<order.length-1?order[idx+1]:null;
+    var list=FT_MS_YEARS[FT_MS_YEAR]||[];
+    var plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+    var rArrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    var lArrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+    function navCard(y,ic){ return '<div class="al-ms ms-nav" onclick="setFtMsYear(\''+y+'\')"><span class="al-ms-ic">'+ic+'</span><span class="al-ms-name">'+y+'</span><span class="al-ms-add">View list</span></div>'; }
+    var html = prev?navCard(prev,lArrow):'';
+    html += list.map(function(m){
+      var ic = FT_MS_ART[m[0]] ? '<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">'+FT_MS_ART[m[0]]+'</svg>' : '';
+      return '<div class="al-ms" onclick="openMemAdd(event,\''+alEsc(m[0])+'\')">'+
+        '<span class="al-ms-ic" style="background:linear-gradient(150deg,'+m[1]+','+m[2]+')">'+ic+'</span>'+
+        '<span class="al-ms-name">'+m[0]+'</span>'+
+        '<span class="al-ms-add">'+plus+'Add</span></div>';
     }).join('');
+    if(next) html += navCard(next,rArrow);
+    s.innerHTML=html;
   }
   function alEmptyItem(m){
     return '<div class="al-eitem">'+
