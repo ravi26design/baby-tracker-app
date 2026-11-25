@@ -621,8 +621,8 @@
   .al-eitem .al-erail{position:relative;width:36px;flex-shrink:0;display:flex;justify-content:center;}
   .al-eitem .al-erail::before{content:'';position:absolute;top:6px;bottom:-18px;left:50%;transform:translateX(-50%);width:2px;background:#cbb0a6;}
   .al-eitem:last-child .al-erail::before{bottom:auto;height:34px;}
-  .al-enode{position:relative;z-index:1;width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;}
-  .al-enode svg{width:19px;height:19px;}
+  .al-enode{position:relative;z-index:1;width:26px;height:26px;border-radius:50%;flex-shrink:0;background:#6f9e86;color:#263029;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .al-enode svg{width:13px;height:13px;}
   .al-eitem .mem-card{flex:1;min-width:0;margin-left:14px;}
   .al-eitem .mem-img{height:290px;}
   /* year group row (collapsible) — mirrors home-flow .tgroup-label */
@@ -1337,7 +1337,7 @@
     alRenderStrip();
     var html=FT_EMPTY.map(function(m){
       return '<div class="al-eitem">'+
-        '<div class="al-erail"><span class="al-enode" style="background:color-mix(in srgb,'+m.c+' 16%,#fff);color:'+m.c+'">'+m.ic+'</span></div>'+
+        '<div class="al-erail"><span class="al-enode">'+HEART_SVG+'</span></div>'+
         '<div class="mem-card">'+
           '<div class="mem-img me-empty">'+
             '<div class="me-photo" style="background-image:url(\''+FT_MEM_IMG[m.img]+'\')"></div>'+
