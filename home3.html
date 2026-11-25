@@ -2093,6 +2093,9 @@
       .iv-combo .iv-accesspill{border:none;background:none;padding:0;box-shadow:none;border-radius:0;}
       .iv-combo .iv-invcode-row{align-items:flex-start;min-height:0;padding:0 0 2px;}
       .iv-combo .iv-invlink-row{align-items:flex-start;min-height:0;padding:0 0 2px;}
+      .iv-combo .iv-inv-code{background:color-mix(in srgb,#8574b5 7%,#fff);border:1px solid color-mix(in srgb,#8574b5 15%,transparent);border-radius:11px;padding:9px 13px;display:inline-block;letter-spacing:2.5px;}
+      .iv-combo .iv-invlink-row{display:block;}
+      .iv-combo .iv-inv-link{display:block;background:color-mix(in srgb,#8574b5 7%,#fff);border:1px solid color-mix(in srgb,#8574b5 15%,transparent);border-radius:11px;padding:10px 13px;}
       .iv-invblock{position:relative;padding:12px 54px 12px 0;}
       .iv-invblock .iv-inv-copy,.iv-invblock .iv-inv-linkcopy{width:38px;height:38px;position:absolute;right:0;top:50%;transform:translateY(-50%);}
       .iv-combo-subdiv{height:1px;background:#f4f0fa;margin:0 -2px;}
@@ -3069,7 +3072,7 @@
         var noteTxt=mem
           ? 'Anyone you invite here can '+(perm==='view'?'view':'view &amp; add')+' <b>'+cn+'’s memories only</b> - nothing else is shared.'
           : 'Heads up - anyone you invite here gets <b>full access to everything</b> about '+cn+': milestones, health, growth, checklist and memories.';
-        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+asub+'</span></span></span>'
+        fe.innerHTML='<span class="iv-accesspill" style="--c:'+opt.c+'"><span class="iv-accesspill-ic">'+opt.ic+'</span><span class="iv-accesspill-tx"><span class="iv-accesspill-t">'+opt.t+'</span><span class="iv-accesspill-s">'+asub+'</span></span></span>'
           +'<div class="iv-accessnote'+(mem?'':' warn')+'"><span>'+noteTxt+'</span></div>'; }
       ivShowView('detail');
     }
